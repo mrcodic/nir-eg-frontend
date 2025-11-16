@@ -1,15 +1,13 @@
+import Footer from "@/components/layout/Footer";
+import NavBar from "@/components/layout/NavBar";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Almarai } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const almarai = Almarai({
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: "--font-almarai-sans",
+  weight: ["300", "400", "700", "800"],
 });
 
 export const metadata: Metadata = {
@@ -23,11 +21,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+    <html lang="ar" dir="rtl">
+      <body className={`${almarai.variable}  antialiased flex flex-col`}>
+        <NavBar />
+        <div className="min-h-[calc(100dvh-88px)] mt-22 grow flex flex-col [&>main]:grow">
+          {children}
+        </div>
+        <Footer />
       </body>
     </html>
   );
