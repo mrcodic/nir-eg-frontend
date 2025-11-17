@@ -24,7 +24,7 @@ const ourAdvantages = [
 
 function WhyUsSection() {
   return (
-    <section className="wrapper w-full relative text-center pb-12 space-y-6">
+    <section className="wrapper w-full relative text-center  space-y-6">
       <h2 className="text-[32px] font-bold ">
         لماذا تختار{" "}
         <span className="text-primary-800 drop-shadow-text    ">نَيِّر</span>?
