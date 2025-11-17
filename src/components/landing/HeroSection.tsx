@@ -25,7 +25,7 @@ function HeroSection() {
         <Button variant="secondary">شاهد الفيديو التعريفي</Button>
       </div>
 
-      <div className=" relative aspect-[1.7] max-w-[80%] mx-auto mt-12">
+      <div className=" relative aspect-[1.7] max-w-7xl mx-auto mt-12">
         <Image
           src="/assets/graduation.svg"
           alt="graduation"

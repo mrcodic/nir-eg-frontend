@@ -65,8 +65,8 @@ const plans: PricingPlan[] = [
 
 export default function PricingPlans() {
   return (
-    <section className="w-full py-16">
-      <div className="mx-auto max-w-6xl px-4">
+    <section className="wrapper w-full relative text-center pb-12 space-y-6">
+      <div className="mx-auto max-w-7xl ">
         {/* header */}
         <div className="text-center mb-6">
           <h2 className="text-xl md:text-2xl font-bold ">خطط الأسعار</h2>
@@ -87,9 +87,9 @@ export default function PricingPlans() {
               <Card
                 key={plan.id}
                 className={[
-                  "relative flex-1 overflow-hidden   backdrop-blur transition-transform duration-200 border-none shadow-none max-w-md mx-auto p-4",
+                  "relative flex-1 overflow-hidden   backdrop-blur transition-transform duration-200 border-none shadow-none max-w-md max-lg:w-full mx-auto p-4",
                   isFeatured
-                    ? "z-10 scale-105   bg-dark-radial border-primary"
+                    ? "z-10 lg:scale-105   bg-dark-radial border-primary"
                     : "lg:scale-95   bg-background",
                 ].join(" ")}
               >

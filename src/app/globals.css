@@ -50,6 +50,9 @@
   --color-primary-800: hsla(206, 58%, 43%, 1);
 
   --color-accent-800: hsla(211, 42%, 22%, 1);
+
+  --color-semantics-red: hsla(0, 66%, 63%, 1);
+  --color-semantics-green: hsla(101, 43%, 58%, 1);
 }
 
 :root {
@@ -134,7 +137,7 @@
 }
 
 @utility wrapper {
-  @apply mx-auto  px-4 sm:px-14 lg:px-36;
+  @apply mx-auto w-full px-4 sm:px-14 lg:px-36;
 }
 
 @utility bg-dark-radial {
@@ -142,5 +145,13 @@
     79.17% 79.17% at 20.83% 69.6%,
     #20364e 0%,
     #0d2237 100%
+  );
+}
+
+@utility bg-blue-gradient {
+  background: radial-gradient(
+    79.17% 79.17% at 20.83% 69.6%,
+    #25568b 0%,
+    #3286c2 100%
   );
 }

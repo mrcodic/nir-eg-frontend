@@ -12,3 +12,15 @@ export const navlinks = [
     href: "/contact",
   },
 ];
+
+export const footerLinks = [
+  ...navlinks,
+  {
+    name: "الشروط و الاحكام",
+    href: "/terms",
+  },
+  {
+    name: "سياسة الخصوصية",
+    href: "/privacy",
+  },
+];

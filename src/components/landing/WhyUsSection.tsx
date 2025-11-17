@@ -30,7 +30,7 @@ function WhyUsSection() {
         <span className="text-primary-800 drop-shadow-text    ">نَيِّر</span>?
       </h2>
 
-      <div className="flex w-fit mx-auto gap-6 justify-center p-4 rounded-lg border border-gray-light min-h-[120px]">
+      <div className="flex flex-wrap max-w-7xl w-full mx-auto gap-6 justify-center p-4 rounded-lg border border-gray-light min-h-[120px]">
         {ourAdvantages.map((advantage) => (
           <div className="flex items-center gap-4" key={advantage.title}>
             <div
