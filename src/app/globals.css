@@ -41,11 +41,15 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
-  --drop-shadow-sec: -1px 3px 1px rgba(245, 142, 22, 0.002);
+  --drop-shadow-text: -1px 3px 1px hsla(32, 92%, 52%, 0.3);
 
   --color-gray-light: var(--gray-light);
-  --color-primary-800: hsla(206, 58%, 43%, 1);
+  --color-gray-dark: var(--gray-dark);
   --color-black: hsla(0, 0%, 7%, 1);
+
+  --color-primary-800: hsla(206, 58%, 43%, 1);
+
+  --color-accent-800: hsla(211, 42%, 22%, 1);
 }
 
 :root {
@@ -131,4 +135,12 @@
 
 @utility wrapper {
   @apply mx-auto  px-4 sm:px-14 lg:px-36;
+}
+
+@utility bg-dark-radial {
+  background: radial-gradient(
+    79.17% 79.17% at 20.83% 69.6%,
+    #20364e 0%,
+    #0d2237 100%
+  );
 }
