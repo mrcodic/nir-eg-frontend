@@ -49,7 +49,7 @@ function NavBar() {
             aria-label="Toggle menu"
             onClick={toggleMenu}
           >
-            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            {isOpen ? <X className="size-8" /> : <Menu className="size-8" />}
           </Button>
         </div>
       </div>
