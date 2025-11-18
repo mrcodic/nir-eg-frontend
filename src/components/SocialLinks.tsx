@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 
 const links = [
@@ -23,9 +24,9 @@ const links = [
   },
 ];
 
-function SocialLinks() {
+function SocialLinks({ className }: { className?: string }) {
   return (
-    <div className="flex items-center gap-6 flex-wrap">
+    <div className={cn("flex items-center gap-6 flex-wrap", className)}>
       {links.map((link) => (
         <a
           href={link.href}

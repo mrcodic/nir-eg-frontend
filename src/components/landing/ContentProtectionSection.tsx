@@ -34,7 +34,7 @@ export default function ContentProtectionSection() {
               تقنية عالية في حماية المحتوى من السرقة
             </h2>
             <Image
-              src="/assets/lock.svg"
+              src="/assets/lock.png"
               width="50"
               height="50"
               alt="lock icon"

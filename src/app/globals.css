@@ -47,6 +47,7 @@
   --color-gray-dark: var(--gray-dark);
   --color-black: hsla(0, 0%, 7%, 1);
 
+  --color-primary-100: hsla(201, 56%, 84%, 1);
   --color-primary-800: hsla(206, 58%, 43%, 1);
 
   --color-accent-800: hsla(211, 42%, 22%, 1);

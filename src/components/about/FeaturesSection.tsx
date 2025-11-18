@@ -1,36 +1,46 @@
 // components/sections/TetrFeaturesSection.tsx
 
+import { cn } from "@/lib/utils";
+import Image from "next/image";
+
 const featuresTop = [
   {
     title: "إدارة الصفوف الافتراضية",
     description:
       "يسمح للمدرسين بإدارة الحصص الافتراضية بسهولة مع تنظيم المحاضرات والواجبات والمواد التعليمية.",
+    icon: "/assets/lightbulb.png",
   },
   {
     title: "أدوات التعليم التفاعلي",
     description:
       "يوفر مجموعة من الأنشطة التفاعلية التي تزيد من تفاعل الطلاب وتساعد على ترسيخ المفاهيم.",
+    icon: "/assets/instructor.png",
   },
   {
     title: "الأدوات الإدارية",
     description:
       "مجموعة متكاملة من الأدوات لإدارة الحسابات، البيانات، والجداول الزمنية داخل المؤسسة.",
+    icon: "/assets/books.png",
   },
   {
     title: "التقارير والاشعارات",
     description:
       "إعداد تقارير تفصيلية عن تقدم الطلاب مع إرسال إشعارات فورية لأولياء الأمور والطلاب.",
+    icon: "/assets/pen.png",
   },
   {
     title: "حماية المحتوى من السرقة",
     description:
       "حفظ كلّ من الفيديوهات والمحتوى التعليمي داخل المنصة مع تقنيات تمنع نسخ أو تسريب المحتوى.",
-    highlight: true,
+    icon: "/assets/lock.png",
+    className: "bg-blue-gradient text-white",
   },
   {
     title: "ملف للشخص",
     description:
       "توفير ملف شامل للطلاب والمدرسين يتضمن السجل الأكاديمي، التقدم، وسجلات التفاعل.",
+    icon: "/assets/books&grad.png",
+    className: "bg-dark-radial text-white",
   },
 ];
 
@@ -49,14 +59,24 @@ export default function FeaturesSection() {
           {featuresTop.map((feature) => (
             <article
               key={feature.title}
-              className="rounded-2xl max-w-[360px] aspect-square bg-background border border-slate-100 p-4 md:p-5 shadow-[0_8px_24px_rgba(15,23,42,0.03)]"
+              className={cn(
+                "rounded-lg max-md:max-w-[360px] aspect-square bg-background border border-transparent group hover:border-primary-800 transition-all p-4 lg:p-6 relative overflow-hidden",
+                feature?.className
+              )}
             >
-              <h3 className="text-sm md:text-base font-semibold mb-2 text-slate-900">
+              <h3 className="text-base lg:text-2xl font-semibold mb-8 pb-1 relative z-2 border-b border-primary-100">
                 {feature.title}
               </h3>
-              <p className="text-xs md:text-sm text-slate-600 leading-relaxed">
+              <p className="text-sm relative z-2 lg:text-lg  ">
                 {feature.description}
               </p>
+              <Image
+                src={feature.icon}
+                alt={feature.title}
+                width={160}
+                height={160}
+                className="absolute bottom-0 left-0 -translate-x-1/3 z-1 translate-y-1/3 blur-xl group-hover:blur-none group-hover:translate-0 transition-all"
+              />
             </article>
           ))}
         </div>

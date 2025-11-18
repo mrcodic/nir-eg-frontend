@@ -30,7 +30,7 @@ export default function ContactUsSection() {
             ابدأ رحلتك مع تير، و احصل على النسخة التجريبية الآن
           </p>
           <Image
-            src="/assets/lightbulb.svg"
+            src="/assets/lightbulb.png"
             alt="light bulbs"
             className="aspect-square max-w-full mx-auto"
             width={334}

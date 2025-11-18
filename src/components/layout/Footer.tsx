@@ -8,11 +8,11 @@ function Footer() {
   return (
     <footer className="bg-background bg-[url('/bg-vector.svg')] wrapper py-10">
       <div className="max-w-7xl mx-auto  flex flex-col gap-6">
-        <div className="flex gap-6 items-start w-full">
+        <div className="flex gap-6 items-start flex-wrap w-full">
           <Image src="/logo.svg" width={110} height={48} alt="logo image" />
 
-          <nav className="ms-auto pt-3 pe-8">
-            <ul className="flex gap-6 items-center">
+          <nav className="lg:ms-auto pt-3 pe-8 max-md:w-full">
+            <ul className="flex max-md:flex-col items-start gap-6 md:items-center flex-wrap">
               {footerLinks.map((link) => (
                 <li key={link.name}>
                   <Link href={link.href} className="font-bold text-lg p-2">
@@ -23,15 +23,15 @@ function Footer() {
             </ul>
           </nav>
 
-          <SocialLinks />
+          <SocialLinks className="ms-auto" />
         </div>
 
-        <div className="w-full flex justify-between gap-6 items-center">
+        <div className="w-full flex justify-between gap-6 items-center flex-wrap">
           <p className="text-slate-600 font-bold text-sm">
             © جميع الحقوق محفوظة لدى نَيِّر - Nir 2024
           </p>
 
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-6 flex-wrap">
             <div className="flex items-center gap-4">
               <Mail className="size-5 stroke-accent-800" />
               <span>info@nir-edu.com</span>
