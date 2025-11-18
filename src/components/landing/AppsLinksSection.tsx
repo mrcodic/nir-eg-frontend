@@ -15,7 +15,7 @@ function AppsLinksSection() {
           priority
         />
 
-        <div className="flex items-center justify-between grow gap-6">
+        <div className="flex items-center max-md:flex-col justify-between grow gap-6">
           <div className="relative z-10 max-w-xl ">
             <div>
               <h4 className="text-white text-3xl font-bold">
@@ -36,7 +36,7 @@ function AppsLinksSection() {
                 يمكنك تحميل التطبيق من هنا:
               </h5>
 
-              <div className="flex gap-6 mt-4">
+              <div className="flex gap-6 mt-4 flex-wrap">
                 <Link href="">
                   <Image
                     src="/assets/Google Play.svg"
@@ -63,21 +63,22 @@ function AppsLinksSection() {
               src="/assets/phone-2.svg"
               alt="phone image"
               width={220}
-              height={220}
-              className="-me-12  "
+              height={391}
+              className="-me-12  lg:w-[220px] w-[150px] "
             />
             <Image
               src="/assets/phone-1.svg"
               alt="phone image 2"
               width={220}
-              height={220}
+              height={391}
+              className=" lg:w-[220px] w-[150px]"
             />
             <Image
               src="/assets/notification-bg.svg"
               alt="background norification icon"
               width={125}
               height={125}
-              className="absolute -top-3 right-24"
+              className="absolute -top-3 right-14 lg:right-24 lg:w-[125px] w-20 "
             />
           </div>
         </div>
