@@ -8,14 +8,22 @@ import { cn } from "@/lib/utils";
 const thumbDefaultClassName =
   "bg-background dark:data-[state=unchecked]:bg-foreground dark:data-[state=checked]:bg-primary-foreground pointer-events-none block size-4 rounded-full ring-0 transition-transform data-[state=checked]:translate-x-[calc(100%-2px)] rtl:data-[state=checked]:-translate-x-[calc(100%-2px)] data-[state=unchecked]:translate-x-0";
 
+export type ThumbComponent = React.FC<
+  React.ComponentProps<typeof SwitchPrimitive.Thumb>
+>;
+
 function Switch({
   className,
+  thumbComponent,
+  thumbClassName,
+  thumbIcon,
   ...props
 }: React.ComponentProps<typeof SwitchPrimitive.Root> & {
-  thumbComponent?: React.FC<React.ComponentProps<typeof SwitchPrimitive.Thumb>>;
+  thumbComponent?: ThumbComponent;
   thumbClassName?: string;
+  thumbIcon?: React.ReactNode;
 }) {
-  const ThumbComponent = props?.thumbComponent;
+  const ThumbComponent = thumbComponent;
   return (
     <SwitchPrimitive.Root
       data-slot="switch"
@@ -28,15 +36,17 @@ function Switch({
       {ThumbComponent ? (
         <ThumbComponent
           data-slot="switch-thumb"
-          className={cn(thumbDefaultClassName, props?.thumbClassName)}
+          className={cn(thumbDefaultClassName, thumbClassName)}
           dir={props?.dir || "ltr"}
         />
       ) : (
         <SwitchPrimitive.Thumb
           data-slot="switch-thumb"
-          className={cn(thumbDefaultClassName, props?.thumbClassName)}
+          className={cn(thumbDefaultClassName, thumbClassName)}
           dir={props?.dir || "ltr"}
-        />
+        >
+          {thumbIcon}
+        </SwitchPrimitive.Thumb>
       )}
     </SwitchPrimitive.Root>
   );

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { Check } from "lucide-react";
-import { Switch } from "../ui/switch";
+import PricingTypeSwtich from "../PricingTypeSwtich";
 
 type PricingPlan = {
   id: string;
@@ -68,15 +68,7 @@ export default function PricingPlans() {
     <section className="wrapper w-full relative text-center pb-12 space-y-6">
       <div className="mx-auto max-w-7xl ">
         {/* header */}
-        <div className="text-center mb-6">
-          <h2 className="text-xl md:text-2xl font-bold ">خطط الأسعار</h2>
-
-          <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-slate-100 p-1">
-            <span>شهريا</span>
-            <Switch dir="rtl" />
-            <span>سنويا</span>
-          </div>
-        </div>
+        <PricingTypeSwtich />
 
         {/* cards */}
         <div className="flex flex-col items-stretch gap-6 lg:flex-row lg:items-end lg:justify-center">
@@ -89,7 +81,7 @@ export default function PricingPlans() {
                 className={[
                   "relative flex-1 overflow-hidden   backdrop-blur transition-transform duration-200 border-none shadow-none max-w-md max-lg:w-full mx-auto p-4",
                   isFeatured
-                    ? "z-10 lg:scale-105   bg-dark-radial border-primary"
+                    ? "z-10 lg:scale-105 max-lg:order-first   bg-dark-radial border-primary"
                     : "lg:scale-95   bg-background",
                 ].join(" ")}
               >

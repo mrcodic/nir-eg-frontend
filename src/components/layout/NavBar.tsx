@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useState } from "react";
 
 import { navlinks } from "@/constants/navlinks";
+import CustomLink from "../CustomLink";
 import { Button } from "../ui/button";
 
 function NavBar() {
@@ -28,12 +29,7 @@ function NavBar() {
           <ul className="flex gap-8">
             {navlinks.map((link) => (
               <li key={link.name}>
-                <Link
-                  href={link.href}
-                  className="font-bold text-lg p-2 transition hover:opacity-80"
-                >
-                  {link.name}
-                </Link>
+                <CustomLink link={link} />
               </li>
             ))}
           </ul>
