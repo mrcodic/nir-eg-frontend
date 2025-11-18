@@ -1,7 +1,7 @@
 import { footerLinks } from "@/constants/navlinks";
 import { Mail, Phone } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
+import CustomLink from "../CustomLink";
 import SocialLinks from "../SocialLinks";
 
 function Footer() {
@@ -14,11 +14,7 @@ function Footer() {
           <nav className="lg:ms-auto pt-3 pe-8 max-md:w-full">
             <ul className="flex max-md:flex-col items-start gap-6 md:items-center flex-wrap">
               {footerLinks.map((link) => (
-                <li key={link.name}>
-                  <Link href={link.href} className="font-bold text-lg p-2">
-                    {link.name}
-                  </Link>
-                </li>
+                <CustomLink key={link.name} link={link} />
               ))}
             </ul>
           </nav>

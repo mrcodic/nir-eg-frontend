@@ -31,9 +31,15 @@ function SocialLinks({ className }: { className?: string }) {
         <a
           href={link.href}
           key={link.name}
-          className="size-8 bg-white rounded-lg p-1"
+          className="size-8 group hover:bg-primary-800 transition-colors bg-white rounded-lg p-1"
         >
-          <Image src={link.src} width="24" height="24" alt={link.name} />
+          <Image
+            src={link.src}
+            width="24"
+            height="24"
+            alt={link.name}
+            className="group-hover:brightness-0 group-hover:invert"
+          />
         </a>
       ))}
     </div>
