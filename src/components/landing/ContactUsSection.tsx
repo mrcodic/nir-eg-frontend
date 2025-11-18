@@ -3,14 +3,14 @@ import ContactUsForm from "../form/ContactUsForm";
 
 export default function ContactUsSection() {
   return (
-    <section className="wrapper w-full ">
-      <div className="max-w-7xl mx-auto bg-[url('/bg-vector.svg')] p-4 bg-background rounded-lg grid grid-cols-2 relative">
-        <div className="bg-white rounded-lg shadow-sm p-6">
+    <section className="wrapper ">
+      <div className="max-w-7xl mx-auto bg-[url('/bg-vector.svg')] p-4 bg-background rounded-lg flex max-lg:flex-col-reverse relative gap-y-8">
+        <div className="bg-white w-1/2 max-lg:w-full rounded-lg shadow-sm p-6">
           <ContactUsForm />
         </div>
 
         {/* Left hero/illustration side */}
-        <div className="hidden  lg:flex flex-col justify-center px-8  rounded-lg">
+        <div className=" lg:w-1/2 flex flex-col justify-center px-8  rounded-lg">
           <Image
             src="/logo.svg"
             alt="logo"
@@ -32,7 +32,7 @@ export default function ContactUsSection() {
           <Image
             src="/assets/lightbulb.png"
             alt="light bulbs"
-            className="aspect-square max-w-full mx-auto"
+            className="aspect-square max-w-full mx-auto max-lg:hidden"
             width={334}
             height={334}
           />

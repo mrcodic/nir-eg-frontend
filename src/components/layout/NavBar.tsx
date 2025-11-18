@@ -1,26 +1,106 @@
-import { navlinks } from "@/constants/navlinks";
+"use client";
+
+import { Menu, X } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
+
+import { navlinks } from "@/constants/navlinks";
 import { Button } from "../ui/button";
 
 function NavBar() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const closeMenu = () => setIsOpen(false);
+  const toggleMenu = () => setIsOpen((prev) => !prev);
+
   return (
-    <header className="lg:h-22 wrapper py-6 border-b border-gray-light w-full fixed top-0 flex items-center justify-between bg-background z-20">
-      <Image src="/logo.svg" alt="logo" width={110} height={48} className="" />
+    <header className="fixed inset-x-0 top-0 z-30 border-b border-gray-light">
+      <div className="wrapper relative flex h-20 items-center justify-between bg-background z-30">
+        {/* Logo */}
+        <Link href="/">
+          <Image src="/logo.svg" alt="logo" width={110} height={48} />
+        </Link>
 
-      <nav>
-        <ul className="flex gap-8">
-          {navlinks.map((link) => (
-            <li key={link.name}>
-              <Link href={link.href} className="font-bold text-lg p-2">
-                {link.name}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
+        {/* Desktop nav */}
+        <nav className="hidden md:block">
+          <ul className="flex gap-8">
+            {navlinks.map((link) => (
+              <li key={link.name}>
+                <Link
+                  href={link.href}
+                  className="font-bold text-lg p-2 transition hover:opacity-80"
+                >
+                  {link.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
 
-      <Button>احصل على النسخة التجريبية</Button>
+        {/* Desktop CTA */}
+        <div className="hidden md:block">
+          <Button>احصل على النسخة التجريبية</Button>
+        </div>
+
+        {/* Mobile actions */}
+        <div className="flex items-center gap-2 md:hidden">
+          <Button
+            size="icon"
+            variant="ghost"
+            className="md:hidden"
+            aria-label="Toggle menu"
+            onClick={toggleMenu}
+          >
+            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </Button>
+        </div>
+      </div>
+      {/* Mobile dropdown + overlay with animation */}
+      <AnimatePresence>
+        {isOpen && (
+          <>
+            {/* Dropdown */}
+            <motion.div
+              key="mobile-menu"
+              initial={{ opacity: 0, y: -12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="absolute left-0 right-0 top-full z-20 border-b border-gray-light bg-background shadow-md md:hidden"
+            >
+              <nav className="flex flex-col gap-2 px-4 py-4">
+                {navlinks.map((link) => (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    className="py-2 text-base font-medium"
+                    onClick={closeMenu}
+                  >
+                    {link.name}
+                  </Link>
+                ))}
+
+                <Button className="mt-3 w-full" onClick={closeMenu}>
+                  احصل على النسخة التجريبية
+                </Button>
+              </nav>
+            </motion.div>
+
+            {/* Overlay */}
+            <motion.div
+              key="mobile-overlay"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="fixed inset-0 z-10 bg-black/40 md:hidden"
+              onClick={closeMenu}
+            />
+          </>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

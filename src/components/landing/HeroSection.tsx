@@ -3,7 +3,7 @@ import { Button } from "../ui/button";
 
 function HeroSection() {
   return (
-    <section className="wrapper bg-background w-full relative text-center pb-12">
+    <section className="wrapper bg-background w-full relative text-center pb-12 overflow-x-hidden">
       <Image className="" fill src="/bg-vector.svg" alt="" />
       <div className="flex flex-col items-center mt-12">
         <span className="text-primary-800 font-bold text-xl">
@@ -20,7 +20,7 @@ function HeroSection() {
         </p>
       </div>
 
-      <div className="flex justify-center gap-4 mt-8">
+      <div className="flex justify-center gap-4 mt-8 flex-wrap">
         <Button>احصل على النسخة التجريبية</Button>
         <Button variant="secondary">شاهد الفيديو التعريفي</Button>
       </div>
@@ -29,7 +29,7 @@ function HeroSection() {
         <Image
           src="/assets/graduation.svg"
           alt="graduation"
-          className="aspect-square -top-[120px] z-10 -left-[100px] absolute"
+          className="aspect-square lg:-top-[120px] z-10 lg:-left-[100px] -top-20 -left-[60px] absolute lg:size-[220px] size-40"
           width={220}
           height={220}
         />
