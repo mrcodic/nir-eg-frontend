@@ -1,12 +1,12 @@
-import "server-only";
 import reactCache from "@/config/reactCache";
-import CustomError from "@/lib/customError";
-import { IGetDataOptions } from "@/services/types";
+import { IGetDataOptions } from "@/types/services.types";
 import { cookies } from "next/headers";
+import "server-only";
+import CustomError from "./CustomError";
 
 const fetcherServer = async <T>(
   { queryKey: [endpoint], next, cache }: IGetDataOptions,
-  authenticated: boolean,
+  authenticated: boolean
 ) => {
   if (!endpoint || typeof endpoint !== "string") {
     return null;
@@ -49,7 +49,7 @@ const fetcherServer = async <T>(
         // console.error(`Failed to fetch data from ${endpoint}`);
         throw new CustomError(
           `Failed to fetch data from ${endpoint}`,
-          res.status || 500,
+          res.status || 500
         );
       }
     }
@@ -81,5 +81,5 @@ export const getServerPrivateData = reactCache(
     next,
     cache,
   }: IGetDataOptions): Promise<T | null> =>
-    fetcherServer({ queryKey: [endpoint], next, cache }, true),
+    fetcherServer({ queryKey: [endpoint], next, cache }, true)
 );

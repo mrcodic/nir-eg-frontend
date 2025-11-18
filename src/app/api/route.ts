@@ -1,4 +1,5 @@
 import { instance } from "@/config/api";
+import { isAxiosError } from "axios";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { cookies, headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
@@ -97,20 +98,44 @@ export async function POST(req: NextRequest) {
     return clientResponse;
   } catch (error) {
     console.log("error 💥", error);
-    return NextResponse.json(
-      {
-        message: error.message || "Request failed",
-        error: error.response?.data || error.message, // Return full API error
-        status: error.response?.status || 500,
-      },
-      { status: error.response?.status || 500 }
-    );
+    if (isAxiosError(error)) {
+      return NextResponse.json(
+        {
+          message: error.message || "Request failed",
+          error: error.response?.data || error.message, // Return full API error
+          status: error.response?.status || 500,
+        },
+        { status: error.response?.status || 500 }
+      );
+    } else if (error instanceof Error) {
+      return NextResponse.json(
+        {
+          message: "Request failed",
+          error: error?.message,
+          status: 500,
+        },
+        { status: 500 }
+      );
+    } else {
+      return NextResponse.json(
+        {
+          message: "Request failed",
+          error: error || "Unknown next server error",
+          status: 500,
+        },
+        { status: 500 }
+      );
+    }
   }
 }
 
 // get proxy
 export async function GET(req: NextRequest) {
   const apiUrl = req.nextUrl.searchParams.get("url");
+
+  if (!apiUrl) {
+    throw new Error("API URL is required");
+  }
 
   try {
     const headersList = await headers();
@@ -137,17 +162,29 @@ export async function GET(req: NextRequest) {
 
     return clientResponse;
   } catch (error) {
-    const errorResponse = NextResponse.json(
-      {
-        message: "Request failed",
-        error: error?.response?.data || error?.message,
-        status: error?.response?.status || 500,
-      },
-      { status: error?.response?.status || 500 }
-    );
+    const errorResponse = isAxiosError(error)
+      ? NextResponse.json(
+          {
+            message: "Request failed",
+            error: error?.response?.data || error?.message,
+            status: error?.response?.status || 500,
+          },
+          { status: error?.response?.status || 500 }
+        )
+      : NextResponse.json(
+          {
+            message: "Request failed",
+            error:
+              error instanceof Error
+                ? error.message
+                : error || "Unknown next server error",
+            status: 500,
+          },
+          { status: 500 }
+        );
 
     // Optionally add error headers if they exist
-    if (error?.response?.headers) {
+    if (isAxiosError(error) && error?.response?.headers) {
       Object.entries(error?.response.headers).forEach(([key, value]) => {
         if (value) {
           errorResponse.headers.set(

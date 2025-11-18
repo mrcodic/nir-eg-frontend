@@ -1,12 +1,15 @@
-import Empty, { EmptyProps } from "@/components/Empty";
+/* eslint-disable react-hooks/error-boundaries */
+import Empty from "@/components/Empty";
 import { getServerPrivateData } from "@/config/server-fetch";
-import { IGetDataOptions } from "@/services/types";
+import { IGetDataOptions } from "@/types/services.types";
 import get from "lodash/get";
 import { isDynamicServerError } from "next/dist/client/components/hooks-server-context";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
-import { ReactNode } from "react";
+import { ComponentProps, ReactNode } from "react";
 import { getPublicData } from "./client-fetch";
-import CustomError from "@/lib/customError";
+import CustomError from "./CustomError";
+
+type EmptyProps = ComponentProps<typeof Empty>;
 
 const MappingFun = async ({
   queryKey,

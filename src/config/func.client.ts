@@ -1,8 +1,8 @@
-import { parseISO } from "date-fns";
 import * as dateFns from "date-fns";
+import { parseISO } from "date-fns";
 import { ar } from "date-fns/locale";
-import { DateTime } from "luxon";
 import Cookies from "js-cookie";
+import { DateTime } from "luxon";
 
 export const getLocalStorage = (key: string) => {
   if (typeof window !== "undefined") {
@@ -92,7 +92,7 @@ export const TimeComponent = (dateString: string) => {
   return formattedDate;
 };
 
-export function errorHandler(obj) {
+export function errorHandler(obj: any) {
   if (!obj) return " حدث خطاء ما";
 
   const keys = Object?.keys(obj);
@@ -105,7 +105,7 @@ export function errorHandler(obj) {
   return text;
 }
 
-export function formatDuration(duration) {
+export function formatDuration(duration: string) {
   const units = {
     day: ["يوم", "يومان", "أيام"],
     hour: ["ساعة", "ساعتان", "ساعات"],
@@ -131,8 +131,8 @@ export function formatDuration(duration) {
         num === 1
           ? units.minute[0]
           : num === 2
-            ? units.minute[1]
-            : units.minute[2];
+          ? units.minute[1]
+          : units.minute[2];
 
     return `${num} ${arabicUnit}`;
   });
