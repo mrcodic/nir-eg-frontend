@@ -1,8 +1,11 @@
+"use client";
+
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
+import autoplay from "embla-carousel-autoplay";
 import Image from "next/image";
 
 const ourPartners = [
@@ -51,7 +54,11 @@ function PartnersSection() {
             direction: "rtl",
             loop: true,
           }}
-          autoplay
+          plugins={[
+            autoplay({
+              delay: 5000,
+            }),
+          ]}
         >
           <CarouselContent wrapperClassName="peer">
             {ourPartners.map((partner, index) => (

@@ -17,7 +17,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -25,8 +24,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
 import { useForm } from "react-hook-form";
+import CustomInput from "../fields/CustomInput";
+import CustomTextarea from "../fields/CustomTextarea";
 
 export default function ContactUsForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -82,53 +82,11 @@ export default function ContactUsForm() {
         noValidate
       >
         <div className="grid grid-cols-1 gap-3">
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-sm text-right">
-                  الاسم بالكامل
-                </FormLabel>
-                <FormControl>
-                  <Input placeholder="قم بإدخال الاسم بالكامل" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <CustomInput form={form} name="name" label="الاسم بالكامل" />
 
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-sm text-right">
-                  البريد الإلكتروني
-                </FormLabel>
-                <FormControl>
-                  <Input placeholder="قم بإدخال البريد الإلكتروني" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <CustomInput form={form} name="email" label="البريد الالكتروني" />
 
-          <FormField
-            control={form.control}
-            name="phone"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-sm text-right">
-                  رقم الهاتف (اختياري)
-                </FormLabel>
-                <FormControl>
-                  <Input placeholder="قم بإدخال رقم الهاتف" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <CustomInput form={form} name="phone" label="رقم الجوال (اختيارى)" />
 
           <FormField
             control={form.control}
@@ -159,32 +117,18 @@ export default function ContactUsForm() {
             )}
           />
 
-          <FormField
-            control={form.control}
+          <CustomInput
+            form={form}
             name="institution"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-sm text-right">المؤسسة</FormLabel>
-                <FormControl>
-                  <Input placeholder="قم بإدخال اسم المؤسسة" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            label="المؤسسة / الجهة"
+            placeholder="قم بإدخال اسم المؤسسة"
           />
 
-          <FormField
-            control={form.control}
+          <CustomTextarea
+            form={form}
             name="message"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-sm text-right">الرسالة</FormLabel>
-                <FormControl>
-                  <Textarea placeholder="اترك رسالتك هنا" rows={5} {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            label="الرسالة"
+            placeholder="اترك رسالتك هنا"
           />
         </div>
 

@@ -22,7 +22,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ar" dir="rtl">
-      <body className={`${almarai.variable}  antialiased flex flex-col`}>
+      <body
+        className={`${almarai.variable}  antialiased flex flex-col`}
+        suppressHydrationWarning
+      >
         <NavBar />
         <div className="min-h-[calc(100dvh-80px)] mt-20 grow flex flex-col [&>main]:grow">
           {children}

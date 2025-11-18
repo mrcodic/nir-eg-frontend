@@ -53,13 +53,7 @@ const SAMPLE_CARDS: Card[] = [
   },
 ];
 
-export default function ClientsCarousel({
-  className,
-  autoplay = true,
-}: {
-  className?: string;
-  autoplay?: boolean;
-}) {
+export default function ClientsCarousel({ className }: { className?: string }) {
   const [api, setApi] = React.useState<CarouselApi | undefined>(undefined);
   const [activeIndex, setActiveIndex] = React.useState(0);
 
@@ -86,10 +80,9 @@ export default function ClientsCarousel({
         <Carousel
           opts={{
             align: "start",
-            loop: false,
             direction: "rtl",
+            loop: true,
           }}
-          autoplay={autoplay}
           setApi={setApi}
           className="relative"
         >

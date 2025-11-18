@@ -18,17 +18,24 @@ export default function ContactUsSection() {
             width={144}
             height={61}
           />
-          <h2 className="text-3xl font-semibold mb-4">
+          <h2 className="text-3xl font-bold mb-4">تواصل معنا لمعرفة المزيد</h2>
+
+          <p className="text-gray-dark font-bold text-xl">
+            تواصل معنا و سنقوم بالرد عليك
+          </p>
+
+          {/* <h2 className="text-3xl font-semibold mb-4">
             احصل على{" "}
             <span className="text-primary-800 drop-shadow-text ">
               النسخة التجريبية
             </span>{" "}
             الآن
-          </h2>
+          </h2> 
 
           <p className="text-slate-600 text-xl">
             ابدأ رحلتك مع تير، و احصل على النسخة التجريبية الآن
-          </p>
+          </p> */}
+
           <Image
             src="/assets/lightbulb.png"
             alt="light bulbs"
