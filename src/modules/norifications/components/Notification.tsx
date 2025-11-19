@@ -1,0 +1,62 @@
+import { INotification } from "@/types";
+import { useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
+import Link from "next/link";
+import { formatTime, getHref, getTitle } from "../helpers";
+
+const Notification = ({
+  notification,
+  closeMenu,
+}: {
+  notification: INotification;
+  closeMenu: () => void;
+}) => {
+  const queryClient = useQueryClient();
+
+  const markAsRead = async () => {
+    closeMenu();
+
+    await axios.post(
+      `/api?url=students/notifications/${notification.id}/read`,
+      {}
+    );
+
+    queryClient.invalidateQueries({
+      predicate: (query) => query.queryKey.includes("notifications"),
+    });
+  };
+
+  return (
+    <Link
+      href={getHref(notification)}
+      onClick={markAsRead}
+      dir="rtl"
+      className={`bg-[#FFFFFF] w-full hover:bg-[#F5F5F5] transition-all not-last:border-b border-primary-700 flex flex-col gap-4 text-[14px] py-4 p-2  shrink-0 ${
+        !notification.is_read ? "bg-[#eee]" : ""
+      }`}
+    >
+      <div className="flex flex-col gap-2">
+        <p className="text-[#121212] text-[14px]">{getTitle(notification)}</p>
+        {/* <p className="text-[#121212] text-[14px]">{getTitle(notification)}</p> */}
+
+        {notification?.payload?.reply_excerpt && (
+          <p className="text-[#454545] text-[13px] italic">
+            "{notification.payload.reply_excerpt}"
+          </p>
+        )}
+      </div>
+
+      <div className="flex gap-[12px] items-center">
+        <img src="/assets/Time.svg" alt="Time icon" />
+        <span className="text-[12px] text-[#454545]">
+          {formatTime(notification.created_at)}
+        </span>
+        {!notification.is_read && (
+          <span className="ms-auto size-4 bg-primary-700 rounded-full animate-pulse"></span>
+        )}
+      </div>
+    </Link>
+  );
+};
+
+export default Notification;

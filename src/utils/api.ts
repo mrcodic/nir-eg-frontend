@@ -1,0 +1,266 @@
+"use server";
+
+import axios from "axios";
+import { isRedirectError } from "next/dist/client/components/redirect-error";
+import { cookies, headers } from "next/headers";
+import { redirect } from "next/navigation";
+import "nprogress/nprogress.css";
+
+export const instance = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_BASE_URL,
+});
+
+export const logoutAction = async () => {
+  await deleteCookie();
+  redirect("/login");
+};
+
+export async function handleServerError(error) {
+  try {
+    if (isRedirectError(error)) throw error;
+    if (error && error.message === "Unauthorized") await logoutAction();
+
+    if (axios.isAxiosError(error)) {
+      const response = error.response;
+      if (
+        response?.statusText === "Unauthorized" ||
+        response?.data?.message === "Unauthorized"
+      )
+        await logoutAction();
+      if (response && response.data) {
+        const { message, statusCode } = response.data;
+        // Handle specific status code 409
+        if (statusCode !== 200) {
+          return { message, statusCode };
+        }
+        return { message, statusCode };
+      }
+      if (error.code === "ECONNREFUSED") {
+        return {
+          message:
+            "Connection refused. Please try again later or contact support.",
+          statusCode: 500,
+        };
+      }
+    } else {
+      return {
+        message:
+          "Unknown server error, Please try again later or contact support.",
+        statusCode: 500,
+      };
+    }
+  } catch (catchError) {
+    if (isRedirectError(catchError)) throw catchError;
+    return { message: catchError.message, statusCode: 500 };
+  }
+}
+
+export const postTamperAttempt = async ({
+  message,
+  timestamp,
+  userAgent,
+  screen,
+  tz,
+  lang,
+}) => {
+  try {
+    // Get client IP from headers
+    const headersList = await headers();
+    const forwardedFor = headersList.get("x-forwarded-for");
+    const realIp = headersList.get("x-real-ip");
+    const remoteAddr = headersList.get("remote-addr");
+
+    // Get the client IP (prioritize x-forwarded-for)
+    const userIp = forwardedFor
+      ? forwardedFor.split(",")[0].trim()
+      : realIp || remoteAddr || "unknown";
+
+    const authToken = await getCookie();
+
+    if (!authToken) {
+      console.log("No auth token found");
+      return;
+    }
+    const ua = userAgent || headersList.get("user-agent");
+
+    const body = {
+      message,
+      timestamp,
+      ip: userIp,
+      client: [userIp, ua, screen, tz, lang],
+    };
+
+    const res = await instance.post("/sensors/ingest", body, {
+      headers: {
+        Authorization: `Bearer ${JSON.parse(authToken)}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    console.log("Tamper attempt logged:", res.data);
+    return res.data;
+  } catch (error) {
+    console.error("Error logging tamper attempt:", error);
+    throw new Error(`Failed to log tamper attempt: ${error.message}`);
+  }
+};
+
+export const getCities = async ({ queryKey: [path] }) => {
+  try {
+    const normalized = path.startsWith("/") ? path : `/${path}`;
+    const { data } = await instance.get(normalized);
+    return data;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      throw error;
+    }
+    throw error;
+  }
+};
+
+export const getData = async ({ queryKey: [url] }) => {
+  let token = await getCookie();
+  const headersList = await headers();
+
+  if (!token) {
+    redirect("/login");
+  } else {
+    token = JSON.parse(token);
+  }
+
+  try {
+    const response = await instance.get(url, {
+      headers: {
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        Cookie: headersList.get("cookie"),
+        accept: "application/json",
+      },
+    });
+
+    // console.log("getData response : ", url);
+    return response.data;
+  } catch (error) {
+    // console.log("getData error : ", url, error);
+
+    if (error.response.data?.code === 403) {
+      console.log("unauth ");
+
+      redirect("/unAuth");
+    } else if (error.status === 403) {
+      console.log("unauth center ");
+      redirect("/unAuthCenter");
+    } else if (error.status == 401 || error.response.data?.code == 410) {
+      console.log("login ");
+      await deleteCookie();
+      redirect("/login");
+    } else {
+      await handleServerError(error);
+    }
+    // throw error;
+  }
+};
+
+export const postData = async ([endpoint, body]) => {
+  try {
+    let token = await getCookie();
+    const headersList = await headers();
+
+    if (token) {
+      token = JSON.parse(token);
+    }
+
+    const response = await instance.post(endpoint, body, {
+      withCredentials: true,
+      headers: {
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        Cookie: headersList.get("cookie"),
+      },
+    });
+
+    return response;
+  } catch (error) {
+    console.log("postData error : ", endpoint, error);
+    throw error;
+  }
+};
+
+export const postCommentData = async (endpoint, body) => {
+  try {
+    let token = await getCookie();
+    if (token) {
+      token = JSON.parse(token);
+    }
+    const response = await instance.post(endpoint, body, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const postFormData = async (body) => {
+  try {
+    let token = await getCookie();
+    if (token) {
+      token = JSON.parse(token);
+    }
+    const response = await instance.post("/students/profile/edit", body, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getOtp = async (phone) => {
+  try {
+    const response = await instance.post("/otp/request", {
+      phone,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+export const getProfile = async () => {
+  try {
+    const response = await instance.get("/students/profile");
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const saveCookie = async (token) => {
+  const cookieStore = await cookies();
+  cookieStore.set("auth_token", JSON.stringify(token));
+};
+export const getCookie = async (name: string = "auth_token") => {
+  const cookieStore = await cookies();
+  return cookieStore.get(name)?.value || null;
+};
+
+export const getDeviceCode = async () => {
+  const cookieStore = await cookies();
+  return cookieStore.get("device_code")?.value || null;
+};
+
+export const deleteCookie = async (name: string[] | string = "auth_token") => {
+  const cookieStore = await cookies();
+  if (typeof name === "string") {
+    cookieStore.delete(name);
+  } else {
+    name.forEach((name) => {
+      cookieStore.delete(name);
+    });
+  }
+};

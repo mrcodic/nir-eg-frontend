@@ -1,0 +1,74 @@
+import { useToast } from "@/hooks/use-toast";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
+
+function useSendComment() {
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
+
+  return useMutation({
+    mutationFn: async ({
+      data,
+      currentTime,
+      lessonId,
+    }: {
+      data: any;
+      currentTime: number;
+      lessonId: number | string;
+    }) => {
+      const formData = new FormData();
+
+      console.log("currentTime : ", currentTime);
+
+      formData.append("body", data?.body);
+      formData.append("at_second", currentTime + "");
+
+      data?.files?.forEach((item) => {
+        const fileType = item.file.type;
+        if (fileType.startsWith("image")) {
+          formData.append(`images[]`, item.file);
+        } else if (fileType.startsWith("application")) {
+          formData.append(`documents[]`, item.file);
+        }
+      });
+
+      for (let i = 0; i < data?.audios.length; i++) {
+        formData.append("recordings[]", data?.audios[i]);
+      }
+
+      return await axios.post(
+        `/api?url=lessons/${lessonId}/comments&type=formData`,
+        formData
+      );
+    },
+    onSuccess: async (_data, { lessonId }) => {
+      queryClient.invalidateQueries({
+        queryKey: [`comments`, lessonId || ""],
+        exact: false,
+      });
+
+      queryClient.invalidateQueries({
+        // "lesson-comments"
+        predicate: (query) => {
+          return (
+            query.queryKey.includes("all-comments") ||
+            query.queryKey.includes("lesson-comments")
+          );
+        },
+      });
+
+      toast({
+        description: "تم إرسال التعليق بنجاح",
+        icon: "success",
+      });
+    },
+    onError: () => {
+      toast({
+        description: "حدث خطأ أثناء إرسال التعليق",
+        icon: "error",
+      });
+    },
+  });
+}
+
+export default useSendComment;

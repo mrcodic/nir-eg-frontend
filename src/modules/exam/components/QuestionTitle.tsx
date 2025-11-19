@@ -1,0 +1,57 @@
+"use client";
+
+import Image from "next/image";
+import { useState } from "react";
+
+const QuestionTitle = ({ title, video }) => {
+  const [showVideo, setShowVideo] = useState(false);
+
+  return (
+    <div className="flex flex-col gap-4">
+      <div className="flex justify-between items-center gap-4">
+        <div className="mt-4 mb-8 text-[15px] md:text-[18px] text-[#121212] ">
+          {title.trim().startsWith("<") ? (
+            <div
+              dangerouslySetInnerHTML={{ __html: title }}
+              className="break-all *:break-all "
+            />
+          ) : (
+            title
+          )}
+        </div>
+
+        {video && (
+          <button
+            type="button"
+            onClick={() => setShowVideo((s) => !s)}
+            className="animate-pulse"
+          >
+            <Image
+              src={"/assets/show-video.svg"}
+              width={32}
+              height={32}
+              alt="show video btn"
+            />
+          </button>
+        )}
+      </div>
+
+      {video && showVideo && (
+        <iframe
+          src={
+            video?.includes("youtube")
+              ? video.replace("watch?v=", "embed/")
+              : video
+          }
+          className=" rounded-lg aspect-video "
+          style={{
+            maxWidth: "360px",
+            width: "100%",
+          }}
+        />
+      )}
+    </div>
+  );
+};
+
+export default QuestionTitle;

@@ -1,0 +1,29 @@
+import PriceBadge from "./PriceBadge";
+
+function PriceBubbles({
+  sale,
+  price,
+}: {
+  sale?: { discount_type: number; discount_value: number; id: number };
+  price: number | string;
+}) {
+  if (sale?.id)
+    return (
+      <div className="flex gap-[10px] ms-auto items-center">
+        <PriceBadge price={Number(price)} variant="crossed" />
+        <PriceBadge
+          price={
+            sale?.discount_type === 0
+              ? ((100 - sale?.discount_value) / 100) * Number(price)
+              : Number(price) - Number(sale?.discount_value)
+          }
+          variant="discount"
+        />
+      </div>
+    );
+  else {
+    return <PriceBadge price={Number(price)} variant="default" />;
+  }
+}
+
+export default PriceBubbles;
