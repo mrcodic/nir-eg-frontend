@@ -13,7 +13,7 @@ function CoursePhoneVerifyCard({ parentPhone }: { parentPhone: string }) {
           boxShadow: "0px 2px 10px 4px rgba(157, 130, 66, 0.20)",
         }}
         className="bg-[#F9FAFC] md:text-2xl 
-               font-bold mx-auto -mt-8 flex flex-wrap max-md:justify-center  md:gap-x-6 gap-x-4 gap-y-1 items-center  max-w-[min(85%,760px)] w-full relative border py-3 md:py-8 px-6 md:px-10 border-[#012D5A] rounded-[8px]"
+               font-bold mx-auto -mt-8 flex flex-wrap max-md:justify-center  md:gap-x-6 gap-x-4 gap-y-1 items-center  max-w-[min(85%,760px)] w-full relative border py-3 md:py-8 px-6 md:px-10 border-[#012D5A] rounded-lg"
       >
         <div className="flex gap-4">
           <img
@@ -21,7 +21,7 @@ function CoursePhoneVerifyCard({ parentPhone }: { parentPhone: string }) {
             className=" w-[32px] h-[32px] md:w-[48px] md:h-[48px]"
           />
 
-          <span className=" text-[#523412] inline-block text-[14px] md:text-xl ">
+          <span className=" text-[#523412] inline-block text-sm md:text-xl ">
             {" "}
             لا يمكنك الوصول لمحتوى الباقة دون تأكيد رقم ولي الأمر
           </span>

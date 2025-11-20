@@ -12,23 +12,23 @@ const BundleForm = async ({ bundleId, data }) => {
           style={{
             boxShadow: "0px 2px 10px 4px rgba(157,130,66,0.20)",
           }}
-          className={`flex-1 border border-[#1EAD7B] rounded-[8px] p-4 `}
+          className={`flex-1 border border-[#1EAD7B] rounded-lg p-4 `}
         >
           <div className="flex w-full justify-between gap-[24px]">
             <h2 className="text-[#121212] text-[18px] font-bold">
               {data?.body?.name}
             </h2>
             {!data?.body?.sale?.id && (
-              <div className="bg-[#523412] text-center w-[111px] py-[2px] px-[8px] text-[18px] rounded-[8px] text-white">
+              <div className="bg-[#523412] text-center w-[111px] py-[2px] px-[8px] text-[18px] rounded-lg text-white">
                 {data?.body?.price} جنيه
               </div>
             )}
             {data?.body?.sale?.id && (
               <div className="flex gap-[24px]">
-                <div className="bg-[#454545] font-bold text-white py-[2px] px-[8px] line-through rounded-[8px]">
+                <div className="bg-gray-dark font-bold text-white py-[2px] px-[8px] line-through rounded-lg">
                   {data?.body?.price} جنيه
                 </div>
-                <div className="bg-[#1EAD7B] w-[111px] text-center font-bold text-white py-[2px] px-[8px]  rounded-[8px]">
+                <div className="bg-[#1EAD7B] w-[111px] text-center font-bold text-white py-[2px] px-[8px]  rounded-lg">
                   {data?.body?.sale?.discount_type === 0
                     ? ((100 - data?.body?.sale?.discount_value) / 100) *
                       data?.body?.price
@@ -40,7 +40,7 @@ const BundleForm = async ({ bundleId, data }) => {
           </div>
           <div className="h-px w-full bg-primary-700 my-[12px]" />
           <div className="flex font-bold text-[16px]  gap-[8px]">
-            <span className="text-[#454545] inline-block text-sm">
+            <span className="text-gray-dark inline-block text-sm">
               {" "}
               {/* {classRoom.description} */}
               {data?.body?.classrooms
@@ -74,7 +74,7 @@ const BundleForm = async ({ bundleId, data }) => {
               {data?.body.sale?.id && (
                 <div>
                   <div className="flex gap-1 items-center">
-                    <h2 className="text-[#121212] text-[14px] font-bold">
+                    <h2 className="text-[#121212] text-sm font-bold">
                       احصل على خصم
                     </h2>
                     <div className="bg-[url(/assets/Sale.svg)] re bg-cover flex items-center justify-center w-[48px] h-[48px]">
@@ -84,7 +84,7 @@ const BundleForm = async ({ bundleId, data }) => {
                             textShadow:
                               "2px 0 #000,-2px 0 #000,0 2px #000,0 -2px #000,1px 1px #000,-1px -1px #000,1px -1px #000,-1px 1px #000",
                           }}
-                          className=" inline-block font-bold text-white text-center text-[14px]"
+                          className=" inline-block font-bold text-white text-center text-sm"
                         >
                           {data?.body.sale?.discount_type === 0
                             ? data?.body.sale?.discount_value + "%"
@@ -94,7 +94,7 @@ const BundleForm = async ({ bundleId, data }) => {
                     </div>
                   </div>
                   <div className="flex text-[12px] gap-2 items-center">
-                    <span className="text-[12px] text-[#454545]">
+                    <span className="text-[12px] text-gray-dark">
                       متاح لمدة
                     </span>
                     <div className="flex gap-[2px]">

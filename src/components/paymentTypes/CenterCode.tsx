@@ -21,7 +21,7 @@ export default function CenterCode({ data, phoneNumber, message }) {
           style={{
             boxShadow: "0px 2px 10px 4px rgba(157,130,66,0.20)",
           }}
-          className="mt-[56px] rounded-[8px] border py-[32px] px-10 md:px-[40px] border-color-primary"
+          className="mt-[56px] rounded-lg border py-[32px] px-10 md:px-[40px] border-primary"
         >
           {bundleId && (
             <PaymentBundlesForm

@@ -201,7 +201,7 @@ const PageSettings = () => {
               />
             </div>
 
-            <div className="mt-[40px] border border-primary-700 p-4 rounded-[8px]">
+            <div className="mt-[40px] border border-primary-700 p-4 rounded-lg">
               <div className="flex flex-col md:flex-row gap-[24px] w-full">
                 <div className="flex-1">
                   <CustomInput
@@ -222,7 +222,7 @@ const PageSettings = () => {
               </div>
 
               <div className="flex flex-col md:flex-row  gap-[24px] w-full">
-                <div className="flex-1  items-center text-[#454545] ">
+                <div className="flex-1  items-center text-gray-dark ">
                   <CustomPhoneInput
                     name="parent_phone.phone"
                     form={form}
@@ -257,7 +257,7 @@ const PageSettings = () => {
                 </div>
               </div>
 
-              <h4 className="text-[#454545] mb-[16px] mt-[32px] text-[12px] font-bold">
+              <h4 className="text-gray-dark mb-[16px] mt-[32px] text-[12px] font-bold">
                 عنوان الطالب
               </h4>
 
@@ -345,10 +345,10 @@ const PageSettings = () => {
 
               <div className="flex-1">
                 <div className="w-full flex justify-between items-center ">
-                  <h4 className="text-[#454545] mb-[16px] mt-[32px] text-[12px] font-bold">
+                  <h4 className="text-gray-dark mb-[16px] mt-[32px] text-[12px] font-bold">
                     كلمة السر
                   </h4>
-                  <span className="text-[#454545] mt-[20px] inline-block text-[12px] font-medium">
+                  <span className="text-gray-dark mt-[20px] inline-block text-[12px] font-medium">
                     آخر تحديث: {data?.body?.updated_at}
                   </span>
                 </div>
@@ -356,7 +356,7 @@ const PageSettings = () => {
                 <button
                   type="button"
                   onClick={() => setIsChangePassword((t) => !t)}
-                  className="text-[#523412] cursor-pointer text-[14px] font-medium mt-[8px] underline"
+                  className="text-[#523412] cursor-pointer text-sm font-medium mt-[8px] underline"
                 >
                   {changePassword ? "إلغاء تغيير كلمة السر" : "تغيير كلمة السر"}
                 </button>

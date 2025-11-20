@@ -1,5 +1,4 @@
 import Image from "next/image";
-import React from "react";
 
 export default function DoubledText({ text, icon }) {
   return (
@@ -20,7 +19,7 @@ export default function DoubledText({ text, icon }) {
         >
           {text}{" "}
         </h3>
-        <h3 className="text-color-primary  relative z-10 ">{text} </h3>
+        <h3 className="text-primary  relative z-10 ">{text} </h3>
       </div>
     </div>
   );

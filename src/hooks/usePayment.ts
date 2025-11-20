@@ -1,4 +1,3 @@
-import { paymentTypesCenter, paymentTypesOnline } from "@/constants";
 import { useModal } from "@/context/ModalProvider";
 import { useToast } from "@/hooks/use-toast";
 import { IUser, paymentType, PricingResponse } from "@/types";
@@ -6,8 +5,8 @@ import { getDataClient, redirectUrl } from "@/utils/clientFun";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import usePaymentsFilter from "./usePaymentsFilter";
+import { useEffect, useRef, useState } from "react";
+import usePaymentsTypesFiltered from "./usePaymentsTypesFiltered";
 
 interface UsePaymentProps {
   courseId?: string | number;
@@ -26,7 +25,6 @@ export const usePayment = ({
   centerId,
   isCodeCenter,
   asModal = false,
-  setOpen,
 }: UsePaymentProps) => {
   const router = useRouter();
   const { toast } = useToast();
@@ -38,49 +36,20 @@ export const usePayment = ({
   const [coupon, setCoupon] = useState<PricingResponse | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const { data: filter, isLoading: isLoadingFilter } = usePaymentsFilter();
-
   // Fetch user data for modal mode
-  const {
-    data,
-    isLoading: isLoadingMethods,
-    error,
-  } = useQuery({
+  const { data, error } = useQuery({
     queryFn: getDataClient as () => Promise<{ body: IUser }>,
     queryKey: ["/students/profile"],
-    enabled: asModal && !isLoadingFilter,
+    enabled: asModal,
   });
 
-  const userType = data?.body?.type;
-
-  // 🔌 fetch payment filters (general settings)
-
-  // helper: apply filter for userType === 4 (online user)
-  const filterOnlineTypes = useCallback(
-    (list: typeof paymentTypesOnline) => {
-      if (!filter) return list;
-
-      return list.filter((item) => !filter[item.filter]);
-    },
-    [filter]
-  );
-
-  // Determine payment types based on mode and user type
-  const paymentTypes = useMemo(() => {
-    if (isLoadingFilter && (userType === 4 || !isCodeCenter)) return [];
-    if (asModal) {
-      if (userType === 4) {
-        return filterOnlineTypes(paymentTypesOnline);
-      } else if (userType === 3 || userType === 5) {
-        return paymentTypesCenter;
-      }
-      return [];
-    } else {
-      return isCodeCenter
-        ? paymentTypesCenter
-        : filterOnlineTypes(paymentTypesOnline);
+  const { paymentTypes, isLoading: isLoadingFilter } = usePaymentsTypesFiltered(
+    {
+      asModal,
+      isCodeCenter,
+      userType: data?.body?.type,
     }
-  }, [asModal, userType, isCodeCenter, filter, isLoadingFilter]);
+  );
 
   // Handle payment success/failure messages (modal mode)
   useEffect(() => {
@@ -89,7 +58,7 @@ export const usePayment = ({
     const handleMessage = (event: MessageEvent) => {
       if (event.origin !== window.location.origin) return;
       if (event.data === 200) {
-        setOpen?.(false);
+        modal.closeModal();
         toast({
           description: "تم الدفع بنجاح",
           icon: "success",
@@ -105,7 +74,7 @@ export const usePayment = ({
 
     window.addEventListener("message", handleMessage);
     return () => window.removeEventListener("message", handleMessage);
-  }, [asModal, bundleId, router, setOpen, toast]);
+  }, [asModal, bundleId, router, toast]);
 
   // Initialize payment method value
   useEffect(() => {
@@ -164,7 +133,6 @@ export const usePayment = ({
       }
     }
 
-
     if (paymentMethodValue === paymentType.code) {
       if (courseId) {
         router.push(`/payment?courseId=${courseId}&type=${paymentMethodValue}`);
@@ -198,6 +166,6 @@ export const usePayment = ({
     handleNextClick,
     coupon,
     setCoupon,
-    isLoadingMethods: isLoadingMethods || isLoadingFilter || (!data && !error),
+    isLoadingMethods: isLoadingFilter || (!data && !error),
   };
 };

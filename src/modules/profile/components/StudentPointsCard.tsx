@@ -5,7 +5,7 @@ import Link from "next/link";
 function StudentPointsCard({ points }: { points: number }) {
   return (
     <div className="border-primary-700 border h-[92px] rounded-[12px] p-2 w-full md:min-w-[260px] md:w-fit">
-      <div className="w-full border border-color-primary h-[75px] bg-white p-2 rounded-[8px]">
+      <div className="w-full border border-primary h-[75px] bg-white p-2 rounded-lg">
         <div className="flex gap-4 sm:gap-6 h-full">
           <img className="w-[32px] h-[32px]" src="/assets/Star.svg" />
 
@@ -24,7 +24,7 @@ function StudentPointsCard({ points }: { points: number }) {
               >
                 {points || "--"}
               </h3>
-              <h3 className="text-color-primary flex items-center relative z-10 text-[24px]">
+              <h3 className="text-primary flex items-center relative z-10 text-[24px]">
                 {points || "--"}
               </h3>
             </div>

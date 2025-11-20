@@ -24,7 +24,7 @@ const SelectedLesson = ({
   const router = useRouter();
 
   return (
-    <div className="bg-[#f9fafc] overflow-y-auto max-h-[1400px] w-full border border-color-primary rounded-lg p-4">
+    <div className="bg-[#f9fafc] overflow-y-auto max-h-[1400px] w-full border border-primary rounded-lg p-4">
       <div className="flex items-center gap-2">
         <img src={"/assets/teacher.png"} className="w-[80px] h-[73.059px]" />
 
@@ -47,20 +47,20 @@ const SelectedLesson = ({
       <div className="h-px w-full bg-primary-700 my-4" />
       {!!data?.quizzes?.length && (
         <>
-          <h3 className="text-[#454545] text-[12px] font-bold">الامتحانات</h3>
+          <h3 className="text-gray-dark text-[12px] font-bold">الامتحانات</h3>
           {data?.quizzes.map((quiz) => {
             return (
               <div
                 key={quiz.id}
-                className="flex items-center px-[8px] py-[12px] rounded-[8px] bg-white mt-[15px] justify-between"
+                className="flex items-center px-[8px] py-[12px] rounded-lg bg-white mt-[15px] justify-between"
               >
                 <div className="flex gap-2">
                   <img src="/assets/FillExams.svg" />
-                  <h2 className="text-[14px] font-bold text-[#121212] break-all">
+                  <h2 className="text-sm font-bold text-[#121212] break-all">
                     {quiz?.title}
                   </h2>
                 </div>
-                <div className="rounded-[8px] h-[32px] border text-white border-primary-700 flex justify-center items-center bg-color-primary w-[68px]">
+                <div className="rounded-lg h-[32px] border text-white border-primary-700 flex justify-center items-center bg-primary w-[68px]">
                   <Link href={`${room}/exams/${quiz.id}`}>
                     <img src="/assets/DownloadColor.svg" />
                   </Link>
@@ -83,9 +83,9 @@ const SelectedLesson = ({
             videoId !== lesson?.vedio_id
               ? "border-[#1EAD7B]  "
               : "border-[#012D5A] bg-background!"
-          } rounded-[8px] mb-[12px] px-[8px]  py-[12px]`}
+          } rounded-lg mb-[12px] px-[8px]  py-[12px]`}
         >
-          <div className="flex text-[14px] items-center font-bold gap-4">
+          <div className="flex text-sm items-center font-bold gap-4">
             <img src="/assets/FillVideos.svg" className="w-[24px] h-[24px]" />
             <h3>{lesson?.title}</h3>
           </div>
@@ -116,17 +116,17 @@ const SelectedLesson = ({
       {/* DownloadColor */}
       {!!data?.room?.attachments?.length && (
         <div>
-          <h3 className="text-[12px] text-[#454545] font-bold">الملفات</h3>
+          <h3 className="text-[12px] text-gray-dark font-bold">الملفات</h3>
 
           {data?.room?.attachments?.map((attachment) => {
             return (
               <div
                 key={attachment.name}
-                className="flex items-center mb-[8px] px-[8px] py-[12px] bg-white rounded-[8px] mt-[10px] justify-between"
+                className="flex items-center mb-[8px] px-[8px] py-[12px] bg-white rounded-lg mt-[10px] justify-between"
               >
                 <div className="flex gap-2">
                   <img src="/assets/FillFiles.svg" />
-                  <h2 className="text-[14px] font-bold text-[#121212]">
+                  <h2 className="text-sm font-bold text-[#121212]">
                     {attachment.name}
                   </h2>
                 </div>
@@ -136,7 +136,7 @@ const SelectedLesson = ({
                       window.open(attachment.url, "_blank");
                     }}
                     download
-                    className="rounded-[8px] cursor-pointer h-[32px] border border-primary-700 flex justify-center items-center bg-color-primary w-[68px]"
+                    className="rounded-lg cursor-pointer h-[32px] border border-primary-700 flex justify-center items-center bg-primary w-[68px]"
                   >
                     <img src="/assets/DownloadColor.svg" />
                   </a>
@@ -149,24 +149,24 @@ const SelectedLesson = ({
 
       {!!data?.assignments?.length && (
         <div>
-          <h3 className="text-[12px] text-[#454545] font-bold">الواجبات</h3>
+          <h3 className="text-[12px] text-gray-dark font-bold">الواجبات</h3>
 
           {data?.assignments.map((ass) => {
             return (
               <div
                 key={ass?.id}
-                className="flex items-center px-[8px] py-[12px] rounded-[8px] bg-white mt-[15px] justify-between"
+                className="flex items-center px-[8px] py-[12px] rounded-lg bg-white mt-[15px] justify-between"
               >
                 <div className="flex gap-2">
                   <img src="/assets/FillAssignments.svg" />
-                  <h2 className="text-[14px] font-bold text-[#121212] break-all">
+                  <h2 className="text-sm font-bold text-[#121212] break-all">
                     {ass?.title}
                   </h2>
                 </div>
                 <LinkLocked locked={locked}>
                   <Link
                     href={`/bundles/${SingleCourse}/${room}/assignment/${ass.id}`}
-                    className="rounded-[8px] h-[32px] border border-primary-700 flex justify-center items-center bg-color-primary w-[68px]"
+                    className="rounded-lg h-[32px] border border-primary-700 flex justify-center items-center bg-primary w-[68px]"
                   >
                     <img src="/assets/DownloadColor.svg" />
                   </Link>
@@ -180,7 +180,7 @@ const SelectedLesson = ({
       <div className="mt-[16px]">
         {data?.room?.assignments && (
           <>
-            <h3 className="text-[#454545] text-[12px] font-bold">
+            <h3 className="text-gray-dark text-[12px] font-bold">
               الامتحانات و الواجبات
             </h3>
 
@@ -188,7 +188,7 @@ const SelectedLesson = ({
               style={{
                 boxShadow: "0px 2px 10px 4px rgba(157,130,66,0.20)",
               }}
-              className="p-2 mt-[8px] bg-white flex text-[14px] text-[#121212] border rounded-md border-[#1EAD7B]"
+              className="p-2 mt-[8px] bg-white flex text-sm text-[#121212] border rounded-md border-[#1EAD7B]"
             >
               <img src="/assets/FillFiles.svg" />
               <span>لقد نجحت في الامتحان و حصلت على</span>
@@ -210,7 +210,7 @@ const SelectedLesson = ({
                   90%
                 </h3>
               </div>
-              <button className=" w-[67px] flex gap-2  rounded-[8px] mr-[50px] mt-[2px] border border-[#121212]">
+              <button className=" w-[67px] flex gap-2  rounded-lg mr-[50px] mt-[2px] border border-[#121212]">
                 <img
                   className="w-[20px]  h-[20px]"
                   src="/assets/CorrectColor.svg"

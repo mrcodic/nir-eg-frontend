@@ -19,25 +19,25 @@ const RoomRevision = ({
   const router = useRouter();
 
   return (
-    <div className="border flex mb-2 items-start justify-between border-primary-700 rounded-[8px] p-2 bg-white">
+    <div className="border flex mb-2 items-start justify-between border-primary-700 rounded-lg p-2 bg-white">
       <div className="flex gap-4 items-center">
         <img src="/assets/FillVideos.svg" className="w-7 h-7" />
         <div>
-          <h3 className="text-[#121212] font-bold text-[14px] md:text-[16px] mb-4">
+          <h3 className="text-[#121212] font-bold text-sm md:text-[16px] mb-4">
             {lesson?.title}
           </h3>
-          <p className="text-[#454545] font-medium text-[14px] mb-4">
+          <p className="text-gray-dark font-medium text-sm mb-4">
             {lesson?.description}
           </p>
 
           <div className="flex gap-2 items-center whitespace-nowrap ">
             <img src="/assets/Time.svg" />
             <div className="flex text-[#523412] gap-1">
-              <span className="text-[14px]  font-bold inline-block">
+              <span className="text-sm  font-bold inline-block">
                 مدة الفيديو:
               </span>
 
-              <span className="text-[14px] font-medium">
+              <span className="text-sm font-medium">
                 {isFinite(Number(lesson.duration))
                   ? convertMinutes(Number(lesson.duration))
                   : lesson.duration}
@@ -61,7 +61,7 @@ const RoomRevision = ({
               );
             }
           }}
-          className="border flex justify-center min-w-[39px] text-center font-bold p-2 text-white border-primary-700 bg-color-primary text-[12px] rounded-[10px]"
+          className="border flex justify-center min-w-[39px] text-center font-bold p-2 text-white border-primary-700 bg-primary text-[12px] rounded-[10px]"
         >
           {!locked ? (
             <>

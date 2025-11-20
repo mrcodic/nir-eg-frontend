@@ -13,8 +13,8 @@ export default function Aman() {
       <h3 className="text-[18px] font-bold text-[#121212] mt-[56px]">
         كود الدفع الخاص بك:
       </h3>
-      <div className="border mt-[16px]  rounded-[8px] border-color-primary py-[32px] px-[40px]">
-        <h4 className="text-[14px] text-[#121212] font-medium">
+      <div className="border mt-[16px]  rounded-lg border-primary py-[32px] px-[40px]">
+        <h4 className="text-sm text-[#121212] font-medium">
           الكود المرجعي الخاص بك:
         </h4>
         <div className="flex justify-between">
@@ -26,7 +26,7 @@ export default function Aman() {
           />
         </div>
       </div>
-      <p className="text-[#523412] font-bold text-[14px] my-[16px]">
+      <p className="text-[#523412] font-bold text-sm my-[16px]">
         سيتم فتح الحصة أو الكورس خلال 30 دقيقة من إتمام عملية الدفع
       </p>
       <div className="flex flex-col">
@@ -34,7 +34,7 @@ export default function Aman() {
           style={{
             boxShadow: "0px 2px 10px 4px rgba(157,130,66,0.20)",
           }}
-          className="p-4 flex gap-[16px] bg-background border text-[14px] font-bold text-[#523412] border-primary-700 rounded-[8px]"
+          className="p-4 flex gap-[16px] bg-background border text-sm font-bold text-[#523412] border-primary-700 rounded-lg"
         >
           <img src="/assets/WarningColor.svg" />
           <div>
@@ -57,7 +57,7 @@ export default function Aman() {
             style={{
               boxShadow: "0px 2px 10px 4px rgba(157,130,66,0.20)",
             }}
-            className="p-4 flex-1 items-center flex gap-[16px] bg-background border text-[14px] font-bold text-[#523412] border-primary-700 rounded-[8px]"
+            className="p-4 flex-1 items-center flex gap-[16px] bg-background border text-sm font-bold text-[#523412] border-primary-700 rounded-lg"
           >
             <div>
               <p>
@@ -71,7 +71,7 @@ export default function Aman() {
             style={{
               boxShadow: "0px 2px 10px 4px rgba(157,130,66,0.20)",
             }}
-            className="p-4 pb-0 flex-1 justify-between items-center flex gap-[16px] bg-background border text-[14px] font-bold text-[#523412] border-primary-700 rounded-[8px]"
+            className="p-4 pb-0 flex-1 justify-between items-center flex gap-[16px] bg-background border text-sm font-bold text-[#523412] border-primary-700 rounded-lg"
           >
             <div>
               <p>أو ادفع عن طريق تطبيق أمان</p>

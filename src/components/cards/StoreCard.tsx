@@ -67,7 +67,7 @@ const StoreCard = ({ gift }) => {
   }
 
   return (
-    <div className=" flex relative w-full max-w-[346.667px] flex-col items-center rounded-[8px] h-[520px] ">
+    <div className=" flex relative w-full max-w-[346.667px] flex-col items-center rounded-lg h-[520px] ">
       <div className="h-[200px] items-center bg-background flex justify-center w-full rounded-lg ">
         <Image
           src={gift?.image || "/assets/playStation.svg"}
@@ -77,7 +77,7 @@ const StoreCard = ({ gift }) => {
         />
       </div>
       <div
-        className={`relative p-4 -top-2  rounded-[8px] bg-white w-[95%]    border  ${
+        className={`relative p-4 -top-2  rounded-lg bg-white w-[95%]    border  ${
           gift.price ? "border-[#1EAD7B]" : "border-primary-700"
         }`}
       >
@@ -88,7 +88,7 @@ const StoreCard = ({ gift }) => {
             </h3>
           </div>
 
-          <span className="text-[#454545] font-medium text-[16px] inline-block">
+          <span className="text-gray-dark font-medium text-[16px] inline-block">
             {gift.price} نقطة
           </span>
 
@@ -99,7 +99,7 @@ const StoreCard = ({ gift }) => {
               )}
               onClick={() => buyGift(gift.id)}
             >
-              <div className="bg-color-primary w-full h-full rounded-lg place-items-center place-content-center ">
+              <div className="bg-primary w-full h-full rounded-lg place-items-center place-content-center ">
                 {!loading ? (
                   gift.acquired ? (
                     "تم الشراء مسبقا"
@@ -116,7 +116,7 @@ const StoreCard = ({ gift }) => {
               onClick={() => addToFavourite(gift.id)}
               // href={`bundles/${courseDetails.id}`}
               className={cn(
-                "border-color-primary text-xs  font-bold p-px   text-white text-nowrap w-[140px] h-7  text-[12px]   text-center flex items-center justify-center  border-2   rounded-lg "
+                "border-primary text-xs  font-bold p-px   text-white text-nowrap w-[140px] h-7  text-[12px]   text-center flex items-center justify-center  border-2   rounded-lg "
               )}
             >
               <div

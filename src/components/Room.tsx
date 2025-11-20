@@ -71,7 +71,7 @@ const Room = ({
                         )}
 
                       {lock_after !== null && (
-                        <div className="flex gap-[24px] text-[14px] font-bold ms-auto ">
+                        <div className="flex gap-[24px] text-sm font-bold ms-auto ">
                           {lock_after !== 0 ? (
                             <div
                               style={{
@@ -109,7 +109,7 @@ const Room = ({
 
                                   setIsSubscribeNow(true);
                                 }}
-                                className="w-[116px] rounded-[8px] h-[3 text-white border border-[#9D8242] bg-color-primary text-[14px] font-bold"
+                                className="w-[116px] rounded-lg h-[3 text-white border border-[#9D8242] bg-primary text-sm font-bold"
                               >
                                 اشترك الآن
                               </div>
@@ -124,7 +124,7 @@ const Room = ({
                       onClick={() => {
                         // router.push(`/bundles/showBundle?type=${bundle.id}`);
                       }}
-                      className="w-[116px] rounded-[8px] h-[32px] text-[#121212] border border-color-primary  text-[14px] font-bold"
+                      className="w-[116px] rounded-lg h-[32px] text-[#121212] border border-primary  text-sm font-bold"
                     >
                       عرض الباقة
                     </button> */}
@@ -136,7 +136,7 @@ const Room = ({
                   <div className="md:my-4  my-3   bg-primary-700  h-px" />
                 </div>
 
-                <h3 className="text-right text-[14px] text-[#454545]">
+                <h3 className="text-right text-sm text-gray-dark">
                   {room?.description || room?.latest_room?.description}
                 </h3>
               </div>
@@ -212,7 +212,7 @@ const Room = ({
                               }}
                               download
                               className={
-                                "w-[120px] cursor-pointer flex items-center justify-center bg-color-primary border border-primary-700 rounded-md   text-white h-[28px]"
+                                "w-[120px] cursor-pointer flex items-center justify-center bg-primary border border-primary-700 rounded-md   text-white h-[28px]"
                               }
                             >
                               {room?.locked_to_pass ||
@@ -237,7 +237,7 @@ const Room = ({
                                 window.open(attachment.url, "_blank");
                               }}
                               download
-                              className="w-[120px] cursor-pointer flex items-center justify-center bg-color-primary border border-primary-700 rounded-md   text-white h-[28px]"
+                              className="w-[120px] cursor-pointer flex items-center justify-center bg-primary border border-primary-700 rounded-md   text-white h-[28px]"
                             >
                               تنزيل الملف
                             </a>

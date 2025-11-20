@@ -1,8 +1,8 @@
 import { FormField, FormItem } from "@/components/ui/form";
-import AnswerOption from "./AnswerOption";
-import QuestionTitle from "./QuestionTitle";
-import QuestionHeader from "./QuestionHeader";
 import ReadingBorder from "@/components/ui/paragraph-borders";
+import AnswerOption from "./AnswerOption";
+import QuestionHeader from "./QuestionHeader";
+import QuestionTitle from "./QuestionTitle";
 
 const Question = ({
   question,
@@ -28,7 +28,7 @@ const Question = ({
     >
       <div className="flex  gap-2  flex-col">
         {question?.has_multi_correct && (
-          <p className="font-bold text-color-primary self-end w-fit">
+          <p className="font-bold text-primary self-end w-fit">
             يوجد اكثر من اجابة
           </p>
         )}

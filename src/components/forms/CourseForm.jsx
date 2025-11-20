@@ -27,23 +27,23 @@ const CourseForm = async ({ courseId, data }) => {
           style={{
             boxShadow: "0px 2px 10px 4px rgba(157,130,66,0.20)",
           }}
-          className={`flex-1 border border-[#1EAD7B] rounded-[8px] p-4 `}
+          className={`flex-1 border border-[#1EAD7B] rounded-lg p-4 `}
         >
           <div className="flex w-full justify-between gap-[24px]">
             <h2 className="text-[#121212] text-[18px] font-bold">
               {data?.title}
             </h2>
             {!data?.sale?.id && data?.price && (
-              <div className="bg-[#523412] text-center w-[111px] py-[2px] px-[8px] text-[18px] rounded-[8px] text-white">
+              <div className="bg-[#523412] text-center w-[111px] py-[2px] px-[8px] text-[18px] rounded-lg text-white">
                 {data?.price} جنيه
               </div>
             )}
             {data?.sale?.id && (
               <div className="flex gap-[24px]">
-                <div className="bg-[#454545] font-bold text-white py-[2px] px-[8px] line-through rounded-[8px]">
+                <div className="bg-gray-dark font-bold text-white py-[2px] px-[8px] line-through rounded-lg">
                   {data?.price} جنيه
                 </div>
-                <div className="bg-[#1EAD7B] w-[111px] text-center font-bold text-white py-[2px] px-[8px]  rounded-[8px]">
+                <div className="bg-[#1EAD7B] w-[111px] text-center font-bold text-white py-[2px] px-[8px]  rounded-lg">
                   {data?.sale?.discount_type === 0
                     ? ((100 - data?.sale?.discount_value) / 100) * data?.price
                     : data?.price - data?.sale?.discount_value}{" "}
@@ -54,7 +54,7 @@ const CourseForm = async ({ courseId, data }) => {
           </div>
           <div className="h-px w-full bg-primary-700 my-[12px]" />
           <div className="flex font-bold text-[16px]  gap-[8px]">
-            <span className="text-[#454545] inline-block text-sm">
+            <span className="text-gray-dark inline-block text-sm">
               {" "}
               {data?.description}
             </span>
@@ -77,7 +77,7 @@ const CourseForm = async ({ courseId, data }) => {
             {data?.sale && (
               <div>
                 <div className="flex gap-1 items-center">
-                  <h2 className="text-[#121212]  text-[14px] font-bold">
+                  <h2 className="text-[#121212]  text-sm font-bold">
                     احصل على خصم
                   </h2>
                   <div className="bg-[url(/assets/sale?.svg)]  mr-2 flex items-center justify-center w-[32px] h-[32px]">
@@ -89,7 +89,7 @@ const CourseForm = async ({ courseId, data }) => {
                               textShadow:
                                 "2px 0 #000,-2px 0 #000,0 2px #000,0 -2px #000,1px 1px #000,-1px -1px #000,1px -1px #000,-1px 1px #000",
                             }}
-                            className="mt-[2px] inline-block text-white text-center text-[14px]"
+                            className="mt-[2px] inline-block text-white text-center text-sm"
                           >
                             {data?.sale?.discount_type === 0
                               ? data?.sale?.discount_value + "%"
@@ -101,7 +101,7 @@ const CourseForm = async ({ courseId, data }) => {
                   </div>
                 </div>
                 <div className="flex flex-wrap gap-2 items-center">
-                  <span className="text-[12px] text-[#454545]">متاح لمدة</span>
+                  <span className="text-[12px] text-gray-dark">متاح لمدة</span>
                   <span className="text-[#B75050] font-bold underline">
                     {data?.sale?.duration}
                     أيام

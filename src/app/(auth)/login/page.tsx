@@ -4,7 +4,6 @@ export const dynamic = "force-dynamic";
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { deleteCookie, saveCookie } from "../../../utils/api";
 
 import CustomInput from "@/components/custom/customInput";
 import CustomPhoneInput from "@/components/custom/CustomPhoneInput";
@@ -21,6 +20,7 @@ import { getUserPhoneFromStorage, presistUserPhone } from "@/lib/utils";
 import { getDataClient } from "@/utils/clientFun";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
+import Cookies from "js-cookie";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { GoogleReCaptcha } from "react-google-recaptcha-v3";
@@ -65,8 +65,11 @@ const AuthPage = () => {
         }
       );
 
-      await saveCookie(response?.data?.access_token);
-      await deleteCookie("guest_token");
+      // await saveCookie(response?.data?.access_token);
+      // await deleteCookie("guest_token");
+
+      Cookies.set("auth_token", JSON.stringify(response?.data?.access_token));
+      Cookies.remove("guest_token");
 
       login(response.data?.access_token);
       storeGrade(response.data?.student.grade);
@@ -142,7 +145,7 @@ const AuthPage = () => {
             <h3 className="text-[#121212] text-[20px] font-bold">
               تسجيل الدخول
             </h3>
-            <p className="text-[16px] font-medium mt-[4px] text-[#454545]">
+            <p className="text-[16px] font-medium mt-[4px] text-gray-dark">
               أدخل رقم الهاتف المسجل لدينا و كلمة السر لتتمكن من الدخول لحسابك
             </p>
           </div>
@@ -183,12 +186,12 @@ const AuthPage = () => {
             </div>
 
             <div className="mt-[56px] flex gap-2">
-              <span className="text-[14px] font-medium inline-block">
+              <span className="text-sm font-medium inline-block">
                 ليس لديك حساب؟
               </span>
               <Link
                 href={"/register"}
-                className="  text-[14px] font-bold text-[#523412] underline"
+                className="  text-sm font-bold text-[#523412] underline"
               >
                 إنشاء حساب
               </Link>
@@ -201,7 +204,7 @@ const AuthPage = () => {
               }}
             />
             <button
-              className="bg-[#523412] mt-[48px] text-xl text-white rounded-[8px] py-2 font-bold w-[269px] flex justify-center  border-2 border-primary-700"
+              className="bg-[#523412] mt-[48px] text-xl text-white rounded-lg py-2 font-bold w-[269px] flex justify-center  border-2 border-primary-700"
               type="submit"
               disabled={form.formState.isSubmitting}
             >

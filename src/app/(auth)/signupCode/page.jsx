@@ -43,13 +43,13 @@ const signupCode = () => {
               تأكيد رقم هاتف الطالب
             </h3>
             <div>
-              <p className="text-[16px] font-medium mt-[4px] text-[#454545]">
+              <p className="text-[16px] font-medium mt-[4px] text-gray-dark">
                 قمنا بإرسال رمز التأكيد إلى رقم الهاتف التالي
               </p>
               <span className="text-[#121212] font-bold inline-block">
                 0123******789
               </span>
-              <span className="text-[16px] font-medium mt-[8px] text-[#454545]">
+              <span className="text-[16px] font-medium mt-[8px] text-gray-dark">
                 عبر تطبيق واتساب
               </span>
             </div>
@@ -59,7 +59,7 @@ const signupCode = () => {
         <div className="h-px w-full mt-[2px] bg-[#523412]" />
         <form onSubmit={handleSubmit(onSubmit)} className="mt-[40px] w-full">
           <div className="flex mt-[32px] gap-[24px] w-full">
-            <div className=" flex-1 flex gap-2  items-center text-[#454545] ">
+            <div className=" flex-1 flex gap-2  items-center text-gray-dark ">
               <span className="text-[#121212] font-bold inline-block text-[18px]">
                 هذا الرمز صالح لمدة
               </span>
@@ -94,12 +94,12 @@ const signupCode = () => {
             </InputOTP>
           </div>
           <div className="mt-[56px] flex gap-2">
-            <span className="text-[14px] font-medium inline-block">
+            <span className="text-sm font-medium inline-block">
               لديك حساب بالفعل؟
             </span>
             <Link
               href={"/login"}
-              className="  text-[14px] font-bold text-[#523412] underline"
+              className="  text-sm font-bold text-[#523412] underline"
             >
               تسجيل الدخول
             </Link>
@@ -110,7 +110,7 @@ const signupCode = () => {
               form.setValue("recaptcha_token", token);
             }}
           />
-          <button className="bg-[#523412] mt-[48px] text-white rounded-[8px] py-2 font-bold w-[269px]  border-2 border-primary-700">
+          <button className="bg-[#523412] mt-[48px] text-white rounded-lg py-2 font-bold w-[269px]  border-2 border-primary-700">
             تأكيد
           </button>
         </form>

@@ -1,7 +1,7 @@
 function StudentRankCard() {
   return (
     <div className="border-primary-700 border h-[92px] rounded-[12px] p-1 w-full md:w-[260px]">
-      <div className="w-full border border-color-primary bg-white p-2 rounded-[8px]">
+      <div className="w-full border border-primary bg-white p-2 rounded-lg">
         <div className="flex gap-[24px]">
           <img src="/assets/RankColor1.svg" />
           <div>
@@ -30,7 +30,7 @@ function StudentRankCard() {
                     {" "}
                     --
                   </h3>
-                  <h3 className="text-color-primary flex items-center absolute z-10 text-[28px]">
+                  <h3 className="text-primary flex items-center absolute z-10 text-[28px]">
                     --
                   </h3>
                 </div>

@@ -33,7 +33,7 @@ export default function RoomSheet({ open, setOpen }) {
                 <h2 className="text-[18px] font-bold text-[#121212]">
                   {data?.body?.room?.title}
                 </h2>
-                <span className="text-[#454545] inline-block text-[14px]">
+                <span className="text-gray-dark inline-block text-sm">
                   {mapGradeToText(grade)}
                 </span>
               </div>
@@ -43,25 +43,25 @@ export default function RoomSheet({ open, setOpen }) {
             {(!!data?.body?.quizzes?.length ||
               !!data?.body?.assignments?.length) && (
               <>
-                <h3 className="text-[#454545] text-[12px] font-bold">
+                <h3 className="text-gray-dark text-[12px] font-bold">
                   الامتحانات و الدروس
                 </h3>
                 {data?.body?.quizzes.map((quiz, index) => {
                   return (
                     <div
                       key={index}
-                      className="flex items-center gap-2 px-[8px] py-[6px] rounded-[8px] bg-white flex-wrap mt-[15px] justify-between"
+                      className="flex items-center gap-2 px-[8px] py-[6px] rounded-lg bg-white flex-wrap mt-[15px] justify-between"
                     >
                       <div className="flex gap-2">
                         <img src="/assets/FillExams.svg" />
-                        <h2 className="text-[14px] font-bold text-[#121212] break-all">
+                        <h2 className="text-sm font-bold text-[#121212] break-all">
                           {quiz?.title}
                         </h2>
                       </div>
 
                       <Link
                         href={`/bundles/${SingleCourse}/${room}/exams/${quiz.id}`}
-                        className="rounded-[8px]  ms-auto h-[32px] border border-primary-700 flex justify-center items-center bg-color-primary w-[68px]"
+                        className="rounded-lg  ms-auto h-[32px] border border-primary-700 flex justify-center items-center bg-primary w-[68px]"
                       >
                         <img src="/assets/LeftArrowColor.svg" />
                       </Link>
@@ -70,10 +70,10 @@ export default function RoomSheet({ open, setOpen }) {
                 })}
                 {/* {data?.body?.assignments.map((ass) => {
                   return (
-                    <div className="flex items-center px-[8px] py-[6px] rounded-[8px] bg-white mt-[15px] justify-between">
+                    <div className="flex items-center px-[8px] py-[6px] rounded-lg bg-white mt-[15px] justify-between">
                       <div className="flex gap-2">
                         <img src="/assets/FillAssignments.svg" />
-                        <h2 className="text-[14px] font-bold text-[#121212]">
+                        <h2 className="text-sm font-bold text-[#121212]">
                           {ass?.title}
                         </h2>
                       </div>
@@ -98,14 +98,14 @@ export default function RoomSheet({ open, setOpen }) {
                   //   );
                   // }}
                   className={` bg-white  cursor-pointer
-                   rounded-[8px] mb-[12px] flex gap-4 p-[8px]`}
+                   rounded-lg mb-[12px] flex gap-4 p-[8px]`}
                 >
                   <img
                     className="w-[24px] h-[24px]"
                     src="/assets/FillVideos.svg"
                   />
                   <div>
-                    <h3 className="text-[14px] text-[#121212] font-bold">
+                    <h3 className="text-sm text-[#121212] font-bold">
                       {lesson.title}
                     </h3>
                     <div className="mt-[8px] items-center flex gap-2">
@@ -113,7 +113,7 @@ export default function RoomSheet({ open, setOpen }) {
                         className="w-[20px] h-[20px]"
                         src="/assets/Time.svg"
                       />
-                      <span className="text-[14px] font-medium">
+                      <span className="text-sm font-medium">
                         {isFinite(Number(lesson?.duration))
                           ? convertMinutes(Number(lesson.duration))
                           : lesson.duration}
@@ -128,18 +128,18 @@ export default function RoomSheet({ open, setOpen }) {
               <>
                 <div className="h-px my-[8px] bg-primary-700" />
 
-                <h3 className="text-[12px] text-[#454545] font-bold">
+                <h3 className="text-[12px] text-gray-dark font-bold">
                   الملفات
                 </h3>
                 {data?.body?.room?.attachments?.map((attachment, index) => {
                   return (
                     <div
                       key={index}
-                      className="flex gap-2 flex-wrap items-center mb-[8px] px-[8px] py-[6px] bg-white rounded-[8px] mt-[10px] justify-between"
+                      className="flex gap-2 flex-wrap items-center mb-[8px] px-[8px] py-[6px] bg-white rounded-lg mt-[10px] justify-between"
                     >
                       <div className="flex gap-2">
                         <img src="/assets/FillFiles.svg" />
-                        <h2 className="text-[14px] font-bold text-[#121212]">
+                        <h2 className="text-sm font-bold text-[#121212]">
                           {attachment.name}
                         </h2>
                       </div>
@@ -153,7 +153,7 @@ export default function RoomSheet({ open, setOpen }) {
                             window.open(attachment.url, "_blank");
                           }}
                           download
-                          className="rounded-[8px] cursor-pointer h-[32px] border border-primary-700 flex justify-center items-center bg-color-primary w-[68px]"
+                          className="rounded-lg cursor-pointer h-[32px] border border-primary-700 flex justify-center items-center bg-primary w-[68px]"
                         >
                           <img src="/assets/DownloadColor.svg" />
                         </a>

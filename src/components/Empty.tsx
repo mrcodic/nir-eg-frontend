@@ -24,7 +24,7 @@ const Empty = ({ text, icon, className, isError, children }: EmptyProps) => {
         width={120}
         height={120}
       />
-      <h2 className="text-[24px] text-[#454545]">
+      <h2 className="text-[24px] text-gray-dark">
         {text || (isError ? "حدث خطأ ما" : "لا يوجد محتوى بعد")}
       </h2>
 

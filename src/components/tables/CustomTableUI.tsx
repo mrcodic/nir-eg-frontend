@@ -137,7 +137,7 @@ export default function CustomTableUI({
             <button
               disabled={!table.getCanPreviousPage() || isPlaceholderData}
               onClick={() => table.previousPage()}
-              className="flex h-10 w-24 items-center justify-center gap-1 rounded-lg border border-colorPrimary bg-[#012D5A] text-white"
+              className="flex h-10 w-24 items-center justify-center gap-1 rounded-lg border border-primary bg-[#012D5A] text-white"
             >
               <img src="/assets/RightArrowColor.svg" alt="Previous" />
               <span className="text-sm font-bold">السابق</span>
@@ -147,7 +147,7 @@ export default function CustomTableUI({
             <button
               disabled={!table.getCanNextPage() || isPlaceholderData}
               onClick={() => table.nextPage()}
-              className="flex h-10 w-24 items-center justify-center gap-2 rounded-lg border border-colorPrimary ms-auto bg-[#012D5A] text-white"
+              className="flex h-10 w-24 items-center justify-center gap-2 rounded-lg border border-primary ms-auto bg-[#012D5A] text-white"
             >
               <span className="text-sm font-bold">التالى</span>
               <img src="/assets/LeftArrowColor.svg" alt="Next" />

@@ -61,18 +61,18 @@ const UserMessage = ({
           />
 
           <div className="flex   flex-col w-full">
-            <p className="text-[14px] text-[#454545] inline-block font-bold">
+            <p className="text-sm text-gray-dark inline-block font-bold">
               {comment.user.name}
             </p>
 
             <div className="justify-between w-full items-center flex flex-wrap gap-x-2">
               {!isReply && comment.user.type !== "admin" && (
-                <span className="text-[12px] text-[#454545] inline-block font-medium">
+                <span className="text-[12px] text-gray-dark inline-block font-medium">
                   {secondsToHms(comment.at_second)}
                 </span>
               )}
 
-              <span className="text-[12px] text-[#454545] inline-block font-medium ms-auto">
+              <span className="text-[12px] text-gray-dark inline-block font-medium ms-auto">
                 {convertDate(comment.created_at)}
               </span>
             </div>
@@ -80,7 +80,7 @@ const UserMessage = ({
         </div>
 
         {/* <div className="w-full h-px bg-[#EFEFEF]"></div> */}
-        <p className="text-[15px] mr-16 text-[#454545] font-medium wrap-break-word whitespace-pre-line">
+        <p className="text-[15px] mr-16 text-gray-dark font-medium wrap-break-word whitespace-pre-line">
           {comment.body}
         </p>
 
@@ -112,7 +112,7 @@ const UserMessage = ({
                                 bg-[#FFFFFF] 
                                  text-[12px]
                                  font-medium
-                                rounded-[8px] 
+                                rounded-lg 
                                 gap-2
                                 p-2
                                 flex 
@@ -170,7 +170,7 @@ const UserMessage = ({
         )}
 
         {showReply && !isReply && (
-          <div className="border flex items-start gap-4 border-primary-700 rounded-[8px] p-2 mt-4 max-sm:flex-wrap relative">
+          <div className="border flex items-start gap-4 border-primary-700 rounded-lg p-2 mt-4 max-sm:flex-wrap relative">
             <div className="absolute size-5 top-0 right-0  bg-[#012D5A] flex items-center justify-center rounded-full  ">
               <button
                 onClick={() => setShowReply(false)}

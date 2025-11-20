@@ -73,7 +73,7 @@ export default function OtpUserModal({
               تأكيد رقم هاتف الطالب
             </h3>
             <div>
-              <p className="text-[16px] font-medium mt-[4px] text-[#454545]">
+              <p className="text-[16px] font-medium mt-[4px] text-gray-dark">
                 قمنا بإرسال رمز التأكيد إلى رقم الهاتف التالي
               </p>
               <span
@@ -82,7 +82,7 @@ export default function OtpUserModal({
               >
                 {parentPhone}
               </span>
-              <span className="text-[16px] font-medium mt-[8px] text-[#454545]">
+              <span className="text-[16px] font-medium mt-[8px] text-gray-dark">
                 عبر تطبيق واتساب
               </span>
             </div>
@@ -95,7 +95,7 @@ export default function OtpUserModal({
             className="w-2/3 space-y-6"
           >
             <div className="flex mt-[32px] gap-[24px] w-full">
-              <div className=" flex-1 flex gap-2  items-center text-[#454545] ">
+              <div className=" flex-1 flex gap-2  items-center text-gray-dark ">
                 <span className="text-[#121212] font-bold inline-block text-[18px]">
                   هذا الرمز صالح لمدة
                 </span>
@@ -156,7 +156,7 @@ export default function OtpUserModal({
                 className="flex items-center justify-center! w-full"
               >
                 <Button
-                  className="bg-[#012D5A] border text-white font-bold border-primary-700 h-[32px] w-[144px] rounded-[8px]"
+                  className="bg-[#012D5A] border text-white font-bold border-primary-700 h-[32px] w-[144px] rounded-lg"
                   type="submit"
                   onClick={() => {
                     setOpen(true);
@@ -170,7 +170,7 @@ export default function OtpUserModal({
                 className="flex items-center justify-center! w-full"
               >
                 <Button
-                  className=" border bg-white text-black hover:text-white  font-bold  h-[32px] w-[144px] rounded-[8px]"
+                  className=" border bg-white text-black hover:text-white  font-bold  h-[32px] w-[144px] rounded-lg"
                   onClick={() => {
                     setOpen(false);
                   }}

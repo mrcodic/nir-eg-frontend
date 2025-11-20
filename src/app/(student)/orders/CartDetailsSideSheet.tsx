@@ -27,7 +27,7 @@ function CartDetailsSideSheet({ item }: { item: any }) {
       >
         <SheetHeader className="sm:text-start text-start">
           <h2 className="flex w-full mt-8 items-center justify-between gap-x-4 gap-y-2 flex-wrap border-b border-primary-700 pb-2">
-            <span className="text-[#121212] text-[14px] md:text-[18px] font-bold">
+            <span className="text-[#121212] text-sm md:text-[18px] font-bold">
               {item?.model?.name}
               <p className="text-sm text-gray-500">{item?.trasnsaction_id}</p>
             </span>

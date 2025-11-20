@@ -93,7 +93,7 @@ const CustomPhoneInput = ({
           {label && (
             <FormLabel
               htmlFor={name}
-              className="flex text-custom-brown mb-2 text-[14px] gap-4  font-medium text-xs  cursor-text  transition-all "
+              className="flex text-custom-brown mb-2 text-sm gap-4  font-medium text-xs  cursor-text  transition-all "
             >
               {iconSrc && (
                 <img src={iconSrc} alt="icon" className="w-[20px] h-[20px]" />
@@ -199,7 +199,7 @@ const CustomPhoneInput = ({
                 <FormControl>
                   <Input
                     placeholder={placeholder}
-                    className="text-[14px] h-10 font-medium placeholder:text-[#454545]  text-[#454545] w-full border-none outline-hidden focus:border-none disabled:cursor-not-allowed disabled:opacity-70 pr-2 text-end"
+                    className="text-sm h-10 font-medium placeholder:text-gray-dark  text-gray-dark w-full border-none outline-hidden focus:border-none disabled:cursor-not-allowed disabled:opacity-70 pr-2 text-end"
                     {...field}
                     onChange={(e) => {
                       // only allow digits

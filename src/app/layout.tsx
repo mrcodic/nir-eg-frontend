@@ -1,5 +1,5 @@
 import NavTopbar from "@/components/custom/NavTopbar";
-import Footer from "@/components/Footer";
+import Footer from "@/components/includes/Footer";
 import NavbarWrapper from "@/components/includes/NavbarWrapper";
 import { Toaster } from "@/components/ui/toaster";
 import WhatsappFloating from "@/components/WhatsappFloating";

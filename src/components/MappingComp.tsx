@@ -13,36 +13,8 @@ type Props = {
   enable?: boolean;
   showEmpty?: boolean;
   emptyProps?: ComponentProps<typeof Empty>;
+  errorProps?: ComponentProps<typeof Empty>;
 };
-
-function MappingCompInner({
-  queryKey,
-  render,
-  enable = true,
-  showEmpty = false,
-  emptyProps,
-}: Props) {
-  const { token } = useAuthContext();
-
-  const { data, error } = useQuery({
-    queryKey: Array.isArray(queryKey)
-      ? [...queryKey, token ? "authenticated" : "guest"]
-      : [queryKey, token ? "authenticated" : "guest"],
-    queryFn: token ? getDataClient : getGuestData,
-    enabled: enable,
-  });
-
-  if (error) {
-    console.error("Query error:", error);
-    return <p>Error loading data</p>;
-  }
-
-  if (!data && showEmpty) {
-    return <Empty text="لا يوجد محتوى بعد" {...emptyProps} />;
-  }
-
-  return <>{data && render(data)}</>;
-}
 
 // Outer component with Suspense boundary
 const MappingComp = ({
@@ -51,6 +23,7 @@ const MappingComp = ({
   enable = true,
   showEmpty = false,
   emptyProps,
+  errorProps,
 }: Props) => {
   const { token } = useAuthContext();
   const { data, error, isLoading } = useQuery({
@@ -69,7 +42,7 @@ const MappingComp = ({
 
   if (error) {
     console.error("Query error:", error);
-    return <p>Error loading data</p>;
+    return <Empty isError {...errorProps} />;
   }
 
   if (!data && showEmpty) {

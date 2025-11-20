@@ -57,11 +57,11 @@ const BookCard = ({ book }: { book: Book }) => {
       </MotionLink>
 
       <div
-        className={`relative  p-4 mx-auto -top-2 grow rounded-[8px] bg-white w-[95%]    border shadow-xs border-primary-700`}
+        className={`relative  p-4 mx-auto -top-2 grow rounded-lg bg-white w-[95%]    border shadow-xs border-primary-700`}
       >
         <div className="flex flex-col gap-y-4">
           <CardTitle className="text-xl">{book?.name}</CardTitle>
-          <CardContent className="p-0 text-[#454545]">
+          <CardContent className="p-0 text-gray-dark">
             {Number(book?.price).toFixed(2)} جنية
           </CardContent>
         </div>

@@ -54,7 +54,7 @@ function ProfileCoupon() {
             <p className="text-[#232027] font-bold ">
               احصل على خصم {discountValue}
             </p>
-            <p className="text-[#454545] font-medium text-sm">
+            <p className="text-gray-dark font-medium text-sm">
               {data?.description || `خصم ${discountValue} على الكورس`}
             </p>
           </div>
@@ -81,7 +81,7 @@ function ProfileCoupon() {
                 });
               }
             }}
-            className="bg-color-primary ms-auto border border-primary-700 rounded-lg  text-sm font-bold size-8 "
+            className="bg-primary ms-auto border border-primary-700 rounded-lg  text-sm font-bold size-8 "
             size="icon"
           >
             <Image

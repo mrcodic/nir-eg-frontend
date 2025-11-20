@@ -41,7 +41,7 @@ const PaymentCom = ({
       style={{
         boxShadow: "0px 2px 10px 4px rgba(157, 130, 66, 0.20) ",
       }}
-      className="bg-[#F9FAFC] relative md:text-[24px] font-bold  flex flex-col max-w-[min(760px,85%)] w-full justify-center md:w-[760px]  border py-3 md:py-[32px] mx-auto  -mt-8 px-[20px] border-[#012D5A] rounded-[8px]"
+      className="bg-[#F9FAFC] relative md:text-[24px] font-bold  flex flex-col max-w-[min(760px,85%)] w-full justify-center md:w-[760px]  border py-3 md:py-[32px] mx-auto  -mt-8 px-[20px] border-[#012D5A] rounded-lg"
     >
       <PaymentUI
         paymentMethodValue={paymentMethodValue}
@@ -60,7 +60,7 @@ const PaymentCom = ({
         <div className="flex flex-row! justify-between gap-5 mt-5 mx-auto">
           <div
             onClick={handleNextClick}
-            className="bg-color-primary cursor-pointer text-center border border-primary-700 rounded-[8px] w-[148px] text-[14px] font-bold p-2 text-white"
+            className="bg-primary cursor-pointer text-center border border-primary-700 rounded-lg w-[148px] text-sm font-bold p-2 text-white"
           >
             التالي
           </div>

@@ -26,7 +26,7 @@ const NewCourses = () => {
 
       <div className="relative  mt-[24px] overflow-hidden ">
         <div
-          className=" w-full   bg-color-primary  "
+          className=" w-full   bg-primary  "
           style={{ backgroundImage: "url('/assets/paper.png')" }}
         >
           <div className="mx-auto  md:w-[90%] py-10">
@@ -36,8 +36,8 @@ const NewCourses = () => {
                 console.log("new courses : ", data);
 
                 return (
-                  // <div className="bg-[#FFF] justify-items-center min-h-[455px]  grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3  gap-5 rounded-[8px] p-8">
-                  <div className="bg-[#FFF]  min-h-[455px] cards-grid rounded-[8px] p-8 md:px-[2.5%] px-[7.5%]">
+                  // <div className="bg-[#FFF] justify-items-center min-h-[455px]  grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3  gap-5 rounded-lg p-8">
+                  <div className="bg-[#FFF]  min-h-[455px] cards-grid rounded-lg p-8 md:px-[2.5%] px-[7.5%]">
                     {data?.data?.length &&
                     data?.data?.some((course) => !course?.isSubscribed) ? (
                       data?.data?.map(

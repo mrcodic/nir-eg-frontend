@@ -94,7 +94,7 @@ const CommentDetails = ({
         {showDetailsCard && (
           <div
             // href={`/bundles/${comment?.classroom_id}/${comment?.lesson_id}`}
-            className="border flex flex-col gap-2 p-3  h-20 bg-background rounded-[8px] border-[#F8DEC5] relative"
+            className="border flex flex-col gap-2 p-3  h-20 bg-background rounded-lg border-[#F8DEC5] relative"
           >
             <div className="flex items-center gap-2 justify-between">
               <h2 className="text-[#121212] font-bold sm:text-lg text-sm">

@@ -8,7 +8,7 @@ import ProfileCoupon from "./ProfileCoupon";
 function ProfileHeaderCard({ profileData }: { profileData: IUser }) {
   return (
     <motion.div
-      className="bg-[rgb(251,246,240)] relative rounded-[8px] p-[24px]"
+      className="bg-[rgb(251,246,240)] relative rounded-lg p-[24px]"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.2, duration: 0.3 }}

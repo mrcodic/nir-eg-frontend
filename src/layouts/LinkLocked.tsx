@@ -20,11 +20,11 @@ const LinkLocked = ({
   return (
     <div
       className={cn(
-        "rounded-[8px] h-[32px] border text-white border-primary-700 flex justify-center items-center bg-color-primary min-w-[68px],",
+        "rounded-lg h-[32px] border text-white border-primary-700 flex justify-center items-center bg-primary min-w-[68px],",
         className
       )}
     >
-      <div className="rounded-[8px] h-[32px] border text-white border-primary-700 flex justify-center items-center bg-color-primary min-w-[68px]">
+      <div className="rounded-lg h-[32px] border text-white border-primary-700 flex justify-center items-center bg-primary min-w-[68px]">
         {locked ? (
           <TooltipProvider>
             <Tooltip>

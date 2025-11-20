@@ -134,7 +134,7 @@ const MessageInput = ({
               style={{
                 scrollMarginTop: "100px",
               }}
-              className="flex-1 bg-transparent text-[#454545] px-3  w-full py-1 outline-hidden"
+              className="flex-1 bg-transparent text-gray-dark px-3  w-full py-1 outline-hidden"
               placeholder={placeholder || "اكتب ملاحظتك هنا"}
               value={text}
               onChange={(e) => setText(e.target.value)}
@@ -175,7 +175,7 @@ const MessageInput = ({
               images.length === 0 &&
               audios.length === 0
             }
-            className="bg-[#012D5A] max-md:ms-auto disabled:opacity-50 disabled:cursor-not-allowed gap-2 w-[109px] justify-center flex rounded-[8px] items-center p-2 text-white "
+            className="bg-[#012D5A] max-md:ms-auto disabled:opacity-50 disabled:cursor-not-allowed gap-2 w-[109px] justify-center flex rounded-lg items-center p-2 text-white "
             onClick={handleSend}
           >
             <span>إرسال</span>

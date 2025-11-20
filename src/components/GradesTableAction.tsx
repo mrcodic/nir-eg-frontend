@@ -7,7 +7,7 @@ function GradesTableAction({ row, rowValue }: { row: any; rowValue: number }) {
 
   return (
     <div className="flex items-center gap-4 w-full justify-start p-2">
-      <div className="border flex shrink-0 items-center font-bold gap-2 p-1 rounded-[8px] w-[136px] border-[#121212]">
+      <div className="border flex shrink-0 items-center font-bold gap-2 p-1 rounded-lg w-[136px] border-[#121212]">
         {isExam && !row?.score_ratio ? null : (
           <Image
             src={row.passed ? "/assets/CorrectColor.svg" : "/assets/Close2.svg"}

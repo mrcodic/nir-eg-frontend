@@ -73,7 +73,7 @@ const ClassroomPage = () => {
                 <img src="/assets/Rooms2.svg" />
                 <h2>حصة رقم 15 - مراجعة ليلة الامتحان - الصف الثاني</h2>
               </div>
-              <div className="flex mr-10 mt-4 text-[14px] gap-2">
+              <div className="flex mr-10 mt-4 text-sm gap-2">
                 <img className="w-[24px] h-[24px]" src="/assets/Time2.svg" />
                 <span>تم التنزيل منذ ساعتين</span>
               </div>
@@ -203,7 +203,7 @@ const ClassroomPage = () => {
                   <img src="/assets/Rooms2.svg" />
                   <h2>حصة رقم 15 - مراجعة ليلة الامتحان - الصف الثاني</h2>
                 </div>
-                <div className="flex mr-10 mt-4 text-[14px] gap-2">
+                <div className="flex mr-10 mt-4 text-sm gap-2">
                   <img
                     className="w-[24px] h-[24px]"
                     src="/assets/Time2.svg"
@@ -234,7 +234,7 @@ const ClassroomPage = () => {
                   <img src="/assets/Rooms2.svg" />
                   <h2>حصة رقم 15 - مراجعة ليلة الامتحان - الصف الثاني</h2>
                 </div>
-                <div className="flex mr-10 mt-4 text-[14px] gap-2">
+                <div className="flex mr-10 mt-4 text-sm gap-2">
                   <img
                     className="w-[24px] h-[24px]"
                     src="/assets/Time2.svg"
@@ -265,7 +265,7 @@ const ClassroomPage = () => {
                   <img src="/assets/Live.svg" />
                   <h2>حصة رقم 15 - مراجعة ليلة الامتحان - الصف الثاني</h2>
                 </div>
-                <div className="flex mr-10 mt-4 text-[14px] gap-2">
+                <div className="flex mr-10 mt-4 text-sm gap-2">
                   <div className="flex gap-4">
                     <div className="flex gap-2 items-center">
                       <img
@@ -342,18 +342,18 @@ const ClassroomPage = () => {
                 <h2>حصة رقم 15 - مراجعة ليلة الامتحان - الصف الثاني</h2>
               </div>
               <div className="flex font-normal text-[#41474B] justify-between w-full">
-                <div className="flex items-center mr-10 mt-4 text-[14px] gap-2">
+                <div className="flex items-center mr-10 mt-4 text-sm gap-2">
                   <img
                     className="w-[24px] h-[24px]"
                     src="/assets/Time2.svg"
                   />
                   <span>5 ساعات و 40 دقيقة</span>
                 </div>
-                <div className="flex items-center mr-10 mt-4 text-[14px] gap-2">
+                <div className="flex items-center mr-10 mt-4 text-sm gap-2">
                   <img className="w-[24px] h-[24px]" src="/assets/" />
                   <span>8 دروس</span>
                 </div>
-                <div className="flex items-center mr-10 mt-4 text-[14px] gap-2">
+                <div className="flex items-center mr-10 mt-4 text-sm gap-2">
                   <img
                     className="w-[24px] h-[24px]"
                     src="/assets/Progress.svg"

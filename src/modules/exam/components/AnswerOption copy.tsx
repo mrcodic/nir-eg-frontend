@@ -29,9 +29,9 @@ const AnswerOption = ({ answer, index, questionId, disabled, field }) => {
     <label
       htmlFor={answerId}
       dir="ltr"
-      className={`rounded-[8px] ${BorderColor} p-2`}
+      className={`rounded-lg ${BorderColor} p-2`}
     >
-      <span className="text-[#523412] text-[14px] font-bold inline-block">
+      <span className="text-[#523412] text-sm font-bold inline-block">
         .{index + 1}
       </span>
       <FormItem className="flex items-center space-x-3 space-y-0">

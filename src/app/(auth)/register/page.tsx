@@ -95,7 +95,7 @@ const RegisterPage = () => {
             <h3 className="text-[#121212] text-[20px] font-bold">
               إنشاء حساب جديد
             </h3>
-            <p className="text-[16px] font-medium mt-[4px] text-[#454545]">
+            <p className="text-[16px] font-medium mt-[4px] text-gray-dark">
               أدخل بياناتك لتتمكن من التسجيل معنا
             </p>
           </div>
@@ -220,12 +220,12 @@ const RegisterPage = () => {
               />
             </div>
             <div className="mt-[56px] flex gap-2">
-              <span className="text-[14px] font-medium inline-block">
+              <span className="text-sm font-medium inline-block">
                 لديك حساب بالفعل؟
               </span>
               <Link
                 href={"/login"}
-                className="  text-[14px] font-bold text-[#523412] underline"
+                className="  text-sm font-bold text-[#523412] underline"
               >
                 تسجيل الدخول
               </Link>

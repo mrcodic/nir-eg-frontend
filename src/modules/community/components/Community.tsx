@@ -72,9 +72,9 @@ const Community = ({ lessonId, currentTime, locked }: CommunityProps) => {
   return (
     <div className="mt-[24px]">
       {!locked && (
-        <div className="border flex flex-col gap-2 border-primary-700 rounded-[8px] p-1">
+        <div className="border flex flex-col gap-2 border-primary-700 rounded-lg p-1">
           <div className="flex gap-2 flex-wrap">
-            <p className="text-xs font-medium text-[#454545]">
+            <p className="text-xs font-medium text-gray-dark">
               كتابة ملاحظة في الدقيقة:
             </p>
             <p className="text-xs font-bold text-[#523412]">

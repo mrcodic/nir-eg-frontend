@@ -12,7 +12,7 @@ const EditClassroom = () => {
             </div>
             <div className="flex flex-col gap-1">
               <h2 className="text-[16px] text-[#121212] font-bold">إسلام</h2>
-              <span className="text-[#41474B] font-normal text-[14px]">
+              <span className="text-[#41474B] font-normal text-sm">
                 مدرس كيمياء
               </span>
             </div>
@@ -100,7 +100,7 @@ const EditClassroom = () => {
             </div>
             <div className="flex flex-col gap-1">
               <h2 className="text-[16px] text-[#121212] font-bold">إسلام</h2>
-              <span className="text-[#41474B] font-normal text-[14px]">
+              <span className="text-[#41474B] font-normal text-sm">
                 مدرس كيمياء
               </span>
             </div>

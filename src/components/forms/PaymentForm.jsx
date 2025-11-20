@@ -62,12 +62,12 @@ const PaymentForm = ({ grade, setRefresh }) => {
         className="mt-[40px] w-full space-y-6 "
       >
         <div className="flex flex-col">
-          <h2 className="text-[#523412] text-[14px]">الكود</h2>
+          <h2 className="text-[#523412] text-sm">الكود</h2>
           <div className="flex flex-wrap w-full gap-[24px]">
             <div className="bg-white flex-1 relative  border-[#523412] border-b p-2 mt-[4px]">
               <input
                 type="text"
-                className="w-full mt-[8px] text-[#121212] font-medium text-[14px] border-none focus:outline-hidden placeholder:text-[#121212]"
+                className="w-full mt-[8px] text-[#121212] font-medium text-sm border-none focus:outline-hidden placeholder:text-[#121212]"
                 placeholder="أدخل الكود"
                 {...form.register("code")}
               />
@@ -79,7 +79,7 @@ const PaymentForm = ({ grade, setRefresh }) => {
               )}
             </div>
             <button
-              className="bg-color-primary w-1/4 text-[10px] md:text-xl rounded-[10px] self-end border border-primary-700 px-[24px] text-white h-[30px] md:h-[40px]"
+              className="bg-primary w-1/4 text-[10px] md:text-xl rounded-[10px] self-end border border-primary-700 px-[24px] text-white h-[30px] md:h-[40px]"
               disabled={form.formState.isSubmitting}
             >
               {!form.formState.isSubmitting ? "   إدخال" : <CustomLoader />}

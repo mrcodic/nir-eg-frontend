@@ -30,7 +30,7 @@ function GradeCard({ grade }: { grade: any }) {
         >
           {mappedGrade}
         </h3>
-        <h3 className="text-color-primary flex items-center justify-center relative z-10 text-base sm:text-xl">
+        <h3 className="text-primary flex items-center justify-center relative z-10 text-base sm:text-xl">
           {mappedGrade}
         </h3>
       </div>

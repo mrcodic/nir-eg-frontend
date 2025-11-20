@@ -40,7 +40,7 @@ export default function ReachModal({ open, setOpen }) {
               boxShadow: "0px 2px 10px 4px rgba(157, 130, 66, 0.20)",
             }}
             className=" md:text-[24px] 
-   font-bold  flex flex-wrap md:flex-nowrap justify-center gap-[24px] items-center w-full bg-background   border py-3 md:py-[32px] p-2 border-[#012D5A] rounded-[8px]"
+   font-bold  flex flex-wrap md:flex-nowrap justify-center gap-[24px] items-center w-full bg-background   border py-3 md:py-[32px] p-2 border-[#012D5A] rounded-lg"
           >
             <img src="/assets/Whatsapp.svg" className="w-[48px] h-[48px]" />
 
@@ -57,13 +57,13 @@ export default function ReachModal({ open, setOpen }) {
             <DialogClose asChild className="">
               <Button
                 onClick={handleOtp}
-                className="bg-color-primary border border-primary-700 rounded-[8px] w-[148px] text-[14px] font-bold p-4 text-white"
+                className="bg-primary border border-primary-700 rounded-lg w-[148px] text-sm font-bold p-4 text-white"
               >
                 تأكيد الرقم
               </Button>
             </DialogClose>
             <Link href={`/bundles/${SingleCourse}`}>
-              <Button className="border border-color-primary rounded-[8px] w-[148px] bg-white hover:bg-white text-[14px] font-bold p-4 text-[#121212]">
+              <Button className="border border-primary rounded-lg w-[148px] bg-white hover:bg-white text-sm font-bold p-4 text-[#121212]">
                 رجوع{" "}
               </Button>
             </Link>

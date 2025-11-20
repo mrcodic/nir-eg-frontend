@@ -56,13 +56,13 @@ const PaymentBundlesForm = ({ id, gradeId, label }) => {
         className="mt-[40px] w-full space-y-6 "
       >
         <div className="flex flex-col">
-          <h2 className="text-[#523412] text-[14px]">{label || "الكود"}</h2>
+          <h2 className="text-[#523412] text-sm">{label || "الكود"}</h2>
           <div className="flex w-full gap-[24px]">
             <div className="bg-white flex-1 relative  border-[#523412] border-b p-2 mt-[4px]">
               <input
                 type="text"
                 name="code"
-                className="w-full mt-[8px] text-[#121212] font-medium text-[14px] border-none focus:outline-hidden placeholder:text-[#121212]"
+                className="w-full mt-[8px] text-[#121212] font-medium text-sm border-none focus:outline-hidden placeholder:text-[#121212]"
                 placeholder={`أدخل ${label || "الكود"}`}
                 {...register("code")}
               />
@@ -75,7 +75,7 @@ const PaymentBundlesForm = ({ id, gradeId, label }) => {
             </div>
             <button
               type="submit"
-              className="bg-color-primary rounded-[10px] self-end border border-primary-700 px-[24px] text-white h-[40px]"
+              className="bg-primary rounded-[10px] self-end border border-primary-700 px-[24px] text-white h-[40px]"
               disabled={isSubmitting}
             >
               {!isSubmitting ? "إدخال" : <CustomLoader />}

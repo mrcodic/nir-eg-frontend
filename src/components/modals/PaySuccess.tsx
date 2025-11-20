@@ -64,7 +64,7 @@ export function PaySuccess({
           تم عملية الدفع بنجاح
         </h2>
         {data?.body?.type == 4 && (
-          <div className="flex border rounded-[8px] p-2 border-[#F8DEC5] gap-2 ">
+          <div className="flex border rounded-lg p-2 border-[#F8DEC5] gap-2 ">
             <Image
               width={32}
               height={32}

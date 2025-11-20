@@ -19,9 +19,9 @@ function BookOrderCard({ data }: { data: any }) {
               />
             </div>
 
-            <div className={`flex-1  rounded-[8px] p-4  `}>
+            <div className={`flex-1  rounded-lg p-4  `}>
               <div className="flex w-full items-center justify-between gap-[24px] flex-wrap">
-                <h2 className="text-[#121212] text-[14px] md:text-[18px] font-bold">
+                <h2 className="text-[#121212] text-sm md:text-[18px] font-bold">
                   {item?.model?.name}
                   <p className="text-sm text-gray-500">
                     {item?.trasnsaction_id}

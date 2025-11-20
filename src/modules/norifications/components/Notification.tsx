@@ -31,16 +31,16 @@ const Notification = ({
       href={getHref(notification)}
       onClick={markAsRead}
       dir="rtl"
-      className={`bg-[#FFFFFF] w-full hover:bg-[#F5F5F5] transition-all not-last:border-b border-primary-700 flex flex-col gap-4 text-[14px] py-4 p-2  shrink-0 ${
+      className={`bg-[#FFFFFF] w-full hover:bg-[#F5F5F5] transition-all not-last:border-b border-primary-700 flex flex-col gap-4 text-sm py-4 p-2  shrink-0 ${
         !notification.is_read ? "bg-[#eee]" : ""
       }`}
     >
       <div className="flex flex-col gap-2">
-        <p className="text-[#121212] text-[14px]">{getTitle(notification)}</p>
-        {/* <p className="text-[#121212] text-[14px]">{getTitle(notification)}</p> */}
+        <p className="text-[#121212] text-sm">{getTitle(notification)}</p>
+        {/* <p className="text-[#121212] text-sm">{getTitle(notification)}</p> */}
 
         {notification?.payload?.reply_excerpt && (
-          <p className="text-[#454545] text-[13px] italic">
+          <p className="text-gray-dark text-[13px] italic">
             "{notification.payload.reply_excerpt}"
           </p>
         )}
@@ -48,7 +48,7 @@ const Notification = ({
 
       <div className="flex gap-[12px] items-center">
         <img src="/assets/Time.svg" alt="Time icon" />
-        <span className="text-[12px] text-[#454545]">
+        <span className="text-[12px] text-gray-dark">
           {formatTime(notification.created_at)}
         </span>
         {!notification.is_read && (

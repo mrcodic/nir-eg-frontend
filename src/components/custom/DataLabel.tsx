@@ -17,12 +17,9 @@ export default function DataLabel({
 }) {
   return (
     <div
-      className={cn(
-        "flex items-center gap-4 text-[14px] text-nowrap ",
-        className
-      )}
+      className={cn("flex items-center gap-4 text-sm text-nowrap ", className)}
     >
-      <span className={cn(" text-[#454545] font-bold ", textClassName)}>
+      <span className={cn(" text-gray-dark font-bold ", textClassName)}>
         {" "}
         {text} :
       </span>

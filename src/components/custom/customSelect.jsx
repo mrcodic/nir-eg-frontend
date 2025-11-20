@@ -30,7 +30,7 @@ const CustomSelect = ({
         render={({ field }) => (
           <FormItem className={`form-item space-y-0 w-full   ${className}`}>
             <FormLabel className="form-label">{label}</FormLabel>
-            <div className="flex flex-col w-full p-2 flex-1 border-primary-700 border-b items-center text-[#454545] relative  ">
+            <div className="flex flex-col w-full p-2 flex-1 border-primary-700 border-b items-center text-gray-dark relative  ">
               <FormControl>
                 <Select
                   dir="rtl border-none focus:border-none"

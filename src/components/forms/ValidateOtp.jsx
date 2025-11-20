@@ -82,13 +82,13 @@ const ValidateOtp = ({ setResetForm }) => {
               : " تأكيد رقم هاتف الطالب"}
           </h3>
           <div>
-            <p className="text-[16px] font-medium mt-[4px] text-[#454545]">
+            <p className="text-[16px] font-medium mt-[4px] text-gray-dark">
               قمنا بإرسال رمز التأكيد إلى رقم الهاتف التالي
             </p>
             <span className="text-[#121212] font-bold inline-block  " dir="ltr">
               {getLocalStorage("phone")}
             </span>
-            {/* <span className="text-[16px] font-medium mt-[8px] text-[#454545]">
+            {/* <span className="text-[16px] font-medium mt-[8px] text-gray-dark">
               عبر تطبيق واتساب
             </span> */}
           </div>
@@ -142,24 +142,24 @@ const ValidateOtp = ({ setResetForm }) => {
 
           {type === "forget" ? (
             <div className="mt-[56px] flex gap-2">
-              <span className="text-[14px] font-medium inline-block">
+              <span className="text-sm font-medium inline-block">
                 ليس لديك حساب؟
               </span>
               <Link
                 href={"/register"}
-                className="  text-[14px] font-bold text-[#523412] underline"
+                className="  text-sm font-bold text-[#523412] underline"
               >
                 إنشاء حساب
               </Link>
             </div>
           ) : (
             <div className="mt-[56px] flex gap-2">
-              <span className="text-[14px] font-medium inline-block">
+              <span className="text-sm font-medium inline-block">
                 لديك حساب بالفعل؟
               </span>
               <Link
                 href={"/login"}
-                className="  text-[14px] font-bold text-[#523412] underline"
+                className="  text-sm font-bold text-[#523412] underline"
               >
                 تسجيل الدخول
               </Link>

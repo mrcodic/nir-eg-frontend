@@ -6,7 +6,7 @@ export function Sure({ open, setOpen, length }) {
   return (
     <Dialog open={open}>
       <DialogContent className="p-8 max-w-lg bg-white rounded-lg shadow-lg">
-        <div className="max-w-[466px] bg-white p-6 rounded-[8px]">
+        <div className="max-w-[466px] bg-white p-6 rounded-lg">
           <p className="text-[18px] font-bold text-[#121212]">
             هل أنت متأكد من أنك تريد حفظ الإجابات؟
           </p>
@@ -27,7 +27,7 @@ export function Sure({ open, setOpen, length }) {
             className="flex items-center justify-center! w-full"
           >
             <Button
-              className="bg-color-primary border text-white font-bold border-primary-700 h-[32px] w-[144px] rounded-[8px]"
+              className="bg-primary border text-white font-bold border-primary-700 h-[32px] w-[144px] rounded-lg"
               onClick={() => {
                 setOpen(true);
               }}
@@ -41,7 +41,7 @@ export function Sure({ open, setOpen, length }) {
           >
             <Button
               type="submit"
-              className=" border bg-white text-black hover:text-white  font-bold  h-[32px] w-[144px] rounded-[8px]"
+              className=" border bg-white text-black hover:text-white  font-bold  h-[32px] w-[144px] rounded-lg"
               onClick={() => {
                 setOpen(false);
               }}

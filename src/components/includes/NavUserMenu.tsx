@@ -40,7 +40,7 @@ function NavUserMenu({ profile }) {
 
         <DropdownMenuContent
           className="relative left-10 z-9999 space-y-2 w-[272px]  md:top-1
-                  bg-[#FFFFFF] max-h-[calc(100vh-90px)] overflow-y-auto border rounded-[8px] border-primary-700"
+                  bg-[#FFFFFF] max-h-[calc(100vh-90px)] overflow-y-auto border rounded-lg border-primary-700"
         >
           {" "}
           <DropdownMenuItem className="flex flex-col w-full gap-4 items-center justify-center">
@@ -59,7 +59,7 @@ function NavUserMenu({ profile }) {
           <DropdownMenuItem className="px-8">
             <div className="flex items-center gap-2 mb-[12px]">
               <img className="w-[16px] h-[16px]" src="/assets/Phone.svg" />
-              <h3 className="text-[#454545] text-[12px] font-bold ">
+              <h3 className="text-gray-dark text-[12px] font-bold ">
                 رقم الهاتف
               </h3>
             </div>
@@ -67,19 +67,19 @@ function NavUserMenu({ profile }) {
           <DropdownMenuItem>
             <div className="flex gap-2">
               <div className="flex  flex-col gap-2">
-                <h3 className="text-[12px] text-[#454545] font-bold">
+                <h3 className="text-[12px] text-gray-dark font-bold">
                   رقم الطالب:
                 </h3>
-                <span className="text-[#454545]  text-[12px] inline-block">
+                <span className="text-gray-dark  text-[12px] inline-block">
                   {profile?.phone}
                 </span>
               </div>
               <div className="w-[2px] h-[40px]  bg-primary-700" />
               <div className="flex flex-col gap-2">
-                <h3 className="text-[12px] text-[#454545] font-bold">
+                <h3 className="text-[12px] text-gray-dark font-bold">
                   رقم ولي الأمر:
                 </h3>
-                <span className="text-[#454545]  text-[12px] inline-block">
+                <span className="text-gray-dark  text-[12px] inline-block">
                   {profile?.parent_phone}
                 </span>
               </div>
@@ -89,7 +89,7 @@ function NavUserMenu({ profile }) {
           <DropdownMenuItem>
             <div
               className={cn(
-                "text-[#121212] cursor-pointer hover:bg-[#EFEFEF]  w-full p-2 font-bold flex items-center gap-[16px] rounded-[8px]  text-[14px]",
+                "text-[#121212] cursor-pointer hover:bg-[#EFEFEF]  w-full p-2 font-bold flex items-center gap-[16px] rounded-lg  text-sm",
                 {
                   "bg-[#EFEFEF]": pathname === "/profile/accountSettings",
                 }
@@ -105,7 +105,7 @@ function NavUserMenu({ profile }) {
           <DropdownMenuItem>
             <div
               className={cn(
-                "text-[#121212] cursor-pointer my-2d hover:bg-[#EFEFEF]  w-full p-2 font-bold flex items-center gap-[16px] rounded-[8px]  text-[14px]",
+                "text-[#121212] cursor-pointer my-2d hover:bg-[#EFEFEF]  w-full p-2 font-bold flex items-center gap-[16px] rounded-lg  text-sm",
                 {
                   "bg-[#EFEFEF]": pathname === "/orders",
                 }
@@ -122,7 +122,7 @@ function NavUserMenu({ profile }) {
             <DropdownMenuItem>
               <div
                 className={cn(
-                  "text-[#121212] cursor-pointer my-2d hover:bg-[#EFEFEF]  w-full p-2 font-bold flex items-center gap-[16px] rounded-[8px]  text-[14px]",
+                  "text-[#121212] cursor-pointer my-2d hover:bg-[#EFEFEF]  w-full p-2 font-bold flex items-center gap-[16px] rounded-lg  text-sm",
                   {
                     "bg-[#EFEFEF]": pathname === "/profile/comments",
                   }
@@ -144,7 +144,7 @@ function NavUserMenu({ profile }) {
           )}
           <DropdownMenuItem>
             <div
-              className="text-[#121212] mt-[16px] cursor-pointer w-full p-2 font-bold flex items-center gap-[16px] rounded-[8px]  text-[14px]"
+              className="text-[#121212] mt-[16px] cursor-pointer w-full p-2 font-bold flex items-center gap-[16px] rounded-lg  text-sm"
               onClick={() => {
                 setShowLogoutModal(true);
               }}

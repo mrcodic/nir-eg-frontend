@@ -15,7 +15,7 @@ const RoomPayForm = async ({ roomId, centerId, data }) => {
           style={{
             boxShadow: "0px 2px 10px 4px rgba(157,130,66,0.20)",
           }}
-          className={`flex-1 border border-[#1EAD7B] rounded-[8px] p-4 `}
+          className={`flex-1 border border-[#1EAD7B] rounded-lg p-4 `}
         >
           <div className="flex w-full justify-between gap-[24px]">
             <h2 className="text-[#121212] text-[18px] font-bold">
@@ -23,16 +23,16 @@ const RoomPayForm = async ({ roomId, centerId, data }) => {
             </h2>
             {!data?.body?.room?.sale?.id &&
               data?.body?.subscription_type !== "حصة" && (
-                <div className="bg-[#523412] text-center w-[111px] py-[2px] px-[8px] text-[18px] rounded-[8px] text-white">
+                <div className="bg-[#523412] text-center w-[111px] py-[2px] px-[8px] text-[18px] rounded-lg text-white">
                   {data?.body?.room?.price} جنيه
                 </div>
               )}
             {data?.body?.room?.sale?.id && (
               <div className="flex gap-[24px]">
-                <div className="bg-[#454545] font-bold text-white py-[2px] px-[8px] line-through rounded-[8px]">
+                <div className="bg-gray-dark font-bold text-white py-[2px] px-[8px] line-through rounded-lg">
                   {data?.body?.room?.price} جنيه
                 </div>
-                <div className="bg-[#1EAD7B] w-[111px] text-center font-bold text-white py-[2px] px-[8px]  rounded-[8px]">
+                <div className="bg-[#1EAD7B] w-[111px] text-center font-bold text-white py-[2px] px-[8px]  rounded-lg">
                   {data?.body?.room?.sale?.discount_type === 0
                     ? ((100 - data?.body?.room?.sale?.discount_value) / 100) *
                       data?.body?.room?.price
@@ -69,7 +69,7 @@ const RoomPayForm = async ({ roomId, centerId, data }) => {
               {data?.body.sale?.id && (
                 <div>
                   <div className="flex gap-1 items-center">
-                    <h2 className="text-[#121212] text-[14px] font-bold">
+                    <h2 className="text-[#121212] text-sm font-bold">
                       احصل على خصم
                     </h2>
                     <div className="bg-[url(/assets/Sale.svg)] re bg-cover flex items-center justify-center w-[48px] h-[48px]">
@@ -79,7 +79,7 @@ const RoomPayForm = async ({ roomId, centerId, data }) => {
                             textShadow:
                               "2px 0 #000,-2px 0 #000,0 2px #000,0 -2px #000,1px 1px #000,-1px -1px #000,1px -1px #000,-1px 1px #000",
                           }}
-                          className=" inline-block font-bold text-white text-center text-[14px]"
+                          className=" inline-block font-bold text-white text-center text-sm"
                         >
                           {data?.body.sale?.discount_type === 0
                             ? data?.body.sale?.discount_value + "%"
@@ -89,7 +89,7 @@ const RoomPayForm = async ({ roomId, centerId, data }) => {
                     </div>
                   </div>
                   <div className="flex text-[12px] gap-2 items-center">
-                    <span className="text-[12px] text-[#454545]">
+                    <span className="text-[12px] text-gray-dark">
                       متاح لمدة
                     </span>
                     <div className="flex gap-[2px]">
@@ -109,20 +109,20 @@ const RoomPayForm = async ({ roomId, centerId, data }) => {
         style={{
           boxShadow: "0px 2px 10px 4px rgba(157,130,66,0.20)",
         }}
-        className="mt-[56px] rounded-[8px] border py-[32px] px-10 md:px-[40px] border-color-primary"
+        className="mt-[56px] rounded-lg border py-[32px] px-10 md:px-[40px] border-primary"
       >
         {" "}
         {/* <div className="flex flex-col">
-                <h2 className="text-[#523412] text-[14px]">الكود</h2>
+                <h2 className="text-[#523412] text-sm">الكود</h2>
                 <div className="flex w-full gap-[24px]">
                   <div className="bg-white flex-1  border-[#523412] border-b p-2 mt-[4px]">
                     <input
                       type="text"
-                      className="mt-[8px] text-[#121212] font-medium text-[14px] border-none focus:outline-hidden placeholder:text-[#121212]"
+                      className="mt-[8px] text-[#121212] font-medium text-sm border-none focus:outline-hidden placeholder:text-[#121212]"
                       placeholder="أدخل الكود"
                     />
                   </div>
-                  <button className="bg-color-primary rounded-[10px] self-end border border-primary-700 px-[24px] text-white h-[40px]">
+                  <button className="bg-primary rounded-[10px] self-end border border-primary-700 px-[24px] text-white h-[40px]">
                     إدخال
                   </button>
                 </div>

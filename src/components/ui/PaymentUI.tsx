@@ -36,7 +36,7 @@ export const PaymentUI: React.FC<PaymentUIProps> = ({
   hasCoupon,
   isLoadingMethods,
 }) => {
-  const { profile, isLoading } = useAuthContext();
+  const { profile } = useAuthContext();
 
   const isOnline = profile?.type === 4;
 
@@ -50,14 +50,14 @@ export const PaymentUI: React.FC<PaymentUIProps> = ({
         </div>
       )}
 
-      <div className="mt-[16px] flex items-center gap-[12px]">
-        <img src="/assets/PaymentColor.svg" className="w-[24px] h-[24px]" />
+      <div className="mt-4 flex items-center gap-3">
+        <img src="/assets/PaymentColor.svg" className="size-6" />
         <span className="text-[#121212] text-[18px] font-bold">
           اختر طريقة الدفع
         </span>
       </div>
 
-      <div className="h-px w-full bg-primary-700 my-[12px]" />
+      <div className="h-px w-full bg-primary-700 my-3" />
 
       <div className="space-y-2 mb-4">
         {!!price && (
@@ -104,12 +104,12 @@ export const PaymentUI: React.FC<PaymentUIProps> = ({
       )}
 
       {isLoadingMethods ? (
-        <LoadingSpinner />
+        <LoadingSpinner className="h-auto" />
       ) : hasPaymentMethods ? (
         <RadioGroup
           value={paymentMethodValue}
           onValueChange={(value) => {
-            setPaymentMethodValue(value);
+            setPaymentMethodValue(value as paymentType);
           }}
           dir="rtl"
           className="gap-5"
@@ -125,7 +125,7 @@ export const PaymentUI: React.FC<PaymentUIProps> = ({
                   paymentMethodValue === payment.value
                     ? "border-[#023E3E]"
                     : "border-primary-700"
-                } p-2 gap-[10px] border-2 rounded-[8px] bg-background z-0! items-center space-x-2`}
+                } p-2 gap-2.5 border-2 rounded-lg bg-background z-0! items-center space-x-2`}
               >
                 <RadioGroupItem value={payment.value} id={payment.value} />
                 <Label

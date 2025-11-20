@@ -196,7 +196,7 @@ export function StudentSelectCenter({
 
             <DialogFooter className="flex max-sm:flex-col flex-row  gap-6 items-center sm:justify-center  w-full mt-8">
               <Button
-                className="bg-[#012D5A] border text-white font-bold border-primary-700 h-[32px] w-[144px] rounded-[8px]"
+                className="bg-[#012D5A] border text-white font-bold border-primary-700 h-[32px] w-[144px] rounded-lg"
                 type="submit"
                 onClick={() => {
                   setOpen(true);
@@ -210,7 +210,7 @@ export function StudentSelectCenter({
                 className="flex items-center justify-center! w-full"
               >
                 <Button
-                  className=" border bg-white text-black hover:text-white  font-bold  h-[32px] w-[144px] rounded-[8px]"
+                  className=" border bg-white text-black hover:text-white  font-bold  h-[32px] w-[144px] rounded-lg"
                   onClick={() => {
                     setOpen(false);
                   }}

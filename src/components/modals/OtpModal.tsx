@@ -99,7 +99,7 @@ export default function OtpModal({ open, setOpen, phone }) {
               تأكيد رقم هاتف ولي الأمر
             </h3> */}
             <div>
-              <p className="text-[16px] font-medium mt-[4px] text-[#454545]">
+              <p className="text-[16px] font-medium mt-[4px] text-gray-dark">
                 ٍسنقوم بإرسال رمز التأكيد إلى رقم الهاتف التالي
               </p>
               <span
@@ -108,7 +108,7 @@ export default function OtpModal({ open, setOpen, phone }) {
               >
                 {phone}
               </span>
-              {/* <span className="text-[16px] font-medium mt-[8px] text-[#454545]">
+              {/* <span className="text-[16px] font-medium mt-[8px] text-gray-dark">
                 عبر تطبيق واتساب
               </span> */}
             </div>
@@ -175,7 +175,7 @@ export default function OtpModal({ open, setOpen, phone }) {
 
             <DialogFooter className="flex justify-start! gap-6 items-center  w-full mt-20!">
               <Button
-                className="bg-[#012D5A] border text-white font-bold border-primary-700 h-[32px] w-[144px] rounded-[8px]"
+                className="bg-[#012D5A] border text-white font-bold border-primary-700 h-[32px] w-[144px] rounded-lg"
                 type="submit"
                 onClick={() => {
                   setOpen(true);
@@ -189,7 +189,7 @@ export default function OtpModal({ open, setOpen, phone }) {
                 className="flex items-center justify-center! w-full"
               >
                 <Button
-                  className=" border bg-white text-black hover:text-white  font-bold  h-[32px] w-[144px] rounded-[8px]"
+                  className=" border bg-white text-black hover:text-white  font-bold  h-[32px] w-[144px] rounded-lg"
                   onClick={() => {
                     setOpen(false);
                   }}

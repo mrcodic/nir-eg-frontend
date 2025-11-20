@@ -38,7 +38,7 @@ const StorePage = async () => {
           boxShadow: "0px 2px 10px 4px rgba(157, 130, 66, 0.20)",
         }}
         className="bg-[#F9FAFC] md:text-[24px] whitespace-nowrap
-             font-bold  flex flex-col  gap-[24px]  m-[100px]     border py-2  px-[40px] border-[#012D5A] rounded-[8px]"
+             font-bold  flex flex-col  gap-[24px]  m-[100px]     border py-2  px-[40px] border-[#012D5A] rounded-lg"
       >
         <div className="flex gap-7 items-center">
           <img src="../assets/Star.svg" className="w-[48px] h-[48px]" />
@@ -52,7 +52,7 @@ const StorePage = async () => {
             {" "}
             <span>{data?.body.user_points} نقطة</span>
           </h3>
-          <h3 className="text-color-primary flex items-center absolute -top-[15px] z-10 text-[32px]">
+          <h3 className="text-primary flex items-center absolute -top-[15px] z-10 text-[32px]">
             <span>{data?.body.user_points} نقطة</span>
           </h3>
         </div>

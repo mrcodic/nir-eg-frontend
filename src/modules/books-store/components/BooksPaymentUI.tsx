@@ -139,7 +139,7 @@ export const BooksPaymentUI: React.FC<PaymentUIProps> = ({
                   paymentMethodValue === payment.value
                     ? "border-[#023E3E]"
                     : "border-primary-700"
-                } p-2 gap-[10px] border-2 rounded-[8px] bg-background z-0! items-center space-x-2`}
+                } p-2 gap-[10px] border-2 rounded-lg bg-background z-0! items-center space-x-2`}
               >
                 <RadioGroupItem value={payment.value} id={payment.value} />
                 <Label

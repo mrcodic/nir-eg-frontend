@@ -61,7 +61,7 @@ export default function Fail({
                   {/* {start?.show_answer && (
                     <button
                       onClick={() => showAnswers()}
-                      className=" w-full md:w-[172px] bg-color-primary h-[32px] text-[14px] font-bold text-white rounded-md border border-primary-700"
+                      className=" w-full md:w-[172px] bg-primary h-[32px] text-sm font-bold text-white rounded-md border border-primary-700"
                     >
                       عرض الإجابات
                     </button>
@@ -69,14 +69,14 @@ export default function Fail({
                   {start?.retake && (
                     <button
                       onClick={() => retake()}
-                      className=" w-[172px] border border-color-primary px-[12px] font-bold text-[#121212] text-[14px] rounded-[8px]"
+                      className=" w-[172px] border border-primary px-[12px] font-bold text-[#121212] text-sm rounded-lg"
                     >
                       إعادة الامتحان
                     </button>
                   )}
 
                   <Link href={`/bundles/${SingleCourse}/${room}`}>
-                    <button className="w-[172px] border border-color-primary h-[32px] text-[14px] font-bold text-[#121212] rounded-md">
+                    <button className="w-[172px] border border-primary h-[32px] text-sm font-bold text-[#121212] rounded-md">
                       الرجوع للحصة{" "}
                     </button>
                   </Link>

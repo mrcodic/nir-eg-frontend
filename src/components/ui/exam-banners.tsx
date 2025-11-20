@@ -8,7 +8,7 @@ export const ResultBanner = ({ score }) => {
     >
       <img src="/assets/Info.svg" />
       <div className="text-[16px] flex flex-col gap-2  text-[#121212]">
-        <div className="flex  text-[14px] gap-2">
+        <div className="flex  text-sm gap-2">
           <span className="text-[#121212] font-medium">لقد حصلت على </span>
           <span className="text-[#012D5A] font-bold inline-block">
             {score}%

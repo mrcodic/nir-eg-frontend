@@ -18,7 +18,7 @@ function DataWithLabel({
 }: DataWithLabelProps) {
   return (
     <div className={cn("flex items-center gap-4", className)}>
-      <p className={cn("text-[#454545] font-bold", labelClassName)}>{label}:</p>
+      <p className={cn("text-gray-dark font-bold", labelClassName)}>{label}:</p>
       <p className={cn("text-[#121212] font-bold", dataClassName)}>{data}</p>
     </div>
   );

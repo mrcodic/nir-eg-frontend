@@ -11,7 +11,7 @@ function LogoutCustomModal({
 
   return (
     <div className="fixed inset-0 flex justify-center items-center  h-screen w-screen bg-[rgba(18,18,18,0.60)] z-9999!">
-      <div className="bg-white p-4 rounded-[8px] w-[90%] md:w-[446px]">
+      <div className="bg-white p-4 rounded-lg w-[90%] md:w-[446px]">
         <img
           onClick={() => {
             setShowLogoutModal(false);
@@ -38,7 +38,7 @@ function LogoutCustomModal({
                 window.location.href = "/login";
                 deleteGrade();
               }}
-              className="w-[148px] rounded-[8px] flex items-center justify-center py-1 text-white bg-[#B75050] border border-primary-700"
+              className="w-[148px] rounded-lg flex items-center justify-center py-1 text-white bg-[#B75050] border border-primary-700"
             >
               تسجيل خروج
             </button>
@@ -46,7 +46,7 @@ function LogoutCustomModal({
               onClick={() => {
                 setShowLogoutModal(false);
               }}
-              className="w-[148px] border border-[#012D5A] rounded-[8px] flex items-center justify-center py-1 "
+              className="w-[148px] border border-[#012D5A] rounded-lg flex items-center justify-center py-1 "
             >
               إلغاء
             </button>

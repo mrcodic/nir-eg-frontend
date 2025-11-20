@@ -60,7 +60,7 @@ function NavNotifications() {
       <DropdownMenuContent
         className={cn(
           "p-2 z-9999! max-w-[min(438px,95vw)] w-screen",
-          "bg-white border rounded-[8px] border-primary-700",
+          "bg-white border rounded-lg border-primary-700",
           "flex flex-col overflow-hidden",
           "max-h-[min(80vh,var(--radix-dropdown-menu-content-available-height))]"
         )}

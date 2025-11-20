@@ -1,9 +1,9 @@
 import { cn } from "@/lib/utils";
 
 const variants = {
-  default: "bg-[#523412] text-sm  py-1",
-  discount: "bg-[#1EAD7B] text-base",
-  crossed: "bg-[#454545] text-xs line-through py-1",
+  default: "bg-[#523412] text-lg  py-1",
+  discount: "bg-semantics-green text-lg py-1",
+  crossed: "bg-gray-light text-gray-dark text-lg  py-1 ",
 };
 
 function PriceBadge({
@@ -20,12 +20,15 @@ function PriceBadge({
   return (
     <div
       className={cn(
-        "font-bold text-white py-0.5 px-2 h-fit  rounded-lg flex items-center justify-center",
+        "font-bold text-white py-0.5 px-2 h-fit  rounded-lg flex items-center justify-center gap-1",
         variants[variant],
         className
       )}
     >
-      {formattedPrice} جنيه
+      <span className={variant === "crossed" ? "line-through" : ""}>
+        {formattedPrice}
+      </span>
+      جنيه
     </div>
   );
 }

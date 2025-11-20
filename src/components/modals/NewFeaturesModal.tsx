@@ -38,7 +38,7 @@ export function NewFeaturesModal({
         <div className="flex flex-col">
           <div className="flex items-center gap-2">
             <Image src="/assets/Star.svg" width={24} height={24} alt="star" />
-            <h2 className=" font-bold text-[#454545] text-lg">
+            <h2 className=" font-bold text-gray-dark text-lg">
               مميزات جديدة:{" "}
               <span className="text-gray-600 text-sm">
                 ( هتلاقيها في الفيديو )

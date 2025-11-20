@@ -1,19 +1,14 @@
 "use client";
-import React from "react";
 import {
-  Column,
-  ColumnDef,
-  PaginationState,
-  Table,
+  createColumnHelper,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-  createColumnHelper,
 } from "@tanstack/react-table";
-import Link from "next/link";
+import React from "react";
 const StudentRank = () => {
   const defaultData = [
     {
@@ -68,7 +63,7 @@ const StudentRank = () => {
     columnHelper.accessor("id", {
       header: () => <div className="py-4">الترتيب</div>,
       cell: (info) => (
-        <div class="py-6 w-[363px]  text-[14px] flex items-center gap-2 whitespace-nowrap">
+        <div class="py-6 w-[363px]  text-sm flex items-center gap-2 whitespace-nowrap">
           <span class="bg-[#20364E] text-white w-[40px] h-[40px] flex items-center justify-center rounded-md text-center">
             {info.getValue()}
           </span>
@@ -79,7 +74,7 @@ const StudentRank = () => {
     columnHelper.accessor("studentName", {
       header: () => "اسم الطالب",
       cell: (info) => (
-        <div class=" py-6 w-[169px]  text-[14px] flex items-center gap-2 whitespace-nowrap">
+        <div class=" py-6 w-[169px]  text-sm flex items-center gap-2 whitespace-nowrap">
           {info.getValue()}
         </div>
       ),
@@ -87,7 +82,7 @@ const StudentRank = () => {
     columnHelper.accessor("points", {
       header: () => "النقاط",
       cell: (info) => (
-        <div class=" py-6 w-[73px]  text-[14px] flex items-center gap-2 whitespace-nowrap">
+        <div class=" py-6 w-[73px]  text-sm flex items-center gap-2 whitespace-nowrap">
           {info.getValue()}
         </div>
       ),
@@ -160,7 +155,7 @@ const StudentRank = () => {
       </table>
       <div className="flex items-center gap-2">
         <button
-          className="border h-[40px] w-[40px]  flex items-center justify-center cursor-pointer rounded-[8px] p-1"
+          className="border h-[40px] w-[40px]  flex items-center justify-center cursor-pointer rounded-lg p-1"
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
         >
@@ -168,17 +163,17 @@ const StudentRank = () => {
         </button>
 
         <button
-          className="border h-[40px] w-[40px]  flex items-center justify-center cursor-pointer rounded-[8px] p-1"
+          className="border h-[40px] w-[40px]  flex items-center justify-center cursor-pointer rounded-lg p-1"
           onClick={() => table.firstPage()}
           disabled={!table.getCanPreviousPage()}
         >
           <img src={"/assets/Arrow.svg"} />
         </button>
-        <div className="w-[40px] cursor-pointer h-[40px] flex justify-center items-center bg-[#2E77AE] rounded-[8px] text-center text-white">
+        <div className="w-[40px] cursor-pointer h-[40px] flex justify-center items-center bg-[#2E77AE] rounded-lg text-center text-white">
           {table.getState().pagination.pageIndex + 1}
         </div>
         <button
-          className="border h-[40px] w-[40px]  flex items-center justify-center cursor-pointer rounded-[8px] p-1"
+          className="border h-[40px] w-[40px]  flex items-center justify-center cursor-pointer rounded-lg p-1"
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
         >
@@ -186,7 +181,7 @@ const StudentRank = () => {
         </button>
 
         <button
-          className="border h-[40px] w-[40px]  flex items-center justify-center cursor-pointer rounded-[8px] p-1"
+          className="border h-[40px] w-[40px]  flex items-center justify-center cursor-pointer rounded-lg p-1"
           onClick={() => table.lastPage()}
           disabled={!table.getCanNextPage()}
         >

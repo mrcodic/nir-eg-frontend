@@ -97,7 +97,7 @@ const ForgetPasswordPage = () => {
             <h3 className="text-[#121212] text-[20px] font-bold">
               نسيت كلمة السر
             </h3>
-            <p className="text-[16px] font-medium mt-[4px] text-[#454545]">
+            <p className="text-[16px] font-medium mt-[4px] text-gray-dark">
               أدخل رقم الهاتف المسجل لدينا لتتمكن من إعادة تعيين كلمة سر جديدة
             </p>
           </div>
@@ -126,12 +126,12 @@ const ForgetPasswordPage = () => {
             /> */}
 
             <div className="mt-[56px] flex gap-2">
-              <span className="text-[14px] font-medium inline-block">
+              <span className="text-sm font-medium inline-block">
                 ليس لديك حساب؟
               </span>
               <Link
                 href={"/register"}
-                className="  text-[14px] font-bold text-[#523412] underline"
+                className="  text-sm font-bold text-[#523412] underline"
               >
                 إنشاء حساب
               </Link>

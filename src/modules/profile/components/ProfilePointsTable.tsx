@@ -238,7 +238,7 @@ function ProfilePointsTable() {
         {table.getCanPreviousPage() && (
           <button
             onClick={() => table.previousPage()}
-            className="flex h-10 w-24 items-center justify-center gap-1 rounded-lg border border-color-primary bg-[#012D5A] text-white"
+            className="flex h-10 w-24 items-center justify-center gap-1 rounded-lg border border-primary bg-[#012D5A] text-white"
           >
             <img src="/assets/RightArrowColor.svg" alt="" />
             <span className="text-sm font-bold">السابق</span>
@@ -247,7 +247,7 @@ function ProfilePointsTable() {
         {table.getCanNextPage() && (
           <button
             onClick={() => table.nextPage()}
-            className="flex h-10 w-24 items-center justify-center gap-2 rounded-lg border border-color-primary ms-auto bg-[#012D5A] text-white"
+            className="flex h-10 w-24 items-center justify-center gap-2 rounded-lg border border-primary ms-auto bg-[#012D5A] text-white"
           >
             <span className="text-sm font-bold">التالى</span>
             <img src="/assets/LeftArrowColor.svg" alt="" />

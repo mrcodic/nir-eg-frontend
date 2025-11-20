@@ -45,7 +45,7 @@ function RoomDropDownItem({
             href={`/bundles/${SingleCourse || room?.id}/${
               room?.latest_room?.id || room?.id
             }/${type === "ass" ? "assignment" : "exams"}/${item.id}`}
-            className="w-[155px] flex justify-center items-center bg-color-primary border border-primary-700 rounded-md   text-white h-[28px]"
+            className="w-[155px] flex justify-center items-center bg-primary border border-primary-700 rounded-md   text-white h-[28px]"
           >
             {linkText}
           </Link>
@@ -62,7 +62,7 @@ function RoomDropDownItem({
 //                                 href={`/bundles/${SingleCourse || room?.id}/${
 //                                   room?.latest_room?.id || room?.id
 //                                 }/exams/${quiz.id}`}
-//                                 className="w-[155px] flex justify-center items-center bg-color-primary border border-primary-700 rounded-md   text-white h-[28px]"
+//                                 className="w-[155px] flex justify-center items-center bg-primary border border-primary-700 rounded-md   text-white h-[28px]"
 //                               >
 //                                 فتح الامتحان
 //                               </Link>

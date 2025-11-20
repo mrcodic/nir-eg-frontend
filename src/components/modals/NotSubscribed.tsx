@@ -29,7 +29,7 @@ export default function NotSubscribed({ open, setOpen }) {
 
         <DialogFooter className="flex flex-row! justify-start! gap-5 mt-5 ">
           <Link href={`/bundles/${room}`}>
-            <Button className="border border-color-primary rounded-[8px] w-[148px] bg-white hover:bg-white text-[14px] font-bold p-4 text-[#121212]">
+            <Button className="border border-primary rounded-lg w-[148px] bg-white hover:bg-white text-sm font-bold p-4 text-[#121212]">
               رجوع{" "}
             </Button>
           </Link>

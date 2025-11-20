@@ -39,7 +39,7 @@ export default function RemoveFav({ open, setOpen, length, gift }) {
   return (
     <Dialog open={open}>
       <DialogContent className="p-8 max-w-lg bg-white rounded-lg shadow-lg">
-        <div className="max-w-[466px] bg-white p-6 rounded-[8px]">
+        <div className="max-w-[466px] bg-white p-6 rounded-lg">
           <p className="text-[18px] font-bold text-[#121212] text-nowrap flex items-center ">
             <Image
               src="/assets/heart.svg"
@@ -57,7 +57,7 @@ export default function RemoveFav({ open, setOpen, length, gift }) {
             />
             <div className="space-y-2">
               <h2 className="text-2xl font-bold">{gift.name}</h2>
-              <span className="text-[#454545] font-medium text-base inline-block">
+              <span className="text-gray-dark font-medium text-base inline-block">
                 {gift.price} نقطة
               </span>{" "}
             </div>
@@ -70,7 +70,7 @@ export default function RemoveFav({ open, setOpen, length, gift }) {
             className="flex items-center justify-center! w-full"
           >
             <Button
-              className="bg-color-primary border text-white font-bold border-primary-700 h-[32px] w-[144px] rounded-[8px]"
+              className="bg-primary border text-white font-bold border-primary-700 h-[32px] w-[144px] rounded-lg"
               onClick={() => {
                 removeGift();
               }}
@@ -85,7 +85,7 @@ export default function RemoveFav({ open, setOpen, length, gift }) {
           >
             <Button
               type="submit"
-              className=" border bg-white text-black hover:text-white  font-bold  h-[32px] w-[144px] rounded-[8px]"
+              className=" border bg-white text-black hover:text-white  font-bold  h-[32px] w-[144px] rounded-lg"
               onClick={() => {
                 setOpen(false);
               }}

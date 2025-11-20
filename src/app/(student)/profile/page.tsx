@@ -65,12 +65,12 @@ const ProfilePage = () => {
           {/* {isNewUser && (
             <div className="mt-[32px] flex flex-col items-center justify-center gap-[32px]">
               <img src="/assets/BoxColor.svg" className="w-[120px] h-[120px]" />
-              <p className="text-[#454545] text-[24px] font-medium">
+              <p className="text-gray-dark text-[24px] font-medium">
                 لم تشترك في أي باقة بعد
               </p>
               <Link
                 href={"/bundles"}
-                className="bg-[#012D5A] text-center flex justify-center items-center text-[18px] font-bold h-[40px] w-[364px] border border-[#9D8242] rounded-[8px] text-[#FFFFFF]"
+                className="bg-[#012D5A] text-center flex justify-center items-center text-[18px] font-bold h-[40px] w-[364px] border border-[#9D8242] rounded-lg text-[#FFFFFF]"
               >
                 اذهب للباقات
               </Link>

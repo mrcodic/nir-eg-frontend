@@ -1,5 +1,3 @@
-import React from "react";
-
 const exam = () => {
   return (
     <div id="exams-content" className="w-[60%] py-4 mx-auto">
@@ -21,14 +19,14 @@ const exam = () => {
                   امتحان 1
                 </span>
               </div>
-              <div className="text-[#41474B] mt-4 flex gap-2 text-[14px] font-normal">
+              <div className="text-[#41474B] mt-4 flex gap-2 text-sm font-normal">
                 <img src="/assets/Time.svg" className="w-[24px] h-[24px]" />
                 <span>
                   وقت الامتحان:
-                  <span className="text-[14px] font-bold underline">ساعة</span>
+                  <span className="text-sm font-bold underline">ساعة</span>
                 </span>
               </div>
-              <div className="text-[#41474B] mt-4 flex gap-2 text-[14px] font-normal">
+              <div className="text-[#41474B] mt-4 flex gap-2 text-sm font-normal">
                 <img
                   style={{
                     filter:
@@ -43,7 +41,7 @@ const exam = () => {
           </div>
           <div className="flex flex-col justify-between">
             <div className="flex items-center mt-2 gap-2">
-              <span className="text-[14px] font-normal text-[#41474B]">
+              <span className="text-sm font-normal text-[#41474B]">
                 80.00 جنيه
               </span>
               <img className="w-[24px] h-[24px]" src="/assets/Lock4.svg" />
@@ -72,14 +70,14 @@ const exam = () => {
                   امتحان 1
                 </span>
               </div>
-              <div className="text-[#41474B] mt-4 flex gap-2 text-[14px] font-normal">
+              <div className="text-[#41474B] mt-4 flex gap-2 text-sm font-normal">
                 <img src="/assets/Time.svg" className="w-[24px] h-[24px]" />
                 <span>
                   وقت الامتحان:
-                  <span className="text-[14px] font-bold underline">ساعة</span>
+                  <span className="text-sm font-bold underline">ساعة</span>
                 </span>
               </div>
-              <div className="text-[#41474B] mt-4 flex gap-2 text-[14px] font-normal">
+              <div className="text-[#41474B] mt-4 flex gap-2 text-sm font-normal">
                 <img
                   style={{
                     filter:
@@ -94,7 +92,7 @@ const exam = () => {
           </div>
           <div className="flex flex-col items-end justify-between">
             <div className="flex items-center mt-2 gap-2">
-              <span className="text-[14px] font-normal text-[#41474B]">
+              <span className="text-sm font-normal text-[#41474B]">
                 (3 أيام و 16 ساعة)
               </span>
               <img className="w-[24px] h-[24px]" src="/assets/Lock4.svg" />
@@ -123,14 +121,14 @@ const exam = () => {
                   امتحان 1
                 </span>
               </div>
-              <div className="text-[#41474B] mt-4 flex gap-2 text-[14px] font-normal">
+              <div className="text-[#41474B] mt-4 flex gap-2 text-sm font-normal">
                 <img src="/assets/Time.svg" className="w-[24px] h-[24px]" />
                 <span>
                   وقت الامتحان:
-                  <span className="text-[14px] font-bold underline">ساعة</span>
+                  <span className="text-sm font-bold underline">ساعة</span>
                 </span>
               </div>
-              <div className="text-[#41474B] mt-4 flex gap-2 text-[14px] font-normal">
+              <div className="text-[#41474B] mt-4 flex gap-2 text-sm font-normal">
                 <img
                   style={{
                     filter:
@@ -145,7 +143,7 @@ const exam = () => {
           </div>
           <div className="flex flex-col justify-between">
             <div className="flex mt-2 gap-2">
-              <span className="text-[14px] font-normal text-[#41474B]">
+              <span className="text-sm font-normal text-[#41474B]">
                 80.00 جنيه
               </span>
               <img className="w-[24px] h-[24px]" src="/assets/Lock4.svg" />
@@ -171,14 +169,14 @@ const exam = () => {
                   امتحان 1
                 </span>
               </div>
-              <div className="text-[#41474B] mt-4 flex gap-2 text-[14px] font-normal">
+              <div className="text-[#41474B] mt-4 flex gap-2 text-sm font-normal">
                 <img src="/assets/Time.svg" className="w-[24px] h-[24px]" />
                 <span>
                   وقت الامتحان:
-                  <span className="text-[14px] font-bold underline">ساعة</span>
+                  <span className="text-sm font-bold underline">ساعة</span>
                 </span>
               </div>
-              <div className="text-[#41474B] mt-4 flex gap-2 text-[14px] font-normal">
+              <div className="text-[#41474B] mt-4 flex gap-2 text-sm font-normal">
                 <img
                   style={{
                     filter:
@@ -193,7 +191,7 @@ const exam = () => {
           </div>
           <div className="flex flex-col justify-between">
             <div className="flex mt-2 gap-2">
-              <span className="text-[14px] font-normal text-[#41474B]">
+              <span className="text-sm font-normal text-[#41474B]">
                 80.00 جنيه
               </span>
               <img className="w-[24px] h-[24px]" src="/assets/Lock4.svg" />
@@ -219,14 +217,14 @@ const exam = () => {
                   امتحان 1
                 </span>
               </div>
-              <div className="text-[#41474B] mt-4 flex gap-2 text-[14px] font-normal">
+              <div className="text-[#41474B] mt-4 flex gap-2 text-sm font-normal">
                 <img src="/assets/Time.svg" className="w-[24px] h-[24px]" />
                 <span>
                   وقت الامتحان:
-                  <span className="text-[14px] font-bold underline">ساعة</span>
+                  <span className="text-sm font-bold underline">ساعة</span>
                 </span>
               </div>
-              <div className="text-[#41474B] mt-4 flex gap-2 text-[14px] font-normal">
+              <div className="text-[#41474B] mt-4 flex gap-2 text-sm font-normal">
                 <img
                   style={{
                     filter:
@@ -241,7 +239,7 @@ const exam = () => {
           </div>
           <div className="flex flex-col justify-between">
             <div className="flex mt-2 gap-2">
-              <span className="text-[14px] font-normal text-[#41474B]">
+              <span className="text-sm font-normal text-[#41474B]">
                 80.00 جنيه
               </span>
               <img className="w-[24px] h-[24px]" src="/assets/Lock4.svg" />

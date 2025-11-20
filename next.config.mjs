@@ -1,5 +1,3 @@
-import { v4 as uuidv4 } from "uuid";
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   typescript: {
@@ -15,9 +13,6 @@ const nextConfig = {
       "www.youtube.com",
       "https://cdn03.vdocipher.com",
     ],
-  },
-  generateBuildId: async () => {
-    return uuidv4();
   },
 };
 

@@ -19,9 +19,9 @@ function CourseOrderCard({ data }: { data: any }) {
               />
             </div>
 
-            <div className={`flex-1  rounded-[8px] p-4  `}>
+            <div className={`flex-1  rounded-lg p-4  `}>
               <div className="flex w-full items-center justify-between gap-[24px] flex-wrap">
-                <h2 className="text-[#121212] text-[14px] md:text-[18px] font-bold">
+                <h2 className="text-[#121212] text-sm md:text-[18px] font-bold">
                   {bundle?.model?.name}
                   <p className="text-sm text-gray-500">
                     {bundle?.trasnsaction_id}
@@ -34,8 +34,8 @@ function CourseOrderCard({ data }: { data: any }) {
                 </h2>
               </div>
               <div className="h-px w-full bg-primary-700 my-[12px]" />
-              {/* <div className="flex text-[14px] md:text-[16px] gap-1  md:gap-[8px]">
-                          <span className="text-[#454545] inline-block">
+              {/* <div className="flex text-sm md:text-[16px] gap-1  md:gap-[8px]">
+                          <span className="text-gray-dark inline-block">
                             تحتوى على
                           </span>
 

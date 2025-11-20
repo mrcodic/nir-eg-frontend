@@ -113,14 +113,14 @@ export default function Passed({
                       {start?.show_answer && (
                         <button
                           onClick={showAnswers}
-                          className=" w-full md:w-[172px] bg-color-primary h-[32px] text-[14px] font-bold text-white rounded-md border border-primary-700"
+                          className=" w-full md:w-[172px] bg-primary h-[32px] text-sm font-bold text-white rounded-md border border-primary-700"
                         >
                           عرض الإجابات
                         </button>
                       )}
                       {start?.retake && (
                         <button
-                          className="bg-primary-700 py-1 w-full md:w-[172px] borer border-color-primary px-[12px] font-bold text-white text-[14px] rounded-[8px]"
+                          className="bg-primary-700 py-1 w-full md:w-[172px] borer border-primary px-[12px] font-bold text-white text-sm rounded-lg"
                           onClick={retake}
                         >
                           إعادة الامتحان
@@ -130,7 +130,7 @@ export default function Passed({
                   )}
 
                   <Link href={`/bundles/${SingleCourse}/${room}`}>
-                    <button className="w-[172px] border border-color-primary h-[32px] text-[14px] font-bold text-[#121212] rounded-md">
+                    <button className="w-[172px] border border-primary h-[32px] text-sm font-bold text-[#121212] rounded-md">
                       الرجوع للحصه
                     </button>
                   </Link>

@@ -69,7 +69,7 @@ const AuthNavBar = () => {
   }
 
   return (
-    <div className=" h-20 border-b fixed top-0 left-0 w-full z-99! border-primary-700 flex items-center  bg-background aria-hidden:pointer-events-auto! data-[aria-hidden='true']:pointer-events-auto!">
+    <div className=" h-20 border-b fixed top-0 left-0 w-full z-30 border-primary-700 flex items-center  bg-background aria-hidden:pointer-events-auto! data-[aria-hidden='true']:pointer-events-auto!">
       <div className="wrapper">
         <div className="flex  items-center justify-between gap-4">
           <Link
@@ -94,7 +94,7 @@ const AuthNavBar = () => {
                 onClick={(e) => center(e, studentLink.title === "الحصص")}
                 className={`border px-3 border-primary-700 h-[44px] flex items-center justify-center rounded-[10px] ${
                   studentLink.href.substring(0, 6) === pathName.substring(0, 6)
-                    ? "bg-color-primary text-white"
+                    ? "bg-primary text-white"
                     : "bg-transparent text-[#523412]"
                 }   `}
               >
@@ -112,7 +112,7 @@ const AuthNavBar = () => {
                     href="/books"
                     className={`border px-3 border-primary-700 h-[44px] flex items-center justify-center rounded-[10px] ${
                       pathName === "/books"
-                        ? "bg-color-primary text-white"
+                        ? "bg-primary text-white"
                         : "bg-transparent text-[#523412]"
                     }   `}
                   >

@@ -34,7 +34,7 @@ const Form = ({ onSubmit }) => {
       <div className="flex flex-col gap-8">
         <div className="border-2 mt-2 rounded-md w-full lg:w-[887px] p-2 lg:p-4 border-[#F58E16]">
           <div className="flex gap-2 items-center">
-            <div className="bg-[#F58E16] rounded-md w-[20px] h-[20px] sm:w-[24px] sm:h-[24px] lg:w-10 lg:h-10 flex text-white text-[14px] lg:text-[24px] items-center justify-center">
+            <div className="bg-[#F58E16] rounded-md w-[20px] h-[20px] sm:w-[24px] sm:h-[24px] lg:w-10 lg:h-10 flex text-white text-sm lg:text-[24px] items-center justify-center">
               !
             </div>
             <h3 className="text-[16px] sm:text-[18px] lg:text-[24px] font-bold">
@@ -42,7 +42,7 @@ const Form = ({ onSubmit }) => {
             </h3>
           </div>
 
-          <span className="lg:mr-12 inline-block lg:w-[500px] text-[#41474B] font-bold text-[14px] lg:text-[18px]">
+          <span className="lg:mr-12 inline-block lg:w-[500px] text-[#41474B] font-bold text-sm lg:text-[18px]">
             قم بالتأكد من بياناتك و أعد تحميل الصفحة ثم حاول مرة أخرى أو تواصل
             مع الدعم الفني
           </span>
@@ -51,7 +51,7 @@ const Form = ({ onSubmit }) => {
           <label
             className={` ${
               errors.userName ? "text-[#DF6060]" : "text-[#41474B]"
-            }  text-[14px] sm:text-[16px] lg:text-[18px] font-bold`}
+            }  text-sm sm:text-[16px] lg:text-[18px] font-bold`}
           >
             اسم المستخدم
           </label>
@@ -62,7 +62,7 @@ const Form = ({ onSubmit }) => {
           >
             <img src="/assets/iconCarrier.svg" />
             <input
-              className={`border-none  w-full text-[14px] sm:text-[16px] lg:text-[18px] outline-hidden placeholder:p-1  text-[#41474B]`}
+              className={`border-none  w-full text-sm sm:text-[16px] lg:text-[18px] outline-hidden placeholder:p-1  text-[#41474B]`}
               {...register("userName", { required: true })}
               type="text"
               placeholder="قم بادخال اسم المستخدم"
@@ -73,7 +73,7 @@ const Form = ({ onSubmit }) => {
           <label
             className={`${
               errors.password ? "text-[#DF6060]" : "text-[#41474B]"
-            }  text-[14px] sm:text-[16px] lg:text-[18px] flex-1 font-bold`}
+            }  text-sm sm:text-[16px] lg:text-[18px] flex-1 font-bold`}
           >
             كلمة المرور
           </label>
@@ -84,7 +84,7 @@ const Form = ({ onSubmit }) => {
           >
             <img src={"/assets/Lock.svg"} />
             <input
-              className="border-none cursor-pointer w-full text-[14px] sm:text-[16px] lg:text-[18px]  outline-hidden placeholder:p-1  placeholder:text-[#41474B]"
+              className="border-none cursor-pointer w-full text-sm sm:text-[16px] lg:text-[18px]  outline-hidden placeholder:p-1  placeholder:text-[#41474B]"
               type={`${isShowPassowrd ? "text" : "password"}`}
               placeholder="قم بادخال كلمة المرور"
               {...register("password", { required: true })}
@@ -103,13 +103,13 @@ const Form = ({ onSubmit }) => {
               className="w-[20px] h-[20px] rounded-full overflow-hidden bg-red-500"
             />
 
-            <label className="text-[14px] sm:text-[16px] lg:text-[18px]">
+            <label className="text-sm sm:text-[16px] lg:text-[18px]">
               قم بتذكر كلمة السر
             </label>
           </div>
           <Link
             href={"/forgetPassword"}
-            className="text-[#2E77AE] underline text-[14px] lg:text-[18px]"
+            className="text-[#2E77AE] underline text-sm lg:text-[18px]"
           >
             هل نسيت كلمة السر؟
           </Link>
@@ -133,7 +133,7 @@ const Form = ({ onSubmit }) => {
         {capatchaError && (
           <p className="text-[#DF6060] text-[12px]">Please Submit Captcha</p>
         )}
-        <button className="text-white flex items-center justify-center text-[14px] lg:text-[20px] py-3 rounded-md bg-[#2E77AE]  w-full  lg:w-[877px]">
+        <button className="text-white flex items-center justify-center text-sm lg:text-[20px] py-3 rounded-md bg-[#2E77AE]  w-full  lg:w-[877px]">
           تسجيل الدخول
         </button>
       </div>

@@ -9,7 +9,7 @@ function PriceBubbles({
 }) {
   if (sale?.id)
     return (
-      <div className="flex gap-[10px] ms-auto items-center">
+      <div className="flex gap-2.5 ms-auto items-center">
         <PriceBadge price={Number(price)} variant="crossed" />
         <PriceBadge
           price={

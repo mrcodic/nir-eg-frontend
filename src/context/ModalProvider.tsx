@@ -1,12 +1,13 @@
 "use client";
 
-import LoadingSpinner from "@/components/Loading";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
+import { DialogContentProps } from "@radix-ui/react-dialog";
 import {
   createContext,
   Dispatch,
@@ -18,6 +19,7 @@ import {
   useContext,
   useState,
 } from "react";
+import { FaSpinner } from "react-icons/fa";
 
 type ModalContextType = {
   isOpen: boolean;
@@ -25,6 +27,7 @@ type ModalContextType = {
   closeModal: () => void;
   setDialogContent: Dispatch<SetStateAction<ReactNode | undefined>>;
   setOnCloseCallback: (callback: () => void) => void;
+  setDialogContentProps: Dispatch<SetStateAction<DialogContentProps>>;
 };
 
 const ModalContext = createContext<ModalContextType | undefined>(undefined);
@@ -35,13 +38,18 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
   const [onCloseCallback, setOnCloseCallback] = useState<(() => void) | null>(
     null
   );
+  const [dialogContentProps, setDialogContentProps] =
+    useState<DialogContentProps | null>(null);
+
+  function resetModal() {
+    setIsOpen(false);
+    setModalContent(undefined);
+    setOnCloseCallback(null);
+    setDialogContentProps(null);
+  }
 
   const closeModal = useCallback(() => {
-    setIsOpen(false);
-    if (onCloseCallback) {
-      onCloseCallback();
-      setOnCloseCallback(null);
-    }
+    resetModal();
   }, [onCloseCallback]);
 
   const openModal = useCallback(() => {
@@ -56,6 +64,7 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
         closeModal,
         setDialogContent: setModalContent,
         setOnCloseCallback: (callback) => setOnCloseCallback(() => callback),
+        setDialogContentProps,
       }}
     >
       {children}
@@ -65,7 +74,11 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
         <DialogTitle />
         <DialogDescription />
         <DialogContent
-          className="modal-style bg-background max-md:p-1!"
+          {...dialogContentProps}
+          className={cn(
+            "bg-background max-md:p-1!",
+            dialogContentProps?.className
+          )}
           onPointerDownOutside={(e) => {
             // don't dismiss dialog when clicking a toast
             if (
@@ -74,12 +87,14 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
             ) {
               e.preventDefault();
             }
+
+            dialogContentProps?.onPointerDownOutside?.(e);
           }}
         >
           <Suspense
             fallback={
-              <div className="flex items-center justify-center">
-                <LoadingSpinner />
+              <div className="flex items-center justify-center size-full">
+                <FaSpinner className="animate-spin" />
               </div>
             }
           >

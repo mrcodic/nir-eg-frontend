@@ -78,8 +78,6 @@ export async function GET(req) {
 
     const headersList = await headers();
 
-    console.log("isGUEST : ", isGuest);
-
     if (!isGuest || isGuest === "false") {
       const cookieStore = await cookies();
       token = cookieStore.get("auth_token")?.value;

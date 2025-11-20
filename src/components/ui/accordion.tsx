@@ -23,8 +23,8 @@ const AccordionItem = React.forwardRef<
     ref={ref}
     className={cn(
       `data-[state=open]:border ${
-        isProfile && "border bg-background rounded-[8px] border-primary-700 p-4"
-      } data-[state=open]:bg-background data-[state=open]:border-primary-700 md:data-[state=open]:p-4 data-[state=open]:p-2 data-[state=open]:rounded-[8px]`,
+        isProfile && "border bg-background rounded-lg border-primary-700 p-4"
+      } data-[state=open]:bg-background data-[state=open]:border-primary-700 md:data-[state=open]:p-4 data-[state=open]:p-2 data-[state=open]:rounded-lg`,
       className
     )}
     {...props}
@@ -40,7 +40,7 @@ const AccordionTrigger = React.forwardRef<
     style={{
       boxShadow: "0px 2px 10px 4px rgba(157, 130, 66, 0.20)",
     }}
-    className={`flex  border border-[#012D5A] p-2 rounded-[8px] ${
+    className={`flex  border border-[#012D5A] p-2 rounded-lg ${
       isProfile && " bg-white data-[state=open]:bg-transparent"
     } `}
   >

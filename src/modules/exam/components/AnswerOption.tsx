@@ -1,7 +1,7 @@
-import { FormControl, FormItem, FormLabel } from "@/components/ui/form";
 import { Checkbox } from "@/components/ui/checkbox";
-import { useMemo } from "react";
+import { FormControl, FormItem, FormLabel } from "@/components/ui/form";
 import { getAnswerState } from "@/lib/utils";
+import { useMemo } from "react";
 
 const AnswerOption = ({
   answer,
@@ -52,9 +52,9 @@ const AnswerOption = ({
     <label
       htmlFor={answerId}
       dir="ltr"
-      className={`rounded-[8px] border ${BorderColor} p-2 cursor-pointer `}
+      className={`rounded-lg border ${BorderColor} p-2 cursor-pointer `}
     >
-      <span className="text-[#523412] text-[14px] font-bold inline-block">
+      <span className="text-[#523412] text-sm font-bold inline-block">
         .{index + 1}
       </span>
       <FormItem className="flex items-center space-x-3 space-y-0">

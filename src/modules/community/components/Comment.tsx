@@ -21,7 +21,7 @@ const Comment = ({ comment, setSelectedCommentLesson }: CommentProps) => {
   };
 
   return (
-    <div className="bg-background  p-3 rounded-[8px] flex flex-col">
+    <div className="bg-background  p-3 rounded-lg flex flex-col">
       <div className="flex border-b-2 p-2 border-[#F8DEC5] justify-between">
         <div className="flex items-center gap-2">
           <Image src="/assets/Time.svg" width={20} height={20} alt="time" />
@@ -45,9 +45,7 @@ const Comment = ({ comment, setSelectedCommentLesson }: CommentProps) => {
       </div>
 
       <div className=" mt-auto flex  flex-col gap-2">
-        <p className="text-[#121212] text-[14px] line-clamp-1">
-          {comment.body}
-        </p>
+        <p className="text-[#121212] text-sm line-clamp-1">{comment.body}</p>
         <button
           onClick={handleShowMore}
           className={`
@@ -64,7 +62,7 @@ const Comment = ({ comment, setSelectedCommentLesson }: CommentProps) => {
                 mt-1
                 outline-offset-2  
                 outline-primary-700 
-                bg-color-primary
+                bg-primary
                 text-[#FFFFFF] sm:text-base text-sm`}
         >
           عرض المزيد

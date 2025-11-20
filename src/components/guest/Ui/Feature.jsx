@@ -21,7 +21,7 @@ const Feature = ({ feature }) => {
         border-[#F8DEC5] 
         p-4 
         bg-background 
-        rounded-[8px]"
+        rounded-lg"
     >
       <motion.div
         variants={{
@@ -39,7 +39,7 @@ const Feature = ({ feature }) => {
         <h2 className=" text-[20px] md:text-[24px] font-bold text-[#523412]">
           {feature.title}
         </h2>
-        <p className="md:text-[16px] text-[14px] font-bold text-[#454545]">
+        <p className="md:text-[16px] text-sm font-bold text-gray-dark">
           {feature.desc}
         </p>
       </div>

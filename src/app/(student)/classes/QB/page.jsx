@@ -20,7 +20,7 @@ const QuestionBankPage = () => {
           <span className="text-[#121212] text-[18px] font-bold">
             بنك أسئلة 1
           </span>
-          <div className="text-[#41474B] mt-4 flex gap-2 text-[14px] font-normal">
+          <div className="text-[#41474B] mt-4 flex gap-2 text-sm font-normal">
             <img src="/assets/Time.svg" className="w-[24px] h-[24px]" />
             <span>تم التنزيل منذ ساعتين</span>
           </div>
@@ -40,7 +40,7 @@ const QuestionBankPage = () => {
           <span className="text-[#121212] text-[18px] font-bold">
             بنك أسئلة 1
           </span>
-          <div className="text-[#41474B] mt-4 flex gap-2 text-[14px] font-normal">
+          <div className="text-[#41474B] mt-4 flex gap-2 text-sm font-normal">
             <img src="/assets/Time.svg" className="w-[24px] h-[24px]" />
             <span>تم التنزيل منذ ساعتين</span>
           </div>
@@ -60,7 +60,7 @@ const QuestionBankPage = () => {
           <span className="text-[#121212] text-[18px] font-bold">
             بنك أسئلة 1
           </span>
-          <div className="text-[#41474B] mt-4 flex gap-2 text-[14px] font-normal">
+          <div className="text-[#41474B] mt-4 flex gap-2 text-sm font-normal">
             <img src="/assets/Time.svg" className="w-[24px] h-[24px]" />
             <span>تم التنزيل منذ ساعتين</span>
           </div>
@@ -80,7 +80,7 @@ const QuestionBankPage = () => {
           <span className="text-[#121212] text-[18px] font-bold">
             بنك أسئلة 1
           </span>
-          <div className="text-[#41474B] mt-4 flex gap-2 text-[14px] font-normal">
+          <div className="text-[#41474B] mt-4 flex gap-2 text-sm font-normal">
             <img src="/assets/Time.svg" className="w-[24px] h-[24px]" />
             <span>تم التنزيل منذ ساعتين</span>
           </div>

@@ -40,7 +40,7 @@ function MobileDropDown({
               href={studentOffline.href}
               className={`border px-3 border-primary-700 mb-4 h-[44px] flex items-center justify-center rounded-[10px] ${
                 pathName.includes(studentOffline.href)
-                  ? "bg-color-primary text-white"
+                  ? "bg-primary text-white"
                   : "bg-transparent text-[#523412]"
               }   `}
             >
@@ -58,7 +58,7 @@ function MobileDropDown({
                   href="/books"
                   className={`border px-3 border-primary-700 h-[44px] flex items-center justify-center rounded-[10px] ${
                     pathName === "/books"
-                      ? "bg-color-primary text-white"
+                      ? "bg-primary text-white"
                       : "bg-transparent text-[#523412]"
                   }   `}
                 >

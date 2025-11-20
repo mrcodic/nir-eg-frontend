@@ -46,7 +46,7 @@ const RoomHeader = ({
           </h3>
           <h3
             className={cn(
-              "text-color-primary relative flex items-center z-10 text-xl md:text-[28px]",
+              "text-primary relative flex items-center z-10 text-xl md:text-[28px]",
               textClassName
             )}
           >
@@ -56,7 +56,7 @@ const RoomHeader = ({
         {subText && (
           <h4
             className={cn(
-              "text-sm text-[#454545] font-medium",
+              "text-sm text-gray-dark font-medium",
               subTextClassName
             )}
           >

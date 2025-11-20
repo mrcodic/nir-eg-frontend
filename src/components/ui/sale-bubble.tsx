@@ -25,7 +25,7 @@ function SaleBubble({
               textShadow:
                 "2px 0 #000,-2px 0 #000,0 2px #000,0 -2px #000,1px 1px #000,-1px -1px #000,1px -1px #000,-1px 1px #000",
             }}
-            className=" inline-block font-bold text-white text-center text-[14px]"
+            className=" inline-block font-bold text-white text-center text-sm"
           >
             {text ||
               (discountType === 0

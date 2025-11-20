@@ -1,15 +1,17 @@
 @import "tailwindcss";
-
-@plugin 'tailwindcss-animate';
+/* You already use the animate plugin, so no need for `@import "tw-animate-css"` */
+@plugin "tailwindcss-animate";
 
 @custom-variant dark (&:is(.dark *));
 
+/* =========================
+   THEME TOKENS
+   (your theme + shadcn tokens)
+   ========================= */
 @theme {
+  --font-sans: var(--font-almarai-sans);
 
-  --font-sans : var(--font-almarai-sans)
-
-  --color-color-primary: var(--primary);
-
+  /* YOUR EXISTING TOKENS */
   --color-background: hsla(210, 43%, 97%, 1);
   --color-foreground: oklch(0.145 0 0);
   --color-custom-brown: var(--secondary-700, #523412);
@@ -24,6 +26,9 @@
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
+
+  --text-32: 32px;
+  --text-28: 28px;
 
   --drop-shadow-text: -1px 3px 1px hsla(32, 92%, 52%, 0.3);
 
@@ -43,7 +48,49 @@
   --animate-accordion-up: accordion-up 0.2s ease-out;
   --animate-caret-blink: caret-blink 1.25s ease-out infinite;
   --animate-promo-rotate-shake: promo-rotate-shake 3s ease-in-out infinite;
+
+  /* ================
+     SHADCN COLOR TOKENS
+     ================ */
+
+  /* These map to CSS vars we define in :root/.dark below.
+     They DO NOT overwrite your existing color values. */
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
 }
+
+/* =========================
+   KEYFRAMES (yours)
+   ========================= */
 
 @keyframes accordion-down {
   from {
@@ -113,9 +160,14 @@
   }
 }
 
+/* =========================
+   BASE LAYER
+   (your base + shadcn vars + shadcn reset)
+   ========================= */
 
 @layer base {
   :root {
+    /* your existing chart + radius tokens */
     --chart-1: oklch(0.646 0.222 41.116);
     --chart-2: oklch(0.6 0.118 184.704);
     --chart-3: oklch(0.398 0.07 227.392);
@@ -123,17 +175,80 @@
     --chart-5: oklch(0.769 0.188 70.08);
 
     --radius: 0.5rem;
+
+    /* =====================
+       SHADCN LIGHT MODE VARS
+       (using the palette from the snippet, but you can tweak)
+       ===================== */
+    --background: oklch(1 0 0);
+    --foreground: oklch(0.145 0 0);
+    --card: oklch(1 0 0);
+    --card-foreground: oklch(0.145 0 0);
+    --popover: oklch(1 0 0);
+    --popover-foreground: oklch(0.145 0 0);
+    --primary: oklch(0.205 0 0);
+    --primary-foreground: oklch(0.985 0 0);
+    --secondary: oklch(0.97 0 0);
+    --secondary-foreground: oklch(0.205 0 0);
+    --muted: oklch(0.97 0 0);
+    --muted-foreground: oklch(0.556 0 0);
+    --accent: oklch(0.97 0 0);
+    --accent-foreground: oklch(0.205 0 0);
+    --destructive: oklch(0.577 0.245 27.325);
+    --destructive-foreground: oklch(0.577 0.245 27.325);
+    --border: oklch(0.922 0 0);
+    --input: oklch(0.922 0 0);
+    --ring: oklch(0.708 0 0);
+    --sidebar: oklch(0.985 0 0);
+    --sidebar-foreground: oklch(0.145 0 0);
+    --sidebar-primary: oklch(0.205 0 0);
+    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-accent: oklch(0.97 0 0);
+    --sidebar-accent-foreground: oklch(0.205 0 0);
+    --sidebar-border: oklch(0.922 0 0);
+    --sidebar-ring: oklch(0.708 0 0);
   }
 
   .dark {
+    /* your dark chart vars */
     --chart-1: oklch(0.488 0.243 264.376);
     --chart-2: oklch(0.696 0.17 162.48);
     --chart-3: oklch(0.769 0.188 70.08);
     --chart-4: oklch(0.627 0.265 303.9);
     --chart-5: oklch(0.645 0.246 16.439);
+
+    /* shadcn dark palette */
+    --background: oklch(0.145 0 0);
+    --foreground: oklch(0.985 0 0);
+    --card: oklch(0.145 0 0);
+    --card-foreground: oklch(0.985 0 0);
+    --popover: oklch(0.145 0 0);
+    --popover-foreground: oklch(0.985 0 0);
+    --primary: oklch(0.985 0 0);
+    --primary-foreground: oklch(0.205 0 0);
+    --secondary: oklch(0.269 0 0);
+    --secondary-foreground: oklch(0.985 0 0);
+    --muted: oklch(0.269 0 0);
+    --muted-foreground: oklch(0.708 0 0);
+    --accent: oklch(0.269 0 0);
+    --accent-foreground: oklch(0.985 0 0);
+    --destructive: oklch(0.396 0.141 25.723);
+    --destructive-foreground: oklch(0.637 0.237 25.331);
+    --border: oklch(0.269 0 0);
+    --input: oklch(0.269 0 0);
+    --ring: oklch(0.439 0 0);
+    --sidebar: oklch(0.205 0 0);
+    --sidebar-foreground: oklch(0.985 0 0);
+    --sidebar-primary: oklch(0.488 0.243 264.376);
+    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-accent: oklch(0.269 0 0);
+    --sidebar-accent-foreground: oklch(0.985 0 0);
+    --sidebar-border: oklch(0.269 0 0);
+    --sidebar-ring: oklch(0.439 0 0);
   }
 
-    *,
+  /* your original border-color base rule */
+  *,
   ::after,
   ::before,
   ::backdrop,
@@ -141,8 +256,13 @@
     border-color: var(--color-gray-200, currentcolor);
   }
 
+  /* shadcn base reset, modified to NOT override your border-color */
+  * {
+    @apply outline-ring/50;
+  }
+
   body {
-    @apply font-sans
+    @apply font-sans  text-foreground;
   }
 
   .cards-grid {
@@ -150,13 +270,9 @@
   }
 }
 
-@utility text-3xl {
-  @apply text-[28px];
-}
-
-@utility text-32 {
-  @apply text-[32px];
-}
+/* =========================
+   UTILITIES (yours)
+   ========================= */
 
 @utility wrapper {
   @apply w-[80%] mx-auto px-4;
@@ -206,11 +322,10 @@
   }
 
   .video-js {
-    background-color: #d9dadb !important; /* Dark gray background color */
+    background-color: #d9dadb !important;
     position: relative !important;
   }
 
-  /* Hide the default poster image if it's set */
   .vjs-poster {
     display: none;
     background-image: none !important;
@@ -279,14 +394,12 @@
 }
 
 /* filepond */
-
 .filepond--root {
   --filepond-font-family: "Tajawal", sans-serif;
   --filepond-font-size: 14px;
 }
 
 .filepond--panel-root {
-  /* background-color: #FBF6F0; */
   border-radius: 12px;
 }
 
@@ -317,7 +430,6 @@
   height: 24px !important;
 }
 .filepond--file-action-button {
-  /* color: white !important; */
   cursor: pointer !important;
   border-radius: 6px !important;
   border: 1px solid #f8dec5 !important;
@@ -326,4 +438,3 @@
 .filepond--credits {
   margin-top: 8px !important;
 }
-

@@ -98,7 +98,7 @@ const CoursesHeader = ({ body }) => {
             </h2>
             {subType !== "حصة" &&
               (body?.classroom_price || body?.is_subscriped) && (
-                <div className="w-[100px] bg-[#F6EADE] text-[12px] md:text-[16px] text-[#523412] font-bold flex items-center justify-center rounded-[8px] text-center">
+                <div className="w-[100px] bg-[#F6EADE] text-[12px] md:text-[16px] text-[#523412] font-bold flex items-center justify-center rounded-lg text-center">
                   {body?.is_subscriped
                     ? "مشترك"
                     : `${Number(body?.classroom_price).toFixed(2)} جنيه`}
@@ -106,7 +106,7 @@ const CoursesHeader = ({ body }) => {
               )}
           </div>
           <div className="h-px w-full bg-primary-700 my-[12px]" />
-          <h3 className="text-[#F6EADE] text-[14px] md:text-[20px] mb-[56px]">
+          <h3 className="text-[#F6EADE] text-sm md:text-[20px] mb-[56px]">
             {body?.grade}
           </h3>
 
@@ -125,10 +125,10 @@ const CoursesHeader = ({ body }) => {
                     alt={detail.title}
                   />
                   <div className="flex  items-center gap-1">
-                    <h2 className="text-[10px] md:text-[14px] text-[#DEC5AB] font-bold whitespace-nowrap">
+                    <h2 className="text-[10px] md:text-sm text-[#DEC5AB] font-bold whitespace-nowrap">
                       {detail.label}
                     </h2>
-                    <span className="text-[#DEC5AB] text-[10px] md:text-[14px] font-medium inline-block whitespace-nowrap">
+                    <span className="text-[#DEC5AB] text-[10px] md:text-sm font-medium inline-block whitespace-nowrap">
                       {detail.title}
                       {detail.specification}
                     </span>
