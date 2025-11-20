@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import StyledText from "./ui/StyledText";
 
 const RoomHeader = ({
   title,
@@ -20,39 +21,19 @@ const RoomHeader = ({
   subTextClassName?: string;
 }) => {
   return (
-    <div className={cn("mb-6 flex items-center gap-3 md:gap-6", className)}>
+    <div className={cn("mb-6 flex items-center gap-2", className)}>
       <img
-        className={` ${width ? width : "md:w-[40px] w-6"} ${
-          height ? height : "md:h-[40px] h-6"
+        className={` ${width ? width : "md:w-10 w-6"} ${
+          height ? height : "md:h-10 h-6"
         }`}
         src={icon}
       />
-      <div className="flex flex-col gap-2 md:gap-4">
-        <div className="relative font-bold w-fit text-nowrap">
-          {" "}
-          <h3
-            style={{
-              WebkitTextFillColor: "white",
-              WebkitTextStrokeWidth: 1,
-              WebkitTextStrokeColor: "#d9b45c",
-            }}
-            className={cn(
-              "textStroke text-xl md:text-[28px] absolute flex items-center -top-[2px] -left-px  z-0",
-              textClassName
-            )}
-          >
-            {" "}
-            {title}
-          </h3>
-          <h3
-            className={cn(
-              "text-primary relative flex items-center z-10 text-xl md:text-[28px]",
-              textClassName
-            )}
-          >
-            {title}
-          </h3>
-        </div>
+
+      <div className="flex flex-col gap-2 ">
+        <StyledText
+          text={title}
+          className={cn("text-xl md:text-28", textClassName)}
+        />
         {subText && (
           <h4
             className={cn(

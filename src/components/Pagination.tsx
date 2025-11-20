@@ -34,18 +34,6 @@ const PaginationComponent = ({
       boundaries={1}
       isCompact
       renderItem={(item) => {
-        // if (item.isPrevious) {
-        //   return <PaginationItem {...item}>{item.value}</PaginationItem>;
-        // }
-
-        // if (item.isNext) {
-        //   return (
-        //     <PaginationItem {...item}>
-        //       <span className=" inline">{item.value}</span>
-        //     </PaginationItem>
-        //   );
-        // }
-
         if (item.value === "next") {
           const hasNextPage = currentPage < totalPages;
           return (
@@ -79,9 +67,9 @@ const PaginationComponent = ({
           <PaginationItem
             {...item}
             key={item?.key}
-            className={`size-8 sm:size-10 mx-1 sm:mx-2.5 flex items-center justify-center text-sm sm:text-base ${
+            className={`size-8 cursor-pointer sm:size-10 mx-1 sm:mx-2.5 flex items-center justify-center text-sm sm:text-base ${
               item.isActive
-                ? "font-semibold text-white bg-primary-700"
+                ? "font-semibold text-white bg-primary-800"
                 : "bg-background"
             }`}
           />

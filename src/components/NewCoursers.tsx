@@ -1,14 +1,18 @@
 "use client";
 
 import { useAuthContext } from "@/context/auth-context";
+import { mapGradeToText } from "@/utils/clientFun";
 import { useSearchParams } from "next/navigation";
+import { useState } from "react";
 import CourseCard from "./CourseCard";
 import Empty from "./Empty";
 import MappingComp from "./MappingComp";
+import PaginationComponent from "./Pagination";
 import RoomHeader from "./RoomHeader";
 
 const NewCourses = () => {
-  const { token } = useAuthContext();
+  const [page, setPage] = useState(1);
+  const { token, grade } = useAuthContext();
   const searchParams = useSearchParams();
 
   let api = token
@@ -16,52 +20,59 @@ const NewCourses = () => {
     : `/guest/classrooms/${searchParams.get("grade")}`;
 
   return (
-    <div className=" mt-[50px] md:mt-[100px] h-full w-full ">
+    <div className=" mt-[50px] md:mt-[100px] wrapper ">
       <RoomHeader
-        className="mx-auto  w-[85%]"
-        title="احدث الكورسات المضافة"
-        icon="/assets/english-icon.svg"
-        textClassName="text-xl md:text-[40px]"
+        className=""
+        title={`كورسات ${mapGradeToText(grade)}`}
+        icon="/assets/book-gif.gif"
       />
 
-      <div className="relative  mt-[24px] overflow-hidden ">
-        <div
-          className=" w-full   bg-primary  "
-          style={{ backgroundImage: "url('/assets/paper.png')" }}
-        >
-          <div className="mx-auto  md:w-[90%] py-10">
-            <MappingComp
-              queryKey={api}
-              render={(data) => {
-                console.log("new courses : ", data);
+      <div className="relative  mt-6 overflow-hidden ">
+        <MappingComp
+          queryKey={api}
+          render={(data) => {
+            const allCourses = data?.data || [];
+            const filteredCourses = allCourses.filter(
+              (course: any) => !course?.isSubscribed
+            );
 
-                return (
-                  // <div className="bg-[#FFF] justify-items-center min-h-[455px]  grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3  gap-5 rounded-lg p-8">
-                  <div className="bg-[#FFF]  min-h-[455px] cards-grid rounded-lg p-8 md:px-[2.5%] px-[7.5%]">
-                    {data?.data?.length &&
-                    data?.data?.some((course) => !course?.isSubscribed) ? (
-                      data?.data?.map(
-                        (course, index) =>
-                          !course?.isSubscribed && (
-                            <CourseCard
-                              key={index}
-                              isNewCourse={true}
-                              courseDetails={course}
-                            />
-                          )
-                      )
-                    ) : (
-                      <Empty
-                        className="col-span-full"
-                        text="لا يوجد كورسات جديدة"
+            const pageSize = 6;
+            const total = filteredCourses.length;
+            const start = (page - 1) * pageSize;
+            const end = start + pageSize;
+            const currentCourses = filteredCourses.slice(start, end);
+
+            return (
+              <div className="min-h-[455px] cards-grid rounded-lg">
+                {currentCourses.length > 0 ? (
+                  <>
+                    {currentCourses.map((course: any, index: number) => (
+                      <CourseCard
+                        key={index}
+                        isNewCourse={true}
+                        isBundles={false}
+                        courseDetails={course}
                       />
-                    )}
-                  </div>
-                );
-              }}
-            />
-          </div>
-        </div>
+                    ))}
+                    <div className="col-span-full w-full">
+                      <PaginationComponent
+                        currentPage={page}
+                        total={total}
+                        setPage={setPage}
+                        pageSize={pageSize}
+                      />
+                    </div>
+                  </>
+                ) : (
+                  <Empty
+                    className="col-span-full"
+                    text="لا يوجد كورسات جديدة"
+                  />
+                )}
+              </div>
+            );
+          }}
+        />
       </div>
     </div>
   );

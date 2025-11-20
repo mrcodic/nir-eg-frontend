@@ -65,7 +65,7 @@ const CourseCard = ({
       >
         <div className="flex flex-col gap-2 h-full">
           <div className="flex flex-col gap-4 pb-2 border-b border-gray-light">
-            <div className="flex justify-between flex-wrap">
+            <div className="flex justify-between flex-wrap-reverse">
               <h3 className=" font-bold text-lg">{courseDetails.title}</h3>
 
               <span className="text-gray-dark font-medium text-xs inline-block ms-auto">

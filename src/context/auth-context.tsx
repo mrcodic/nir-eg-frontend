@@ -94,9 +94,9 @@ export const AuthContextProvider = ({ children }) => {
         setToken,
         profile: profileData?.body,
         isLoading,
-        grade: grade,
-        storeGrade: storeGrade,
-        deleteGrade: deleteGrade,
+        grade,
+        storeGrade,
+        deleteGrade,
       }}
     >
       {children}

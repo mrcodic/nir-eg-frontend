@@ -1,20 +1,22 @@
 "use client";
 
 import MappingComp from "@/components/MappingComp";
+import { useState } from "react";
 import CourseCard from "./CourseCard";
 import Empty from "./Empty";
+import PaginationComponent from "./Pagination";
 import RoomHeader from "./RoomHeader";
 
 const Coursers = () => {
+  const [page, setPage] = useState(1);
+
   return (
-    <div className="w-[85%] mx-auto">
+    <div className="wrapper mt-8">
       <RoomHeader
-        className="mb-6 mt-4  "
+        className="mb-6   "
         title="الاشتراكات"
-        icon="/assets/english-icon.svg"
-        textClassName="text-xl md:text-[40px]"
+        icon="/assets/book-gif.gif"
         subText="أنت مشترك في هذه الفصول"
-        subTextClassName="text-[16px] md:text-[20px]"
       />
 
       <MappingComp
@@ -25,12 +27,31 @@ const Coursers = () => {
           if (data?.data?.length === 0)
             return <Empty text="لم تشترك في اي كورس" />;
 
+          const allCourses = data?.data || [];
+          const pageSize = 6;
+          const total = allCourses.length;
+          const start = (page - 1) * pageSize;
+          const end = start + pageSize;
+          const currentCourses = allCourses.slice(start, end);
+
           return (
-            // <div className="mt-[24px] grid grid-cols-1 max-md:justify-items-center  md:grid-cols-2 lg:grid-cols-3 gap-5 ">
-            <div className="mt-[24px] cards-grid">
-              {data?.data?.map((courseDetails, index) => (
-                <CourseCard key={index} courseDetails={courseDetails} />
+            <div className="mt-6 cards-grid">
+              {currentCourses.map((courseDetails: any, index: number) => (
+                <CourseCard
+                  key={index}
+                  courseDetails={courseDetails}
+                  isNewCourse={false}
+                  isBundles={false}
+                />
               ))}
+              <div className="col-span-full w-full">
+                <PaginationComponent
+                  currentPage={page}
+                  total={total}
+                  setPage={setPage}
+                  pageSize={pageSize}
+                />
+              </div>
             </div>
           );
         }}
