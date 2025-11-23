@@ -88,7 +88,7 @@ const ForgetPasswordPage = () => {
         description=" أدخل رقم الهاتف المسجل لدينا لتتمكن من إعادة تعيين كلمة سر جديدة"
       />
 
-      <div className="h-px w-full mt-[16px] bg-primary-700" />
+      <div className="h-px w-full mt-[16px] bg-gray-light" />
       <div className="h-px w-full mt-[2px] bg-[#523412]" />
       <Form {...form}>
         <form

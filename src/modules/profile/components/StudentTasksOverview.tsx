@@ -26,7 +26,7 @@ function StudentTasksOverview() {
 
       <div className="grid grid-cols-12 gap-y-8 gap-x-4">
         <div className="lg:col-span-4 col-span-12 flex flex-col  mt-8 gap-x-12   ">
-          <div className="flex flex-col gap-4 py-4 border-b border-primary-700">
+          <div className="flex flex-col gap-4 py-4 border-b border-gray-light">
             <div className="flex items-center gap-4">
               <Image
                 src="/assets/ExamsColor.svg"
@@ -42,7 +42,7 @@ function StudentTasksOverview() {
             </div>
           </div>
 
-          <div className="flex flex-col gap-4 py-4 border-b border-primary-700">
+          <div className="flex flex-col gap-4 py-4 border-b border-gray-light">
             <div className="flex items-center gap-4">
               <Image
                 src="/assets/CorrectColor.svg"
@@ -60,7 +60,7 @@ function StudentTasksOverview() {
             </div>
           </div>
 
-          <div className="flex flex-col gap-4 py-4 border-b border-primary-700">
+          <div className="flex flex-col gap-4 py-4 border-b border-gray-light">
             <div className="flex items-center gap-4">
               <Image src="/assets/Close2.svg" width={32} height={32} alt="" />
               <h4 className="text-lg font-bold text-[#B75050]">راسب</h4>

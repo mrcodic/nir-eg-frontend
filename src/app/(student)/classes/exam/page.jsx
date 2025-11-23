@@ -20,7 +20,7 @@ const exam = () => {
                 </span>
               </div>
               <div className="text-[#41474B] mt-4 flex gap-2 text-sm font-normal">
-                <img src="/assets/Time.svg" className="w-[24px] h-[24px]" />
+                <img src="/assets/time.svg" className="w-[24px] h-[24px]" />
                 <span>
                   وقت الامتحان:
                   <span className="text-sm font-bold underline">ساعة</span>
@@ -71,7 +71,7 @@ const exam = () => {
                 </span>
               </div>
               <div className="text-[#41474B] mt-4 flex gap-2 text-sm font-normal">
-                <img src="/assets/Time.svg" className="w-[24px] h-[24px]" />
+                <img src="/assets/time.svg" className="w-[24px] h-[24px]" />
                 <span>
                   وقت الامتحان:
                   <span className="text-sm font-bold underline">ساعة</span>
@@ -122,7 +122,7 @@ const exam = () => {
                 </span>
               </div>
               <div className="text-[#41474B] mt-4 flex gap-2 text-sm font-normal">
-                <img src="/assets/Time.svg" className="w-[24px] h-[24px]" />
+                <img src="/assets/time.svg" className="w-[24px] h-[24px]" />
                 <span>
                   وقت الامتحان:
                   <span className="text-sm font-bold underline">ساعة</span>
@@ -170,7 +170,7 @@ const exam = () => {
                 </span>
               </div>
               <div className="text-[#41474B] mt-4 flex gap-2 text-sm font-normal">
-                <img src="/assets/Time.svg" className="w-[24px] h-[24px]" />
+                <img src="/assets/time.svg" className="w-[24px] h-[24px]" />
                 <span>
                   وقت الامتحان:
                   <span className="text-sm font-bold underline">ساعة</span>
@@ -218,7 +218,7 @@ const exam = () => {
                 </span>
               </div>
               <div className="text-[#41474B] mt-4 flex gap-2 text-sm font-normal">
-                <img src="/assets/Time.svg" className="w-[24px] h-[24px]" />
+                <img src="/assets/time.svg" className="w-[24px] h-[24px]" />
                 <span>
                   وقت الامتحان:
                   <span className="text-sm font-bold underline">ساعة</span>

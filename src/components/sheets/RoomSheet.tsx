@@ -39,7 +39,7 @@ export default function RoomSheet({ open, setOpen }) {
               </div>
             </div>
 
-            <div className="h-px my-[16px] bg-primary-700" />
+            <div className="h-px my-[16px] bg-gray-light" />
             {(!!data?.body?.quizzes?.length ||
               !!data?.body?.assignments?.length) && (
               <>
@@ -53,7 +53,7 @@ export default function RoomSheet({ open, setOpen }) {
                       className="flex items-center gap-2 px-[8px] py-[6px] rounded-lg bg-white flex-wrap mt-[15px] justify-between"
                     >
                       <div className="flex gap-2">
-                        <img src="/assets/FillExams.svg" />
+                        <img src="/assets/exam-fill.svg" />
                         <h2 className="text-sm font-bold text-[#121212] break-all">
                           {quiz?.title}
                         </h2>
@@ -61,7 +61,7 @@ export default function RoomSheet({ open, setOpen }) {
 
                       <Link
                         href={`/bundles/${SingleCourse}/${room}/exams/${quiz.id}`}
-                        className="rounded-lg  ms-auto h-[32px] border border-primary-700 flex justify-center items-center bg-primary w-[68px]"
+                        className="rounded-lg  ms-auto h-[32px] border border-gray-light flex justify-center items-center bg-primary w-[68px]"
                       >
                         <img src="/assets/LeftArrowColor.svg" />
                       </Link>
@@ -72,7 +72,7 @@ export default function RoomSheet({ open, setOpen }) {
                   return (
                     <div className="flex items-center px-[8px] py-[6px] rounded-lg bg-white mt-[15px] justify-between">
                       <div className="flex gap-2">
-                        <img src="/assets/FillAssignments.svg" />
+                        <img src="/assets/assignment-fill.svg" />
                         <h2 className="text-sm font-bold text-[#121212]">
                           {ass?.title}
                         </h2>
@@ -83,7 +83,7 @@ export default function RoomSheet({ open, setOpen }) {
               </>
             )}
 
-            <div className="h-px my-[8px] bg-primary-700" />
+            <div className="h-px my-[8px] bg-gray-light" />
 
             <div className="flex flex-col gap-[6px]">
               {data?.body?.lessons.map((lesson, index) => (
@@ -102,7 +102,7 @@ export default function RoomSheet({ open, setOpen }) {
                 >
                   <img
                     className="w-[24px] h-[24px]"
-                    src="/assets/FillVideos.svg"
+                    src="/assets/videos-fill.svg"
                   />
                   <div>
                     <h3 className="text-sm text-[#121212] font-bold">
@@ -111,7 +111,7 @@ export default function RoomSheet({ open, setOpen }) {
                     <div className="mt-[8px] items-center flex gap-2">
                       <img
                         className="w-[20px] h-[20px]"
-                        src="/assets/Time.svg"
+                        src="/assets/time.svg"
                       />
                       <span className="text-sm font-medium">
                         {isFinite(Number(lesson?.duration))
@@ -126,7 +126,7 @@ export default function RoomSheet({ open, setOpen }) {
 
             {data?.body?.room?.attachments?.length > 0 && (
               <>
-                <div className="h-px my-[8px] bg-primary-700" />
+                <div className="h-px my-[8px] bg-gray-light" />
 
                 <h3 className="text-[12px] text-gray-dark font-bold">
                   الملفات
@@ -138,7 +138,7 @@ export default function RoomSheet({ open, setOpen }) {
                       className="flex gap-2 flex-wrap items-center mb-[8px] px-[8px] py-[6px] bg-white rounded-lg mt-[10px] justify-between"
                     >
                       <div className="flex gap-2">
-                        <img src="/assets/FillFiles.svg" />
+                        <img src="/assets/files-fill.svg" />
                         <h2 className="text-sm font-bold text-[#121212]">
                           {attachment.name}
                         </h2>
@@ -153,7 +153,7 @@ export default function RoomSheet({ open, setOpen }) {
                             window.open(attachment.url, "_blank");
                           }}
                           download
-                          className="rounded-lg cursor-pointer h-[32px] border border-primary-700 flex justify-center items-center bg-primary w-[68px]"
+                          className="rounded-lg cursor-pointer h-[32px] border border-gray-light flex justify-center items-center bg-primary w-[68px]"
                         >
                           <img src="/assets/DownloadColor.svg" />
                         </a>

@@ -41,7 +41,7 @@ const CustomInput = ({
         <div className={`w-full flex  flex-col relative ${className}`}>
           {/* Styled Input Container */}
           <div className=" relative">
-            {/* <div className="p-2 flex items-center gap-2 border-b border-primary-700 text-gray-dark"> */}
+            {/* <div className="p-2 flex items-center gap-2 border-b border-gray-light text-gray-dark"> */}
             <FormLabel
               htmlFor={name}
               className="flex text-gray-dark mb-2 gap-4  font-medium  cursor-text  "

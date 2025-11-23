@@ -59,7 +59,7 @@ export const BookPaymentModel: React.FC<PaymentModalProps> = ({
         <DialogFooter className="flex flex-wrap flex-row!  gap-5 mt-5 mx-auto justify-center">
           <Button
             onClick={handleCheckout}
-            className="bg-primary border border-primary-700 rounded-lg w-[148px] text-sm font-bold p-2 text-white"
+            className="bg-primary border border-gray-light rounded-lg w-[148px] text-sm font-bold p-2 text-white"
           >
             دفع
           </Button>

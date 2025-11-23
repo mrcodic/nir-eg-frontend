@@ -46,7 +46,7 @@ export function NewFeaturesModal({
             </h2>
           </div>
 
-          <div className="flex gap-6 items-center flex-wrap pt-2 border-t border-primary-700">
+          <div className="flex gap-6 items-center flex-wrap pt-2 border-t border-gray-light">
             {features?.items.map((item, index) => (
               <div key={index} className="flex gap-2 items-center">
                 <CustomNum num={index + 1} />

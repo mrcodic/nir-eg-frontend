@@ -64,7 +64,7 @@ export function Combobox({ set, state, name }) {
           variant="ghost"
           role="combobox"
           aria-expanded={open}
-          className="w-full justify-between border-b border-primary-700! text-custom-brown rounded-none h-10"
+          className="w-full justify-between border-b border-gray-light! text-custom-brown rounded-none h-10"
         >
           {value
             ? frameworks.find((framework) => framework.value == value)?.label

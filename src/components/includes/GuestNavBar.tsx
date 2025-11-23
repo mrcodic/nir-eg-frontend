@@ -17,7 +17,7 @@ const GuestNavBar = () => {
     >
       <div className="wrapper ">
         <div className="flex items-center justify-between w-full gap-2">
-          <div className="flex  items-center self-end font-bold gap-12 lg:gap-[120px]">
+          <div className="flex  items-center self-end font-bold gap-12 mobile:gap-[120px]">
             <Link href={"/"}>
               <Image
                 className=""
@@ -32,7 +32,7 @@ const GuestNavBar = () => {
                 <Link
                   href="/#grades"
                   className={cn(
-                    "border  transition-all lg:text-base text-sm  cursor-pointer   hidden md:flex items-center gap-2 rounded-[10px] border-primary-700 p-2 justify-center",
+                    "border  transition-all mobile:text-base text-sm  cursor-pointer   hidden md:flex items-center gap-2 rounded-[10px] border-gray-light p-2 justify-center",
                     {
                       "bg-primary text-white": pathname === "/",
                       "bg-transparent text-[#523412]": pathname !== "/",
@@ -55,7 +55,7 @@ const GuestNavBar = () => {
                     return (
                       <Link
                         href="/books"
-                        className={`border  transition-all  lg:text-base text-sm cursor-pointer hidden md:flex items-center gap-2 rounded-[10px] border-primary-700 p-2 justify-center ${
+                        className={`border  transition-all  mobile:text-base text-sm cursor-pointer hidden md:flex items-center gap-2 rounded-[10px] border-gray-light p-2 justify-center ${
                           pathname === "/books"
                             ? "bg-primary text-white"
                             : "bg-transparent text-[#523412]"
@@ -70,7 +70,7 @@ const GuestNavBar = () => {
           </div>
 
           <div className="flex  gap-3">
-            {/* <button className="w-[40px] cursor-pointer relative h-[40px] flex items-center justify-center rounded-lg bg-white md:hidden">
+            {/* <button className="w-[40px] cursor-pointer relative h-[40px] flex items-center justify-center rounded-mobile bg-white md:hidden">
                 <span className="bg-[#B75050] absolute -top-1 -right-1 inline-block text-center rounded-full text-white w-[12px] h-[12px] text-[10px]">
                   3
                 </span>
@@ -85,16 +85,16 @@ const GuestNavBar = () => {
             <GuestDropdown />
           </div>
 
-          <div className="md:flex  gap-4 lg:gap-6 hidden">
+          <div className="md:flex  gap-4 mobile:gap-6 hidden">
             <Link
               href={"/login"}
-              className="border transition-all lg:text-base text-sm hover:bg-[#F6EADE] text-center font-bold bg-transparent p-2 text-[18px] text-secondary  border-secondary w-[135px] lg:w-[159px] rounded-[10px]"
+              className="border transition-all mobile:text-base text-sm hover:bg-[#F6EADE] text-center font-bold bg-transparent p-2 text-[18px] text-secondary  border-secondary w-[135px] mobile:w-[159px] rounded-[10px]"
             >
               <span>تسجيل دخول</span>
             </Link>
             <Link
               href="/register"
-              className="text-center lg:text-base text-sm font-bold bg-primary-800 after:w-0.5 after   p-2  text-white w-[135px] lg:w-[159px] rounded-[10px]"
+              className="text-center mobile:text-base text-sm font-bold bg-primary-800 after:w-0.5 after   p-2  text-white w-[135px] mobile:w-[159px] rounded-[10px]"
             >
               إنشاء حساب
             </Link>

@@ -69,7 +69,7 @@ const AuthNavBar = () => {
   }
 
   return (
-    <div className=" h-20 border-b fixed top-0 left-0 w-full z-30 border-primary-700 flex items-center  bg-background aria-hidden:pointer-events-auto! data-[aria-hidden='true']:pointer-events-auto!">
+    <div className=" h-20 border-b fixed top-0 left-0 w-full z-30 border-gray-light flex items-center  bg-background aria-hidden:pointer-events-auto! data-[aria-hidden='true']:pointer-events-auto!">
       <div className="wrapper">
         <div className="flex  items-center justify-between gap-4">
           <Link
@@ -83,7 +83,7 @@ const AuthNavBar = () => {
             <img src="/logo.svg" />
           </Link>
 
-          <ul className=" hidden md:flex mx-auto list-none text-[#FFFFFF] text-[16px] font-bold items-center gap-8 lg:gap-12">
+          <ul className=" hidden mobile:flex mx-auto list-none text-[#FFFFFF] text-[16px] font-bold items-center gap-8 lg:gap-12">
             {(profile?.type === 3
               ? STUDENTSOFFLINELINKS
               : STUDENTSONLINELINKS
@@ -92,7 +92,7 @@ const AuthNavBar = () => {
                 key={i}
                 href={studentLink.href}
                 onClick={(e) => center(e, studentLink.title === "الحصص")}
-                className={`border px-3 border-primary-700 h-[44px] flex items-center justify-center rounded-[10px] ${
+                className={`border px-3 border-gray-light h-[44px] flex items-center justify-center rounded-[10px] ${
                   studentLink.href.substring(0, 6) === pathName.substring(0, 6)
                     ? "bg-primary text-white"
                     : "bg-transparent text-[#523412]"
@@ -110,7 +110,7 @@ const AuthNavBar = () => {
                 return (
                   <Link
                     href="/books"
-                    className={`border px-3 border-primary-700 h-[44px] flex items-center justify-center rounded-[10px] ${
+                    className={`border px-3 border-gray-light h-[44px] flex items-center justify-center rounded-[10px] ${
                       pathName === "/books"
                         ? "bg-primary text-white"
                         : "bg-transparent text-[#523412]"
@@ -123,7 +123,7 @@ const AuthNavBar = () => {
             </WrapperHOC>
           </ul>
 
-          <div className="flex gap-4 md:gap-6">
+          <div className="flex gap-4 mobile:gap-6">
             {/* <WrapperHOC queryKey={["settings/books"]}>
               {({ data }: { data: { data: BookLinksSettings } }) => {
                 if (data?.data?.hide_books) return;

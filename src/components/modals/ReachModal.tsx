@@ -34,7 +34,7 @@ export default function ReachModal({ open, setOpen }) {
               </h3>
             </div>
           </div>
-          <div className="h-px w-full mt-[16px] bg-primary-700" />
+          <div className="h-px w-full mt-[16px] bg-gray-light" />
           <div
             style={{
               boxShadow: "0px 2px 10px 4px rgba(157, 130, 66, 0.20)",
@@ -57,7 +57,7 @@ export default function ReachModal({ open, setOpen }) {
             <DialogClose asChild className="">
               <Button
                 onClick={handleOtp}
-                className="bg-primary border border-primary-700 rounded-lg w-[148px] text-sm font-bold p-4 text-white"
+                className="bg-primary border border-gray-light rounded-lg w-[148px] text-sm font-bold p-4 text-white"
               >
                 تأكيد الرقم
               </Button>

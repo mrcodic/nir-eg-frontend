@@ -36,22 +36,6 @@ const AuthLayout = ({ children }) => {
     >
       <div className="grow min-h-[calc(100%-80px)] mt-20 flex flex-wrap h-full lg:items-start">
         <div className="flex justify-center lg:w-[38%] bg-dark-radial max-lg:w-full max-lg:h-[400px] lg:self-stretch items-center relative">
-          {/* First image → bottom, full width, 1/3 height */}
-
-          {/* <Image
-            src="/assets/bg/bg-vector.png"
-            alt="vector shape"
-            fill
-            className="object-contain object-bottom"
-          /> */}
-
-          {/* Second image → main content */}
-          {/* <Image
-            className="w-full h-full object-contain object-bottom relative z-10"
-            src="/assets/instructor-photo.svg"
-            alt="instructor photo"
-            fill
-          /> */}
           <Image
             className="w-full  object-cover  lg:object-bottom relative z-10"
             src="/assets/bg/design.png"

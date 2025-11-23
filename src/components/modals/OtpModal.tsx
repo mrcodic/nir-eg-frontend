@@ -127,7 +127,7 @@ export default function OtpModal({ open, setOpen, phone }) {
           إرسال الرمز {resending && <CustomLoader />}
         </Button> */}
 
-        <div className="h-px w-full mt-[16px] bg-primary-700" />
+        <div className="h-px w-full mt-[16px] bg-gray-light" />
 
         <Form {...form}>
           <form
@@ -175,7 +175,7 @@ export default function OtpModal({ open, setOpen, phone }) {
 
             <DialogFooter className="flex justify-start! gap-6 items-center  w-full mt-20!">
               <Button
-                className="bg-[#012D5A] border text-white font-bold border-primary-700 h-[32px] w-[144px] rounded-lg"
+                className="bg-[#012D5A] border text-white font-bold border-gray-light h-[32px] w-[144px] rounded-lg"
                 type="submit"
                 onClick={() => {
                   setOpen(true);

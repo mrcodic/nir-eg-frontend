@@ -14,6 +14,7 @@ import { otpSchema } from "@/lib/schemas";
 import { getLocalStorage } from "@/utils/clientFun";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
+import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
@@ -90,7 +91,7 @@ const ValidateOtp = ({ setResetForm }) => {
         }
       />
 
-      <div className="h-px w-full mt-[16px] bg-primary-700" />
+      <div className="h-px w-full mt-[16px] bg-gray-light" />
       <div className="h-px w-full mt-[2px] bg-[#523412]" />
       <Form {...form}>
         <form
@@ -107,7 +108,7 @@ const ValidateOtp = ({ setResetForm }) => {
             className="text-primary-800 mx-auto cursor-pointer text-[18px]  underline mt-4 font-bold disabled:opacity-50 disabled:cursor-not-allowed flex gap-2 items-center"
             disabled={start}
           >
-            أعد الإرسال {resending && <CustomLoader />}
+            أعد الإرسال {resending && <Loader2 className="animate-spin" />}
           </button>
 
           <div className="mt-[58px] flex justify-center " dir="ltr">

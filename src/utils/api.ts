@@ -220,7 +220,6 @@ export const postFormData = async (body) => {
 };
 
 export const getOtp = async (phone) => {
-  console.log("phone : ", phone);
   try {
     const response = await instance.post("/otp/request", {
       phone,

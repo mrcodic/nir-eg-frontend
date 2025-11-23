@@ -33,7 +33,7 @@ function CourseOrderCard({ data }: { data: any }) {
                   <PaymentStatusBadge status={bundle.payment_status} />
                 </h2>
               </div>
-              <div className="h-px w-full bg-primary-700 my-[12px]" />
+              <div className="h-px w-full bg-gray-light my-[12px]" />
               {/* <div className="flex text-sm md:text-[16px] gap-1  md:gap-[8px]">
                           <span className="text-gray-dark inline-block">
                             تحتوى على

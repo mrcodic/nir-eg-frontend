@@ -10,7 +10,7 @@ import SupportBadge from "./SupportBadge";
 const CoursesHeader = ({ body }) => {
   const COURSEDETAILS = [
     {
-      icon: "/assets/Time.svg",
+      icon: "/assets/time.svg",
       label: " الكورس متاح لمده:",
       // title: convertMinutes(Number(body?.classroom_price)),
       title: body?.is_subscriped
@@ -65,23 +65,23 @@ const CoursesHeader = ({ body }) => {
               <CourseInfoBadge
                 value={body?.total_lessons_count}
                 text="فيديوهات"
-                icon="/assets/FillVideos.svg"
+                icon="/assets/videos-fill.svg"
               />
 
               <CourseInfoBadge
                 value={body?.total_quizzes_count}
                 text="امتحانات"
-                icon="/assets/FillExams.svg"
+                icon="/assets/exam-fill.svg"
               />
               <CourseInfoBadge
                 value={body?.total_assignm_count}
                 text="واجبات"
-                icon="/assets/FillAssignments.svg"
+                icon="/assets/assignment-fill.svg"
               />
               <CourseInfoBadge
                 value={body?.totalMaterialCount}
                 text="ملفات"
-                icon="/assets/FillFiles.svg"
+                icon="/assets/files-fill.svg"
               />
             </div>
 
@@ -105,7 +105,7 @@ const CoursesHeader = ({ body }) => {
                 </div>
               )}
           </div>
-          <div className="h-px w-full bg-primary-700 my-[12px]" />
+          <div className="h-px w-full bg-gray-light my-[12px]" />
           <h3 className="text-[#F6EADE] text-sm md:text-[20px] mb-[56px]">
             {body?.grade}
           </h3>

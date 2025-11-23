@@ -60,7 +60,7 @@ const ExamPDFGenerator = ({
       onClick={handleDownload}
       disabled={loading}
       className={cn(
-        "w-full md:w-[172px] bg-primary h-[32px] text-sm font-bold text-white rounded-md border border-primary-700 mt-0 py-0",
+        "w-full md:w-[172px] bg-primary h-[32px] text-sm font-bold text-white rounded-md border border-gray-light mt-0 py-0",
         className
       )}
     >

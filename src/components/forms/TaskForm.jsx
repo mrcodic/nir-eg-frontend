@@ -208,7 +208,7 @@ function TaskForm({
 
         {!status && data && (
           <button
-            className="bg-primary border-2 flex justify-center border-primary-700 w-[270px] py-2 mt-[40px] text-white rounded-lg font-bold"
+            className="bg-primary border-2 flex justify-center border-gray-light w-[270px] py-2 mt-[40px] text-white rounded-lg font-bold"
             type="button"
             disabled={isSubmitting}
             onClick={async (e) => {

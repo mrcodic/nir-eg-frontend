@@ -7,13 +7,12 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import LinkLocked from "@/layouts/LinkLocked";
-import { Lock } from "lucide-react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import { PaymentModel } from "./modals/PaymentModel";
 import RoomDropDownQuiz from "./RoomDropDownItem";
+import RoomFileDownloadLink from "./RoomFileDownloadLink";
 import RoomProgressBadge from "./RoomProgressBadge";
 import PriceBadge from "./ui/PriceBadge";
 
@@ -39,26 +38,29 @@ const Room = ({
 
   return (
     <>
-      <Accordion className="relative" type="single" collapsible>
+      <Accordion className="relative bg-white" type="single" collapsible>
         <AccordionItem
           isProfile={isProfile}
           value="item-1"
           className="bg-background"
         >
-          {true && (
+          {/* {true && (
             <h2 className="text-[#012D5A] text-[18px] font-bold mb-2">
               {room?.classroom}
             </h2>
-          )}
-          <AccordionTrigger isProfile={isProfile}>
-            <div className="flex w-full md:gap-6 gap-4">
-              <img
-                className="w-[98px] h-[89.498px] "
-                src="/assets/teacher.png"
+          )} */}
+          <AccordionTrigger className="bg-white">
+            <div className="flex w-full md:gap-6 gap-4 me-4">
+              <Image
+                className="w-[104px] rounded-lg  "
+                src="/assets/grade-placeholder.png"
+                alt=""
+                width={104}
+                height={104}
               />
 
               <div className="flex-1 w-full">
-                <div className="pl-[24px]">
+                <div className="pl-6">
                   <div className="flex  items-center justify-between w-full flex-wrap-reverse gap-y-2">
                     <h3 className="text-[18px] font-bold text-[#121212]">
                       {room?.title || room?.latest_room?.title}
@@ -78,7 +80,7 @@ const Room = ({
                                 boxShadow:
                                   "0px 2px 10px 4px rgba(157, 130, 66, 0.20)",
                               }}
-                              className=" hidden md:flex font-bold text-[#523412]  border border-primary-700 text-[10px] items-center  gap-[4px] py-1 pr-px pl-[8px] rounded-[12px] bg-background"
+                              className=" hidden md:flex font-bold text-[#523412]  border border-gray-light text-[10px] items-center  gap-[4px] py-1 pr-px pl-[8px] rounded-[12px] bg-background"
                             >
                               <Image
                                 src={"/assets/LockColor.svg"}
@@ -132,9 +134,9 @@ const Room = ({
                       )}
                     </div>
                   </div>
-
-                  <div className="md:my-4  my-3   bg-primary-700  h-px" />
                 </div>
+
+                <div className="md:my-4  my-3   bg-gray-light  h-px" />
 
                 <h3 className="text-right text-sm text-gray-dark">
                   {room?.description || room?.latest_room?.description}
@@ -144,7 +146,7 @@ const Room = ({
           </AccordionTrigger>
 
           <AccordionContent>
-            <div className="mt-[24px]">
+            <div className="mt-6">
               {(room?.latest_room?.quizzes || room?.quizzes) &&
                 (room?.latest_room?.quizzes || room?.quizzes).map(
                   (quiz, index) => {
@@ -189,61 +191,14 @@ const Room = ({
                 (room?.attachments || room?.latest_room?.attachments).map(
                   (attachment, index) => {
                     return (
-                      <div
-                        key={index}
-                        className="p-2 border mb-2 
-                   justify-between rounded-md bg-white border-primary-700 flex"
-                      >
-                        <div className="font-bold flex gap-2 items-center">
-                          <img
-                            className="w-[28px] h-[28px] text-[#121212] bg-white "
-                            src="/assets/FillFiles.svg"
-                          />
-                          <span>{attachment.name}</span>
-                        </div>
-                        {room?.latest_room?.attachments &&
-                          room?.is_subscriped &&
-                          room?.parent_phone_verification && (
-                            <a
-                              onClick={() => {
-                                if (!!room?.locked_to_pass) return;
-
-                                window.open(attachment.url, "_blank");
-                              }}
-                              download
-                              className={
-                                "w-[120px] cursor-pointer flex items-center justify-center bg-primary border border-primary-700 rounded-md   text-white h-[28px]"
-                              }
-                            >
-                              {room?.locked_to_pass ||
-                              room?.latest_room?.locked_to_pass ||
-                              lock_after == 0 ? (
-                                <Lock />
-                              ) : (
-                                "تنزيل الملف"
-                              )}
-                            </a>
-                          )}
-                        {subscribe && verify && room?.attachments && (
-                          <LinkLocked
-                            locked={
-                              room?.locked_to_pass ||
-                              room?.latest_room?.locked_to_pass ||
-                              lock_after == 0
-                            }
-                          >
-                            <a
-                              onClick={() => {
-                                window.open(attachment.url, "_blank");
-                              }}
-                              download
-                              className="w-[120px] cursor-pointer flex items-center justify-center bg-primary border border-primary-700 rounded-md   text-white h-[28px]"
-                            >
-                              تنزيل الملف
-                            </a>
-                          </LinkLocked>
-                        )}
-                      </div>
+                      <RoomFileDownloadLink
+                        attachment={attachment}
+                        room={room}
+                        subscribe={subscribe || room?.is_subscriped}
+                        verify={verify || room?.parent_phone_verification}
+                        lock_after={lock_after}
+                        index={index}
+                      />
                     );
                   }
                 )}

@@ -22,9 +22,7 @@ const AccordionItem = React.forwardRef<
   <AccordionPrimitive.Item
     ref={ref}
     className={cn(
-      `data-[state=open]:border ${
-        isProfile && "border bg-background rounded-lg border-primary-700 p-4"
-      } data-[state=open]:bg-background data-[state=open]:border-primary-700 md:data-[state=open]:p-4 data-[state=open]:p-2 data-[state=open]:rounded-lg`,
+      `data-[state=open]:border border data-[state=closed]:bg-white  rounded-lg border-gray-light p-4 data-[state=open]:bg-white data-[state=open]:border-gray-light md:data-[state=open]:p-4 data-[state=open]:p-2 data-[state=open]:rounded-lg`,
       className
     )}
     {...props}
@@ -36,24 +34,17 @@ const AccordionTrigger = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Trigger>,
   AccordionTriggerProps
 >(({ className, isProfile, children, ...props }, ref) => (
-  <AccordionPrimitive.Header
-    style={{
-      boxShadow: "0px 2px 10px 4px rgba(157, 130, 66, 0.20)",
-    }}
-    className={`flex  border border-[#012D5A] p-2 rounded-lg ${
-      isProfile && " bg-white data-[state=open]:bg-transparent"
-    } `}
-  >
+  <AccordionPrimitive.Header className={`flex bg-white`}>
     <AccordionPrimitive.Trigger
       ref={ref}
       className={cn(
-        "flex flex-1 items-center  justify-between py-4 font-medium transition-all  [&[data-state=open]>svg]:rotate-180",
+        "flex flex-1 items-center  justify-between font-medium transition-all  [&[data-state=open]>svg]:rotate-180",
         className
       )}
       {...props}
     >
       {children}
-      <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200" />
+      <ChevronDown className="size-6 shrink-0 transition-transform duration-200" />
     </AccordionPrimitive.Trigger>
   </AccordionPrimitive.Header>
 ));

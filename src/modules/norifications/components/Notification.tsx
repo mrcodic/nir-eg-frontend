@@ -31,7 +31,7 @@ const Notification = ({
       href={getHref(notification)}
       onClick={markAsRead}
       dir="rtl"
-      className={`bg-[#FFFFFF] w-full hover:bg-[#F5F5F5] transition-all not-last:border-b border-primary-700 flex flex-col gap-4 text-sm py-4 p-2  shrink-0 ${
+      className={`bg-[#FFFFFF] w-full hover:bg-[#F5F5F5] transition-all not-last:border-b border-gray-light flex flex-col gap-4 text-sm py-4 p-2  shrink-0 ${
         !notification.is_read ? "bg-[#eee]" : ""
       }`}
     >
@@ -47,12 +47,12 @@ const Notification = ({
       </div>
 
       <div className="flex gap-[12px] items-center">
-        <img src="/assets/Time.svg" alt="Time icon" />
+        <img src="/assets/time.svg" alt="Time icon" />
         <span className="text-[12px] text-gray-dark">
           {formatTime(notification.created_at)}
         </span>
         {!notification.is_read && (
-          <span className="ms-auto size-4 bg-primary-700 rounded-full animate-pulse"></span>
+          <span className="ms-auto size-4 bg-gray-light rounded-full animate-pulse"></span>
         )}
       </div>
     </Link>

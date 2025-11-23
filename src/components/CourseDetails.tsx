@@ -73,7 +73,7 @@ const CourseDetails = ({ body, profileData }) => {
               <TabsTrigger
                 key={index}
                 value={tab.value}
-                className={`min-w-24 rounded-lg data-[state=active]:bg-[#012D5A] data-[state=active]:text-white bg-white text-[#523412] flex items-center border border-primary-700 px-px py-1 md:p-2 `}
+                className={`min-w-24 rounded-lg data-[state=active]:bg-[#012D5A] data-[state=active]:text-white bg-white text-[#523412] flex items-center border border-gray-light px-px py-1 md:p-2 `}
               >
                 <img className=" h-8" src={tab.iconSrc} />
                 <span className="text-sm">{tab.title}</span>

@@ -28,7 +28,7 @@ const BooksCartPayment = () => {
       {paymentTypes.length > 0 && (
         <button
           onClick={handleCheckout}
-          className="bg-primary cursor-pointer mt-10 text-center border border-primary-700 flex items-center justify-center h-10 rounded-lg w-full text-sm font-bold p-2 text-white"
+          className="bg-primary cursor-pointer mt-10 text-center border border-gray-light flex items-center justify-center h-10 rounded-lg w-full text-sm font-bold p-2 text-white"
         >
           دفع
         </button>

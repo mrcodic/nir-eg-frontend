@@ -1,6 +1,7 @@
 "use client";
 
-import AuthContext from "@/context/auth-context";
+import { useAuthContext } from "@/context/auth-context";
+import { useModal } from "@/context/ModalProvider";
 import { cn } from "@/lib/utils";
 import { CourseType } from "@/types";
 import { mapGradeToText } from "@/utils/clientFun";
@@ -8,7 +9,6 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "nextjs-toploader/app";
-import { useContext, useState } from "react";
 import { PaymentModel } from "./modals/PaymentModel";
 import { Button } from "./ui/button";
 import DataWithLabel from "./ui/DataWithLabel";
@@ -24,10 +24,10 @@ const CourseCard = ({
   isNewCourse: boolean;
   isBundles: boolean;
 }) => {
-  const [isSubscribeNow, setIsSubscribeNow] = useState(false);
-
   const router = useRouter();
-  const { token, profile } = useContext(AuthContext);
+  const modal = useModal();
+
+  const { token, profile } = useAuthContext();
   const isOnline = profile?.type === 4;
 
   return (
@@ -109,7 +109,15 @@ const CourseCard = ({
                 <Button
                   onClick={() => {
                     if (token) {
-                      setIsSubscribeNow(true);
+                      modal.setDialogContent(
+                        <PaymentModel
+                          courseId={courseDetails.id?.toString()}
+                          price={Number(courseDetails.price)}
+                          sale={courseDetails?.sale}
+                          hasCoupon={courseDetails?.has_promocode}
+                        />
+                      );
+                      modal.openModal();
                     } else {
                       router.push("/login");
                     }
@@ -136,16 +144,6 @@ const CourseCard = ({
         </div>
       </motion.div>
 
-      {isSubscribeNow && (
-        <PaymentModel
-          open={isSubscribeNow}
-          setOpen={setIsSubscribeNow}
-          courseId={courseDetails.id?.toString()}
-          price={Number(courseDetails.price)}
-          sale={courseDetails?.sale}
-          hasCoupon={courseDetails?.has_promocode}
-        />
-      )}
       {/* {true && <Congrats open={true} setOpen={setOpen} />} */}
     </div>
   );

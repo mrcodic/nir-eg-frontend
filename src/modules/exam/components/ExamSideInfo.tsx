@@ -54,7 +54,7 @@ function ExamSideInfo({ start, data, setShowRoom, defaultTitle = "امتحان" 
         onClick={() => {
           setShowRoom(true);
         }}
-        className="bg-primary text-sm mt-[16px] text-white font-bold w-[159px] gap-2 rounded-[10px] flex justify-center items-center py-2 border border-primary-700"
+        className="bg-primary text-sm mt-[16px] text-white font-bold w-[159px] gap-2 rounded-[10px] flex justify-center items-center py-2 border border-gray-light"
       >
         <img className="w-[20px] h-[20px]" src="/assets/Details.svg" />
         <span>عرض الحصة</span>

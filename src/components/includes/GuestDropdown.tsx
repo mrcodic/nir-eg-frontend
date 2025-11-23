@@ -32,7 +32,7 @@ function GuestDropdown() {
           <DropdownMenuItem> إنشاء حساب</DropdownMenuItem>
         </Link>
 
-        <div className="border flex w-full  items-center justify-center gap-2 rounded-[10px] border-primary-700 p-2">
+        <div className="border flex w-full  items-center justify-center gap-2 rounded-[10px] border-gray-light p-2">
           <Link href="/#grades" className="w-full flex justify-center">
             <DropdownMenuItem>
               <h3>الصفوف الدراسية</h3>
@@ -47,7 +47,7 @@ function GuestDropdown() {
             if (!booksData?.links?.length) return null;
 
             return (
-              <div className="border flex w-full  items-center justify-center gap-2 rounded-[10px] border-primary-700 p-2">
+              <div className="border flex w-full  items-center justify-center gap-2 rounded-[10px] border-gray-light p-2">
                 <Link href="/books" className="w-full flex justify-center">
                   <DropdownMenuItem>
                     <h3>الكتب</h3>

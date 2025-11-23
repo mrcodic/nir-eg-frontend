@@ -30,6 +30,8 @@
   --text-32: 32px;
   --text-28: 28px;
 
+  --breakpoint-mobile: 1024px;
+
   --drop-shadow-text: -1px 3px 1px hsla(32, 92%, 52%, 0.3);
 
   --color-gray-light: hsla(210, 3%, 85%, 1);
@@ -275,7 +277,7 @@
    ========================= */
 
 @utility wrapper {
-  @apply w-[80%] mx-auto px-4;
+  @apply md:w-[80%] sm:w-[90%] w-full mx-auto px-4;
 }
 
 @utility bg-dark-radial {

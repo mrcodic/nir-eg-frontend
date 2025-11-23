@@ -63,7 +63,7 @@ const Features = forwardRef((props) => {
               block: "start",
             });
           }}
-          className="w-[40px] border flex items-center justify-center border-primary-700 h-[40px] bg-[#523412] rounded-full"
+          className="w-[40px] border flex items-center justify-center border-gray-light h-[40px] bg-[#523412] rounded-full"
         >
           <Image
             src="/assets/arrow-up.svg"

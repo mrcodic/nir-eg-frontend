@@ -88,7 +88,7 @@ export default function OtpUserModal({
             </div>
           </div>
         </div>
-        <div className="h-px w-full mt-[16px] bg-primary-700" />
+        <div className="h-px w-full mt-[16px] bg-gray-light" />
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -156,7 +156,7 @@ export default function OtpUserModal({
                 className="flex items-center justify-center! w-full"
               >
                 <Button
-                  className="bg-[#012D5A] border text-white font-bold border-primary-700 h-[32px] w-[144px] rounded-lg"
+                  className="bg-[#012D5A] border text-white font-bold border-gray-light h-[32px] w-[144px] rounded-lg"
                   type="submit"
                   onClick={() => {
                     setOpen(true);

@@ -78,7 +78,7 @@ const StoreCard = ({ gift }) => {
       </div>
       <div
         className={`relative p-4 -top-2  rounded-lg bg-white w-[95%]    border  ${
-          gift.price ? "border-[#1EAD7B]" : "border-primary-700"
+          gift.price ? "border-[#1EAD7B]" : "border-gray-light"
         }`}
       >
         <div className="flex flex-col gap-2">
@@ -95,7 +95,7 @@ const StoreCard = ({ gift }) => {
           <div className="mt-[16px] justify-between flex">
             <button
               className={cn(
-                " p-px text-xs font-bold h-7  text-[12px] text-center w-[120px] flex items-center justify-center   border-2 border-primary-700  rounded-lg text-white"
+                " p-px text-xs font-bold h-7  text-[12px] text-center w-[120px] flex items-center justify-center   border-2 border-gray-light  rounded-lg text-white"
               )}
               onClick={() => buyGift(gift.id)}
             >
@@ -121,7 +121,7 @@ const StoreCard = ({ gift }) => {
             >
               <div
                 className={cn(
-                  "flex items-center justify-center gap-2 bg-primary-700 w-full h-full rounded-lg  ",
+                  "flex items-center justify-center gap-2 bg-gray-light w-full h-full rounded-lg  ",
                   !gift.favorite && " bg-white text-blue-950 "
                 )}
               >

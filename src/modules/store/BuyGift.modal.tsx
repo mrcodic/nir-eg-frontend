@@ -52,8 +52,8 @@ export default function BuyGift({ open, setOpen, length, gift }) {
             />
             هل أنت متأكد من أنك تريد شراء الهدية؟{" "}
           </p>
-          <div className="h-px my-[12px] bg-primary-700" />
-          <div className=" border border-primary-700 bg-background flex p-4 gap-6 h-[136px] rounded-lg  items-center w-[418px] ">
+          <div className="h-px my-[12px] bg-gray-light" />
+          <div className=" border border-gray-light bg-background flex p-4 gap-6 h-[136px] rounded-lg  items-center w-[418px] ">
             <img
               src={gift?.image || "/assets/playStation.svg"}
               className="w-[77px] h-[104px]"
@@ -73,7 +73,7 @@ export default function BuyGift({ open, setOpen, length, gift }) {
             className="flex items-center justify-center! w-full"
           >
             <Button
-              className="bg-primary border text-white font-bold border-primary-700 h-[32px] w-[144px] rounded-lg"
+              className="bg-primary border text-white font-bold border-gray-light h-[32px] w-[144px] rounded-lg"
               onClick={() => {
                 buyGift();
               }}

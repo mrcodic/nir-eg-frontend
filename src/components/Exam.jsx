@@ -16,7 +16,7 @@ const Exam = ({ exam, isPreviousExam }) => {
               {exam.title}
             </h3>
           </div>
-          <div className="my-[16px] bg-primary-700  h-px" />
+          <div className="my-[16px] bg-gray-light  h-px" />
         </div>
 
         <div className="flex flex-wrap justify-between items-center ">
@@ -49,7 +49,7 @@ const Exam = ({ exam, isPreviousExam }) => {
 
       <Link
         href={`/bundles/${SingleCourse}/exams/${exam.id}`}
-        className="flex items-center gap-2 rounded-lg self-end py-2 px-2 text-white bg-primary border border-primary-700"
+        className="flex items-center gap-2 rounded-lg self-end py-2 px-2 text-white bg-primary border border-gray-light"
       >
         <h3 className="hidden md:block">الذهاب للامتحان</h3>
         <img src="/assets/LeftArrowColor.svg" />

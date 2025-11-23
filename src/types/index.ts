@@ -8,6 +8,7 @@ export interface IUser {
   created_at: string;
   first_name: string;
   grade: number;
+  grade_name: string;
   id: number;
   last_name: string;
   parent_phone: string;

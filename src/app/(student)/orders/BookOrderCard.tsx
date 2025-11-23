@@ -34,7 +34,7 @@ function BookOrderCard({ data }: { data: any }) {
                 </h2>
               </div>
 
-              <div className="h-px w-full bg-primary-700 my-[12px]" />
+              <div className="h-px w-full bg-gray-light my-[12px]" />
 
               <div className="flex flex-col">
                 <div className="flex justify-between gap-4 items-center">

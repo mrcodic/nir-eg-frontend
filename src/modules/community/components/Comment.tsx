@@ -24,7 +24,7 @@ const Comment = ({ comment, setSelectedCommentLesson }: CommentProps) => {
     <div className="bg-background  p-3 rounded-lg flex flex-col">
       <div className="flex border-b-2 p-2 border-[#F8DEC5] justify-between">
         <div className="flex items-center gap-2">
-          <Image src="/assets/Time.svg" width={20} height={20} alt="time" />
+          <Image src="/assets/time.svg" width={20} height={20} alt="time" />
           <span className="text-[#121212] inline-block text-xs sm:text-[16px] font-medium">
             {" "}
             {convertDate(comment?.created_at)}{" "}

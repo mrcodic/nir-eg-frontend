@@ -60,7 +60,7 @@ const PaymentCom = ({
         <div className="flex flex-row! justify-between gap-5 mt-5 mx-auto">
           <div
             onClick={handleNextClick}
-            className="bg-primary cursor-pointer text-center border border-primary-700 rounded-lg w-[148px] text-sm font-bold p-2 text-white"
+            className="bg-primary cursor-pointer text-center border border-gray-light rounded-lg w-[148px] text-sm font-bold p-2 text-white"
           >
             التالي
           </div>

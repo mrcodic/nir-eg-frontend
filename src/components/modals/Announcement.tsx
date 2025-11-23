@@ -42,7 +42,7 @@ export default function Announcement() {
             style={{
               boxShadow: "0px 2px 10px 4px rgba(157,130,66,0.20)",
             }}
-            className="p-4 bg-[url('/assets/announcementBg.svg')] bg-no-repeat bg-position-[center_left] flex flex-wrap items-center min-h-[121px] justify-between px-10 gap-5 bg-background border  text-sm font-bold text-[#523412] border-primary-700 rounded-lg   relative"
+            className="p-4 bg-[url('/assets/announcementBg.svg')] bg-no-repeat bg-position-[center_left] flex flex-wrap items-center min-h-[121px] justify-between px-10 gap-5 bg-background border  text-sm font-bold text-[#523412] border-gray-light rounded-lg   relative"
           >
             <div className="flex flex-wrap items-center md:max-w-[70%] gap-6">
               <DotLottieReact

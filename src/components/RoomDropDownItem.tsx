@@ -2,9 +2,9 @@ import LinkLocked from "@/layouts/LinkLocked";
 import Link from "next/link";
 
 const mapTypeToIcon = {
-  exam: "/assets/FillExams.svg",
-  ass: "/assets/FillAssignments.svg",
-  attach: "/assets/FillAttach.svg",
+  exam: "/assets/exam-fill.svg",
+  ass: "/assets/assignment-fill.svg",
+  attach: "/assets/files-fill.svg",
 };
 
 function RoomDropDownItem({
@@ -30,7 +30,7 @@ function RoomDropDownItem({
   type: "exam" | "ass" | "attach";
 }) {
   return (
-    <div className="p-2 border my-4  justify-between rounded-md bg-white border-primary-700 flex">
+    <div className="p-2 border my-4  justify-between rounded-md bg-background border-gray-light flex">
       <div className="font-bold flex gap-2 items-center">
         <img
           className="w-[28px] h-[28px] text-[#121212] bg-white "
@@ -45,7 +45,7 @@ function RoomDropDownItem({
             href={`/bundles/${SingleCourse || room?.id}/${
               room?.latest_room?.id || room?.id
             }/${type === "ass" ? "assignment" : "exams"}/${item.id}`}
-            className="w-[155px] flex justify-center items-center bg-primary border border-primary-700 rounded-md   text-white h-[28px]"
+            className="w-full text-center"
           >
             {linkText}
           </Link>
@@ -62,7 +62,7 @@ function RoomDropDownItem({
 //                                 href={`/bundles/${SingleCourse || room?.id}/${
 //                                   room?.latest_room?.id || room?.id
 //                                 }/exams/${quiz.id}`}
-//                                 className="w-[155px] flex justify-center items-center bg-primary border border-primary-700 rounded-md   text-white h-[28px]"
+//                                 className="w-[155px] flex justify-center items-center bg-primary border border-gray-light rounded-md   text-white h-[28px]"
 //                               >
 //                                 فتح الامتحان
 //                               </Link>

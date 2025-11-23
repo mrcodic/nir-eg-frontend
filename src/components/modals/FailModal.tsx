@@ -44,7 +44,7 @@ export default function Fail({
                 <TaskModelScore score={score} pass={false} />
               </div>
 
-              <div className="h-px my-[12px] bg-primary-700" />
+              <div className="h-px my-[12px] bg-gray-light" />
               <span className="text-[#121212] inline-block font-medium">
                 إذا قمت بعرض الإجابات مرة أخرى لن تتمكن من إعادة الامتحان
               </span>
@@ -61,7 +61,7 @@ export default function Fail({
                   {/* {start?.show_answer && (
                     <button
                       onClick={() => showAnswers()}
-                      className=" w-full md:w-[172px] bg-primary h-[32px] text-sm font-bold text-white rounded-md border border-primary-700"
+                      className=" w-full md:w-[172px] bg-primary h-[32px] text-sm font-bold text-white rounded-md border border-gray-light"
                     >
                       عرض الإجابات
                     </button>

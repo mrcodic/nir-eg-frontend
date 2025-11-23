@@ -66,7 +66,7 @@ const NewPasswordForm = () => {
         </div>
       </div>
 
-      <div className="h-px w-full mt-[16px] bg-primary-700" />
+      <div className="h-px w-full mt-[16px] bg-gray-light" />
       <div className="h-px w-full mt-[2px] bg-[#523412]" />
 
       <Form {...form}>
@@ -77,14 +77,14 @@ const NewPasswordForm = () => {
           <CustomInput
             name="password"
             control={form.control}
-            placeholder="كلمة السر"
+            label="كلمة السر"
             iconSrc="/assets/Lock.svg"
             type="password"
           />
           <CustomInput
             name="password_confirmation"
             control={form.control}
-            placeholder="تأكيد كلمة السر"
+            label="تأكيد كلمة السر"
             iconSrc="/assets/Lock.svg"
             type="password"
           />
@@ -110,7 +110,7 @@ const NewPasswordForm = () => {
 
           <button
             type="submit"
-            className="bg-[#523412] text-white rounded-[10px] py-2 font-bold w-[265px] flex justify-center mt-[56px] border border-primary-700"
+            className="bg-[#523412] text-white rounded-[10px] py-2 font-bold w-[265px] flex justify-center mt-[56px] border border-gray-light"
             disabled={form.formState.isSubmitting}
           >
             {!form.formState.isSubmitting ? "   تأكيد" : <CustomLoader />}

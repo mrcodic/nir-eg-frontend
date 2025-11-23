@@ -57,7 +57,7 @@ const BookCard = ({ book }: { book: Book }) => {
       </MotionLink>
 
       <div
-        className={`relative  p-4 mx-auto -top-2 grow rounded-lg bg-white w-[95%]    border shadow-xs border-primary-700`}
+        className={`relative  p-4 mx-auto -top-2 grow rounded-lg bg-white w-[95%]    border shadow-xs border-gray-light`}
       >
         <div className="flex flex-col gap-y-4">
           <CardTitle className="text-xl">{book?.name}</CardTitle>

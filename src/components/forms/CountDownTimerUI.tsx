@@ -1,3 +1,5 @@
+import { cn } from "@/lib/utils";
+
 const formatTime = (num) => num.toString().padStart(2, "0");
 
 function CountDownTimerUI({ minutes, seconds }) {
@@ -6,7 +8,12 @@ function CountDownTimerUI({ minutes, seconds }) {
       <span className="text-gray-dark font-bold inline-block text-xl">
         هذا الرمز صالح لمدة
       </span>
-      <div className="text-[#B75050] font-bold text-xl">
+      <div
+        className={cn(
+          "text-[#B75050] font-bold text-xl",
+          minutes === 0 && seconds === 0 && "text-gray-light"
+        )}
+      >
         <span>{formatTime(minutes)}</span>:<span>{formatTime(seconds)}</span>
       </div>
     </div>

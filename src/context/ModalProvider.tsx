@@ -75,10 +75,7 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
         <DialogDescription />
         <DialogContent
           {...dialogContentProps}
-          className={cn(
-            "bg-background max-md:p-1!",
-            dialogContentProps?.className
-          )}
+          className={cn("bg-white max-md:p-1!", dialogContentProps?.className)}
           onPointerDownOutside={(e) => {
             // don't dismiss dialog when clicking a toast
             if (

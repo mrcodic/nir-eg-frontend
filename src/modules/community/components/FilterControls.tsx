@@ -13,7 +13,7 @@ function FilterControls({
         onClick={() => setFilterMode("current")}
         className={`px-3 py-1 text-[10px] rounded-md transition-colors ${
           filterMode === "current"
-            ? "bg-primary-700 text-white"
+            ? "bg-gray-light text-white"
             : "bg-gray-200 text-gray-700 hover:bg-gray-300"
         }`}
       >
@@ -23,7 +23,7 @@ function FilterControls({
         onClick={() => setFilterMode("all")}
         className={`px-3 py-1 text-[10px] rounded-md transition-colors ${
           filterMode === "all"
-            ? "bg-primary-700 text-white"
+            ? "bg-gray-light text-white"
             : "bg-gray-200 text-gray-700 hover:bg-gray-300"
         }`}
       >

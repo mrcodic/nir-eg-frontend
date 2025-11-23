@@ -29,7 +29,7 @@ export default function SocialCard({ card }) {
           <Link
             style={{ backgroundColor: card.followIconColor }}
             href={card.link}
-            className={`w-[40px] rounded-[40px] flex items-center justify-center border border-primary-700 h-[40px]`}
+            className={`w-[40px] rounded-[40px] flex items-center justify-center border border-gray-light h-[40px]`}
           >
             <Image
               alt="arrow"

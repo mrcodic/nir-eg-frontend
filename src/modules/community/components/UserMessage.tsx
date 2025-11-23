@@ -43,7 +43,7 @@ const UserMessage = ({
       <div
         className={`flex flex-col shrink-0 p-2 py-2  w-full gap-2 ${
           isAdmin
-            ? "bg-background  border border-primary-700   rounded-lg"
+            ? "bg-background  border border-gray-light   rounded-lg"
             : "bg-white border border-[#cccc] rounded-lg"
         }  `}
       >
@@ -170,7 +170,7 @@ const UserMessage = ({
         )}
 
         {showReply && !isReply && (
-          <div className="border flex items-start gap-4 border-primary-700 rounded-lg p-2 mt-4 max-sm:flex-wrap relative">
+          <div className="border flex items-start gap-4 border-gray-light rounded-lg p-2 mt-4 max-sm:flex-wrap relative">
             <div className="absolute size-5 top-0 right-0  bg-[#012D5A] flex items-center justify-center rounded-full  ">
               <button
                 onClick={() => setShowReply(false)}

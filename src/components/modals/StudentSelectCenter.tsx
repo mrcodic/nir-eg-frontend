@@ -135,7 +135,7 @@ export function StudentSelectCenter({
                   variant="ghost"
                   role="combobox"
                   aria-expanded={open}
-                  className="w-full justify-between border-b border-primary-700! text-custom-brown rounded-none h-10"
+                  className="w-full justify-between border-b border-gray-light! text-custom-brown rounded-none h-10"
                   onClick={() => setOpenCombox(true)}
                 >
                   <div className="flex items-center gap-2">
@@ -196,7 +196,7 @@ export function StudentSelectCenter({
 
             <DialogFooter className="flex max-sm:flex-col flex-row  gap-6 items-center sm:justify-center  w-full mt-8">
               <Button
-                className="bg-[#012D5A] border text-white font-bold border-primary-700 h-[32px] w-[144px] rounded-lg"
+                className="bg-[#012D5A] border text-white font-bold border-gray-light h-[32px] w-[144px] rounded-lg"
                 type="submit"
                 onClick={() => {
                   setOpen(true);

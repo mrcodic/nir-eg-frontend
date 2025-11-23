@@ -32,7 +32,7 @@ export function SimplePagination({
     <div
       dir="rtl"
       className={cn(
-        "flex items-center justify-center gap-4 pt-3 border-t border-primary-700 mt-2",
+        "flex items-center justify-center gap-4 pt-3 border-t border-gray-light mt-2",
         className
       )}
     >

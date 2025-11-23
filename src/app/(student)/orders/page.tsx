@@ -71,13 +71,13 @@ export default function Page() {
         <TabsList className="w-full gap-6">
           <TabsTrigger
             value="books"
-            className="data-[state=active]:bg-[#012D5A] data-[state=active]:text-white rounded-[10px] border border-primary-700 h-11 font-bold p-2 px-3"
+            className="data-[state=active]:bg-[#012D5A] data-[state=active]:text-white rounded-[10px] border border-gray-light h-11 font-bold p-2 px-3"
           >
             طلبات الكتب
           </TabsTrigger>
           <TabsTrigger
             value="courses"
-            className="data-[state=active]:bg-[#012D5A] data-[state=active]:text-white rounded-[10px] border border-primary-700 h-11 font-bold p-2 px-3"
+            className="data-[state=active]:bg-[#012D5A] data-[state=active]:text-white rounded-[10px] border border-gray-light h-11 font-bold p-2 px-3"
           >
             طلبات الكورسات
           </TabsTrigger>

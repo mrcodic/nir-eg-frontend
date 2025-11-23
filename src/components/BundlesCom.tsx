@@ -13,7 +13,7 @@ import { Button } from "./ui/button";
 import DataWithLabel from "./ui/DataWithLabel";
 import PriceBubbles from "./ui/price-bubble";
 
-const BundlesCom = ({ bundles }) => {
+const BundlesCom = () => {
   const modal = useModal();
 
   const searchParams = useSearchParams();
@@ -35,7 +35,7 @@ const BundlesCom = ({ bundles }) => {
     queryKey: ["/students/profile"],
   });
 
-  const { data } = useQuery({
+  const { data, isLoading: bundlesLoading } = useQuery({
     queryKey: [api],
     queryFn: profile ? getDataClient : getGuestData,
     gcTime: 0,
@@ -62,8 +62,11 @@ const BundlesCom = ({ bundles }) => {
       <div className="flex flex-col gap-6 mt-8">
         {BundlesData?.map((bundle, index) => {
           return (
-            <div key={index} className="flex flex-col md:flex-row md:gap-6">
-              <div className=" w-full max-h-[270px] md:w-[270px] aspect-square bg-background rounded-lg overflow-hidden relative max-md:mx-auto">
+            <div
+              key={index}
+              className="flex flex-col mobile:flex-row mobile:gap-6"
+            >
+              <div className=" w-full max-h-[270px] mobile:w-[270px] aspect-square bg-background rounded-lg overflow-hidden relative max-mobile:mx-auto">
                 <Image
                   className=" object-contain "
                   src={bundle?.cover || "/assets/grade-placeholder.png"}
@@ -74,14 +77,14 @@ const BundlesCom = ({ bundles }) => {
 
               <div className={`flex-1 border rounded-lg p-4 `}>
                 <div className="flex w-full items-center justify-between gap-6 border-b border-gray-light pb-3">
-                  <h2 className=" text-sm md:text-2xl font-bold">
+                  <h2 className=" text-sm mobile:text-2xl font-bold">
                     {bundle.name}
                   </h2>
 
                   <PriceBubbles price={bundle.price} sale={bundle.sale} />
                 </div>
 
-                <div className="flex flex-col  md:text-base gap-1  md:gap-2 mt-4">
+                <div className="flex flex-col  mobile:text-base gap-1  mobile:gap-2 mt-4">
                   <h3 className="text-gray-dark text-sm ">
                     تحتوي الباقة على التالي:
                   </h3>

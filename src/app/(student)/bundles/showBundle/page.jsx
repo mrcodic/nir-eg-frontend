@@ -32,7 +32,7 @@ const ShowBundle = () => {
           <div className="flex items-end gap-[12px]">
             {/* <button
               onClick={() => setIsSubscribeNow(true)}
-              className="bg-primary w-[120px] text-sm h-[30px] text-center flex items-center justify-center  py-1 border-2 border-primary-700 px-[24px] rounded-[10px] text-white"
+              className="bg-primary w-[120px] text-sm h-[30px] text-center flex items-center justify-center  py-1 border-2 border-gray-light px-[24px] rounded-[10px] text-white"
             >
               اشترك الآن
             </button> */}
@@ -99,7 +99,7 @@ const ShowBundle = () => {
             </div>
           </div>
         </div>
-        <div className="bg-primary-700 h-px w-full my-[16px]" />
+        <div className="bg-gray-light h-px w-full my-[16px]" />
         <span className="text-gray-dark text-[18px] font-bold">تحتوى على </span>
         <div className="mt-[24px] gap-4  grid grid-cols-1  md:grid-cols-3 ">
           {data?.body?.classrooms.map((classroom) => (

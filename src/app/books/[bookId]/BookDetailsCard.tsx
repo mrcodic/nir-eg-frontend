@@ -47,7 +47,7 @@ function BookDetailsCard({ book }: { book: Book }) {
 
           <p className="md:text-xl text-lg font-medium mt-4">{description}</p>
 
-          <hr className="border-primary-700 mt-3 mb-6" />
+          <hr className="border-gray-light mt-3 mb-6" />
 
           <div>
             <p className="text-2xl font-bold">

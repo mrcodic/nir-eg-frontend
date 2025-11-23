@@ -1,15 +1,15 @@
 import { mapGradeToText } from "@/utils/clientFun";
 import Image from "next/image";
 
-function GradeCard({ grade }: { grade: any }) {
-  const mappedGrade = mapGradeToText(grade);
+function GradeCard({ grade, text }: { grade: number; text?: string }) {
+  const mappedGrade = text || mapGradeToText(grade);
 
   return (
     <div
       style={{
         boxShadow: "0px 2px 10px 4px rgba(157, 130, 66, 0.20)",
       }}
-      className=" w-full  md:w-[246px] flex justify-center gap-2 sm:gap-6 border text-center items-center rounded-[12px] bg-white p-2 border-primary-700"
+      className=" w-full  md:w-[246px] flex justify-center gap-2 sm:gap-6 border text-center items-center rounded-[12px] bg-white p-2 border-gray-light"
     >
       <Image
         width={40}

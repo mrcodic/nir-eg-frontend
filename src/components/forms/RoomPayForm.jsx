@@ -43,7 +43,7 @@ const RoomPayForm = async ({ roomId, centerId, data }) => {
               </div>
             )}
           </div>
-          <div className="h-px w-full bg-primary-700 my-[12px]" />
+          <div className="h-px w-full bg-gray-light my-[12px]" />
           <div className="flex font-bold text-[16px]  gap-[8px]">
             {data?.body?.room?.description}
           </div>
@@ -122,7 +122,7 @@ const RoomPayForm = async ({ roomId, centerId, data }) => {
                       placeholder="أدخل الكود"
                     />
                   </div>
-                  <button className="bg-primary rounded-[10px] self-end border border-primary-700 px-[24px] text-white h-[40px]">
+                  <button className="bg-primary rounded-[10px] self-end border border-gray-light px-[24px] text-white h-[40px]">
                     إدخال
                   </button>
                 </div>
@@ -137,9 +137,9 @@ const RoomPayForm = async ({ roomId, centerId, data }) => {
         أدخل الكود لتتمكن من عرض محتوى الحصة , للحصول علي الكود من خلال السنتر.
       </h3>
       {/* <div className="my-[48px] flex items-center justify-center   w-full gap-4">
-        <div className="bg-primary-700 h-px w-full" />
+        <div className="bg-gray-light h-px w-full" />
         <span className="text-[#523412] text-[16px]">أو</span>
-        <div className="bg-primary-700 h-px w-full" />
+        <div className="bg-gray-light h-px w-full" />
       </div> */}
       {/* <div className="flex flex-wrap gap-[24px] items-center">
         <img className="w-[144px]" src="/assets/Vodafone-cash.svg" />

@@ -72,7 +72,7 @@ const Community = ({ lessonId, currentTime, locked }: CommunityProps) => {
   return (
     <div className="mt-[24px]">
       {!locked && (
-        <div className="border flex flex-col gap-2 border-primary-700 rounded-lg p-1">
+        <div className="border flex flex-col gap-2 border-gray-light rounded-lg p-1">
           <div className="flex gap-2 flex-wrap">
             <p className="text-xs font-medium text-gray-dark">
               كتابة ملاحظة في الدقيقة:
@@ -104,7 +104,7 @@ const Community = ({ lessonId, currentTime, locked }: CommunityProps) => {
         </div>
       )}
 
-      <div className="border border-b mt-4 border-primary-700"></div>
+      <div className="border border-b mt-4 border-gray-light"></div>
 
       {comments?.data?.length > 0 ? (
         <div>
@@ -157,7 +157,7 @@ const Community = ({ lessonId, currentTime, locked }: CommunityProps) => {
 
                 {/* Pagination Controls */}
                 {totalPages > 1 && (
-                  <div className="mt-2 pb-2 border-t border-primary-700">
+                  <div className="mt-2 pb-2 border-t border-gray-light">
                     <PaginationComponent
                       currentPage={currentPage}
                       total={filteredComments?.length}

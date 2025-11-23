@@ -54,7 +54,7 @@ const signupCode = () => {
           </div>
         </div>
       </div>
-      <div className="h-px w-full mt-[16px] bg-primary-700" />
+      <div className="h-px w-full mt-[16px] bg-gray-light" />
       <div className="h-px w-full mt-[2px] bg-[#523412]" />
       <form onSubmit={handleSubmit(onSubmit)} className="mt-[40px] w-full">
         <div className="flex mt-[32px] gap-[24px] w-full">
@@ -109,7 +109,7 @@ const signupCode = () => {
             form.setValue("recaptcha_token", token);
           }}
         />
-        <button className="bg-[#523412] mt-[48px] text-white rounded-lg py-2 font-bold w-[269px]  border-2 border-primary-700">
+        <button className="bg-[#523412] mt-[48px] text-white rounded-lg py-2 font-bold w-[269px]  border-2 border-gray-light">
           تأكيد
         </button>
       </form>

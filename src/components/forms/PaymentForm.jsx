@@ -79,7 +79,7 @@ const PaymentForm = ({ grade, setRefresh }) => {
               )}
             </div>
             <button
-              className="bg-primary w-1/4 text-[10px] md:text-xl rounded-[10px] self-end border border-primary-700 px-[24px] text-white h-[30px] md:h-[40px]"
+              className="bg-primary w-1/4 text-[10px] md:text-xl rounded-[10px] self-end border border-gray-light px-[24px] text-white h-[30px] md:h-[40px]"
               disabled={form.formState.isSubmitting}
             >
               {!form.formState.isSubmitting ? "   إدخال" : <CustomLoader />}
@@ -88,7 +88,7 @@ const PaymentForm = ({ grade, setRefresh }) => {
         </div>
         {/* <button
             type="submit"
-            className="bg-[#523412] text-white rounded-[10px] py-2 font-bold w-[265px] flex justify-center mt-[56px] border border-primary-700"
+            className="bg-[#523412] text-white rounded-[10px] py-2 font-bold w-[265px] flex justify-center mt-[56px] border border-gray-light"
             disabled={form.formState.isSubmitting}
           >
             {!form.formState.isSubmitting ? "   تأكيد" : <CustomLoader />}

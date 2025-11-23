@@ -38,7 +38,7 @@ const BundleForm = async ({ bundleId, data }) => {
               </div>
             )}
           </div>
-          <div className="h-px w-full bg-primary-700 my-[12px]" />
+          <div className="h-px w-full bg-gray-light my-[12px]" />
           <div className="flex font-bold text-[16px]  gap-[8px]">
             <span className="text-gray-dark inline-block text-sm">
               {" "}

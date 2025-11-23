@@ -23,7 +23,7 @@ export default function NotSubscribed({ open, setOpen }) {
             </h3>
           </div>
         </div>
-        <div className="h-px w-full mt-[16px] bg-primary-700" />
+        <div className="h-px w-full mt-[16px] bg-gray-light" />
 
         <PaymentForm grade={getLocalStorage("grade")} />
 

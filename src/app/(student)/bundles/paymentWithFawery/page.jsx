@@ -55,7 +55,7 @@ const PaymentWithFawery = () => {
                       باقة شهر 10 و 11
                     </h2>
                   </div>
-                  <div className="h-px w-full bg-primary-700 my-[12px]" />
+                  <div className="h-px w-full bg-gray-light my-[12px]" />
                   <div className="flex font-bold text-[16px]  gap-[8px]">
                     <span className="text-gray-dark inline-block">
                       تحتوى على
@@ -148,7 +148,7 @@ const PaymentWithFawery = () => {
                     style={{
                       boxShadow: "0px 2px 10px 4px rgba(157,130,66,0.20)",
                     }}
-                    className="p-4 flex gap-[16px] bg-background border text-sm font-bold text-[#523412] border-primary-700 rounded-lg"
+                    className="p-4 flex gap-[16px] bg-background border text-sm font-bold text-[#523412] border-gray-light rounded-lg"
                   >
                     <img src="/assets/WarningColor.svg" />
                     <div>
@@ -164,7 +164,7 @@ const PaymentWithFawery = () => {
                       style={{
                         boxShadow: "0px 2px 10px 4px rgba(157,130,66,0.20)",
                       }}
-                      className="p-4 flex-1 items-center flex gap-[16px] bg-background border text-sm font-bold text-[#523412] border-primary-700 rounded-lg"
+                      className="p-4 flex-1 items-center flex gap-[16px] bg-background border text-sm font-bold text-[#523412] border-gray-light rounded-lg"
                     >
                       <div>
                         <p>
@@ -177,7 +177,7 @@ const PaymentWithFawery = () => {
                       style={{
                         boxShadow: "0px 2px 10px 4px rgba(157,130,66,0.20)",
                       }}
-                      className="p-4 flex-1 justify-between items-center flex gap-[16px] bg-background border text-sm font-bold text-[#523412] border-primary-700 rounded-lg"
+                      className="p-4 flex-1 justify-between items-center flex gap-[16px] bg-background border text-sm font-bold text-[#523412] border-gray-light rounded-lg"
                     >
                       <div>
                         <p>أو ادفع عن طريق تطبيق فوري</p>
@@ -233,7 +233,7 @@ const PaymentWithFawery = () => {
                     باقة شهر 10 و 11
                   </h2>
                 </div>
-                <div className="h-px w-full bg-primary-700 my-[12px]" />
+                <div className="h-px w-full bg-gray-light my-[12px]" />
                 <div className="flex font-bold text-[16px]  gap-[8px]">
                   <span className="text-gray-dark inline-block">تحتوى على</span>
                   <span className="text-[#523412] inline-block font-bold">

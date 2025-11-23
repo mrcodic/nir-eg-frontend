@@ -83,7 +83,7 @@ export default function Passed({
 
               {start?.review_pending ? (
                 <>
-                  <div className="h-px my-[12px] bg-primary-700" />
+                  <div className="h-px my-[12px] bg-gray-light" />
 
                   <p className="text-[18px] text-[#121212] font-medium mt-6">
                     ستتمكن من عرض اجاباتك بعد تصحيح الامتحان
@@ -91,7 +91,7 @@ export default function Passed({
                 </>
               ) : (
                 <>
-                  <div className="h-px my-[12px] bg-primary-700" />
+                  <div className="h-px my-[12px] bg-gray-light" />
                   <span className="text-[#121212] inline-block font-medium">
                     إذا قمت بعرض الإجابات مرة أخرى لن تتمكن من إعادة الامتحان
                   </span>
@@ -113,14 +113,14 @@ export default function Passed({
                       {start?.show_answer && (
                         <button
                           onClick={showAnswers}
-                          className=" w-full md:w-[172px] bg-primary h-[32px] text-sm font-bold text-white rounded-md border border-primary-700"
+                          className=" w-full md:w-[172px] bg-primary h-[32px] text-sm font-bold text-white rounded-md border border-gray-light"
                         >
                           عرض الإجابات
                         </button>
                       )}
                       {start?.retake && (
                         <button
-                          className="bg-primary-700 py-1 w-full md:w-[172px] borer border-primary px-[12px] font-bold text-white text-sm rounded-lg"
+                          className="bg-gray-light py-1 w-full md:w-[172px] borer border-primary px-[12px] font-bold text-white text-sm rounded-lg"
                           onClick={retake}
                         >
                           إعادة الامتحان

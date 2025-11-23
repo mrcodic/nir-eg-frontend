@@ -38,13 +38,13 @@ const SelectedLesson = ({
         onClick={() => {
           router.push(`/bundles/${SingleCourse}`);
         }}
-        className="border border-primary-700 cursor-pointer flex items-center justify-center bg-[#012D5A] mt-[24px] py-2 text-white rounded-lg w-full"
+        className="border border-gray-light cursor-pointer flex items-center justify-center bg-[#012D5A] mt-[24px] py-2 text-white rounded-lg w-full"
       >
         <img src="/assets/LeftArrowColor.svg" />
         <span>العودة للكورس</span>
       </div>
 
-      <div className="h-px w-full bg-primary-700 my-4" />
+      <div className="h-px w-full bg-gray-light my-4" />
       {!!data?.quizzes?.length && (
         <>
           <h3 className="text-gray-dark text-[12px] font-bold">الامتحانات</h3>
@@ -55,12 +55,12 @@ const SelectedLesson = ({
                 className="flex items-center px-[8px] py-[12px] rounded-lg bg-white mt-[15px] justify-between"
               >
                 <div className="flex gap-2">
-                  <img src="/assets/FillExams.svg" />
+                  <img src="/assets/exam-fill.svg" />
                   <h2 className="text-sm font-bold text-[#121212] break-all">
                     {quiz?.title}
                   </h2>
                 </div>
-                <div className="rounded-lg h-[32px] border text-white border-primary-700 flex justify-center items-center bg-primary w-[68px]">
+                <div className="rounded-lg h-[32px] border text-white border-gray-light flex justify-center items-center bg-primary w-[68px]">
                   <Link href={`${room}/exams/${quiz.id}`}>
                     <img src="/assets/DownloadColor.svg" />
                   </Link>
@@ -68,7 +68,7 @@ const SelectedLesson = ({
               </div>
             );
           })}
-          <div className="h-px w-full bg-primary-700 my-4" />
+          <div className="h-px w-full bg-gray-light my-4" />
         </>
       )}
 
@@ -86,13 +86,13 @@ const SelectedLesson = ({
           } rounded-lg mb-[12px] px-[8px]  py-[12px]`}
         >
           <div className="flex text-sm items-center font-bold gap-4">
-            <img src="/assets/FillVideos.svg" className="w-[24px] h-[24px]" />
+            <img src="/assets/videos-fill.svg" className="w-[24px] h-[24px]" />
             <h3>{lesson?.title}</h3>
           </div>
 
           <div className="mr-10 flex justify-between mt-[8px]">
             <div className="flex items-center gap-2">
-              <img className="w-[20px] h-[20px]" src="/assets/Time.svg" />
+              <img className="w-[20px] h-[20px]" src="/assets/time.svg" />
               <span className="text-[#523412] flex gap-1 text-[12px] font-medium">
                 {" "}
                 <span>
@@ -125,7 +125,7 @@ const SelectedLesson = ({
                 className="flex items-center mb-[8px] px-[8px] py-[12px] bg-white rounded-lg mt-[10px] justify-between"
               >
                 <div className="flex gap-2">
-                  <img src="/assets/FillFiles.svg" />
+                  <img src="/assets/files-fill.svg" />
                   <h2 className="text-sm font-bold text-[#121212]">
                     {attachment.name}
                   </h2>
@@ -136,7 +136,7 @@ const SelectedLesson = ({
                       window.open(attachment.url, "_blank");
                     }}
                     download
-                    className="rounded-lg cursor-pointer h-[32px] border border-primary-700 flex justify-center items-center bg-primary w-[68px]"
+                    className="rounded-lg cursor-pointer h-[32px] border border-gray-light flex justify-center items-center bg-primary w-[68px]"
                   >
                     <img src="/assets/DownloadColor.svg" />
                   </a>
@@ -158,7 +158,7 @@ const SelectedLesson = ({
                 className="flex items-center px-[8px] py-[12px] rounded-lg bg-white mt-[15px] justify-between"
               >
                 <div className="flex gap-2">
-                  <img src="/assets/FillAssignments.svg" />
+                  <img src="/assets/assignment-fill.svg" />
                   <h2 className="text-sm font-bold text-[#121212] break-all">
                     {ass?.title}
                   </h2>
@@ -166,7 +166,7 @@ const SelectedLesson = ({
                 <LinkLocked locked={locked}>
                   <Link
                     href={`/bundles/${SingleCourse}/${room}/assignment/${ass.id}`}
-                    className="rounded-lg h-[32px] border border-primary-700 flex justify-center items-center bg-primary w-[68px]"
+                    className="rounded-lg h-[32px] border border-gray-light flex justify-center items-center bg-primary w-[68px]"
                   >
                     <img src="/assets/DownloadColor.svg" />
                   </Link>
@@ -190,7 +190,7 @@ const SelectedLesson = ({
               }}
               className="p-2 mt-[8px] bg-white flex text-sm text-[#121212] border rounded-md border-[#1EAD7B]"
             >
-              <img src="/assets/FillFiles.svg" />
+              <img src="/assets/files-fill.svg" />
               <span>لقد نجحت في الامتحان و حصلت على</span>
 
               <div className="relative font-bold right-1 top-0 text-nowrap">

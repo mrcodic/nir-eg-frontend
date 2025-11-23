@@ -4,7 +4,7 @@ function RoomProgressBadge({ progress = 0 }: { progress: number }) {
       style={{
         boxShadow: "0px 2px 10px 4px rgba(157, 130, 66, 0.20)",
       }}
-      className="flex flex-wrap items-center justify-center font-bold text-[#523412]  border border-primary-700 text-[10px]   gap-1 py-2 pr-px pl-2 rounded-lg bg-background"
+      className="flex flex-wrap items-center justify-center font-bold text-[#523412]  border border-gray-light text-[10px]   gap-1 py-2 pr-px pl-2 rounded-lg bg-background"
     >
       <img className="w-[16px] h-[16px]" src="/assets/Star.svg" />
       <span> لقد أنهيت </span>

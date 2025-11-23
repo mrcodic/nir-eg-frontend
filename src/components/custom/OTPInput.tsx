@@ -148,7 +148,6 @@ export default function OTPInput<T extends FieldValues>({
     }, 0);
   };
 
-  console.log(hasError, otpValues);
   return (
     <div
       className="flex gap-2 lg:gap-6 justify-center"

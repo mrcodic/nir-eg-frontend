@@ -20,27 +20,29 @@ const LinkLocked = ({
   return (
     <div
       className={cn(
-        "rounded-lg h-[32px] border text-white border-primary-700 flex justify-center items-center bg-primary min-w-[68px],",
+        "max-w-32 w-full px-2 flex justify-center items-center bg-primary-800 border border-gray-light rounded-md   text-white h-9",
+        {
+          "pointer-events-none cursor-not-allowed": locked,
+          "cursor-pointer": !locked,
+        },
         className
       )}
     >
-      <div className="rounded-lg h-[32px] border text-white border-primary-700 flex justify-center items-center bg-primary min-w-[68px]">
-        {locked ? (
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                {/* <Button variant="outline">Hover</Button> */}
-                <Lock />
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>عليك اجتياز الاختبار أولا</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        ) : (
-          children
-        )}
-      </div>
+      {locked ? (
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              {/* <Button variant="outline">Hover</Button> */}
+              <Lock />
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>عليك اجتياز الاختبار أولا</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      ) : (
+        children
+      )}
     </div>
   );
 };

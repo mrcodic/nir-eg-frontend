@@ -20,7 +20,7 @@ function ProfileCoupon() {
             .map((_, index) => (
               <div
                 key={index}
-                className="size-6 shrink-0 bg-[rgb(251,246,240)] rounded-full sm:translate-x-1/2 max-sm:-translate-y-1/2"
+                className="size-6 shrink-0 bg-background rounded-full sm:translate-x-1/2 max-sm:-translate-y-1/2"
               />
             ))}
         </div>
@@ -81,7 +81,7 @@ function ProfileCoupon() {
                 });
               }
             }}
-            className="bg-primary ms-auto border border-primary-700 rounded-lg  text-sm font-bold size-8 "
+            className="bg-primary ms-auto border border-gray-light rounded-lg  text-sm font-bold size-8 "
             size="icon"
           >
             <Image

@@ -5,6 +5,7 @@ import { convertMinutes } from "@/utils/clientFun";
 import { Lock } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useRouter } from "nextjs-toploader/app";
+import { Button } from "./ui/button";
 
 const RoomRevision = ({
   lesson,
@@ -19,9 +20,9 @@ const RoomRevision = ({
   const router = useRouter();
 
   return (
-    <div className="border flex mb-2 items-start justify-between border-primary-700 rounded-lg p-2 bg-white">
+    <div className="border flex mb-2 items-start justify-between border-gray-light rounded-lg p-2 bg-background">
       <div className="flex gap-4 items-center">
-        <img src="/assets/FillVideos.svg" className="w-7 h-7" />
+        <img src="/assets/videos-fill.svg" className="w-7 h-7" />
         <div>
           <h3 className="text-[#121212] font-bold text-sm md:text-[16px] mb-4">
             {lesson?.title}
@@ -31,7 +32,7 @@ const RoomRevision = ({
           </p>
 
           <div className="flex gap-2 items-center whitespace-nowrap ">
-            <img src="/assets/Time.svg" />
+            <img src="/assets/time.svg" />
             <div className="flex text-[#523412] gap-1">
               <span className="text-sm  font-bold inline-block">
                 مدة الفيديو:
@@ -46,9 +47,11 @@ const RoomRevision = ({
           </div>
         </div>
       </div>
+
       {subscribe && verify && (
-        <button
+        <Button
           disabled={locked}
+          className="h-9 py-1 cursor-pointer max-w-32 w-full"
           onClick={async () => {
             // await sendData(lesson?.vedio_id);
             if (SingleCourse) {
@@ -61,11 +64,10 @@ const RoomRevision = ({
               );
             }
           }}
-          className="border flex justify-center min-w-[39px] text-center font-bold p-2 text-white border-primary-700 bg-primary text-[12px] rounded-[10px]"
         >
           {!locked ? (
             <>
-              <span className="hidden md:block"> مشاهدة الفيديو</span>
+              <span className="hidden md:block">شاهد الفيديو</span>
               <img
                 src="/assets/LeftArrowColor.svg"
                 alt=""
@@ -76,8 +78,8 @@ const RoomRevision = ({
             <TooltipLock text="عليك اجتياز الاختبار أولا">
               <Lock />
             </TooltipLock>
-          )}{" "}
-        </button>
+          )}
+        </Button>
       )}
     </div>
   );

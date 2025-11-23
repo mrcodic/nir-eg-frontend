@@ -57,7 +57,7 @@ export const PaymentUI: React.FC<PaymentUIProps> = ({
         </span>
       </div>
 
-      <div className="h-px w-full bg-primary-700 my-3" />
+      <div className="h-px w-full bg-gray-light my-3" />
 
       <div className="space-y-2 mb-4">
         {!!price && (
@@ -124,7 +124,7 @@ export const PaymentUI: React.FC<PaymentUIProps> = ({
                 className={`flex relative overflow-hidden cursor-pointer ${
                   paymentMethodValue === payment.value
                     ? "border-[#023E3E]"
-                    : "border-primary-700"
+                    : "border-gray-light"
                 } p-2 gap-2.5 border-2 rounded-lg bg-background z-0! items-center space-x-2`}
               >
                 <RadioGroupItem value={payment.value} id={payment.value} />

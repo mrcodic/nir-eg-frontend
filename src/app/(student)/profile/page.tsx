@@ -40,7 +40,7 @@ const Tabs = [
 const ProfilePage = () => {
   const { grade } = useAuthContext();
 
-  const { data: rooms, isLoading } = useQuery({
+  const { data: rooms, isLoading: isLoadingRooms } = useQuery({
     queryKey: ["/students/profile/latest_classes"],
     queryFn: getDataClient,
   });
@@ -53,15 +53,16 @@ const ProfilePage = () => {
   const [isModal, setIsModal] = useState(true);
 
   return (
-    <div className="mb-[48px] mt-[140px]">
-      <div className="w-[85%] mx-auto">
+    <div className="mb-12 mt-[140px]">
+      <div className="wrapper">
         <ProfileHeaderCard profileData={profileData?.body} />
 
         <StudentTasksOverview />
 
         {/* profile latest rooms */}
-        <div className="mt-[96px]">
-          <RoomHeader icon={"/assets/english-icon.svg"} title={"آخر الحصص"} />
+        <div className="mt-24">
+          <RoomHeader icon={"/assets/books-colored.svg"} title={"آخر الحصص"} />
+
           {/* {isNewUser && (
             <div className="mt-[32px] flex flex-col items-center justify-center gap-[32px]">
               <img src="/assets/BoxColor.svg" className="w-[120px] h-[120px]" />
@@ -77,12 +78,19 @@ const ProfilePage = () => {
             </div>
           )} */}
 
-          {!isLoading ? (
+          {!isLoadingRooms ? (
             <div className="mt-[32px]">
               {rooms?.body?.length > 0 ? (
                 <div className="flex flex-col gap-4">
                   {rooms?.body?.map((room) => {
-                    return <Room key={room?.id} isProfile={true} room={room} />;
+                    return (
+                      <Room
+                        key={room?.id}
+                        isProfile={true}
+                        room={room}
+                        verify={true}
+                      />
+                    );
                   })}
                 </div>
               ) : profileData?.body?.type === 4 ? (
@@ -116,7 +124,6 @@ const ProfilePage = () => {
       {profileData?.body?.type === 3 && !profileData?.body?.has_center && (
         <StudentSelectCenter open={isModal} setOpen={setIsModal} />
       )}
-      {/* <ComboboxForm name={"center_id"}  /> */}
     </div>
   );
 };

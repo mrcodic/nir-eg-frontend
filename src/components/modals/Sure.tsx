@@ -10,7 +10,7 @@ export function Sure({ open, setOpen, length }) {
           <p className="text-[18px] font-bold text-[#121212]">
             هل أنت متأكد من أنك تريد حفظ الإجابات؟
           </p>
-          <div className="h-px my-[12px] bg-primary-700" />
+          <div className="h-px my-[12px] bg-gray-light" />
           <span className="text-[#121212] inline-block font-medium">
             لن تتمكن من تغيير الإجابات مرة أخرى
           </span>
@@ -27,7 +27,7 @@ export function Sure({ open, setOpen, length }) {
             className="flex items-center justify-center! w-full"
           >
             <Button
-              className="bg-primary border text-white font-bold border-primary-700 h-[32px] w-[144px] rounded-lg"
+              className="bg-primary border text-white font-bold border-gray-light h-[32px] w-[144px] rounded-lg"
               onClick={() => {
                 setOpen(true);
               }}

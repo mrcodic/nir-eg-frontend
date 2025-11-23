@@ -60,7 +60,7 @@ function NavNotifications() {
       <DropdownMenuContent
         className={cn(
           "p-2 z-9999! max-w-[min(438px,95vw)] w-screen",
-          "bg-white border rounded-lg border-primary-700",
+          "bg-white border rounded-lg border-gray-light",
           "flex flex-col overflow-hidden",
           "max-h-[min(80vh,var(--radix-dropdown-menu-content-available-height))]"
         )}
@@ -77,7 +77,7 @@ function NavNotifications() {
 
         <div
           className={cn(
-            "border-t mt-2 border-primary-700 flex-1 overflow-y-auto pr-1 pb-2",
+            "border-t mt-2 border-gray-light flex-1 overflow-y-auto pr-1 pb-2",
             {
               "animate-pulse opacity-80": isPlaceholderData,
               "border-t-0": notifications?.data?.length === 0,

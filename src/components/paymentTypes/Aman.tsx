@@ -34,7 +34,7 @@ export default function Aman() {
           style={{
             boxShadow: "0px 2px 10px 4px rgba(157,130,66,0.20)",
           }}
-          className="p-4 flex gap-[16px] bg-background border text-sm font-bold text-[#523412] border-primary-700 rounded-lg"
+          className="p-4 flex gap-[16px] bg-background border text-sm font-bold text-[#523412] border-gray-light rounded-lg"
         >
           <img src="/assets/WarningColor.svg" />
           <div>
@@ -57,7 +57,7 @@ export default function Aman() {
             style={{
               boxShadow: "0px 2px 10px 4px rgba(157,130,66,0.20)",
             }}
-            className="p-4 flex-1 items-center flex gap-[16px] bg-background border text-sm font-bold text-[#523412] border-primary-700 rounded-lg"
+            className="p-4 flex-1 items-center flex gap-[16px] bg-background border text-sm font-bold text-[#523412] border-gray-light rounded-lg"
           >
             <div>
               <p>
@@ -71,7 +71,7 @@ export default function Aman() {
             style={{
               boxShadow: "0px 2px 10px 4px rgba(157,130,66,0.20)",
             }}
-            className="p-4 pb-0 flex-1 justify-between items-center flex gap-[16px] bg-background border text-sm font-bold text-[#523412] border-primary-700 rounded-lg"
+            className="p-4 pb-0 flex-1 justify-between items-center flex gap-[16px] bg-background border text-sm font-bold text-[#523412] border-gray-light rounded-lg"
           >
             <div>
               <p>أو ادفع عن طريق تطبيق أمان</p>

@@ -1,7 +1,7 @@
 import Badge from "./Badge";
 export default function Count({ count, title, icon, bgColor }) {
   return (
-    <div className="flex w-full md:w-[180px] border-primary-700 bg-[#FFFDFA] border rounded-lg p-2 items-center gap-5">
+    <div className="flex w-full md:w-[180px] border-gray-light bg-[#FFFDFA] border rounded-lg p-2 items-center gap-5">
       {/* <Image width={20} height={20} src={""} alt="icon" /> */}
       <Badge bgColor={bgColor} icon={icon} />
       <div>

@@ -26,7 +26,7 @@ function CartDetailsSideSheet({ item }: { item: any }) {
         className="sm:min-w-[600px] max-sm:w-[90vw] overflow-y-auto"
       >
         <SheetHeader className="sm:text-start text-start">
-          <h2 className="flex w-full mt-8 items-center justify-between gap-x-4 gap-y-2 flex-wrap border-b border-primary-700 pb-2">
+          <h2 className="flex w-full mt-8 items-center justify-between gap-x-4 gap-y-2 flex-wrap border-b border-gray-light pb-2">
             <span className="text-[#121212] text-sm md:text-[18px] font-bold">
               {item?.model?.name}
               <p className="text-sm text-gray-500">{item?.trasnsaction_id}</p>
@@ -39,7 +39,7 @@ function CartDetailsSideSheet({ item }: { item: any }) {
         </SheetHeader>
 
         <div className="flex flex-col">
-          <div className="flex flex-wrap gap-x-8 gap-y-4 items-center mt-6 border-b border-primary-700 pb-4">
+          <div className="flex flex-wrap gap-x-8 gap-y-4 items-center mt-6 border-b border-gray-light pb-4">
             <DataLabel text="السعر"> {item.amount} جنية</DataLabel>
             <DataLabel text="التاريخ">
               {" "}
@@ -77,7 +77,7 @@ function CartDetailsSideSheet({ item }: { item: any }) {
 
                 <div className="w-full">
                   <h3 className="text-lg font-bold ">{item?.model?.name}</h3>
-                  <hr className="border-primary-700 mt-2 mb-4" />
+                  <hr className="border-gray-light mt-2 mb-4" />
                   <div className="grid grid-cols-2 gap-4">
                     <DataLabel text="السعر"> 50 جنية</DataLabel>
                     <DataLabel text="الكمية"> {2}</DataLabel>

@@ -93,7 +93,7 @@ export function PaySuccess({
           {data?.body?.type == 4 && (
             <Link
               href={tgHref}
-              className="text-gray-25 text-center flex items-center justify-center py-3!   rounded-2xl relative z-100000 font-bold border-2 bg-primary-700 text-white  w-[200px] mx-auto"
+              className="text-gray-25 text-center flex items-center justify-center py-3!   rounded-2xl relative z-100000 font-bold border-2 bg-gray-light text-white  w-[200px] mx-auto"
             >
               <Image
                 width={32}

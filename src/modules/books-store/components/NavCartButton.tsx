@@ -87,7 +87,7 @@ function NavCartButton() {
               ))}
             </div>
 
-            <div className="mt-6 space-y-6 border-t border-primary-700 pt-2">
+            <div className="mt-6 space-y-6 border-t border-gray-light pt-2">
               <DataWithLabel
                 label="اجمالي السعر"
                 data={getTotalPrice() + " جنية"}
@@ -100,7 +100,7 @@ function NavCartButton() {
                 href={!!profile ? "/books/cart" : "/login?redirect=/books/cart"}
                 className="w-full inline-block"
               >
-                <SheetClose className="w-full bg-primary-700 text-white py-2 px-4 rounded-lg">
+                <SheetClose className="w-full bg-gray-light text-white py-2 px-4 rounded-lg">
                   الانتقال للسلة
                 </SheetClose>
               </Link>

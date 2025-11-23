@@ -207,7 +207,7 @@ function ProfilePointsTable() {
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id + "row"}
-                  className="bg-white border border-primary-700 hover:bg-muted/50"
+                  className="bg-white border border-gray-light hover:bg-muted/50"
                   style={{
                     borderSpacing: "0 1rem",
                     borderCollapse: "separate",
@@ -217,7 +217,7 @@ function ProfilePointsTable() {
                     <TableCell
                       key={cell.id + "cell"}
                       className={cn(
-                        " text-[#121212] border-y border-primary-700 first:rounded-r-xl first:border-r last:rounded-l-xl last:border-l p-0 "
+                        " text-[#121212] border-y border-gray-light first:rounded-r-xl first:border-r last:rounded-l-xl last:border-l p-0 "
                       )}
                     >
                       {flexRender(

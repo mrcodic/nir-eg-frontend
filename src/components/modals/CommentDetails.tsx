@@ -71,7 +71,7 @@ const CommentDetails = ({
         p-2 
         h-[80px] 
         w-full 
-        border-primary-700    
+        border-gray-light    
         justify-between"
         >
           <h2 className="text-[#121212] font-bold sm:text-lg text-sm">

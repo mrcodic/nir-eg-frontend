@@ -23,7 +23,7 @@ function LogoutCustomModal({
         <div className="mb-[16px] flex flex-col">
           <img className="w-[24px] h-[24px]" src="/assets/SignOut.svg" />
 
-          <div className="my-[12px] h-px w-full bg-primary-700" />
+          <div className="my-[12px] h-px w-full bg-gray-light" />
 
           <h1 className="font-bold mb-[32px]">
             هل أنت متأكد من أنك تريد تسجيل الخروج؟
@@ -38,7 +38,7 @@ function LogoutCustomModal({
                 window.location.href = "/login";
                 deleteGrade();
               }}
-              className="w-[148px] rounded-lg flex items-center justify-center py-1 text-white bg-[#B75050] border border-primary-700"
+              className="w-[148px] rounded-lg flex items-center justify-center py-1 text-white bg-[#B75050] border border-gray-light"
             >
               تسجيل خروج
             </button>

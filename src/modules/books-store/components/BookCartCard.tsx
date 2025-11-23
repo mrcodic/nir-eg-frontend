@@ -29,7 +29,7 @@ function BookCartCard({
             <span className="underline font-bold ">ازالة من السلة</span>
           </RemoveFromCart>
 
-          <h3 className="border-b border-primary-700 font-bold text-lg pb-2">
+          <h3 className="border-b border-gray-light font-bold text-lg pb-2">
             {item?.name}
           </h3>
         </div>

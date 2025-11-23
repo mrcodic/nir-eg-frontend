@@ -29,7 +29,7 @@ function NavUserMenu({ profile }) {
         <DropdownMenuTrigger className="focus-visible:outline-hidden">
           <div>
             <img
-              className="md:size-[48px] size-[42px] rounded-full object-cover"
+              className="mobile:size-12 size-[42px] rounded-full object-cover"
               src={profile?.avatar || "/assets/avatar-user.svg"}
               onError={(e) => {
                 e.currentTarget.src = "/assets/avatar-user.svg";
@@ -39,8 +39,8 @@ function NavUserMenu({ profile }) {
         </DropdownMenuTrigger>
 
         <DropdownMenuContent
-          className="relative left-10 z-9999 space-y-2 w-[272px]  md:top-1
-                  bg-[#FFFFFF] max-h-[calc(100vh-90px)] overflow-y-auto border rounded-lg border-primary-700"
+          className="relative left-10 z-9999 space-y-2 w-[272px]  mobile:top-1
+                  bg-[#FFFFFF] max-h-[calc(100vh-90px)] overflow-y-auto border rounded-lg border-gray-light"
         >
           {" "}
           <DropdownMenuItem className="flex flex-col w-full gap-4 items-center justify-center">
@@ -54,7 +54,7 @@ function NavUserMenu({ profile }) {
             <h3 className="text-[#121212] text-[16px] font-bold">
               {profile?.first_name + " " + profile?.last_name}
             </h3>
-            <div className="mb-[16px] h-px w-full bg-primary-700" />
+            <div className="mb-[16px] h-px w-full bg-gray-light" />
           </DropdownMenuItem>
           <DropdownMenuItem className="px-8">
             <div className="flex items-center gap-2 mb-[12px]">
@@ -74,7 +74,7 @@ function NavUserMenu({ profile }) {
                   {profile?.phone}
                 </span>
               </div>
-              <div className="w-[2px] h-[40px]  bg-primary-700" />
+              <div className="w-[2px] h-[40px]  bg-gray-light" />
               <div className="flex flex-col gap-2">
                 <h3 className="text-[12px] text-gray-dark font-bold">
                   رقم ولي الأمر:
@@ -85,7 +85,7 @@ function NavUserMenu({ profile }) {
               </div>
             </div>
           </DropdownMenuItem>
-          <div className="mb-[16px] my-[16px] h-px w-full bg-primary-700" />
+          <div className="mb-[16px] my-[16px] h-px w-full bg-gray-light" />
           <DropdownMenuItem>
             <div
               className={cn(
