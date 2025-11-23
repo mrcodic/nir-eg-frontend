@@ -13,32 +13,42 @@ import {
   SelectValue,
 } from "../ui/select";
 
+type Props = {
+  control: any;
+  name: string;
+  label: string;
+  placeholder?: string;
+  className?: string;
+  iconSrc?: string;
+  options: { value: string; label: string }[];
+};
+
 const CustomSelect = ({
   control,
   name,
   label,
-  placeholder = `select a ${label}`,
+  placeholder = `اختر ${label}`,
   className,
   iconSrc,
   options,
-}) => {
+}: Props) => {
   return (
     <>
       <FormField
         control={control}
         name={name}
         render={({ field }) => (
-          <FormItem className={`form-item space-y-0 w-full   ${className}`}>
+          <FormItem className={`form-item w-full   ${className}`}>
             <FormLabel className="form-label">{label}</FormLabel>
-            <div className="flex flex-col w-full p-2 flex-1 border-primary-700 border-b items-center text-gray-dark relative  ">
+            <div className="flex flex-col w-full flex-1 mt-1">
               <FormControl>
                 <Select
-                  dir="rtl border-none focus:border-none"
+                  dir="rtl"
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
-                  <SelectTrigger className="w-full gap-2 flex  border-none  outline-hidden focus:outline-hidden">
-                    <img className="ml-2" src={iconSrc} />
+                  <SelectTrigger className="w-full gap-2 flex   border-gray-light">
+                    {iconSrc && <img className="ml-2" src={iconSrc} />}
                     <SelectValue placeholder={placeholder} />
                   </SelectTrigger>
                   <SelectContent className="bg-white z-9999999 text-black">
@@ -57,7 +67,7 @@ const CustomSelect = ({
                 </Select>
               </FormControl>
 
-              <FormMessage className="form-message " />
+              <FormMessage />
             </div>
           </FormItem>
         )}

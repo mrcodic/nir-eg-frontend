@@ -10,11 +10,12 @@ import CustomPhoneInput from "@/components/custom/CustomPhoneInput";
 import CustomLoader from "@/components/custom/Loader";
 import { NewFeaturesModal } from "@/components/modals/NewFeaturesModal";
 import { Verify } from "@/components/modals/Verify";
+import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useAuthContext } from "@/context/auth-context";
 import { useModal } from "@/context/ModalProvider";
 import { useToast } from "@/hooks/use-toast";
-import AuthLayout from "@/layouts/AuthLayout";
+import AuthHeader from "@/layouts/AuthHeader";
 import { loginSchema } from "@/lib/schemas";
 import { getUserPhoneFromStorage, presistUserPhone } from "@/lib/utils";
 import { getDataClient } from "@/utils/clientFun";
@@ -137,33 +138,24 @@ const AuthPage = () => {
   };
 
   return (
-    <AuthLayout img={"/assets/signin5.png"}>
+    <>
       <div className="">
-        <div className="flex gap-2">
-          <img src="/assets/BookColor.svg" className="w-[32px] h-[32px]" />
-          <div>
-            <h3 className="text-[#121212] text-[20px] font-bold">
-              تسجيل الدخول
-            </h3>
-            <p className="text-[16px] font-medium mt-[4px] text-gray-dark">
-              أدخل رقم الهاتف المسجل لدينا و كلمة السر لتتمكن من الدخول لحسابك
-            </p>
-          </div>
-        </div>
+        <AuthHeader
+          title="تسجيل الدخول"
+          description=" أدخل رقم الهاتف المسجل لدينا و كلمة السر لتتمكن من الدخول لحسابك"
+        />
 
-        <div className="h-px w-full mt-[16px] bg-primary-700" />
-        <div className="h-px w-full mt-[2px] bg-[#523412]" />
+        <div className="h-px w-full mt-2 bg-gray-light" />
 
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="mt-[40px] w-full space-y-4"
+            className="mt-[40px] w-full "
           >
             <CustomPhoneInput
               name="phone.phone"
               form={form}
-              placeholder="رقم هاتف الطالب بالإنجليزية"
-              iconSrc="/assets/Phone1.svg"
+              label="رقم هاتف الطالب بالإنجليزية"
               countryFieldName="phone.country"
               countryISOFieldName="phone.country_iso"
             />
@@ -174,24 +166,24 @@ const AuthPage = () => {
               iconSrc="/assets/Phone1.svg"
             /> */}
             <CustomInput
+              className="mt-6"
               name="password"
               control={form.control}
-              placeholder="كلمة السر"
-              iconSrc="/assets/user.svg"
+              label="كلمة السر"
               type="password"
             />
 
-            <div className="text-[#523412] mt-[4px] text-[12px]  w-full  underline font-medium inline-block text-left ">
+            <div className="text-primary-800 mt-1   w-full  underline font-medium inline-block text-left ">
               <Link href={"/forgetPassword"}>نسيت كلمة السر؟</Link>
             </div>
 
-            <div className="mt-[56px] flex gap-2">
-              <span className="text-sm font-medium inline-block">
+            <div className="mt-6 flex items-center gap-2">
+              <span className=" font-medium inline-block text-gray-dark">
                 ليس لديك حساب؟
               </span>
               <Link
                 href={"/register"}
-                className="  text-sm font-bold text-[#523412] underline"
+                className="  text-sm font-bold text-primary-800 underline px-4 rounded-md border border-gray-light"
               >
                 إنشاء حساب
               </Link>
@@ -203,19 +195,26 @@ const AuthPage = () => {
                 form.setValue("recaptcha_token", token);
               }}
             />
-            <button
-              className="bg-[#523412] mt-[48px] text-xl text-white rounded-lg py-2 font-bold w-[269px] flex justify-center  border-2 border-primary-700"
-              type="submit"
-              disabled={form.formState.isSubmitting}
-            >
-              {!form.formState.isSubmitting ? " تسجيل دخول" : <CustomLoader />}
-            </button>
+
+            <div className="flex mt-10">
+              <Button
+                type="submit"
+                className="ms-auto max-w-40 w-full"
+                disabled={form.formState.isSubmitting}
+              >
+                {!form.formState.isSubmitting ? (
+                  " تسجيل دخول"
+                ) : (
+                  <CustomLoader />
+                )}
+              </Button>
+            </div>
           </form>
         </Form>
       </div>
 
       <Verify open={verify} setOpen={setVerify} />
-    </AuthLayout>
+    </>
   );
 };
 export default AuthPage;

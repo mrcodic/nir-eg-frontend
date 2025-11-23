@@ -40,7 +40,7 @@ const PaginationComponent = ({
             <PaginationItem
               {...item}
               key={item?.key}
-              className={`size-8 sm:size-10 mx-1 sm:mx-2.5 flex items-center justify-center text-sm sm:text-base ${
+              className={`cursor-pointer size-8 sm:size-10 mx-1 sm:mx-2.5 flex items-center justify-center text-sm sm:text-base ${
                 hasNextPage ? "" : "opacity-50 cursor-not-allowed"
               }`}
             >
@@ -54,7 +54,7 @@ const PaginationComponent = ({
             <PaginationItem
               {...item}
               key={item?.key}
-              className={`size-8 sm:size-10 mx-1 sm:mx-2.5 flex items-center justify-center text-sm sm:text-base ${
+              className={`cursor-pointer size-8 sm:size-10 mx-1 sm:mx-2.5 flex items-center justify-center text-sm sm:text-base ${
                 hasPrevPage ? "" : "opacity-50 cursor-not-allowed"
               }`}
             >

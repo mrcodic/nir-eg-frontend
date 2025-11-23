@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 
 const variants = {
-  default: "bg-[#523412] text-lg  py-1",
+  default: "bg-semantics-green text-lg  py-1",
   discount: "bg-semantics-green text-lg py-1",
   crossed: "bg-gray-light text-gray-dark text-lg  py-1 ",
 };
@@ -25,7 +25,7 @@ function PriceBadge({
         className
       )}
     >
-      <span className={variant === "crossed" ? "line-through" : ""}>
+      <span className={variant === "crossed" ? "line-through " : ""}>
         {formattedPrice}
       </span>
       جنيه

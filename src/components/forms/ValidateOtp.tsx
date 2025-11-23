@@ -9,20 +9,24 @@ import {
 import { OTP_SEND_TIME_KEY } from "@/constants";
 import { useToast } from "@/hooks/use-toast";
 import useOtp from "@/hooks/useOtp";
+import AuthHeader from "@/layouts/AuthHeader";
 import { otpSchema } from "@/lib/schemas";
 import { getLocalStorage } from "@/utils/clientFun";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import CustomLoader from "../custom/Loader";
 import OTPInput from "../custom/OTPInput";
+import { Button } from "../ui/button";
 import CountDownTimerUI from "./CountDownTimerUI";
 
 const ValidateOtp = ({ setResetForm }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [savedPhone] = useState(() => getLocalStorage("phone"));
 
   const { toast } = useToast();
 
@@ -33,7 +37,7 @@ const ValidateOtp = ({ setResetForm }) => {
     resolver: zodResolver(otpSchema),
 
     defaultValues: {
-      phone: getLocalStorage("phone"),
+      phone: savedPhone,
       otp_code: "",
     },
   });
@@ -70,30 +74,22 @@ const ValidateOtp = ({ setResetForm }) => {
 
   return (
     <div className="">
-      <div className="flex gap-2">
-        <img
-          src={type == "forget" ? "/assets/LockColor.svg" : "/assets/Done.svg"}
-          className="w-[32px] h-[32px]"
-        />
-        <div>
-          <h3 className="text-[#121212] text-[20px] font-bold">
-            {type == "forget"
-              ? "إعادة تعيين كلمة السر"
-              : " تأكيد رقم هاتف الطالب"}
-          </h3>
-          <div>
-            <p className="text-[16px] font-medium mt-[4px] text-gray-dark">
-              قمنا بإرسال رمز التأكيد إلى رقم الهاتف التالي
-            </p>
-            <span className="text-[#121212] font-bold inline-block  " dir="ltr">
-              {getLocalStorage("phone")}
+      <AuthHeader
+        title="تأكيد رقم الهاتف"
+        description={
+          <span>
+            سنقوم بإرسال رمز التأكيد إلى رقم الهاتف التالي{" "}
+            <span
+              dir="ltr"
+              className="text-primary-800 underline font-bold"
+              suppressHydrationWarning
+            >
+              {savedPhone}
             </span>
-            {/* <span className="text-[16px] font-medium mt-[8px] text-gray-dark">
-              عبر تطبيق واتساب
-            </span> */}
-          </div>
-        </div>
-      </div>
+          </span>
+        }
+      />
+
       <div className="h-px w-full mt-[16px] bg-primary-700" />
       <div className="h-px w-full mt-[2px] bg-[#523412]" />
       <Form {...form}>
@@ -101,19 +97,20 @@ const ValidateOtp = ({ setResetForm }) => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="mt-[40px] w-full"
         >
-          {start && <CountDownTimerUI minutes={minutes} seconds={seconds} />}
+          <CountDownTimerUI minutes={minutes} seconds={seconds} />
 
           <button
             type="button"
             onClick={async () => {
-              await sendOtp(getLocalStorage("phone"));
+              await sendOtp(savedPhone);
             }}
-            className="text-[#523412] cursor-pointer text-[18px]  underline mt-[16px] font-bold disabled:opacity-50 disabled:cursor-not-allowed flex gap-2 items-center"
+            className="text-primary-800 mx-auto cursor-pointer text-[18px]  underline mt-4 font-bold disabled:opacity-50 disabled:cursor-not-allowed flex gap-2 items-center"
             disabled={start}
           >
             أعد الإرسال {resending && <CustomLoader />}
           </button>
-          <div className="mt-[58px] flex justify-end text-32! " dir="ltr">
+
+          <div className="mt-[58px] flex justify-center " dir="ltr">
             <FormField
               control={form.control}
               name="otp_code"
@@ -121,45 +118,34 @@ const ValidateOtp = ({ setResetForm }) => {
                 <FormItem>
                   <FormControl>
                     <OTPInput length={6} form={form} name="otp_code" />
-
-                    {/* <InputOTP maxLength={6} {...field} disabled={!start}>
-                      <InputOTPGroup>
-                        <InputOTPSlot index={0} />
-                        <InputOTPSlot index={1} />
-                        <InputOTPSlot index={2} />
-                        <InputOTPSlot index={3} />
-                        <InputOTPSlot index={4} />
-                        <InputOTPSlot index={5} />
-                      </InputOTPGroup>
-                    </InputOTP> */}
                   </FormControl>
 
-                  <FormMessage />
+                  <FormMessage className="text-end" />
                 </FormItem>
               )}
             />
           </div>
 
           {type === "forget" ? (
-            <div className="mt-[56px] flex gap-2">
-              <span className="text-sm font-medium inline-block">
+            <div className="mt-6 flex items-center gap-2">
+              <span className=" font-medium inline-block text-gray-dark">
                 ليس لديك حساب؟
               </span>
               <Link
                 href={"/register"}
-                className="  text-sm font-bold text-[#523412] underline"
+                className="  text-sm font-bold text-primary-800 underline px-4 rounded-md border border-gray-light"
               >
                 إنشاء حساب
               </Link>
             </div>
           ) : (
-            <div className="mt-[56px] flex gap-2">
-              <span className="text-sm font-medium inline-block">
+            <div className="mt-14 flex gap-2">
+              <span className=" font-medium inline-block text-gray-dark">
                 لديك حساب بالفعل؟
               </span>
               <Link
                 href={"/login"}
-                className="  text-sm font-bold text-[#523412] underline"
+                className="  text-sm font-bold text-primary-800 underline px-4 rounded-md border border-gray-light"
               >
                 تسجيل الدخول
               </Link>
@@ -171,13 +157,15 @@ const ValidateOtp = ({ setResetForm }) => {
               form.setValue("recaptcha_token", token);
             }}
           /> */}
-          <button
-            type="submit"
-            className="bg-[#523412] text-white rounded-[10px] py-2 font-bold w-[265px] flex justify-center mt-[56px] border border-primary-700"
-            disabled={form.formState.isSubmitting}
-          >
-            {!form.formState.isSubmitting ? "   تأكيد" : <CustomLoader />}
-          </button>
+          <div className="flex mt-8">
+            <Button
+              type="submit"
+              className="ms-auto max-w-40 w-full"
+              disabled={form.formState.isSubmitting}
+            >
+              {!form.formState.isSubmitting ? "   تأكيد" : <CustomLoader />}
+            </Button>
+          </div>
         </form>
       </Form>
     </div>

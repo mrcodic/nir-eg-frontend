@@ -8,7 +8,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import CustomCityStateField from "@/components/custom/CustomCityStateField";
 import CustomLoader from "@/components/custom/Loader";
 import { useToast } from "@/hooks/use-toast";
-import AuthLayout from "@/layouts/AuthLayout";
 import { registerSchema } from "@/lib/schemas";
 import axios from "axios";
 import Link from "next/link";
@@ -16,6 +15,8 @@ import { useRouter } from "nextjs-toploader/app";
 import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 
 import CustomPhoneInput from "@/components/custom/CustomPhoneInput";
+import { Button } from "@/components/ui/button";
+import AuthHeader from "@/layouts/AuthHeader";
 import { presistUserPhone } from "@/lib/utils";
 import { useForm } from "react-hook-form";
 
@@ -87,166 +88,127 @@ const RegisterPage = () => {
   console.log("errors : ", form.formState.errors);
 
   return (
-    <AuthLayout img={"/assets/signup5.png"}>
-      <>
-        <div className="flex gap-2">
-          <img src="/assets/BookColor.svg" className="w-[32px] h-[32px]" />
-          <div>
-            <h3 className="text-[#121212] text-[20px] font-bold">
-              إنشاء حساب جديد
-            </h3>
-            <p className="text-[16px] font-medium mt-[4px] text-gray-dark">
-              أدخل بياناتك لتتمكن من التسجيل معنا
-            </p>
-          </div>
-        </div>
+    <>
+      <AuthHeader
+        title="إنشاء حساب جديد"
+        description=" أدخل بياناتك لتتمكن من التسجيل معنا"
+      />
 
-        <div className="h-px w-full mt-[16px] bg-primary-700" />
-        <div className="h-px w-full mt-[2px] bg-[#523412]" />
+      <div className="h-px w-full mt-2 bg-gray-light" />
 
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit, (errors) => {
-              const first = Object.values(errors)?.[0];
-              // show first validation message (zod) or a fallback
-              const msg = first?.message || "Please fill all required fields.";
-              console.error("Form validation errors:", errors);
-              // toast is already in your file
-              // @ts-ignore
-              typeof msg === "string" && // defensive
-                typeof window !== "undefined" &&
-                // use your existing toast
-                // you can customize text as you like
-                toast({ description: msg, icon: "error" });
-            })}
-            className="mt-[40px] w-full"
-          >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-y-8 gap-x-6 items-end ">
-              <CustomInput
-                name="first_name"
-                control={form.control}
-                placeholder="الاسم الأول"
-                iconSrc="/assets/user.svg"
-              />
-
-              <CustomInput
-                name="last_name"
-                control={form.control}
-                placeholder="الاسم الأخير"
-                iconSrc="/assets/user.svg"
-              />
-
-              <CustomPhoneInput
-                name="phones.phone"
-                form={form}
-                placeholder="رقم هاتف الطالب بالإنجليزية"
-                iconSrc="/assets/Phone1.svg"
-                info="  يجب أن يكون رقم واتس اب"
-                countryFieldName="phones.country"
-                countryISOFieldName="phones.country_iso"
-              />
-              <CustomPhoneInput
-                name="phones.parent__phone"
-                form={form}
-                placeholder="رقم هاتف ولى الأمر بالإنجليزية"
-                iconSrc="/assets/Phone1.svg"
-                info="يجب أن يكون رقم واتس اب"
-                countryFieldName="phones.country"
-                countryISOFieldName="phones.country_iso"
-              />
-
-              {/* <CustomInput
-                name="phone"
-                control={form.control}
-                placeholder="رقم هاتف الطالب بالإنجليزية"
-                iconSrc="/assets/Phone1.svg"
-                info="  يجب أن يكون رقم واتس اب"
-              />
-
-              <CustomInput
-                name="parent__phone"
-                control={form.control}
-                placeholder="رقم هاتف ولى الأمر بالإنجليزية"
-                iconSrc="/assets/Phone1.svg"
-                info="يجب أن يكون رقم واتس اب"
-              /> */}
-
-              <CustomCityStateField form={form} />
-
-              {/* <CustomInput
-                name="city"
-                control={form.control}
-                placeholder="ادخل المدينة"
-                type="text"
-                iconSrc="/assets/user.svg"
-              /> */}
-
-              <CustomSelect
-                name="grade_id"
-                control={form.control}
-                placeholder="اختر الصف"
-                iconSrc="/assets/Grade.svg"
-                options={[
-                  { value: "1", label: "الأول الثانوي" },
-                  { value: "2", label: "الثاني الثانوي" },
-                  { value: "3", label: "الثالث الثانوي" },
-                ]}
-              />
-              <CustomSelect
-                name="type"
-                control={form.control}
-                placeholder="نوع الحضور"
-                iconSrc="/assets/Type.svg"
-                options={[
-                  { value: "3", label: "طالب سنتر" },
-                  { value: "4", label: "طالب اونلاين" },
-                  { value: "5", label: "اكواد سنتر" },
-                ]}
-              />
-              <CustomInput
-                name="password"
-                control={form.control}
-                placeholder="كلمة السر"
-                type="password"
-                iconSrc="/assets/user.svg"
-              />
-
-              <CustomInput
-                name="password_confirmation"
-                control={form.control}
-                placeholder="تأكيد كلمة السر"
-                type="password"
-                iconSrc="/assets/user.svg"
-              />
-            </div>
-            <div className="mt-[56px] flex gap-2">
-              <span className="text-sm font-medium inline-block">
-                لديك حساب بالفعل؟
-              </span>
-              <Link
-                href={"/login"}
-                className="  text-sm font-bold text-[#523412] underline"
-              >
-                تسجيل الدخول
-              </Link>
-            </div>
-            <GoogleReCaptcha
-              onVerify={(token) => {
-                // setToken(token);
-                form.setValue("recaptcha_token", token);
-              }}
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit, (errors) => {
+            const first = Object.values(errors)?.[0];
+            // show first validation message (zod) or a fallback
+            const msg = first?.message || "Please fill all required fields.";
+            console.error("Form validation errors:", errors);
+            // toast is already in your file
+            // @ts-ignore
+            typeof msg === "string" && // defensive
+              typeof window !== "undefined" &&
+              // use your existing toast
+              // you can customize text as you like
+              toast({ description: msg, icon: "error" });
+          })}
+          className="mt-10 w-full"
+        >
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-y-8 gap-x-6 items-start ">
+            <CustomInput
+              name="first_name"
+              control={form.control}
+              label="الاسم الأول"
             />
-            <button
+
+            <CustomInput
+              name="last_name"
+              control={form.control}
+              label="الاسم الأخير"
+            />
+
+            <CustomPhoneInput
+              name="phones.phone"
+              form={form}
+              label="رقم هاتف الطالب بالإنجليزية"
+              info="  يجب أن يكون رقم واتس اب"
+              countryFieldName="phones.country"
+              countryISOFieldName="phones.country_iso"
+            />
+            <CustomPhoneInput
+              name="phones.parent__phone"
+              form={form}
+              label="رقم هاتف ولى الأمر بالإنجليزية"
+              info="يجب أن يكون رقم واتس اب"
+              countryFieldName="phones.country"
+              countryISOFieldName="phones.country_iso"
+            />
+
+            <CustomCityStateField form={form} />
+
+            <CustomSelect
+              name="grade_id"
+              control={form.control}
+              label="الصف"
+              options={[
+                { value: "1", label: "الأول الثانوي" },
+                { value: "2", label: "الثاني الثانوي" },
+                { value: "3", label: "الثالث الثانوي" },
+              ]}
+            />
+            <CustomSelect
+              name="type"
+              control={form.control}
+              label="نوع الحضور"
+              options={[
+                { value: "3", label: "طالب سنتر" },
+                { value: "4", label: "طالب اونلاين" },
+                { value: "5", label: "اكواد سنتر" },
+              ]}
+            />
+            <CustomInput
+              name="password"
+              control={form.control}
+              label="كلمة السر"
+              type="password"
+            />
+
+            <CustomInput
+              name="password_confirmation"
+              control={form.control}
+              label="تأكيد كلمة السر"
+              type="password"
+            />
+          </div>
+
+          <div className="mt-14 flex gap-2">
+            <span className=" font-medium inline-block text-gray-dark">
+              لديك حساب بالفعل؟
+            </span>
+            <Link
+              href={"/login"}
+              className="  text-sm font-bold text-primary-800 underline px-4 rounded-md border border-gray-light"
+            >
+              تسجيل الدخول
+            </Link>
+          </div>
+          <GoogleReCaptcha
+            onVerify={(token) => {
+              // setToken(token);
+              form.setValue("recaptcha_token", token);
+            }}
+          />
+          <div className="flex mt-10">
+            <Button
               type="submit"
-              className="bg-[#523412] text-white rounded-[10px] py-2 font-bold w-[265px] flex justify-center mt-[56px] border border-primary-700"
+              className="ms-auto max-w-40 w-full"
               disabled={form.formState.isSubmitting}
             >
-              {!form.formState.isSubmitting ? "  إنشاء حساب" : <CustomLoader />}
-            </button>
-          </form>
-        </Form>
-      </>
-    </AuthLayout>
+              {!form.formState.isSubmitting ? "إنشاء حساب" : <CustomLoader />}
+            </Button>
+          </div>
+        </form>
+      </Form>
+    </>
   );
 };
 export default RegisterPage;

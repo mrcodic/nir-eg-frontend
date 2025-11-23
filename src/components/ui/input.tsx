@@ -1,31 +1,21 @@
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
-const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
-  ({ className, type, ...props }, ref) => {
-    return (
-      // <input
-      //   type={type}
-      //   className={cn(
-      //     "flex h-10 w-full rounded-md border border-neutral-200 bg-white px-3 py-2 text-base ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-neutral-950 placeholder:text-neutral-500    disabled:cursor-not-allowed disabled:opacity-50 md:text-sm dark:border-neutral-800 dark:bg-neutral-950 dark:ring-offset-neutral-950 dark:file:text-neutral-50 dark:placeholder:text-neutral-400 dark:focus-visible:ring-neutral-300",
-      //     className
-      //   )}
-      //   ref={ref}
-      //   {...props}
-      // />
-      <input
-        type={type}
-        className={cn(
-          "border-b border-b-primary-700    py-1 focus:border-b-2 focus:border-b-[#523412] aria-invalid:border-b-red-500  transition-colors  peer bg-inherit pr-8",
-          className
-        )}
-        style={{ borderBottom: "1px solid red" }}
-        ref={ref}
-        {...props}
-      />
-    );
-  }
-);
-Input.displayName = "Input";
+
+function Input({ className, type, ...props }: React.ComponentProps<"input">) {
+  return (
+    <input
+      type={type}
+      data-slot="input"
+      className={cn(
+        "file:text-foreground placeholder:text-gray-dark selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-gray-light h-11 w-full min-w-0 rounded-lg border bg-transparent px-4 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 ",
+        "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
+        "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
+        className
+      )}
+      {...props}
+    />
+  );
+}
 
 export { Input };

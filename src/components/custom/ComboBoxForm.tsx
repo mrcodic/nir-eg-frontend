@@ -35,9 +35,9 @@ export function ComboboxForm({
           variant="ghost"
           role="combobox"
           aria-expanded={open}
-          className="w-full flex flex-col justify-between px-0  rounded-none  items-start"
+          className="w-full flex flex-col justify-between px-3   items-start border border-gray-light rounded-lg"
         >
-          <div className="flex items-center h-10 border-b pb-2 ps-2 border-primary-700! text-custom-brown justify-between w-full gap-4">
+          <div className="flex items-center h-10  justify-between w-full gap-4">
             {(value &&
               (typeof value === "object"
                 ? value.label

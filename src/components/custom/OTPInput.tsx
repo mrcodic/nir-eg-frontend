@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import { ClipboardEvent, useEffect, useRef, useState } from "react";
 import { FieldValues, Path, PathValue, UseFormReturn } from "react-hook-form";
 
@@ -19,6 +20,8 @@ export default function OTPInput<T extends FieldValues>({
   );
   const [otpValues, setOtpValues] = useState<string[]>(Array(length).fill(""));
   const isPastingRef = useRef(false);
+
+  const hasError = !!form.formState.errors[name || "code"];
 
   useEffect(() => {
     form.setValue(
@@ -138,48 +141,49 @@ export default function OTPInput<T extends FieldValues>({
   const handleClick = (e: React.MouseEvent<HTMLInputElement>) => {
     // Move cursor to end when clicked
     setTimeout(() => {
-      e.currentTarget.setSelectionRange(
+      e.currentTarget?.setSelectionRange(
         e.currentTarget.value.length,
         e.currentTarget.value.length
       );
     }, 0);
   };
 
+  console.log(hasError, otpValues);
   return (
-    <>
-      <div
-        className="flex gap-2 lg:gap-6 justify-center"
-        dir="ltr"
-        style={{ direction: "ltr" }}
-      >
-        {Array.from({ length }).map((_, index) => (
-          <div
-            key={index}
-            className="relative flex caret-black! text-2xl! pointer-events-auto h-[72px] w-[40px] lg:w-[72px] cursor-pointer items-center justify-center border-b border-primary-700 transition-all has-[input:focus-within]:border-b-4"
-          >
-            <input
-              ref={(el) => {
-                inputsRef.current[index] = el;
-              }}
-              type="text"
-              inputMode="numeric"
-              pattern="[0-9]*"
-              maxLength={1}
-              value={otpValues[index]}
-              className="w-full px-2 lg:px-6 flex justify-center outline-hidden text-center"
-              onChange={(e) => handleChange(index, e.target.value)}
-              onKeyDown={(e) => handleKeyDown(index, e)}
-              onPaste={(e) => handleOnPaste(e, index)}
-              onFocus={handleFocus}
-              onClick={handleClick}
-            />
-          </div>
-        ))}
-      </div>
-
-      {/* <span dir="ltr" className="text-sm text-red-600 mt-1 inline-block ">
-        {form?.formState?.errors?.[name || "code"]?.message}
-      </span> */}
-    </>
+    <div
+      className="flex gap-2 lg:gap-6 justify-center"
+      dir="ltr"
+      style={{ direction: "ltr" }}
+    >
+      {Array.from({ length }).map((_, index) => (
+        <div
+          key={index}
+          className={cn(
+            "relative flex caret-black! text-2xl pointer-events-auto size-10 lg:size-12 cursor-pointer items-center justify-center border border-gray-light transition-all has-[input:focus-within]:border-gray-dark rounded-lg",
+            hasError &&
+              (otpValues[index] === "" || !isFinite(Number(otpValues[index])))
+              ? "border-red-500 has-[input:focus-within]:border-red-500"
+              : ""
+          )}
+        >
+          <input
+            ref={(el) => {
+              inputsRef.current[index] = el;
+            }}
+            type="text"
+            inputMode="numeric"
+            pattern="[0-9]*"
+            maxLength={1}
+            value={otpValues[index]}
+            className="w-full flex justify-center outline-hidden text-center"
+            onChange={(e) => handleChange(index, e.target.value)}
+            onKeyDown={(e) => handleKeyDown(index, e)}
+            onPaste={(e) => handleOnPaste(e, index)}
+            onFocus={handleFocus}
+            onClick={handleClick}
+          />
+        </div>
+      ))}
+    </div>
   );
 }

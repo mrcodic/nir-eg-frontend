@@ -1,11 +1,11 @@
 "use client";
 
+import { OTP_SEND_TIME_KEY } from "@/constants";
+import { getOtp } from "@/utils/api";
 import { useState } from "react";
 import { useTimer } from "react-timer-hook";
 import { isOtpExpired, setNewOtpSendTime } from "../lib/utils";
-import { OTP_SEND_TIME_KEY } from "@/constants";
 import { useToast } from "./use-toast";
-import { getOtp } from "@/utils/api";
 
 function useOtp() {
   const { otpSendTime, isExpired } = isOtpExpired();
@@ -40,7 +40,7 @@ function useOtp() {
       if (res.status) {
         console.log(res);
         toast({
-          description: "بعتنالك otp تاني     ",
+          description: "بعتنالك otp تاني ",
           icon: "success",
         });
       }
