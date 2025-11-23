@@ -20,7 +20,7 @@ const LinkLocked = ({
   return (
     <div
       className={cn(
-        "max-w-32 w-full px-2 flex justify-center items-center bg-primary-800 border border-gray-light rounded-md   text-white h-9",
+        "max-w-32 w-full px-2 flex justify-center items-center bg-primary-800 border border-gray-light rounded-md   text-white h-9 hover:bg-primary-800/90 transition-all",
         {
           "pointer-events-none cursor-not-allowed": locked,
           "cursor-pointer": !locked,

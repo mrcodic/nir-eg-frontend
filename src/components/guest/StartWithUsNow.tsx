@@ -29,7 +29,7 @@ function StartWithUsNow() {
           <Button variant="secondary" className="w-fit">
             اشترك معنا{" "}
             <Image
-              src="/assets/launch.svg"
+              src="/assets/launch-white.svg"
               alt="rocket icon"
               width={24}
               height={24}

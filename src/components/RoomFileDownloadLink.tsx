@@ -25,23 +25,25 @@ function RoomFileDownloadLink({
         <span>{attachment.name}</span>
       </div>
 
-      <LinkLocked
-        locked={
-          room?.locked_to_pass ||
-          room?.latest_room?.locked_to_pass ||
-          lock_after == 0
-        }
-      >
-        <a
-          onClick={() => {
-            window.open(attachment.url, "_blank");
-          }}
-          download
-          className="w-full text-center"
+      {subscribe && verify && (
+        <LinkLocked
+          locked={
+            room?.locked_to_pass ||
+            room?.latest_room?.locked_to_pass ||
+            lock_after == 0
+          }
         >
-          تنزيل الملف
-        </a>
-      </LinkLocked>
+          <a
+            onClick={() => {
+              window.open(attachment.url, "_blank");
+            }}
+            download
+            className="w-full text-center"
+          >
+            تنزيل الملف
+          </a>
+        </LinkLocked>
+      )}
     </div>
   );
 }

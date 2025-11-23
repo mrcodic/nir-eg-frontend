@@ -4,7 +4,7 @@ import Link from "next/link";
 
 function StudentPointsCard({ points }: { points: number }) {
   return (
-    <div className="border-primary-800 border  rounded-[12px] p-2 w-full md:min-w-[260px] md:w-fit">
+    <div className="border-primary-800 border h-[92px] rounded-[12px] p-2 w-full md:min-w-[260px] md:w-fit">
       <div className="flex gap-4 sm:gap-6 h-full items-center">
         <img className="w-8 h-8" src="/assets/star-colored.svg" />
 
@@ -31,7 +31,7 @@ function StudentPointsCard({ points }: { points: number }) {
 
         <Link
           href="#points-table"
-          className="flex self-end shrink-0 items-center  ms-auto justify-center   bg-gray-light text-sm font-medium  px-3  h-7 rounded-md text-white"
+          className="flex self-end shrink-0 items-center  ms-auto justify-center   bg-primary-800 text-sm font-medium  px-3  h-7 rounded-md text-white"
         >
           عرض
         </Link>

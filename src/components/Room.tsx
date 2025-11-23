@@ -121,15 +121,6 @@ const Room = ({
                               />
                             </div>
                           )}
-
-                          {/* <button
-                      onClick={() => {
-                        // router.push(`/bundles/showBundle?type=${bundle.id}`);
-                      }}
-                      className="w-[116px] rounded-lg h-[32px] text-[#121212] border border-primary  text-sm font-bold"
-                    >
-                      عرض الباقة
-                    </button> */}
                         </div>
                       )}
                     </div>

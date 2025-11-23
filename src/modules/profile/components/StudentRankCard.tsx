@@ -2,8 +2,8 @@ import Image from "next/image";
 
 function StudentRankCard() {
   return (
-    <div className="border-primary-800 border  rounded-[12px] p-2 w-full md:w-[260px]">
-      <div className="flex gap-6 items-center">
+    <div className="border-primary-800 border h-[92px] rounded-[12px] p-2 w-full md:w-[260px]">
+      <div className="flex gap-6 items-center h-full">
         <Image
           src="/assets/rank-colored.svg"
           width={32}

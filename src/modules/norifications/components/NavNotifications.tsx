@@ -99,10 +99,11 @@ function NavNotifications() {
           ) : (
             <div className="flex flex-col  py-6  items-center justify-center">
               <Image
-                src="/assets/BellColor.svg"
-                width={88}
-                height={88}
+                src="/assets/search-illustration.png"
+                width={300}
+                height={200}
                 alt="empty notifications icon"
+                className="md:w-[300px] md:h-[200px] w-[200px] h-[150px]"
               />
               <p className="text-sm text-[#121212]text-center">
                 لا يوجد إشعارات
