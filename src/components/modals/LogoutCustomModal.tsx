@@ -1,57 +1,42 @@
 "use client";
 
 import { useAuthContext } from "@/context/auth-context";
+import { useModal } from "@/context/ModalProvider";
+import { Button } from "../ui/button";
 
-function LogoutCustomModal({
-  setShowLogoutModal,
-}: {
-  setShowLogoutModal: (value: boolean) => void;
-}) {
+function LogoutCustomModal() {
   const { logout, deleteGrade } = useAuthContext();
+  const modal = useModal();
 
   return (
-    <div className="fixed inset-0 flex justify-center items-center  h-screen w-screen bg-[rgba(18,18,18,0.60)] z-9999!">
-      <div className="bg-white p-4 rounded-lg w-[90%] md:w-[446px]">
-        <img
+    <div className="flex flex-col items-center gap-8">
+      <img className="size-12" src="/assets/sign-out.svg" />
+
+      <p className="font-bold  text-center">
+        هل أنت متأكد من أنك تريد تسجيل الخروج؟
+      </p>
+
+      <div className="grid grid-cols-2 gap-6">
+        <Button
           onClick={() => {
-            setShowLogoutModal(false);
+            logout();
+            window.location.href = "/login";
+            deleteGrade();
+            modal.closeModal();
           }}
-          className="w-[16px] cursor-pointer h-[16px] mr-auto"
-          src="/assets/Close.svg"
-        />
+          className="bg-semantics-red hover:bg-semantics-red/90 h-11"
+        >
+          تسجيل خروج
+        </Button>
 
-        <div className="mb-[16px] flex flex-col">
-          <img className="w-[24px] h-[24px]" src="/assets/SignOut.svg" />
-
-          <div className="my-[12px] h-px w-full bg-gray-light" />
-
-          <h1 className="font-bold mb-[32px]">
-            هل أنت متأكد من أنك تريد تسجيل الخروج؟
-          </h1>
-
-          <div className="flex gap-[16px]">
-            <button
-              onClick={() => {
-                logout();
-                setShowLogoutModal(false);
-                // router.push("/login");
-                window.location.href = "/login";
-                deleteGrade();
-              }}
-              className="w-[148px] rounded-lg flex items-center justify-center py-1 text-white bg-[#B75050] border border-gray-light"
-            >
-              تسجيل خروج
-            </button>
-            <button
-              onClick={() => {
-                setShowLogoutModal(false);
-              }}
-              className="w-[148px] border border-[#012D5A] rounded-lg flex items-center justify-center py-1 "
-            >
-              إلغاء
-            </button>
-          </div>
-        </div>
+        <Button
+          onClick={() => {
+            modal.closeModal();
+          }}
+          className="bg-transparent hover:bg-transparent h-11 text-black border border-gray-light"
+        >
+          إلغاء
+        </Button>
       </div>
     </div>
   );

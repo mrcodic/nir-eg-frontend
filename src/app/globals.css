@@ -27,8 +27,9 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
 
-  --text-32: 32px;
   --text-28: 28px;
+  --text-32: 32px;
+  --text-40: 40px;
 
   --breakpoint-mobile: 1024px;
 
