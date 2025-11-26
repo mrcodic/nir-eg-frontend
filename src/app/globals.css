@@ -16,6 +16,7 @@
   --color-foreground: oklch(0.145 0 0);
   --color-custom-brown: var(--secondary-700, #523412);
   --color-secondary: hsla(32, 92%, 52%, 1);
+  --color-secondary-hover: hsl(30, 57%, 92%);
 
   --color-primary-foreground: oklch(0.985 0 0);
   --color-primary: var(--primary);

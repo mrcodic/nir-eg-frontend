@@ -28,7 +28,7 @@ const GradesData = [
 
 const GradesSection = () => {
   return (
-    <section className="py-3" id="grades">
+    <section id="grades">
       <div className="flex flex-col items-center mb-4 justify-center gap-2 text-center">
         <Image
           src="/assets/book-gif.gif"

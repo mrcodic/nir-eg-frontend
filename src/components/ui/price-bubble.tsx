@@ -1,15 +1,18 @@
+import { cn } from "@/lib/utils";
 import PriceBadge from "./PriceBadge";
 
 function PriceBubbles({
   sale,
   price,
+  className,
 }: {
   sale?: { discount_type: number; discount_value: number; id: number };
   price: number | string;
+  className?: string;
 }) {
   if (sale?.id)
     return (
-      <div className="flex gap-2.5 ms-auto items-center">
+      <div className={cn("flex gap-2.5 ms-auto items-center", className)}>
         <PriceBadge price={Number(price)} variant="crossed" />
         <PriceBadge
           price={
@@ -22,7 +25,13 @@ function PriceBubbles({
       </div>
     );
   else {
-    return <PriceBadge price={Number(price)} variant="default" />;
+    return (
+      <PriceBadge
+        price={Number(price)}
+        variant="default"
+        className={className}
+      />
+    );
   }
 }
 

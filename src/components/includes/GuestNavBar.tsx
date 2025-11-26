@@ -88,7 +88,7 @@ const GuestNavBar = () => {
           <div className="md:flex  gap-4 mobile:gap-6 hidden">
             <Link
               href={"/login"}
-              className="border transition-all mobile:text-base text-sm hover:bg-[#F6EADE] text-center font-bold bg-transparent p-2 text-[18px] text-secondary  border-secondary w-[135px] mobile:w-[159px] rounded-[10px]"
+              className="border transition-all mobile:text-base text-sm hover:bg-secondary-hover text-center font-bold bg-transparent p-2 text-[18px] text-secondary  border-secondary w-[135px] mobile:w-[159px] rounded-[10px]"
             >
               <span>تسجيل دخول</span>
             </Link>
