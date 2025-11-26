@@ -38,7 +38,7 @@ const SelectedLesson = ({
         onClick={() => {
           router.push(`/bundles/${SingleCourse}`);
         }}
-        className="border border-gray-light cursor-pointer flex items-center justify-center bg-[#012D5A] mt-[24px] py-2 text-white rounded-lg w-full"
+        className="border border-gray-light cursor-pointer flex items-center justify-center bg-primary-800 mt-[24px] py-2 text-white rounded-lg w-full"
       >
         <img src="/assets/LeftArrowColor.svg" />
         <span>العودة للكورس</span>
@@ -82,7 +82,7 @@ const SelectedLesson = ({
           className={` bg-white border cursor-pointer ${
             videoId !== lesson?.vedio_id
               ? "border-[#1EAD7B]  "
-              : "border-[#012D5A] bg-background!"
+              : "border-primary-800 bg-background!"
           } rounded-lg mb-[12px] px-[8px]  py-[12px]`}
         >
           <div className="flex text-sm items-center font-bold gap-4">

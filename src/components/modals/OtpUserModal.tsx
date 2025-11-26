@@ -156,7 +156,7 @@ export default function OtpUserModal({
                 className="flex items-center justify-center! w-full"
               >
                 <Button
-                  className="bg-[#012D5A] border text-white font-bold border-gray-light h-[32px] w-[144px] rounded-lg"
+                  className="bg-primary-800 border text-white font-bold border-gray-light h-[32px] w-[144px] rounded-lg"
                   type="submit"
                   onClick={() => {
                     setOpen(true);

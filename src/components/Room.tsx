@@ -45,7 +45,7 @@ const Room = ({
           className="bg-background"
         >
           {/* {true && (
-            <h2 className="text-[#012D5A] text-[18px] font-bold mb-2">
+            <h2 className="text-primary-800 text-[18px] font-bold mb-2">
               {room?.classroom}
             </h2>
           )} */}

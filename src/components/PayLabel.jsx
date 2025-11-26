@@ -46,7 +46,7 @@ export default function PayLabel({ type, price }) {
 
       <button
         onClick={backtoPayMethod}
-        className=" border text-sm flex justify-center  min-h-[36px] rounded-[10px] w-[250px] border-[#012D5A] text-[#121212] items-center gap-[12px] px-1"
+        className=" border text-sm flex justify-center  min-h-[36px] rounded-[10px] w-[250px] border-primary-800 text-[#121212] items-center gap-[12px] px-1"
       >
         <span>العودة لاختيار طريقة الدفع</span>
         <img className="w-[24px] h-[24px]" src="/assets/LeftArrowColor.svg" />

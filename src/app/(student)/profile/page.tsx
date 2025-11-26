@@ -6,13 +6,15 @@ import { StudentSelectCenter } from "@/components/modals/StudentSelectCenter";
 import Room from "@/components/Room";
 import RoomHeader from "@/components/RoomHeader";
 import { useAuthContext } from "@/context/auth-context";
+import { useModal } from "@/context/ModalProvider";
 import ProfileHeaderCard from "@/modules/profile/components/ProfileHeaderCard";
+import ProfilePointsTable from "@/modules/profile/components/ProfilePointsTable";
 import StudentTasksOverview from "@/modules/profile/components/StudentTasksOverview";
 import { IUser } from "@/types";
 import { getDataClient } from "@/utils/clientFun";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect } from "react";
 
 const Tabs = [
   {
@@ -28,7 +30,7 @@ const Tabs = [
   {
     id: 3,
     title: "الأنشطة",
-    iconSrc: "/assets/Star.svg",
+    iconSrc: "/assets/star-colored.svg",
   },
   {
     id: 4,
@@ -39,6 +41,7 @@ const Tabs = [
 
 const ProfilePage = () => {
   const { grade } = useAuthContext();
+  const modal = useModal();
 
   const { data: rooms, isLoading: isLoadingRooms } = useQuery({
     queryKey: ["/students/profile/latest_classes"],
@@ -50,7 +53,12 @@ const ProfilePage = () => {
     queryFn: getDataClient as () => Promise<{ body: IUser }>,
   });
 
-  const [isModal, setIsModal] = useState(true);
+  useEffect(() => {
+    if (profileData?.body?.type === 3 && !profileData?.body?.has_center) {
+      modal.setDialogContent(<StudentSelectCenter />);
+      modal.openModal();
+    }
+  }, [profileData]);
 
   return (
     <div className="mb-12 mt-[140px]">
@@ -63,24 +71,9 @@ const ProfilePage = () => {
         <div className="mt-24">
           <RoomHeader icon={"/assets/books-colored.svg"} title={"آخر الحصص"} />
 
-          {/* {isNewUser && (
-            <div className="mt-[32px] flex flex-col items-center justify-center gap-[32px]">
-              <img src="/assets/BoxColor.svg" className="w-[120px] h-[120px]" />
-              <p className="text-gray-dark text-[24px] font-medium">
-                لم تشترك في أي باقة بعد
-              </p>
-              <Link
-                href={"/bundles"}
-                className="bg-[#012D5A] text-center flex justify-center items-center text-[18px] font-bold h-[40px] w-[364px] border border-[#9D8242] rounded-lg text-[#FFFFFF]"
-              >
-                اذهب للباقات
-              </Link>
-            </div>
-          )} */}
-
           {!isLoadingRooms ? (
-            <div className="mt-[32px]">
-              {rooms?.body?.length > 0 ? (
+            <div className="mt-8">
+              {rooms?.body?.length > 100 ? (
                 <div className="flex flex-col gap-4">
                   {rooms?.body?.map((room) => {
                     return (
@@ -95,17 +88,23 @@ const ProfilePage = () => {
                 </div>
               ) : profileData?.body?.type === 4 ? (
                 <div className="flex flex-col items-center justify-center">
-                  <Empty text="لم تشترك في أي باقة بعد" />
+                  <Empty
+                    text="لم تشترك في أي باقة بعد"
+                    icon="/assets/bg/illustration-empty-students.svg"
+                  />
                   <Link
                     href={`/bundles?grade=${grade}`}
-                    className="bg-[#012D5A] w-[368px] py-2 rounded-[10px] text-white text-center font-bold text-[18px] border border-[#9D8242]"
+                    className="bg-primary-800 w-full max-w-[172px] py-2 rounded-lg text-white text-center font-bold text-base  "
                   >
                     اذهب للباقات
                   </Link>
                 </div>
               ) : (
                 <div className="flex flex-col items-center justify-center">
-                  <Empty text="لم يتم إضافة حصص بعد" />
+                  <Empty
+                    text="لم يتم إضافة حصص بعد"
+                    icon="/assets/bg/illustration-empty-students.svg"
+                  />
                 </div>
               )}
             </div>
@@ -114,16 +113,12 @@ const ProfilePage = () => {
           )}
         </div>
 
-        {/* <div className="mt-[96px]">
-          <RoomHeader icon={"/assets/Star.svg"} title={"النقاط"} />
+        <div className="mt-24">
+          <RoomHeader icon={"/assets/star-colored.svg"} title={"النقاط"} />
 
           <ProfilePointsTable />
-        </div> */}
+        </div>
       </div>
-
-      {profileData?.body?.type === 3 && !profileData?.body?.has_center && (
-        <StudentSelectCenter open={isModal} setOpen={setIsModal} />
-      )}
     </div>
   );
 };

@@ -21,7 +21,7 @@ function CartContent() {
       >
         <Link
           href="/books"
-          className="bg-[#012D5A] text-white h-10 max-w-[364px] w-full flex justify-center items-center px-6"
+          className="bg-primary-800 text-white h-10 max-w-[364px] w-full flex justify-center items-center px-6"
         >
           اذهب لمتجر الكتب
         </Link>
@@ -30,7 +30,7 @@ function CartContent() {
 
   return (
     <section>
-      <h1 className="text-32 font-bold text-[#012D5A]">السلة</h1>
+      <h1 className="text-32 font-bold text-primary-800">السلة</h1>
 
       <div className="grid grid-cols-12 lg:gap-6 gap-y-16 items-start">
         <div className="lg:col-span-7 col-span-12 max-lg:max-h-[max(calc(100vh-300px),300px)] overflow-y-auto max-lg:pe-4 divide-y-2 divide-gray-300">

@@ -43,7 +43,7 @@ const Features = forwardRef((props) => {
         <h2 className="md:text-[32px] text-[20px] font-bold text-[#523412]">
           ليه تشترك معانا؟
         </h2>
-        <span className="text-primary-700 md:text-[20px] text-[16px] font-bold">
+        <span className="text-primary-800 md:text-[20px] text-[16px] font-bold">
           #أكتر_من_مجرد_منهج
         </span>
       </div>

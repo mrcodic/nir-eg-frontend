@@ -4,18 +4,16 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { useAuthContext } from "@/context/auth-context";
-import { useModal } from "@/context/ModalProvider";
 
 import NavNotifications from "@/modules/norifications/components/NavNotifications";
 import { BookLinksSettings } from "@/types/books.types";
-import { StudentSelectCenter } from "../modals/StudentSelectCenter";
+import LinkStyled from "./LinkStyled";
 import MobileDropDown from "./MobileDropDown";
 import NavUserMenu from "./NavUserMenu";
 import WrapperHOC from "./WrapperHOC";
 
 const AuthNavBar = () => {
   const pathName = usePathname();
-  const modal = useModal();
   const { profile, grade } = useAuthContext();
 
   const STUDENTSONLINELINKS = [
@@ -59,15 +57,6 @@ const AuthNavBar = () => {
     // },
   ];
 
-  function center(e, x) {
-    if (!x) return;
-    //  if back returns "false"
-    if (x && profile?.has_center == false) {
-      modal.setDialogContent(<StudentSelectCenter />);
-      modal.openModal();
-    }
-  }
-
   return (
     <div className=" h-20 border-b fixed top-0 left-0 w-full z-30 border-gray-light flex items-center  bg-background aria-hidden:pointer-events-auto! data-[aria-hidden='true']:pointer-events-auto!">
       <div className="wrapper">
@@ -88,18 +77,11 @@ const AuthNavBar = () => {
               ? STUDENTSOFFLINELINKS
               : STUDENTSONLINELINKS
             ).map((studentLink, i) => (
-              <Link
+              <LinkStyled
                 key={i}
                 href={studentLink.href}
-                onClick={(e) => center(e, studentLink.title === "الحصص")}
-                className={`border px-3 border-gray-light h-[44px] flex items-center justify-center rounded-[10px] ${
-                  studentLink.href.substring(0, 6) === pathName.substring(0, 6)
-                    ? "bg-primary text-white"
-                    : "bg-transparent text-[#523412]"
-                }   `}
-              >
-                {studentLink.title}
-              </Link>
+                title={studentLink.title}
+              />
             ))}
 
             <WrapperHOC queryKey={["settings/books"]}>

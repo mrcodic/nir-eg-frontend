@@ -71,19 +71,26 @@ const columns = [
     ),
     cell: (info) => (
       <div className="p-2 text-[16px] font-medium flex items-end justify-end gap-2 pe-8">
-        <Image src="/assets/Star.svg" width={32} height={32} alt="star" />
+        <Image
+          src="/assets/star-colored.svg"
+          width={32}
+          height={32}
+          alt="star"
+        />
 
         <div className="relative">
-          <h3 className="textStroke text-2xl absolute top-0 left-0 flex items-center z-0 text-[#012D5A]/20">
+          <h3 className="textStroke text-2xl absolute top-0 left-0 flex items-center z-0 text-primary-800/20">
             {info.getValue()}
           </h3>
 
-          <h3 className="relative z-10 text-2xl font-bold text-[#012D5A] top-px left-px">
+          <h3 className="relative z-10 text-2xl font-bold text-primary-800 top-px left-px">
             {info.getValue()}
           </h3>
         </div>
 
-        <span className="text-xs font-bold self-end text-[#012D5A]">نقطة</span>
+        <span className="text-xs font-bold self-end text-primary-800">
+          نقطة
+        </span>
       </div>
     ),
   }),
@@ -145,7 +152,7 @@ export default function RankTable() {
                   <TableHead
                     key={header.id}
                     className={cn(
-                      "text-right text-[#121212] border-y border-[#012D5A] first:rounded-r-xl first:border-r last:rounded-l-xl last:border-l"
+                      "text-right text-[#121212] border-y border-primary-800 first:rounded-r-xl first:border-r last:rounded-l-xl last:border-l"
                     )}
                   >
                     {flexRender(
@@ -163,7 +170,7 @@ export default function RankTable() {
               <TableRow>
                 <TableCell colSpan={3} className="text-center py-8">
                   <div className="flex justify-center">
-                    <div className="animate-spin rounded-full h-10 w-10 border-4 border-[#012D5A] border-t-transparent"></div>
+                    <div className="animate-spin rounded-full h-10 w-10 border-4 border-primary-800 border-t-transparent"></div>
                   </div>
                 </TableCell>
               </TableRow>
@@ -211,7 +218,7 @@ export default function RankTable() {
         {table.getCanPreviousPage() && (
           <button
             onClick={() => table.previousPage()}
-            className="flex h-10 w-24 items-center justify-center gap-1 rounded-lg border border-primary bg-[#012D5A] text-white"
+            className="flex h-10 w-24 items-center justify-center gap-1 rounded-lg border border-primary bg-primary-800 text-white"
           >
             <img src="/assets/RightArrowColor.svg" alt="Previous" />
             <span className="text-sm font-bold">السابق</span>
@@ -220,7 +227,7 @@ export default function RankTable() {
         {table.getCanNextPage() && (
           <button
             onClick={() => table.nextPage()}
-            className="flex h-10 w-24 items-center justify-center gap-2 rounded-lg border border-primary ms-auto bg-[#012D5A] text-white"
+            className="flex h-10 w-24 items-center justify-center gap-2 rounded-lg border border-primary ms-auto bg-primary-800 text-white"
           >
             <span className="text-sm font-bold">التالى</span>
             <img src="/assets/LeftArrowColor.svg" alt="Next" />

@@ -6,7 +6,6 @@ import { useForm } from "react-hook-form";
 import CustomInput from "@/components/custom/customInput";
 import CustomPhoneInput from "@/components/custom/CustomPhoneInput";
 import CustomLoader from "@/components/custom/Loader";
-import { NewFeaturesModal } from "@/components/modals/NewFeaturesModal";
 import { Verify } from "@/components/modals/Verify";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
@@ -16,7 +15,6 @@ import { useToast } from "@/hooks/use-toast";
 import AuthHeader from "@/layouts/AuthHeader";
 import { loginSchema } from "@/lib/schemas";
 import { getUserPhoneFromStorage, presistUserPhone } from "@/lib/utils";
-import { getDataClient } from "@/utils/clientFun";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -74,30 +72,6 @@ const AuthPage = () => {
       storeGrade(response.data?.student.grade);
       localStorage.setItem("student", JSON.stringify(response.data?.student));
       presistUserPhone(phone.phone, phone.country);
-
-      // check for new features to notify the student
-      try {
-        const features = await getDataClient({
-          queryKey: ["settings/newFeatures"],
-        });
-
-        // 1) check if feature enabled
-        if (features?.data?.enabled === 1) {
-          // 2) check if seen the features
-          const savedFeatures = localStorage.getItem("more-features");
-          const stringifiedFeatures = JSON.stringify(features?.data);
-
-          if (!savedFeatures || savedFeatures !== stringifiedFeatures) {
-            modal.setDialogContent(
-              <NewFeaturesModal features={features?.data} />
-            );
-            modal.openModal();
-            localStorage.setItem("more-features", stringifiedFeatures);
-          }
-        }
-      } catch (e) {
-        console.log("features error : ", e);
-      }
 
       if (
         response?.data?.student?.type === 3 &&

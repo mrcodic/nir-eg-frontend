@@ -40,7 +40,7 @@ export default function ReachModal({ open, setOpen }) {
               boxShadow: "0px 2px 10px 4px rgba(157, 130, 66, 0.20)",
             }}
             className=" md:text-[24px] 
-   font-bold  flex flex-wrap md:flex-nowrap justify-center gap-[24px] items-center w-full bg-background   border py-3 md:py-[32px] p-2 border-[#012D5A] rounded-lg"
+   font-bold  flex flex-wrap md:flex-nowrap justify-center gap-[24px] items-center w-full bg-background   border py-3 md:py-[32px] p-2 border-primary-800 rounded-lg"
           >
             <img src="/assets/Whatsapp.svg" className="w-[48px] h-[48px]" />
 

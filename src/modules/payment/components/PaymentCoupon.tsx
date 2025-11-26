@@ -98,7 +98,7 @@ function PaymentCoupon({
         <Button
           onClick={handleCouponSubmit}
           disabled={loading || !value}
-          className="h-8 px-3 sm:px-6 text-sm sm:text-base bg-[#012D5A] rounded-lg max-w-[70px] sm:max-w-[104px] w-full"
+          className="h-8 px-3 sm:px-6 text-sm sm:text-base bg-primary-800 rounded-lg max-w-[70px] sm:max-w-[104px] w-full"
         >
           {loading && <Loader className="mr-2 h-4 w-4 animate-spin" />}
           تأكيد

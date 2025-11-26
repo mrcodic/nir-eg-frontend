@@ -85,7 +85,7 @@ export function PaySuccess({
           >
             <Button
               type="submit"
-              className="text-gray-25 font-bold border-2  py-6!  rounded-2xl text-center text-white bg-[#012D5A] hover:bg-[#012D5A] w-[200px] mx-auto"
+              className="text-gray-25 font-bold border-2  py-6!  rounded-2xl text-center text-white bg-primary-800 hover:bg-primary-800 w-[200px] mx-auto"
             >
               تأكيد
             </Button>

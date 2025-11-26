@@ -30,7 +30,7 @@ const Comment = ({ comment, setSelectedCommentLesson }: CommentProps) => {
             {convertDate(comment?.created_at)}{" "}
           </span>
         </div>
-        {/* <h2 className="text-primary-700 inline-block text-xs sm:text-[16px] font-bold">
+        {/* <h2 className="text-primary-800 inline-block text-xs sm:text-[16px] font-bold">
           {secondsToHms(comment?.at_second)}
         </h2> */}
       </div>

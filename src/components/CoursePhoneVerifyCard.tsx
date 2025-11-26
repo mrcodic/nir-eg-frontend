@@ -13,7 +13,7 @@ function CoursePhoneVerifyCard({ parentPhone }: { parentPhone: string }) {
           boxShadow: "0px 2px 10px 4px rgba(157, 130, 66, 0.20)",
         }}
         className="bg-[#F9FAFC] md:text-2xl 
-               font-bold mx-auto -mt-8 flex flex-wrap max-md:justify-center  md:gap-x-6 gap-x-4 gap-y-1 items-center  max-w-[min(85%,760px)] w-full relative border py-3 md:py-8 px-6 md:px-10 border-[#012D5A] rounded-lg"
+               font-bold mx-auto -mt-8 flex flex-wrap max-md:justify-center  md:gap-x-6 gap-x-4 gap-y-1 items-center  max-w-[min(85%,760px)] w-full relative border py-3 md:py-8 px-6 md:px-10 border-primary-800 rounded-lg"
       >
         <div className="flex gap-4">
           <img
@@ -29,7 +29,7 @@ function CoursePhoneVerifyCard({ parentPhone }: { parentPhone: string }) {
 
         {/* <p className="mr-4  text-[#523412] inline-block">من الكورس</p> */}
         <button
-          className="w-[148px] text-[10px] md:text-lg p-2 mr-auto rounded-xl text-white bg-[#012D5A] "
+          className="w-[148px] text-[10px] md:text-lg p-2 mr-auto rounded-xl text-white bg-primary-800 "
           onClick={async () => {
             setOpen(true);
           }}

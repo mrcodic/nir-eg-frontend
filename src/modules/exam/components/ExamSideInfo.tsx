@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 
 function ExamSideInfo({ start, data, setShowRoom, defaultTitle = "امتحان" }) {
   return (
-    <div className="md:min-w-[280px] flex flex-col items-center justify-center border rounded-lg p-4 border-[#012D5A]  max-h-[329px] bg-[#F9FAFC]">
+    <div className="md:min-w-[280px] flex flex-col items-center justify-center border rounded-lg p-4 border-primary-800  max-h-[329px] bg-[#F9FAFC]">
       <h2 className="text-[20px] text-[#121212] text-right  mb-2 font-bold break-all">
         {start?.title || defaultTitle}
       </h2>

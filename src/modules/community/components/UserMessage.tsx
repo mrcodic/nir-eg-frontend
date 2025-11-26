@@ -162,7 +162,7 @@ const UserMessage = ({
           <div className="flex items-center justify-end ps-2 sm:ps-[33px]">
             <Button
               onClick={() => setShowReply(true)}
-              className="sm:text-sm text-xs h-8  text-[#f8b312] bg-[#012D5A]  rounded-xl font-medium"
+              className="sm:text-sm text-xs h-8  text-[#f8b312] bg-primary-800  rounded-xl font-medium"
             >
               إضافة رد
             </Button>
@@ -171,7 +171,7 @@ const UserMessage = ({
 
         {showReply && !isReply && (
           <div className="border flex items-start gap-4 border-gray-light rounded-lg p-2 mt-4 max-sm:flex-wrap relative">
-            <div className="absolute size-5 top-0 right-0  bg-[#012D5A] flex items-center justify-center rounded-full  ">
+            <div className="absolute size-5 top-0 right-0  bg-primary-800 flex items-center justify-center rounded-full  ">
               <button
                 onClick={() => setShowReply(false)}
                 className="top-0 right-0"

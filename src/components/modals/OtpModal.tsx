@@ -175,7 +175,7 @@ export default function OtpModal({ open, setOpen, phone }) {
 
             <DialogFooter className="flex justify-start! gap-6 items-center  w-full mt-20!">
               <Button
-                className="bg-[#012D5A] border text-white font-bold border-gray-light h-[32px] w-[144px] rounded-lg"
+                className="bg-primary-800 border text-white font-bold border-gray-light h-[32px] w-[144px] rounded-lg"
                 type="submit"
                 onClick={() => {
                   setOpen(true);

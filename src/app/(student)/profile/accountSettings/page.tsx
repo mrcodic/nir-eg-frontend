@@ -414,7 +414,7 @@ const PageSettings = () => {
               </div>
               <button
                 type="submit"
-                className="bg-[#012D5A] flex items-center justify-center border border-gray-light text-white rounded-[10px] py-2 font-bold w-full md:w-[265px] mt-[56px]"
+                className="bg-primary-800 flex items-center justify-center border border-gray-light text-white rounded-[10px] py-2 font-bold w-full md:w-[265px] mt-[56px]"
               >
                 {isLoading ? <CustomLoader /> : "حفظ التغيرات"}
               </button>

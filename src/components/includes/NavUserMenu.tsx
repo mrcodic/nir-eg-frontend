@@ -17,7 +17,7 @@ function NavUserMenu({ profile }) {
   const modal = useModal();
 
   return (
-    <DropdownMenu dir="rtl">
+    <DropdownMenu dir="rtl" modal={false}>
       <DropdownMenuTrigger className="focus-visible:outline-hidden">
         <div>
           <img

@@ -30,7 +30,7 @@ const PaymentWithFawery = () => {
                 <img className="w-[96px] h-[32px]" src="/assets/Vodafone.svg" />
                 <span> فودافون كاش</span>
               </div>
-              <button className=" border text-sm flex justify-center  h-[36px] rounded-[10px] w-[250px] border-[#012D5A] text-[#121212] items-center gap-[12px]">
+              <button className=" border text-sm flex justify-center  h-[36px] rounded-[10px] w-[250px] border-primary-800 text-[#121212] items-center gap-[12px]">
                 <span>العودة لاختيار طريقة الدفع</span>
                 <img
                   className="w-[24px] h-[24px]"
@@ -209,7 +209,7 @@ const PaymentWithFawery = () => {
               </div>
               <button
                 onClick={() => router.push("/bundles")}
-                className=" border text-sm flex justify-center  h-[36px] rounded-[10px] w-[250px] border-[#012D5A] text-[#121212] items-center gap-[12px]"
+                className=" border text-sm flex justify-center  h-[36px] rounded-[10px] w-[250px] border-primary-800 text-[#121212] items-center gap-[12px]"
               >
                 <span>العودة لاختيار طريقة الدفع</span>
                 <img

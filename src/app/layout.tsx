@@ -6,6 +6,7 @@ import WhatsappFloating from "@/components/WhatsappFloating";
 import "rsuite/dist/rsuite-no-reset.min.css";
 import Providers from "./providers";
 
+import UserModalsWrapper from "@/components/UserModalsWrapper";
 import { Almarai } from "next/font/google";
 import "./globals.css";
 
@@ -69,7 +70,8 @@ export default function Layout({ children }) {
 
           <Footer />
 
-          {/* <OfferModelWrapper /> */}
+          <UserModalsWrapper />
+
           <WhatsappFloating />
           <Toaster />
           {/* <Announcement /> */}

@@ -17,6 +17,7 @@ import {
   Suspense,
   useCallback,
   useContext,
+  useEffect,
   useState,
 } from "react";
 import { FaSpinner } from "react-icons/fa";
@@ -26,35 +27,59 @@ type ModalContextType = {
   openModal: () => void;
   closeModal: () => void;
   setDialogContent: Dispatch<SetStateAction<ReactNode | undefined>>;
-  setOnCloseCallback: (callback: () => void) => void;
-  setDialogContentProps: Dispatch<SetStateAction<DialogContentProps>>;
+  setDialogContentProps: Dispatch<SetStateAction<DialogContentProps | null>>;
+  /**
+   * Adds a side element (rendered beside children).
+   * Returns a disposer function to remove it manually.
+   */
+  addSideElement: (node: ReactNode) => () => void;
+  removeSideElement: () => void;
 };
 
 const ModalContext = createContext<ModalContextType | undefined>(undefined);
 
 const ModalProvider = ({ children }: { children: ReactNode }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [modalContent, setModalContent] = useState<ReactNode>();
-  const [onCloseCallback, setOnCloseCallback] = useState<(() => void) | null>(
-    null
-  );
+  const [modalContent, setModalContent] = useState<ReactNode | undefined>();
   const [dialogContentProps, setDialogContentProps] =
     useState<DialogContentProps | null>(null);
+
+  // The "side element" to render beside children
+  const [sideElement, setSideElement] = useState<ReactNode | undefined>();
 
   function resetModal() {
     setIsOpen(false);
     setModalContent(undefined);
-    setOnCloseCallback(null);
     setDialogContentProps(null);
+    setSideElement(undefined);
   }
 
   const closeModal = useCallback(() => {
     resetModal();
-  }, [onCloseCallback]);
+  }, []);
 
   const openModal = useCallback(() => {
     setIsOpen(true);
   }, []);
+
+  // Add side element and return disposer so caller can remove it manually
+  const addSideElement = useCallback((node: ReactNode) => {
+    setSideElement(node);
+    const disposer = () => setSideElement(undefined);
+    return disposer;
+  }, []);
+
+  const removeSideElement = useCallback(() => {
+    setSideElement(undefined);
+  }, []);
+
+  useEffect(() => {
+    if (!isOpen) {
+      setModalContent(undefined);
+      setDialogContentProps(null);
+      setSideElement(undefined);
+    }
+  }, [isOpen]);
 
   return (
     <ModalContext.Provider
@@ -63,14 +88,26 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
         openModal,
         closeModal,
         setDialogContent: setModalContent,
-        setOnCloseCallback: (callback) => setOnCloseCallback(() => callback),
         setDialogContentProps,
+        addSideElement,
+        removeSideElement,
       }}
     >
       {children}
+      {sideElement}
 
       {/* Global Modal */}
-      <Dialog open={isOpen && !!modalContent} onOpenChange={setIsOpen}>
+      <Dialog
+        open={isOpen && !!modalContent}
+        onOpenChange={(open) => {
+          setIsOpen(open);
+          if (!open) {
+            setModalContent(undefined);
+            setDialogContentProps(null);
+            setSideElement(undefined);
+          }
+        }}
+      >
         <DialogTitle />
         <DialogDescription />
         <DialogContent
@@ -90,8 +127,8 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
         >
           <Suspense
             fallback={
-              <div className="flex items-center justify-center size-full">
-                <FaSpinner className="animate-spin" />
+              <div className="flex items-center justify-center size-full min-h-[400px]">
+                <FaSpinner className="animate-spin text-primary-800 size-10" />
               </div>
             }
           >

@@ -36,7 +36,7 @@ function BuyBookTrigger({
           modal.openModal();
         }
       }}
-      className={cn("px-12 h-8 bg-[#012D5A] rounded-xl", buttonClassName)}
+      className={cn("px-12 h-8 bg-primary-800 rounded-xl", buttonClassName)}
     >
       شراء
     </Button>

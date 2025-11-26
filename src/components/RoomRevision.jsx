@@ -53,6 +53,7 @@ const RoomRevision = ({
           disabled={locked}
           className="h-9 py-1 cursor-pointer max-w-32 w-full"
           onClick={async () => {
+            if (locked) return;
             // await sendData(lesson?.vedio_id);
             if (SingleCourse) {
               router.push(
@@ -76,7 +77,7 @@ const RoomRevision = ({
             </>
           ) : (
             <TooltipLock text="عليك اجتياز الاختبار أولا">
-              <Lock />
+              <Lock className="size-6!" />
             </TooltipLock>
           )}
         </Button>

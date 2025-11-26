@@ -346,7 +346,7 @@ export default function Video({
             const inst = playerRef.current;
             inst?.video?.pause?.();
           }}
-          className="absolute z-50 text-primary-700 border border-gray-light transition-all p-2 w-[250px] py-4 rounded-lg right-8 bg-background bottom-14"
+          className="absolute z-50 text-primary-800 border border-gray-light transition-all p-2 w-[250px] py-4 rounded-lg right-8 bg-background bottom-14"
         >
           <div
             onClick={(e) => {

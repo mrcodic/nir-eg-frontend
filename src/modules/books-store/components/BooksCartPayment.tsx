@@ -15,7 +15,7 @@ const BooksCartPayment = () => {
   } = useBookPayment({ asModal: false });
 
   return (
-    <div className=" relative md:text-2xl font-bold  flex flex-col  lg:col-span-5 col-span-12  border p-6 border-[#012D5A] rounded-lg ">
+    <div className=" relative md:text-2xl font-bold  flex flex-col  lg:col-span-5 col-span-12  border p-6 border-primary-800 rounded-lg ">
       <BooksPaymentUI
         paymentMethodValue={paymentMethodValue}
         setPaymentMethodValue={setPaymentMethodValue}

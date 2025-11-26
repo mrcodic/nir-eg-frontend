@@ -1,15 +1,14 @@
 "use client";
 
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { ClipboardCopy, Check } from "lucide-react";
+import { Check } from "lucide-react";
 import Image from "next/image";
+import { useState } from "react";
 
 const CopyButton = ({ text }: { text: string }) => {
   const [copied, setCopied] = useState(false);
@@ -40,7 +39,7 @@ const CopyButton = ({ text }: { text: string }) => {
             {copied ? "تم النسخ!" : "نسخ الكود"}
           </div>
         </TooltipTrigger>
-        <TooltipContent className="text-[#012D5A]">نسخ الكود</TooltipContent>
+        <TooltipContent className="text-primary-800">نسخ الكود</TooltipContent>
       </Tooltip>
     </TooltipProvider>
   );

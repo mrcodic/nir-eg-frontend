@@ -21,7 +21,7 @@ export default function Error({
 
           <div className="flex space-y-6 flex-col justify-center items-center  dark:bg-gray-900 text-center px-4">
             <h1 className="text-6xl font-bold text-red-800">500</h1>
-            <h2 className="text-2xl font-semibold mt-4 dark:text-gray-200 text-primary-700">
+            <h2 className="text-2xl font-semibold mt-4 dark:text-gray-200 text-primary-800">
               حدث خطأ غير متوقع
             </h2>
             <p className="mt-2 dark:text-gray-400 max-w-md">

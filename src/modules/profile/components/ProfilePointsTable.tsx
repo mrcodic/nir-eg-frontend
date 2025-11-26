@@ -1,28 +1,11 @@
 // src/components/ProfilePointsTable.tsx
 "use client";
 
-import Empty from "@/components/Empty";
-import LoadingSpinner from "@/components/Loading";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { cn } from "@/lib/utils";
+import CustomTableUI from "@/components/tables/CustomTableUI";
 import type { IPagination } from "@/types";
 import { getDataClient } from "@/utils/clientFun";
-import { useQuery } from "@tanstack/react-query";
-import {
-  createColumnHelper,
-  flexRender,
-  getCoreRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { createColumnHelper } from "@tanstack/react-table";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -72,7 +55,7 @@ const columns = [
         <p className="">{info.getValue()}</p>
         <Link
           href={generatePointHref(info.row.original)}
-          className="text-primary-700  font-bold underline truncate"
+          className="text-primary-800  font-bold underline truncate"
         >
           {info.row.original.item_title}
         </Link>
@@ -111,16 +94,21 @@ const columns = [
   }),
   columnHelper.accessor("value", {
     header: () => (
-      <div className="min-w-[110px] px-2 text-[18px] font-bold">-</div>
+      <div className="min-w-[110px] px-2 text-[18px] font-bold">النقاط</div>
     ),
     cell: (info) => (
       <div className="flex items-center gap-4 w-full justify-start p-2">
         <div className="flex shrink-0 items-center gap-2 rounded-lg w-[136px]">
-          <Image src="/assets/Star.svg" width={32} height={32} alt="Star" />
-          <span className="text-2xl font-bold text-[#012D5A]">
+          <Image
+            src="/assets/star-colored.svg"
+            width={32}
+            height={32}
+            alt="Star"
+          />
+          <span className="text-2xl font-bold text-primary-800">
             {info.getValue()}
           </span>
-          <span className="text-[16px] font-bold text-[#012D5A]">نقطة</span>
+          <span className="text-[16px] font-bold ">نقطة</span>
         </div>
       </div>
     ),
@@ -133,128 +121,29 @@ function ProfilePointsTable() {
     pageSize: 5,
   });
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isPlaceholderData } = useQuery({
     queryKey: [
       `/students/studentFile?per_page=5&page=${pagination.pageIndex + 1}`,
     ],
     queryFn: getDataClient as () => Promise<IPagination<Row>>,
-  });
-
-  const table = useReactTable({
-    data: data?.data ?? [],
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    onPaginationChange: setPagination,
-    state: { pagination },
-    pageCount: data?.meta?.last_page ?? -1,
-    manualPagination: true,
+    placeholderData: keepPreviousData,
   });
 
   console.log("table data : ", data);
 
+  const points = data?.data || [];
+  const pageCount = data?.meta?.last_page ?? -1;
+
   return (
-    <div className="mt-10 scroll-m-28" id="points-table">
-      <div className="overflow-auto relative rounded-lg bg-cover p-6 md:p-12 bg-background">
-        <Image
-          src="/assets/paper.png"
-          fill
-          alt="background image"
-          className="opacity-80"
-        />
-        <Table
-          style={{
-            borderSpacing: "0 1rem",
-            borderCollapse: "separate",
-          }}
-          className="max-md:pe-1"
-        >
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header, idx) => (
-                  <TableHead
-                    key={header.id}
-                    className={cn(
-                      "text-right text-[#121212] border-y border-[#012D5A] first:rounded-r-xl first:border-r last:rounded-l-xl last:border-l "
-                    )}
-                  >
-                    {flexRender(
-                      header.column.columnDef.header,
-                      header.getContext()
-                    )}
-                  </TableHead>
-                ))}
-              </TableRow>
-            ))}
-          </TableHeader>
-
-          <TableBody>
-            {isLoading ? (
-              <TableRow>
-                <TableCell colSpan={5} className="text-center">
-                  <LoadingSpinner />
-                </TableCell>
-              </TableRow>
-            ) : table.getRowModel().rows.length === 0 ? (
-              <TableRow>
-                <TableCell colSpan={5} className="text-center">
-                  <Empty text="لا يوجد نقاط بعد" />
-                </TableCell>
-              </TableRow>
-            ) : (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id + "row"}
-                  className="bg-white border border-gray-light hover:bg-muted/50"
-                  style={{
-                    borderSpacing: "0 1rem",
-                    borderCollapse: "separate",
-                  }}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell
-                      key={cell.id + "cell"}
-                      className={cn(
-                        " text-[#121212] border-y border-gray-light first:rounded-r-xl first:border-r last:rounded-l-xl last:border-l p-0 "
-                      )}
-                    >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            )}
-          </TableBody>
-        </Table>
-      </div>
-
-      {/** Pagination – unchanged */}
-      <div className="mt-10 mx-auto flex max-w-3xl justify-between">
-        {table.getCanPreviousPage() && (
-          <button
-            onClick={() => table.previousPage()}
-            className="flex h-10 w-24 items-center justify-center gap-1 rounded-lg border border-primary bg-[#012D5A] text-white"
-          >
-            <img src="/assets/RightArrowColor.svg" alt="" />
-            <span className="text-sm font-bold">السابق</span>
-          </button>
-        )}
-        {table.getCanNextPage() && (
-          <button
-            onClick={() => table.nextPage()}
-            className="flex h-10 w-24 items-center justify-center gap-2 rounded-lg border border-primary ms-auto bg-[#012D5A] text-white"
-          >
-            <span className="text-sm font-bold">التالى</span>
-            <img src="/assets/LeftArrowColor.svg" alt="" />
-          </button>
-        )}
-      </div>
-    </div>
+    <CustomTableUI
+      data={points}
+      columns={columns}
+      setPagination={setPagination}
+      pagination={pagination}
+      pageCount={pageCount}
+      isLoading={isLoading}
+      isPlaceholderData={isPlaceholderData}
+    />
   );
 }
 

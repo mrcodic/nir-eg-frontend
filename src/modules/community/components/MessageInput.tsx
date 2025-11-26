@@ -175,7 +175,7 @@ const MessageInput = ({
               images.length === 0 &&
               audios.length === 0
             }
-            className="bg-[#012D5A] max-md:ms-auto disabled:opacity-50 disabled:cursor-not-allowed gap-2 w-[109px] justify-center flex rounded-lg items-center p-2 text-white "
+            className="bg-primary-800 max-md:ms-auto disabled:opacity-50 disabled:cursor-not-allowed gap-2 w-[109px] justify-center flex rounded-lg items-center p-2 text-white "
             onClick={handleSend}
           >
             <span>إرسال</span>

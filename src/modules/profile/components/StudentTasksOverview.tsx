@@ -14,6 +14,10 @@ function StudentTasksOverview() {
 
   // if (isLoading || !data || !data?.body) return null;
 
+  console.log("exam overview ", data);
+
+  if (isLoading) return null;
+
   const {
     body: { counts, exams },
   } = data || {
@@ -21,7 +25,7 @@ function StudentTasksOverview() {
   };
 
   return (
-    <div className="mt-[96px]">
+    <div className="mt-24">
       <RoomHeader icon={"/assets/ExamsColor.svg"} title={"الدرجات"} />
 
       <div className="grid grid-cols-12 gap-y-8 gap-x-4">
@@ -37,7 +41,7 @@ function StudentTasksOverview() {
               <h4 className="text-lg font-bold">عدد الامتحانات الكلية</h4>
             </div>
             <div className="text-lg font-bold flex items-center gap-2 ps-12">
-              <span className="text-[28px] ">{counts?.total}</span>
+              <span className="text-28 ">{counts?.total}</span>
               <span>امتحان</span>
             </div>
           </div>
@@ -53,9 +57,7 @@ function StudentTasksOverview() {
               <h4 className="text-lg font-bold text-[#1EAD7B]">ناجح</h4>
             </div>
             <div className="text-lg font-bold flex items-center gap-2 ps-12">
-              <span className="text-[28px] text-[#1EAD7B]">
-                {counts?.passed}
-              </span>
+              <span className="text-28 text-[#1EAD7B]">{counts?.passed}</span>
               <span>امتحان</span>
             </div>
           </div>
@@ -66,9 +68,7 @@ function StudentTasksOverview() {
               <h4 className="text-lg font-bold text-[#B75050]">راسب</h4>
             </div>
             <div className="text-lg font-bold flex items-center gap-2 ps-12">
-              <span className="text-[28px] text-[#B75050] ">
-                {counts?.failed}
-              </span>
+              <span className="text-28 text-[#B75050] ">{counts?.failed}</span>
               <span>امتحان</span>
             </div>
           </div>

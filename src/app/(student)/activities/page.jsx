@@ -130,7 +130,7 @@ const ActivitisPage = () => {
       cell: (info) => (
         <div class=" py-6 w-[233px] text-sm flex items-center gap-2 whitespace-nowrap">
           <div class="flex items-center justify-center gap-2">
-            <img src="/assets/Star.svg" />
+            <img src="/assets/star-colored.svg" />
             <span>{info.getValue()}</span>
           </div>
         </div>

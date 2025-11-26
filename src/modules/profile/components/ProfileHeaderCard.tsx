@@ -74,7 +74,7 @@ function ProfileHeaderCard({ profileData }: { profileData: IUser }) {
       {profileData?.type === 3 && profileData?.has_center && (
         <Link
           href={`/bundles/${profileData?.center_id}`}
-          className="bg-[#012D5A] flex justify-center items-center gap-2 py-2.5 font-bold text-white border border-[#9D8242] rounded-[10px] absolute -bottom-8 md:-bottom-7 left-[15%] md:left-[42.5%] w-[242px]"
+          className="bg-primary-800 flex justify-center items-center gap-2 py-2.5 font-bold text-white border border-[#9D8242] rounded-[10px] absolute -bottom-8 md:-bottom-7 left-[15%] md:left-[42.5%] w-[242px]"
         >
           <span>اذهب للسنتر</span>
           <img className="w-5 h-5" src="/assets/LeftArrowColor.svg" />

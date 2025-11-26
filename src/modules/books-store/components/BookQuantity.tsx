@@ -28,7 +28,7 @@ function BookQuantity({
     <div className={cn("flex gap-8 items-center w-fit", className)}>
       <Button
         className={cn(
-          "size-11 border border-[#012D5A] bg-[#F6EADE] hover:bg-[#F6EADE] ",
+          "size-11 border border-primary-800 bg-[#F6EADE] hover:bg-[#F6EADE] ",
           buttonClassName
         )}
         onClick={() => decrementQuantity(book?.id)}
@@ -42,7 +42,7 @@ function BookQuantity({
 
       <Button
         className={cn(
-          "size-11 border border-[#012D5A] bg-[#F6EADE] hover:bg-[#F6EADE] ",
+          "size-11 border border-primary-800 bg-[#F6EADE] hover:bg-[#F6EADE] ",
           buttonClassName
         )}
         onClick={() => incrementQuantity(book.id)}

@@ -59,7 +59,7 @@ function MarkVideoCompleted({
       <button
         onClick={handleMarkCompleted}
         disabled={isLoading}
-        className="text-xs flex disabled:opacity-60 items-center gap-1 underline font-bold text-[#012D5A]"
+        className="text-xs flex disabled:opacity-60 items-center gap-1 underline font-bold text-primary-800"
       >
         انتهيت من الدرس؟ {isLoading && <FaSpinner className="animate-spin" />}
       </button>
@@ -70,7 +70,7 @@ function MarkVideoCompleted({
     <div className="flex gap-2 items-center">
       <Image src="/assets/Done.svg" width={20} height={20} alt="lesson done" />
 
-      <span className="text-xs font-bold text-[#012D5A]">تم الانتهاء</span>
+      <span className="text-xs font-bold text-primary-800">تم الانتهاء</span>
     </div>
   );
 }

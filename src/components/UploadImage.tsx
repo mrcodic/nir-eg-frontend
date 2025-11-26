@@ -76,7 +76,7 @@ export default function UploadWithCrop({
         className="self-end cursor-pointer border border-primary p-2 rounded-lg flex gap-4"
       >
         <img src="/assets/Edit-1.svg" className="w-[20px] h-[20px]" />
-        <span className="text-primary-700 underline text-sm font-bold">
+        <span className="text-primary-800 underline text-sm font-bold">
           تغيير صورة الملف الشخصي
         </span>
       </label>

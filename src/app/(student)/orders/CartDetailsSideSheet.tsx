@@ -17,7 +17,7 @@ function CartDetailsSideSheet({ item }: { item: any }) {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <button className="bg-[#012D5A] rounded-[10px]  size-8 ring-2 ring-primary-700 hover:ring-offset-1 transition-all flex items-center justify-center">
+        <button className="bg-primary-800 rounded-[10px]  size-8 ring-2 ring-primary-700 hover:ring-offset-1 transition-all flex items-center justify-center">
           <ChevronLeft size={18} color="white" />
         </button>
       </SheetTrigger>

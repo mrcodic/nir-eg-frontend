@@ -72,8 +72,6 @@ const SingleVideo = () => {
         remaining: res.data?.views_remaining,
         total_views: res.data?.total_views,
       });
-
-      addVideo(res.data);
     } catch (error) {
       console.error("❌ OTP fetch failed", error);
       setOtpError(true);
@@ -125,7 +123,7 @@ const SingleVideo = () => {
     "lessons" in data?.body &&
     data?.body?.lessons?.length === 0
   ) {
-    redirect("/ErrorPage");
+    redirect(`/bundles/${classroomId}`);
   }
 
   return (

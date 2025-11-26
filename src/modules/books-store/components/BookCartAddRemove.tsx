@@ -32,7 +32,7 @@ function BookCartAddRemove({
     <AddToCart
       book={book}
       className={cn(
-        "ps-2 pe-3 h-8 border bg-transparent text-[#012D5A] border-[#012D5A] rounded-xl hover:bg-[#012D5A] hover:text-white",
+        "ps-2 pe-3 h-8 border bg-transparent text-primary-800 border-primary-800 rounded-xl hover:bg-primary-800 hover:text-white",
         buttonClassName
       )}
     >

@@ -28,7 +28,7 @@ const Tabs3 = [
   {
     id: 3,
     title: "درجاتي",
-    iconSrc: "/assets/Star.svg",
+    iconSrc: "/assets/star-colored.svg",
     value: "activities",
   },
   // {
@@ -73,7 +73,7 @@ const CourseDetails = ({ body, profileData }) => {
               <TabsTrigger
                 key={index}
                 value={tab.value}
-                className={`min-w-24 rounded-lg data-[state=active]:bg-[#012D5A] data-[state=active]:text-white bg-white text-[#523412] flex items-center border border-gray-light px-px py-1 md:p-2 `}
+                className={`min-w-24 rounded-lg data-[state=active]:bg-primary-800 data-[state=active]:text-white bg-white text-[#523412] flex items-center border border-gray-light px-px py-1 md:p-2 `}
               >
                 <img className=" h-8" src={tab.iconSrc} />
                 <span className="text-sm">{tab.title}</span>
@@ -150,7 +150,7 @@ const CourseDetails = ({ body, profileData }) => {
       </TabsContent>
 
       <TabsContent value="activities" className="w-[85%] mx-auto mt-8">
-        <RoomHeader title="الأنشطة" icon="/assets/Star.svg" />
+        <RoomHeader title="الأنشطة" icon="/assets/star-colored.svg" />
 
         <CourseActivitiesTable />
       </TabsContent>
