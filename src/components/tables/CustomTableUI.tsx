@@ -56,7 +56,10 @@ export default function CustomTableUI({
   }
 
   return (
-    <div className="overflow-auto relative border border-gray-light rounded-lg bg-cover p-4 bg-white mt-10">
+    <div
+      id="table"
+      className="overflow-auto relative border border-gray-light rounded-lg bg-cover p-4 bg-white mt-10"
+    >
       <Table
         className={cn("max-md:pe-1 border-separate border-spacing-0", {
           "animate-pulse opacity-70": isPlaceholderData,

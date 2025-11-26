@@ -39,7 +39,7 @@ function MobileDropDown({
               key={index}
               href={studentOffline.href}
               className={`border px-3 border-gray-light mb-4 h-[44px] flex items-center justify-center rounded-[10px] ${
-                pathName.includes(studentOffline.href)
+                pathName.substring(0, 6) === studentOffline.href.substring(0, 6)
                   ? "bg-primary text-white"
                   : "bg-transparent text-[#523412]"
               }   `}

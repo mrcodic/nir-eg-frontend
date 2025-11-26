@@ -30,7 +30,7 @@ function StudentPointsCard({ points }: { points: number }) {
         </div>
 
         <Link
-          href="#points-table"
+          href="#table"
           className="flex self-end shrink-0 items-center  ms-auto justify-center   bg-primary-800 text-sm font-medium  px-3  h-7 rounded-md text-white"
         >
           عرض
