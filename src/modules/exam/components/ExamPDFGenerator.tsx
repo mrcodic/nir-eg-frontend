@@ -1,5 +1,5 @@
+import { getClientPrivateData } from "@/helpers/client-fetch";
 import { cn } from "@/lib/utils";
-import { getData } from "@/utils/api";
 import { pdf } from "@react-pdf/renderer"; // Import pdf for blob generation
 import { useState } from "react";
 import ExamPDF from "./ExamPdf";
@@ -25,7 +25,7 @@ const ExamPDFGenerator = ({
 
     if (!data) {
       try {
-        const res = await getData({
+        const res = await getClientPrivateData({
           queryKey: [`students/quiz/show/answers/${taskId}`],
         });
         data = res.body;

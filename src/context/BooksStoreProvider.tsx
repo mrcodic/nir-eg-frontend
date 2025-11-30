@@ -1,6 +1,12 @@
 "use client";
 
-import { type ReactNode, createContext, useRef, useContext } from "react";
+import {
+  type ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+} from "react";
 import { useStore } from "zustand";
 import { type CartState, createCartStore } from "./booksCartStore";
 
@@ -16,10 +22,20 @@ export interface CartStoreProviderProps {
 
 export const BooksStoreProvider = ({ children }: CartStoreProviderProps) => {
   const storeRef = useRef<CartStoreApi | null>(null);
+  const isInitializedRef = useRef(false);
 
   if (!storeRef.current) {
     storeRef.current = createCartStore();
   }
+
+  // Initialize cart only on client-side, after mount
+  useEffect(() => {
+    if (!isInitializedRef.current && storeRef.current) {
+      isInitializedRef.current = true;
+      const store = storeRef.current.getState();
+      store.initializeCart();
+    }
+  }, []);
 
   return (
     <CartStoreContext.Provider value={storeRef.current}>

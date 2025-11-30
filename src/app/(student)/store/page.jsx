@@ -4,10 +4,12 @@ import DoubledText from "@/components/DoubledText";
 import Empty from "@/components/Empty";
 import MappingFun from "@/components/MappingFunc";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { getData } from "@/utils/api";
+import { getServerPrivateData } from "@/helpers/server-fetch";
 
 const StorePage = async () => {
-  const data = await getData({ queryKey: ["/students/store/items"] });
+  const data = await getServerPrivateData({
+    queryKey: ["/students/store/items"],
+  });
   const tabs = [
     {
       label: "الكل",

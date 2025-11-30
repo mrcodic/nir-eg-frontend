@@ -1,7 +1,7 @@
 "use client";
 
+import { getClientPrivateData } from "@/helpers/client-fetch";
 import { StudentActivity } from "@/types";
-import { getDataClient } from "@/utils/clientFun";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { createColumnHelper } from "@tanstack/react-table";
 import Link from "next/link";
@@ -81,7 +81,7 @@ export default function CourseActivitiesTable() {
         pagination.pageIndex + 1
       }`,
     ],
-    queryFn: getDataClient,
+    queryFn: getClientPrivateData,
     placeholderData: keepPreviousData,
   });
 

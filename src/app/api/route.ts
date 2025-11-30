@@ -80,14 +80,10 @@ export async function GET(req) {
 
     if (!isGuest || isGuest === "false") {
       const cookieStore = await cookies();
-      token = cookieStore.get("auth_token")?.value;
-
-      if (token) {
-        token = JSON.parse(token);
-      }
+      token = cookieStore.get("nir_token")?.value;
     }
 
-    // const response = await getData({ queryKey: [url] });
+    // const response = await getServerPrivateData({ queryKey: [url] });
     const response = await instance.get(url, {
       headers: {
         accept: "application/json",
@@ -152,14 +148,10 @@ export async function DELETE(req) {
     let token = await getCookie();
     const headersList = await headers();
 
-    if (token) {
-      token = JSON.parse(token);
-    }
-
     const res = await fetch(baseUrl + apiUrl, {
       method: "DELETE",
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: token ? `Bearer ${token}` : "",
         Cookie: headersList.get("cookie"),
       },
     });

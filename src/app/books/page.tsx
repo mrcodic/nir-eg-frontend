@@ -1,15 +1,15 @@
+import { getPublicData } from "@/helpers/client-fetch";
 import BooksStoreItems from "@/modules/books-store/components/BooksStoreItems";
 import BooksStores from "@/modules/books-store/components/BooksStores";
 import PaymentNotifStatus from "@/modules/books-store/components/PaymentNotifStatus";
 import { BookLinksSettings } from "@/types/books.types";
-import { getGuestData } from "@/utils/clientFun";
 
 async function page({
   searchParams,
 }: {
   searchParams: Promise<{ bookId: string }>;
 }) {
-  const booksSettings = await getGuestData<{ data: BookLinksSettings }>({
+  const booksSettings = await getPublicData<{ data: BookLinksSettings }>({
     queryKey: ["settings/books"],
   });
 

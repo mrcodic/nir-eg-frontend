@@ -1,7 +1,7 @@
 "use client";
 
 import RoomHeader from "@/components/RoomHeader";
-import { getDataClient } from "@/utils/clientFun";
+import { getClientPrivateData } from "@/helpers/client-fetch";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import ExamsPointsChart from "./ExamsPointsChart";
@@ -9,7 +9,7 @@ import ExamsPointsChart from "./ExamsPointsChart";
 function StudentTasksOverview() {
   const { data, isLoading } = useQuery({
     queryKey: ["/students/exams/overview"],
-    queryFn: getDataClient,
+    queryFn: getClientPrivateData,
   });
 
   // if (isLoading || !data || !data?.body) return null;

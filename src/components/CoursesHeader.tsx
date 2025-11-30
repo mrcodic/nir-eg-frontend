@@ -1,7 +1,7 @@
 "use client";
 
+import { getClientPrivateData } from "@/helpers/client-fetch";
 import { IUser } from "@/types";
-import { getDataClient } from "@/utils/clientFun";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import CourseInfoBadge from "./CourseInfoBadge";
@@ -27,7 +27,7 @@ const CoursesHeader = ({ body }) => {
   ];
 
   const { data } = useQuery({
-    queryFn: getDataClient as () => Promise<{ body: IUser }>,
+    queryFn: getClientPrivateData as () => Promise<{ body: IUser }>,
     queryKey: ["/students/profile"],
   });
 

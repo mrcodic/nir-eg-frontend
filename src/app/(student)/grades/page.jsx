@@ -1,15 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
 import RoomHeader from "@/components/RoomHeader";
 import ActivitiesTable from "@/components/tables/ActivitiesTable";
 
 const Grades = () => {
   return (
-    <div className="mt-[140px] mb-[40px] w-[85%] mx-auto">
-      <RoomHeader title="الدرجات" icon="/assets/ExamsColor.svg" />
+    <section className="mt-[140px] mb-10 wrapper">
+      <RoomHeader title="النقاط" icon="/assets/assignment-colored.svg" />
       <ActivitiesTable />
-    </div>
+    </section>
   );
 };
 export default Grades;

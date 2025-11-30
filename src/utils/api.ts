@@ -118,56 +118,10 @@ export const getCities = async ({ queryKey: [path] }) => {
   }
 };
 
-export const getData = async ({ queryKey: [url] }) => {
-  let token = await getCookie();
-  const headersList = await headers();
-
-  if (!token) {
-    redirect("/login");
-  } else {
-    token = JSON.parse(token);
-  }
-
-  try {
-    const response = await instance.get(url, {
-      headers: {
-        ...(token ? { Authorization: `Bearer ${token}` } : {}),
-        Cookie: headersList.get("cookie"),
-        accept: "application/json",
-      },
-    });
-
-    // console.log("getData response : ", url);
-    return response.data;
-  } catch (error) {
-    // console.log("getData error : ", url, error);
-
-    if (error.response.data?.code === 403) {
-      console.log("unauth ");
-
-      redirect("/unAuth");
-    } else if (error.status === 403) {
-      console.log("unauth center ");
-      redirect("/unAuthCenter");
-    } else if (error.status == 401 || error.response.data?.code == 410) {
-      console.log("login ");
-      await deleteCookie();
-      redirect("/login");
-    } else {
-      await handleServerError(error);
-    }
-    // throw error;
-  }
-};
-
 export const postData = async ([endpoint, body]) => {
   try {
     let token = await getCookie();
     const headersList = await headers();
-
-    if (token) {
-      token = JSON.parse(token);
-    }
 
     const response = await instance.post(endpoint, body, {
       withCredentials: true,
@@ -187,9 +141,7 @@ export const postData = async ([endpoint, body]) => {
 export const postCommentData = async (endpoint, body) => {
   try {
     let token = await getCookie();
-    if (token) {
-      token = JSON.parse(token);
-    }
+
     const response = await instance.post(endpoint, body, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -204,9 +156,7 @@ export const postCommentData = async (endpoint, body) => {
 export const postFormData = async (body) => {
   try {
     let token = await getCookie();
-    if (token) {
-      token = JSON.parse(token);
-    }
+
     const response = await instance.post("/students/profile/edit", body, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -242,9 +192,9 @@ export const getProfile = async () => {
 
 export const saveCookie = async (token) => {
   const cookieStore = await cookies();
-  cookieStore.set("auth_token", JSON.stringify(token));
+  cookieStore.set("nir_token", token);
 };
-export const getCookie = async (name: string = "auth_token") => {
+export const getCookie = async (name: string = "nir_token") => {
   const cookieStore = await cookies();
   return cookieStore.get(name)?.value || null;
 };
@@ -254,7 +204,7 @@ export const getDeviceCode = async () => {
   return cookieStore.get("device_code")?.value || null;
 };
 
-export const deleteCookie = async (name: string[] | string = "auth_token") => {
+export const deleteCookie = async (name: string[] | string = "nir_token") => {
   const cookieStore = await cookies();
   if (typeof name === "string") {
     cookieStore.delete(name);

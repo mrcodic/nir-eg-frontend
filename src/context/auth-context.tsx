@@ -1,7 +1,7 @@
 "use client";
 
+import { getClientPrivateData } from "@/helpers/client-fetch";
 import { IUser } from "@/types";
-import { getDataClient } from "@/utils/clientFun";
 import { useQuery } from "@tanstack/react-query";
 import Cookies from "js-cookie";
 import { createContext, useContext, useEffect, useState } from "react";
@@ -31,6 +31,15 @@ export const useAuthContext = () => {
 export const AuthContextProvider = ({ children }) => {
   const [grade, setGrade] = useState("");
 
+  const [token, setToken] = useState<undefined | string | null>(
+    Cookies.get("nir_token") || undefined
+  );
+
+  const { data: profileData, isLoading } = useQuery({
+    queryFn: getClientPrivateData as () => Promise<{ body: IUser }>,
+    queryKey: ["students/profile"],
+  });
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedGrade = localStorage.getItem("grade");
@@ -46,17 +55,8 @@ export const AuthContextProvider = ({ children }) => {
     }
   }, [grade]);
 
-  const [token, setToken] = useState<undefined | string | null>(
-    Cookies.get("auth_token") || undefined
-  );
-
-  const { data: profileData, isLoading } = useQuery({
-    queryFn: getDataClient as () => Promise<{ body: IUser }>,
-    queryKey: ["/students/profile"],
-  });
-
   useEffect(() => {
-    const tokenCookie = Cookies.get("auth_token");
+    const tokenCookie = Cookies.get("nir_token");
     if (!tokenCookie) {
       setToken(null);
     } else {
@@ -71,7 +71,7 @@ export const AuthContextProvider = ({ children }) => {
   const logout = async () => {
     setToken(null);
     localStorage.removeItem("timer");
-    Cookies.remove("auth_token");
+    Cookies.remove("nir_token");
     Cookies.remove("guest_token");
   };
 

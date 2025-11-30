@@ -7,11 +7,11 @@ import Room from "@/components/Room";
 import RoomHeader from "@/components/RoomHeader";
 import { useAuthContext } from "@/context/auth-context";
 import { useModal } from "@/context/ModalProvider";
+import { getClientPrivateData } from "@/helpers/client-fetch";
 import ProfileHeaderCard from "@/modules/profile/components/ProfileHeaderCard";
 import ProfilePointsTable from "@/modules/profile/components/ProfilePointsTable";
 import StudentTasksOverview from "@/modules/profile/components/StudentTasksOverview";
 import { IUser } from "@/types";
-import { getDataClient } from "@/utils/clientFun";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useEffect } from "react";
@@ -45,12 +45,12 @@ const ProfilePage = () => {
 
   const { data: rooms, isLoading: isLoadingRooms } = useQuery({
     queryKey: ["/students/profile/latest_classes"],
-    queryFn: getDataClient,
+    queryFn: getClientPrivateData,
   });
 
   const { data: profileData } = useQuery({
     queryKey: ["/students/profile"],
-    queryFn: getDataClient as () => Promise<{ body: IUser }>,
+    queryFn: getClientPrivateData as () => Promise<{ body: IUser }>,
   });
 
   useEffect(() => {

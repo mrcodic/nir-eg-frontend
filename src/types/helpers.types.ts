@@ -5,4 +5,5 @@ export interface IGetDataOptions {
   // queryKey: string[];
   next?: { tags?: string[]; revalidate?: number | false | undefined };
   cache?: ICache;
+  isAuth?: boolean;
 }

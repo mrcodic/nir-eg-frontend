@@ -106,7 +106,9 @@ export default function OTPInput<T extends FieldValues>({
     e.preventDefault();
     isPastingRef.current = true;
 
-    const pasteData = e.clipboardData.getData("text/plain").replace(/\D/g, "");
+    const pasteData = e.clipboardData
+      .getData("text/plain")
+      .replace(/\D/g, "");
 
     let newOtpValues = [...pasteData].slice(0, length);
 

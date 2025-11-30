@@ -1,6 +1,6 @@
 "use client";
 import { useAuthContext } from "@/context/auth-context";
-import { getDataClient } from "@/utils/clientFun";
+import { getClientPrivateData } from "@/helpers/client-fetch";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { Download, X } from "lucide-react";
 import React, { useEffect } from "react";
@@ -11,7 +11,7 @@ export default function Announcement() {
 
   useEffect(() => {
     if (profile && profile.type !== 3) {
-      getDataClient({
+      getClientPrivateData({
         queryKey: [`/students/announcements`],
       }).then((res) => {
         setData(res);

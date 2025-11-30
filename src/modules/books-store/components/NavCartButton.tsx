@@ -16,7 +16,6 @@ import { useCartStore } from "@/context/BooksStoreProvider";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
 import BookCartCard from "./BookCartCard";
 
 function NavCartButton() {
@@ -27,24 +26,25 @@ function NavCartButton() {
     items,
     getTotalPrice,
     initializeCart,
-    isHydrated,
+    isCartHydrated,
     isLoading,
+    clearCart,
   } = useCartStore();
 
-  useEffect(() => {
-    if (isHydrated) return;
+  // useEffect(() => {
+  //   if (isCartHydrated) return;
 
-    initializeCart();
-  }, [initializeCart, isHydrated]);
+  //   initializeCart();
+  // }, [initializeCart, isCartHydrated]);
 
-  const displayCount = isHydrated ? getTotalItems() : 0;
+  const displayCount = isCartHydrated ? getTotalItems() : 0;
 
-  if (pathname !== "/books") return null;
+  if (!pathname.startsWith("/books")) return null;
 
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <button className="size-16 rounded-lg fixed z-100 bottom-4 left-4 shadow-md flex justify-center items-center cursor-pointer bg-background">
+        <button className="size-16 rounded-lg fixed z-[100] bottom-4 left-4 shadow-md flex justify-center items-center cursor-pointer bg-[#FBF6F0]">
           <CountBubble
             count={displayCount}
             className="size-5 font-bold text-xs pt-px"
@@ -62,9 +62,20 @@ function NavCartButton() {
         side="left"
         className="sm:max-w-[600px] max-sm:px-2 max-sm:w-[95vw] max-h-screen overflow-y-auto"
       >
-        <SheetHeader dir="rtl" className="sm:text-start text-start">
+        <SheetHeader
+          dir="rtl"
+          className="sm:text-start flex-row items-center justify-between gap-4 text-start pt-2 flex-wrap flex"
+        >
           <SheetTitle>منتجات في السلة</SheetTitle>
-          <SheetDescription />
+          {displayCount > 0 && (
+            <button
+              onClick={() => clearCart()}
+              className="flex underline ms-auto items-center gap-1 text-red-500"
+            >
+              حذف جميع المنتجات
+            </button>
+          )}
+          <SheetDescription className="hidden" />
         </SheetHeader>
 
         {isLoading && (
@@ -81,13 +92,13 @@ function NavCartButton() {
 
         {!isLoading && items.length > 0 && (
           <>
-            <div className="divide-y divide-gray-200 max-h-[max(calc(100vh-200px),300px)] overflow-y-auto pe-4">
+            <div className="divide-y mt-6 divide-gray-200 max-h-[max(calc(100vh-200px),300px)] overflow-y-auto pe-4">
               {items.map((item) => (
                 <BookCartCard key={item.id} item={item} />
               ))}
             </div>
 
-            <div className="mt-6 space-y-6 border-t border-gray-light pt-2">
+            <div className="mt-6 space-y-6 border-t border-[#D9B45C] pt-2">
               <DataWithLabel
                 label="اجمالي السعر"
                 data={getTotalPrice() + " جنية"}
@@ -100,7 +111,7 @@ function NavCartButton() {
                 href={!!profile ? "/books/cart" : "/login?redirect=/books/cart"}
                 className="w-full inline-block"
               >
-                <SheetClose className="w-full bg-gray-light text-white py-2 px-4 rounded-lg">
+                <SheetClose className="w-full bg-[#D9B45C] text-white py-2 px-4 rounded-lg">
                   الانتقال للسلة
                 </SheetClose>
               </Link>

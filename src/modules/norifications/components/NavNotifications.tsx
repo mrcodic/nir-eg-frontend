@@ -7,9 +7,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SimplePagination } from "@/components/ui/SimplePagination";
+import { getClientPrivateData } from "@/helpers/client-fetch";
 import { cn } from "@/lib/utils";
 import { NotificationsData } from "@/types";
-import { getDataClient } from "@/utils/clientFun";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import Image from "next/image";
@@ -27,7 +27,7 @@ function NavNotifications() {
     isLoading,
     isPlaceholderData,
   } = useQuery({
-    queryFn: getDataClient as () => Promise<NotificationsData>,
+    queryFn: getClientPrivateData as () => Promise<NotificationsData>,
     queryKey: ["/students/notifications?page=" + page, "notifications"],
     placeholderData: keepPreviousData,
     refetchInterval: 1000 * 60 * 30,
@@ -59,7 +59,7 @@ function NavNotifications() {
 
       <DropdownMenuContent
         className={cn(
-          "p-2 z-9999! max-w-[min(438px,95vw)] w-screen",
+          "p-2 z-100! max-w-[min(438px,95vw)] w-screen",
           "bg-white border rounded-lg border-gray-light",
           "flex flex-col overflow-hidden",
           "max-h-[min(80vh,var(--radix-dropdown-menu-content-available-height))]"

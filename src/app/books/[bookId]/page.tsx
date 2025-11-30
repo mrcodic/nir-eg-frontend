@@ -1,13 +1,13 @@
 import BooksStoreItems from "@/modules/books-store/components/BooksStoreItems";
 import PaymentNotifStatus from "@/modules/books-store/components/PaymentNotifStatus";
 
+import { getPublicData } from "@/helpers/client-fetch";
 import { Book } from "@/types/books.types";
-import { getGuestData } from "@/utils/clientFun";
 import BookDetailsCard from "./BookDetailsCard";
 
 async function page({ params }: { params: Promise<{ bookId: string }> }) {
   const bookId = (await params).bookId;
-  const book = await getGuestData<{ data: Book }>({
+  const book = await getPublicData<{ data: Book }>({
     queryKey: ["books/" + bookId],
   });
 

@@ -4,7 +4,7 @@ import Empty from "@/components/Empty";
 import InfiniteScroll from "@/components/InfinteScroll";
 import LoadingSpinner from "@/components/Loading";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { getDataClient } from "@/utils/clientFun";
+import { getClientPrivateData } from "@/helpers/client-fetch";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect } from "react";
 import BookOrderCard from "./BookOrderCard";
@@ -18,7 +18,7 @@ function TransactionsList({ type = "course" }: { type: "course" | "cart" }) {
   const isCourses = type === "course";
 
   async function fetchData(page = 1) {
-    const data = await getDataClient({
+    const data = await getClientPrivateData({
       queryKey: [`/payment/transaction?page=${page}&per_page=10&type=${type}`],
     });
 
@@ -26,7 +26,7 @@ function TransactionsList({ type = "course" }: { type: "course" | "cart" }) {
   }
 
   useEffect(() => {
-    getDataClient({
+    getClientPrivateData({
       queryKey: [`/payment/transaction?page=1&per_page=10&type=${type}`],
     })
       .then((res) => {

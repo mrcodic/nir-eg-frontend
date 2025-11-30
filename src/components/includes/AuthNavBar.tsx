@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 
 import { useAuthContext } from "@/context/auth-context";
 
+import NavCartButton from "@/modules/books-store/components/NavCartButton";
 import NavNotifications from "@/modules/norifications/components/NavNotifications";
 import { BookLinksSettings } from "@/types/books.types";
 import LinkStyled from "./LinkStyled";
@@ -89,29 +90,18 @@ const AuthNavBar = () => {
                 const booksData = data?.data;
                 if (!booksData?.links?.length) return null;
 
-                return (
-                  <Link
-                    href="/books"
-                    className={`border px-3 border-gray-light h-[44px] flex items-center justify-center rounded-[10px] ${
-                      pathName === "/books"
-                        ? "bg-primary text-white"
-                        : "bg-transparent text-[#523412]"
-                    }   `}
-                  >
-                    متجر الكتب
-                  </Link>
-                );
+                return <LinkStyled href={"/books"} title="متجر الكتب" />;
               }}
             </WrapperHOC>
           </ul>
 
           <div className="flex gap-4 mobile:gap-6">
-            {/* <WrapperHOC queryKey={["settings/books"]}>
+            <WrapperHOC queryKey={["settings/books"]}>
               {({ data }: { data: { data: BookLinksSettings } }) => {
                 if (data?.data?.hide_books) return;
                 return <NavCartButton />;
               }}
-            </WrapperHOC> */}
+            </WrapperHOC>
 
             <NavNotifications />
 

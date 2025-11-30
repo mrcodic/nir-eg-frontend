@@ -1,9 +1,13 @@
 "use client";
 
+import { cn } from "@/lib/utils";
+import NavCartButton from "@/modules/books-store/components/NavCartButton";
+import { BookLinksSettings } from "@/types/books.types";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import GuestDropdown from "./GuestDropdown";
+import WrapperHOC from "./WrapperHOC";
 
 const GuestNavBar = () => {
   const pathname = usePathname();
@@ -28,45 +32,45 @@ const GuestNavBar = () => {
               />
             </Link>
 
-            {/* <div className="hidden md:flex gap-2">
-                <Link
-                  href="/#grades"
-                  className={cn(
-                    "border  transition-all mobile:text-base text-sm  cursor-pointer   hidden md:flex items-center gap-2 rounded-[10px] border-gray-light p-2 justify-center",
-                    {
-                      "bg-primary text-white": pathname === "/",
-                      "bg-transparent text-[#523412]": pathname !== "/",
-                    }
-                  )}
-                >
-                  <img
-                    className="w-[32px] h-[32px]"
-                    src="/assets/GradeColor.svg"
-                  />
-                  <h3>الصفوف الدراسية</h3>
-                </Link>
+            <div className="hidden md:flex gap-2">
+              <Link
+                href="/#grades"
+                className={cn(
+                  "border  transition-all mobile:text-base text-sm  cursor-pointer   hidden md:flex items-center gap-2 rounded-[10px] border-gray-light p-2 justify-center",
+                  {
+                    "bg-primary-800 text-white": pathname === "/",
+                    "bg-transparent ": pathname !== "/",
+                  }
+                )}
+              >
+                <img
+                  className="w-[32px] h-[32px]"
+                  src="/assets/GradeColor.svg"
+                />
+                <h3>الصفوف الدراسية</h3>
+              </Link>
 
-                <WrapperHOC queryKey={["settings/books"]}>
-                  {({ data }: { data: { data: BookLinksSettings } }) => {
-                    const booksData = data?.data;
+              <WrapperHOC queryKey={["settings/books"]}>
+                {({ data }: { data: { data: BookLinksSettings } }) => {
+                  const booksData = data?.data;
 
-                    if (!booksData?.links?.length) return null;
+                  if (!booksData?.links?.length) return null;
 
-                    return (
-                      <Link
-                        href="/books"
-                        className={`border  transition-all  mobile:text-base text-sm cursor-pointer hidden md:flex items-center gap-2 rounded-[10px] border-gray-light p-2 justify-center ${
-                          pathname === "/books"
-                            ? "bg-primary text-white"
-                            : "bg-transparent text-[#523412]"
-                        }   `}
-                      >
-                        الكتب
-                      </Link>
-                    );
-                  }}
-                </WrapperHOC>
-              </div> */}
+                  return (
+                    <Link
+                      href="/books"
+                      className={`border  transition-all  mobile:text-base text-sm cursor-pointer hidden md:flex items-center gap-2 rounded-[10px] border-gray-light p-2 justify-center ${
+                        pathname === "/books"
+                          ? "bg-primary-800 text-white"
+                          : "bg-transparent "
+                      }   `}
+                    >
+                      الكتب
+                    </Link>
+                  );
+                }}
+              </WrapperHOC>
+            </div>
           </div>
 
           <div className="flex  gap-3">
@@ -76,12 +80,12 @@ const GuestNavBar = () => {
                 </span>
                 <img src="/assets/Notification.svg" />
               </button> */}
-            {/* <WrapperHOC queryKey={["settings/books"]}>
-                {({ data }: { data: { data: BookLinksSettings } }) => {
-                  if (data?.data?.hide_books) return;
-                  return <NavCartButton />;
-                }}
-              </WrapperHOC> */}
+            <WrapperHOC queryKey={["settings/books"]}>
+              {({ data }: { data: { data: BookLinksSettings } }) => {
+                if (data?.data?.hide_books) return;
+                return <NavCartButton />;
+              }}
+            </WrapperHOC>
             <GuestDropdown />
           </div>
 
@@ -94,7 +98,7 @@ const GuestNavBar = () => {
             </Link>
             <Link
               href="/register"
-              className="text-center mobile:text-base text-sm font-bold bg-primary-800 after:w-0.5 after   p-2  text-white w-[135px] mobile:w-[159px] rounded-[10px]"
+              className="text-center mobile:text-base text-sm font-bold bg-primary-800 after:w-0.5 after   p-2  text-white w-[135px] mobile:w-[159px] rounded-[10px] hover:bg-primary-800/90 transition-all"
             >
               إنشاء حساب
             </Link>

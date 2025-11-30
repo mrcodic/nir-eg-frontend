@@ -2,7 +2,7 @@
 
 import { useAuthContext } from "@/context/auth-context";
 import { useModal } from "@/context/ModalProvider";
-import { getDataClient, getGuestData } from "@/utils/clientFun";
+import { getClientPrivateData, getPublicData } from "@/helpers/client-fetch";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
@@ -31,13 +31,13 @@ const BundlesCom = () => {
   }
 
   const { data: profileData, isLoading } = useQuery({
-    queryFn: getDataClient,
+    queryFn: getClientPrivateData,
     queryKey: ["/students/profile"],
   });
 
   const { data, isLoading: bundlesLoading } = useQuery({
     queryKey: [api],
-    queryFn: profile ? getDataClient : getGuestData,
+    queryFn: profile ? getClientPrivateData : getPublicData,
     gcTime: 0,
     enabled: !isLoading && profileData?.body?.type !== 5,
     // suspense: true,
@@ -59,7 +59,7 @@ const BundlesCom = () => {
     <div className="wrapper">
       <h2 className="text-28 font-bold ">الباقات</h2>
 
-      <div className="flex flex-col gap-6 mt-8">
+      <div className="flex flex-col gap-6 mt-8 max-h-[400px] overflow-y-auto">
         {BundlesData?.map((bundle, index) => {
           return (
             <div

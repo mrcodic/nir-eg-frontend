@@ -1,5 +1,5 @@
 "use client";
-import { getDataClient } from "@/utils/clientFun";
+import { getPublicData } from "@/helpers/client-fetch";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 
@@ -9,7 +9,7 @@ export default function CenterCode({ data, phoneNumber, message }) {
   const courseId = search.get("courseId");
 
   const { data: vNumbers, isLoading } = useQuery({
-    queryFn: getDataClient,
+    queryFn: getPublicData,
     queryKey: [`/wallets`],
   });
   console.log("🚀 ~ CenterCode ~ vNumbers:", vNumbers);

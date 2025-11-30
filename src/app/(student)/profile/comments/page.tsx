@@ -4,9 +4,9 @@ import Empty from "@/components/Empty";
 import LoadingSpinner from "@/components/Loading";
 import CommentDetails from "@/components/modals/CommentDetails";
 import PaginationComponent from "@/components/Pagination";
+import { getClientPrivateData } from "@/helpers/client-fetch";
 import { cn } from "@/lib/utils";
 import Comment from "@/modules/community/components/Comment";
-import { getDataClient } from "@/utils/clientFun";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -54,7 +54,7 @@ const Comments = () => {
         lesson_id=${lessonId}`,
       "all-comments",
     ],
-    queryFn: getDataClient as () => Promise<{
+    queryFn: getClientPrivateData as () => Promise<{
       data: LessonComment[];
       meta: { total: number };
       links: { first: string; last: string; next: string; prev: string };

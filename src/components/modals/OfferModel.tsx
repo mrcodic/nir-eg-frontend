@@ -32,7 +32,7 @@ const OfferModel = () => {
         className="mx-auto"
       />
 
-      <div className="max-w-[343px] mx-auto">
+      <div className="max-w-[343px] mx-auto mt-4">
         <div className="bg-[#1EAD7B] relative flex items-center gap-6 rounded-t-lg px-4 pb-7 pt-14 ">
           <div className="absolute top-0 z-10 inset-x-0 w-full flex gap-4 justify-center ">
             {Array(4)

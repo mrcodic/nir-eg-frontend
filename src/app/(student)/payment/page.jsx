@@ -1,7 +1,7 @@
 import PayLabel from "@/components/PayLabel";
 import PayComp from "@/components/paymentTypes/PayComp";
 import PayModel from "@/components/paymentTypes/PayModel";
-import { getData } from "@/utils/api";
+import { getServerPrivateData } from "@/helpers/server-fetch";
 
 const page = async ({ searchParams }) => {
   const { courseId, bundleId, roomId, centerId, type } = await searchParams;
@@ -9,16 +9,16 @@ const page = async ({ searchParams }) => {
   let data;
 
   if (courseId) {
-    const response = await getData({
+    const response = await getServerPrivateData({
       queryKey: [`/students/courses/${courseId}`],
     });
     data = response.data;
   } else if (bundleId) {
-    data = await getData({
+    data = await getServerPrivateData({
       queryKey: [`/bundles/${bundleId}`],
     });
   } else if (roomId) {
-    data = await getData({
+    data = await getServerPrivateData({
       queryKey: [`students/get-lessons/${roomId}`],
     });
   }

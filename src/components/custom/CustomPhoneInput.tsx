@@ -77,7 +77,7 @@ const CustomPhoneInput = ({
   );
   //   const { data: countriesData, isLoading } = useQuery({
   //     queryKey: [`/dial-codes/list`],
-  //     queryFn: getGuestData,
+  //     queryFn: getClientPrivateData,
   //   });
 
   //   const countries: Country[] = countriesData?.data || [];

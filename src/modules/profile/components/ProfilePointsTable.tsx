@@ -2,8 +2,8 @@
 "use client";
 
 import CustomTableUI from "@/components/tables/CustomTableUI";
+import { getClientPrivateData } from "@/helpers/client-fetch";
 import type { IPagination } from "@/types";
-import { getDataClient } from "@/utils/clientFun";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { createColumnHelper } from "@tanstack/react-table";
 import Image from "next/image";
@@ -125,11 +125,9 @@ function ProfilePointsTable() {
     queryKey: [
       `/students/studentFile?per_page=5&page=${pagination.pageIndex + 1}`,
     ],
-    queryFn: getDataClient as () => Promise<IPagination<Row>>,
+    queryFn: getClientPrivateData as () => Promise<IPagination<Row>>,
     placeholderData: keepPreviousData,
   });
-
-  console.log("table data : ", data);
 
   const points = data?.data || [];
   const pageCount = data?.meta?.last_page ?? -1;

@@ -1,7 +1,7 @@
 "use client";
 
+import { getPublicData } from "@/helpers/client-fetch";
 import { cn } from "@/lib/utils";
-import { getDataClient } from "@/utils/clientFun";
 import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -37,7 +37,7 @@ const CommentDetails = ({
       `/comments/lesson/${comment.lesson_id}?page=${lessonPage}`,
       "lesson-comments",
     ],
-    queryFn: getDataClient,
+    queryFn: getPublicData,
     enabled: !!comment.lesson_id,
     placeholderData: keepPreviousData,
   });

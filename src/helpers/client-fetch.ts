@@ -15,14 +15,16 @@ const fetcherClient = async <T>(
   let token = "";
 
   if (authenticated) {
-    token = Cookies.get("penguin_user_token") || "";
+    token = Cookies.get("nir_token") || "";
     if (!token) {
       return null;
     }
   }
 
   try {
-    const fullUrl = `${process.env.NEXT_PUBLIC_BASE_URL}${endpoint}`;
+    const fullUrl = `${process.env.NEXT_PUBLIC_BASE_URL}${
+      endpoint.startsWith("/") ? "" : "/"
+    }${endpoint}`;
     // console.log("🚀 ~ fetcherClient ~ fullUrl:", fullUrl);
     const res = await fetch(fullUrl, {
       headers: {
@@ -34,7 +36,7 @@ const fetcherClient = async <T>(
         tags: [endpoint?.includes("?") ? endpoint?.split("?")[0] : endpoint],
         ...next,
       },
-      cache: cache || "no-store",
+      cache: cache || "default",
     });
 
     if (!res.ok) {
@@ -54,7 +56,7 @@ const fetcherClient = async <T>(
 };
 
 export const getClientPrivateData = reactCache(
-  async <T>({
+  async <T = any>({
     queryKey: [endpoint],
     next,
     cache,
@@ -62,12 +64,16 @@ export const getClientPrivateData = reactCache(
     fetcherClient({ queryKey: [endpoint], next, cache }, true)
 );
 
+// console.log("getClientPrivateData error : ", endpoint, error);
+//       clientGetErrorhandler(error);
+
 // for client and server
 export const getPublicData = reactCache(
-  async <T>({
+  async <T = any>({
     queryKey: [endpoint],
     next,
     cache,
+    isAuth = false,
   }: IGetDataOptions): Promise<T | null> =>
-    fetcherClient({ queryKey: [endpoint], next, cache }, false)
+    fetcherClient({ queryKey: [endpoint], next, cache }, isAuth)
 );

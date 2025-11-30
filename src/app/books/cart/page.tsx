@@ -1,6 +1,6 @@
+import { getServerPrivateData } from "@/helpers/server-fetch";
 import BooksStoreItems from "@/modules/books-store/components/BooksStoreItems";
 import CartContent from "@/modules/books-store/components/CartContent";
-import { getData } from "@/utils/api";
 import { redirect } from "next/navigation";
 
 export const metadata = {
@@ -8,7 +8,9 @@ export const metadata = {
 };
 
 async function page() {
-  const profile = await getData({ queryKey: [`/students/profile`] });
+  const profile = await getServerPrivateData({
+    queryKey: [`/students/profile`],
+  });
 
   if (!profile) {
     redirect("/login?redirect=/books/cart");

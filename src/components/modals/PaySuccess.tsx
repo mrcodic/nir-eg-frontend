@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogFooter } from "@/components/ui/dialog";
 import { telegramLiks } from "@/constants";
-import { getDataClient } from "@/utils/clientFun";
+import { getClientPrivateData } from "@/helpers/client-fetch";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { useQuery } from "@tanstack/react-query";
@@ -37,7 +37,7 @@ export function PaySuccess({
   const safeGrade = resolveGrade(grade);
   const tgHref = resolveTelegramHref(safeGrade);
   const { data } = useQuery({
-    queryFn: getDataClient,
+    queryFn: getClientPrivateData,
     queryKey: ["/students/profile"],
   });
   console.log(data?.body?.type);

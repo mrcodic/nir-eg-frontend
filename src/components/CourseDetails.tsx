@@ -4,8 +4,8 @@ import RoomHeader from "@/components/RoomHeader";
 import CourseActivitiesTable from "@/components/tables/CourseActivitiesTable";
 import RankTable from "@/components/tables/RankTable";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { getPublicData } from "@/helpers/client-fetch";
 import { cn } from "@/lib/utils";
-import { getData } from "@/utils/api";
 import { redirect, useParams } from "next/navigation";
 import { useEffect } from "react";
 import Empty from "./Empty";
@@ -43,10 +43,11 @@ const CourseDetails = ({ body, profileData }) => {
   const { SingleCourse } = useParams();
 
   const fetchData = async (page = 1) => {
-    const res = await getData({
+    const res = await getPublicData({
       queryKey: [
         `/students/get-rooms/${SingleCourse}?page=${page}&per_page=10`,
       ],
+      isAuth: !!profileData,
     });
 
     return res?.body?.rooms;

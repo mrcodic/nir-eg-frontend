@@ -5,39 +5,68 @@ import { useCartStore } from "@/context/BooksStoreProvider";
 import { useToast } from "@/hooks/use-toast";
 import { Book } from "@/types/books.types";
 import { useRouter } from "next/navigation";
+import React, { startTransition, useCallback, useState } from "react";
 
-const AddToCart = ({
-  children,
-  navigate,
-  className,
-  book,
-}: {
+type Props = {
   children: React.ReactNode;
   navigate?: boolean;
   className?: string;
   book: Book;
+};
+
+const AddToCart: React.FC<Props> = ({
+  children,
+  navigate,
+  className,
+  book,
 }) => {
   const { toast } = useToast();
   const router = useRouter();
   const addToCart = useCartStore((state) => state.addToCart);
 
-  const handleAddToCart = () => {
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  const handleAddToCart = useCallback(async () => {
+    if (isProcessing) return;
+    setIsProcessing(true);
+
     try {
-      addToCart(book);
+      const result = addToCart(book);
+
+      // if addToCart returns a promise, await it
+      if (result instanceof Promise) {
+        await result;
+      }
+
+      toast({
+        icon: "success",
+        description: "تمت إضافة الكتاب إلى السلة.",
+      });
+
       if (navigate) {
-        router.push("/books/cart");
+        startTransition(() => {
+          router.push("/books/cart");
+        });
       }
     } catch (error) {
-      console.log("ADD TO CART ERROR", error);
+      console.error("ADD TO CART ERROR", error);
       toast({
         icon: "error",
-        description: "حدث خطاء اثناء اضافه الكتاب للسله",
+        description: "حدث خطأ أثناء إضافة الكتاب للسلة.",
       });
+    } finally {
+      setIsProcessing(false);
     }
-  };
+  }, [addToCart, book, isProcessing, navigate, router, toast]);
 
   return (
-    <Button onClick={handleAddToCart} className={className}>
+    <Button
+      onClick={handleAddToCart}
+      className={className}
+      disabled={isProcessing}
+      aria-busy={isProcessing}
+      aria-label="Add to cart"
+    >
       {children}
     </Button>
   );

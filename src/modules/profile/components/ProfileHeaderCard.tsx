@@ -15,7 +15,7 @@ function ProfileHeaderCard({ profileData }: { profileData: IUser }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.2, duration: 0.3 }}
     >
-      <div className="flex flex-col md:flex-row  justify-between gap-4 items-center">
+      <div className="flex flex-col md:flex-row  justify-between gap-4 items-center md:items-start">
         <div className="flex  gap-2">
           <div className="flex flex-wrap  items-center gap-6">
             <img
@@ -43,7 +43,7 @@ function ProfileHeaderCard({ profileData }: { profileData: IUser }) {
                       </div> */}
         </div>
 
-        <div className="flex gap-8  items-center justify-end flex-wrap p-2 md:p-5">
+        <div className="flex gap-8  items-center justify-end flex-wrap p-2">
           <GradeCard
             text={profileData?.grade_name}
             grade={profileData?.grade}
@@ -63,7 +63,7 @@ function ProfileHeaderCard({ profileData }: { profileData: IUser }) {
 
       {/* <div className="h-px bg-gray-light my-6" /> */}
 
-      <div className="flex flex-col md:flex-row w-full pt-6 mt-6 border-t border-gray-light empty:border-0 empty:pt-0 empty:mt-0  gap-4 max-lg:flex-wrap">
+      <div className="flex flex-col md:flex-row w-full pt-6 mt-6 border-t border-gray-light empty:border-0 empty:pt-0 empty:mt-0  gap-4 max-xl:flex-wrap">
         <StudentRankCard />
 
         <StudentPointsCard points={profileData?.points || 0} />
@@ -74,7 +74,7 @@ function ProfileHeaderCard({ profileData }: { profileData: IUser }) {
       {profileData?.type === 3 && profileData?.has_center && (
         <Link
           href={`/bundles/${profileData?.center_id}`}
-          className="bg-primary-800 flex justify-center items-center gap-2 py-2.5 font-bold text-white border border-[#9D8242] rounded-[10px] absolute -bottom-8 md:-bottom-7 left-[15%] md:left-[42.5%] w-[242px]"
+          className="bg-primary-800 flex justify-center items-center gap-2 py-2.5 font-bold text-white border border-[#9D8242] rounded-[10px] absolute -bottom-8 md:-bottom-7 left-1/2 -translate-x-1/2 w-[242px]"
         >
           <span>اذهب للسنتر</span>
           <img className="w-5 h-5" src="/assets/LeftArrowColor.svg" />

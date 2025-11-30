@@ -8,9 +8,9 @@ import BookCartCard from "./BookCartCard";
 import BooksCartPayment from "./BooksCartPayment";
 
 function CartContent() {
-  const { items, isLoading, isHydrated } = useCartStore();
+  const { items, isLoading, isCartHydrated } = useCartStore();
 
-  if (isLoading || !isHydrated)
+  if (isLoading || !isCartHydrated)
     return <LoadingSpinner className="min-h-[min(calc(100vh-15rem),768px)]" />;
 
   if (!items.length)

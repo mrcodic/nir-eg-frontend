@@ -10,12 +10,12 @@ import { Verify } from "@/components/modals/Verify";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useAuthContext } from "@/context/auth-context";
-import { useModal } from "@/context/ModalProvider";
 import { useToast } from "@/hooks/use-toast";
 import AuthHeader from "@/layouts/AuthHeader";
 import { loginSchema } from "@/lib/schemas";
 import { getUserPhoneFromStorage, presistUserPhone } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import Cookies from "js-cookie";
 import Link from "next/link";
@@ -24,8 +24,8 @@ import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 
 const AuthPage = () => {
   const router = useRouter();
-  const modal = useModal();
   const { toast } = useToast();
+  const queryClient = useQueryClient();
 
   const [verify, setVerify] = useState(false);
   const { login, storeGrade } = useAuthContext();
@@ -65,8 +65,9 @@ const AuthPage = () => {
       // await saveCookie(response?.data?.access_token);
       // await deleteCookie("guest_token");
 
-      Cookies.set("auth_token", JSON.stringify(response?.data?.access_token));
+      Cookies.set("nir_token", response?.data?.access_token);
       Cookies.remove("guest_token");
+      queryClient.invalidateQueries({ queryKey: ["students/profile"] });
 
       login(response.data?.access_token);
       storeGrade(response.data?.student.grade);

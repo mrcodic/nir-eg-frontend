@@ -6,8 +6,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { getPublicData } from "@/helpers/client-fetch";
 import { CommentsData } from "@/types";
-import { getDataClient, secondsToHms } from "@/utils/clientFun";
+import { secondsToHms } from "@/utils/clientFun";
 import { AccordionContent } from "@radix-ui/react-accordion";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
@@ -34,7 +35,7 @@ const Community = ({ lessonId, currentTime, locked }: CommunityProps) => {
   const { data: comments } = useQuery({
     queryKey: [`comments`, lessonId],
     queryFn: async () => {
-      return (await getDataClient({
+      return (await getPublicData({
         queryKey: [`lessons/${lessonId}/comments`],
       })) as CommentsData;
     },

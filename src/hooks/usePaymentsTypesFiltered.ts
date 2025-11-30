@@ -1,5 +1,5 @@
 import { paymentTypesCenter, paymentTypesOnline } from "@/constants";
-import { getDataClient } from "@/utils/clientFun";
+import { getClientPrivateData } from "@/helpers/client-fetch";
 import { useQuery } from "@tanstack/react-query";
 import { useCallback, useMemo } from "react";
 
@@ -21,7 +21,7 @@ function usePaymentsTypesFiltered({
 }) {
   const { data, isLoading } = useQuery({
     queryKey: ["settings/general"],
-    queryFn: getDataClient,
+    queryFn: getClientPrivateData,
   });
 
   // helper: apply filter for userType === 4 (online user)

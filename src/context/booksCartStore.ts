@@ -1,11 +1,14 @@
+import { getPublicData } from "@/helpers/client-fetch";
+import { toast } from "@/hooks/use-toast";
 import cartServices from "@/services/cartServices";
-import { Book } from "@/types/books.types";
+import { Book, BookLinksSettings } from "@/types/books.types";
+
+import Cookies from "js-cookie";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { createStore } from "zustand/vanilla";
 
 // Types
-
 export interface CartItem extends Book {
   quantity: number;
 }
@@ -13,7 +16,7 @@ export interface CartItem extends Book {
 export interface CartState {
   items: CartItem[];
   isLoading: boolean;
-  isHydrated: boolean;
+  isCartHydrated: boolean;
   cartId: number | null;
   error: string | null;
 
@@ -43,15 +46,45 @@ export const createCartStore = (initState?: Partial<CartState>) => {
         items: initState?.items || [],
         cartId: null,
         isLoading: false,
-        isHydrated: false,
+        isCartHydrated: false,
         error: null,
 
         // Initialize cart: fetch from server, fallback to localStorage
         initializeCart: async () => {
           // Prevent multiple initializations
+
+          if (typeof window === "undefined") {
+            console.warn("initializeCart called on server, skipping");
+            return;
+          }
+
+          if (get().isCartHydrated) return;
+
           console.log("🛒 ~ initializeCart");
 
-          if (get().isHydrated) return;
+          const userToken = Cookies.get("nir_token");
+
+          console.log("user token", userToken);
+
+          const booksSettings = await getPublicData<{
+            data: BookLinksSettings;
+          }>({
+            queryKey: ["settings/books"],
+            isAuth: !!userToken,
+          });
+
+          if (booksSettings?.data?.hide_books === 1) {
+            console.log("cart settings is disabled");
+            set((state) => {
+              state.items = [];
+              state.cartId = null;
+              state.isLoading = false;
+              state.isCartHydrated = true;
+              state.error = null;
+            });
+
+            return;
+          }
 
           set((state) => {
             state.isLoading = true;
@@ -81,9 +114,18 @@ export const createCartStore = (initState?: Partial<CartState>) => {
 
               state.cartId = serverCart?.data?.id;
               state.isLoading = false;
-              state.isHydrated = true;
+              state.isCartHydrated = true;
 
               // remove presisted cart from localStorage
+              if (
+                serverCart?.data?.owner?.guest_token &&
+                serverCart?.data?.owner?.type === "guest"
+              ) {
+                Cookies.set(
+                  "guest_token",
+                  serverCart?.data?.owner?.guest_token
+                );
+              }
               localStorage.removeItem("cart-storage");
             });
           } catch (error) {
@@ -93,7 +135,7 @@ export const createCartStore = (initState?: Partial<CartState>) => {
             console.error("Failed to fetch cart from server:", error);
             set((state) => {
               state.isLoading = false;
-              state.isHydrated = true;
+              state.isCartHydrated = true;
               state.error =
                 error instanceof Error ? error.message : "Failed to load cart";
             });
@@ -144,7 +186,11 @@ export const createCartStore = (initState?: Partial<CartState>) => {
                   ? error.message
                   : "Failed to add to cart";
             });
-            throw error;
+
+            toast({
+              icon: "error",
+              description: "حدث خطأ اثناء اضافة الكتاب",
+            });
           }
         },
 
@@ -169,7 +215,11 @@ export const createCartStore = (initState?: Partial<CartState>) => {
                   ? error.message
                   : "Failed to remove from cart";
             });
-            throw error;
+
+            toast({
+              icon: "error",
+              description: "حدث خطأ اثناء حذف الكتاب",
+            });
           }
         },
 
@@ -209,7 +259,11 @@ export const createCartStore = (initState?: Partial<CartState>) => {
                   ? error.message
                   : "Failed to update quantity";
             });
-            throw error;
+
+            toast({
+              icon: "error",
+              description: "حدث خطأ اثناء تحديث الكمية",
+            });
           }
         },
 
@@ -239,7 +293,11 @@ export const createCartStore = (initState?: Partial<CartState>) => {
                   ? error.message
                   : "Failed to increment quantity";
             });
-            throw error;
+
+            toast({
+              icon: "error",
+              description: "حدث خطأ اثناء تحديث الكمية",
+            });
           }
         },
 
@@ -247,7 +305,7 @@ export const createCartStore = (initState?: Partial<CartState>) => {
           set((state) => {
             state.items = [];
             state.cartId = null;
-            state.isHydrated = false;
+            state.isCartHydrated = false;
             state.isLoading = false;
             state.error = null;
           }),
@@ -269,7 +327,11 @@ export const createCartStore = (initState?: Partial<CartState>) => {
               state.error =
                 error instanceof Error ? error.message : "Failed to clear cart";
             });
-            throw error;
+
+            toast({
+              icon: "error",
+              description: "حدث خطأ اثناء حذف السلة",
+            });
           }
         },
 

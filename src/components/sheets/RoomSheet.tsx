@@ -3,7 +3,7 @@ import { useAuthContext } from "@/context/auth-context";
 import LinkLocked from "@/layouts/LinkLocked";
 import {
   convertMinutes,
-  getDataClient,
+  getClientPrivateData,
   mapGradeToText,
 } from "@/utils/clientFun";
 import { useQuery } from "@tanstack/react-query";
@@ -15,7 +15,7 @@ export default function RoomSheet({ open, setOpen }) {
   const { grade } = useAuthContext();
 
   const { data } = useQuery({
-    queryFn: getDataClient,
+    queryFn: getClientPrivateData,
     queryKey: [`students/get-lessons/${room}`],
   });
 

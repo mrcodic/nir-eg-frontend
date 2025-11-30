@@ -1,7 +1,7 @@
 "use client";
 
+import { getClientPrivateData } from "@/helpers/client-fetch";
 import { StudentActivity } from "@/types";
-import { getDataClient } from "@/utils/clientFun";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useState } from "react";
@@ -73,7 +73,7 @@ export default function ActivitiesTable() {
     queryKey: [
       `/students/all-activity?per_page=5&page=${pagination.pageIndex + 1}`,
     ],
-    queryFn: getDataClient,
+    queryFn: getClientPrivateData,
     placeholderData: keepPreviousData,
   });
 

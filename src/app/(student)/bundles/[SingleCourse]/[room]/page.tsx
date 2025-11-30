@@ -3,10 +3,10 @@
 import SelectedLesson from "@/components/SelectedLesson";
 import Video from "@/components/Video";
 import { useAuthContext } from "@/context/auth-context";
+import { getClientPrivateData } from "@/helpers/client-fetch";
 import ProtectedRoute from "@/layouts/ProtectedRoute";
 import Community from "@/modules/community/components/Community";
 import { ApiResponse, RoomData } from "@/types";
-import { getDataClient } from "@/utils/clientFun";
 import DisableDevTools from "@/utils/DisableDivTools";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -28,7 +28,7 @@ const SingleVideo = () => {
   const { profile } = useAuthContext();
 
   const { data, isLoading } = useQuery({
-    queryFn: getDataClient as () => Promise<ApiResponse<RoomData>>,
+    queryFn: getClientPrivateData as () => Promise<ApiResponse<RoomData>>,
     queryKey: [`/students/get-lessons/${room}`],
   });
 

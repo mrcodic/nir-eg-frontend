@@ -1,9 +1,8 @@
-import React from "react";
-import CourseForm from "../forms/CourseForm";
+import { getServerPrivateData } from "@/helpers/server-fetch";
 import BundleForm from "../forms/bundleForm";
-import RoomPayForm from "../forms/RoomPayForm";
-import { getData } from "@/utils/api";
+import CourseForm from "../forms/CourseForm";
 import PaymentCenterCode from "../forms/PaymentCenterCode";
+import RoomPayForm from "../forms/RoomPayForm";
 
 export default async function PayModel({
   data,
@@ -12,7 +11,7 @@ export default async function PayModel({
   roomId,
   centerId,
 }) {
-  const profile = await getData({
+  const profile = await getServerPrivateData({
     queryKey: ["/students/profile"],
   });
 

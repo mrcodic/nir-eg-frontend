@@ -26,11 +26,7 @@ import { useToast } from "@/hooks/use-toast";
 import { editProfileSchema } from "@/lib/schemas";
 import { cn, getPhoneInfoFromCode, isOtpExpired } from "@/lib/utils";
 import { getOtp } from "@/utils/api";
-import {
-  getDataClient,
-  mapGradeToText,
-  mapTypeToText,
-} from "@/utils/clientFun";
+import { mapGradeToText, mapTypeToText } from "@/utils/clientFun";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
@@ -40,6 +36,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 
+import { getClientPrivateData, getPublicData } from "@/helpers/client-fetch";
 import Cookies from "js-cookie";
 
 const PageSettings = () => {
@@ -55,7 +52,7 @@ const PageSettings = () => {
 
   const { data } = useQuery({
     queryKey: ["/students/profile"],
-    queryFn: getDataClient,
+    queryFn: getClientPrivateData,
     staleTime: 0,
   });
 
@@ -98,7 +95,7 @@ const PageSettings = () => {
     }
   }, [data, form.reset, defaultData]);
 
-  const tokenCookie = Cookies.get("auth_token");
+  const tokenCookie = Cookies.get("nir_token");
 
   const onSubmit = async (v) => {
     try {
@@ -135,10 +132,7 @@ const PageSettings = () => {
           headers: {
             "content-type": "multipart/form-data",
 
-            Authorization: `Bearer ${tokenCookie.slice(
-              1,
-              tokenCookie.length - 1
-            )}`,
+            Authorization: `Bearer ${tokenCookie}`,
           },
         }
       );
@@ -165,7 +159,7 @@ const PageSettings = () => {
 
   const { data: centers } = useQuery({
     queryKey: [`/guest/centers/${grade}`],
-    queryFn: getDataClient,
+    queryFn: getPublicData,
     gcTime: 0,
   });
 

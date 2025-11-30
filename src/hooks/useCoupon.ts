@@ -1,6 +1,6 @@
 import { useAuthContext } from "@/context/auth-context";
+import { getClientPrivateData } from "@/helpers/client-fetch";
 import { Coupon } from "@/types";
-import { getDataClient } from "@/utils/clientFun";
 import { useQuery } from "@tanstack/react-query";
 
 function useCoupon() {
@@ -9,7 +9,7 @@ function useCoupon() {
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["/students/profile/promo_code"],
-    queryFn: getDataClient as () => Promise<{ data: Coupon }>,
+    queryFn: getClientPrivateData as () => Promise<{ data: Coupon }>,
     enabled: isOnline,
   });
 

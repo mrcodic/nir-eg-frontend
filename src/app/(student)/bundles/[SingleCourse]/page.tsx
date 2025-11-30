@@ -1,15 +1,16 @@
 import CourseDetails from "@/components/CourseDetails";
 import CourseFloatingCards from "@/components/CourseFloatingCards";
 import CoursesHeader from "@/components/CoursesHeader";
+import { getClientPrivateData } from "@/helpers/client-fetch";
+import { getServerPrivateData } from "@/helpers/server-fetch";
 import ProtectedRoute from "@/layouts/ProtectedRoute";
-import { getData } from "@/utils/api";
 
 const SingleCourse = async ({ params }) => {
   const { SingleCourse } = await params;
-  const profile = await getData({
+  const profile = await getClientPrivateData({
     queryKey: [`/students/profile`],
   });
-  const data = await getData({
+  const data = await getServerPrivateData({
     queryKey: [`/students/get-rooms/${SingleCourse}?page=1&per_page=10`],
   });
 

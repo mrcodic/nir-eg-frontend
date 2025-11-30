@@ -25,10 +25,16 @@ function PriceBadge({
         className
       )}
     >
-      <span className={variant === "crossed" ? "line-through " : ""}>
-        {formattedPrice}
-      </span>
-      جنيه
+      {formattedPrice == "0" ? (
+        <span>مجانى</span>
+      ) : (
+        <>
+          <span className={variant === "crossed" ? "line-through " : ""}>
+            {formattedPrice}
+          </span>
+          جنيه
+        </>
+      )}
     </div>
   );
 }

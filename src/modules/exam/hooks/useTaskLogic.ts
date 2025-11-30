@@ -1,6 +1,6 @@
 import { useTaskContext } from "@/context/TaskProvider";
+import { getClientPrivateData } from "@/helpers/client-fetch";
 import { useToast } from "@/hooks/use-toast";
-import { getData } from "@/utils/api";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 
@@ -36,7 +36,7 @@ export const useTaskLogic = (options: {
         }
 
         try {
-          const q = await getData({
+          const q = await getClientPrivateData({
             queryKey: [`students/quiz/questions/${taskId}`],
           });
           setData(q?.body);
@@ -64,7 +64,7 @@ export const useTaskLogic = (options: {
   // ============= SHOW ANSWERS =============
   const showAnswers = async () => {
     try {
-      const data = await getData({
+      const data = await getClientPrivateData({
         queryKey: [`students/quiz/show/answers/${taskId}`],
       });
 
@@ -86,7 +86,7 @@ export const useTaskLogic = (options: {
     try {
       await axios.post(`/api?url=students/quiz/retake/${taskId}`, {});
 
-      const q = await getData({
+      const q = await getClientPrivateData({
         queryKey: [`students/quiz/questions/${taskId}`],
       });
 

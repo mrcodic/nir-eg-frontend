@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { DialogFooter } from "@/components/ui/dialog";
 
-import { getDataClient } from "@/utils/clientFun";
+import { getPublicData } from "@/helpers/client-fetch";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { useForm } from "react-hook-form";
@@ -56,7 +56,7 @@ export function StudentSelectCenter() {
 
   const { data: centers } = useQuery({
     queryKey: [`/guest/centers/${grade}`],
-    queryFn: getDataClient,
+    queryFn: getPublicData,
   });
 
   console.log("centers : ", centers);
@@ -93,7 +93,7 @@ export function StudentSelectCenter() {
   });
 
   return (
-    <div className="p-8  bg-white rounded-lg shadow-lg gap-3">
+    <div className="">
       <div className="flex gap-3 items-center border-b border-b-primary-700 pb-3">
         <Image
           src="/assets/LocationColor.svg"
@@ -135,7 +135,7 @@ export function StudentSelectCenter() {
               </Button>
             </PopoverTrigger>
 
-            <PopoverContent className=" p-0 w-(--radix-popover-trigger-width)">
+            <PopoverContent className=" p-0 w-(--radix-popover-trigger-width) max-h-[400px]">
               <Command>
                 <CommandInput placeholder="بحث عن السنتر" className="h-9" />
                 <CommandList>

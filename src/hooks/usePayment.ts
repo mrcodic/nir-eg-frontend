@@ -1,7 +1,7 @@
 import { useModal } from "@/context/ModalProvider";
 import { useToast } from "@/hooks/use-toast";
 import { IUser, paymentType, PricingResponse } from "@/types";
-import { getDataClient, redirectUrl } from "@/utils/clientFun";
+import { getClientPrivateData, redirectUrl } from "@/utils/clientFun";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -38,7 +38,7 @@ export const usePayment = ({
 
   // Fetch user data for modal mode
   const { data, error } = useQuery({
-    queryFn: getDataClient as () => Promise<{ body: IUser }>,
+    queryFn: getClientPrivateData as () => Promise<{ body: IUser }>,
     queryKey: ["/students/profile"],
     enabled: asModal,
   });

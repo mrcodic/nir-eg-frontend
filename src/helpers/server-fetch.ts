@@ -1,6 +1,8 @@
 import CustomError from "@/lib/customError";
 import { IGetDataOptions } from "@/types/helpers.types";
+import { deleteCookie } from "@/utils/api";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import "server-only";
 import reactCache from "./reactCache";
 
@@ -16,7 +18,7 @@ const fetcherServer = async <T>(
 
   if (authenticated) {
     const cookiesStore = await cookies();
-    token = cookiesStore.get("penguin_user_token")?.value || "";
+    token = cookiesStore.get("nir_token")?.value || "";
 
     if (!token) {
       return null;
@@ -24,7 +26,8 @@ const fetcherServer = async <T>(
   }
 
   try {
-    const fullUrl = `${process.env.BASE_URL}${endpoint}`;
+    const fullUrl = `${process.env.NEXT_PUBLIC_BASE_URL}${endpoint}`;
+
     const res = await fetch(fullUrl, {
       headers: {
         Accept: "application/json",
@@ -35,7 +38,7 @@ const fetcherServer = async <T>(
         tags: [endpoint?.includes("?") ? endpoint?.split("?")[0] : endpoint],
         ...next,
       },
-      cache: cache || "no-store",
+      cache: cache || "default",
     });
 
     if (!res.ok) {
@@ -57,7 +60,18 @@ const fetcherServer = async <T>(
     return res.json() as Promise<T>;
   } catch (error) {
     console.error(`Error in fetcher for ${endpoint}:`, error);
-    if (error instanceof CustomError) {
+    if (error?.response?.data?.code === 403) {
+      console.log("unauth ");
+
+      redirect("/unAuth");
+    } else if (error?.status === 403) {
+      console.log("unauth center ");
+      redirect("/unAuthCenter");
+    } else if (error?.status == 401 || error?.response?.data?.code == 410) {
+      console.log("login ");
+      await deleteCookie();
+      redirect("/login");
+    } else if (error instanceof CustomError) {
       console.log("custom error ");
       throw error;
     } else {
@@ -66,17 +80,8 @@ const fetcherServer = async <T>(
   }
 };
 
-// export const getServerPublicData = reactCache(
-//   async <T>({
-//     queryKey: [endpoint],
-//     next,
-//     cache,
-//   }: IGetDataOptions): Promise<T | null> =>
-//     fetcherServer({ queryKey: [endpoint], next, cache }, false),
-// );
-
 export const getServerPrivateData = reactCache(
-  async <T>({
+  async <T = any>({
     queryKey: [endpoint],
     next,
     cache,

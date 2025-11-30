@@ -4,10 +4,10 @@ import Empty from "@/components/Empty";
 import LoadingSpinner from "@/components/Loading";
 import PaginationComponent from "@/components/Pagination";
 import RoomHeader from "@/components/RoomHeader";
+import { getPublicData } from "@/helpers/client-fetch";
 import { cn } from "@/lib/utils";
 import { IPagination } from "@/types";
 import { Book } from "@/types/books.types";
-import { getGuestData } from "@/utils/clientFun";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import BooksGrid from "./BooksGrid";
@@ -26,7 +26,7 @@ function BooksStoreItems({
   const [page, setPage] = useState(1);
   const { data, error, isLoading, isPlaceholderData } = useQuery({
     queryKey: [`books?per_page=${perPage}&page=` + page],
-    queryFn: getGuestData<IPagination<Book>>,
+    queryFn: getPublicData<IPagination<Book>>,
     placeholderData: keepPreviousData,
   });
 

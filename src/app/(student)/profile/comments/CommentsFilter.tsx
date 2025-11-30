@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { getDataClient } from "@/utils/clientFun";
+import { getClientPrivateData } from "@/helpers/client-fetch";
 import { useQuery } from "@tanstack/react-query";
 
 function CommentsFilter({
@@ -21,18 +21,18 @@ function CommentsFilter({
 }) {
   const { data: courses } = useQuery({
     queryKey: ["/students/courses/enrolled"],
-    queryFn: getDataClient,
+    queryFn: getClientPrivateData,
   });
 
   const { data: rooms, isLoading: roomsLoading } = useQuery({
-    queryFn: getDataClient,
+    queryFn: getClientPrivateData,
     queryKey: [`/students/get-rooms/${courseId}?page=1&per_page=10`],
     enabled: !!courseId && courseId !== "all",
   });
 
   const { data: lessons, isLoading: lessonsLoading } = useQuery({
     queryKey: [`/students/get-lessons/${roomId}`],
-    queryFn: getDataClient,
+    queryFn: getClientPrivateData,
     enabled: !!roomId && roomId !== "all",
   });
 

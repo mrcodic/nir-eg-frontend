@@ -1,17 +1,3 @@
-import { clientGetErrorhandler } from "@/lib/client-get-errorhandler";
-import { QueryKey } from "@tanstack/react-query";
-import axios from "axios";
-import Cookies from "js-cookie";
-import reactCache from "../helpers/reactCache";
-
-const isProd = process.env.NODE_ENV === "production";
-
-export const instanceClient = axios.create({
-  baseURL: isProd ? process.env.NEXT_PUBLIC_REDIRECT_URL : "/",
-
-  withCredentials: true,
-});
-
 export const convertTimeToSeconds = () => {
   const now = new Date();
   const hours = now.getHours();
@@ -105,58 +91,6 @@ export function redirectUrl({
   }
   return [url + "?payment=success", url + "?payment=failed"];
 }
-
-export const getGuestData = reactCache(
-  async <T = any>({
-    queryKey: [url],
-  }: {
-    queryKey: [string] | QueryKey;
-  }): Promise<T | null> => {
-    if (!url || typeof url !== "string") return { data: [] } as any;
-    const encodedUrl = encodeURIComponent(url);
-
-    try {
-      const response = await instanceClient.get(
-        `/api?url=${encodedUrl}&isGuest=true`
-      );
-      return response.data;
-    } catch (error) {
-      console.log("get guest data error : ", url, error);
-      clientGetErrorhandler(error);
-    }
-  }
-);
-
-export const getDataClient = reactCache(
-  async <T = any>({
-    queryKey: [url],
-    isAuth = true,
-  }: {
-    queryKey: [string] | QueryKey;
-    isAuth?: boolean;
-  }): Promise<T | { data: [] }> => {
-    if (!url || typeof url !== "string") return { data: [] };
-    const encodedUrl = encodeURIComponent(url);
-
-    let token = Cookies.get("auth_token");
-
-    if (!token && isAuth) {
-      // if (window.location.pathname !== "/login") window.location.href = "/login";
-      return { data: [] };
-    }
-
-    try {
-      const response = await instanceClient.get(`/api?url=${encodedUrl}`);
-
-      // console.log("getDataClient response : ", url);
-
-      return response.data || {};
-    } catch (error) {
-      // console.log("getDataClient error : ", url, error);
-      clientGetErrorhandler(error);
-    }
-  }
-);
 
 export const convertDate = (dateStr) => {
   const date = new Date(dateStr);

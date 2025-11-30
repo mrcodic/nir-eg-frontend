@@ -9,8 +9,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { getClientPrivateData } from "@/helpers/client-fetch";
 import { cn } from "@/lib/utils";
-import { getDataClient } from "@/utils/clientFun";
 import { useQuery } from "@tanstack/react-query";
 import {
   createColumnHelper,
@@ -109,7 +109,7 @@ export default function RankTable() {
         pagination.pageIndex + 1
       }`,
     ],
-    queryFn: getDataClient,
+    queryFn: getClientPrivateData,
   });
 
   const students = data?.body?.students || [];

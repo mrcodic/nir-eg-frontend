@@ -1,4 +1,4 @@
-import { getPublicData } from "@/helpers/client-fetch";
+import { getClientPrivateData } from "@/helpers/client-fetch";
 import { getServerPrivateData } from "@/helpers/server-fetch";
 import CustomError from "@/lib/customError";
 import { IGetDataOptions } from "@/types/helpers.types";
@@ -42,9 +42,9 @@ const MappingFun = async ({
         queryKey: [queryKey],
         ...endPointOptions,
       });
-      // fetchedData = await getData({ queryKey: [queryKey], ...endPointOptions });
+      // fetchedData = await getServerPrivateData({ queryKey: [queryKey], ...endPointOptions });
     } else {
-      fetchedData = await getPublicData({
+      fetchedData = await getClientPrivateData({
         queryKey: [queryKey],
         ...endPointOptions,
       });

@@ -1,13 +1,10 @@
 import { CartItem } from "@/context/booksCartStore";
 import { Book } from "@/types/books.types";
-import axios from "axios";
-import Cookies from "js-cookie";
+import { instanceClient } from "@/utils/instanceClient";
 
-const isProd = process.env.NODE_ENV === "production";
+import axios from "axios";
 
 export const axiosInstance = axios.create({
-  baseURL: isProd ? process.env.NEXT_PUBLIC_REDIRECT_URL : "/",
-
   withCredentials: true,
 });
 
@@ -21,35 +18,63 @@ interface ServerGetCartResponse {
       book: Book;
     }[];
     price: number;
+    owner: {
+      guest_token: string;
+      type: string;
+    };
   };
 }
 
 const cartServices = {
   fetchCart: async (): Promise<ServerGetCartResponse> => {
-    const token = Cookies.get("auth_token");
-    const res = await axiosInstance.get(`/api?url=/cart&isGuest=${!!!token}`);
-    return res.data || [];
+    try {
+      const res = await instanceClient.get(`/cart`);
+      return res.data || [];
+    } catch (error) {
+      console.log("🚀 ~ fetchCart ~ error:", error);
+      throw error;
+    }
   },
 
   addItem: async (item: CartItem): Promise<void> => {
-    await axiosInstance.post("/api?url=/cart/items", {
-      book_id: item.id,
-      quantity: item.quantity,
-    });
+    try {
+      await instanceClient.post("/cart/items", {
+        book_id: item.id,
+        quantity: item.quantity,
+      });
+    } catch (error) {
+      console.log("🚀 ~ addItem ~ error:", error);
+      throw error;
+    }
   },
 
   removeItem: async (id: string): Promise<void> => {
-    const res = await axiosInstance.delete("/api?url=/cart/remove/" + id);
+    try {
+      const res = await instanceClient.delete("/cart/remove/" + id);
+    } catch (error) {
+      console.log("🚀 ~ removeItem ~ error:", error);
+      throw error;
+    }
   },
 
   updateItem: async (id: string, delta: number): Promise<void> => {
-    const res = await axiosInstance.post("/api?url=/cart/items/" + id, {
-      delta,
-    });
+    try {
+      const res = await instanceClient.post("/cart/items/" + id, {
+        delta,
+      });
+    } catch (error) {
+      console.log("🚀 ~ updateItem ~ error:", error);
+      throw error;
+    }
   },
 
   clearAll: async (): Promise<void> => {
-    await axiosInstance.delete("/api?url=/cart");
+    try {
+      await instanceClient.delete("/cart");
+    } catch (error) {
+      console.log("🚀 ~ clearAll ~ error:", error);
+      throw error;
+    }
   },
 };
 

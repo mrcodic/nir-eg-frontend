@@ -1,7 +1,7 @@
 "use client";
 
+import { getClientPrivateData } from "@/helpers/client-fetch";
 import { quizSchema } from "@/lib/schemas";
-import { getDataClient } from "@/utils/clientFun";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
@@ -47,7 +47,7 @@ export const TaskProvider = ({ children, taskType = "exam" }) => {
   } = useQuery({
     queryKey: [`/students/quiz/start/${taskId}`],
     queryFn: async () => {
-      const res = await getDataClient({
+      const res = await getClientPrivateData({
         queryKey: [`/students/quiz/start/${taskId}`],
       });
       return res.body;

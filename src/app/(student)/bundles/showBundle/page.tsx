@@ -2,7 +2,7 @@
 import CourseCard from "@/components/CourseCard";
 import RoomHeader from "@/components/RoomHeader";
 import { useAuthContext } from "@/context/auth-context";
-import { getDataClient, getGuestData } from "@/utils/clientFun";
+import { getClientPrivateData, getPublicData } from "@/helpers/client-fetch";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 
@@ -12,7 +12,7 @@ const ShowBundle = () => {
 
   const { data } = useQuery({
     queryKey: [`/bundles/${params.get("type")}`],
-    queryFn: token ? getDataClient : getGuestData,
+    queryFn: token ? getClientPrivateData : getPublicData,
   });
 
   return (
