@@ -178,12 +178,32 @@ export type StudentActivity = {
   quiz_id: number;
 };
 
+export interface Sale {
+  id: number;
+  name: string;
+  discount_type: number;
+  discount_value: number;
+  duration: number;
+}
+
+export interface Bundle {
+  id: number;
+  name: string;
+  cover: string;
+  price: string;
+  classrooms: CourseType[];
+  grade: Grade;
+  sale: Sale | null;
+  created_at: string;
+  updated_at: string | null;
+}
+
 export interface CourseType {
   id: number;
   title: string;
   description: string;
   price: string;
-  sale: any;
+  sale: Sale | null;
   subscription_status: boolean;
   thumbnail: string;
   type: string;

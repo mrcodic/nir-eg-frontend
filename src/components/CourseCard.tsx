@@ -119,7 +119,9 @@ const CourseCard = ({
                       );
                       modal.openModal();
                     } else {
-                      router.push("/login");
+                      router.push(
+                        `/login?redirect=/bundles/${courseDetails?.id}`
+                      );
                     }
                   }}
                 >

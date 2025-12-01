@@ -48,6 +48,9 @@ const fetcherServer = async <T>(
         console.error(`💥 response : `, data);
         throw new CustomError(data.message, res.status || 500);
       } catch (error) {
+        if (error instanceof CustomError) {
+          throw error;
+        }
         console.error(`💥 response err : `, res);
         // console.error(`Failed to fetch data from ${endpoint}`);
         throw new CustomError(
@@ -61,18 +64,18 @@ const fetcherServer = async <T>(
   } catch (error) {
     console.error(`Error in fetcher for ${endpoint}:`, error);
     if (error?.response?.data?.code === 403) {
-      console.log("unauth ");
+      console.log("unauth redirect");
 
       redirect("/unAuth");
     } else if (error?.status === 403) {
-      console.log("unauth center ");
+      console.log("unauth center redirect");
       redirect("/unAuthCenter");
     } else if (error?.status == 401 || error?.response?.data?.code == 410) {
-      console.log("login ");
+      console.log("login redirect");
       await deleteCookie();
       redirect("/login");
     } else if (error instanceof CustomError) {
-      console.log("custom error ");
+      console.log("custom error redirect");
       throw error;
     } else {
       throw new CustomError(`Failed to fetch data from ${endpoint}`, 500);

@@ -13,9 +13,9 @@ const Coursers = () => {
   return (
     <div className="wrapper mt-8">
       <RoomHeader
-        className="mb-6   "
+        className="mb-6  items-start "
         title="الاشتراكات"
-        icon="/assets/book-gif.gif"
+        icon="/assets/success.svg"
         subText="أنت مشترك في هذه الفصول"
       />
 

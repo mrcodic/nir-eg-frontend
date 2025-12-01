@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { ElementType } from "react";
 
 type StyledTextProps = {
-  text: string;
+  text: string | number;
   as?: ElementType;
   className?: string;
 };

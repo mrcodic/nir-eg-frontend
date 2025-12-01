@@ -10,6 +10,7 @@ import { useModal } from "@/context/ModalProvider";
 import { getClientPrivateData } from "@/helpers/client-fetch";
 import ProfileHeaderCard from "@/modules/profile/components/ProfileHeaderCard";
 import ProfilePointsTable from "@/modules/profile/components/ProfilePointsTable";
+import ProfileVerifyPhoneCard from "@/modules/profile/components/ProfileVerifyPhoneCard";
 import StudentTasksOverview from "@/modules/profile/components/StudentTasksOverview";
 import { IUser } from "@/types";
 import { useQuery } from "@tanstack/react-query";
@@ -63,6 +64,10 @@ const ProfilePage = () => {
   return (
     <div className="mb-12 mt-[140px]">
       <div className="wrapper">
+        {!profileData?.body?.parent_phone_verification && (
+          <ProfileVerifyPhoneCard />
+        )}
+
         <ProfileHeaderCard profileData={profileData?.body} />
 
         <StudentTasksOverview />

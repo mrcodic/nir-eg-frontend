@@ -59,18 +59,18 @@ export const PaymentModel: React.FC<PaymentModalProps> = ({
         hasCoupon={hasCoupon}
         isLoadingMethods={isLoadingMethods}
       />
-      <DialogFooter className="flex flex-wrap flex-row! justify-center gap-5 mt-5 mx-auto">
+      <DialogFooter className="flex max-sm:flex-wrap flex-row! justify-center gap-5 mt-5 w-full sm:justify-center sm:space-x-0">
         {paymentTypes.length > 0 && (
-          <Button
-            onClick={handleNextClick}
-            className="bg-primary border border-gray-light rounded-lg w-[148px] text-sm font-bold p-2 text-white"
-          >
+          <Button className="w-full" onClick={handleNextClick}>
             التالي
           </Button>
         )}
 
         <DialogClose asChild>
-          <Button className="border border-primary hover:text-white rounded-lg w-[148px] bg-white text-sm font-bold p-2 text-[#121212]">
+          <Button
+            className="w-full text-black border-gray-light hover:bg-gray-dark hover:text-white"
+            variant="outline"
+          >
             إلغاء
           </Button>
         </DialogClose>

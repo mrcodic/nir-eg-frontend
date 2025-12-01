@@ -9,10 +9,14 @@ const variants = {
 function PriceBadge({
   price,
   className,
+  currencyClassName,
+  numberClassName,
   variant = "default",
 }: {
   price: number;
   className?: string;
+  currencyClassName?: string;
+  numberClassName?: string;
   variant?: keyof typeof variants;
 }) {
   const formattedPrice = price % 1 === 0 ? price.toString() : price.toFixed(2);
@@ -26,13 +30,18 @@ function PriceBadge({
       )}
     >
       {formattedPrice == "0" ? (
-        <span>مجانى</span>
+        <span className={numberClassName}>مجانى</span>
       ) : (
         <>
-          <span className={variant === "crossed" ? "line-through " : ""}>
+          <span
+            className={cn(
+              variant === "crossed" ? "line-through " : "",
+              numberClassName
+            )}
+          >
             {formattedPrice}
           </span>
-          جنيه
+          <span className={currencyClassName}>جنيه</span>
         </>
       )}
     </div>

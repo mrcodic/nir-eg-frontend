@@ -7,7 +7,7 @@ export const clientGetErrorhandler = (error) => {
     throw error;
   }
 
-  if (error.response?.status === 429 || error?.status === 429) {
+  if (error?.response?.status === 429 || error?.status === 429) {
     console.log("too many requests error : ", error);
     if (window.location.pathname !== "/ErrorPage") {
       window.location.href =
@@ -15,28 +15,19 @@ export const clientGetErrorhandler = (error) => {
     }
   }
 
-  if (error.response?.status === 307 && error.response?.data?.shouldRedirect) {
-    console.log("custom redirect error in getClientPrivateData : ", error);
-    if (window.location.pathname !== error.response.data.redirectUrl) {
-      window.location.href = error.response.data.redirectUrl;
-    }
-
-    if (error.response.data.redirectUrl === "/login") {
-      Cookies.remove("nir_token");
-    }
-  } else if (error.response.data?.code === 403) {
+  if (error?.response?.data?.code === 403) {
     console.log("403 error in getClientPrivateData ");
 
     if (window.location.pathname !== "/unAuth") {
       window.location.href = "/unAuth";
     }
-  } else if (error.status === 403) {
+  } else if (error?.status === 403) {
     console.log("403 2 error in getClientPrivateData ");
 
     if (window.location.pathname !== "/unAuth") {
       window.location.href = "/unAuthCenter";
     }
-  } else if (error.status == 401) {
+  } else if (error?.status == 401) {
     console.log("401 error in getClientPrivateData ");
 
     Cookies.remove("nir_token");

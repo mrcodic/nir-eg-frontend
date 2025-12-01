@@ -9,6 +9,7 @@ import { useSearchParams } from "next/navigation";
 import { useRouter } from "nextjs-toploader/app";
 import { useEffect, useState } from "react";
 import { PaymentModel } from "./modals/PaymentModel";
+import RoomHeader from "./RoomHeader";
 import { Button } from "./ui/button";
 import DataWithLabel from "./ui/DataWithLabel";
 import PriceBubbles from "./ui/price-bubble";
@@ -20,7 +21,7 @@ const BundlesCom = () => {
   const [selectedId, setSelectedId] = useState(0);
   const router = useRouter();
 
-  const { profile } = useAuthContext();
+  const { profile, isLoading } = useAuthContext();
   const [BundlesData, setBundlesData] = useState([]);
 
   let api = "";
@@ -30,16 +31,11 @@ const BundlesCom = () => {
     api = `/guest/bundels?grade_id=${searchParams.get("grade")}`;
   }
 
-  const { data: profileData, isLoading } = useQuery({
-    queryFn: getClientPrivateData,
-    queryKey: ["/students/profile"],
-  });
-
   const { data, isLoading: bundlesLoading } = useQuery({
     queryKey: [api],
     queryFn: profile ? getClientPrivateData : getPublicData,
     gcTime: 0,
-    enabled: !isLoading && profileData?.body?.type !== 5,
+    enabled: !isLoading && profile?.type !== 5,
     // suspense: true,
   });
 
@@ -57,9 +53,14 @@ const BundlesCom = () => {
 
   return (
     <div className="wrapper">
-      <h2 className="text-28 font-bold ">الباقات</h2>
+      <RoomHeader
+        className="mb-6 items-start"
+        title="الباقات"
+        icon="/assets/books-colored.svg"
+        subText="أحدث الباقات المضافة"
+      />
 
-      <div className="flex flex-col gap-6 mt-8 max-h-[400px] overflow-y-auto">
+      <div className="flex flex-col gap-6 mt-8 max-h-[600px] overflow-y-auto">
         {BundlesData?.map((bundle, index) => {
           return (
             <div

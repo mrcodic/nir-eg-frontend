@@ -120,7 +120,7 @@ export default function Passed({
                       )}
                       {start?.retake && (
                         <button
-                          className="bg-gray-light py-1 w-full md:w-[172px] borer border-primary px-[12px] font-bold text-white text-sm rounded-lg"
+                          className="bg-primary-800 py-1 w-full md:w-[172px] borer border-primary px-[12px] font-bold text-white text-sm rounded-lg"
                           onClick={retake}
                         >
                           إعادة الامتحان

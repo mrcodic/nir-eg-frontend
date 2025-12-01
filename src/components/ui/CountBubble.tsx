@@ -14,7 +14,7 @@ function CountBubble({
         className
       )}
     >
-      {count}
+      {count > 99 ? "99+" : count}
     </span>
   );
 }

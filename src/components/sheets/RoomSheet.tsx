@@ -1,11 +1,8 @@
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { useAuthContext } from "@/context/auth-context";
+import { getClientPrivateData } from "@/helpers/client-fetch";
 import LinkLocked from "@/layouts/LinkLocked";
-import {
-  convertMinutes,
-  getClientPrivateData,
-  mapGradeToText,
-} from "@/utils/clientFun";
+import { convertMinutes, mapGradeToText } from "@/utils/clientFun";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -15,8 +12,8 @@ export default function RoomSheet({ open, setOpen }) {
   const { grade } = useAuthContext();
 
   const { data } = useQuery({
-    queryFn: getClientPrivateData,
     queryKey: [`students/get-lessons/${room}`],
+    queryFn: getClientPrivateData,
   });
 
   return (

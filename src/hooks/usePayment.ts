@@ -1,8 +1,8 @@
+import { useAuthContext } from "@/context/auth-context";
 import { useModal } from "@/context/ModalProvider";
 import { useToast } from "@/hooks/use-toast";
-import { IUser, paymentType, PricingResponse } from "@/types";
-import { getClientPrivateData, redirectUrl } from "@/utils/clientFun";
-import { useQuery } from "@tanstack/react-query";
+import { paymentType, PricingResponse } from "@/types";
+import { redirectUrl } from "@/utils/clientFun";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -31,23 +31,20 @@ export const usePayment = ({
   const modal = useModal();
   const initialSelect = useRef(false);
 
+  const { profile } = useAuthContext();
+
   const [paymentMethodValue, setPaymentMethodValue] =
     useState<paymentType | null>(null);
   const [coupon, setCoupon] = useState<PricingResponse | null>(null);
   const [loading, setLoading] = useState(false);
 
   // Fetch user data for modal mode
-  const { data, error } = useQuery({
-    queryFn: getClientPrivateData as () => Promise<{ body: IUser }>,
-    queryKey: ["/students/profile"],
-    enabled: asModal,
-  });
 
   const { paymentTypes, isLoading: isLoadingFilter } = usePaymentsTypesFiltered(
     {
       asModal,
       isCodeCenter,
-      userType: data?.body?.type,
+      userType: profile?.type,
     }
   );
 
@@ -166,6 +163,6 @@ export const usePayment = ({
     handleNextClick,
     coupon,
     setCoupon,
-    isLoadingMethods: isLoadingFilter || (!data && !error),
+    isLoadingMethods: isLoadingFilter || !profile,
   };
 };

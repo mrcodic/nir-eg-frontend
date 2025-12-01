@@ -51,7 +51,6 @@ export const PaymentUI: React.FC<PaymentUIProps> = ({
       )}
 
       <div className="mt-4 flex items-center gap-3">
-        <img src="/assets/PaymentColor.svg" className="size-6" />
         <span className="text-[#121212] text-[18px] font-bold">
           اختر طريقة الدفع
         </span>
@@ -89,7 +88,7 @@ export const PaymentUI: React.FC<PaymentUIProps> = ({
       </div>
 
       {paymentMethodValue === paymentType.fawerypay && (
-        <span className="text-red-600 text-sm font-bold mb-2 ">
+        <span className="text-red-600 block text-sm font-bold mb-2 ">
           <Image
             src={"/assets/WarningColor.svg"}
             width={30}
@@ -121,11 +120,11 @@ export const PaymentUI: React.FC<PaymentUIProps> = ({
             >
               <Label
                 htmlFor={payment.value}
-                className={`flex relative overflow-hidden cursor-pointer ${
+                className={`flex relative overflow-hidden cursor-pointer bg-transparent ${
                   paymentMethodValue === payment.value
-                    ? "border-[#023E3E]"
+                    ? "border-primary-800 bg-primary-50"
                     : "border-gray-light"
-                } p-2 gap-2.5 border-2 rounded-lg bg-background z-0! items-center space-x-2`}
+                } p-2 gap-2.5 border-2 rounded-lg  z-0! items-center space-x-2`}
               >
                 <RadioGroupItem value={payment.value} id={payment.value} />
                 <Label

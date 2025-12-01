@@ -5,15 +5,24 @@ function PriceBubbles({
   sale,
   price,
   className,
+  currencyClassName,
+  numberClassName,
 }: {
   sale?: { discount_type: number; discount_value: number; id: number };
   price: number | string;
   className?: string;
+  currencyClassName?: string;
+  numberClassName?: string;
 }) {
   if (sale?.id)
     return (
       <div className={cn("flex gap-2.5 ms-auto items-center", className)}>
-        <PriceBadge price={Number(price)} variant="crossed" />
+        <PriceBadge
+          price={Number(price)}
+          variant="crossed"
+          currencyClassName={currencyClassName}
+          numberClassName={numberClassName}
+        />
         <PriceBadge
           price={
             sale?.discount_type === 0
@@ -21,6 +30,8 @@ function PriceBubbles({
               : Number(price) - Number(sale?.discount_value)
           }
           variant="discount"
+          currencyClassName={currencyClassName}
+          numberClassName={numberClassName}
         />
       </div>
     );
@@ -30,6 +41,8 @@ function PriceBubbles({
         price={Number(price)}
         variant="default"
         className={className}
+        currencyClassName={currencyClassName}
+        numberClassName={numberClassName}
       />
     );
   }

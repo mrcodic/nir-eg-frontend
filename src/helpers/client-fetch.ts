@@ -1,4 +1,5 @@
 import reactCache from "@/helpers/reactCache";
+import { clientGetErrorhandler } from "@/lib/client-get-errorhandler";
 import CustomError from "@/lib/customError";
 import { IGetDataOptions } from "@/types/helpers.types";
 
@@ -40,18 +41,34 @@ const fetcherClient = async <T>(
     });
 
     if (!res.ok) {
-      console.error(`💥 response : `, res);
-      console.error(`Failed to fetch data from ${endpoint}`);
-      throw new CustomError(
-        `Failed to fetch data from ${endpoint}`,
-        res.status || 500
-      );
+      console.log("res : ", res);
+      try {
+        const data = await res.json();
+        console.error(`💥 response : `, data, data.message, res.status);
+        throw new CustomError(data.message, res.status || 500);
+      } catch (error) {
+        if (error instanceof CustomError) {
+          throw error;
+        }
+        console.error(`💥 response err : `, res);
+        // console.error(`Failed to fetch data from ${endpoint}`);
+        throw new CustomError(
+          `Failed to fetch data from ${endpoint}`,
+          res.status || 500
+        );
+      }
     }
 
     return res.json() as Promise<T>;
   } catch (error) {
-    console.error(`Error in fetcher for ${endpoint}:`, error);
-    throw error;
+    console.error(
+      `Error in fetcher for ${endpoint}:`,
+      error,
+      error.status,
+      error instanceof CustomError
+    );
+    clientGetErrorhandler(error);
+    // throw error;
   }
 };
 
