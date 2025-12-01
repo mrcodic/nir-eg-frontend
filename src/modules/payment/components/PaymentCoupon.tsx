@@ -8,6 +8,8 @@ import { cn } from "@/lib/utils";
 import { PricingResponse } from "@/types";
 import axios from "axios";
 import { Loader } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 
 const initialState = {
@@ -84,24 +86,23 @@ function PaymentCoupon({
 
   return (
     <div className={cn("space-y-1", className)}>
-      <Label aria-invalid={couponState?.state === "error"}>كود الخصم</Label>
+      <Label aria-invalid={couponState?.state === "error"}>الكود</Label>
       <div className="flex items-center gap-4 sm:gap-6">
         <Input
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          className="grow w-full h-8 text-sm focus:outline-hidden ps-2"
-          style={{ borderBottom: "1px solid #523412" }}
+          className="grow w-full h-11 text-sm focus:outline-hidden ps-2 border border-gray-light"
           aria-invalid={couponState?.state === "error"}
-          placeholder="كود الخصم"
+          placeholder="أدخل الكود"
           disabled={loading}
         />
         <Button
           onClick={handleCouponSubmit}
           disabled={loading || !value}
-          className="h-8 px-3 sm:px-6 text-sm sm:text-base bg-primary-800 rounded-lg max-w-[70px] sm:max-w-[104px] w-full"
+          className="h-11 px-3 sm:px-6 text-sm sm:text-base bg-primary-800 rounded-lg max-w-[70px] sm:max-w-[104px] w-full"
         >
           {loading && <Loader className="mr-2 h-4 w-4 animate-spin" />}
-          تأكيد
+          ادخال
         </Button>
       </div>
 
@@ -120,6 +121,26 @@ function PaymentCoupon({
             }`}
         </p>
       )}
+
+      <div className="relative text-center my-6 text-primary-800 mx-20 text-base font-medium">
+        <hr className="border-primary-800 absolute top-1/2 inset-x-0 -translate-y-1/2" />
+        <span className="px-8 bg-background relative z-5">او</span>
+      </div>
+
+      <div className="flex items-center justify-between gap-6">
+        <div className="flex items-center gap-4">
+          <Image
+            src={"/assets/whatsapp.svg"}
+            width={32}
+            height={32}
+            alt="whatsapp icon"
+          />
+          <p className="text-xl">لو مش معاك كود الدفع، كلمنا على واتساب</p>
+        </div>
+        <Link href={""}>
+          <Button variant="secondary">تواصل معنا</Button>
+        </Link>
+      </div>
     </div>
   );
 }

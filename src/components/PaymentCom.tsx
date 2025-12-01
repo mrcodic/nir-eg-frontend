@@ -41,7 +41,7 @@ const PaymentCom = ({
       style={{
         boxShadow: "0px 2px 10px 4px rgba(157, 130, 66, 0.20) ",
       }}
-      className="bg-[#F9FAFC] relative md:text-[24px] font-bold  flex flex-col max-w-[min(760px,85%)] w-full justify-center md:w-[760px]  border py-3 md:py-[32px] mx-auto  -mt-8 px-[20px] border-primary-800 rounded-lg"
+      className="bg-[#F9FAFC] relative md:text-[24px] font-bold  flex flex-col max-w-[min(760px,85%)] w-full justify-center md:w-[760px]  border py-3 md:py-[32px] mx-auto  -mt-8 px-[20px] border-primary-800 rounded-lg  z-10"
     >
       <PaymentUI
         paymentMethodValue={paymentMethodValue}

@@ -18,21 +18,22 @@ function SaleBubble({
         className
       )}
     >
-      <div className="bg-[url(/assets/Sale.svg)] re bg-cover flex items-center justify-center w-[48px] h-[48px]">
-        <div className="text-center flex items-center justify-center">
-          <span
-            style={{
-              textShadow:
-                "2px 0 #000,-2px 0 #000,0 2px #000,0 -2px #000,1px 1px #000,-1px -1px #000,1px -1px #000,-1px 1px #000",
-            }}
-            className=" inline-block font-bold text-white text-center text-sm"
-          >
+      <div className="bg-[url(/assets/Sale.svg)] re bg-cover flex items-center justify-center flex-col size-12">
+        <p
+          style={{
+            textShadow:
+              "2px 0 #000,-2px 0 #000,0 2px #000,0 -2px #000,1px 1px #000,-1px -1px #000,1px -1px #000,-1px 1px #000",
+          }}
+          className="flex flex-col  font-bold text-white text-center text-[14px]"
+        >
+          <span className="text-xs ">خصم</span>
+          <span>
             {text ||
               (discountType === 0
                 ? discountValue + "%"
                 : discountValue + "جنيه")}
           </span>
-        </div>
+        </p>
       </div>
     </div>
   );

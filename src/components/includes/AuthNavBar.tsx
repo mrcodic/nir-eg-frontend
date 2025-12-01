@@ -73,7 +73,7 @@ const AuthNavBar = () => {
             <img src="/logo.svg" />
           </Link>
 
-          <ul className=" hidden mobile:flex mx-auto list-none text-[#FFFFFF] text-[16px] font-bold items-center gap-8 lg:gap-12">
+          <ul className=" hidden mobile:flex mx-auto list-none text-[#FFFFFF] text-[16px] font-bold items-center gap-6">
             {(profile?.type === 3
               ? STUDENTSOFFLINELINKS
               : STUDENTSONLINELINKS

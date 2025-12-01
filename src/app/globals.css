@@ -271,7 +271,7 @@
   }
 
   .cards-grid {
-    @apply justify-items-center grid sm:grid-cols-[repeat(auto-fill,minmax(300px,1fr))] grid-cols-[repeat(auto-fill,minmax(260px,1fr))] gap-5;
+    @apply justify-items-stretch grid sm:grid-cols-[repeat(auto-fill,minmax(300px,1fr))] grid-cols-[repeat(auto-fill,minmax(260px,1fr))] gap-5;
   }
 }
 

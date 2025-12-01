@@ -233,29 +233,90 @@ interface Lesson {
   id: number;
   lesson_order: number;
   title: string;
-  vedio_id: string; // Note: typo in original ("vedio" instead of "video")
+  vedio_id: string;
 }
 
-interface Room {
-  id: number;
-  title: string;
-  description: string;
-  price: string;
-  lessons_num: number;
-  // Add other known fields if needed (e.g., start_date, teacher, etc.)
-  [key: string]: any;
+export interface Attachment {
+  name: string;
+  url: string;
 }
 
 export interface RoomData {
+  id: number;
+  room_key?: string;
+  title?: string;
+  created_at: string;
+  description: string;
+  duration: string;
+
   assignments: Assignment[];
-  is_subscriped: boolean;
+  attachments: Attachment[];
   lessons: Lesson[];
+  quizzes: any[];
+
+  exam_count: number;
+  exams_count?: number;
+  lessons_count?: number;
+  material_count?: number;
+  progress?: number;
+  completed: boolean;
+
+  price?: string;
+
+  live_sessions?: boolean;
   locked_to_pass: boolean;
+  lock_after?: string | null;
+
+  is_subscriped: boolean;
   parent_phone_verification: boolean;
-  quizzes: any[]; // Empty array in your data
-  room: Room;
   student_phone_verification: boolean;
+
   type: number;
+
+  [key: string]: unknown;
+}
+
+export interface CourseRoomsPagination {
+  current_page: number;
+  from: number;
+  last_page: number;
+  per_page: number;
+  to: number;
+  total: number;
+}
+
+export interface ICourseDetails {
+  classroom: string;
+  classroom_duration: number;
+  classroom_exams: any[];
+  classroom_price: string;
+
+  completed: boolean;
+  completed_rooms_count: number;
+
+  grade_id: number;
+  grade_name: string;
+
+  has_promocode: boolean;
+  is_subscriped: boolean;
+
+  last_updated: string;
+
+  pagination: CourseRoomsPagination;
+
+  parent_phone_verification: boolean;
+
+  progress: number;
+
+  rooms: RoomData[];
+
+  subscription_type: string;
+
+  totalMaterialCount: number;
+  total_assignm_count: number;
+  total_lessons_count: number;
+  total_quizzes_count: number;
+  total_rooms_count: number;
 }
 
 export type Coupon = {

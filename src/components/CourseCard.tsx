@@ -31,7 +31,7 @@ const CourseCard = ({
   const isOnline = profile?.type === 4;
 
   return (
-    <div className=" flex relative group w-full sm:max-w-[346.667px] flex-col items-center rounded-lg h-full ">
+    <div className=" flex relative group w-full flex-col items-center rounded-lg h-full ">
       {courseDetails?.has_promocode && isOnline && (
         <SaleBubble className="absolute -top-2 -right-2 z-10" text={"كوبون"} />
       )}
@@ -92,14 +92,12 @@ const CourseCard = ({
             </div>
           </div>
 
-          <div>
-            <span className="text-gray-dark empty:hidden font-medium text-xs inline-block">
-              {courseDetails.description}
-            </span>
-          </div>
+          <p className="text-gray-dark empty:hidden font-medium text-xs inline-block">
+            {courseDetails.description}
+          </p>
 
           <div
-            className={cn(" mt-auto gap-4 flex flex-wrap", {
+            className={cn(" mt-auto pt-4 gap-4 flex flex-wrap", {
               // "mt-0": isNewCourse && courseDetails?.subscription_type !== "حصة",
             })}
           >

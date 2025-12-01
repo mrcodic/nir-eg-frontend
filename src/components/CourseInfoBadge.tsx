@@ -3,19 +3,20 @@ function CourseInfoBadge({
   text,
   icon,
 }: {
-  value: string;
+  value: string | number;
   text: string;
   icon: string;
 }) {
   return (
-    <div className="bg-[#F8DEC5] flex items-center gap-4 p-[4px] rounded-[12px]  ">
-      <div className="flex gap-2  flex-1 text-[20px] rounded-lg bg-white min-w-16 max-w-20">
-        <img src={icon} />
-        <span className="text-primary-800"> {value}</span>
+    <div className="bg-primary-50 flex items-center p-2 rounded-lg flex-col min-w-16 max-w-26 w-full">
+      <div className="flex gap-2 ">
+        <img src={icon} className="size-6" />
+        <span className="text-base hidden flex-1  text-[#523412] md:inline-block font-bold">
+          {text}
+        </span>
       </div>
-      <span className="text-[16px] hidden flex-1  font-medium text-[#523412] md:inline-block">
-        {text}
-      </span>
+
+      <span className="text-primary-800 h-11 text-28 font-bold"> {value}</span>
     </div>
   );
 }

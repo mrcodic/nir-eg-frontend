@@ -28,8 +28,8 @@ const BookCardBadge = ({
   return (
     <div
       className={cn(
-        "flex items-center justify-center z-[2]  absolute h-8 px-2 py-1 rounded-lg",
-        variants[variant],
+        "flex items-center justify-center z-2  absolute h-8 px-2 py-1 rounded-lg",
+        variants[variant] || "bg-[#012D5A]",
         sides[side],
         className
       )}

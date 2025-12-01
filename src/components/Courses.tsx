@@ -35,7 +35,7 @@ const Coursers = () => {
           const currentCourses = allCourses.slice(start, end);
 
           return (
-            <div className="mt-6 cards-grid">
+            <div className="mt-6 cards-grid ">
               {currentCourses.map((courseDetails: any, index: number) => (
                 <CourseCard
                   key={index}

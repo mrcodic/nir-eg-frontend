@@ -6,17 +6,22 @@ import RankTable from "@/components/tables/RankTable";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getPublicData } from "@/helpers/client-fetch";
 import { cn } from "@/lib/utils";
-import { redirect, useParams } from "next/navigation";
-import { useEffect } from "react";
+import { ICourseDetails, IUser } from "@/types";
+import { useParams } from "next/navigation";
 import Empty from "./Empty";
 import InfiniteScroll from "./InfinteScroll";
 import Room from "./Room";
+
+type Props = {
+  details: ICourseDetails;
+  profile: IUser;
+};
 
 const Tabs3 = [
   {
     id: 1,
     title: "الحصص",
-    iconSrc: "/assets/RoomsColor.svg",
+    iconSrc: "/assets/classrooms-fill.svg",
     value: "lessons",
   },
   // {
@@ -28,7 +33,7 @@ const Tabs3 = [
   {
     id: 3,
     title: "درجاتي",
-    iconSrc: "/assets/star-colored.svg",
+    iconSrc: "/assets/stars-blue.svg",
     value: "activities",
   },
   // {
@@ -39,7 +44,7 @@ const Tabs3 = [
   // },
 ];
 
-const CourseDetails = ({ body, profileData }) => {
+const CourseDetails = ({ details, profile }: Props) => {
   const { SingleCourse } = useParams();
 
   const fetchData = async (page = 1) => {
@@ -47,55 +52,51 @@ const CourseDetails = ({ body, profileData }) => {
       queryKey: [
         `/students/get-rooms/${SingleCourse}?page=${page}&per_page=10`,
       ],
-      isAuth: !!profileData,
+      isAuth: !!profile,
     });
 
     return res?.body?.rooms;
   };
 
-  useEffect(() => {
-    if (profileData?.body?.has_center === false) {
-      redirect("/profile");
-    }
-  }, [profileData?.body?.has_center]);
-
-  const exams = body?.classroom_exams;
+  const exams = details?.classroom_exams;
 
   return (
     <Tabs
       defaultValue="lessons"
-      className={` flex flex-col gap-10  mb-[48px] mt-10  md:mb-[100px]`}
+      className={` flex flex-col gap-10  mb-12 mt-10  md:mb-[100px]`}
       dir="rtl"
     >
-      {body?.is_subscriped && (
+      {details?.is_subscriped && (
         <TabsList className="flex justify-center  w-full mt-10  ">
           <div className="flex font-bold justify-center w-full gap-2 md:gap-6 my-10 ">
             {Tabs3.map((tab, index) => (
               <TabsTrigger
                 key={index}
                 value={tab.value}
-                className={`min-w-24 rounded-lg data-[state=active]:bg-primary-800 data-[state=active]:text-white bg-white text-[#523412] flex items-center border border-gray-light px-px py-1 md:p-2 `}
+                className={`group min-w-24 rounded-lg data-[state=active]:bg-primary-800 data-[state=active]:text-white bg-white text-[#523412] flex items-center gap-2 border border-primary-800 px-px py-1 md:p-2 `}
               >
-                <img className=" h-8" src={tab.iconSrc} />
-                <span className="text-sm">{tab.title}</span>
+                <img
+                  className="size-6 group-data-[state=active]:invert group-data-[state=active]:brightness-0 transition-all duration-300 ease-in-out"
+                  src={tab.iconSrc}
+                />
+                <span className="text-sm text-primary-800 group-data-[state=active]:text-white transition-all duration-300 ease-in-out font-bold">
+                  {tab.title}
+                </span>
               </TabsTrigger>
             ))}
           </div>
         </TabsList>
       )}
 
-      <TabsContent
-        value="lessons"
-        className={cn("px-2 w-[85%] mx-auto mt-8", {})}
-      >
+      <TabsContent value="lessons" className={cn("px-2 wrapper mt-8", {})}>
         <div className="">
-          <RoomHeader title="محتوى الكورس" icon="/assets/english-icon.svg" />
+          <RoomHeader title="محتوى الكورس" icon="/assets/books-colored.svg" />
 
-          {body?.rooms?.length ? (
+          {details?.rooms?.length ? (
             <InfiniteScroll
               fetchData={fetchData}
-              initialData={body?.rooms}
-              pagination={body?.pagination}
+              initialData={details?.rooms}
+              pagination={details?.pagination}
               render={(data) => {
                 return (
                   <div className="flex flex-col gap-4">
@@ -105,11 +106,11 @@ const CourseDetails = ({ body, profileData }) => {
                           key={index}
                           room={room}
                           subscribe={
-                            body?.is_subscriped ||
-                            body?.subscription_type === "حصة"
+                            details?.is_subscriped ||
+                            details?.subscription_type === "حصة"
                           }
-                          verify={body?.parent_phone_verification}
-                          subType={body?.subscription_type || null}
+                          verify={details?.parent_phone_verification}
+                          subType={details?.subscription_type || null}
                         />
                       );
                     })}

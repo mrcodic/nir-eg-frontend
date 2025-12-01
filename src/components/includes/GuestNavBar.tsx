@@ -43,10 +43,7 @@ const GuestNavBar = () => {
                   }
                 )}
               >
-                <img
-                  className="w-[32px] h-[32px]"
-                  src="/assets/GradeColor.svg"
-                />
+                <img className="size-8" src="/assets/GradeColor.svg" />
                 <h3>الصفوف الدراسية</h3>
               </Link>
 

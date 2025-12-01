@@ -5,7 +5,7 @@ function CourseProgressCard({ progress = 0 }: { progress: number }) {
         boxShadow: "0px 2px 10px 4px rgba(157, 130, 66, 0.20)",
       }}
       className="bg-[#F9FAFC] md:text-2xl whitespace-nowrap
-               font-bold mx-auto -mt-8 flex max-md:justify-center flex-wrap md:gap-x-6 gap-x-4 gap-y-1 items-center  max-w-[min(85%,760px)] w-full relative border py-3 md:py-8 px-6 md:px-10 border-primary-800 rounded-lg"
+               font-bold mx-auto -mt-8 flex max-md:justify-center flex-wrap md:gap-x-6 gap-x-4 gap-y-1 items-center  max-w-[min(85%,760px)] w-full relative border py-3 md:py-8 px-6 md:px-10 border-primary-800 rounded-lg z-10"
     >
       <img src="../assets/star-colored.svg" className="w-[48px] h-[48px]" />
 

@@ -1,28 +1,30 @@
 "use client";
 
 import { getClientPrivateData } from "@/helpers/client-fetch";
-import { IUser } from "@/types";
+import { ICourseDetails, IUser } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import CourseInfoBadge from "./CourseInfoBadge";
 import SupportBadge from "./SupportBadge";
+import DataWithLabel from "./ui/DataWithLabel";
+import PriceBadge from "./ui/PriceBadge";
 
-const CoursesHeader = ({ body }) => {
+const CoursesHeader = ({ details }: { details: ICourseDetails }) => {
   const COURSEDETAILS = [
     {
       icon: "/assets/time.svg",
       label: " الكورس متاح لمده:",
       // title: convertMinutes(Number(body?.classroom_price)),
-      title: body?.is_subscriped
-        ? body?.classroom_expired_after
-        : body?.classroom_duration,
-      specification: "يوم",
+      title: details?.is_subscriped
+        ? details?.classroom_expired_after
+        : details?.classroom_duration,
+      specification: "ايام",
     },
 
     {
-      icon: "/assets/Update.svg",
+      icon: "/assets/calendar.svg",
       label: "تاريخ آخر تحديث:",
-      title: body?.last_updated,
+      title: details?.last_updated,
     },
   ];
 
@@ -33,107 +35,90 @@ const CoursesHeader = ({ body }) => {
 
   // console.log("🚀 ~ CoursesHeader ~ body:", body);
 
-  const subType = body?.subscription_type;
+  const subType = details?.subscription_type;
 
   return (
-    <div
-      className={`relative  bg-[#012D5Af8] 
-       
-      `}
-    >
-      <div className="relative ">
-        <div className="absolute inset-0 -z-1 ">
-          <Image
-            src="/assets/Background.svg"
-            alt=""
-            fill
-            className="object-contain top-[10px] object-bottom-left -z-1"
-            priority
-          />
-          <Image
-            src="/assets/paper.png"
-            alt=""
-            fill
-            className="object-cover opacity-40  z-10"
-            priority
-          />
-        </div>
+    <div className={`relative  bg-dark-radial`}>
+      <div className="absolute inset-0 z-1 ">
+        <Image
+          src="/assets/bg/bg.png"
+          alt=""
+          fill
+          className="object-contain top-[10px] object-bottom-left -z-1"
+          priority
+        />
+      </div>
 
-        <div className="md:w-[85%] min-h-[400px]  mx-auto  p-4 pb-10 h-full ">
+      <div className="relative z-2">
+        <div className="wrapper pb-20 h-full flex flex-col ">
           <div className="flex gap-6 flex-wrap  h-full items-center justify-between pt-[48px]">
             <div className="flex flex-wrap gap-2  md:justify-start md:gap-6     md:max-w-[70%]  grow">
               <CourseInfoBadge
-                value={body?.total_lessons_count}
-                text="فيديوهات"
+                value={details?.total_lessons_count}
+                text="فيديو"
                 icon="/assets/videos-fill.svg"
               />
 
               <CourseInfoBadge
-                value={body?.total_quizzes_count}
-                text="امتحانات"
+                value={details?.total_quizzes_count}
+                text="امتحان"
                 icon="/assets/exam-fill.svg"
               />
               <CourseInfoBadge
-                value={body?.total_assignm_count}
-                text="واجبات"
+                value={details?.total_assignm_count}
+                text="واجب"
                 icon="/assets/assignment-fill.svg"
               />
               <CourseInfoBadge
-                value={body?.totalMaterialCount}
-                text="ملفات"
+                value={details?.totalMaterialCount}
+                text="ملف"
                 icon="/assets/files-fill.svg"
               />
             </div>
 
-            {body?.is_subscriped &&
+            {details?.is_subscriped &&
               (data?.body?.type == 4 || data?.body?.type == 5) && (
-                <SupportBadge gradeId={body?.grade_id} />
+                <SupportBadge gradeId={details?.grade_id} />
               )}
           </div>
 
-          <div className="mt-[56px] flex w-full justify-between">
-            <h2 className=" text-[18px] md:text-[28px] text-white">
+          <div className="mt-14 flex w-full justify-between">
+            <h2 className=" text-[18px] md:text-28 text-white">
               {" "}
-              {body?.classroom}
+              {details?.classroom}
             </h2>
             {subType !== "حصة" &&
-              (body?.classroom_price || body?.is_subscriped) && (
-                <div className="w-[100px] bg-[#F6EADE] text-[12px] md:text-[16px] text-[#523412] font-bold flex items-center justify-center rounded-lg text-center">
-                  {body?.is_subscriped
-                    ? "مشترك"
-                    : `${Number(body?.classroom_price).toFixed(2)} جنيه`}
-                </div>
+              (details?.classroom_price || details?.is_subscriped) && (
+                <PriceBadge price={Number(details?.classroom_price)} />
               )}
           </div>
-          <div className="h-px w-full bg-gray-light my-[12px]" />
-          <h3 className="text-[#F6EADE] text-sm md:text-[20px] mb-[56px]">
-            {body?.grade}
+
+          <div className="h-px w-full bg-gray-light my-3" />
+
+          <h3 className="text-gray-light text-sm md:text-[20px] mb-6 empty:hidden">
+            {details?.grade_name}
           </h3>
 
-          <div className="flex flex-wrap gap-[40px]">
+          <div className="flex flex-wrap gap-10 mt-auto">
             {COURSEDETAILS.map((detail) => {
               if (!detail.title) return;
 
               return (
-                <div
-                  key={detail.label}
-                  className="flex items-center  gap-[8px]"
-                >
-                  <img
-                    className="w-[16px] h-[16px] md:w-[24px] md:h-[24px]"
-                    src={detail.icon}
-                    alt={detail.title}
-                  />
-                  <div className="flex  items-center gap-1">
-                    <h2 className="text-[10px] md:text-sm text-[#DEC5AB] font-bold whitespace-nowrap">
-                      {detail.label}
-                    </h2>
-                    <span className="text-[#DEC5AB] text-[10px] md:text-sm font-medium inline-block whitespace-nowrap">
-                      {detail.title}
-                      {detail.specification}
-                    </span>
-                  </div>
-                </div>
+                <DataWithLabel
+                  className="gap-1"
+                  label={detail.label}
+                  data={detail?.title + " " + (detail?.specification || "")}
+                  labelClassName="text-xs text-gray-light"
+                  dataClassName="text-sm text-white"
+                  icon={
+                    <Image
+                      src={detail.icon}
+                      width={20}
+                      height={20}
+                      alt="calendar icon"
+                    />
+                  }
+                />
               );
             })}
           </div>

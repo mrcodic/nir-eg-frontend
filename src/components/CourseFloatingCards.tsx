@@ -26,7 +26,7 @@ function CourseFloatingCards({
         isCodeCenter={profile && profile?.type == 5}
         price={data?.body?.classroom_price}
         sale={data?.body?.sale}
-        hasCoupon={data?.body?.has_promocode}
+        hasCoupon={data?.body?.has_promocode || true}
       />
     );
 }

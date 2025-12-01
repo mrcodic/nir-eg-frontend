@@ -4,35 +4,48 @@ import CoursesHeader from "@/components/CoursesHeader";
 import { getClientPrivateData } from "@/helpers/client-fetch";
 import { getServerPrivateData } from "@/helpers/server-fetch";
 import ProtectedRoute from "@/layouts/ProtectedRoute";
+import { ICourseDetails } from "@/types";
+import { redirect } from "next/navigation";
 
 const SingleCourse = async ({ params }) => {
   const { SingleCourse } = await params;
-  const profile = await getClientPrivateData({
-    queryKey: [`/students/profile`],
-  });
-  const data = await getServerPrivateData({
-    queryKey: [`/students/get-rooms/${SingleCourse}?page=1&per_page=10`],
-  });
+  const [profileData, bundleRooms] = await Promise.all([
+    getClientPrivateData({
+      queryKey: [`/students/profile`],
+    }),
+    getServerPrivateData<{ body: ICourseDetails }>({
+      queryKey: [`/students/get-rooms/${SingleCourse}?page=1&per_page=10`],
+    }),
+  ]);
 
-  console.log("🚀 ~ data singleCourse: ", data);
+  if (profileData?.body?.has_center === false) {
+    redirect("/profile");
+  }
+
+  console.log("🚀 ~ data singleCourse: ", bundleRooms);
 
   return (
     <ProtectedRoute
       // isLoading={isLoading}
-      data={data}
-      subscribed={profile?.body?.type == 3 ? data?.body?.is_subscriped : true}
+      data={bundleRooms}
+      subscribed={
+        profileData?.body?.type == 3 ? bundleRooms?.body?.is_subscriped : true
+      }
       verify={true}
     >
-      <div className="mt-[80px]">
-        <CoursesHeader body={data?.body} />
+      <div className="mt-20">
+        <CoursesHeader details={bundleRooms?.body} />
 
         <CourseFloatingCards
           SingleCourse={SingleCourse}
-          data={data}
-          profile={profile?.body}
+          data={bundleRooms}
+          profile={profileData?.body}
         />
 
-        <CourseDetails body={data?.body} profileData={profile} />
+        <CourseDetails
+          details={bundleRooms?.body}
+          profile={profileData?.body}
+        />
       </div>
     </ProtectedRoute>
   );

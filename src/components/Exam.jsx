@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useParams } from "next/navigation";
 
-const Exam = ({ exam, isPreviousExam }) => {
+const Exam = ({ exam }) => {
   const { SingleCourse } = useParams();
 
   return (
@@ -55,7 +55,7 @@ const Exam = ({ exam, isPreviousExam }) => {
         <img src="/assets/LeftArrowColor.svg" />
       </Link>
 
-      {isPreviousExam && (
+      {/* {isPreviousExam && (
         <button className="border  font-bold flex gap-2 p-1 self-end rounded-lg w-[136px] border-[#121212]">
           <img src="/assets/CorrectColor.svg" />
           <span className="text-[16px] inline-block text-[#1EAD7B]">ناجح</span>
@@ -72,7 +72,7 @@ const Exam = ({ exam, isPreviousExam }) => {
             </h3>
           </div>
         </button>
-      )}
+      )} */}
     </div>
   );
 };
