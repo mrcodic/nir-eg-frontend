@@ -6,7 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { getPublicData } from "@/helpers/client-fetch";
+import { getClientPrivateData } from "@/helpers/client-fetch";
 import { CommentsData } from "@/types";
 import { secondsToHms } from "@/utils/clientFun";
 import { AccordionContent } from "@radix-ui/react-accordion";
@@ -35,7 +35,7 @@ const Community = ({ lessonId, currentTime, locked }: CommunityProps) => {
   const { data: comments } = useQuery({
     queryKey: [`comments`, lessonId],
     queryFn: async () => {
-      return (await getPublicData({
+      return (await getClientPrivateData({
         queryKey: [`lessons/${lessonId}/comments`],
       })) as CommentsData;
     },
@@ -69,6 +69,8 @@ const Community = ({ lessonId, currentTime, locked }: CommunityProps) => {
   }, [filteredComments, currentPage]);
 
   const totalPages = Math.ceil(filteredComments.length / ITEMS_PER_PAGE);
+
+  console.log(comments);
 
   return (
     <div className="mt-[24px]">
