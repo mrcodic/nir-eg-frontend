@@ -32,7 +32,7 @@ const Tabs3 = [
   // },
   {
     id: 3,
-    title: "درجاتي",
+    title: "الانشطة",
     iconSrc: "/assets/stars-blue.svg",
     value: "activities",
   },

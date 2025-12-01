@@ -7,6 +7,7 @@ function RoomFileDownloadLink({
   verify,
   lock_after,
   index,
+  disabled,
 }: {
   attachment: any;
   room: any;
@@ -14,6 +15,7 @@ function RoomFileDownloadLink({
   verify: any;
   lock_after: any;
   index: any;
+  disabled: any;
 }) {
   return (
     <div

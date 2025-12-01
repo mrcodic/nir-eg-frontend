@@ -138,6 +138,22 @@ const Room = ({
 
           <AccordionContent>
             <div className="mt-6">
+              {(room?.locked_to_pass ||
+                room?.latest_room?.locked_to_pass ||
+                lock_after == 0) && (
+                <div className="flex items-center gap-2 bg-background p-2 rounded-lg border border-gray-light">
+                  <Image
+                    src="/assets/warning-fill.svg"
+                    width={32}
+                    height={32}
+                    alt="warning icon"
+                    className="animate-pulse"
+                  />
+                  <p className="text-lg font-bold">
+                    يجب أن تنجح في الامتحان لتتمكن من عرض محتويات الحصة
+                  </p>
+                </div>
+              )}
               {(room?.latest_room?.quizzes || room?.quizzes) &&
                 (room?.latest_room?.quizzes || room?.quizzes).map(
                   (quiz, index) => {
@@ -163,7 +179,6 @@ const Room = ({
                     <RoomRevision
                       key={index}
                       lesson={lesson}
-                      disabled={room?.quizzes?.must_pass}
                       subscribe={subscribe || room?.is_subscriped}
                       verify={verify || room?.parent_phone_verification}
                       roomId={room?.id}
@@ -186,6 +201,7 @@ const Room = ({
                         attachment={attachment}
                         room={room}
                         subscribe={subscribe || room?.is_subscriped}
+                        disabled={room?.quizzes?.must_pass}
                         verify={verify || room?.parent_phone_verification}
                         lock_after={lock_after}
                         index={index}

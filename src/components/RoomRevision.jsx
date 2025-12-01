@@ -9,7 +9,6 @@ import { Button } from "./ui/button";
 
 const RoomRevision = ({
   lesson,
-  disabled,
   subscribe,
   verify,
   roomId,
