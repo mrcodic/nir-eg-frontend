@@ -1,16 +1,18 @@
 "use client";
 
-import BundlesCom from "@/components/BundlesCom";
 import Courses from "@/components/Courses";
+import LoadingSpinner from "@/components/Loading";
 import NewCourses from "@/components/NewCoursers";
 import { useAuthContext } from "@/context/auth-context";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
-const BundlesWrapper = () => {
+const BundlesPage = () => {
   const searchParams = useSearchParams();
+  const router = useRouter();
+  const { token, profile, isLoading } = useAuthContext();
+
   const grade = searchParams.get("grade");
-  const { token } = useAuthContext();
 
   useEffect(() => {
     const html = document.documentElement;
@@ -23,12 +25,30 @@ const BundlesWrapper = () => {
     }
   }, [grade]);
 
+  useEffect(() => {
+    if (!profile || profile?.type !== 3) return;
+
+    if (profile?.has_center == false) {
+      router.push("/profile");
+    } else {
+      router.push(`/bundles/${profile?.center_id}`);
+    }
+  }, [grade, profile]);
+
+  if (isLoading || profile?.type === 3) {
+    return (
+      <div className="mb-12 mt-[120px] flex items-center justify-center ">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
   return (
     <div className="mb-12 mt-[120px] ">
-      <BundlesCom />
+      {/* <BundlesCom /> */}
       {token && <Courses />}
       <NewCourses />
     </div>
   );
 };
-export default BundlesWrapper;
+export default BundlesPage;

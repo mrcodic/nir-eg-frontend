@@ -84,13 +84,25 @@ const CoursesHeader = ({ details }: { details: ICourseDetails }) => {
 
           <div className="mt-14 flex w-full justify-between">
             <h2 className=" text-[18px] md:text-28 text-white">
-              {" "}
               {details?.classroom}
             </h2>
+
             {subType !== "حصة" &&
-              (details?.classroom_price || details?.is_subscriped) && (
+              (details?.classroom_price || details?.is_subscriped) &&
+              (details?.is_subscriped ? (
+                <span className="text-white bg-semantics-green-dark ps-2 pe-3 rounded-lg flex items-center text-lg gap-2 h-8">
+                  <Image
+                    src="/assets/success.svg"
+                    width={24}
+                    height={24}
+                    className="invert brightness-0"
+                    alt="success icon"
+                  />
+                  <span>مشترك</span>
+                </span>
+              ) : (
                 <PriceBadge price={Number(details?.classroom_price)} />
-              )}
+              ))}
           </div>
 
           <div className="h-px w-full bg-gray-light my-3" />

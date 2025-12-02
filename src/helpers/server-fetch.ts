@@ -26,7 +26,9 @@ const fetcherServer = async <T>(
   }
 
   try {
-    const fullUrl = `${process.env.NEXT_PUBLIC_BASE_URL}${endpoint}`;
+    const fullUrl = `${process.env.NEXT_PUBLIC_BASE_URL}${
+      endpoint.startsWith("/") ? endpoint : `/${endpoint}`
+    }`;
 
     const res = await fetch(fullUrl, {
       headers: {

@@ -113,7 +113,7 @@ const Room = ({
 
                                   modal.openModal();
                                 }}
-                                className="w-[116px] rounded-lg h-[3 text-white border border-[#9D8242] bg-primary text-sm font-bold"
+                                className="w-[116px] rounded-lg h-[3 text-white border border-[#9D8242] bg-primary text-sm font-bold flex items-center justify-center"
                               >
                                 اشترك الآن
                               </div>

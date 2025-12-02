@@ -52,9 +52,7 @@ export const PaymentUI: React.FC<PaymentUIProps> = ({
 
       <h4 className=" text-[18px] font-bold">اختر طريقة الدفع</h4>
 
-      <hr className="h-px w-full border-gray-light my-3" />
-
-      <div className="space-y-2 mb-4">
+      <div className="space-y-2 mb-4 border-t border-gray-light pt-3 mt-3 empty:hidden">
         {!!price && (
           <div className="flex items-center p-2 rounded-lg justify-between gap-3 bg-background">
             <h5 className="text-[#121212] font-bold">السعر</h5>
@@ -81,9 +79,9 @@ export const PaymentUI: React.FC<PaymentUIProps> = ({
             courseId={courseId}
           />
         )}
-
-        <hr className="h-px w-full border-gray-light my-3" />
       </div>
+
+      <hr className="h-px w-full border-gray-light my-3" />
 
       {paymentMethodValue === paymentType.fawerypay && (
         <span className="text-red-600 block text-sm font-bold mb-2 leading-6">
