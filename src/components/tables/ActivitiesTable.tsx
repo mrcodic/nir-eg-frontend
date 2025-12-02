@@ -1,7 +1,7 @@
 "use client";
 
 import { getClientPrivateData } from "@/helpers/client-fetch";
-import { StudentActivity } from "@/types";
+import { InnerPagination, StudentActivity } from "@/types";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useState } from "react";
@@ -69,7 +69,12 @@ export default function ActivitiesTable() {
     pageSize: 5,
   });
 
-  const { data, isLoading, isPlaceholderData } = useQuery({
+  const { data, isLoading, isPlaceholderData } = useQuery<{
+    body: {
+      students: StudentActivity[];
+      pagination: InnerPagination;
+    };
+  }>({
     queryKey: [
       `/students/all-activity?per_page=5&page=${pagination.pageIndex + 1}`,
     ],

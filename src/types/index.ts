@@ -167,16 +167,28 @@ export interface TopStudent {
 export type StudentActivity = {
   title: string;
   type: string;
+
   classroom: string;
-  created_at: string;
-  score: number;
-  passed: boolean;
-  score_ratio?: string;
   classroom_id: number;
+  classroom_active: boolean;
   classroom_expired: boolean;
+  classroom_expires_at: string | null;
+  created_at: string;
+  score: number | null;
+  passed: boolean | null;
+  score_ratio?: string | null;
   room_id: number;
   quiz_id: number;
 };
+
+export interface StudentActivitiesData {
+  classroom_active: boolean;
+  classroom_expired: boolean;
+  expires_at: string;
+  pagination: InnerPagination;
+  remaining_days: number;
+  students: StudentActivity[];
+}
 
 export interface Sale {
   id: number;
@@ -276,7 +288,7 @@ export interface RoomData {
   [key: string]: unknown;
 }
 
-export interface CourseRoomsPagination {
+export interface InnerPagination {
   current_page: number;
   from: number;
   last_page: number;
@@ -302,7 +314,7 @@ export interface ICourseDetails {
 
   last_updated: string;
 
-  pagination: CourseRoomsPagination;
+  pagination: InnerPagination;
 
   parent_phone_verification: boolean;
 

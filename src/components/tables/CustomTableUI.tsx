@@ -72,7 +72,8 @@ export default function CustomTableUI({
                 <TableHead
                   key={header.id}
                   className={cn(
-                    "text-right border-b first:rounded-tr-lg last:rounded-tl-lg"
+                    "text-right border-b first:rounded-tr-lg last:rounded-tl-lg",
+                    header.column.columnDef.meta?.headerClassName
                   )}
                 >
                   {flexRender(
@@ -104,7 +105,10 @@ export default function CustomTableUI({
                 {row.getVisibleCells().map((cell) => (
                   <TableCell
                     key={cell.id}
-                    className={cn(" border-y border-gray-light p-0 py-2")}
+                    className={cn(
+                      " border-b border-gray-light p-0 py-2",
+                      cell.column.columnDef.meta?.cellClassName
+                    )}
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
@@ -117,7 +121,7 @@ export default function CustomTableUI({
 
       {/* Pagination */}
       {data?.length > 0 && (
-        <div className="mt-10 mx-auto flex  justify-between">
+        <div className="mt-10 mx-auto flex  justify-between empty:hidden">
           {table.getCanPreviousPage() && (
             <button
               disabled={!table.getCanPreviousPage() || isPlaceholderData}

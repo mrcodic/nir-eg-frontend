@@ -36,12 +36,12 @@ const Tabs3 = [
     iconSrc: "/assets/stars-blue.svg",
     value: "activities",
   },
-  // {
-  //   id: 4,
-  //   title: "ترتيب الطلاب",
-  //   iconSrc: "/assets/RankColor.svg",
-  //   value: "rank",
-  // },
+  {
+    id: 4,
+    title: "ترتيب الطلاب",
+    iconSrc: "/assets/rank-filled.svg",
+    value: "rank",
+  },
 ];
 
 const CourseDetails = ({ details, profile }: Props) => {
@@ -124,8 +124,8 @@ const CourseDetails = ({ details, profile }: Props) => {
         </div>
       </TabsContent>
 
-      <TabsContent value="exams" className="w-[85%] mx-auto">
-        <div className="mt-[32px]">
+      <TabsContent value="exams" className="wrapper">
+        <div className="mt-8">
           <RoomHeader
             title="الامتحانات القادمة"
             icon="/assets/english-icon.svg"
@@ -151,13 +151,15 @@ const CourseDetails = ({ details, profile }: Props) => {
         </div>
       </TabsContent>
 
-      <TabsContent value="activities" className="w-[85%] mx-auto mt-8">
+      <TabsContent value="activities" className="wrapper mt-8">
         <RoomHeader title="الأنشطة" icon="/assets/star-colored.svg" />
 
         <CourseActivitiesTable />
       </TabsContent>
 
-      <TabsContent value="rank" className="w-[85%] mx-auto mt-8">
+      <TabsContent value="rank" className="wrapper mt-8">
+        <RoomHeader title="ترتيب الطلاب" icon="/assets/rank-colored.svg" />
+
         <RankTable />
       </TabsContent>
     </Tabs>

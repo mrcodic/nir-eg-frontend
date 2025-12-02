@@ -1,7 +1,7 @@
 "use client";
 
 import { getClientPrivateData } from "@/helpers/client-fetch";
-import { StudentActivity } from "@/types";
+import { StudentActivitiesData, StudentActivity } from "@/types";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { createColumnHelper } from "@tanstack/react-table";
 import Link from "next/link";
@@ -77,7 +77,9 @@ export default function CourseActivitiesTable() {
 
   const { SingleCourse } = useParams();
 
-  const { data, isLoading, isPlaceholderData } = useQuery({
+  const { data, isLoading, isPlaceholderData } = useQuery<{
+    body: StudentActivitiesData;
+  }>({
     queryKey: [
       `/students/mywork/${SingleCourse}?per_page=5&page=${
         pagination.pageIndex + 1
