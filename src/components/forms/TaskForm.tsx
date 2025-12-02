@@ -13,6 +13,7 @@ import axios from "axios";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import CustomLoader from "../custom/Loader";
+import { Button } from "../ui/button";
 
 function TaskForm({
   taskId,
@@ -191,7 +192,7 @@ function TaskForm({
         dir="ltr"
       >
         <div id="taskForm" className="flex">
-          <div className="flex-1 lg:ml-[5%] space-y-6">
+          <div className="flex-1  space-y-6">
             {data?.questions?.map((question, index) => {
               if (question.type === 2) {
                 return (
@@ -233,8 +234,8 @@ function TaskForm({
         </div>
 
         {!status && data && (
-          <button
-            className="bg-colorPrimary border-2 flex justify-center border-[#D9B45C] w-[270px] py-2 mt-[40px] text-white rounded-lg font-bold [&_svg]:!size-7"
+          <Button
+            className="ms-auto flex justify-center mt-10 max-w-[172px] w-full [&_svg]:!size-7"
             type="button"
             disabled={isSubmitting}
             onClick={async (e) => {
@@ -245,8 +246,8 @@ function TaskForm({
               form.handleSubmit(onSubmit, onError)();
             }}
           >
-            {isSubmitting ? <CustomLoader /> : "حفظ"}
-          </button>
+            {isSubmitting ? <CustomLoader /> : "حفظ الاجابات"}
+          </Button>
         )}
       </form>
 

@@ -13,7 +13,7 @@ const QuestionHeader = ({
         </h2>
       ) : (
         showSeperator && (
-          <hr className="w-full my-2 border-4 border-double border-[#523412]" />
+          <hr className="w-full my-2 border-2 border-double border-primary-800" />
         )
       )}
 

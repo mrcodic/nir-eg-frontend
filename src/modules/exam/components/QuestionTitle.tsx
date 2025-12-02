@@ -18,6 +18,7 @@ const QuestionTitle = ({ title, video, isSubQuestion }: Props) => {
       <div className="flex justify-between items-center gap-4">
         <div className="mt-4 mb-8 text-[15px] md:text-[18px] text-[#121212] flex items-start gap-1 ">
           {!isSubQuestion && <BookText size={16} className=" shrink-0" />}
+
           {title.trim().startsWith("<") ? (
             <div
               dangerouslySetInnerHTML={{ __html: title }}
