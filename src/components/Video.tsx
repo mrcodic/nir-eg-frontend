@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 
 import TamperResistantOverlay from "@/utils/TamperResistantOverlay";
 import { useQueryClient } from "@tanstack/react-query";
-import { FileWarning } from "lucide-react";
+import { FileWarning, X } from "lucide-react";
 import LoadingSpinner from "./Loading";
 
 type VdoStatusChange =
@@ -346,21 +346,21 @@ export default function Video({
             const inst = playerRef.current;
             inst?.video?.pause?.();
           }}
-          className="absolute z-50 text-primary-800 border border-gray-light transition-all p-2 w-[250px] py-4 rounded-lg right-8 bg-background bottom-14"
+          className="absolute z-5 text-primary-800 border border-gray-light transition-all p-2 w-[250px] py-4 rounded-lg right-8 bg-background bottom-14"
         >
           <div
             onClick={(e) => {
               e.stopPropagation();
               setHideBtn(true);
             }}
-            className="bg-[#F8DEC5] absolute top-2 left-2 rounded-full flex items-center justify-center w-[16px] h-[16px]"
+            className="absolute bg-semantics-red-light top-2 left-2 rounded-full flex items-center justify-center size-4"
           >
-            <Image src="/assets/Close.svg" width={12} height={12} alt="Close" />
+            <X className="stroke-semantics-red size-3" />
           </div>
 
           <div className="flex items-center gap-2">
             <Image
-              src="/assets/icon-1.svg"
+              src="/assets/question-icon.svg"
               width={32}
               height={32}
               alt="icon-1"

@@ -1,12 +1,13 @@
 "use client";
 
+import RoomViewLimitBanner from "@/components/RoomViewLimitBanner";
 import SelectedLesson from "@/components/SelectedLesson";
 import Video from "@/components/Video";
 import { useAuthContext } from "@/context/auth-context";
 import { getClientPrivateData } from "@/helpers/client-fetch";
 import ProtectedRoute from "@/layouts/ProtectedRoute";
 import Community from "@/modules/community/components/Community";
-import { ApiResponse, RoomData } from "@/types";
+import { ApiResponse, IRoomDetails } from "@/types";
 import DisableDevTools from "@/utils/DisableDivTools";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -28,7 +29,7 @@ const SingleVideo = () => {
   const { profile } = useAuthContext();
 
   const { data, isLoading } = useQuery({
-    queryFn: getClientPrivateData as () => Promise<ApiResponse<RoomData>>,
+    queryFn: getClientPrivateData as () => Promise<ApiResponse<IRoomDetails>>,
     queryKey: [`/students/get-lessons/${room}`],
   });
 
@@ -134,58 +135,49 @@ const SingleVideo = () => {
         data={data}
         isLoading={isLoading}
       >
-        <div className="mt-[110px]">
-          <div className="w-[90%] mx-auto">
-            <div className="flex flex-col-reverse lg:flex-row py-8 gap-8">
-              <div className="w-full   flex lg:w-[28%] p-2">
-                <SelectedLesson
-                  data={data?.body}
+        <div className="wrapper mt-[110px]">
+          <div className="flex flex-col-reverse lg:flex-row py-8 gap-6">
+            <div className="w-full flex lg:w-[30%] ">
+              <SelectedLesson
+                data={data?.body}
+                videoId={videoId}
+                sendData={handleLessonSelect}
+                locked={data?.body?.locked_to_pass}
+                // setLessonId={setLessonId}
+                // setVideoId={setVideoId}
+              />
+            </div>
+
+            <div className="flex-1 flex flex-col lg:w-[calc(70%-1.5rem)] ">
+              <div className="relative">
+                {viewCount && <RoomViewLimitBanner viewCount={viewCount} />}
+
+                <Video
                   videoId={videoId}
-                  sendData={handleLessonSelect}
-                  locked={data?.body?.locked_to_pass}
-                  // setLessonId={setLessonId}
-                  // setVideoId={setVideoId}
+                  roomId={Number(room)}
+                  setCurrentTime={setCurrentTime}
+                  classroomId={Number(classroomId)}
+                  response={otpData}
+                  locked={data?.body?.locked_to_pass || lockedByViewLimit}
+                  lessonId={lessonId || data?.body?.lessons?.[0]?.id}
+                  videoCompleted={videoCompleted}
+                  exceededViews={lockedByViewLimit}
+                  otpError={otpError}
+                  // ref={communityRef}
+                  // iframeRef={iframeRef}
                 />
               </div>
 
-              <div className="flex-1 flex flex-col ">
-                <div>
-                  {viewCount && (
-                    <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4 rounded">
-                      عدد المشاهدات المسموح هو{" "}
-                      <strong>{viewCount.total_views}</strong>، متبقي لك{" "}
-                      <strong>{viewCount.remaining}</strong> مشاهدة ويتم احتساب
-                      المشاهدة بعد اول 15 دقيقة في الفيديو.
-                    </div>
-                  )}
-
-                  <Video
-                    videoId={videoId}
-                    roomId={Number(room)}
-                    setCurrentTime={setCurrentTime}
-                    classroomId={Number(classroomId)}
-                    response={otpData}
+              {(profile?.type === 4 || profile?.type === 5) &&
+                !(data?.body?.locked_to_pass || lockedByViewLimit) && (
+                  <Community
+                    key={lessonId}
+                    currentTime={currentTime}
                     locked={data?.body?.locked_to_pass || lockedByViewLimit}
                     lessonId={lessonId || data?.body?.lessons?.[0]?.id}
-                    videoCompleted={videoCompleted}
-                    exceededViews={lockedByViewLimit}
-                    otpError={otpError}
                     // ref={communityRef}
-                    // iframeRef={iframeRef}
                   />
-                </div>
-
-                {(profile?.type === 4 || profile?.type === 5) &&
-                  !(data?.body?.locked_to_pass || lockedByViewLimit) && (
-                    <Community
-                      key={lessonId}
-                      currentTime={currentTime}
-                      locked={data?.body?.locked_to_pass || lockedByViewLimit}
-                      lessonId={lessonId || data?.body?.lessons?.[0]?.id}
-                      // ref={communityRef}
-                    />
-                  )}
-              </div>
+                )}
             </div>
           </div>
         </div>

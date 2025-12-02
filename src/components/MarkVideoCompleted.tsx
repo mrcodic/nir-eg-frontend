@@ -1,15 +1,15 @@
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import Image from "next/image";
+import { Check } from "lucide-react";
 import { useState } from "react";
 import { FaSpinner } from "react-icons/fa";
 
 type Props = {
   isCompleted: boolean;
-  roomId: string;
+  roomId: string | number;
   classroomId: string;
-  lessonId: string;
+  lessonId: string | number;
 };
 
 function MarkVideoCompleted({
@@ -67,10 +67,9 @@ function MarkVideoCompleted({
   }
 
   return (
-    <div className="flex gap-2 items-center">
-      <Image src="/assets/Done.svg" width={20} height={20} alt="lesson done" />
-
-      <span className="text-xs font-bold text-primary-800">تم الانتهاء</span>
+    <div className="flex gap-2 items-center bg-semantics-green-dark p-2 rounded-lg">
+      <span className="text-sm font-bold text-white">تم الانتهاء</span>
+      <Check className="size-4 text-white" />
     </div>
   );
 }

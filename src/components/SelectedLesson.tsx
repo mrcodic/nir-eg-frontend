@@ -1,15 +1,18 @@
 "use client";
 
 import LinkLocked from "@/layouts/LinkLocked";
+import { IRoomDetails } from "@/types";
 import { convertMinutes } from "@/utils/clientFun";
+import { ChevronLeft, ChevronRight, Download } from "lucide-react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { memo } from "react";
 import MarkVideoCompleted from "./MarkVideoCompleted";
+import { Button } from "./ui/button";
 
 type SelectedLessonProps = {
-  data: any;
-  sendData: (videoId: string, lessonId: string) => void;
+  data: IRoomDetails;
+  sendData: (videoId: string, lessonId: string | number) => void;
   locked: boolean;
   videoId: string;
 };
@@ -23,8 +26,10 @@ const SelectedLesson = ({
   const { SingleCourse, room } = useParams();
   const router = useRouter();
 
+  console.log(data);
+
   return (
-    <div className="bg-[#f9fafc] overflow-y-auto max-h-[1400px] w-full border border-primary rounded-lg p-4">
+    <div className="overflow-y-auto max-h-[1400px] w-full border border-gray-light rounded-lg p-4">
       <div className="flex items-center gap-2">
         <img src={"/assets/teacher.png"} className="w-[80px] h-[73.059px]" />
 
@@ -34,42 +39,45 @@ const SelectedLesson = ({
           </h1>
         </div>
       </div>
-      <div
+
+      <Button
         onClick={() => {
           router.push(`/bundles/${SingleCourse}`);
         }}
-        className="border border-gray-light cursor-pointer flex items-center justify-center bg-primary-800 mt-[24px] py-2 text-white rounded-lg w-full"
+        className="mt-6 w-full bg-white text-primary-800 [&>svg]:size-6 text-base font-bold border border-primary-800 py-2.5 h-11 hover:bg-primary-800 hover:text-white group"
       >
-        <img src="/assets/LeftArrowColor.svg" />
+        <ChevronRight className="stroke-primary-800 group-hover:stroke-white" />
         <span>العودة للكورس</span>
-      </div>
+      </Button>
 
       <div className="h-px w-full bg-gray-light my-4" />
       {!!data?.quizzes?.length && (
-        <>
-          <h3 className="text-gray-dark text-[12px] font-bold">الامتحانات</h3>
+        <div>
+          <h3 className="text-gray-dark text-xs font-bold">الامتحانات</h3>
           {data?.quizzes.map((quiz) => {
             return (
               <div
                 key={quiz.id}
-                className="flex items-center px-[8px] py-[12px] rounded-lg bg-white mt-[15px] justify-between"
+                className="flex items-center px-2 py-3 rounded-lg border border-gray-light shadow-sm bg-white mt-4 justify-between"
               >
                 <div className="flex gap-2">
-                  <img src="/assets/exam-fill.svg" />
-                  <h2 className="text-sm font-bold text-[#121212] break-all">
+                  <img src="/assets/exam-fill.svg" className="size-6" />
+                  <h3 className="text-sm font-bold truncate break-all">
                     {quiz?.title}
-                  </h2>
+                  </h3>
                 </div>
-                <div className="rounded-lg h-[32px] border text-white border-gray-light flex justify-center items-center bg-primary w-[68px]">
-                  <Link href={`${room}/exams/${quiz.id}`}>
-                    <img src="/assets/DownloadColor.svg" />
-                  </Link>
-                </div>
+
+                <Link
+                  href={`${room}/exams/${quiz.id}`}
+                  className="flex items-center justify-center size-9 bg-primary-800 rounded-lg"
+                >
+                  <ChevronLeft className="stroke-white size-5" />
+                </Link>
               </div>
             );
           })}
           <div className="h-px w-full bg-gray-light my-4" />
-        </>
+        </div>
       )}
 
       {data?.lessons?.map((lesson) => (
@@ -79,27 +87,24 @@ const SelectedLesson = ({
             if (locked) return;
             sendData(lesson?.vedio_id, lesson?.id);
           }}
-          className={` bg-white border cursor-pointer ${
+          className={`  border cursor-pointer ${
             videoId !== lesson?.vedio_id
-              ? "border-[#1EAD7B]  "
-              : "border-primary-800 bg-background!"
-          } rounded-lg mb-[12px] px-[8px]  py-[12px]`}
+              ? "border-[#1EAD7B]  bg-white"
+              : "border-primary-800 bg-background"
+          } rounded-lg mb-3 px-2  py-3`}
         >
           <div className="flex text-sm items-center font-bold gap-4">
-            <img src="/assets/videos-fill.svg" className="w-[24px] h-[24px]" />
+            <img src="/assets/videos-fill.svg" className="size-6" />
             <h3>{lesson?.title}</h3>
           </div>
 
-          <div className="mr-10 flex justify-between mt-[8px]">
+          <div className="mr-10 flex justify-between mt-2">
             <div className="flex items-center gap-2">
-              <img className="w-[20px] h-[20px]" src="/assets/time.svg" />
-              <span className="text-[#523412] flex gap-1 text-[12px] font-medium">
-                {" "}
-                <span>
-                  {isFinite(Number(lesson?.duration))
-                    ? convertMinutes(Number(lesson.duration))
-                    : lesson.duration}
-                </span>
+              <img className="size-5" src="/assets/time.svg" />
+              <span className=" flex gap-1 text-xs font-medium">
+                {isFinite(Number(lesson?.duration))
+                  ? convertMinutes(Number(lesson.duration))
+                  : lesson.duration}
               </span>
             </div>
 
@@ -122,24 +127,26 @@ const SelectedLesson = ({
             return (
               <div
                 key={attachment.name}
-                className="flex items-center mb-[8px] px-[8px] py-[12px] bg-white rounded-lg mt-[10px] justify-between"
+                className="flex gap-2 items-center mb-2 px-2 py-3 bg-white rounded-lg border border-gray-light shadow-sm mt-2.5 justify-between"
               >
                 <div className="flex gap-2">
-                  <img src="/assets/files-fill.svg" />
-                  <h2 className="text-sm font-bold text-[#121212]">
+                  <img src="/assets/files-fill.svg" className="size-6" />
+                  <h4 className="text-sm font-bold truncate  break-all">
                     {attachment.name}
-                  </h2>
+                  </h4>
                 </div>
-                <LinkLocked locked={locked}>
-                  <a
+
+                <LinkLocked
+                  locked={locked}
+                  className="flex items-center justify-center size-9 bg-primary-800 rounded-lg"
+                >
+                  <button
                     onClick={() => {
                       window.open(attachment.url, "_blank");
                     }}
-                    download
-                    className="rounded-lg cursor-pointer h-[32px] border border-gray-light flex justify-center items-center bg-primary w-[68px]"
                   >
-                    <img src="/assets/DownloadColor.svg" />
-                  </a>
+                    <Download className="stroke-white size-5" />
+                  </button>
                 </LinkLocked>
               </div>
             );
@@ -149,26 +156,27 @@ const SelectedLesson = ({
 
       {!!data?.assignments?.length && (
         <div>
-          <h3 className="text-[12px] text-gray-dark font-bold">الواجبات</h3>
+          <h3 className="text-xs text-gray-dark font-bold">الواجبات</h3>
 
           {data?.assignments.map((ass) => {
             return (
               <div
                 key={ass?.id}
-                className="flex items-center px-[8px] py-[12px] rounded-lg bg-white mt-[15px] justify-between"
+                className="flex gap-2 items-center px-2 py-3 rounded-lg border border-gray-light shadow-sm bg-white mt-4 justify-between"
               >
                 <div className="flex gap-2">
-                  <img src="/assets/assignment-fill.svg" />
-                  <h2 className="text-sm font-bold text-[#121212] break-all">
+                  <img src="/assets/assignment-fill.svg" className="size-6" />
+                  <h2 className="text-sm font-bold truncate break-all">
                     {ass?.title}
                   </h2>
                 </div>
+
                 <LinkLocked locked={locked}>
                   <Link
                     href={`/bundles/${SingleCourse}/${room}/assignment/${ass.id}`}
-                    className="rounded-lg h-[32px] border border-gray-light flex justify-center items-center bg-primary w-[68px]"
+                    className="flex items-center justify-center size-9 bg-primary-800 rounded-lg"
                   >
-                    <img src="/assets/DownloadColor.svg" />
+                    <ChevronLeft className="stroke-white size-5" />
                   </Link>
                 </LinkLocked>
               </div>
@@ -176,53 +184,6 @@ const SelectedLesson = ({
           })}
         </div>
       )}
-
-      <div className="mt-[16px]">
-        {data?.room?.assignments && (
-          <>
-            <h3 className="text-gray-dark text-[12px] font-bold">
-              الامتحانات و الواجبات
-            </h3>
-
-            <div
-              style={{
-                boxShadow: "0px 2px 10px 4px rgba(157,130,66,0.20)",
-              }}
-              className="p-2 mt-[8px] bg-white flex text-sm text-[#121212] border rounded-md border-[#1EAD7B]"
-            >
-              <img src="/assets/files-fill.svg" />
-              <span>لقد نجحت في الامتحان و حصلت على</span>
-
-              <div className="relative font-bold right-1 top-0 text-nowrap">
-                {" "}
-                <h3
-                  style={{
-                    WebkitTextFillColor: "white",
-                    WebkitTextStrokeWidth: 1,
-                    WebkitTextStrokeColor: "#d9b45c",
-                  }}
-                  className="textStroke text-[18px] absolute flex items-center -top-[2px]  z-0"
-                >
-                  {" "}
-                  90%
-                </h3>
-                <h3 className="text-[#1EAD7B] flex items-center absolute z-10 text-[18px]">
-                  90%
-                </h3>
-              </div>
-              <button className=" w-[67px] flex gap-2  rounded-lg mr-[50px] mt-[2px] border border-[#121212]">
-                <img
-                  className="w-[20px]  h-[20px]"
-                  src="/assets/CorrectColor.svg"
-                />
-                <span className="text-[#1EAD7B] text-[12px] inline-block font-bold">
-                  ناجح
-                </span>
-              </button>
-            </div>
-          </>
-        )}
-      </div>
     </div>
   );
 };

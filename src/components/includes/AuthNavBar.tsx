@@ -5,13 +5,10 @@ import { usePathname } from "next/navigation";
 
 import { useAuthContext } from "@/context/auth-context";
 
-import NavCartButton from "@/modules/books-store/components/NavCartButton";
 import NavNotifications from "@/modules/norifications/components/NavNotifications";
-import { BookLinksSettings } from "@/types/books.types";
 import LinkStyled from "./LinkStyled";
 import MobileDropDown from "./MobileDropDown";
 import NavUserMenu from "./NavUserMenu";
-import WrapperHOC from "./WrapperHOC";
 
 const AuthNavBar = () => {
   const pathName = usePathname();
@@ -31,10 +28,10 @@ const AuthNavBar = () => {
       title: "الدرجات",
       href: "/grades",
     },
-    // {
-    //   title: "متجر النقاط",
-    //   href: "/store",
-    // },
+    {
+      title: "متجر النقاط",
+      href: "/store",
+    },
   ];
 
   const STUDENTSOFFLINELINKS = [
@@ -52,10 +49,10 @@ const AuthNavBar = () => {
       href: "/grades",
     },
 
-    // {
-    //   title: "متجر النقاط",
-    //   href: "/store",
-    // },
+    {
+      title: "متجر النقاط",
+      href: "/store",
+    },
   ];
 
   return (
@@ -85,23 +82,23 @@ const AuthNavBar = () => {
               />
             ))}
 
-            <WrapperHOC queryKey={["settings/books"]}>
+            {/* <WrapperHOC queryKey={["settings/books"]}>
               {({ data }: { data: { data: BookLinksSettings } }) => {
                 const booksData = data?.data;
                 if (!booksData?.links?.length) return null;
 
                 return <LinkStyled href={"/books"} title="متجر الكتب" />;
               }}
-            </WrapperHOC>
+            </WrapperHOC> */}
           </ul>
 
           <div className="flex gap-4 mobile:gap-6">
-            <WrapperHOC queryKey={["settings/books"]}>
+            {/* <WrapperHOC queryKey={["settings/books"]}>
               {({ data }: { data: { data: BookLinksSettings } }) => {
                 if (data?.data?.hide_books) return;
                 return <NavCartButton />;
               }}
-            </WrapperHOC>
+            </WrapperHOC> */}
 
             <NavNotifications />
 

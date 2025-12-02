@@ -288,6 +288,18 @@ export interface RoomData {
   [key: string]: unknown;
 }
 
+export interface IRoomDetails {
+  assignments: Assignment[];
+  is_subscriped: boolean;
+  lessons: Lesson[];
+  locked_to_pass: boolean;
+  parent_phone_verification: boolean;
+  quizzes: any[];
+  room: RoomData;
+  student_phone_verification: boolean;
+  subscription_type: string;
+}
+
 export interface InnerPagination {
   current_page: number;
   from: number;

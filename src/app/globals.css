@@ -50,6 +50,7 @@
   --color-semantics-red-light: hsla(0, 66%, 94%, 1);
   --color-semantics-green: hsla(101, 43%, 58%, 1);
   --color-semantics-green-light: hsla(100, 43%, 92%, 1);
+  --color-semantics-green-dark: hsla(101, 31%, 52%, 1);
 
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
