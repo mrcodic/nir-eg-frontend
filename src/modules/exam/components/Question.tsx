@@ -4,6 +4,16 @@ import AnswerOption from "./AnswerOption";
 import QuestionHeader from "./QuestionHeader";
 import QuestionTitle from "./QuestionTitle";
 
+type Props = {
+  question: any;
+  index: number;
+  form: any;
+  status: any;
+  listRef: any;
+  isAnswer: boolean;
+  isSubQuestion?: boolean;
+};
+
 const Question = ({
   question,
   index,
@@ -12,12 +22,11 @@ const Question = ({
   listRef,
   isAnswer,
   isSubQuestion,
-}) => {
+}: Props) => {
   const error = form?.formState?.errors?.questions?.[question?.id];
   const notSolvedQuestion =
-    isAnswer && question.answers.every((el) => !el.selected);
+    isAnswer && question.answers.some((el) => !el.selected && el.correct);
 
-  //
   return (
     <div
       ref={(el) => {
@@ -27,16 +36,27 @@ const Question = ({
       id={isSubQuestion ? `sub-question-${index}` : `question-${index}`}
     >
       <div className="flex  gap-2  flex-col">
+        <QuestionHeader
+          showQuestionNumber={isSubQuestion}
+          showSeperator={index > 0}
+          index={index}
+          error={error || notSolvedQuestion}
+          multiCorrect={question?.has_multi_correct}
+        />
+
         {question?.has_multi_correct && (
-          <p className="font-bold text-primary self-end w-fit">
+          <p className="font-bold text-colorPrimary self-end w-fit">
             يوجد اكثر من اجابة
           </p>
         )}
-        <QuestionHeader index={index} error={error || notSolvedQuestion} />
       </div>
 
       <div dir="ltr" className="space-y-4">
-        <QuestionTitle title={question.title} video={question?.answer_video} />
+        <QuestionTitle
+          title={question.title}
+          video={question?.answer_video}
+          isSubQuestion={isSubQuestion}
+        />
 
         <FormField
           control={form.control}

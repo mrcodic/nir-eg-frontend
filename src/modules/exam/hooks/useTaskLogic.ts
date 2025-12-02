@@ -2,15 +2,16 @@ import { useTaskContext } from "@/context/TaskProvider";
 import { getClientPrivateData } from "@/helpers/client-fetch";
 import { useToast } from "@/hooks/use-toast";
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export const useTaskLogic = (options: {
   onInitialize?: (val: boolean) => void;
   shouldStartQuiz?: (start: any) => void;
+  onRetakeSuccess?: () => void;
 }) => {
   const { toast } = useToast();
   const isInit = useRef(false);
-  const { onInitialize, shouldStartQuiz } = options || {};
+  const { onInitialize, shouldStartQuiz, onRetakeSuccess } = options || {};
 
   const { form, taskId, start, data, setData } = useTaskContext();
 
@@ -19,6 +20,47 @@ export const useTaskLogic = (options: {
   const [sure, setSure] = useState(false);
   const [resolver, setResolver] = useState(null);
   const [status, setStatus] = useState(false);
+
+  const retakeExamLogic = useCallback(async () => {
+    try {
+      const q = await getClientPrivateData({
+        queryKey: [`students/quiz/questions/${taskId}`],
+      });
+
+      setData(q?.body);
+      setSuccess(false);
+      setFail(false);
+      form.clearErrors();
+      form.reset();
+
+      onRetakeSuccess?.();
+    } catch (e) {
+      console.log("retake error:", e);
+      toast({
+        description: e.response?.data?.error?.message || "An error occurred",
+        icon: "error",
+      });
+    }
+  }, []);
+
+  // handle when success model is opened telling exam is still being graded then get graded
+  useEffect(() => {
+    if (!success) return;
+    if (start?.score_ratio && !start.result) {
+      console.log("cloooooose success modal");
+      setSuccess(false);
+      setFail(true);
+    }
+  }, [success, start?.score_ratio, start?.result]);
+
+  // hide success and fail model if an instructor checked an exam to be retaken while a model is open
+  useEffect(() => {
+    if ((success || fail) && !start?.score_ratio && !start?.review_pending) {
+      console.log("retake from dashboard");
+
+      retakeExamLogic();
+    }
+  }, [success, fail, start]);
 
   // ============= INITIALIZATION =============
   useEffect(() => {
@@ -49,8 +91,10 @@ export const useTaskLogic = (options: {
         }
 
         if ((start.result && !fail) || start?.review_pending) {
+          console.log("✨ showing success");
           setSuccess(true);
         } else {
+          console.log("💥 showing fail");
           setFail(true);
         }
       }
@@ -82,21 +126,11 @@ export const useTaskLogic = (options: {
   };
 
   // ============= RETAKE QUIZ =============
-  const retake = async (onRetakeSuccess?: () => void) => {
+  const retake = async () => {
     try {
       await axios.post(`/api?url=students/quiz/retake/${taskId}`, {});
 
-      const q = await getClientPrivateData({
-        queryKey: [`students/quiz/questions/${taskId}`],
-      });
-
-      setData(q?.body);
-      setSuccess(false);
-      setFail(false);
-      form.clearErrors();
-      form.reset();
-
-      onRetakeSuccess?.();
+      await retakeExamLogic();
     } catch (e) {
       console.log("retake error:", e);
       toast({

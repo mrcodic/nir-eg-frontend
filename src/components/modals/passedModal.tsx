@@ -18,10 +18,10 @@ export default function Passed({
 
   return (
     <>
-      {open && !start?.review_pending && (
+      {open && start?.result && (
         <>
           <DotLottieReact
-            className="w-full h-screen! mx-auto absolute top-0 right-0  z-9999999999! "
+            className="w-full !h-screen mx-auto absolute top-0 right-0  !z-[9999999999] "
             src="/Animations/Celeberation.json"
             autoplay
           />
@@ -31,7 +31,7 @@ export default function Passed({
         <DialogContent className="p-8 max-w-xl bg-white rounded-lg shadow-lg">
           <div className="">
             <div className=" ">
-              {!start?.review_pending && (
+              {!start?.review_pending && start?.result && (
                 <DotLottieReact
                   className="w-[112px] h-[112px] mx-auto"
                   src="/Animations/Confetti.json"
@@ -54,28 +54,10 @@ export default function Passed({
                       <div className="flex items-center gap-2">
                         <img src="/assets/CorrectColor.svg" />
                         <span className="text-[#121212] inline-block text-lg font-bold">
-                          عمل رائع! جاوبت على
+                          عمل رائع! حصلت على
                         </span>
                       </div>
                       <TaskModelScore score={score} />
-
-                      {/* <div className="relative font-bold -top-2 text-nowrap">
-                        {" "}
-                        <h3
-                          style={{
-                            WebkitTextFillColor: "white",
-                            WebkitTextStrokeWidth: 1,
-                            WebkitTextStrokeColor: "#d9b45c",
-                          }}
-                          className="textStroke text-[32px] absolute flex items-center -top-[2px]  z-0"
-                        >
-                          {" "}
-                          {score + " "}اسئلة
-                        </h3>
-                        <h3 className="text-[#1EAD7B] flex items-center absolute z-10 text-[32px]">
-                          {score + " "}اسئلة
-                        </h3>
-                      </div> */}
                     </>
                   )}
                 </div>
@@ -83,7 +65,7 @@ export default function Passed({
 
               {start?.review_pending ? (
                 <>
-                  <div className="h-px my-[12px] bg-gray-light" />
+                  <div className="h-[1px] my-[12px] bg-[#D9B45C]" />
 
                   <p className="text-[18px] text-[#121212] font-medium mt-6">
                     ستتمكن من عرض اجاباتك بعد تصحيح الامتحان
@@ -91,7 +73,7 @@ export default function Passed({
                 </>
               ) : (
                 <>
-                  <div className="h-px my-[12px] bg-gray-light" />
+                  <div className="h-[1px] my-[12px] bg-[#D9B45C]" />
                   <span className="text-[#121212] inline-block font-medium">
                     إذا قمت بعرض الإجابات مرة أخرى لن تتمكن من إعادة الامتحان
                   </span>
@@ -113,14 +95,14 @@ export default function Passed({
                       {start?.show_answer && (
                         <button
                           onClick={showAnswers}
-                          className=" w-full md:w-[172px] bg-primary h-[32px] text-sm font-bold text-white rounded-md border border-gray-light"
+                          className=" w-full md:w-[172px] bg-colorPrimary h-[32px] text-[14px] font-bold text-white rounded-md border border-[#D9B45C]"
                         >
                           عرض الإجابات
                         </button>
                       )}
                       {start?.retake && (
                         <button
-                          className="bg-primary-800 py-1 w-full md:w-[172px] borer border-primary px-[12px] font-bold text-white text-sm rounded-lg"
+                          className="bg-[#D9B45C] py-1 w-full md:w-[172px] borer border-colorPrimary px-[12px] font-bold text-white text-[14px] rounded-[8px]"
                           onClick={retake}
                         >
                           إعادة الامتحان
@@ -130,7 +112,7 @@ export default function Passed({
                   )}
 
                   <Link href={`/bundles/${SingleCourse}/${room}`}>
-                    <button className="w-[172px] border border-primary h-[32px] text-sm font-bold text-[#121212] rounded-md">
+                    <button className="w-[172px] border border-colorPrimary h-[32px] text-[14px] font-bold text-[#121212] rounded-md">
                       الرجوع للحصه
                     </button>
                   </Link>

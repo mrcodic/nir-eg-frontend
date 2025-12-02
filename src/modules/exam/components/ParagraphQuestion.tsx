@@ -11,6 +11,11 @@ const ParagraphQuestion = ({
   listRef,
   isAnswer,
 }) => {
+  const allQuestionsAnswers =
+    isAnswer && question?.related_questions?.flatMap((el) => el?.answers);
+  const notSolvedQuestion =
+    isAnswer && allQuestionsAnswers.some((el) => !el.selected && el.correct);
+
   return (
     <div
       ref={(el) => {
@@ -21,11 +26,20 @@ const ParagraphQuestion = ({
     >
       <QuestionHeader
         index={index}
-        error={form?.formState?.errors?.questions?.[question?.id]}
+        error={
+          form?.formState?.errors?.questions?.[question?.id] ||
+          notSolvedQuestion
+        }
+        showSeperator={index > 0}
+        multiCorrect={true}
       />
 
       <div dir="ltr space-y-2">
-        <QuestionTitle title={question.title} video={question?.answer_video} />
+        <QuestionTitle
+          title={question.title}
+          video={question?.answer_video}
+          isSubQuestion={false}
+        />
 
         <div className="pl-8 space-y-4 border-l border-gray-200">
           {question?.related_questions?.map((relatedQuestion, idx) => (

@@ -1,6 +1,24 @@
+import { MyTimer } from "@/components/CountdownTimer";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-function ExamSideInfo({ start, data, setShowRoom, defaultTitle = "امتحان" }) {
+type Props = {
+  start: any;
+  data: any;
+  setShowRoom: any;
+  defaultTitle?: string;
+  startTimer?: boolean;
+  onComplete?: () => void;
+};
+
+function ExamSideInfo({
+  startTimer,
+  start,
+  data,
+  setShowRoom,
+  defaultTitle = "امتحان",
+  onComplete,
+}: Props) {
   return (
     <div className="md:min-w-[280px] flex flex-col items-center justify-center border rounded-lg p-4 border-primary-800  max-h-[329px] bg-[#F9FAFC]">
       <h2 className="text-[20px] text-[#121212] text-right  mb-2 font-bold break-all">
@@ -50,15 +68,26 @@ function ExamSideInfo({ start, data, setShowRoom, defaultTitle = "امتحان" 
         </div>
       )}
 
-      <button
+      <Button
         onClick={() => {
           setShowRoom(true);
         }}
-        className="bg-primary text-sm mt-[16px] text-white font-bold w-[159px] gap-2 rounded-[10px] flex justify-center items-center py-2 border border-gray-light"
+        variant="outline"
+        className="border-primary-800 text-primary-800 hover:bg-primary-800 w-full h-11 text-base mt-4"
       >
-        <img className="w-[20px] h-[20px]" src="/assets/Details.svg" />
         <span>عرض الحصة</span>
-      </button>
+      </Button>
+
+      {startTimer && (
+        <div className="mt-4 bg-white text-black border border-secondary relative font-bold text-40 w-full text-center flex flex-col p-4 rounded-lg gap-4">
+          <p className="text-sm">باقي من وقت الامتحان</p>
+          <MyTimer
+            start={startTimer}
+            minutes={start?.timer}
+            onComplete={onComplete}
+          />
+        </div>
+      )}
     </div>
   );
 }

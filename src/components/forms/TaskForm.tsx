@@ -10,6 +10,7 @@ import Question from "@/modules/exam/components/Question";
 import WrittenQuestion from "@/modules/exam/components/WrittenQuestion";
 import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import Link from "next/link";
 import { useEffect, useRef } from "react";
 import CustomLoader from "../custom/Loader";
 
@@ -27,8 +28,14 @@ function TaskForm({
   const queryClient = useQueryClient();
   const listRef = useRef([]);
 
-  const { data, isSubmitting, setIsSubmitting, completed, setCompleted } =
-    useTaskContext();
+  const {
+    data,
+    isSubmitting,
+    setIsSubmitting,
+    completed,
+    setCompleted,
+    isLoading,
+  } = useTaskContext();
 
   // ============= AUTO-SUBMIT ON COMPLETION =============
   useEffect(() => {
@@ -155,6 +162,25 @@ function TaskForm({
     form.handleSubmit(onSubmit(form.getValues()))();
   };
 
+  if (isLoading)
+    return (
+      <div className="flex items-center justify-center min-h-40">
+        <CustomLoader />
+      </div>
+    );
+
+  if (!data?.questions?.length)
+    return (
+      <div className="flex items-center justify-center min-h-40">
+        <Link
+          href="/grades"
+          className="bg-primary text-white px-2 py-1 rounded-lg font-bold cursor-pointer"
+        >
+          الذهاب الى الدرجات
+        </Link>
+      </div>
+    );
+
   return (
     <Form {...form}>
       <form
@@ -208,7 +234,7 @@ function TaskForm({
 
         {!status && data && (
           <button
-            className="bg-primary border-2 flex justify-center border-gray-light w-[270px] py-2 mt-[40px] text-white rounded-lg font-bold"
+            className="bg-colorPrimary border-2 flex justify-center border-[#D9B45C] w-[270px] py-2 mt-[40px] text-white rounded-lg font-bold [&_svg]:!size-7"
             type="button"
             disabled={isSubmitting}
             onClick={async (e) => {

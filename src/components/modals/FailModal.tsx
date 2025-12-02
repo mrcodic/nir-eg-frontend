@@ -27,27 +27,22 @@ export default function Fail({
                 autoplay
                 loop
               />
-              {/* <DotLottieReact
-                  className="w-[112px] h-[112px] mx-auto"
-                  src="/Animations/fail.json"
-                  autoplay
-                  loop
-                /> */}
 
               <div className="flex gap-3 mt-[32px] flex-wrap ">
                 <div className="flex items-center gap-2">
                   <img src="/assets/Close2.svg" />
                   <span className="text-[#121212] inline-block text-lg font-bold">
-                    لا بأس، جاوبت على
+                    لا بأس، حصلت على
                   </span>
                 </div>
                 <TaskModelScore score={score} pass={false} />
               </div>
 
-              <div className="h-px my-[12px] bg-gray-light" />
+              <div className="h-[1px] my-[12px] bg-[#D9B45C]" />
               <span className="text-[#121212] inline-block font-medium">
                 إذا قمت بعرض الإجابات مرة أخرى لن تتمكن من إعادة الامتحان
               </span>
+
               {/* <p className="text-[18px] text-[#121212] font-medium mt-[24px]">
                 يمكنك تنزيل نموذج الإجابة بالكامل أو يمكنك تنزيل إجابات الأسئلة
                 التي قمت بالإخطاء في الإجابة عنها
@@ -55,28 +50,28 @@ export default function Fail({
               <div className="mb-[32px] flex justify-center items-center w-full mx-auto mt-[32px]">
                 <div
                   className={cn("grid md:grid-cols-2 justify-center gap-6", {
-                    "md:grid-cols-1": !start?.retake,
+                    "md:grid-cols-1": !start?.retake && !start?.show_answer,
                   })}
                 >
-                  {/* {start?.show_answer && (
+                  {start?.show_answer && (
                     <button
                       onClick={() => showAnswers()}
-                      className=" w-full md:w-[172px] bg-primary h-[32px] text-sm font-bold text-white rounded-md border border-gray-light"
+                      className=" w-full md:w-[172px] bg-colorPrimary h-[32px] text-[14px] font-bold text-white rounded-md border border-[#D9B45C]"
                     >
                       عرض الإجابات
                     </button>
-                  )} */}
+                  )}
                   {start?.retake && (
                     <button
                       onClick={() => retake()}
-                      className=" w-[172px] border border-primary px-[12px] font-bold text-[#121212] text-sm rounded-lg"
+                      className=" w-[172px] border border-colorPrimary px-[12px] font-bold text-[#121212] text-[14px] rounded-[8px]"
                     >
                       إعادة الامتحان
                     </button>
                   )}
 
                   <Link href={`/bundles/${SingleCourse}/${room}`}>
-                    <button className="w-[172px] border border-primary h-[32px] text-sm font-bold text-[#121212] rounded-md">
+                    <button className="w-[172px] border border-colorPrimary h-[32px] text-[14px] font-bold text-[#121212] rounded-md">
                       الرجوع للحصة{" "}
                     </button>
                   </Link>
@@ -93,17 +88,3 @@ export default function Fail({
     </>
   );
 }
-
-// <DialogFooter className="flex justify-center items-center  w-full mt-5">
-// <DialogClose
-//   asChild
-//   className="flex items-center justify-center! w-full"
-// >
-//   <Button
-//     type="button"
-//     className="text-gray-25 border-2 bg-white hover:bg-gray-100 w-[200px] mx-auto text-black"
-//   >
-//     تأكيد
-//   </Button>
-// </DialogClose>
-// </DialogFooter>

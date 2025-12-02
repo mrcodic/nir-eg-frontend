@@ -39,23 +39,26 @@ const ExamForm = ({ start, setStartExam }) => {
         localStorage.removeItem(`timer${examId}`);
       }
     },
-  });
-
-  console.log("start : ", start);
-
-  const handleRetake = async () => {
-    await retake(() => {
+    onRetakeSuccess: () => {
       localStorage.removeItem(`timer${examId}`);
       setStartExam(true);
-    });
+    },
+  });
+
+  // console.log("start : ", start);
+
+  const handleRetake = async () => {
+    await retake();
   };
 
-  console.log(status, data);
+  // console.log("status and data : ", status, data);
 
   return (
     <>
-      {!status && <TargetGradeBanner score={data?.score} />}
-      {status && <ResultBanner score={data?.details?.score} />}
+      {!status && data?.score && <TargetGradeBanner score={data?.score} />}
+      {status && data?.details?.score && (
+        <ResultBanner score={data?.details?.score} />
+      )}
 
       <TaskForm
         taskId={examId}
@@ -75,7 +78,8 @@ const ExamForm = ({ start, setStartExam }) => {
         open={sure}
         setOpen={handleClose}
         length={
-          (form?.formState?.errors?.questions &&
+          (form &&
+            form?.formState?.errors?.questions &&
             form?.formState?.errors?.questions?.filter(
               (item) => item && item?.toString()?.trim() !== ""
             )?.length) ||

@@ -1,15 +1,14 @@
 "use client";
 
-import { Input } from "@/components/ui/input";
-import { File, Files, Trash } from "lucide-react";
-import Image from "next/image";
-import { ChangeEvent, useMemo, useState } from "react";
-import QuestionHeader from "./QuestionHeader";
-import QuestionTitle from "./QuestionTitle";
 import { FormField, FormItem } from "@/components/ui/form";
 import ReadingBorder from "@/components/ui/paragraph-borders";
-import { cn } from "@/lib/utils";
 import { Textarea } from "@/components/ui/textarea";
+import { cn } from "@/lib/utils";
+import { File, Files, Trash } from "lucide-react";
+import Image from "next/image";
+import { ChangeEvent } from "react";
+import QuestionHeader from "./QuestionHeader";
+import QuestionTitle from "./QuestionTitle";
 
 const WrittenQuestion = ({ form, question, listRef, index }) => {
   const fieldError = form.formState.errors.questions?.[question.id];
@@ -67,9 +66,29 @@ const WrittenQuestion = ({ form, question, listRef, index }) => {
       style={{ scrollMarginTop: "100px" }}
       id={`question-${index}`}
     >
+      <QuestionHeader
+        showSeperator={index !== 0}
+        index={index}
+        error={fieldError}
+      />
+
       <ReadingBorder text="Reading" />
 
-      <QuestionHeader index={index} error={fieldError} />
+      {answered && (
+        <div className="space-y-2 text-end ">
+          {isCorrect ? (
+            <p className="text-xs text-green-600">
+              لقد قمت بالإجابة على هذا السؤال بنجاح
+            </p>
+          ) : (
+            <p className="text-xs text-red-600">
+              لم تقم بالإجابة على هذا السؤال بنجاح
+            </p>
+          )}
+        </div>
+      )}
+
+      <QuestionHeader showSeperator={false} index={index} error={fieldError} />
 
       <div className="space-y-2">
         <QuestionTitle title={question.title} video={question?.answer_video} />
@@ -100,29 +119,31 @@ const WrittenQuestion = ({ form, question, listRef, index }) => {
                     disabled={disabled}
                     placeholder={"قم بإدخال إجابتك هنا"}
                     className={cn(
-                      "rounded-xl  w-full p-2 pr-9  text-sm placeholder-shown:text-end"
+                      "rounded-xl  w-full p-2 pr-9  text-sm placeholder-shown:text-end disabled:text-black disabled:opacity-100"
                     )}
                     style={{
                       unicodeBidi: "plaintext",
                       ...(answered
                         ? {
                             border: isCorrect
-                              ? "2px solid lightgreen"
-                              : "2px solid red",
+                              ? "3px solid lightgreen"
+                              : "3px solid red",
                           }
                         : { borderBottom: "1px solid #D9B45C" }),
                     }}
                   />
 
-                  <input
-                    type="file"
-                    className="hidden"
-                    id={"pickFile" + question.id}
-                    accept="image/*"
-                    // accept="image/*,.pdf,.doc,.docx"
-                    onChange={handleFileChange}
-                    disabled={disabled}
-                  />
+                  {!answered && (
+                    <input
+                      type="file"
+                      className="hidden"
+                      id={"pickFile" + question.id}
+                      accept="image/*"
+                      // accept="image/*,.pdf,.doc,.docx"
+                      onChange={handleFileChange}
+                      disabled={disabled}
+                    />
+                  )}
 
                   {!selectedFile && !answered && (
                     <label
