@@ -30,13 +30,20 @@ const SelectedLesson = ({
 
   return (
     <div className="overflow-y-auto max-h-[1400px] w-full border border-gray-light rounded-lg p-4">
-      <div className="flex items-center gap-2">
-        <img src={"/assets/teacher.png"} className="w-[80px] h-[73.059px]" />
+      <div className="flex items-center gap-4">
+        <img
+          src={"/assets/grade-placeholder.png"}
+          className="size-16 rounded-lg"
+        />
 
-        <div className="flex flex-col gap-2">
-          <h1 className="text-[18px] text-[#121212] font-bold">
+        <div className="flex flex-col gap-2 w-full">
+          <h1 className="text-[18px] text-[#121212] font-bold line-clamp-1">
             {data?.room?.title}
           </h1>
+
+          <hr className="h-px w-full border-gray-light" />
+
+          <p className="text-xs text-gray-dark">{data?.room?.grade?.title}</p>
         </div>
       </div>
 
@@ -50,36 +57,6 @@ const SelectedLesson = ({
         <span>العودة للكورس</span>
       </Button>
 
-      <div className="h-px w-full bg-gray-light my-4" />
-      {!!data?.quizzes?.length && (
-        <div>
-          <h3 className="text-gray-dark text-xs font-bold">الامتحانات</h3>
-          {data?.quizzes.map((quiz) => {
-            return (
-              <div
-                key={quiz.id}
-                className="flex items-center px-2 py-3 rounded-lg border border-gray-light shadow-sm bg-white mt-4 justify-between"
-              >
-                <div className="flex gap-2">
-                  <img src="/assets/exam-fill.svg" className="size-6" />
-                  <h3 className="text-sm font-bold truncate break-all">
-                    {quiz?.title}
-                  </h3>
-                </div>
-
-                <Link
-                  href={`${room}/exams/${quiz.id}`}
-                  className="flex items-center justify-center size-9 bg-primary-800 rounded-lg"
-                >
-                  <ChevronLeft className="stroke-white size-5" />
-                </Link>
-              </div>
-            );
-          })}
-          <div className="h-px w-full bg-gray-light my-4" />
-        </div>
-      )}
-
       {data?.lessons?.map((lesson) => (
         <div
           key={lesson.id}
@@ -87,15 +64,15 @@ const SelectedLesson = ({
             if (locked) return;
             sendData(lesson?.vedio_id, lesson?.id);
           }}
-          className={`  border cursor-pointer ${
+          className={`mt-4  border cursor-pointer ${
             videoId !== lesson?.vedio_id
               ? "border-[#1EAD7B]  bg-white"
               : "border-primary-800 bg-background"
-          } rounded-lg mb-3 px-2  py-3`}
+          } rounded-lg mb-3 px-2  py-2`}
         >
           <div className="flex text-sm items-center font-bold gap-4">
             <img src="/assets/videos-fill.svg" className="size-6" />
-            <h3>{lesson?.title}</h3>
+            <h3 className="line-clamp-1">{lesson?.title}</h3>
           </div>
 
           <div className="mr-10 flex justify-between mt-2">
@@ -118,16 +95,47 @@ const SelectedLesson = ({
         </div>
       ))}
 
+      <div className="h-px w-full bg-gray-light my-4" />
+
+      {!!data?.quizzes?.length && (
+        <div>
+          <h3 className="text-gray-dark text-sm font-bold">الامتحانات</h3>
+          {data?.quizzes.map((quiz) => {
+            return (
+              <div
+                key={quiz.id}
+                className="flex items-center px-2 py-2 rounded-lg border border-gray-light shadow-sm bg-white mt-4 justify-between"
+              >
+                <div className="flex gap-2">
+                  <img src="/assets/exam-fill.svg" className="size-6" />
+                  <h3 className="text-sm font-bold truncate break-all">
+                    {quiz?.title}
+                  </h3>
+                </div>
+
+                <Link
+                  href={`${room}/exams/${quiz.id}`}
+                  className="flex items-center justify-center size-9 bg-primary-800 rounded-lg"
+                >
+                  <ChevronLeft className="stroke-white size-5" />
+                </Link>
+              </div>
+            );
+          })}
+          <div className="h-px w-full bg-gray-light my-4" />
+        </div>
+      )}
+
       {/* DownloadColor */}
       {!!data?.room?.attachments?.length && (
         <div>
-          <h3 className="text-[12px] text-gray-dark font-bold">الملفات</h3>
+          <h3 className="text-sm text-gray-dark font-bold">الملفات</h3>
 
           {data?.room?.attachments?.map((attachment) => {
             return (
               <div
                 key={attachment.name}
-                className="flex gap-2 items-center mb-2 px-2 py-3 bg-white rounded-lg border border-gray-light shadow-sm mt-2.5 justify-between"
+                className="flex gap-2 items-center mb-2 px-2 py-2 bg-white rounded-lg border border-gray-light shadow-sm mt-2.5 justify-between"
               >
                 <div className="flex gap-2">
                   <img src="/assets/files-fill.svg" className="size-6" />
@@ -156,13 +164,13 @@ const SelectedLesson = ({
 
       {!!data?.assignments?.length && (
         <div>
-          <h3 className="text-xs text-gray-dark font-bold">الواجبات</h3>
+          <h3 className="text-sm text-gray-dark font-bold">الواجبات</h3>
 
           {data?.assignments.map((ass) => {
             return (
               <div
                 key={ass?.id}
-                className="flex gap-2 items-center px-2 py-3 rounded-lg border border-gray-light shadow-sm bg-white mt-4 justify-between"
+                className="flex gap-2 items-center px-2 py-2 rounded-lg border border-gray-light shadow-sm bg-white mt-4 justify-between"
               >
                 <div className="flex gap-2">
                   <img src="/assets/assignment-fill.svg" className="size-6" />

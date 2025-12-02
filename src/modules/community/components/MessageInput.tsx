@@ -1,12 +1,12 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import VoiceMessageRecorder from "@/components/VoiceMessageRecorder";
 import { cn } from "@/lib/utils";
 import "filepond/dist/filepond.min.css";
-import Image from "next/image";
+import { File } from "lucide-react";
 import { useState } from "react";
 import { FilePond } from "react-filepond";
-import { FaPaperPlane } from "react-icons/fa";
 import useSendComment from "../hooks/useSendComment";
 import useSendReply from "../hooks/useSendReply";
 
@@ -67,8 +67,8 @@ const MessageInput = ({
   };
 
   return (
-    <div className={cn("flex flex-col md:flex-row  gap-2", className)}>
-      <div className="flex flex-col border bg-[#EFEFEF] rounded-lg p-2 w-full">
+    <div className={cn("flex flex-col  md:flex-row  gap-2", className)}>
+      <div className="flex flex-col w-full h-full">
         {files.length > 0 && (
           <FilePond
             acceptedFileTypes={["application/pdf", "image/*"]}
@@ -88,13 +88,8 @@ const MessageInput = ({
               "w-full": isRecorder,
             })}
           >
-            <label className="cursor-pointer shrink-0 flex items-center justify-center w-[32px] h-[32px] border border-[#F8DEC5] bg-background rounded-[4px]">
-              <Image
-                alt="file"
-                src="/assets/file-outline.svg"
-                width={20}
-                height={20}
-              />
+            <label className="cursor-pointer shrink-0 flex items-center justify-center size-8 border border-[#F8DEC5] bg-background rounded-md">
+              <File className="size-5" />
 
               <input
                 type="file"
@@ -110,7 +105,9 @@ const MessageInput = ({
                   }
                 }}
                 onClick={() => {
-                  const iframeRef = document.getElementById("vdocipher-iframe");
+                  const iframeRef = document.getElementById(
+                    "vdocipher-iframe"
+                  ) as HTMLIFrameElement;
                   if (!iframeRef) return;
                   const player = window?.VdoPlayer?.getInstance(iframeRef);
 
@@ -134,7 +131,7 @@ const MessageInput = ({
               style={{
                 scrollMarginTop: "100px",
               }}
-              className="flex-1 bg-transparent text-gray-dark px-3  w-full py-1 outline-hidden"
+              className="flex-1 bg-transparent text-gray-dark px-3 h-11 rounded-lg border border-gray-light  w-full py-1 outline-hidden"
               placeholder={placeholder || "اكتب ملاحظتك هنا"}
               value={text}
               onChange={(e) => setText(e.target.value)}
@@ -142,7 +139,9 @@ const MessageInput = ({
                 if (e.key === "Enter") handleSend(currentTime);
               }}
               onClick={() => {
-                const iframeRef = document.getElementById("vdocipher-iframe");
+                const iframeRef = document.getElementById(
+                  "vdocipher-iframe"
+                ) as HTMLIFrameElement;
                 if (!iframeRef) return;
                 const player = window?.VdoPlayer?.getInstance(iframeRef);
 
@@ -150,20 +149,19 @@ const MessageInput = ({
               }}
             />
 
-            <button
+            <Button
               disabled={
                 (text.length === 0 &&
                   files.length === 0 &&
                   audios.length === 0) ||
                 (isRecorder && !audios.length)
               }
-              className="text-blue-600 disabled:opacity-50 disabled:cursor-not-allowed border border-[#F8DEC5] flex items-center justify-center bg-background w-[32px] h-[32px] rounded-[4px]"
               onClick={() => handleSend(currentTime)}
+              className="sm:max-w-32 max-w-16 w-full h-11"
             >
-              <FaPaperPlane size={16} />
-            </button>
+              إدخال
+            </Button>
           </div>
-          {/* )} */}
         </div>
       </div>
 

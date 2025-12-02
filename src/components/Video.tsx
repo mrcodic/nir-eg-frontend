@@ -298,6 +298,7 @@ export default function Video({
           style={{ boxShadow: "0px 2px 10px 4px rgba(157,130,66,0.20)" }}
         >
           <img src="/assets/WarningColor.svg" />
+
           <div className="text-[16px] flex flex-col gap-2 text-[#121212]">
             <div className="flex text-[12px] gap-2">
               <span className="text-[#121212] text-lg whitespace-nowrap font-medium">
@@ -308,6 +309,7 @@ export default function Video({
             </div>
           </div>
         </div>
+
         <div className="flex items-center justify-center flex-1 h-[520px] bg-gray-100 w-full">
           <Image
             src="/assets/Locked.png"
@@ -346,16 +348,16 @@ export default function Video({
             const inst = playerRef.current;
             inst?.video?.pause?.();
           }}
-          className="absolute z-5 text-primary-800 border border-gray-light transition-all p-2 w-[250px] py-4 rounded-lg right-8 bg-background bottom-14"
+          className="absolute z-5 text-primary-800 border border-gray-light transition-all p-2 md:w-[250px] w-[190px] py-4 rounded-lg right-4 bg-background bottom-14"
         >
           <div
             onClick={(e) => {
               e.stopPropagation();
               setHideBtn(true);
             }}
-            className="absolute bg-semantics-red-light top-2 left-2 rounded-full flex items-center justify-center size-4"
+            className="absolute cursor-pointer bg-semantics-red-light top-2 left-2 rounded-full flex items-center justify-center size-4 hover:bg-semantics-red group transition-all"
           >
-            <X className="stroke-semantics-red size-3" />
+            <X className="stroke-semantics-red size-3 stroke-4 group-hover:stroke-white transition-all" />
           </div>
 
           <div className="flex items-center gap-2">

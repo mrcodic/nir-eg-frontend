@@ -59,15 +59,20 @@ function MarkVideoCompleted({
       <button
         onClick={handleMarkCompleted}
         disabled={isLoading}
-        className="text-xs flex disabled:opacity-60 items-center gap-1 underline font-bold text-primary-800"
+        className="text-xs cursor-pointer flex disabled:opacity-60 items-center gap-1 border border-gray-light py-1 px-2  font-bold  text-gray-dark rounded-lg hover:bg-gray-dark hover:text-gray-light transition-all"
       >
-        انتهيت من الدرس؟ {isLoading && <FaSpinner className="animate-spin" />}
+        انتهيت من الدرس؟{" "}
+        {isLoading ? (
+          <FaSpinner className="animate-spin" />
+        ) : (
+          <Check className="size-4" />
+        )}
       </button>
     );
   }
 
   return (
-    <div className="flex gap-2 items-center bg-semantics-green-dark p-2 rounded-lg">
+    <div className="flex gap-2 items-center bg-semantics-green-dark px-2 py-1 rounded-lg">
       <span className="text-sm font-bold text-white">تم الانتهاء</span>
       <Check className="size-4 text-white" />
     </div>

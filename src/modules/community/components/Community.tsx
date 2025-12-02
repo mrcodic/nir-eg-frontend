@@ -29,7 +29,7 @@ type CommunityProps = {
 
 const Community = ({ lessonId, currentTime, locked }: CommunityProps) => {
   const [filterMode, setFilterMode] = useState<"all" | "current">("current");
-  const [currentPage, setCurrentPage] = useState(1); // Track current page
+  const [currentPage, setCurrentPage] = useState(1);
   const [isMobile] = useMediaQuery("(max-width: 1024px)");
 
   const { data: comments } = useQuery({
@@ -70,22 +70,20 @@ const Community = ({ lessonId, currentTime, locked }: CommunityProps) => {
 
   const totalPages = Math.ceil(filteredComments.length / ITEMS_PER_PAGE);
 
-  console.log(comments);
-
   return (
-    <div className="mt-[24px]">
+    <div className="mt-6">
       {!locked && (
-        <div className="border flex flex-col gap-2 border-gray-light rounded-lg p-1">
-          <div className="flex gap-2 flex-wrap">
+        <div className=" flex flex-col gap-2 ">
+          <div className="md:flex gap-2 flex-wrap hidden ms-[68px]">
             <p className="text-xs font-medium text-gray-dark">
-              كتابة ملاحظة في الدقيقة:
+              سيتم كتابة ملاحظاتك في الدقيقة
             </p>
             <p className="text-xs font-bold text-[#523412]">
               {secondsToHms(currentTime)}
             </p>
           </div>
 
-          <div className="flex gap-4 max-sm:flex-wrap items-start">
+          <div className="flex gap-x-6 gap-y-2 max-sm:flex-wrap items-start">
             <Image
               unoptimized
               src={comments?.avatar || "/assets/avatar-user.svg"}
@@ -93,21 +91,33 @@ const Community = ({ lessonId, currentTime, locked }: CommunityProps) => {
               onError={(e) => {
                 e.currentTarget.src = "/assets/avatar-user.svg";
               }}
-              width={52}
-              height={52}
+              width={44}
+              height={44}
               alt="avatar"
             />
-            <MessageInput
-              id="community-input"
-              lessonId={lessonId}
-              currentTime={currentTime}
-              className="grow"
-            />
+
+            <div className="flex flex-col grow gap-2 h-full self-stretch">
+              <div className="flex gap-2 flex-wrap md:hidden">
+                <p className="text-xs font-medium text-gray-dark">
+                  سيتم كتابة ملاحظاتك في الدقيقة
+                </p>
+                <p className="text-xs font-bold text-[#523412]">
+                  {secondsToHms(currentTime)}
+                </p>
+              </div>
+
+              <MessageInput
+                id="community-input"
+                lessonId={lessonId}
+                currentTime={currentTime}
+                className="grow"
+              />
+            </div>
           </div>
         </div>
       )}
 
-      <div className="border border-b mt-4 border-gray-light"></div>
+      <hr className="mt-4 border-gray-light" />
 
       {comments?.data?.length > 0 ? (
         <div>

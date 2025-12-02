@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { Mic, Pause, Play, StopCircle, Trash } from "lucide-react";
+import { useEffect } from "react";
 import { VoiceVisualizer, useVoiceVisualizer } from "react-voice-visualizer";
-import { useToast } from "@/hooks/use-toast";
 
 const VoiceMessageRecorder = ({ toggleRecorder, setAudios, isRecorder }) => {
   const recorderControls = useVoiceVisualizer();
@@ -146,80 +146,77 @@ const VoiceMessageRecorder = ({ toggleRecorder, setAudios, isRecorder }) => {
   };
 
   return (
-    <div className=" flex  w-full  items-center gap-5 border-t border-gray-medium  ">
-      <div className="flex w-full  gap-2">
-        <div className="voice-recorder-container flex items-center gap-4 max-sm:flex-wrap-reverse grow">
-          <div
-            id="waveform"
-            className="flex   grow items-center justify-center rounded-xl bg-gray-light"
-          >
-            <VoiceVisualizer
-              controls={recorderControls}
-              secondaryBarColor="#25D366"
-              mainBarColor="#333"
-              mainContainerClassName="w-0 max-w-full"
-              height={32}
-              barWidth={4}
-              width={0}
-              // width={
-              //   isRecordingInProgress || isAvailableRecordedAudio ? "100%" : 0
-              // }
-              isControlPanelShown={false}
-            />
-          </div>
-
-          {(isRecordingInProgress || isAvailableRecordedAudio) && (
-            <Timer
-              duration={isRecordingInProgress ? recordingTime : duration * 1000}
-            />
-          )}
+    <div className="flex  items-center   gap-2">
+      <div className="voice-recorder-container flex items-center gap-4 max-sm:flex-wrap-reverse grow">
+        <div
+          id="waveform"
+          className=" hidden  grow items-center justify-center rounded-xl "
+        >
+          <VoiceVisualizer
+            controls={recorderControls}
+            secondaryBarColor="#25D366"
+            mainBarColor="#333"
+            mainContainerClassName="w-0 max-w-full"
+            height={32}
+            barWidth={4}
+            width={0}
+            // width={
+            //   isRecordingInProgress || isAvailableRecordedAudio ? "100%" : 0
+            // }
+            isControlPanelShown={false}
+          />
         </div>
+      </div>
+      {(isRecordingInProgress || isAvailableRecordedAudio) && (
+        <Timer
+          duration={isRecordingInProgress ? recordingTime : duration * 1000}
+        />
+      )}
 
-        <div className="flex  justify-between">
-          <button
-            className={cn(
-              "flex size-8 items-center justify-center rounded-xl bg-gray-light",
-              {
-                "animate-pulse": isRecordingInProgress && !isPausedRecording,
-              }
-            )}
-            onClick={toggleStartStop}
-            aria-label={
-              isRecordingInProgress ? "Stop recording" : "Start recording"
+      <div className="flex gap-2 justify-between">
+        <button
+          className={cn(
+            "flex size-8 items-center justify-center rounded-xl bg-white",
+            {
+              "animate-pulse": isRecordingInProgress && !isPausedRecording,
             }
+          )}
+          onClick={toggleStartStop}
+          aria-label={
+            isRecordingInProgress ? "Stop recording" : "Start recording"
+          }
+        >
+          {isRecordingInProgress ? (
+            <StopCircle className="stroke-red-500" />
+          ) : (
+            <Mic className="stroke-primary-800" />
+          )}
+        </button>
+
+        {(isRecordingInProgress || isAvailableRecordedAudio) && (
+          <button
+            onClick={handleDelete}
+            className="flex size-8 items-center justify-center rounded-xl bg-white"
+            aria-label="Delete recording"
           >
-            {isRecordingInProgress ? (
-              <StopCircle className="stroke-red-500" />
+            <Trash className="size-6 stroke-customGray" />
+          </button>
+        )}
+
+        {showPlaybackControls && (
+          <button
+            className="flex size-8 items-center justify-center rounded-xl bg-white"
+            onClick={togglePauseResume}
+            aria-label={isPausedRecorded || isPausedLive ? "Play" : "Pause"}
+            disabled={!isAvailableRecordedAudio && !isRecordingInProgress}
+          >
+            {isPausedRecorded || isPausedLive ? (
+              <Play className="stroke-green-500" />
             ) : (
-              <Mic className="stroke-green-500" />
+              <Pause className="stroke-customOrange" />
             )}
           </button>
-
-          {(isRecordingInProgress || isAvailableRecordedAudio) && (
-            <button
-              onClick={handleDelete}
-              className="flex size-8 items-center justify-center rounded-xl bg-gray-light"
-              aria-label="Delete recording"
-            >
-              <Trash className="size-6 stroke-customGray" />
-            </button>
-          )}
-
-          {showPlaybackControls && (
-            <button
-              className="flex size-8 items-center justify-center rounded-xl bg-gray-light"
-              onClick={togglePauseResume}
-              aria-label={isPausedRecorded || isPausedLive ? "Play" : "Pause"}
-              disabled={!isAvailableRecordedAudio && !isRecordingInProgress}
-            >
-              {isPausedRecorded || isPausedLive ? (
-                <Play className="stroke-green-500" />
-              ) : (
-                <Pause className="stroke-customOrange" />
-              )}
-            </button>
-          )}
-        </div>
+        )}
       </div>
     </div>
   );

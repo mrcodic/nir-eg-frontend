@@ -266,6 +266,8 @@ export interface RoomData {
   lessons: Lesson[];
   quizzes: any[];
 
+  grade?: Grade;
+
   exam_count: number;
   exams_count?: number;
   lessons_count?: number;

@@ -7,9 +7,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { useModal } from "@/context/ModalProvider";
 import Image from "next/image";
 import { useParams } from "next/navigation";
-import { useState } from "react";
 import { PaymentModel } from "./modals/PaymentModel";
 import RoomDropDownQuiz from "./RoomDropDownItem";
 import RoomFileDownloadLink from "./RoomFileDownloadLink";
@@ -29,12 +29,11 @@ const Room = ({
   verify?: any;
   subType?: any;
 }) => {
+  const modal = useModal();
+  const { SingleCourse } = useParams();
+
   const lock_after =
     "lock_after" in room ? room?.lock_after : room?.latest_room?.lock_after;
-
-  const { SingleCourse } = useParams();
-  const [isSubscribeNow, setIsSubscribeNow] = useState(false);
-  const [selectedId, setSelectedId] = useState(false);
 
   return (
     <>
@@ -44,11 +43,6 @@ const Room = ({
           value="item-1"
           className="bg-background"
         >
-          {/* {true && (
-            <h2 className="text-primary-800 text-[18px] font-bold mb-2">
-              {room?.classroom}
-            </h2>
-          )} */}
           <AccordionTrigger className="bg-white">
             <div className="flex w-full md:gap-6 gap-4 me-4">
               <Image
@@ -105,11 +99,19 @@ const Room = ({
                                 aria-label="اشترك الآن فى هذه الحصة"
                                 role="button"
                                 onClick={(e) => {
-                                  e.stopPropagation(); // Prevents opening the accordion
+                                  e.stopPropagation();
 
-                                  setSelectedId(room?.id);
+                                  modal.setDialogContent(
+                                    <PaymentModel
+                                      roomId={room?.latest_room?.id || room?.id}
+                                      centerId={SingleCourse || room.id}
+                                      price={
+                                        room?.price || room?.latest_room?.price
+                                      }
+                                    />
+                                  );
 
-                                  setIsSubscribeNow(true);
+                                  modal.openModal();
                                 }}
                                 className="w-[116px] rounded-lg h-[3 text-white border border-[#9D8242] bg-primary text-sm font-bold"
                               >
@@ -236,16 +238,6 @@ const Room = ({
           </AccordionContent>
         </AccordionItem>
       </Accordion>
-
-      {isSubscribeNow && (
-        <PaymentModel
-          open={isSubscribeNow}
-          setOpen={setIsSubscribeNow}
-          roomId={room?.latest_room?.id || selectedId}
-          centerId={SingleCourse || room.id}
-          price={room?.price || room?.latest_room?.price}
-        />
-      )}
     </>
   );
 };
