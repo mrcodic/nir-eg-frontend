@@ -49,16 +49,18 @@ const columns = [
   }),
   columnHelper.accessor("created_at", {
     header: () => (
-      <div className="w-[208px] px-2 text-[18px] font-bold">التاريخ</div>
+      <div className="w-52 px-2 text-[18px] font-bold">التاريخ</div>
     ),
     cell: (info) => (
-      <div className="p-2 w-[208px] text-start text-[16px] font-medium">
+      <div className="p-2 w-52 text-start text-[16px] font-medium">
         {info.getValue()}
       </div>
     ),
   }),
   columnHelper.accessor("score", {
-    header: () => <div className="w-[136px] px-2 text-[18px] font-bold">-</div>,
+    header: () => (
+      <div className="w-[136px] px-2 text-[18px] font-bold">النتيجة</div>
+    ),
     cell: (info) => {
       const row = info.row.original;
 

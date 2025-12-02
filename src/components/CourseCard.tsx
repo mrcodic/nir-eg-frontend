@@ -115,6 +115,7 @@ const CourseCard = ({
                           hasCoupon={courseDetails?.has_promocode}
                         />
                       );
+
                       modal.openModal();
                     } else {
                       router.push(

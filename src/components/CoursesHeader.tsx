@@ -51,8 +51,8 @@ const CoursesHeader = ({ details }: { details: ICourseDetails }) => {
 
       <div className="relative z-2">
         <div className="wrapper pb-20 h-full flex flex-col ">
-          <div className="flex gap-6 flex-wrap  h-full items-center justify-between pt-[48px]">
-            <div className="flex flex-wrap gap-2  md:justify-start md:gap-6     md:max-w-[70%]  grow">
+          <div className="flex gap-6 flex-wrap  h-full items-center justify-between pt-12">
+            <div className="flex flex-wrap gap-2  md:justify-start md:gap-6 md:max-w-[70%]  grow">
               <CourseInfoBadge
                 value={details?.total_lessons_count}
                 text="فيديو"

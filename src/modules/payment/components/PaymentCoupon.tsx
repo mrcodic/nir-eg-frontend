@@ -122,12 +122,12 @@ function PaymentCoupon({
         </p>
       )}
 
-      <div className="relative text-center my-6 text-primary-800 mx-20 text-base font-medium">
-        <hr className="border-primary-800 absolute top-1/2 inset-x-0 -translate-y-1/2" />
+      <div className="relative text-center my-6 text-primary-800  text-base font-medium">
+        <hr className="border-primary-800 absolute top-1/2 inset-x-0 -translate-y-1/2 mx-4 sm:mx-20" />
         <span className="px-8 bg-background relative z-5">او</span>
       </div>
 
-      <div className="flex items-center justify-between gap-6">
+      <div className="flex items-center justify-between gap-y-4 gap-x-6 flex-wrap">
         <div className="flex items-center gap-4">
           <Image
             src={"/assets/whatsapp.svg"}
@@ -135,9 +135,11 @@ function PaymentCoupon({
             height={32}
             alt="whatsapp icon"
           />
-          <p className="text-xl">لو مش معاك كود الدفع، كلمنا على واتساب</p>
+          <p className="text-base md:text-xl">
+            لو مش معاك كود الدفع، كلمنا على واتساب
+          </p>
         </div>
-        <Link href={""}>
+        <Link href={""} className="ms-auto">
           <Button variant="secondary">تواصل معنا</Button>
         </Link>
       </div>

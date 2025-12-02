@@ -2,7 +2,9 @@
 
 import { usePayment } from "@/hooks/usePayment";
 import { CourseType } from "@/types";
+import { ChevronLeft } from "lucide-react";
 import { PaymentUI } from "./ui/PaymentUI";
+import { Button } from "./ui/button";
 
 // interface PaymentComProps {
 //   courseId?: string;
@@ -41,7 +43,7 @@ const PaymentCom = ({
       style={{
         boxShadow: "0px 2px 10px 4px rgba(157, 130, 66, 0.20) ",
       }}
-      className="bg-[#F9FAFC] relative md:text-[24px] font-bold  flex flex-col max-w-[min(760px,85%)] w-full justify-center md:w-[760px]  border py-3 md:py-[32px] mx-auto  -mt-8 px-[20px] border-primary-800 rounded-lg  z-10"
+      className="bg-background relative md:text-[24px] font-bold  flex flex-col max-w-[min(760px,85%)] w-full justify-center md:w-[760px]  border py-3 md:py-8 mx-auto  -mt-8 px-5 border-primary-800 rounded-lg  z-10"
     >
       <PaymentUI
         paymentMethodValue={paymentMethodValue}
@@ -57,13 +59,14 @@ const PaymentCom = ({
         isLoadingMethods={isLoadingMethods}
       />
       {paymentTypes.length > 0 && (
-        <div className="flex flex-row! justify-between gap-5 mt-5 mx-auto">
-          <div
+        <div className="flex flex-row! justify-between gap-5 mt-5 ms-auto">
+          <Button
             onClick={handleNextClick}
-            className="bg-primary cursor-pointer text-center border border-gray-light rounded-lg w-[148px] text-sm font-bold p-2 text-white"
+            className="w-32 h-11 items-center [&>svg]:size-6"
           >
             التالي
-          </div>
+            <ChevronLeft />
+          </Button>
         </div>
       )}
     </div>

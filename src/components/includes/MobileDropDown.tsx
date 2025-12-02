@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { BookLinksSettings } from "@/types/books.types";
+import { MenuIcon } from "lucide-react";
 import WrapperHOC from "./WrapperHOC";
 
 function MobileDropDown({
@@ -22,7 +23,7 @@ function MobileDropDown({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="size-10 rounded-lg bg-white  shadow-md  flex justify-center items-center mobile:hidden px-1">
-        <img src="/assets/burgerIcon.svg" className="w-[24px] h-[24px]" />
+        <MenuIcon size={24} />
       </DropdownMenuTrigger>
 
       <DropdownMenuContent sideOffset={20} className="mobile:hidden">

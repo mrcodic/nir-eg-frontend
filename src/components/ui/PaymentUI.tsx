@@ -86,15 +86,15 @@ export const PaymentUI: React.FC<PaymentUIProps> = ({
       </div>
 
       {paymentMethodValue === paymentType.fawerypay && (
-        <span className="text-red-600 block text-sm font-bold mb-2 ">
+        <span className="text-red-600 block text-sm font-bold mb-2 leading-6">
           <Image
-            src={"/assets/WarningColor.svg"}
-            width={30}
-            height={30}
+            src={"/assets/warning-fill.svg"}
+            width={24}
+            height={24}
             alt="warinng"
             className="inline-block ml-2"
           />
-          بعد ما تضغط "التالي"، هيتعرضلك كود الدفع. خده وادفعه في أقرب فرع فورى
+          بعد ما تضغط "التالي" ، هيتعرضلك كود الدفع. خده وادفعه في أقرب فرع فورى
           أو تطبيق فورى احتفظ بالايصال وفي خلال 30 دقيقة الباقه هتتفتح, مع العلم
           ان صلاحية الكود 7 ايام.
         </span>

@@ -113,7 +113,7 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
         <DialogContent
           {...dialogContentProps}
           className={cn(
-            "bg-white max-md:p-1! overflow-visible",
+            "bg-white max-md:p-1! overflow-visible max-h-[calc(100vh-2rem)] overflow-y-auto",
             dialogContentProps?.className
           )}
           onPointerDownOutside={(e) => {

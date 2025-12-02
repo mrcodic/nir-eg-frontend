@@ -1,48 +1,33 @@
 import { cn } from "@/lib/utils";
-import Image from "next/image";
 import Link from "next/link";
 
 function GradesTableAction({ row, rowValue }: { row: any; rowValue: number }) {
-  const isExam = row.type === "امتحان";
+  const type = row.type;
+  const isExam = type === "امتحان";
 
   return (
     <div className="flex items-center gap-4 w-full justify-start p-2">
-      <div className="border flex shrink-0 items-center font-bold gap-2 p-1 rounded-lg w-[136px] border-[#121212]">
-        {isExam && !row?.score_ratio ? null : (
-          <Image
-            src={row.passed ? "/assets/CorrectColor.svg" : "/assets/Close2.svg"}
-            width={20}
-            height={20}
-            alt={row.passed ? "ناجح" : "راسب"}
-          />
-        )}
-
+      <div className=" flex shrink-0 items-center justify-center font-bold gap-2 p-1 rounded-lg w-[136px] ">
         {isExam ? (
           !!row?.score_ratio ? (
-            <h3
-              className={cn(
-                "flex items-center font-bold text-lg",
-                row.passed ? "text-[#1EAD7B]" : "text-[#B75050]"
-              )}
-            >
-              {row.score_ratio ? (
-                <span>{row.score_ratio}</span>
-              ) : (
-                <>
-                  <span>%</span>
-                  <span>{rowValue}</span>
-                </>
-              )}
-            </h3>
+            <>
+              <ScorePercent
+                score={rowValue}
+                passed={row.passed}
+                type={row.type}
+              />
+              <ScoreBadge passed={row.passed} type={row.type} />
+            </>
           ) : (
-            <span className={cn("text-[16px] font-bold text-yellow-800")}>
-              جارى التصحيح
-            </span>
+            <ScoreBadge
+              passed={row.passed}
+              type={row.type}
+              text="جارى التصحيح"
+              className="text-yellow-500 bg-yellow-50"
+            />
           )
         ) : (
-          <span className="text-[16px] text-[#1EAD7B] font-bold">
-            {rowValue}
-          </span>
+          <ScoreBadge passed={row.passed} type={row.type} />
         )}
       </div>
 
@@ -55,9 +40,9 @@ function GradesTableAction({ row, rowValue }: { row: any; rowValue: number }) {
               }/${row.quiz_id}`
         }
         className={cn(
-          "w-[120px] lg:w-[155px] h-9 lg:h-10 p-1 rounded-[10px] bg-primary-800 text-white text-sm lg:text-lg font-bold flex items-center justify-center",
+          "w-[120px]  h-9 p-1 rounded-lg bg-primary-800 text-white text-sm  font-bold flex items-center justify-center",
           {
-            "pointer-events-none cursor-not-allowed bg-red-600":
+            "pointer-events-none cursor-not-allowed text-red-600 bg-red-50":
               row?.classroom_expired,
           }
         )}
@@ -71,3 +56,50 @@ function GradesTableAction({ row, rowValue }: { row: any; rowValue: number }) {
 }
 
 export default GradesTableAction;
+
+const ScorePercent = ({
+  score,
+  passed,
+  type,
+}: {
+  score: number;
+  passed: boolean;
+  type: string;
+}) => {
+  return (
+    <h3
+      className={cn(
+        "flex items-center font-bold text-xl",
+        passed ? "text-semantics-green" : "text-semantics-red"
+      )}
+    >
+      {score}%
+    </h3>
+  );
+};
+
+const ScoreBadge = ({
+  passed,
+  type,
+  className,
+  text,
+}: {
+  passed: boolean;
+  type: string;
+  className?: string;
+  text?: string;
+}) => {
+  return (
+    <h3
+      className={cn(
+        "flex items-center font-bold text-sm min-w-20 py-1 px-2 rounded-lg justify-center",
+        passed || type === "واجب"
+          ? "text-semantics-green bg-semantics-green-light"
+          : "text-semantics-red bg-semantics-red-light",
+        className
+      )}
+    >
+      {text || (type === "واجب" ? "تم الحل" : passed ? "ناجح" : "راسب")}
+    </h3>
+  );
+};

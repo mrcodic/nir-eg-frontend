@@ -18,16 +18,14 @@ function NavUserMenu({ profile }) {
 
   return (
     <DropdownMenu dir="rtl" modal={false}>
-      <DropdownMenuTrigger className="focus-visible:outline-hidden">
-        <div>
-          <img
-            className="mobile:size-12 size-[42px] rounded-full object-cover"
-            src={profile?.avatar || "/assets/avatar-user.svg"}
-            onError={(e) => {
-              e.currentTarget.src = "/assets/avatar-user.svg";
-            }}
-          />
-        </div>
+      <DropdownMenuTrigger className="focus-visible:outline-hidden shrink-0">
+        <img
+          className="mobile:size-12 size-[42px]  rounded-full object-cover"
+          src={profile?.avatar || "/assets/avatar-user.svg"}
+          onError={(e) => {
+            e.currentTarget.src = "/assets/avatar-user.svg";
+          }}
+        />
       </DropdownMenuTrigger>
 
       <DropdownMenuContent className="relative left-10 z-9999 w-[272px]  mobile:top-1 bg-[#FFFFFF] max-h-[calc(100vh-90px)] overflow-y-auto border rounded-lg border-gray-light py-4">
