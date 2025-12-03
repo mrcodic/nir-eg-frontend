@@ -8,6 +8,7 @@ import TamperResistantOverlay from "@/utils/TamperResistantOverlay";
 import { useQueryClient } from "@tanstack/react-query";
 import { FileWarning, X } from "lucide-react";
 import LoadingSpinner from "./Loading";
+import TopBanner from "./banners/TopBanner";
 
 type VdoStatusChange =
   | string
@@ -293,22 +294,17 @@ export default function Video({
   if (locked) {
     return (
       <div className="flex-1 space-y-8">
-        <div
-          className="gap-4 rounded-lg bg-background p-2 flex items-center"
-          style={{ boxShadow: "0px 2px 10px 4px rgba(157,130,66,0.20)" }}
-        >
-          <img src="/assets/WarningColor.svg" />
-
-          <div className="text-[16px] flex flex-col gap-2 text-[#121212]">
-            <div className="flex text-[12px] gap-2">
-              <span className="text-[#121212] text-lg whitespace-nowrap font-medium">
-                {exceededViews
-                  ? "لقد تجاوزت الحد الأقصى لعدد المشاهدات المسموح بها لهذا الدرس"
-                  : "يجب ان تقوم باجتياز الاختبار أولا"}
-              </span>
-            </div>
-          </div>
-        </div>
+        <TopBanner
+          icon={<img src="/assets/WarningColor.svg" />}
+          render={
+            <span className="text-[#121212] text-sm whitespace-nowrap font-medium">
+              {exceededViews
+                ? "لقد تجاوزت الحد الأقصى لعدد المشاهدات المسموح بها لهذا الدرس"
+                : "يجب ان تقوم باجتياز الاختبار أولا"}
+            </span>
+          }
+          showClose={false}
+        />
 
         <div className="flex items-center justify-center flex-1 h-[520px] bg-gray-100 w-full">
           <Image

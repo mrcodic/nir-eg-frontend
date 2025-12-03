@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { getClientPrivateData } from "@/helpers/client-fetch";
 import { cn } from "@/lib/utils";
 import { pdf } from "@react-pdf/renderer"; // Import pdf for blob generation
@@ -56,13 +57,13 @@ const ExamPDFGenerator = ({
   };
 
   return (
-    <button
-      onClick={handleDownload}
-      disabled={loading}
+    <Button
       className={cn(
-        "w-full md:w-[172px] bg-primary h-[32px] text-sm font-bold text-white rounded-md border border-gray-light mt-0 py-0",
+        "h-11 max-w-[184px] w-full font-bold [&>svg]:size-5",
         className
       )}
+      onClick={handleDownload}
+      disabled={loading}
     >
       {loading ? (
         <span className="flex items-center justify-center gap-2">
@@ -91,7 +92,7 @@ const ExamPDFGenerator = ({
       ) : (
         "تنزيل نموذج الإجابة PDF"
       )}
-    </button>
+    </Button>
   );
 };
 

@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { convertDate, secondsToHms } from "@/utils/clientFun";
+import { X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -162,7 +163,8 @@ const UserMessage = ({
           <div className="flex items-center justify-end ps-2 sm:ps-[33px]">
             <Button
               onClick={() => setShowReply(true)}
-              className="sm:text-sm text-xs h-8  text-[#f8b312] bg-primary-800  rounded-xl font-medium"
+              variant="outline"
+              className="text-xs sm:text-sm h-8 rounded-xl font-medium"
             >
               إضافة رد
             </Button>
@@ -176,13 +178,7 @@ const UserMessage = ({
                 onClick={() => setShowReply(false)}
                 className="top-0 right-0"
               >
-                <Image
-                  src="/assets/close.svg"
-                  width={24}
-                  height={24}
-                  alt="close"
-                  className="brightness-0 invert"
-                />
+                <X className="size-4 text-white" />
               </button>
             </div>
 
@@ -190,8 +186,8 @@ const UserMessage = ({
               unoptimized
               src={avatar || "/assets/avatar-user.svg"}
               className="rounded-lg"
-              width={52}
-              height={52}
+              width={44}
+              height={44}
               alt="avatar"
               onError={(e) => {
                 e.currentTarget.src = "/assets/avatar-user.svg";

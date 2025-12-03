@@ -149,7 +149,7 @@ const Community = ({ lessonId, currentTime, locked }: CommunityProps) => {
               </AccordionTrigger>
 
               <AccordionContent>
-                <div className="overflow-y-auto max-h-[700px] flex flex-col gap-4 rounded-2xl p-2 sm:p-4 sm:pt-0">
+                <div className="overflow-y-auto max-h-[700px] mt-4 flex flex-col gap-4  ">
                   {paginatedComments.length > 0 ? (
                     paginatedComments.map((comment, index) => (
                       <div key={comment.id || index}>

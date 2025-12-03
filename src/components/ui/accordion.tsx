@@ -34,7 +34,7 @@ const AccordionTrigger = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Trigger>,
   AccordionTriggerProps
 >(({ className, isProfile, children, ...props }, ref) => (
-  <AccordionPrimitive.Header className={`flex bg-white`}>
+  <AccordionPrimitive.Header className={`flex bg-white mb-0`}>
     <AccordionPrimitive.Trigger
       ref={ref}
       className={cn(

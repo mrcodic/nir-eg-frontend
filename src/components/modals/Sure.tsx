@@ -21,10 +21,10 @@ export function Sure({ open, setOpen, length }) {
           )}
         </div>
 
-        <DialogFooter className="flex !justify-start gap-6 items-center  w-full mt-5">
+        <DialogFooter className="flex justify-start gap-6 items-center  w-full mt-5">
           <DialogClose
             asChild
-            className="flex items-center !justify-center w-full"
+            className="flex items-center justify-center w-full"
           >
             <Button
               className="bg-colorPrimary border text-white font-bold border-[#D9B45C] h-[32px] w-[144px] rounded-[8px]"

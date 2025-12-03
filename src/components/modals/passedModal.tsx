@@ -5,6 +5,7 @@ import TaskModelScore from "@/modules/exam/components/TaskModelScore";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { Button } from "../ui/button";
 
 export default function Passed({
   open,
@@ -18,10 +19,10 @@ export default function Passed({
 
   return (
     <>
-      {open && start?.result && (
+      {open && start?.result && !start?.review_pending && (
         <>
           <DotLottieReact
-            className="w-full !h-screen mx-auto absolute top-0 right-0  !z-[9999999999] "
+            className="w-full h-screen! mx-auto absolute top-0 right-0  z-9999999999! "
             src="/Animations/Celeberation.json"
             autoplay
           />
@@ -33,7 +34,7 @@ export default function Passed({
             <div className=" ">
               {!start?.review_pending && start?.result && (
                 <DotLottieReact
-                  className="w-[112px] h-[112px] mx-auto"
+                  className="w-[112px] h-[112px] mx-auto mb-8"
                   src="/Animations/Confetti.json"
                   autoplay
                   loop
@@ -41,7 +42,7 @@ export default function Passed({
               )}
 
               <div className="mb-[12px]">
-                <div className="flex gap-3 mt-[32px] flex-wrap">
+                <div className="flex gap-3  flex-wrap">
                   {start?.review_pending ? (
                     <div className="flex items-center gap-2">
                       <img src="/assets/CorrectColor.svg" />
@@ -63,17 +64,14 @@ export default function Passed({
                 </div>
               </div>
 
-              {start?.review_pending ? (
-                <>
-                  <div className="h-[1px] my-[12px] bg-[#D9B45C]" />
+              <hr className="h-px my-3 border-gray-light" />
 
-                  <p className="text-[18px] text-[#121212] font-medium mt-6">
-                    ستتمكن من عرض اجاباتك بعد تصحيح الامتحان
-                  </p>
-                </>
+              {start?.review_pending ? (
+                <p className="text-[18px] text-[#121212] font-medium mt-6">
+                  ستتمكن من عرض اجاباتك بعد تصحيح الامتحان
+                </p>
               ) : (
                 <>
-                  <div className="h-[1px] my-[12px] bg-[#D9B45C]" />
                   <span className="text-[#121212] inline-block font-medium">
                     إذا قمت بعرض الإجابات مرة أخرى لن تتمكن من إعادة الامتحان
                   </span>
@@ -84,7 +82,7 @@ export default function Passed({
                 </>
               )}
 
-              <div className="mb-[32px] flex justify-center items-center w-full mx-auto mt-[32px]">
+              <div className="flex justify-center items-center w-full mx-auto mt-8">
                 <div
                   className={cn("grid md:grid-cols-2 justify-center gap-6", {
                     "md:grid-cols-1": start?.review_pending,
@@ -93,28 +91,32 @@ export default function Passed({
                   {!start?.review_pending && (
                     <>
                       {start?.show_answer && (
-                        <button
+                        <Button
                           onClick={showAnswers}
-                          className=" w-full md:w-[172px] bg-colorPrimary h-[32px] text-[14px] font-bold text-white rounded-md border border-[#D9B45C]"
+                          className="h-11 max-w-[184px] w-full font-bold"
                         >
                           عرض الإجابات
-                        </button>
+                        </Button>
                       )}
                       {start?.retake && (
-                        <button
-                          className="bg-[#D9B45C] py-1 w-full md:w-[172px] borer border-colorPrimary px-[12px] font-bold text-white text-[14px] rounded-[8px]"
+                        <Button
                           onClick={retake}
+                          variant="secondary"
+                          className="h-11 max-w-[184px] w-full font-bold"
                         >
                           إعادة الامتحان
-                        </button>
+                        </Button>
                       )}
                     </>
                   )}
 
                   <Link href={`/bundles/${SingleCourse}/${room}`}>
-                    <button className="w-[172px] border border-colorPrimary h-[32px] text-[14px] font-bold text-[#121212] rounded-md">
+                    <Button
+                      variant="outline"
+                      className="h-11 max-w-[184px] w-full font-bold"
+                    >
                       الرجوع للحصه
-                    </button>
+                    </Button>
                   </Link>
 
                   {start?.show_answer && !start?.review_pending && (

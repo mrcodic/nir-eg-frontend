@@ -1,6 +1,6 @@
 "use client";
 
-import { getPublicData } from "@/helpers/client-fetch";
+import { getClientPrivateData } from "@/helpers/client-fetch";
 import { cn } from "@/lib/utils";
 import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
@@ -37,7 +37,7 @@ const CommentDetails = ({
       `/comments/lesson/${comment.lesson_id}?page=${lessonPage}`,
       "lesson-comments",
     ],
-    queryFn: getPublicData,
+    queryFn: getClientPrivateData,
     enabled: !!comment.lesson_id,
     placeholderData: keepPreviousData,
   });
@@ -52,8 +52,6 @@ const CommentDetails = ({
     replyElement.scrollIntoView({ behavior: "smooth" });
     router.replace(`/profile/comments`);
   }, [searchParams, isLoading]);
-
-  console.log("comment details ", data);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>

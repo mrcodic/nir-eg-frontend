@@ -1,6 +1,6 @@
 "use client";
 
-import RoomViewLimitBanner from "@/components/RoomViewLimitBanner";
+import TopBanner from "@/components/banners/TopBanner";
 import SelectedLesson from "@/components/SelectedLesson";
 import Video from "@/components/Video";
 import { useAuthContext } from "@/context/auth-context";
@@ -115,6 +115,11 @@ const SingleVideo = () => {
     }
   }, [data]);
 
+  const selectedLesson = useMemo(
+    () => data?.body?.lessons?.find((lesson) => lesson.id === lessonId),
+    [lessonId]
+  );
+
   // console.log("selected lessonId : ", lessonId);
   console.log("all lessons : ", data?.body, isLoading);
 
@@ -150,7 +155,18 @@ const SingleVideo = () => {
 
             <div className="flex-1 flex flex-col lg:w-[calc(70%-1.5rem)] ">
               <div className="relative">
-                {viewCount && <RoomViewLimitBanner viewCount={viewCount} />}
+                {viewCount && (
+                  <TopBanner
+                    render={
+                      <p className="text-sm">
+                        عدد المشاهدات المسموح هو{" "}
+                        <strong>{viewCount.total_views}</strong>، متبقي لك{" "}
+                        <strong>{viewCount.remaining}</strong> مشاهدة ويتم
+                        احتساب المشاهدة بعد اول 15 دقيقة في الفيديو.
+                      </p>
+                    }
+                  />
+                )}
 
                 <Video
                   videoId={videoId}
@@ -166,6 +182,14 @@ const SingleVideo = () => {
                   // ref={communityRef}
                   // iframeRef={iframeRef}
                 />
+              </div>
+
+              <div className="border border-gray-light rounded-lg p-2 mt-4">
+                <h2 className="text-lg font-bold">{selectedLesson?.title}</h2>
+                <hr className="border-gray-light my-2" />
+                <p className="text-xs font-bold text-gray-dark">
+                  {data?.body?.room?.grade?.title || "--"}
+                </p>
               </div>
 
               {(profile?.type === 4 || profile?.type === 5) &&

@@ -26,10 +26,8 @@ const SelectedLesson = ({
   const { SingleCourse, room } = useParams();
   const router = useRouter();
 
-  console.log(data);
-
   return (
-    <div className="overflow-y-auto max-h-[1400px] w-full border border-gray-light rounded-lg p-4">
+    <div className="overflow-y-auto max-h-[1400px] w-full border border-gray-light rounded-lg p-4 h-fit sticky top-22">
       <div className="flex items-center gap-4">
         <img
           src={"/assets/grade-placeholder.png"}
