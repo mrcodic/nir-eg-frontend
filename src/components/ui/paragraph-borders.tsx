@@ -1,4 +1,6 @@
 const ReadingBorder = ({ text }: { text: string }) => {
+  return <hr className="h-px w-full border-secondary my-6" />;
+
   return (
     <div className="flex items-center gap-4">
       <div className="h-px w-full bg-gray-light my-[24px]" />

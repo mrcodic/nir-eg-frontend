@@ -1,6 +1,7 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { FormControl, FormItem, FormLabel } from "@/components/ui/form";
-import { getAnswerState } from "@/lib/utils";
+import { cn, getAnswerState } from "@/lib/utils";
+import { Circle } from "lucide-react";
 import { useMemo } from "react";
 
 const AnswerOption = ({
@@ -38,7 +39,7 @@ const AnswerOption = ({
       return "border-green-500 bg-green-50";
     if (answerState === "correct-unselected") return "border-green-500";
     if (answerState === "incorrect-selected") return "border-red-500";
-    return "border-[#eeee] ";
+    return "border-gray-light ";
   }, [answer]);
 
   const CheckBoxColor = useMemo(() => {
@@ -52,11 +53,11 @@ const AnswerOption = ({
     <label
       htmlFor={answerId}
       dir="ltr"
-      className={`rounded-lg border ${BorderColor} p-2 cursor-pointer `}
+      className={`rounded-lg bg-white border ${BorderColor} p-2 cursor-pointer `}
     >
-      <span className="text-[#523412] text-sm font-bold inline-block">
+      {/* <span className="text-[#523412] text-sm font-bold inline-block">
         .{index + 1}
-      </span>
+      </span> */}
       <FormItem className="flex items-center space-x-3 space-y-0">
         <FormControl>
           <div className="flex p-2 items-center gap-x-2">
@@ -65,7 +66,13 @@ const AnswerOption = ({
               checked={isChecked}
               onCheckedChange={handleCheckboxChange}
               id={answerId}
-              className={CheckBoxColor}
+              className={cn(
+                "rounded-full size-6 border-gray-dark data-[state=checked]:bg-white group",
+                CheckBoxColor
+              )}
+              icon={
+                <Circle className="h-4 w-4 group-data-[state=checked]:fill-black" />
+              }
             />
           </div>
         </FormControl>

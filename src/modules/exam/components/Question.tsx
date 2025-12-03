@@ -34,18 +34,17 @@ const Question = ({
       }}
       style={{ scrollMarginTop: "100px" }}
       id={isSubQuestion ? `sub-question-${index}` : `question-${index}`}
+      className={isSubQuestion ? "" : "bg-background p-4 rounded-lg"}
     >
       <div className="flex  gap-2  flex-col">
         <QuestionHeader
-          showQuestionNumber={isSubQuestion}
-          showSeperator={index > 0}
           index={index}
           error={error || notSolvedQuestion}
           multiCorrect={question?.has_multi_correct}
         />
 
         {question?.has_multi_correct && (
-          <p className="font-bold text-colorPrimary self-end w-fit">
+          <p className="font-bold text-secondary self-end w-fit">
             يوجد اكثر من اجابة
           </p>
         )}

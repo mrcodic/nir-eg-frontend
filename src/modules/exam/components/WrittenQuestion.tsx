@@ -65,14 +65,9 @@ const WrittenQuestion = ({ form, question, listRef, index }) => {
       }}
       style={{ scrollMarginTop: "100px" }}
       id={`question-${index}`}
+      className="bg-background p-4 rounded-lg"
     >
-      <QuestionHeader
-        showSeperator={index !== 0}
-        index={index}
-        error={fieldError}
-      />
-
-      <ReadingBorder text="Reading" />
+      <QuestionHeader index={index} error={fieldError} />
 
       {answered && (
         <div className="space-y-2 text-end ">
@@ -87,8 +82,6 @@ const WrittenQuestion = ({ form, question, listRef, index }) => {
           )}
         </div>
       )}
-
-      <QuestionHeader showSeperator={false} index={index} error={fieldError} />
 
       <div className="space-y-2">
         <QuestionTitle title={question.title} video={question?.answer_video} />
@@ -195,8 +188,6 @@ const WrittenQuestion = ({ form, question, listRef, index }) => {
           )}
         />
       </div>
-
-      <ReadingBorder text="end Reading" />
     </div>
   );
 };

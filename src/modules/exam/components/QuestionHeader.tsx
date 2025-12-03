@@ -1,21 +1,10 @@
-const QuestionHeader = ({
-  index,
-  error,
-  showQuestionNumber = false,
-  showSeperator = true,
-  multiCorrect = false,
-}) => {
+import StyledText from "@/components/ui/StyledText";
+import { numberToArabicOrdinal } from "@/lib/utils";
+
+const QuestionHeader = ({ index, error, multiCorrect = false }) => {
   return (
-    <div className="flex justify-between flex-wrap">
-      {showQuestionNumber ? (
-        <h2 className="text-[20px] text-[#523412] " dir="ltr">
-          Q{index + 1} :
-        </h2>
-      ) : (
-        showSeperator && (
-          <hr className="w-full my-2 border-2 border-double border-primary-800" />
-        )
-      )}
+    <div dir="rtl" className="flex justify-between flex-wrap">
+      <StyledText text={`السؤال ${numberToArabicOrdinal(index + 1)}`} as="h2" />
 
       {error &&
         (multiCorrect ? (

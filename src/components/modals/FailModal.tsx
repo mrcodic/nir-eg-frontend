@@ -4,6 +4,7 @@ import TaskModelScore from "@/modules/exam/components/TaskModelScore";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { Button } from "../ui/button";
 
 export default function Fail({
   open,
@@ -54,26 +55,30 @@ export default function Fail({
                   })}
                 >
                   {start?.show_answer && (
-                    <button
+                    <Button
                       onClick={() => showAnswers()}
-                      className=" w-full md:w-[172px] bg-colorPrimary h-[32px] text-[14px] font-bold text-white rounded-md border border-[#D9B45C]"
+                      className="h-11 max-w-[184px] w-full font-bold"
                     >
                       عرض الإجابات
-                    </button>
+                    </Button>
                   )}
                   {start?.retake && (
-                    <button
+                    <Button
                       onClick={() => retake()}
-                      className=" w-[172px] border border-colorPrimary px-[12px] font-bold text-[#121212] text-[14px] rounded-[8px]"
+                      variant="secondary"
+                      className="h-11 max-w-[184px] w-full font-bold"
                     >
                       إعادة الامتحان
-                    </button>
+                    </Button>
                   )}
 
                   <Link href={`/bundles/${SingleCourse}/${room}`}>
-                    <button className="w-[172px] border border-colorPrimary h-[32px] text-[14px] font-bold text-[#121212] rounded-md">
-                      الرجوع للحصة{" "}
-                    </button>
+                    <Button
+                      variant="outline"
+                      className="h-11 max-w-[184px] w-full font-bold"
+                    >
+                      الرجوع للحصه
+                    </Button>
                   </Link>
 
                   {/* {start?.show_answer && !start?.review_pending && (

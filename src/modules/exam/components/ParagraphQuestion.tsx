@@ -23,6 +23,7 @@ const ParagraphQuestion = ({
       }}
       style={{ scrollMarginTop: "100px" }}
       id={`question-${index}`}
+      className="bg-background p-4 rounded-lg"
     >
       <QuestionHeader
         index={index}
@@ -30,7 +31,6 @@ const ParagraphQuestion = ({
           form?.formState?.errors?.questions?.[question?.id] ||
           notSolvedQuestion
         }
-        showSeperator={index > 0}
         multiCorrect={true}
       />
 
@@ -41,7 +41,7 @@ const ParagraphQuestion = ({
           isSubQuestion={false}
         />
 
-        <div className="pl-8 space-y-4 border-l border-gray-200">
+        <div className="pl-4 space-y-4 border-l border-gray-200">
           {question?.related_questions?.map((relatedQuestion, idx) => (
             <Question
               key={relatedQuestion.id}

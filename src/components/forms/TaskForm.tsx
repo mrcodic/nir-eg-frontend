@@ -192,7 +192,7 @@ function TaskForm({
         dir="ltr"
       >
         <div id="taskForm" className="flex">
-          <div className="flex-1  space-y-6">
+          <div className="flex-1  space-y-6 ">
             {data?.questions?.map((question, index) => {
               if (question.type === 2) {
                 return (
