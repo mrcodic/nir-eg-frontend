@@ -1,10 +1,20 @@
 import StyledText from "@/components/ui/StyledText";
 import { numberToArabicOrdinal } from "@/lib/utils";
 
-const QuestionHeader = ({ index, error, multiCorrect = false }) => {
+const QuestionHeader = ({
+  index,
+  error,
+  multiCorrect = false,
+  isSubQuestion = false,
+}) => {
   return (
     <div dir="rtl" className="flex justify-between flex-wrap">
-      <StyledText text={`السؤال ${numberToArabicOrdinal(index + 1)}`} as="h2" />
+      {!isSubQuestion && (
+        <StyledText
+          text={`السؤال ${numberToArabicOrdinal(index + 1)}`}
+          as="h2"
+        />
+      )}
 
       {error &&
         (multiCorrect ? (

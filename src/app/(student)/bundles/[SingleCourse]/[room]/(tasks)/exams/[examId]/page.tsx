@@ -6,7 +6,6 @@ import { useTaskContext } from "@/context/TaskProvider";
 import ProtectedRoute from "@/layouts/ProtectedRoute";
 import { cn } from "@/lib/utils";
 import ExamSideInfo from "@/modules/exam/components/ExamSideInfo";
-import ExamSideNav from "@/modules/exam/components/ExamSideNav";
 import SubmitLoader from "@/modules/exam/components/SubmitLoader";
 
 const ExamPage = () => {
@@ -43,35 +42,14 @@ const ExamPage = () => {
             onComplete={onComplete}
           />
 
-          <ExamSideNav />
+          {/* <ExamSideNav /> */}
         </div>
 
         <div className="flex-1  w-full min-w-[50%]">
-          <div
-            style={{
-              boxShadow: "0px 2px 10px 4px rgba(157,130,66,0.20)",
-            }}
-            className=" gap-4 rounded-lg my-[16px] bg-background  p-2 flex items-center"
-          >
-            <img src="/assets/TimeClock.svg" />
-
-            <div className="text-[16px] flex flex-col gap-2  text-[#121212]">
-              <div className="flex  text-sm gap-2">
-                <span className="text-[#121212] font-medium">وقت الامتحان</span>
-                <span className="text-primary-800 font-bold inline-block">
-                  {start?.timer}
-                </span>
-                <span className="text-primary-800 font-bold inline-block">
-                  دقيقة
-                </span>
-              </div>
-            </div>
-          </div>
-
           <ExamForm start={start} setStartExam={setStartExam} />
         </div>
 
-        <RoomSheet open={showRoom} setOpen={setShowRoom} />
+        {showRoom && <RoomSheet open={showRoom} setOpen={setShowRoom} />}
 
         <SubmitLoader isSubmitting={isSubmitting} />
       </div>

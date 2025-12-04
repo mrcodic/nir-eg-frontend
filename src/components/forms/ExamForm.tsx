@@ -1,9 +1,15 @@
 import FailModal from "@/components/modals/FailModal";
 import PassedModal from "@/components/modals/passedModal";
 import { useTaskLogic } from "@/modules/exam/hooks/useTaskLogic";
-import { useParams } from "next/navigation";
+import { redirect, useParams } from "next/navigation";
 import { Sure } from "../modals/Sure";
-import { ResultBanner, TargetGradeBanner } from "../ui/exam-banners";
+
+import {
+  ExamTimerBanner,
+  ResultBanner,
+  TargetGradeBanner,
+} from "@/modules/exam/components/ExamBanners";
+import { memo } from "react";
 import TaskForm from "./TaskForm";
 
 const ExamForm = ({ start, setStartExam }) => {
@@ -45,13 +51,13 @@ const ExamForm = ({ start, setStartExam }) => {
     },
   });
 
-  // console.log("start : ", start);
-
   const handleRetake = async () => {
     await retake();
   };
 
-  // console.log("status and data : ", status, data);
+  if (!examId) {
+    redirect("/ErrorPage?message=لم يتم العثور على امتحان");
+  }
 
   return (
     <>
@@ -59,9 +65,11 @@ const ExamForm = ({ start, setStartExam }) => {
       {status && data?.details?.score && (
         <ResultBanner score={data?.details?.score} />
       )}
+      {start?.timer && <ExamTimerBanner timer={start?.timer} />}
 
       <TaskForm
-        taskId={examId}
+        form={form}
+        taskId={examId.toString()}
         setSure={setSure}
         status={status}
         setSuccess={setSuccess}
@@ -71,41 +79,46 @@ const ExamForm = ({ start, setStartExam }) => {
           setStartExam(false);
           localStorage.removeItem(`timer${examId}`);
         }}
-        form={form}
       />
 
-      <Sure
-        open={sure}
-        setOpen={handleClose}
-        length={
-          (form &&
-            form?.formState?.errors?.questions &&
-            form?.formState?.errors?.questions?.filter(
-              (item) => item && item?.toString()?.trim() !== ""
-            )?.length) ||
-          0
-        }
-      />
+      {sure && (
+        <Sure
+          open={sure}
+          setOpen={handleClose}
+          length={
+            (form &&
+              form?.formState?.errors?.questions &&
+              form?.formState?.errors?.questions?.filter(
+                (item) => item && item?.toString()?.trim() !== ""
+              )?.length) ||
+            0
+          }
+        />
+      )}
 
-      <PassedModal
-        open={success}
-        score={start?.score_ratio}
-        showAnswers={showAnswers}
-        retake={handleRetake}
-        start={start}
-        taskId={examId}
-      />
+      {success && (
+        <PassedModal
+          open={success}
+          score={start?.score_ratio}
+          showAnswers={showAnswers}
+          retake={handleRetake}
+          start={start}
+          taskId={examId}
+        />
+      )}
 
-      <FailModal
-        open={fail}
-        score={start?.score_ratio}
-        showAnswers={showAnswers}
-        retake={handleRetake}
-        start={start}
-        taskId={examId}
-      />
+      {fail && (
+        <FailModal
+          open={fail}
+          score={start?.score_ratio}
+          showAnswers={showAnswers}
+          retake={handleRetake}
+          start={start}
+          taskId={examId}
+        />
+      )}
     </>
   );
 };
 
-export default ExamForm;
+export default memo(ExamForm);

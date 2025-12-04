@@ -1,6 +1,7 @@
 import { MyTimer } from "@/components/CountdownTimer";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { memo } from "react";
 
 type Props = {
   start: any;
@@ -20,8 +21,8 @@ function ExamSideInfo({
   onComplete,
 }: Props) {
   return (
-    <div className="md:min-w-[280px] flex flex-col items-center justify-center border rounded-lg p-4 border-primary-800  max-h-[329px] bg-[#F9FAFC]">
-      <h2 className="text-[20px] text-[#121212] text-right  mb-2 font-bold break-all">
+    <div className="md:min-w-[280px] flex flex-col items-center justify-center border rounded-lg p-4 border-primary-800   bg-background">
+      <h2 className="text-[20px] text-right  mb-2 font-bold break-all">
         {start?.title || defaultTitle}
       </h2>
 
@@ -92,4 +93,4 @@ function ExamSideInfo({
   );
 }
 
-export default ExamSideInfo;
+export default memo(ExamSideInfo);

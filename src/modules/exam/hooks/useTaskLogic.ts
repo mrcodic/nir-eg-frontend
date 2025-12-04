@@ -4,14 +4,16 @@ import { useToast } from "@/hooks/use-toast";
 import axios from "axios";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-export const useTaskLogic = (options: {
-  onInitialize?: (val: boolean) => void;
-  shouldStartQuiz?: (start: any) => void;
-  onRetakeSuccess?: () => void;
-}) => {
+export const useTaskLogic = (
+  options: {
+    onInitialize?: (val: boolean) => void;
+    shouldStartQuiz?: (start: any) => void;
+    onRetakeSuccess?: () => void;
+  } = {}
+) => {
   const { toast } = useToast();
   const isInit = useRef(false);
-  const { onInitialize, shouldStartQuiz, onRetakeSuccess } = options || {};
+  const { onInitialize, shouldStartQuiz, onRetakeSuccess } = options;
 
   const { form, taskId, start, data, setData } = useTaskContext();
 

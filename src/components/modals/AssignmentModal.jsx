@@ -1,4 +1,9 @@
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import ExamPDFGenerator from "@/modules/exam/components/ExamPDFGenerator";
 import TaskModelScore from "@/modules/exam/components/TaskModelScore";
@@ -15,14 +20,14 @@ export default function AssignmentModal({
 }) {
   const { SingleCourse, room } = useParams();
 
-  console.log(start?.review_pending && !start?.show_answer && !start?.retake);
-
   return (
     <Dialog open={open}>
       <DialogContent
         key={start?.score_ratio || "no_result"}
         className="p-8 max-w-xl bg-white rounded-lg shadow-lg"
       >
+        <DialogTitle />
+        <DialogDescription />
         <div>
           <div className="mb-[12px]">
             <div className="flex gap-3 mt-[32px] flex-wrap">

@@ -23,6 +23,7 @@ const Question = ({
   isAnswer,
   isSubQuestion,
 }: Props) => {
+  const questionWatch = form.watch(`questions.${question.id}`);
   const error = form?.formState?.errors?.questions?.[question?.id];
   const notSolvedQuestion =
     isAnswer && question.answers.some((el) => !el.selected && el.correct);
@@ -41,6 +42,7 @@ const Question = ({
           index={index}
           error={error || notSolvedQuestion}
           multiCorrect={question?.has_multi_correct}
+          isSubQuestion={isSubQuestion}
         />
 
         {question?.has_multi_correct && (

@@ -44,8 +44,10 @@ const AnswerOption = ({
 
   const CheckBoxColor = useMemo(() => {
     const answerState = getAnswerState(answer);
-    if (answerState === "correct-selected") return "bg-green-500";
-    if (answerState === "incorrect-selected") return "bg-red-500";
+    if (answerState === "correct-selected")
+      return "bg-green-500 border-green-500";
+    if (answerState === "incorrect-selected")
+      return "bg-red-500 border-red-500";
     return "";
   }, [answer]);
 
@@ -67,7 +69,7 @@ const AnswerOption = ({
               onCheckedChange={handleCheckboxChange}
               id={answerId}
               className={cn(
-                "rounded-full size-6 border-gray-dark data-[state=checked]:bg-white group",
+                "rounded-full size-6 border-gray-dark data-[state=checked]:bg-white group ",
                 CheckBoxColor
               )}
               icon={

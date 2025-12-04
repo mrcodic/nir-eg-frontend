@@ -5,7 +5,13 @@ import { quizSchema } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { useForm } from "react-hook-form";
 
 const TaskContext = createContext(null);
@@ -56,11 +62,14 @@ export const TaskProvider = ({ children, taskType = "exam" }) => {
   });
 
   // Handle completion callback
-  function onComplete({ completed: isCompleted }) {
-    if (isCompleted) {
-      setCompleted(true);
-    }
-  }
+  const onComplete = useCallback(
+    ({ completed: isCompleted }) => {
+      if (isCompleted) {
+        setCompleted(true);
+      }
+    },
+    [setCompleted]
+  );
 
   useEffect(() => {
     document.documentElement.scroll({ top: 0 });

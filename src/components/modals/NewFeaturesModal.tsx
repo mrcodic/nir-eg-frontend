@@ -17,7 +17,7 @@ export function NewFeaturesModal({
   features?: FeatureListResponse;
 }) {
   return (
-    <div className="p-8 max-w-lg bg-white rounded-lg shadow-lg max-h-[calc(100vh-6rem)] overflow-y-auto">
+    <div>
       <DialogHeader className="justify-center items-center">
         <Image
           src="/assets/feature.gif"

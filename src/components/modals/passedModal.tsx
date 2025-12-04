@@ -1,4 +1,9 @@
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import ExamPDFGenerator from "@/modules/exam/components/ExamPDFGenerator";
 import TaskModelScore from "@/modules/exam/components/TaskModelScore";
@@ -30,6 +35,8 @@ export default function Passed({
       )}
       <Dialog open={open}>
         <DialogContent className="p-8 max-w-xl bg-white rounded-lg shadow-lg">
+          <DialogTitle />
+          <DialogDescription />
           <div className="">
             <div className=" ">
               {!start?.review_pending && start?.result && (

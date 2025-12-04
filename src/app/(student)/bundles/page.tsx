@@ -37,14 +37,14 @@ const BundlesPage = () => {
 
   if (isLoading || profile?.type === 3) {
     return (
-      <div className="mb-12 mt-[120px] flex items-center justify-center ">
+      <div className="mb-12 mt-[120px] grow flex items-center justify-center ">
         <LoadingSpinner />
       </div>
     );
   }
 
   return (
-    <div className="mb-12 mt-[120px] ">
+    <div className="mb-12 grow mt-[120px] ">
       {/* <BundlesCom /> */}
       {token && <Courses />}
       <NewCourses />

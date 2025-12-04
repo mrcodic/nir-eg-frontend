@@ -11,9 +11,20 @@ import WrittenQuestion from "@/modules/exam/components/WrittenQuestion";
 import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { memo, useCallback, useEffect, useRef } from "react";
 import CustomLoader from "../custom/Loader";
 import { Button } from "../ui/button";
+
+type Props = {
+  taskId: string | number;
+  setSure: (val: boolean) => void;
+  status: boolean;
+  setSuccess: (val: boolean) => void;
+  setFail: (val: boolean) => void;
+  setResolver: (val: any) => void;
+  form: any;
+  onTaskSubmit?: () => void;
+};
 
 function TaskForm({
   taskId,
@@ -24,7 +35,7 @@ function TaskForm({
   setResolver,
   form,
   onTaskSubmit,
-}) {
+}: Props) {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const listRef = useRef([]);
@@ -45,19 +56,19 @@ function TaskForm({
     }
   }, [completed]);
 
-  const saveConfirm = () => {
+  const saveConfirm = useCallback(() => {
     setSure(true);
     return new Promise((resolve) => {
       setResolver(() => resolve);
     });
-  };
+  }, []);
 
   const onSubmit = async (v) => {
     setIsSubmitting(true);
 
     try {
       const formData = new FormData();
-      formData.append("quiz_id", taskId);
+      formData.append("quiz_id", String(taskId));
 
       const allQuestions = [];
 
@@ -187,7 +198,8 @@ function TaskForm({
       <form
         onSubmit={form.handleSubmit(onSubmit, onError)}
         className={cn("mt-6", {
-          "opacity-80 pointer-events-none": form?.formState?.isSubmitting,
+          "opacity-80 pointer-events-none":
+            form?.formState?.isSubmitting || isSubmitting,
         })}
         dir="ltr"
       >
@@ -235,7 +247,7 @@ function TaskForm({
 
         {!status && data && (
           <Button
-            className="ms-auto flex justify-center mt-10 max-w-[172px] w-full [&_svg]:!size-7"
+            className="ms-auto flex justify-center mt-10 max-w-[172px] w-full [&_svg]:size-7!"
             type="button"
             disabled={isSubmitting}
             onClick={async (e) => {
@@ -251,9 +263,11 @@ function TaskForm({
         )}
       </form>
 
-      {data?.solution && <ExamPDFGenerator taskId={taskId} className="mt-8" />}
+      {data?.solution && (
+        <ExamPDFGenerator taskId={Number(taskId)} className="mt-8" />
+      )}
     </Form>
   );
 }
 
-export default TaskForm;
+export default memo(TaskForm);

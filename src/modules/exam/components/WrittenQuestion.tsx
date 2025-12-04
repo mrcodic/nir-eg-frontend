@@ -21,16 +21,10 @@ const WrittenQuestion = ({ form, question, listRef, index }) => {
   function handleInputChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
     const value = e.target.value;
 
-    form.setValue(
-      `questions.${question.id}`,
-      {
-        attachment: fieldValue?.attachment,
-        text: value,
-      },
-      {
-        shouldValidate: true,
-      }
-    );
+    form.setValue(`questions.${question.id}`, {
+      attachment: fieldValue?.attachment,
+      text: value,
+    });
   }
 
   function handleFileChange(e: ChangeEvent<HTMLInputElement>) {
@@ -45,16 +39,10 @@ const WrittenQuestion = ({ form, question, listRef, index }) => {
       return;
     }
 
-    form.setValue(
-      `questions.${question.id}`,
-      {
-        attachment: file,
-        text: fieldValue?.text,
-      },
-      {
-        shouldValidate: true,
-      }
-    );
+    form.setValue(`questions.${question.id}`, {
+      attachment: file,
+      text: fieldValue?.text,
+    });
   }
 
   return (
