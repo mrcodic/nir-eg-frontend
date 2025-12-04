@@ -111,9 +111,9 @@ export const BooksPaymentUI: React.FC<PaymentUIProps> = ({
             alt="warinng"
             className="inline-block ml-2"
           />
-          بعد ما تضغط "التالي"، هيتعرضلك كود الدفع. خده وادفعه في أقرب فرع فورى
-          أو تطبيق فورى احتفظ بالايصال وفي خلال 30 دقيقة الباقه هتتفتح, مع العلم
-          ان صلاحية الكود 7 ايام.
+          بعد ما تضغط &quot;التالي&quot;، هيتعرضلك كود الدفع. خده وادفعه في أقرب
+          فرع فورى أو تطبيق فورى احتفظ بالايصال وفي خلال 30 دقيقة الباقه هتتفتح,
+          مع العلم ان صلاحية الكود 7 ايام.
         </span>
       )}
 
@@ -123,7 +123,7 @@ export const BooksPaymentUI: React.FC<PaymentUIProps> = ({
         <RadioGroup
           value={paymentMethodValue}
           onValueChange={(value) => {
-            setPaymentMethodValue(value);
+            setPaymentMethodValue(value as paymentType);
           }}
           dir="rtl"
           className="gap-5"

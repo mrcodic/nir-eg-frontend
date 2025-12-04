@@ -19,7 +19,7 @@ const RoomRevision = ({
   const router = useRouter();
 
   return (
-    <div className="border flex mb-2 items-start justify-between border-gray-light rounded-lg p-2 bg-background">
+    <div className="border flex items-start justify-between border-gray-light rounded-lg p-2 bg-background">
       <div className="flex gap-4 items-center">
         <img src="/assets/videos-fill.svg" className="w-7 h-7" />
         <div>

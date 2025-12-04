@@ -22,6 +22,8 @@ export const TargetGradeBanner = memo(({ score }: { score: number }) => {
   );
 });
 
+TargetGradeBanner.displayName = "TargetGradeBanner";
+
 export const ResultBanner = memo(({ score }: { score: number }) => {
   return (
     <TopBanner
@@ -43,6 +45,8 @@ export const ResultBanner = memo(({ score }: { score: number }) => {
   );
 });
 
+ResultBanner.displayName = "ResultBanner";
+
 export const ExamTimerBanner = memo(({ timer }: { timer: string }) => {
   return (
     <TopBanner
@@ -62,3 +66,5 @@ export const ExamTimerBanner = memo(({ timer }: { timer: string }) => {
     />
   );
 });
+
+ExamTimerBanner.displayName = "ExamTimerBanner";

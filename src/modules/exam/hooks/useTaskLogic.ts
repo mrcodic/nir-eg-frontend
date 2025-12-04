@@ -43,13 +43,13 @@ export const useTaskLogic = (
         icon: "error",
       });
     }
-  }, []);
+  }, [form, onRetakeSuccess, setData, taskId, toast]);
 
   // handle when success model is opened telling exam is still being graded then get graded
   useEffect(() => {
     if (!success) return;
     if (start?.score_ratio && !start.result) {
-      console.log("cloooooose success modal");
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setSuccess(false);
       setFail(true);
     }
@@ -60,9 +60,10 @@ export const useTaskLogic = (
     if ((success || fail) && !start?.score_ratio && !start?.review_pending) {
       console.log("retake from dashboard");
 
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       retakeExamLogic();
     }
-  }, [success, fail, start]);
+  }, [success, fail, start, retakeExamLogic]);
 
   // ============= INITIALIZATION =============
   useEffect(() => {

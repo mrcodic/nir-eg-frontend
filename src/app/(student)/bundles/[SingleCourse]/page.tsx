@@ -2,7 +2,7 @@ import CourseDetails from "@/components/CourseDetails";
 import CourseFloatingCards from "@/components/CourseFloatingCards";
 import CoursesHeader from "@/components/CoursesHeader";
 import { getClientPrivateData } from "@/helpers/client-fetch";
-import { getServerPrivateData } from "@/helpers/server-fetch";
+import { getServerData } from "@/helpers/server-fetch";
 import ProtectedRoute from "@/layouts/ProtectedRoute";
 import { ICourseDetails } from "@/types";
 import { redirect } from "next/navigation";
@@ -13,7 +13,7 @@ const SingleCourse = async ({ params }) => {
     getClientPrivateData({
       queryKey: [`/students/profile`],
     }),
-    getServerPrivateData<{ body: ICourseDetails }>({
+    getServerData<{ body: ICourseDetails }>({
       queryKey: [`/students/get-rooms/${SingleCourse}?page=1&per_page=10`],
     }),
   ]);
@@ -33,7 +33,7 @@ const SingleCourse = async ({ params }) => {
       }
       verify={true}
     >
-      <div className="mt-20">
+      <div className="mt-20 ">
         <CoursesHeader details={bundleRooms?.body} />
 
         <CourseFloatingCards

@@ -1,12 +1,5 @@
 "use client";
 
-import React, { type SyntheticEvent } from "react";
-import ReactCrop, {
-  centerCrop,
-  makeAspectCrop,
-  type Crop,
-  type PixelCrop,
-} from "react-image-crop";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,8 +9,10 @@ import {
   DialogFooter,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import "react-image-crop/dist/ReactCrop.css";
 import { CropIcon, Trash2Icon } from "lucide-react";
+import React, { type SyntheticEvent } from "react";
+import ReactCrop, { type Crop, type PixelCrop } from "react-image-crop";
+import "react-image-crop/dist/ReactCrop.css";
 import { FileWithPreview } from "./UploadImage";
 
 interface ImageCropperProps {
@@ -168,26 +163,5 @@ export function ImageCropper({
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  );
-}
-
-export function centerAspectCrop(
-  mediaWidth: number,
-  mediaHeight: number,
-  aspect: number
-): Crop {
-  return centerCrop(
-    makeAspectCrop(
-      {
-        unit: "%",
-        width: 50,
-        height: 50,
-      },
-      aspect,
-      mediaWidth,
-      mediaHeight
-    ),
-    mediaWidth,
-    mediaHeight
   );
 }

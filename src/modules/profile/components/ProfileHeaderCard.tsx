@@ -1,5 +1,6 @@
 import { IUser } from "@/types";
 import { motion } from "framer-motion";
+import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import { QRCodeSVG } from "qrcode.react";
 import GradeCard from "./GradeCard";
@@ -74,10 +75,10 @@ function ProfileHeaderCard({ profileData }: { profileData: IUser }) {
       {profileData?.type === 3 && profileData?.has_center && (
         <Link
           href={`/bundles/${profileData?.center_id}`}
-          className="bg-primary-800 flex justify-center items-center gap-2 py-2.5 font-bold text-white border border-[#9D8242] rounded-[10px] absolute -bottom-8 md:-bottom-7 left-1/2 -translate-x-1/2 w-[242px]"
+          className="bg-secondary flex justify-center items-center gap-2 py-2.5 font-bold text-white group  rounded-xl absolute -bottom-8 md:-bottom-7 left-1/2 -translate-x-1/2 w-[242px]"
         >
           <span>اذهب للسنتر</span>
-          <img className="w-5 h-5" src="/assets/LeftArrowColor.svg" />
+          <ChevronLeft className="group-hover:-translate-x-2 transition-all duration-300" />
         </Link>
       )}
     </motion.div>

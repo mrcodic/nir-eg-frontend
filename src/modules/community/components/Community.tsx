@@ -42,7 +42,7 @@ const Community = ({ lessonId, currentTime, locked }: CommunityProps) => {
     enabled: !!lessonId,
   });
 
-  const getFilteredComments = () => {
+  const filteredComments = useMemo(() => {
     if (!comments?.data) return [];
 
     if (filterMode === "all") {
@@ -53,13 +53,7 @@ const Community = ({ lessonId, currentTime, locked }: CommunityProps) => {
       const commentTime = comment.at_second;
       return Math.abs(commentTime - currentTime) <= TIME_MARGIN;
     });
-  };
-
-  const filteredComments = useMemo(getFilteredComments, [
-    comments,
-    filterMode,
-    currentTime,
-  ]);
+  }, [comments, filterMode, currentTime]);
 
   // Paginate filtered comments
   const paginatedComments = useMemo(() => {

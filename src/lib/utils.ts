@@ -77,12 +77,6 @@ export const setNewOtpSendTime = () => {
   return newTime;
 };
 
-export type AnswerState =
-  | "correct-selected"
-  | "correct-unselected"
-  | "incorrect-selected"
-  | "unanswered";
-
 interface Answer {
   correct?: boolean;
   selected?: boolean;

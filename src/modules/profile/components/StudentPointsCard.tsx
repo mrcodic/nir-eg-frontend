@@ -2,7 +2,13 @@
 
 import Link from "next/link";
 
-function StudentPointsCard({ points }: { points: number }) {
+function StudentPointsCard({
+  points,
+  showLink = true,
+}: {
+  points: number;
+  showLink?: boolean;
+}) {
   return (
     <div className="border-primary-800 border h-[92px] rounded-[12px] p-2 w-full md:min-w-[260px] md:w-fit">
       <div className="flex gap-4 sm:gap-6 h-full items-center">
@@ -29,12 +35,14 @@ function StudentPointsCard({ points }: { points: number }) {
           </div>
         </div>
 
-        <Link
-          href="#table"
-          className="flex self-end shrink-0 items-center  ms-auto justify-center   bg-primary-800 text-sm font-medium  px-3  h-7 rounded-md text-white"
-        >
-          عرض
-        </Link>
+        {showLink && (
+          <Link
+            href="#table"
+            className="flex self-end shrink-0 items-center  ms-auto justify-center   bg-primary-800 text-sm font-medium  px-3  h-7 rounded-md text-white"
+          >
+            عرض
+          </Link>
+        )}
       </div>
     </div>
   );

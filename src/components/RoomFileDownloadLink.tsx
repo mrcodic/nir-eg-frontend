@@ -20,7 +20,7 @@ function RoomFileDownloadLink({
   return (
     <div
       key={index}
-      className="p-2 border mb-2 justify-between rounded-md bg-background border-gray-light flex"
+      className="p-2 border justify-between rounded-md bg-background border-gray-light flex"
     >
       <div className="font-bold flex gap-2 items-center">
         <img className="size-7  bg-white " src="/assets/files-fill.svg" />

@@ -46,7 +46,7 @@ const OfferModel = () => {
           </div>
 
           <Image
-            src="/percentage.gif"
+            src="/assets/percentage.gif"
             alt="percentage"
             width={72}
             height={72}

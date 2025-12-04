@@ -43,11 +43,12 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedGrade = localStorage.getItem("grade");
-      if (storedGrade) {
+      if (storedGrade && !grade) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setGrade(storedGrade);
       }
     }
-  }, []);
+  }, [grade]);
 
   useEffect(() => {
     if (typeof window !== "undefined" && grade !== "") {
@@ -58,6 +59,7 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     const tokenCookie = Cookies.get("nir_token");
     if (!tokenCookie) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setToken(null);
     } else {
       setToken(tokenCookie);

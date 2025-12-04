@@ -1,10 +1,10 @@
 import { Button } from "@/components/ui/button";
-import { getServerPrivateData } from "@/helpers/server-fetch";
+import { getServerData } from "@/helpers/server-fetch";
 import Image from "next/image";
 import Link from "next/link";
 
 const page = async () => {
-  const res = await getServerPrivateData({ queryKey: ["/students/profile"] });
+  const res = await getServerData({ queryKey: ["/students/profile"] });
 
   return (
     <div className="min-h-[min(calc(100vh-80px),768px)] py-12 mt-20 flex flex-col justify-center gap-7 items-center ">

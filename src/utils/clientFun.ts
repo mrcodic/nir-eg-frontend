@@ -1,12 +1,3 @@
-export const convertTimeToSeconds = () => {
-  const now = new Date();
-  const hours = now.getHours();
-  const minutes = now.getMinutes();
-  const seconds = now.getSeconds();
-  const totalSeconds = hours * 3600 + minutes * 60 + seconds;
-  return totalSeconds;
-};
-
 export const getLocalStorage = (key) => {
   if (typeof window !== "undefined") {
     const data = localStorage.getItem(key);
@@ -20,18 +11,6 @@ export const getLocalStorage = (key) => {
   }
   return null;
 };
-export function gradeDetect(grade) {
-  switch (grade) {
-    case 1:
-      return "الصف الأول الثانوي";
-    case 2:
-      return "الصف الثاني الثانوي";
-    case 3:
-      return "الصف الثالث الثانوي";
-    default:
-      return "الصف الثانوي";
-  }
-}
 
 export function convertMinutes(seconds) {
   let minutes = seconds / 60;

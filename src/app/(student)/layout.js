@@ -30,7 +30,7 @@ export default function RootLayout({ children }) {
     const newParams = new URLSearchParams(searchParams.toString());
     newParams.delete("payment");
     router.replace(`?${newParams.toString()}`, { scroll: false });
-  }, [payment]);
+  }, [modal, payment, router, searchParams]);
 
   return <CustomProvider>{children}</CustomProvider>;
 }

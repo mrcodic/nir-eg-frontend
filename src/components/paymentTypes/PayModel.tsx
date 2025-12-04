@@ -1,4 +1,4 @@
-import { getServerPrivateData } from "@/helpers/server-fetch";
+import { getServerData } from "@/helpers/server-fetch";
 import BundleForm from "../forms/bundleForm";
 import CourseForm from "../forms/CourseForm";
 import PaymentCenterCode from "../forms/PaymentCenterCode";
@@ -11,7 +11,7 @@ export default async function PayModel({
   roomId,
   centerId,
 }) {
-  const profile = await getServerPrivateData({
+  const profile = await getServerData({
     queryKey: ["/students/profile"],
   });
 

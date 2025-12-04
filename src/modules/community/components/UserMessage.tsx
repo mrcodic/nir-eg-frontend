@@ -108,6 +108,7 @@ const UserMessage = ({
             {comment?.documents?.map((document, index) => {
               return (
                 <Link
+                  key={index}
                   target="_blank"
                   className="w-full  border border-[#F8DEC5] py-2 
                                 bg-[#FFFFFF] 

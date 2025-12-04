@@ -12,15 +12,6 @@ export interface Book {
   status_label: string;
 }
 
-export interface CartState {
-  items: Book[];
-  addToCart: (book: Omit<Book, "quantity">) => void;
-  removeFromCart: (id: string) => void;
-  updateQuantity: (id: string, quantity: number) => void;
-  clearCart: () => void;
-  getTotalPrice: () => number;
-}
-
 export type BookLinksSettings = {
   hide_books: number;
   links: {

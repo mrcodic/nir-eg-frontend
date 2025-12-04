@@ -83,7 +83,7 @@ export async function GET(req) {
       token = cookieStore.get("nir_token")?.value;
     }
 
-    // const response = await getServerPrivateData({ queryKey: [url] });
+    // const response = await getServerData({ queryKey: [url] });
     const response = await instance.get(url, {
       headers: {
         accept: "application/json",

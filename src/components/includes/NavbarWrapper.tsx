@@ -1,13 +1,14 @@
-"use client";
-
-import { useAuthContext } from "@/context/auth-context";
+import { getServerData } from "@/helpers/server-fetch";
 import AuthNavBar from "./AuthNavBar";
 import GuestNavBar from "./GuestNavBar";
 
-const NavbarWrapper = () => {
-  const { profile } = useAuthContext();
+const NavbarWrapper = async () => {
+  const data = await getServerData({
+    queryKey: ["students/profile"],
+    isAuth: true,
+  });
 
-  return !!profile ? <AuthNavBar /> : <GuestNavBar />;
+  return !!data ? <AuthNavBar /> : <GuestNavBar />;
 };
 
 export default NavbarWrapper;

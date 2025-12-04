@@ -112,12 +112,10 @@ const RoomSideContent = ({
                 key={quiz.id}
                 className="flex items-center px-2 py-2 rounded-lg border border-gray-light shadow-sm bg-white mt-4 justify-between"
               >
-                <div className="flex gap-2">
-                  <img src="/assets/exam-fill.svg" className="size-6" />
-                  <h3 className="text-sm font-bold truncate break-all">
-                    {quiz?.title}
-                  </h3>
-                </div>
+                <img src="/assets/exam-fill.svg" className="size-6" />
+                <h3 className="text-sm grow font-bold truncate break-all">
+                  {quiz?.title}
+                </h3>
 
                 <Link
                   href={`${room}/exams/${quiz.id}`}
@@ -143,16 +141,14 @@ const RoomSideContent = ({
                 key={attachment.name}
                 className="flex gap-2 items-center mb-2 px-2 py-2 bg-white rounded-lg border border-gray-light shadow-sm mt-2.5 justify-between"
               >
-                <div className="flex gap-2">
-                  <img src="/assets/files-fill.svg" className="size-6" />
-                  <h4 className="text-sm font-bold truncate  break-all">
-                    {attachment.name}
-                  </h4>
-                </div>
+                <img src="/assets/files-fill.svg" className="size-6" />
+                <h4 className="text-sm grow font-bold truncate  break-all">
+                  {attachment.name}
+                </h4>
 
                 <LinkLocked
                   locked={locked}
-                  className="flex items-center justify-center size-9 bg-primary-800 rounded-lg"
+                  className="flex items-center shrink-0 justify-center size-9 bg-primary-800 rounded-lg"
                 >
                   <button
                     onClick={() => {
@@ -178,12 +174,10 @@ const RoomSideContent = ({
                 key={ass?.id}
                 className="flex gap-2 items-center px-2 py-2 rounded-lg border border-gray-light shadow-sm bg-white mt-4 justify-between"
               >
-                <div className="flex gap-2">
-                  <img src="/assets/assignment-fill.svg" className="size-6" />
-                  <h2 className="text-sm font-bold truncate break-all">
-                    {ass?.title}
-                  </h2>
-                </div>
+                <img src="/assets/assignment-fill.svg" className="size-6" />
+                <h2 className="text-sm grow font-bold truncate break-all">
+                  {ass?.title}
+                </h2>
 
                 <LinkLocked locked={locked}>
                   <Link

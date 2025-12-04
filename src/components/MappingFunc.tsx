@@ -1,11 +1,11 @@
-import { getClientPrivateData } from "@/helpers/client-fetch";
-import { getServerPrivateData } from "@/helpers/server-fetch";
+import { getServerData } from "@/helpers/server-fetch";
 import CustomError from "@/lib/customError";
 import { IGetDataOptions } from "@/types/helpers.types";
 import get from "lodash/get";
 import { isDynamicServerError } from "next/dist/client/components/hooks-server-context";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { ComponentProps, ReactNode } from "react";
+import "server-only";
 import Empty from "./Empty";
 
 type EmptyProps = ComponentProps<typeof Empty>;
@@ -38,15 +38,16 @@ const MappingFun = async ({
     // console.log("🚀 ~ MappingFun ~ queryKey:", queryKey);
 
     if (requireAuth) {
-      fetchedData = await getServerPrivateData({
+      fetchedData = await getServerData({
         queryKey: [queryKey],
         ...endPointOptions,
       });
-      // fetchedData = await getServerPrivateData({ queryKey: [queryKey], ...endPointOptions });
+      // fetchedData = await getServerData({ queryKey: [queryKey], ...endPointOptions });
     } else {
-      fetchedData = await getClientPrivateData({
+      fetchedData = await getServerData({
         queryKey: [queryKey],
         ...endPointOptions,
+        isAuth: false,
       });
     }
 

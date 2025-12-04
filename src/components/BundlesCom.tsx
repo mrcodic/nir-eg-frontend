@@ -40,12 +40,12 @@ const BundlesCom = () => {
   });
 
   useEffect(() => {
-    if (profile) {
+    if (profile && !BundlesData) {
       setBundlesData(data?.body?.budles);
     } else {
       setBundlesData(data?.body);
     }
-  }, [profile, data]);
+  }, [profile, BundlesData, data]);
 
   console.log("bundles query data : ", api, data);
 

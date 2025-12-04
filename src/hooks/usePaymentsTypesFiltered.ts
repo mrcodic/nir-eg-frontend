@@ -49,7 +49,7 @@ function usePaymentsTypesFiltered({
         ? paymentTypesCenter
         : filterOnlineTypes(paymentTypesOnline);
     }
-  }, [asModal, userType, isCodeCenter, isLoading]);
+  }, [isLoading, userType, isCodeCenter, asModal, filterOnlineTypes]);
 
   return {
     paymentFilter: data?.data as PaymentFilter | null,

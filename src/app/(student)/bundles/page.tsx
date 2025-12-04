@@ -1,5 +1,6 @@
 "use client";
 
+import BundlesCom from "@/components/BundlesCom";
 import Courses from "@/components/Courses";
 import LoadingSpinner from "@/components/Loading";
 import NewCourses from "@/components/NewCoursers";
@@ -33,7 +34,7 @@ const BundlesPage = () => {
     } else {
       router.push(`/bundles/${profile?.center_id}`);
     }
-  }, [grade, profile]);
+  }, [grade, profile, router]);
 
   if (isLoading || profile?.type === 3) {
     return (
@@ -45,7 +46,7 @@ const BundlesPage = () => {
 
   return (
     <div className="mb-12 grow mt-[120px] ">
-      {/* <BundlesCom /> */}
+      <BundlesCom />
       {token && <Courses />}
       <NewCourses />
     </div>

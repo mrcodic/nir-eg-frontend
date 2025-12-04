@@ -75,6 +75,7 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (!isOpen) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setModalContent(undefined);
       setDialogContentProps(null);
       setSideElement(undefined);

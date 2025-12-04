@@ -125,7 +125,7 @@ export default function PaymentResultClient() {
         </p>
         <p>
           If you want, send me your server secret and I can show a server
-          endpoint example (don't paste secrets in public chat).
+          endpoint example (don&apos;t paste secrets in public chat).
         </p>
       </footer>
     </div>

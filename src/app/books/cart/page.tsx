@@ -1,4 +1,4 @@
-import { getServerPrivateData } from "@/helpers/server-fetch";
+import { getServerData } from "@/helpers/server-fetch";
 import BooksStoreItems from "@/modules/books-store/components/BooksStoreItems";
 import CartContent from "@/modules/books-store/components/CartContent";
 import { redirect } from "next/navigation";
@@ -8,7 +8,7 @@ export const metadata = {
 };
 
 async function page() {
-  const profile = await getServerPrivateData({
+  const profile = await getServerData({
     queryKey: [`/students/profile`],
   });
 

@@ -2,6 +2,7 @@ import reactCache from "@/helpers/reactCache";
 import { clientGetErrorhandler } from "@/lib/client-get-errorhandler";
 import CustomError from "@/lib/customError";
 import { IGetDataOptions } from "@/types/helpers.types";
+import { getCookie } from "@/utils/api";
 
 import Cookies from "js-cookie";
 
@@ -16,8 +17,12 @@ const fetcherClient = async <T>(
   let token = "";
 
   if (authenticated) {
-    token = Cookies.get("nir_token") || "";
-    if (!token) {
+    token =
+      typeof window !== "undefined"
+        ? Cookies.get("nir_token")
+        : await getCookie("nir_token");
+
+    if (!token && endpoint.includes("students/profile")) {
       return null;
     }
   }

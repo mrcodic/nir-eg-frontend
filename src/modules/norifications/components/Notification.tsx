@@ -41,12 +41,12 @@ const Notification = ({
 
         {notification?.payload?.reply_excerpt && (
           <p className="text-gray-dark text-[13px] italic">
-            "{notification.payload.reply_excerpt}"
+            &quot;{notification.payload.reply_excerpt}&quot;
           </p>
         )}
       </div>
 
-      <div className="flex gap-[12px] items-center">
+      <div className="flex gap-3 items-center">
         <img src="/assets/time.svg" alt="Time icon" />
         <span className="text-[12px] text-gray-dark">
           {formatTime(notification.created_at)}

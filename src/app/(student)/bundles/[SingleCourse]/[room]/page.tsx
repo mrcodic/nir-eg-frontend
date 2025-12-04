@@ -87,7 +87,7 @@ const SingleVideo = () => {
       console.log("fetching otp and views");
       fetchOtpAndViews(videoId);
     }
-  }, [videoId]);
+  }, [otpData, videoId]);
 
   // initialize lesson id and video id from video id searchparam
   useEffect(() => {

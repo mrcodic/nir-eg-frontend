@@ -20,7 +20,7 @@ const fetcherServer = async <T>(
     const cookiesStore = await cookies();
     token = cookiesStore.get("nir_token")?.value || "";
 
-    if (!token) {
+    if (!token && endpoint.includes("students/profile")) {
       return null;
     }
   }
@@ -85,11 +85,12 @@ const fetcherServer = async <T>(
   }
 };
 
-export const getServerPrivateData = reactCache(
+export const getServerData = reactCache(
   async <T = any>({
     queryKey: [endpoint],
     next,
     cache,
+    isAuth = true,
   }: IGetDataOptions): Promise<T | null> =>
-    fetcherServer({ queryKey: [endpoint], next, cache }, true)
+    fetcherServer({ queryKey: [endpoint], next, cache }, isAuth)
 );

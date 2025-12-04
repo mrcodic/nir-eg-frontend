@@ -64,11 +64,7 @@ export enum paymentStatus {
   failed = "UNPAID",
 }
 
-export enum AccountType {
-  center = 3,
-  online = 4,
-  codeCenter = 5,
-}
+
 
 interface CommentUser {
   id: number;
