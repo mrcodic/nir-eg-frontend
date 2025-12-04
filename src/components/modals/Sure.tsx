@@ -5,17 +5,17 @@ import { DialogClose } from "@radix-ui/react-dialog";
 export function Sure({ open, setOpen, length }) {
   return (
     <Dialog open={open}>
-      <DialogContent className="p-8 max-w-lg bg-white rounded-lg shadow-lg">
-        <div className="max-w-[466px] bg-white p-6 rounded-[8px]">
+      <DialogContent className="max-w-lg bg-white rounded-lg shadow-lg">
+        <div className="">
           <p className="text-[18px] font-bold text-[#121212]">
             هل أنت متأكد من أنك تريد حفظ الإجابات؟
           </p>
-          <div className="h-[1px] my-[12px] bg-[#D9B45C]" />
-          <span className="text-[#121212] inline-block font-medium">
+          <p className="text-[#121212] inline-block font-medium mt-8">
             لن تتمكن من تغيير الإجابات مرة أخرى
-          </span>
+          </p>
+
           {length > 0 && (
-            <span className="text-red-500 inline-block font-medium">
+            <span className="text-red-500 ms-1 inline-block font-medium">
               لم تقم بالإجابة على {length} سؤال{" "}
             </span>
           )}
@@ -27,7 +27,8 @@ export function Sure({ open, setOpen, length }) {
             className="flex items-center justify-center w-full"
           >
             <Button
-              className="bg-colorPrimary border text-white font-bold border-[#D9B45C] h-[32px] w-[144px] rounded-[8px]"
+              type="submit"
+              className="font-bold  h-11 w-full rounded-lg"
               onClick={() => {
                 setOpen(true);
               }}
@@ -40,8 +41,8 @@ export function Sure({ open, setOpen, length }) {
             className="flex items-center !justify-center w-full"
           >
             <Button
-              type="submit"
-              className=" border bg-white text-black hover:text-white  font-bold  h-[32px] w-[144px] rounded-[8px]"
+              variant="ghost"
+              className="h-11 w-full rounded-lg border border-gray-light"
               onClick={() => {
                 setOpen(false);
               }}

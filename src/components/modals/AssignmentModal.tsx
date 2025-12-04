@@ -7,8 +7,19 @@ import {
 import { cn } from "@/lib/utils";
 import ExamPDFGenerator from "@/modules/exam/components/ExamPDFGenerator";
 import TaskModelScore from "@/modules/exam/components/TaskModelScore";
+import { QuizStatus } from "@/types";
+import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { Button } from "../ui/button";
+
+interface Props {
+  open: boolean;
+  showAnswers: () => void;
+  start: QuizStatus;
+  retake: () => void;
+  taskId: string | number;
+}
 
 export default function AssignmentModal({
   open,
@@ -26,31 +37,33 @@ export default function AssignmentModal({
         key={start?.score_ratio || "no_result"}
         className="p-8 max-w-xl bg-white rounded-lg shadow-lg"
       >
-        <DialogTitle />
-        <DialogDescription />
-        <div>
-          <div className="mb-[12px]">
-            <div className="flex gap-3 mt-[32px] flex-wrap">
-              {start?.review_pending ? (
-                <div className="flex items-center gap-2">
-                  <img src="/assets/CorrectColor.svg" />
-                  <p className="text-[#121212] inline-block text-lg font-bold">
-                    جارى تصحيح الواجب
-                  </p>
-                </div>
-              ) : (
-                <>
-                  <div className="flex items-center gap-2">
-                    <img src="/assets/CorrectColor.svg" />
-                    <span className="text-[#121212] inline-block text-lg font-bold">
-                      جاوبت على
-                    </span>
-                  </div>
-                  <TaskModelScore score={score} />
-                </>
-              )}
+        <DialogTitle className="hidden" />
+        <DialogDescription className="hidden" />
+        <div className="w-full">
+          {start?.review_pending ? (
+            <div className="flex items-center gap-2">
+              <img src="/assets/CorrectColor.svg" />
+              <p className="text-[#121212] inline-block text-lg font-bold">
+                جارى تصحيح الواجب
+              </p>
             </div>
-          </div>
+          ) : (
+            <>
+              <Image
+                src="/assets/confetti.gif"
+                alt="confetti"
+                width={56}
+                height={56}
+              />
+
+              <div className="flex gap-3 mt-2 flex-wrap justify-between items-center ">
+                <span className="inline-block text-base font-bold">
+                  عمل رائع، حصلت على
+                </span>
+                <TaskModelScore score={start?.score} pass={start?.result} />
+              </div>
+            </>
+          )}
 
           <div className="h-px my-[12px] bg-gray-light" />
 
@@ -81,28 +94,32 @@ export default function AssignmentModal({
               {!start?.review_pending && (
                 <>
                   {start?.show_answer && (
-                    <button
+                    <Button
                       onClick={showAnswers}
-                      className=" w-full md:w-[172px] bg-primary h-[32px] text-sm font-bold text-white rounded-md border border-gray-light"
+                      className="h-11  w-full font-bold"
                     >
                       عرض الإجابات
-                    </button>
+                    </Button>
                   )}
                   {start?.retake && (
-                    <button
-                      className="bg-gray-light py-1 w-full md:w-[172px] borer border-primary px-[12px] font-bold text-white text-sm rounded-lg"
-                      onClick={() => retake()}
+                    <Button
+                      onClick={retake}
+                      variant="secondary"
+                      className="h-11  w-full font-bold"
                     >
-                      إعادة الواجب
-                    </button>
+                      إعادة الامتحان
+                    </Button>
                   )}
                 </>
               )}
 
-              <Link href={`/bundles/${SingleCourse}/${room}`}>
-                <button className="w-[172px] border border-primary h-[32px] text-sm font-bold text-[#121212] rounded-md">
+              <Link
+                href={`/bundles/${SingleCourse}/${room}`}
+                className="inline-block w-full"
+              >
+                <Button variant="outline" className="h-11  w-full font-bold">
                   الرجوع للحصه
-                </button>
+                </Button>
               </Link>
 
               {start?.show_answer && !start?.review_pending && (

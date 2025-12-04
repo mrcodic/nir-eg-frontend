@@ -15,7 +15,7 @@ function ExamSideNav() {
   if (!questions?.length) return null;
 
   return (
-    <div className="w-full md:min-w-[280px] flex flex-col gap-2  justify-center border rounded-lg  border-gray-light    bg-[#FFFDFA]">
+    <div className="w-full md:min-w-[280px] flex flex-col gap-2  justify-center border rounded-lg  border-primary-800    bg-background">
       <h2 className="text-[20px] p-4 text-[#121212] pb-0 text-right  mb-2 font-bold">
         الاسئلة:
       </h2>

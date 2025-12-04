@@ -9,10 +9,16 @@ import {
   ResultBanner,
   TargetGradeBanner,
 } from "@/modules/exam/components/ExamBanners";
+import { QuizStatus } from "@/types";
 import { memo } from "react";
 import TaskForm from "./TaskForm";
 
-const ExamForm = ({ start, setStartExam }) => {
+type Props = {
+  start: QuizStatus;
+  setStartExam: (startExam: boolean) => void;
+};
+
+const ExamForm = ({ start, setStartExam }: Props) => {
   const { examId } = useParams();
 
   const {
@@ -99,22 +105,20 @@ const ExamForm = ({ start, setStartExam }) => {
       {success && (
         <PassedModal
           open={success}
-          score={start?.score_ratio}
           showAnswers={showAnswers}
           retake={handleRetake}
           start={start}
-          taskId={examId}
+          taskId={examId.toString()}
         />
       )}
 
       {fail && (
         <FailModal
           open={fail}
-          score={start?.score_ratio}
           showAnswers={showAnswers}
           retake={handleRetake}
           start={start}
-          taskId={examId}
+          taskId={examId.toString()}
         />
       )}
     </>

@@ -2,6 +2,7 @@
 
 import { getClientPrivateData } from "@/helpers/client-fetch";
 import { quizSchema } from "@/lib/schemas";
+import { QuizStatus } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
@@ -14,7 +15,26 @@ import {
 } from "react";
 import { useForm } from "react-hook-form";
 
-const TaskContext = createContext(null);
+interface TaskContextType {
+  form: any;
+  start: QuizStatus;
+  isLoading: boolean;
+  data: any;
+  setData: (data: any) => void;
+  showRoom: boolean;
+  setShowRoom: (showRoom: boolean) => void;
+  startExam: boolean;
+  setStartExam: (startExam: boolean) => void;
+  completed: boolean;
+  setCompleted: (completed: boolean) => void;
+  onComplete: (data: { completed: boolean }) => void;
+  taskType: string;
+  taskId: string;
+  isSubmitting: boolean;
+  setIsSubmitting: (isSubmitting: boolean) => void;
+}
+
+const TaskContext = createContext<TaskContextType | null>(null);
 
 export const useTaskContext = () => {
   const context = useContext(TaskContext);
@@ -27,7 +47,9 @@ export const useTaskContext = () => {
 export const TaskProvider = ({ children, taskType = "exam" }) => {
   // Get the appropriate ID based on task type
   const params = useParams();
-  const taskId = taskType === "exam" ? params.examId : params.assignmentId;
+  const taskId = (
+    taskType === "exam" ? params.examId : params.assignmentId
+  ) as string;
 
   const form = useForm({
     mode: "all",
@@ -50,7 +72,7 @@ export const TaskProvider = ({ children, taskType = "exam" }) => {
     data: start,
     isLoading,
     error,
-  } = useQuery({
+  } = useQuery<QuizStatus>({
     queryKey: [`/students/quiz/start/${taskId}`],
     queryFn: async () => {
       const res = await getClientPrivateData({

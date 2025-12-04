@@ -52,7 +52,7 @@ function SideNavLink({
       onClick={(e) => handleClick(e, `#question-${index}`)}
     >
       <Image
-        src="/question.svg"
+        src="/assets/question.svg"
         width={24}
         height={24}
         alt=""

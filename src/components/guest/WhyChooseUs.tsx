@@ -35,7 +35,7 @@ function WhyChooseUs() {
   return (
     <section className="space-y-8">
       <div className="flex justify-center">
-        <h3 className="text-[32px] font-bold mx-auto">
+        <h3 className="text-32 font-bold mx-auto">
           ليه تختار <StyledText text="نير ؟ " />
         </h3>
       </div>

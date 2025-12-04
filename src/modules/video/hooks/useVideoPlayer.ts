@@ -1,37 +1,27 @@
-"use client";
-
-import axios from "axios";
-import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
-
-import TamperResistantOverlay from "@/utils/TamperResistantOverlay";
 import { useQueryClient } from "@tanstack/react-query";
-import { FileWarning, X } from "lucide-react";
-import LoadingSpinner from "./Loading";
-import TopBanner from "./banners/TopBanner";
+import axios from "axios";
+import { useEffect, useRef, useState } from "react";
 
 type VdoStatusChange =
   | string
   | { code?: number; label?: string; status?: string };
 
 type VdoInstance = {
-  video: HTMLVideoElement; // Proxy HTML5 video (currentTime, duration, events, ...)
+  video: HTMLVideoElement;
   api: {
     addEventListener: (
       evt: string,
       cb: (e: VdoStatusChange) => void
-    ) => () => void | void; // returns optional remove fn
+    ) => () => void | void;
     removeEventListener?: (evt: string, cb: (e: any) => void) => void;
 
-    // Custom analytics calls:
-    getTotalPlayed: () => Promise<number>; // seconds watched (actual)
-    getTotalCovered: () => Promise<number>; // unique timeline coverage (seconds)
+    getTotalPlayed: () => Promise<number>;
+    getTotalCovered: () => Promise<number>;
   };
 };
 
-async function waitForVdoAPI(timeoutMs = 12000): Promise<boolean> {
+async function waitForVdoAPI(timeoutMs = 12_000): Promise<boolean> {
   return new Promise((resolve) => {
-    // already present
     if (typeof window !== "undefined" && window.VdoPlayer) {
       return resolve(true);
     }
@@ -59,31 +49,38 @@ async function waitForVdoAPI(timeoutMs = 12000): Promise<boolean> {
   });
 }
 
-interface VideoProps {
+async function logView(
+  videoId: string,
+  roomId: string | number,
+  classroomId: string | number
+) {
+  try {
+    await axios.post(
+      "/api?url=video/confirm-view",
+      { video_id: videoId, room_id: roomId, classroom_id: classroomId },
+      { withCredentials: true }
+    );
+  } catch {}
+}
+
+export function useVideoPlayer(props: {
   response: { otp?: string; playbackInfo?: string } | null;
   videoId: string;
-  locked: boolean;
-  setCurrentTime(time: number): void;
-  exceededViews: boolean;
   roomId: string | number;
   classroomId: string | number;
   lessonId: string | number;
+  setCurrentTime: (t: number) => void;
   videoCompleted: boolean;
-  otpError: boolean;
-}
-
-export default function Video({
-  response,
-  videoId,
-  locked,
-  setCurrentTime,
-  exceededViews,
-  roomId,
-  classroomId,
-  lessonId,
-  videoCompleted,
-  otpError,
-}: VideoProps) {
+}) {
+  const {
+    response,
+    videoId,
+    roomId,
+    classroomId,
+    lessonId,
+    setCurrentTime,
+    videoCompleted,
+  } = props;
   const queryClient = useQueryClient();
 
   const completedRef = useRef(false);
@@ -105,22 +102,20 @@ export default function Video({
     setHideBtn(false);
   }, [videoId]);
 
-  // Init & listeners
   useEffect(() => {
     let cancelled = false;
-
-    // cleanup fns for DOM & API listeners
     const cleanups: Array<() => void> = [];
 
     (async () => {
-      if (!response?.otp) return; // wait for OTP
+      if (!response?.otp) return;
       if (!iframeRef.current) return;
 
       const ok = await waitForVdoAPI();
       if (!ok || cancelled) return;
 
-      // player instance (retry a bit while iframe boots)
-      let inst = window.VdoPlayer?.getInstance(iframeRef.current) ?? null;
+      // try to obtain instance (retry while iframe boots)
+      let inst: VdoInstance | null =
+        window.VdoPlayer?.getInstance(iframeRef.current) ?? null;
       for (let i = 0; !inst && i < 40 && !cancelled; i++) {
         await new Promise((r) => setTimeout(r, 200));
         inst = window.VdoPlayer?.getInstance(iframeRef.current) ?? null;
@@ -129,17 +124,16 @@ export default function Video({
 
       playerRef.current = inst;
 
-      // --- HTML5 proxy video events (preferred) ---
       const v = inst.video;
 
       const onLoadedMeta = () => setDuration(v.duration || 0);
+
       const onTimeUpdate = async () => {
         const ct = v?.currentTime ?? 0;
         const dur = v?.duration ?? 0;
 
         setCurrentTime(Math.floor(ct));
 
-        // ✅ mark watched/completed based on playback position
         if (
           !videoCompleted &&
           !completedRef.current &&
@@ -147,8 +141,6 @@ export default function Video({
           ct / dur >= 0.9
         ) {
           completedRef.current = true;
-
-          console.log("🎬 Video 90%+ watched, marking completed");
           try {
             const res = await axios.post(
               `/api?url=students/lesson/store_completed`,
@@ -159,25 +151,21 @@ export default function Video({
               }
             );
 
-            console.log("✅ Marked video as completed", res.data);
-
             queryClient.invalidateQueries({
               queryKey: [`/students/get-lessons/${roomId}`],
             });
           } catch (err) {
-            console.log("❌ Failed to mark video completed", err);
+            // swallow – preserve UX
           }
         }
 
-        // Thresholds:
-        // - Long video: count as watched once either position >= 900s OR actual-watched metrics reach 900s
-        // - Short video: near the end by position (dur - 10s)
         maybeMarkWatched(inst, v);
       };
+
       const onSeeking = () => {
-        // expose the latest time during seeks as well
         setCurrentTime(v?.currentTime ? Math.floor(v.currentTime) : 0);
       };
+
       const onEnded = () => {
         if (!viewLoggedRef.current) {
           viewLoggedRef.current = true;
@@ -186,8 +174,6 @@ export default function Video({
       };
 
       inst.video.addEventListener("ended", onEnded);
-
-      // track video progress if more than 90%
 
       v.addEventListener("loadedmetadata", onLoadedMeta);
       v.addEventListener("timeupdate", onTimeUpdate);
@@ -201,7 +187,6 @@ export default function Video({
       cleanups.push(() => v.removeEventListener("seeking", onSeeking));
       cleanups.push(() => v.removeEventListener("ended", onEnded));
 
-      // --- Optional: VdoCipher statusChange hook ---
       const statusHandler = (evt: any) => {
         const label =
           typeof evt === "string" ? evt : evt?.label || evt?.status || "";
@@ -213,6 +198,7 @@ export default function Video({
           void logView(videoId, roomId, classroomId);
         }
       };
+
       const maybeUnsub = inst.api.addEventListener(
         "statusChange",
         statusHandler
@@ -229,7 +215,8 @@ export default function Video({
       cancelled = true;
       cleanups.forEach((fn) => fn());
     };
-  }, [response?.otp, videoId, roomId, classroomId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [response?.otp, videoId, roomId, classroomId, lessonId, videoCompleted]);
 
   const maybeMarkWatched = async (inst: VdoInstance, v: HTMLVideoElement) => {
     if (viewLoggedRef.current) return;
@@ -239,14 +226,12 @@ export default function Video({
 
     if (!dur || Number.isNaN(dur)) return;
 
-    // Short videos: within last 10s by position
     if (dur <= 900 && ct >= Math.max(dur - 10, 0)) {
       viewLoggedRef.current = true;
       await logView(videoId, roomId, classroomId);
       return;
     }
 
-    // Long videos: allow either position >= 900s OR real/unique watch >= 900s
     if (dur > 900) {
       if (ct >= 900) {
         viewLoggedRef.current = true;
@@ -254,7 +239,6 @@ export default function Video({
         return;
       }
 
-      // Throttle metric sampling to ~5s
       const now = Date.now();
       if (now - lastMetricsSampleAtRef.current > 5000) {
         lastMetricsSampleAtRef.current = now;
@@ -268,114 +252,16 @@ export default function Video({
             await logView(videoId, roomId, classroomId);
             return;
           }
-        } catch {
-          // ignore metric failures; position rule will still work
-        }
+        } catch {}
       }
     }
   };
 
-  async function logView(
-    videoId: string,
-    roomId: string | number,
-    classroomId: string | number
-  ) {
-    try {
-      await axios.post(
-        "/api?url=video/confirm-view",
-        { video_id: videoId, room_id: roomId, classroom_id: classroomId },
-        { withCredentials: true }
-      );
-    } catch {
-      // swallow; you can toast/log if needed
-    }
-  }
-
-  if (locked) {
-    return (
-      <div className="flex-1 space-y-8">
-        <TopBanner
-          icon={<img src="/assets/WarningColor.svg" />}
-          render={
-            <span className="text-[#121212] text-sm whitespace-nowrap font-medium">
-              {exceededViews
-                ? "لقد تجاوزت الحد الأقصى لعدد المشاهدات المسموح بها لهذا الدرس"
-                : "يجب ان تقوم باجتياز الاختبار أولا"}
-            </span>
-          }
-          showClose={false}
-        />
-
-        <div className="flex items-center justify-center flex-1 h-[520px] bg-gray-100 w-full">
-          <Image
-            src="/assets/Locked.png"
-            width={150}
-            height={150}
-            alt="Locked"
-          />
-        </div>
-      </div>
-    );
-  }
-
-  return response?.otp ? (
-    <div className="flex-1 h-fit relative overflow-hidden">
-      <TamperResistantOverlay>
-        <iframe
-          ref={iframeRef}
-          id="vdocipher-iframe"
-          className="w-full relative h-[520px]"
-          src={`https://player.vdocipher.com/v2/?otp=${response.otp}&playbackInfo=${response.playbackInfo}`}
-          style={{ border: 0 }}
-          allow="encrypted-media"
-          allowFullScreen
-          title="VdoCipher Video"
-        />
-      </TamperResistantOverlay>
-
-      {!hideBtn && (
-        <button
-          onClick={() => {
-            const inputEl = document.getElementById("community-input");
-            if (inputEl) {
-              inputEl.scrollIntoView({ behavior: "smooth" });
-              (inputEl as HTMLElement).focus?.();
-            }
-            const inst = playerRef.current;
-            inst?.video?.pause?.();
-          }}
-          className="absolute z-5 text-primary-800 border border-gray-light transition-all p-2 md:w-[250px] w-[190px] py-4 rounded-lg right-4 bg-background bottom-14"
-        >
-          <div
-            onClick={(e) => {
-              e.stopPropagation();
-              setHideBtn(true);
-            }}
-            className="absolute cursor-pointer bg-semantics-red-light top-2 left-2 rounded-full flex items-center justify-center size-4 hover:bg-semantics-red group transition-all"
-          >
-            <X className="stroke-semantics-red size-3 stroke-4 group-hover:stroke-white transition-all" />
-          </div>
-
-          <div className="flex items-center gap-2">
-            <Image
-              src="/assets/question-icon.svg"
-              width={32}
-              height={32}
-              alt="icon-1"
-            />
-            <span className="text-[16px] font-bold"> عندك استفسار؟</span>
-          </div>
-        </button>
-      )}
-    </div>
-  ) : otpError ? (
-    <div className="min-h-[520px] bg-background flex items-center justify-center">
-      <div className="flex items-center gap-2">
-        <FileWarning className="stroke-red-500" />
-        <p className="text-lg font-bold">حدث خطأ ما</p>
-      </div>
-    </div>
-  ) : (
-    <LoadingSpinner className="min-h-[520px]" />
-  );
+  return {
+    iframeRef,
+    playerRef,
+    hideBtn,
+    setHideBtn,
+    duration,
+  } as const;
 }

@@ -110,7 +110,7 @@ const WrittenQuestion = ({ form, question, listRef, index }) => {
                               ? "3px solid lightgreen"
                               : "3px solid red",
                           }
-                        : { borderBottom: "1px solid #D9B45C" }),
+                        : {}),
                     }}
                   />
 

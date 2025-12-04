@@ -1,5 +1,7 @@
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import ScoreBadge from "./ui/ScoreBadge";
+import ScorePercent from "./ui/ScorePercent";
 
 function GradesTableAction({ row, rowValue }: { row: any; rowValue: number }) {
   const type = row.type;
@@ -56,50 +58,3 @@ function GradesTableAction({ row, rowValue }: { row: any; rowValue: number }) {
 }
 
 export default GradesTableAction;
-
-const ScorePercent = ({
-  score,
-  passed,
-  type,
-}: {
-  score: number;
-  passed: boolean;
-  type: string;
-}) => {
-  return (
-    <h3
-      className={cn(
-        "flex items-center font-bold text-xl",
-        passed ? "text-semantics-green" : "text-semantics-red"
-      )}
-    >
-      {score}%
-    </h3>
-  );
-};
-
-const ScoreBadge = ({
-  passed,
-  type,
-  className,
-  text,
-}: {
-  passed: boolean;
-  type: string;
-  className?: string;
-  text?: string;
-}) => {
-  return (
-    <h3
-      className={cn(
-        "flex items-center font-bold text-sm min-w-20 py-1 px-2 rounded-lg justify-center",
-        passed || type === "واجب"
-          ? "text-semantics-green bg-semantics-green-light"
-          : "text-semantics-red bg-semantics-red-light",
-        className
-      )}
-    >
-      {text || (type === "واجب" ? "تم الحل" : passed ? "ناجح" : "راسب")}
-    </h3>
-  );
-};

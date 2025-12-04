@@ -1,5 +1,6 @@
 "use client";
 
+import { DateTime } from "luxon";
 import React, {
   ReactNode,
   useCallback,
@@ -7,8 +8,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { DateTime } from "luxon";
-import { postTamperAttempt } from "./api";
+import { postTamperAttempt } from "../../../utils/api";
 
 interface VideoWrapperProps {
   children: ReactNode;

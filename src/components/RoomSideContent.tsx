@@ -1,6 +1,7 @@
 "use client";
 
 import LinkLocked from "@/layouts/LinkLocked";
+import { cn } from "@/lib/utils";
 import { IRoomDetails } from "@/types";
 import { convertMinutes } from "@/utils/clientFun";
 import { ChevronLeft, ChevronRight, Download } from "lucide-react";
@@ -10,24 +11,31 @@ import { memo } from "react";
 import MarkVideoCompleted from "./MarkVideoCompleted";
 import { Button } from "./ui/button";
 
-type SelectedLessonProps = {
+type RoomSideContentProps = {
   data: IRoomDetails;
-  sendData: (videoId: string, lessonId: string | number) => void;
+  onLessonClick?: (videoId?: string, lessonId?: string | number) => void;
   locked: boolean;
-  videoId: string;
+  videoId?: string;
+  className?: string;
 };
 
-const SelectedLesson = ({
+const RoomSideContent = ({
   data,
-  sendData,
+  onLessonClick,
   locked,
   videoId,
-}: SelectedLessonProps) => {
+  className,
+}: RoomSideContentProps) => {
   const { SingleCourse, room } = useParams();
   const router = useRouter();
 
   return (
-    <div className="overflow-y-auto max-h-[1400px] w-full border border-gray-light rounded-lg p-4 h-fit sticky top-22">
+    <div
+      className={cn(
+        "overflow-y-auto max-h-[max(calc(100vh-88px),768px)] w-full border border-gray-light rounded-lg p-4 h-fit sticky top-22",
+        className
+      )}
+    >
       <div className="flex items-center gap-4">
         <img
           src={"/assets/grade-placeholder.png"}
@@ -60,7 +68,7 @@ const SelectedLesson = ({
           key={lesson.id}
           onClick={async () => {
             if (locked) return;
-            sendData(lesson?.vedio_id, lesson?.id);
+            onLessonClick?.(lesson?.vedio_id, lesson?.id);
           }}
           className={`mt-4  border cursor-pointer ${
             videoId !== lesson?.vedio_id
@@ -194,4 +202,4 @@ const SelectedLesson = ({
   );
 };
 
-export default memo(SelectedLesson);
+export default memo(RoomSideContent);

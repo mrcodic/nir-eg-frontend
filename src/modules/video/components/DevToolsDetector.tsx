@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useCallback } from "react";
-import { postTamperAttempt } from "./api";
+import { useCallback, useEffect, useRef } from "react";
 
 function DevToolsDetector({ videoSrc }) {
   const debouncedLogRef = useRef(null);

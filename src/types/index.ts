@@ -34,6 +34,22 @@ declare interface CustomInputProps {
   iconSrc?: string; // Icon support
 }
 
+export interface QuizStatus {
+  is_subscribed: boolean;
+  questions_count: number;
+  result: boolean;
+  retake: boolean;
+  review_pending: boolean;
+  score: number;
+  score_ratio: string;
+  score_text_ar: string;
+  show_answer: boolean;
+  timer: string;
+  title: string;
+  total_score: number;
+  total_score_denominator: number;
+}
+
 export enum paymentType {
   wallet = "WALLET",
   visa = "CARD",

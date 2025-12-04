@@ -1,14 +1,14 @@
 "use client";
 
 import TopBanner from "@/components/banners/TopBanner";
-import SelectedLesson from "@/components/SelectedLesson";
-import Video from "@/components/Video";
+import RoomSideContent from "@/components/RoomSideContent";
 import { useAuthContext } from "@/context/auth-context";
 import { getClientPrivateData } from "@/helpers/client-fetch";
 import ProtectedRoute from "@/layouts/ProtectedRoute";
 import Community from "@/modules/community/components/Community";
+import DisableDevTools from "@/modules/video/components/DisableDivTools";
+import Video from "@/modules/video/components/Video";
 import { ApiResponse, IRoomDetails } from "@/types";
-import DisableDevTools from "@/utils/DisableDivTools";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { redirect, useParams, useSearchParams } from "next/navigation";
@@ -143,13 +143,14 @@ const SingleVideo = () => {
         <div className="wrapper mt-[110px]">
           <div className="flex flex-col-reverse lg:flex-row py-8 gap-6">
             <div className="w-full flex lg:w-[30%] ">
-              <SelectedLesson
+              <RoomSideContent
                 data={data?.body}
                 videoId={videoId}
-                sendData={handleLessonSelect}
+                onLessonClick={(videoId, lessonId) => {
+                  if (data?.body?.locked_to_pass) return;
+                  handleLessonSelect(videoId, lessonId);
+                }}
                 locked={data?.body?.locked_to_pass}
-                // setLessonId={setLessonId}
-                // setVideoId={setVideoId}
               />
             </div>
 
@@ -179,8 +180,6 @@ const SingleVideo = () => {
                   videoCompleted={videoCompleted}
                   exceededViews={lockedByViewLimit}
                   otpError={otpError}
-                  // ref={communityRef}
-                  // iframeRef={iframeRef}
                 />
               </div>
 

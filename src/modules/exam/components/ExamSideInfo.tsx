@@ -9,7 +9,7 @@ type Props = {
   setShowRoom: any;
   defaultTitle?: string;
   startTimer?: boolean;
-  onComplete?: () => void;
+  onComplete?: (data: any) => void;
 };
 
 function ExamSideInfo({

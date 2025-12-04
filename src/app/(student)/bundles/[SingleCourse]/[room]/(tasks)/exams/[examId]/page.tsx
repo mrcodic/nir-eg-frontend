@@ -6,6 +6,7 @@ import { useTaskContext } from "@/context/TaskProvider";
 import ProtectedRoute from "@/layouts/ProtectedRoute";
 import { cn } from "@/lib/utils";
 import ExamSideInfo from "@/modules/exam/components/ExamSideInfo";
+import ExamSideNav from "@/modules/exam/components/ExamSideNav";
 import SubmitLoader from "@/modules/exam/components/SubmitLoader";
 
 const ExamPage = () => {
@@ -28,21 +29,21 @@ const ExamPage = () => {
       subscribed={start?.is_subscribed}
       verify={true}
     >
-      <div className="py-4  flex flex-col md:flex-row items-center md:items-start mb-[186px] h-[calc(100%-80px)] mt-[110px] md:gap-10 lg:gap-[122px] wrapper">
+      <div className="py-4  flex flex-col lg:flex-row items-center md:items-start mb-[186px] h-[calc(100%-80px)] mt-[110px] gap-8 md:gap-10 lg:gap-8 wrapper">
         <div
           className={cn(
-            "  flex flex-col  space-y-4 md:sticky top-[85px] max-md:w-full md:max-h-[calc(100vh-80px)] overflow-y-auto"
+            "  flex flex-col  space-y-4 lg:sticky top-[85px] max-lg:w-full lg:max-h-[calc(100vh-126px)] overflow-y-auto"
           )}
         >
           <ExamSideInfo
             data={data}
             start={start}
             setShowRoom={setShowRoom}
-            startTimer={startExam && start?.timer}
+            startTimer={startExam && !!start?.timer}
             onComplete={onComplete}
           />
 
-          {/* <ExamSideNav /> */}
+          <ExamSideNav />
         </div>
 
         <div className="flex-1  w-full min-w-[50%]">
