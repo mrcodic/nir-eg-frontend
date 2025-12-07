@@ -2,6 +2,7 @@
 
 import { getClientPrivateData } from "@/helpers/client-fetch";
 import { IUser } from "@/types";
+import { deleteCookie } from "@/utils/api";
 import { useQuery } from "@tanstack/react-query";
 import Cookies from "js-cookie";
 import { createContext, useContext, useEffect, useState } from "react";
@@ -38,6 +39,7 @@ export const AuthContextProvider = ({ children }) => {
   const { data: profileData, isLoading } = useQuery({
     queryFn: getClientPrivateData as () => Promise<{ body: IUser }>,
     queryKey: ["students/profile"],
+    enabled: !!token,
   });
 
   useEffect(() => {
@@ -73,8 +75,9 @@ export const AuthContextProvider = ({ children }) => {
   const logout = async () => {
     setToken(null);
     localStorage.removeItem("timer");
-    Cookies.remove("nir_token");
     Cookies.remove("guest_token");
+    Cookies.remove("nir_token");
+    await deleteCookie("nir_token");
   };
 
   const storeGrade = (grade) => {

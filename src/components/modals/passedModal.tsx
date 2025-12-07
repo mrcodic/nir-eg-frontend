@@ -32,7 +32,10 @@ export default function Passed({
 
   return (
     <Dialog open={open}>
-      <DialogContent className="p-8 max-w-xl bg-white rounded-lg shadow-lg">
+      <DialogContent
+        hideClose={true}
+        className="p-8 max-w-xl bg-white rounded-lg shadow-lg"
+      >
         <DialogTitle className="hidden" />
         <DialogDescription className="hidden" />
         <div className=" w-full">

@@ -8,7 +8,11 @@ const NavbarWrapper = async () => {
     isAuth: true,
   });
 
-  return !!data ? <AuthNavBar /> : <GuestNavBar />;
+  return !!data ? (
+    <AuthNavBar key={data?.body?.id} />
+  ) : (
+    <GuestNavBar key={"guest"} />
+  );
 };
 
 export default NavbarWrapper;

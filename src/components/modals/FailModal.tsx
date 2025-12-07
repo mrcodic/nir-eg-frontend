@@ -34,7 +34,10 @@ export default function Fail({
 
   return (
     <Dialog open={open}>
-      <DialogContent className="p-8 flex justify-center items-center  bg-white rounded-lg shadow-lg">
+      <DialogContent
+        hideClose={true}
+        className="p-8 flex justify-center items-center  bg-white rounded-lg shadow-lg"
+      >
         <DialogTitle className="hidden" />
         <DialogDescription className="hidden" />
         <div className="w-full">

@@ -1,7 +1,7 @@
-import StoreCard from "@/components/cards/StoreCard";
 import MappingFun from "@/components/MappingFunc";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getServerData } from "@/helpers/server-fetch";
+import PointsStoreCard from "@/modules/points-store/components/PointsStoreCard";
 import StudentPointsCard from "@/modules/profile/components/StudentPointsCard";
 import Image from "next/image";
 import { Suspense } from "react";
@@ -12,6 +12,9 @@ const tabs = [
     icon: "/assets/store-fill.svg",
     api: "/students/store/items",
     value: "all",
+    emptyProps: {
+      text: "لا يوجد هدايا",
+    },
   },
   {
     title: "المفضلة",
@@ -19,6 +22,10 @@ const tabs = [
 
     api: "/students/profile/my_favorites_store",
     value: "fav",
+    emptyProps: {
+      text: "لم تقم بإضافة هدايا للمفضلة",
+      icon: "/assets/bg/empty-2.png",
+    },
   },
   {
     title: "الهدايا",
@@ -26,6 +33,9 @@ const tabs = [
 
     api: "/students/profile/my_redemptions_store",
     value: "gifts",
+    emptyProps: {
+      text: "لا يوجد هدايا",
+    },
   },
 ];
 
@@ -46,9 +56,13 @@ const StorePage = async () => {
         <StudentPointsCard points={data?.body.user_points} showLink={false} />
       </div>
 
-      <Tabs defaultValue="all" className="w-full space-y-8 mt-22" dir="rtl">
-        <TabsList className="flex justify-center  w-full mt-10  ">
-          <div className="flex font-bold max-sm:flex-col justify-center w-full gap-2 md:gap-6 my-10 ">
+      <Tabs
+        defaultValue="all"
+        className="w-full space-y-8 mt-16 md:mt-22"
+        dir="rtl"
+      >
+        <TabsList className="flex justify-center  w-full ">
+          <div className="flex font-bold max-sm:flex-col justify-center w-full gap-2 md:gap-6 ">
             {tabs.map((tab, index) => {
               return (
                 <TabsTrigger
@@ -79,11 +93,12 @@ const StorePage = async () => {
                 <MappingFun
                   queryKey={value}
                   arraypath="body.gifts"
+                  emptyProps={tabs.find((tab) => tab.value === key)?.emptyProps}
                   render={(data) => {
                     return (
                       <div className=" gap-5 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 ">
                         {data?.body.gifts.map((gift, i) => {
-                          return <StoreCard key={i} storeItem={gift} />;
+                          return <PointsStoreCard key={i} storeItem={gift} />;
                         })}
                       </div>
                     );

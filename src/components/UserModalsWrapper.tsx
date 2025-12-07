@@ -15,16 +15,16 @@ function UserModalsWrapper() {
   const isOpened = useRef(false);
 
   useEffect(() => {
-    if (profile) {
+    if (profile && !isOpened.current) {
       console.log("showing modals");
       handleFeaturesDisplay({
         onClose: () => {
-          if (profile?.type === 4 && !isOpened.current) {
+          if (profile?.type === 4) {
             handleOfferDisplay();
-            isOpened.current = true;
           }
         },
       });
+      isOpened.current = true;
     }
   }, [handleFeaturesDisplay, handleOfferDisplay, modal, profile]);
 

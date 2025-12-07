@@ -9,7 +9,7 @@ const ExamPDFGenerator = ({
   taskId,
   className,
 }: {
-  taskId: number;
+  taskId: number | string;
   className?: string;
 }) => {
   const [loading, setLoading] = useState(false);

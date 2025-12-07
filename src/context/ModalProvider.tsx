@@ -47,15 +47,12 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
   // The "side element" to render beside children
   const [sideElement, setSideElement] = useState<ReactNode | undefined>();
 
-  function resetModal() {
-    setIsOpen(false);
-    setModalContent(undefined);
-    setDialogContentProps(null);
-    setSideElement(undefined);
-  }
+  // const resetModal = useCallback(() => {
+  //   setIsOpen(false);
+  // }, []);
 
   const closeModal = useCallback(() => {
-    resetModal();
+    setIsOpen(false);
   }, []);
 
   const openModal = useCallback(() => {
@@ -76,9 +73,11 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (!isOpen) {
       console.log("closing modal");
-      setModalContent(undefined);
-      setDialogContentProps(null);
-      setSideElement(undefined);
+      setTimeout(() => {
+        setModalContent(undefined);
+        setDialogContentProps(null);
+        setSideElement(undefined);
+      }, 100);
     }
   }, [isOpen]);
 
@@ -102,11 +101,9 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
         open={isOpen && !!modalContent}
         onOpenChange={(open) => {
           setIsOpen(open);
-          if (!open) {
-            setModalContent(undefined);
-            setDialogContentProps(null);
-            setSideElement(undefined);
-          }
+          // if (!open) {
+          //   resetModal();
+          // }
         }}
       >
         <DialogTitle />
@@ -114,7 +111,7 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
         <DialogContent
           {...dialogContentProps}
           className={cn(
-            "bg-white max-md:p-1! overflow-visible max-h-[calc(100vh-2rem)] overflow-y-auto",
+            "bg-white max-md:p-2! overflow-visible max-h-[calc(100vh-2rem)] overflow-y-auto",
             dialogContentProps?.className
           )}
           onPointerDownOutside={(e) => {

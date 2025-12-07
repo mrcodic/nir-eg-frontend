@@ -56,22 +56,20 @@ const AssignmentForm = ({ start }) => {
       {success && (
         <AssignmentModal
           open={success}
-          score={start?.score_ratio}
           showAnswers={showAnswers}
           retake={retake}
           start={start}
-          taskId={assignmentId}
+          taskId={assignmentId?.toString()}
         />
       )}
 
       {fail && (
         <FailModal
           open={fail}
-          score={start?.score_ratio}
           showAnswers={showAnswers}
           retake={retake}
           start={start}
-          taskId={assignmentId}
+          taskId={assignmentId?.toString()}
         />
       )}
     </>

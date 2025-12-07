@@ -3,13 +3,14 @@
 import LoaderLottie from "@/components/Loader";
 import { useModal } from "@/context/ModalProvider";
 import { useToast } from "@/hooks/use-toast";
+import BuyPointsItemModal from "@/modules/points-store/components/BuyPointsItemModal";
 import { Heart } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Button } from "../ui/button";
+import { Button } from "../../../components/ui/button";
 
-const StoreCard = ({ storeItem }) => {
+const PointsStoreCard = ({ storeItem }) => {
   const router = useRouter();
   const modal = useModal();
   const { toast } = useToast();
@@ -88,7 +89,17 @@ const StoreCard = ({ storeItem }) => {
           <hr className="" />
 
           <div className="mt-4 justify-between flex max-lg:flex-wrap gap-x-6 gap-y-2">
-            <Button className="w-full grow ">شراء</Button>
+            <Button
+              className="w-full grow "
+              onClick={() => {
+                modal.setDialogContent(
+                  <BuyPointsItemModal storeItem={storeItem} />
+                );
+                modal.openModal();
+              }}
+            >
+              شراء
+            </Button>
 
             <Button className="w-full  grow group" variant="outline">
               {loadingFav ? (
@@ -105,4 +116,4 @@ const StoreCard = ({ storeItem }) => {
     </div>
   );
 };
-export default StoreCard;
+export default PointsStoreCard;

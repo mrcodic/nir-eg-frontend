@@ -14,6 +14,7 @@ import { useToast } from "@/hooks/use-toast";
 import AuthHeader from "@/layouts/AuthHeader";
 import { loginSchema } from "@/lib/schemas";
 import { getUserPhoneFromStorage, presistUserPhone } from "@/lib/utils";
+import { saveCookie } from "@/utils/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
@@ -62,10 +63,9 @@ const AuthPage = () => {
         }
       );
 
-      // await saveCookie(response?.data?.access_token);
+      await saveCookie(response?.data?.access_token);
       // await deleteCookie("guest_token");
-
-      Cookies.set("nir_token", response?.data?.access_token);
+      // Cookies.set("nir_token", response?.data?.access_token);
       Cookies.remove("guest_token");
       queryClient.invalidateQueries({ queryKey: ["students/profile"] });
 

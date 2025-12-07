@@ -23,18 +23,18 @@ interface Props {
 
 export default function AssignmentModal({
   open,
-  score,
   showAnswers,
   start,
   retake,
   taskId,
-}) {
+}: Props) {
   const { SingleCourse, room } = useParams();
 
   return (
     <Dialog open={open}>
       <DialogContent
         key={start?.score_ratio || "no_result"}
+        hideClose={true}
         className="p-8 max-w-xl bg-white rounded-lg shadow-lg"
       >
         <DialogTitle className="hidden" />
