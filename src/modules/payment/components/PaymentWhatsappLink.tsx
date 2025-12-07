@@ -22,8 +22,10 @@ function PaymentWhatsappLink({ className }: { className?: string }) {
           لو مش معاك كود الدفع، كلمنا على واتساب
         </p>
       </div>
-      <Link href={""} className="ms-auto">
-        <Button variant="secondary">تواصل معنا</Button>
+      <Link href={""} className="ms-auto max-w-[172px] w-full">
+        <Button variant="secondary" className="h-11 max-w-[172px] w-full">
+          تواصل معنا
+        </Button>
       </Link>
     </div>
   );

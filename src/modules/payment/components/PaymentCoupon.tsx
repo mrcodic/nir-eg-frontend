@@ -84,49 +84,53 @@ function PaymentCoupon({
   };
 
   return (
-    <div className={cn("space-y-1", className)}>
+    <div className={cn("space-y-6", className)}>
       <Label aria-invalid={couponState?.state === "error"}>الكود</Label>
-      <div className="flex items-center gap-4 sm:gap-6">
-        <Input
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          className="grow w-full h-11 text-sm focus:outline-hidden ps-2 border border-gray-light"
-          aria-invalid={couponState?.state === "error"}
-          placeholder="أدخل الكود"
-          disabled={loading}
-        />
-        <Button
-          onClick={handleCouponSubmit}
-          disabled={loading || !value}
-          className="h-11 px-3 sm:px-6 text-sm sm:text-base bg-primary-800 rounded-lg max-w-[70px] sm:max-w-[104px] w-full"
-        >
-          {loading && <Loader className="mr-2 h-4 w-4 animate-spin" />}
-          ادخال
-        </Button>
-      </div>
+      <div className="flex flex-col gap-1">
+        <div className="flex items-center gap-4 sm:gap-6">
+          <Input
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            className="grow w-full h-11 text-sm focus:outline-hidden ps-2 border border-gray-light"
+            aria-invalid={couponState?.state === "error"}
+            placeholder="أدخل الكود"
+            disabled={loading}
+          />
+          <Button
+            onClick={handleCouponSubmit}
+            disabled={loading || !value}
+            className="h-11 px-3 sm:px-6 text-sm sm:text-base bg-primary-800 rounded-lg max-w-[70px] sm:max-w-[104px] w-full"
+          >
+            {loading && <Loader className="mr-2 h-4 w-4 animate-spin" />}
+            ادخال
+          </Button>
+        </div>
 
-      {couponState?.state && (
-        <p
-          className={`text-xs ${
-            couponState.state === "success" ? "text-green-500" : "text-red-500"
-          }`}
-        >
-          {couponState.message}{" "}
-          {couponState.state === "success" &&
-            `حصلت على خصم  ${
-              coupon?.promo?.type_discount === 1
-                ? `${coupon?.promo?.value}%`
-                : `${coupon?.promo?.value} جنيه`
+        {couponState?.state && (
+          <p
+            className={`text-xs ${
+              couponState.state === "success"
+                ? "text-green-500"
+                : "text-red-500"
             }`}
-        </p>
-      )}
-
-      <div className="relative text-center my-6 text-primary-800  text-base font-medium">
-        <hr className="border-primary-800 absolute top-1/2 inset-x-0 -translate-y-1/2 mx-4 sm:mx-20" />
-        <span className="px-8 bg-background relative z-5">او</span>
+          >
+            {couponState.message}{" "}
+            {couponState.state === "success" &&
+              `حصلت على خصم  ${
+                coupon?.promo?.type_discount === 1
+                  ? `${coupon?.promo?.value}%`
+                  : `${coupon?.promo?.value} جنيه`
+              }`}
+          </p>
+        )}
       </div>
 
       <PaymentWhatsappLink />
+
+      <div className="relative text-center  text-primary-800  text-base font-medium">
+        <hr className="border-primary-800 absolute top-1/2 inset-x-0 -translate-y-1/2 mx-4 sm:mx-20" />
+        <span className="px-8 bg-white relative z-5">او</span>
+      </div>
     </div>
   );
 }

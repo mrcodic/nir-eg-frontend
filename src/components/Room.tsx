@@ -199,6 +199,7 @@ const Room = ({
                   (attachment, index) => {
                     return (
                       <RoomFileDownloadLink
+                        key={index}
                         attachment={attachment}
                         room={room}
                         subscribe={subscribe || room?.is_subscriped}

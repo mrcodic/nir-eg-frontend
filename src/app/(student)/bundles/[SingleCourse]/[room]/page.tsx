@@ -113,11 +113,11 @@ const SingleVideo = () => {
       setVideoId(data?.body?.lessons?.[0]?.vedio_id);
       setLessonId(data?.body?.lessons?.[0]?.id);
     }
-  }, [data]);
+  }, [data, lessonId, searchParams]);
 
   const selectedLesson = useMemo(
     () => data?.body?.lessons?.find((lesson) => lesson.id === lessonId),
-    [lessonId]
+    [data?.body?.lessons, lessonId]
   );
 
   // console.log("selected lessonId : ", lessonId);

@@ -1,152 +1,107 @@
 "use client";
+
 import LoaderLottie from "@/components/Loader";
-import { Congrats } from "@/components/modals/Congrats";
 import { useModal } from "@/context/ModalProvider";
 import { useToast } from "@/hooks/use-toast";
-import { cn } from "@/lib/utils";
-import BuyGift from "@/modules/store/BuyGift.modal";
-import RemoveFav from "@/modules/store/RemoveFav.modal";
-import axios from "axios";
+import { Heart } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { Button } from "../ui/button";
 
-const StoreCard = ({ gift }) => {
-  const [open, setOpen] = useState(false);
+const StoreCard = ({ storeItem }) => {
+  const router = useRouter();
+  const modal = useModal();
+  const { toast } = useToast();
+
   const [loading, setLoading] = useState(false);
   const [loadingFav, setLoadingFav] = useState(false);
-  const router = useRouter();
 
-  const modal = useModal();
+  // async function addToFavourite(storeItem_id) {
+  //   if (storeItem.favorite) {
+  //     modal.setDialogContent(<RemoveFav gift={storeItem} />);
+  //     modal.openModal();
+  //     return;
+  //   }
 
-  const { toast } = useToast();
-  // const [optimisticMessages, addOptimisticMessage] = useOptimistic(
-  //   messages,
-  //   (state, newMessage) => [
-  //     ...state,
-  //     {
-  //       text: newMessage,
-  //       sending: true
+  //   const api = "/api?url=students/store/items/add_to_favorite";
+  //   setLoadingFav(true);
+  //   try {
+  //     const response = await axios.post(api, { storeItem_id });
+  //     if (response.status === 200) {
+  //       toast({
+  //         description: "تم اضافة الهدية إلى المفضلة بنجاح",
+  //         icon: "success",
+  //       });
+
+  //       router.refresh();
   //     }
-  //   ]
-  // );
-  async function addToFavourite(gift_id) {
-    if (gift.favorite) {
-      modal.setDialogContent(<RemoveFav gift={gift} />);
-      modal.openModal();
-      return;
-    }
+  //   } catch (e) {
+  //     toast({
+  //       description: e.response.data?.error.message,
+  //       icon: "error",
+  //     });
+  //   } finally {
+  //     setLoadingFav(false);
+  //   }
+  // }
 
-    const api = "/api?url=students/store/items/add_to_favorite";
-    setLoadingFav(true);
-    try {
-      const response = await axios.post(api, { gift_id });
-      if (response.status === 200) {
-        toast({
-          description: "تم اضافة الهدية إلى المفضلة بنجاح",
-          icon: "success",
-        });
-
-        router.refresh();
-      }
-    } catch (e) {
-      toast({
-        description: e.response.data?.error.message,
-        icon: "error",
-      });
-    } finally {
-      setLoadingFav(false);
-    }
-  }
-  async function buyGift(gift_id) {
-    if (!gift.acquire) {
-      modal.setDialogContent(<BuyGift gift={gift} />);
-      modal.openModal();
-      return;
-    }
-  }
+  // async function buystoreItem(storeItem_id) {
+  //   if (!storeItem.acquire) {
+  //     modal.setDialogContent(<BuystoreItem gift={storeItem} />);
+  //     modal.openModal();
+  //     return;
+  //   }
+  // }
 
   return (
-    <div className=" flex relative w-full max-w-[346.667px] flex-col items-center rounded-lg h-[520px] ">
-      <div className="h-[200px] items-center bg-background flex justify-center w-full rounded-lg ">
+    <div className=" flex relative w-full  flex-col  rounded-lg ">
+      <div className="h-[232px] items-center bg-background flex justify-center w-full rounded-lg relative ">
         <Image
-          src={gift?.image || "/assets/playStation.svg"}
-          width={118}
-          height={160}
+          src={storeItem?.image || "/assets/playStation.svg"}
+          fill
           alt=""
+          className="object-contain"
         />
       </div>
-      <div
-        className={`relative p-4 -top-2  rounded-lg bg-white w-[95%]    border  ${
-          gift.price ? "border-[#1EAD7B]" : "border-gray-light"
-        }`}
-      >
+
+      <div className={`relative p-2 border w-full  mt-4 rounded-lg bg-white `}>
         <div className="flex flex-col gap-2">
           <div className="flex justify-between">
-            <h3 className="text-[#121212] font-bold text-[24px]">
-              {gift.name || "PS5"}
-            </h3>
+            <h3 className=" font-bold text-lg">{storeItem.name || "PS5"}</h3>
           </div>
 
-          <span className="text-gray-dark font-medium text-[16px] inline-block">
-            {gift.price} نقطة
-          </span>
+          <div className="flex items-center gap-1">
+            <Image
+              src="/assets/star-colored.svg"
+              width={24}
+              height={24}
+              alt="star icon"
+            />
 
-          <div className="mt-[16px] justify-between flex">
-            <button
-              className={cn(
-                " p-px text-xs font-bold h-7  text-[12px] text-center w-[120px] flex items-center justify-center   border-2 border-gray-light  rounded-lg text-white"
-              )}
-              onClick={() => buyGift(gift.id)}
-            >
-              <div className="bg-primary w-full h-full rounded-lg place-items-center place-content-center ">
-                {!loading ? (
-                  gift.acquired ? (
-                    "تم الشراء مسبقا"
-                  ) : (
-                    "شراء"
-                  )
-                ) : (
-                  <LoaderLottie />
-                )}{" "}
-              </div>
-            </button>
+            <span className=" font-bold text-lg inline-block">
+              {storeItem?.price}
+            </span>
+            <span className="text-sm">نقطة</span>
+          </div>
 
-            <button
-              onClick={() => addToFavourite(gift.id)}
-              // href={`bundles/${courseDetails.id}`}
-              className={cn(
-                "border-primary text-xs  font-bold p-px   text-white text-nowrap w-[140px] h-7  text-[12px]   text-center flex items-center justify-center  border-2   rounded-lg "
+          <hr className="" />
+
+          <div className="mt-4 justify-between flex max-lg:flex-wrap gap-x-6 gap-y-2">
+            <Button className="w-full grow ">شراء</Button>
+
+            <Button className="w-full  grow group" variant="outline">
+              {loadingFav ? (
+                <LoaderLottie className="size-6 " />
+              ) : (
+                <Heart className="size-6 group-hover:fill-white" />
               )}
-            >
-              <div
-                className={cn(
-                  "flex items-center justify-center gap-2 bg-gray-light w-full h-full rounded-lg  ",
-                  !gift.favorite && " bg-white text-blue-950 "
-                )}
-              >
-                <Image
-                  src={"/assets/heart.svg"}
-                  alt=""
-                  height={24}
-                  width={24}
-                />
-                {!loadingFav ? (
-                  gift.favorite ? (
-                    " إزالة من المفضلة "
-                  ) : (
-                    " أضف إالى المفصلة"
-                  )
-                ) : (
-                  <LoaderLottie />
-                )}{" "}
-              </div>
-            </button>
+
+              {storeItem.favorite ? " إزالة من المفضلة " : " أضف إالى المفصلة"}
+            </Button>
           </div>
         </div>
       </div>
-
-      <Congrats open={open} setOpen={setOpen} />
     </div>
   );
 };

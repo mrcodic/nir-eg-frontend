@@ -10,7 +10,7 @@ function useCoupon() {
   const { data, isLoading, error } = useQuery({
     queryKey: ["/students/profile/promo_code"],
     queryFn: getClientPrivateData as () => Promise<{ data: Coupon }>,
-    enabled: isOnline,
+    enabled: profile && isOnline,
   });
 
   const discountValue =
@@ -23,6 +23,7 @@ function useCoupon() {
     isLoading,
     error,
     data: isOnline ? data?.data : null,
+    showCoupon: isOnline && data && data?.data?.show_promo,
   };
 }
 

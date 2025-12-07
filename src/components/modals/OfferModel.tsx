@@ -2,17 +2,24 @@
 
 import { Button } from "@/components/ui/button";
 import { DialogFooter } from "@/components/ui/dialog";
+import { useModal } from "@/context/ModalProvider";
 import { useToast } from "@/hooks/use-toast";
 import useCoupon from "@/hooks/useCoupon";
 import { DialogClose } from "@radix-ui/react-dialog";
 import Image from "next/image";
+import { useEffect } from "react";
 import { FaSpinner } from "react-icons/fa";
 
 const OfferModel = () => {
   const { toast } = useToast();
-  const { data, discountValue, isLoading } = useCoupon();
+  const modal = useModal();
+  const { data, discountValue, isLoading, showCoupon } = useCoupon();
 
-  if (!data && !isLoading) return null;
+  useEffect(() => {
+    if (!showCoupon && !isLoading) {
+      modal.closeModal();
+    }
+  }, [showCoupon, isLoading, modal]);
 
   if (isLoading) {
     return (
@@ -21,6 +28,8 @@ const OfferModel = () => {
       </div>
     );
   }
+
+  if (!showCoupon) return null;
 
   return (
     <div>

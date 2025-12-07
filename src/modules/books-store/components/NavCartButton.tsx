@@ -92,7 +92,7 @@ function NavCartButton() {
 
         {!isLoading && items.length > 0 && (
           <>
-            <div className="divide-y mt-6 divide-gray-200 max-h-[max(calc(100vh-200px),300px)] overflow-y-auto pe-4">
+            <div className="divide-y mt-6 divide-gray-200 max-h-[max(calc(100vh-240px),300px)] overflow-y-auto pe-4">
               {items.map((item) => (
                 <BookCartCard key={item.id} item={item} />
               ))}

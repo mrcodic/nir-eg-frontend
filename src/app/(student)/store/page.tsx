@@ -1,37 +1,44 @@
 import StoreCard from "@/components/cards/StoreCard";
-import Empty from "@/components/Empty";
 import MappingFun from "@/components/MappingFunc";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getServerData } from "@/helpers/server-fetch";
 import StudentPointsCard from "@/modules/profile/components/StudentPointsCard";
+import Image from "next/image";
 import { Suspense } from "react";
+
+const tabs = [
+  {
+    title: "الكل",
+    icon: "/assets/store-fill.svg",
+    api: "/students/store/items",
+    value: "all",
+  },
+  {
+    title: "المفضلة",
+    icon: "/assets/heart.svg",
+
+    api: "/students/profile/my_favorites_store",
+    value: "fav",
+  },
+  {
+    title: "الهدايا",
+    icon: "/assets/gift-fill.svg",
+
+    api: "/students/profile/my_redemptions_store",
+    value: "gifts",
+  },
+];
+
+const mapTabsToEndpoints = {
+  all: "/students/store/items",
+  fav: "/students/profile/my_favorites_store",
+  gifts: "/students/profile/my_redemptions_store",
+};
 
 const StorePage = async () => {
   const data = await getServerData({
     queryKey: ["/students/store/items"],
   });
-  const tabs = [
-    {
-      title: "الكل",
-      icon: "/assets/store-fill.svg",
-      api: "/students/store/items",
-      value: "all",
-    },
-    {
-      title: "المفضلة",
-      icon: "/assets/heart.svg",
-
-      api: "/students/profile/my_favorites_store",
-      value: "fav",
-    },
-    {
-      title: "الهدايا",
-      icon: "/assets/gift-fill.svg",
-
-      api: "/students/profile/my_redemptions_store",
-      value: "gifts",
-    },
-  ];
 
   return (
     <div className="wrapper mt-[150px] ">
@@ -45,23 +52,20 @@ const StorePage = async () => {
             {tabs.map((tab, index) => {
               return (
                 <TabsTrigger
+                  key={index}
                   value={tab.value}
-                  key={tab.title}
-                  className=" group "
+                  className={`group min-w-24 rounded-lg data-[state=active]:bg-primary-800 cursor-pointer data-[state=active]:text-white bg-white text-[#523412] flex items-center gap-2 border border-primary-800 px-px py-1 md:p-2 `}
                 >
-                  <TabsTrigger
-                    key={index}
-                    value={tab.value}
-                    className={`group min-w-24 rounded-lg data-[state=active]:bg-primary-800 cursor-pointer data-[state=active]:text-white bg-white text-[#523412] flex items-center gap-2 border border-primary-800 px-px py-1 md:p-2 `}
-                  >
-                    <img
-                      className="size-6 group-data-[state=active]:invert group-data-[state=active]:brightness-0 transition-all duration-300 ease-in-out"
-                      src={tab.icon}
-                    />
-                    <span className="text-sm text-primary-800 group-data-[state=active]:text-white transition-all duration-300 ease-in-out font-bold">
-                      {tab.title}
-                    </span>
-                  </TabsTrigger>
+                  <Image
+                    className="size-6 group-data-[state=active]:invert group-data-[state=active]:brightness-0 transition-all duration-300 ease-in-out"
+                    src={tab.icon}
+                    alt={tab.title}
+                    width={24}
+                    height={24}
+                  />
+                  <h5 className="text-sm text-primary-800 group-data-[state=active]:text-white transition-all duration-300 ease-in-out font-bold">
+                    {tab.title}
+                  </h5>
                 </TabsTrigger>
               );
             })}
@@ -69,55 +73,25 @@ const StorePage = async () => {
         </TabsList>
 
         <Suspense fallback={<div>Loading...</div>}>
-          <TabsContent value="all">
-            <MappingFun
-              queryKey={`/students/store/items`}
-              arraypath="body.gifts"
-              render={(data) => {
-                return (
-                  <div className=" gap-5 grid grid-cols-1 md:grid-cols-3 ">
-                    {data?.body.gifts.map((gift, i) => {
-                      return <StoreCard gift={gift} />;
-                    })}
-                  </div>
-                );
-              }}
-            />
-          </TabsContent>
-
-          <TabsContent value="fav">
-            <MappingFun
-              queryKey={`/students/profile/my_favorites_store`}
-              arraypath="body.gifts"
-              errorComponent={<Empty className="min-h-[520px]" />}
-              render={(data) => {
-                return (
-                  <div className=" gap-5 grid grid-cols-1 md:grid-cols-3 ">
-                    {data?.body.gifts.map((gift, i) => {
-                      return <StoreCard gift={gift} />;
-                    })}
-                  </div>
-                );
-              }}
-            />
-          </TabsContent>
-
-          <TabsContent value="gifts">
-            <MappingFun
-              queryKey={`/students/profile/my_redemptions_store`}
-              arraypath="body.gifts"
-              errorComponent={<Empty className="min-h-[520px]" />}
-              render={(data) => {
-                return (
-                  <div className=" gap-5 grid grid-cols-1 md:grid-cols-3 ">
-                    {data?.body.gifts.map((gift, i) => {
-                      return <StoreCard gift={gift} />;
-                    })}
-                  </div>
-                );
-              }}
-            />
-          </TabsContent>
+          {Object.entries(mapTabsToEndpoints).map(([key, value]) => {
+            return (
+              <TabsContent value={key} key={key}>
+                <MappingFun
+                  queryKey={value}
+                  arraypath="body.gifts"
+                  render={(data) => {
+                    return (
+                      <div className=" gap-5 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 ">
+                        {data?.body.gifts.map((gift, i) => {
+                          return <StoreCard key={i} storeItem={gift} />;
+                        })}
+                      </div>
+                    );
+                  }}
+                />
+              </TabsContent>
+            );
+          })}
         </Suspense>
       </Tabs>
     </div>

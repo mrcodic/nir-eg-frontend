@@ -64,8 +64,6 @@ export enum paymentStatus {
   failed = "UNPAID",
 }
 
-
-
 interface CommentUser {
   id: number;
   name: string;
@@ -366,6 +364,7 @@ export type Coupon = {
   price: number;
   // 1 = percentage , 0 = fixed
   type_discount: 1 | 0;
+  show_promo: boolean;
 };
 
 export interface ApiResponse<T> {

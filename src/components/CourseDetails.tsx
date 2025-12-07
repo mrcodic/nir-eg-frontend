@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getPublicData } from "@/helpers/client-fetch";
 import { cn } from "@/lib/utils";
 import { ICourseDetails, IUser } from "@/types";
+import Image from "next/image";
 import { useParams } from "next/navigation";
 import Empty from "./Empty";
 import InfiniteScroll from "./InfinteScroll";
@@ -58,12 +59,6 @@ const CourseDetails = ({ details, profile }: Props) => {
     return res?.body?.rooms;
   };
 
-  const exams = details?.classroom_exams;
-
-  if (!details?.is_subscriped) {
-    return null;
-  }
-
   return (
     <Tabs
       defaultValue="lessons"
@@ -79,9 +74,12 @@ const CourseDetails = ({ details, profile }: Props) => {
                 value={tab.value}
                 className={`group min-w-24 rounded-lg data-[state=active]:bg-primary-800 cursor-pointer data-[state=active]:text-white bg-white text-[#523412] flex items-center gap-2 border border-primary-800 px-px py-1 md:p-2 `}
               >
-                <img
+                <Image
                   className="size-6 group-data-[state=active]:invert group-data-[state=active]:brightness-0 transition-all duration-300 ease-in-out"
                   src={tab.iconSrc}
+                  alt={tab.title}
+                  width={24}
+                  height={24}
                 />
                 <span className="text-sm text-primary-800 group-data-[state=active]:text-white transition-all duration-300 ease-in-out font-bold">
                   {tab.title}
@@ -133,22 +131,10 @@ const CourseDetails = ({ details, profile }: Props) => {
         />
 
         <div className="flex flex-col gap-6">
-          {exams?.map((exam, index) => (
+          {details?.classroom_exams?.map((exam, index) => (
             <Exam exam={exam} key={index} />
           ))}
         </div>
-
-        {/* <div className="mt-[40px]">
-            <RoomHeader
-              title="الامتحانات السابقة"
-              icon="/assets/english-icon.svg"
-            />
-            <div className="flex flex-col gap-6">
-              {EXAMS.map((exam, index) => (
-                <Exam isPreviousExam={true} exam={exam} key={index} />
-              ))}
-            </div>
-          </div> */}
       </TabsContent>
 
       <TabsContent value="activities" className=" mt-8">

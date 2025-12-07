@@ -179,10 +179,12 @@ const RoomSideContent = ({
                   {ass?.title}
                 </h2>
 
-                <LinkLocked locked={locked}>
+                <LinkLocked
+                  locked={locked}
+                  className="flex items-center shrink-0 justify-center size-9 bg-primary-800 rounded-lg"
+                >
                   <Link
                     href={`/bundles/${SingleCourse}/${room}/assignment/${ass.id}`}
-                    className="flex items-center justify-center size-9 bg-primary-800 rounded-lg"
                   >
                     <ChevronLeft className="stroke-white size-5" />
                   </Link>

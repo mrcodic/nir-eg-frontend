@@ -21,6 +21,7 @@ interface PaymentUIProps {
   courseId: string;
   hasCoupon?: boolean;
   isLoadingMethods?: boolean;
+  isModal?: boolean;
 }
 
 export const PaymentUI: React.FC<PaymentUIProps> = ({
@@ -35,6 +36,7 @@ export const PaymentUI: React.FC<PaymentUIProps> = ({
   courseId,
   hasCoupon,
   isLoadingMethods,
+  isModal = true,
 }) => {
   const { profile } = useAuthContext();
 
@@ -50,10 +52,12 @@ export const PaymentUI: React.FC<PaymentUIProps> = ({
         </div>
       )}
 
-      <h4 className=" text-[18px] font-bold">اختر طريقة الدفع</h4>
+      {isModal && (
+        <h4 className=" text-[18px] font-bold mb-4">اختر طريقة الدفع</h4>
+      )}
 
-      <div className="space-y-2 mb-4 border-t border-gray-light pt-3 mt-3 empty:hidden">
-        {!!price && (
+      <div className="space-y-2 mb-6 empty:hidden">
+        {isModal && !!price && (
           <div className="flex items-center p-2 rounded-lg justify-between gap-3 bg-background">
             <h5 className="text-[#121212] font-bold">السعر</h5>
             {hasCoupon && !!coupon?.promo?.value && isOnline ? (
@@ -72,16 +76,16 @@ export const PaymentUI: React.FC<PaymentUIProps> = ({
           </div>
         )}
 
-        {hasPaymentMethods && isOnline && hasCoupon && (
+        {hasPaymentMethods && isOnline && hasCoupon ? (
           <PaymentCoupon
             coupon={coupon}
             setCoupon={setCoupon}
             courseId={courseId}
           />
+        ) : (
+          <hr className="h-px w-full border-gray-light my-3" />
         )}
       </div>
-
-      <hr className="h-px w-full border-gray-light my-3" />
 
       {paymentMethodValue === paymentType.fawerypay && (
         <span className="text-red-600 block text-sm font-bold mb-2 leading-6">

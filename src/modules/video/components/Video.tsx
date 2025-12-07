@@ -50,7 +50,7 @@ export default function Video(props: VideoProps) {
         <TopBanner
           icon={<img src="/assets/WarningColor.svg" />}
           render={
-            <span className="text-[#121212] text-sm whitespace-nowrap font-medium">
+            <span className=" text-sm  font-medium">
               {exceededViews
                 ? "لقد تجاوزت الحد الأقصى لعدد المشاهدات المسموح بها لهذا الدرس"
                 : "يجب ان تقوم باجتياز الاختبار أولا"}

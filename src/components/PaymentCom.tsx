@@ -43,7 +43,7 @@ const PaymentCom = ({
       style={{
         boxShadow: "0px 2px 10px 4px rgba(157, 130, 66, 0.20) ",
       }}
-      className="bg-background relative md:text-[24px] font-bold  flex flex-col max-w-[min(760px,85%)] w-full justify-center md:w-[760px]  border py-3 md:py-8 mx-auto  -mt-8 px-5 border-primary-800 rounded-lg  z-10"
+      className="bg-white relative md:text-[24px] font-bold  flex flex-col max-w-[min(760px,85%)] w-full justify-center md:w-[760px]  border py-3 md:py-4 mx-auto  -mt-8 px-4 border-primary-800 rounded-lg  z-10"
     >
       <PaymentUI
         paymentMethodValue={paymentMethodValue}
@@ -57,6 +57,7 @@ const PaymentCom = ({
         courseId={courseId}
         hasCoupon={hasCoupon}
         isLoadingMethods={isLoadingMethods}
+        isModal={false}
       />
       {paymentTypes.length > 0 && (
         <div className="flex flex-row! justify-between gap-5 mt-5 ms-auto">
