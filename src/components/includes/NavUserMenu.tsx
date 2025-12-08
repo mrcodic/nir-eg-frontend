@@ -21,16 +21,22 @@ function NavUserMenu({ profile }) {
   return (
     <DropdownMenu dir="rtl" modal={false}>
       <DropdownMenuTrigger className="focus-visible:outline-hidden shrink-0">
-        <CustomImage src={profile?.avatar} />
+        <CustomImage src={profile?.avatar} className="rounded-full" />
       </DropdownMenuTrigger>
 
       <DropdownMenuContent className="relative left-10 z-9999 w-[272px]  mobile:top-1 bg-[#FFFFFF] max-h-[calc(100vh-90px)] overflow-y-auto border rounded-lg border-gray-light py-4">
         {" "}
         <DropdownMenuItem className="flex flex-col w-full gap-4 items-center justify-center">
-          <CustomImage src={profile?.avatar} size={56} />
+          <CustomImage
+            src={profile?.avatar}
+            size={56}
+            className="rounded-full"
+          />
+
           <h3 className="text-[#121212] text-base font-bold">
             {profile?.first_name + " " + profile?.last_name}
           </h3>
+
           <div className="mb-4 h-px w-full bg-gray-light" />
         </DropdownMenuItem>
         <DropdownMenuItem className="">

@@ -20,7 +20,7 @@ import { Check, ChevronsUpDown } from "lucide-react";
 type Props = {
   open: boolean;
   setOpen: (open: boolean) => void;
-  value: string | number | null;
+  value: string | number | { value: string | number; label: string } | null;
   label: string;
   placeholder?: string;
   frameworks: { value: string | number; label: string }[];

@@ -5,21 +5,32 @@ import InfiniteScroll from "@/components/InfinteScroll";
 import LoadingSpinner from "@/components/Loading";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getClientPrivateData } from "@/helpers/client-fetch";
+import { BooksOrder, CourseOrder } from "@/types";
 import { useSearchParams } from "next/navigation";
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
 import BookOrderCard from "./BookOrderCard";
 import CourseOrderCard from "./CourseOrderCard";
 
 function TransactionsList({ type = "course" }: { type: "course" | "cart" }) {
-  const [bundlesData, setBundlesData] = React.useState([]);
-  const [data, setData] = React.useState({});
-  const [isLoadingData, setIsLoadingData] = React.useState(true);
+  const [data, setData] = useState<{
+    body: (BooksOrder | CourseOrder)[];
+    pagination: {
+      current_page: number;
+      last_page: number;
+      per_page: number;
+      total: number;
+    };
+  } | null>(null);
+
+  const [isLoadingData, setIsLoadingData] = useState(true);
 
   const isCourses = type === "course";
 
+  const endpoint = isCourses ? "/payment/transaction" : "/students/orders";
+
   async function fetchData(page = 1) {
     const data = await getClientPrivateData({
-      queryKey: [`/payment/transaction?page=${page}&per_page=10&type=${type}`],
+      queryKey: [`${endpoint}?page=${page}&per_page=10`],
     });
 
     return data?.body;
@@ -27,10 +38,9 @@ function TransactionsList({ type = "course" }: { type: "course" | "cart" }) {
 
   useEffect(() => {
     getClientPrivateData({
-      queryKey: [`/payment/transaction?page=1&per_page=10&type=${type}`],
+      queryKey: [`${endpoint}?page=1&per_page=10`],
     })
       .then((res) => {
-        setBundlesData(res.body || []);
         setData(res || {});
       })
       .finally(() => {
@@ -40,17 +50,23 @@ function TransactionsList({ type = "course" }: { type: "course" | "cart" }) {
 
   if (isLoadingData) return <LoadingSpinner />;
 
-  return bundlesData?.length ? (
+  return data?.body?.length ? (
     <InfiniteScroll
       fetchData={fetchData}
-      initialData={bundlesData}
+      initialData={data?.body}
       pagination={data?.pagination}
       render={(data) => {
-        console.log("🚀 ~ page ~ data : ", type, data);
-        return isCourses ? (
-          <CourseOrderCard data={data} />
-        ) : (
-          <BookOrderCard data={data} />
+        console.log("🚀 ~ orders ~ data : ", type, data);
+        return (
+          <div dir="rtl" className="flex flex-col md:gap-6 gap-12 ">
+            {data?.map((item) => {
+              return isCourses ? (
+                <CourseOrderCard item={item} />
+              ) : (
+                <BookOrderCard item={item} />
+              );
+            })}
+          </div>
         );
       }}
     />

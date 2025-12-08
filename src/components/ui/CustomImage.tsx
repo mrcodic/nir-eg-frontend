@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { ComponentProps, useEffect, useState } from "react";
 
 type AvatarProps = {
   src?: string | null;
@@ -13,13 +13,16 @@ type AvatarProps = {
 
 const DEFAULT_FALLBACK = "/assets/avatar-user.svg";
 
+type ImageProps = ComponentProps<typeof Image>;
+
 export default function CustomImage({
   src,
   alt = "user avatar",
   size = 44,
   className = "",
   fallback = DEFAULT_FALLBACK,
-}: AvatarProps) {
+  ...props
+}: AvatarProps & ImageProps) {
   const [imgSrc, setImgSrc] = useState<string>(src ?? fallback);
 
   useEffect(() => {
@@ -35,11 +38,11 @@ export default function CustomImage({
   return (
     <Image
       src={imgSrc}
-      width={size}
-      height={size}
       alt={alt}
       onError={handleError}
       className={className}
+      {...(props?.fill ? {} : { width: size, height: size })}
+      {...props}
     />
   );
 }

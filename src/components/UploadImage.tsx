@@ -69,7 +69,12 @@ export default function UploadWithCrop({
           className="size-24 cursor-pointer ring-offset-2 ring-2 ring-slate-200"
         >
           <input {...getInputProps()} id="file" />
-          <CustomImage src={defaultAvatar} alt="user avatar" size={96} />
+          <CustomImage
+            src={defaultAvatar}
+            alt="user avatar"
+            size={96}
+            className="rounded-full"
+          />
         </Avatar>
       )}
 

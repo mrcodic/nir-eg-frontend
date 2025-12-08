@@ -9,9 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
-import { BookLinksSettings } from "@/types/books.types";
 import { MenuIcon } from "lucide-react";
-import WrapperHOC from "./WrapperHOC";
 
 function MobileDropDown({
   profile,
@@ -49,7 +47,7 @@ function MobileDropDown({
             </Link>
           ))}
 
-          <WrapperHOC queryKey={["settings/books"]}>
+          {/* <WrapperHOC queryKey={["settings/books"]}>
             {({ data }: { data: { data: BookLinksSettings } }) => {
               const booksData = data?.data;
               if (!booksData?.links?.length) return null;
@@ -67,7 +65,7 @@ function MobileDropDown({
                 </Link>
               );
             }}
-          </WrapperHOC>
+          </WrapperHOC> */}
         </div>
       </DropdownMenuContent>
     </DropdownMenu>

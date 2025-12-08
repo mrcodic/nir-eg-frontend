@@ -96,6 +96,11 @@ export const paymentTypesObj = {
     value: paymentType.code,
     icons: ["/assets/payCode.svg"],
   },
+  FREE: {
+    label: " مجانيه",
+    value: "FREE",
+    icons: ["/assets/heart.svg"],
+  },
 };
 
 export const telegramLiks = {
@@ -107,7 +112,9 @@ export const telegramLiks = {
 export const paymentStatusArabic = {
   [paymentStatus.pending]: "قيد الانتظار",
   [paymentStatus.failed]: "لم يتم تنفيذ العملية",
+  [paymentStatus.unpaid]: "غير مدفوع",
   [paymentStatus.paid]: "تم الدفع ",
+  default: "غير محدد",
 };
 
 export const arabicOrdinalMap: Record<number, string> = {

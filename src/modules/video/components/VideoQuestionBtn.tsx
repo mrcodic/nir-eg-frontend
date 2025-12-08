@@ -20,7 +20,7 @@ function VideoQuestionBtn({ playerRef, setHideBtn }: any) {
           e.stopPropagation();
           setHideBtn(true);
         }}
-        className="absolute cursor-pointer bg-semantics-red-light top-2 left-2 rounded-full flex items-center justify-center size-4 hover:bg-semantics-red group transition-all"
+        className="absolute cursor-pointer bg-semantics-red-50 top-2 left-2 rounded-full flex items-center justify-center size-4 hover:bg-semantics-red group transition-all"
       >
         <X className="stroke-semantics-red size-3 stroke-4 group-hover:stroke-white transition-all" />
       </div>

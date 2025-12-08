@@ -48,8 +48,8 @@ export default function StudentCenterField({
         frameworks={mappedCenters}
         value={value}
         onSelect={(v) => {
-          setValue(v);
-          onSelect(v);
+          setValue(v!);
+          onSelect(v!);
         }}
         open={openCombobox}
         setOpen={setOpenCombox}

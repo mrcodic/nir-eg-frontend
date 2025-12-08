@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useEffect } from "react";
 import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 
-const AuthLayout = ({ children }) => {
+const AuthLayout = ({ children, img }) => {
   useEffect(() => {
     return () => {
       // Delay cleanup by e.g. 300ms
