@@ -48,7 +48,7 @@ const CourseCard = ({
           <PriceBubbles
             sale={courseDetails?.sale}
             price={courseDetails?.price}
-            className="bg-semantics-green-dark"
+            badgeClassName="bg-semantics-green-dark"
             currencyClassName="text-sm"
           />
         </div>

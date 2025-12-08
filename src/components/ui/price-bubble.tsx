@@ -8,6 +8,7 @@ function PriceBubbles({
   currencyClassName,
   numberClassName,
   discountClassName,
+  badgeClassName,
 }: {
   sale?: { discount_type: number; discount_value: number; id: number };
   price: number | string;
@@ -15,6 +16,7 @@ function PriceBubbles({
   currencyClassName?: string;
   numberClassName?: string;
   discountClassName?: string;
+  badgeClassName?: string;
 }) {
   if (sale?.id)
     return (
@@ -32,9 +34,9 @@ function PriceBubbles({
               : Number(price) - Number(sale?.discount_value)
           }
           variant="discount"
+          className={badgeClassName}
           currencyClassName={currencyClassName}
           numberClassName={numberClassName}
-          className={discountClassName}
         />
       </div>
     );
@@ -43,7 +45,7 @@ function PriceBubbles({
       <PriceBadge
         price={Number(price)}
         variant="default"
-        className={className}
+        className={badgeClassName}
         currencyClassName={currencyClassName}
         numberClassName={numberClassName}
       />

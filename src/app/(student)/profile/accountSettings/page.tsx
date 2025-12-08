@@ -135,6 +135,8 @@ const PageSettings = () => {
     }
   };
 
+  console.log(form.getValues());
+
   return (
     <div className="mt-[168px] mb-12 wrapper ">
       <div className=" w-full md:max-w-[792px] mx-auto border border-gray-light p-4 rounded-lg">
@@ -198,7 +200,20 @@ const PageSettings = () => {
                 <CustomCityStateField form={form} isSettings />
               </div>
 
-              {data?.body?.type === 3 && <StudentCenterField />}
+              {data?.body?.type === 3 && (
+                <StudentCenterField
+                  onSelect={(v) => {
+                    console.log(v);
+                    form.setValue(
+                      "center_id",
+                      typeof v === "string" ? v : v.value,
+                      {
+                        shouldValidate: true,
+                      }
+                    );
+                  }}
+                />
+              )}
 
               <div className="flex flex-col mt-6 md:flex-row items-center  gap-6 w-full">
                 <CustomInput

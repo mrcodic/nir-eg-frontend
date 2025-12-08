@@ -11,46 +11,23 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { QRCodeCanvas } from "qrcode.react";
-import { useState } from "react";
 import LogoutCustomModal from "../modals/LogoutCustomModal";
+import CustomImage from "../ui/CustomImage";
 
 function NavUserMenu({ profile }) {
   const router = useRouter();
   const modal = useModal();
-  const [avatar, setAvatar] = useState(
-    profile?.avatar || "/assets/avatar-user.svg"
-  );
 
   return (
     <DropdownMenu dir="rtl" modal={false}>
       <DropdownMenuTrigger className="focus-visible:outline-hidden shrink-0">
-        <Image
-          className="mobile:size-12 size-[42px]  rounded-full object-cover"
-          src={avatar}
-          onError={(e) => {
-            if (avatar === "/assets/avatar-user.svg") return;
-            console.log("error ");
-            setAvatar("/assets/avatar-user.svg");
-          }}
-          width={42}
-          height={42}
-          alt="user avatar"
-        />
+        <CustomImage src={profile?.avatar} />
       </DropdownMenuTrigger>
 
       <DropdownMenuContent className="relative left-10 z-9999 w-[272px]  mobile:top-1 bg-[#FFFFFF] max-h-[calc(100vh-90px)] overflow-y-auto border rounded-lg border-gray-light py-4">
         {" "}
         <DropdownMenuItem className="flex flex-col w-full gap-4 items-center justify-center">
-          <Image
-            className="size-14  rounded-full"
-            src={profile?.avatar || "/assets/avatar-user.svg"}
-            onError={(e) => {
-              e.currentTarget.src = "/assets/avatar-user.svg";
-            }}
-            width={56}
-            height={56}
-            alt="user avatar"
-          />
+          <CustomImage src={profile?.avatar} size={56} />
           <h3 className="text-[#121212] text-base font-bold">
             {profile?.first_name + " " + profile?.last_name}
           </h3>
@@ -158,7 +135,13 @@ const MenuItem = ({
           onClick();
         }}
       >
-        <img className="size-5" src={icon} />
+        <Image
+          className="size-5"
+          src={icon}
+          width={20}
+          height={20}
+          alt="icon"
+        />
         <span className={textClassName}>{text}</span>
       </div>
     </DropdownMenuItem>

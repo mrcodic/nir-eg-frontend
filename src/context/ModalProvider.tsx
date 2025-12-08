@@ -28,10 +28,6 @@ type ModalContextType = {
   closeModal: () => void;
   setDialogContent: Dispatch<SetStateAction<ReactNode | undefined>>;
   setDialogContentProps: Dispatch<SetStateAction<DialogContentProps | null>>;
-  /**
-   * Adds a side element (rendered beside children).
-   * Returns a disposer function to remove it manually.
-   */
   addSideElement: (node: ReactNode) => () => void;
   removeSideElement: () => void;
 };
@@ -43,13 +39,7 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
   const [modalContent, setModalContent] = useState<ReactNode | undefined>();
   const [dialogContentProps, setDialogContentProps] =
     useState<DialogContentProps | null>(null);
-
-  // The "side element" to render beside children
   const [sideElement, setSideElement] = useState<ReactNode | undefined>();
-
-  // const resetModal = useCallback(() => {
-  //   setIsOpen(false);
-  // }, []);
 
   const closeModal = useCallback(() => {
     setIsOpen(false);
@@ -59,26 +49,29 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
     setIsOpen(true);
   }, []);
 
-  // Add side element and return disposer so caller can remove it manually
   const addSideElement = useCallback((node: ReactNode) => {
     setSideElement(node);
-    const disposer = () => setSideElement(undefined);
-    return disposer;
+    return () => setSideElement(undefined);
   }, []);
 
   const removeSideElement = useCallback(() => {
     setSideElement(undefined);
   }, []);
 
+  const handleOpenChange = useCallback((open: boolean) => {
+    setIsOpen(open);
+  }, []);
+
   useEffect(() => {
     if (!isOpen) {
-      console.log("closing modal");
-      setTimeout(() => {
+      const tid = setTimeout(() => {
         setModalContent(undefined);
         setDialogContentProps(null);
         setSideElement(undefined);
-      }, 100);
+      }, 200);
+      return () => clearTimeout(tid);
     }
+    return;
   }, [isOpen]);
 
   return (
@@ -94,28 +87,19 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
       }}
     >
       {children}
-      {sideElement}
 
-      {/* Global Modal */}
-      <Dialog
-        open={isOpen && !!modalContent}
-        onOpenChange={(open) => {
-          setIsOpen(open);
-          // if (!open) {
-          //   resetModal();
-          // }
-        }}
-      >
+      <Dialog open={isOpen} onOpenChange={handleOpenChange}>
+        {sideElement}
+
         <DialogTitle />
         <DialogDescription />
         <DialogContent
           {...dialogContentProps}
           className={cn(
-            "bg-white max-md:p-2! overflow-visible max-h-[calc(100vh-2rem)] overflow-y-auto",
+            "bg-white max-md:p-2 overflow-visible max-h-[calc(100vh-2rem)] overflow-y-auto",
             dialogContentProps?.className
           )}
           onPointerDownOutside={(e) => {
-            // don't dismiss dialog when clicking a toast
             if (
               e.target instanceof Element &&
               e.target.closest("[data-toast]")

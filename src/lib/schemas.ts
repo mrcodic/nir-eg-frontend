@@ -252,24 +252,13 @@ export const editProfileSchema = z
       .regex(onlyLettersRegex, "يجب أن يحتوي الاسم الأخير على حروف فقط"),
 
     parent_phone: phoneSchema,
-    // password: z.string().min(8, "يجب أن تكون كلمة السر 8 أحرف على الأقل"),
-    // old_password: z.string().min(8, "يجب أن تكون كلمة السر 8 أحرف على الأقل"),
-    // password_confirmation: z
-    //   .string()
-    //   .min(8, "يجب أن تكون كلمة السر 8 أحرف على الأقل"),
+
     state_id: z.number().min(1, "يجب اختيار المحافظة"),
     city_id: z.coerce.number({ required_error: "حقل المدينة مطلوب" }),
-    // city: z
-    //   .string()
-    //   .min(1, "يجب إدخال المدينة")
-    //   .regex(onlyLettersRegex, "يجب أن يحتوي اسم المدينة على حروف فقط"),
+
     avatar: z.any(),
-    // .refine((file) => file.size < MAX_FILE_SIZE, "Max size is 5MB."),
-    // .refine(
-    //   (file) => checkFileType(file),
-    //   "Only .pdf, .docx formats are supported."
-    // ),
-    // recaptcha_token: z.string().optional(),
+
+    center_id: z.number().optional(),
 
     old_password: z
       .string()

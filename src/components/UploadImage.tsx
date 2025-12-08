@@ -1,10 +1,11 @@
 "use client";
 
 import { ImageCropper } from "@/components/Cropper";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar } from "@/components/ui/avatar";
 import { useCallback, useEffect, useState } from "react";
 import { FileWithPath, useDropzone } from "react-dropzone";
 import { Button } from "./ui/button";
+import CustomImage from "./ui/CustomImage";
 
 export type FileWithPreview = FileWithPath & {
   preview: string;
@@ -68,8 +69,7 @@ export default function UploadWithCrop({
           className="size-24 cursor-pointer ring-offset-2 ring-2 ring-slate-200"
         >
           <input {...getInputProps()} id="file" />
-          <AvatarImage src={defaultAvatar} alt="@shadcn" />
-          <AvatarFallback>image</AvatarFallback>
+          <CustomImage src={defaultAvatar} alt="user avatar" size={96} />
         </Avatar>
       )}
 
