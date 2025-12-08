@@ -1,5 +1,5 @@
 import { getCities } from "@/utils/api";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ComboboxForm } from "./ComboBoxForm";
 
 const stateOptions = [
@@ -48,40 +48,48 @@ function CustomCityStateField({
   const watchState = form.watch("state_id");
   const watchCity = form.watch("city_id");
 
-  const onSelctState = async (framework) => {
-    setStateOpen(false);
-    const id = String(framework.value);
-    setStateValue({ value: id, label: framework.label });
+  const onSelctCity = useCallback(
+    (framework) => {
+      setCityOpen(false);
+      const id = String(framework.value);
+      setCityValue({ value: id, label: framework.label });
+      form.setValue("city_id", Number(framework.value), {
+        shouldValidate: true,
+      });
+    },
+    [form]
+  );
 
-    form.setValue("state_id", Number(framework.value), {
-      shouldValidate: true,
-    });
+  const onSelctState = useCallback(
+    async (framework) => {
+      setStateOpen(false);
+      const id = String(framework.value);
+      setStateValue({ value: id, label: framework.label });
 
-    const response = await getCities({
-      queryKey: [`states/${framework.value}/cities`],
-    });
-    const mapped = Array.isArray(response)
-      ? response.map((c) => ({ value: String(c.id), label: c.name }))
-      : [];
-    setCities(mapped);
+      form.setValue("state_id", Number(framework.value), {
+        shouldValidate: true,
+      });
 
-    // for initial render to populate user data
-    if (isSettings && watchCity && !cityValue) {
-      const city = mapped.find((c) => String(c.value) == String(watchCity));
+      const response = await getCities({
+        queryKey: [`states/${framework.value}/cities`],
+      });
+      const mapped = Array.isArray(response)
+        ? response.map((c) => ({ value: String(c.id), label: c.name }))
+        : [];
+      setCities(mapped);
 
-      onSelctCity(city);
-    } else {
-      setCityValue(null);
-      form.setValue("city_id", undefined, { shouldValidate: true });
-    }
-  };
+      // for initial render to populate user data
+      if (isSettings && watchCity && !cityValue) {
+        const city = mapped.find((c) => String(c.value) == String(watchCity));
 
-  const onSelctCity = (framework) => {
-    setCityOpen(false);
-    const id = String(framework.value);
-    setCityValue({ value: id, label: framework.label });
-    form.setValue("city_id", Number(framework.value), { shouldValidate: true });
-  };
+        onSelctCity(city);
+      } else {
+        setCityValue(null);
+        form.setValue("city_id", undefined, { shouldValidate: true });
+      }
+    },
+    [isSettings, watchCity, cityValue, onSelctCity, form]
+  );
 
   // for initial render to populate user data
   useEffect(() => {
@@ -92,7 +100,7 @@ function CustomCityStateField({
       );
       onSelctState(state);
     }
-  }, [watchState]);
+  }, [watchState, isSettings, onSelctState, stateValue]);
 
   return (
     <>
@@ -103,7 +111,7 @@ function CustomCityStateField({
         value={stateValue}
         setOpen={setStateOpen}
         onSelect={onSelctState}
-        label="اختر المحافظة"
+        label="المحافظة"
         placeholder={"بحث عن محافظة "}
         error={form.formState.errors.state_id?.message}
       />
@@ -115,7 +123,7 @@ function CustomCityStateField({
         value={cityValue}
         setOpen={setCityOpen}
         onSelect={onSelctCity}
-        label="اختر المدينة"
+        label="المدينة"
         placeholder="بحث عن مدينة "
         error={form.formState.errors.city_id?.message}
       />

@@ -1,3 +1,4 @@
+import TopBanner from "@/components/banners/TopBanner";
 import { Button } from "@/components/ui/button";
 import { DialogFooter, DialogHeader } from "@/components/ui/dialog";
 import { useModal } from "@/context/ModalProvider";
@@ -17,6 +18,15 @@ function BuyPointsItemModal({ storeItem }: { storeItem: any }) {
 
         <h3 className="font-bold">هل أنت متأكد من أنك تريد شراء الهدية؟</h3>
       </DialogHeader>
+
+      <TopBanner
+        render={
+          <p className="font-bold">النقاط الخاصة بك لا تكفي لشراء الهدية</p>
+        }
+        icon="/assets/warning-fill.svg"
+        showClose={false}
+        className="mt-8 bg-background"
+      />
 
       <div className="border border-primary-800 p-2 mt-8 flex gap-6 items-center flex-wrap rounded-lg justify-center">
         <Image

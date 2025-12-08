@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useState } from "react";
-import { StudentSelectCenter } from "../modals/StudentSelectCenter";
+import { StudentSelectCenter } from "../modals/StudentSelectCenterModal";
 
 function LinkStyled({ href, title }: { href: string; title: string }) {
   const modal = useModal();

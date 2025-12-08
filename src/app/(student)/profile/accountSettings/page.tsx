@@ -4,39 +4,25 @@ import CustomCityStateField from "@/components/custom/CustomCityStateField";
 import CustomInput from "@/components/custom/customInput";
 import CustomPhoneInput from "@/components/custom/CustomPhoneInput";
 import CustomLoader from "@/components/custom/Loader";
-import OtpModal from "@/components/modals/OtpModal";
 import { Button } from "@/components/ui/button";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command";
 import { Form } from "@/components/ui/form";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import UploadWithCrop from "@/components/UploadImage";
-import { useAuthContext } from "@/context/auth-context";
 import { useToast } from "@/hooks/use-toast";
 import { editProfileSchema } from "@/lib/schemas";
-import { cn, getPhoneInfoFromCode, isOtpExpired } from "@/lib/utils";
+import { getPhoneInfoFromCode, isOtpExpired } from "@/lib/utils";
 import { getOtp } from "@/utils/api";
 import { mapGradeToText, mapTypeToText } from "@/utils/clientFun";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { Check, ChevronsUpDown } from "lucide-react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 
-import { getClientPrivateData, getPublicData } from "@/helpers/client-fetch";
+import StudentCenterField from "@/components/custom/StudentCenterField";
+import { getClientPrivateData } from "@/helpers/client-fetch";
+import ChangePasswordSettings from "@/modules/profile/components/ChangePasswordSettings";
+import { ApiResponse, IUser } from "@/types";
 import Cookies from "js-cookie";
 
 const PageSettings = () => {
@@ -45,18 +31,16 @@ const PageSettings = () => {
   const queryClient = useQueryClient();
 
   const [changePassword, setIsChangePassword] = useState(false);
-  const { grade } = useAuthContext();
   const [selectedFile, setSelectedFile] = useState(null);
-  const [openCombobox, setOpenCombox] = useState(false);
-  const [value, setValue] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const { data } = useQuery({
+  const { data } = useQuery<ApiResponse<IUser>>({
     queryKey: ["/students/profile"],
     queryFn: getClientPrivateData,
     staleTime: 0,
   });
 
-  console.log("profile : ", data);
+  console.log(data);
 
   const phoneInfo = getPhoneInfoFromCode(data?.body?.code_country);
 
@@ -77,31 +61,25 @@ const PageSettings = () => {
       password: "",
       password_confirmation: "",
     }),
-    [data]
+    [data, phoneInfo]
   );
 
   const form = useForm({
     resolver: zodResolver(editProfileSchema),
     defaultValues: defaultData,
+    values: defaultData,
   });
 
-  const [changeParentNumber, setChangeParentNumber] = useState(false);
-  const [changeUserNumber, setChangeUserNumber] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    if (data) {
-      form.reset(defaultData);
-    }
-  }, [data, form.reset, defaultData]);
-
-  const tokenCookie = Cookies.get("nir_token");
-
-  const onSubmit = async (v) => {
+  const onSubmit = async (values) => {
     try {
+      const tokenCookie = Cookies.get("nir_token");
       // check if change password is active and now password fields are entered
       if (changePassword) {
-        if (!v.password || !v.password_confirmation || !v.old_password) {
+        if (
+          !values.password ||
+          !values.password_confirmation ||
+          !values.old_password
+        ) {
           toast({
             description: "يرجى ادخال كلمة المرور الجديدة",
             icon: "error",
@@ -116,9 +94,9 @@ const PageSettings = () => {
 
       setIsLoading(true);
 
-      console.log(v);
+      console.log(values);
 
-      const { parent_phone, ...rest } = v;
+      const { parent_phone, ...rest } = values;
 
       const response = await axios.post(
         "/api?url=/students/profile/edit&type=formData",
@@ -136,7 +114,6 @@ const PageSettings = () => {
           },
         }
       );
-      setIsLoading(false);
 
       if (response?.data?.code === 200) {
         toast({
@@ -149,193 +126,96 @@ const PageSettings = () => {
       }
     } catch (err) {
       console.log(err);
-      setIsLoading(false);
       toast({
         description: err?.response?.data?.error?.message || "   حدث خطأ ما",
         icon: "error",
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const { data: centers } = useQuery({
-    queryKey: [`/guest/centers/${grade}`],
-    queryFn: getPublicData,
-    gcTime: 0,
-  });
-
-  const x = centers?.data?.map((d) => {
-    return {
-      value: d.id,
-      label: d.title,
-    };
-  });
-
-  useEffect(() => {
-    if (data?.body?.center_id) {
-      setValue(data?.body?.center_id);
-      form.setValue("center_id", data?.body?.center_id);
-    }
-  }, [data?.body?.center_id, form.setValue]);
-
   return (
-    <div className="mt-[120px] mb-[48px] w-[85%] mx-auto">
-      <h2 className="text-[#121212] text-[18px]">إعدادات الحساب</h2>
-      <div className=" w-full md:w-[50%] mx-auto">
+    <div className="mt-[168px] mb-12 wrapper ">
+      <div className=" w-full md:max-w-[792px] mx-auto border border-gray-light p-4 rounded-lg">
+        <h1 className="text-xl font-bold">إعدادات الحساب</h1>
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="mt-[40px] w-full"
-          >
-            <div className="flex gap-[24px]">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="mt-10 w-full">
+            <div className="flex gap-6">
               <UploadWithCrop
-                avatar={data?.body?.avatar}
+                defaultAvatar={data?.body?.avatar}
                 selectedFile={selectedFile}
                 setSelectedFile={setSelectedFile}
                 setValue={form.setValue}
               />
             </div>
 
-            <div className="mt-[40px] border border-gray-light p-4 rounded-lg">
-              <div className="flex flex-col md:flex-row gap-[24px] w-full">
+            <div className="mt-10 ">
+              <div className="flex flex-col md:flex-row gap-6 w-full">
                 <div className="flex-1">
                   <CustomInput
                     name="first_name"
                     control={form.control}
-                    placeholder="الاسم الأول"
-                    iconSrc="/assets/user.svg"
+                    label="الاسم الأول"
                   />
                 </div>
                 <div className="flex-1">
                   <CustomInput
                     name="last_name"
                     control={form.control}
-                    placeholder="الاسم الأخير"
-                    iconSrc="/assets/user.svg"
+                    label="الاسم الأخير"
                   />
                 </div>
               </div>
 
-              <div className="flex flex-col md:flex-row  gap-[24px] w-full">
-                <div className="flex-1  items-center text-gray-dark ">
-                  <CustomPhoneInput
-                    name="parent_phone.phone"
-                    form={form}
-                    placeholder="رقم هاتف ولي الأمر"
-                    label="رقم هاتف ولي الأمر"
-                    iconSrc="/assets/Phone1.svg"
-                    countryFieldName="parent_phone.country"
-                    countryISOFieldName="parent_phone.country_iso"
-                  />
-                  {/* <CustomInput
-                    name="parent_phone"
-                    control={form.control}
-                    placeholder="رقم هاتف ولى الأمر"
-                    iconSrc="/assets/Phone1.svg"
-                    info="يجب أن يكون رقم واتس اب"
-                  /> */}
+              <div className="flex flex-col md:flex-row  gap-6 w-full">
+                <CustomPhoneInput
+                  name="parent_phone.phone"
+                  form={form}
+                  label="رقم هاتف ولي الأمر"
+                  countryFieldName="parent_phone.country"
+                  countryISOFieldName="parent_phone.country_iso"
+                  className="mt-6"
+                />
 
-                  {data?.body?.parent_phone_verification === false && (
-                    <button
-                      onClick={async () => {
-                        const { isExpired } = isOtpExpired();
-                        if (isExpired) {
-                          await getOtp(data?.body?.parent_phone);
-                        }
-                        setChangeParentNumber(true);
-                      }}
-                      className="text-[12px] cursor-pointer underline inline-block mt-[8px] font-normal text-[#523412]"
-                    >
-                      قم بتأكيد رقم ولي الأمر
-                    </button>
-                  )}
-                </div>
+                {data?.body?.parent_phone_verification === false && (
+                  <button
+                    onClick={async () => {
+                      const { isExpired } = isOtpExpired();
+                      if (isExpired) {
+                        await getOtp(data?.body?.parent_phone);
+                      }
+                      // setChangeParentNumber(true);
+                    }}
+                    className="text-xs cursor-pointer underline inline-block mt-2 font-normal "
+                  >
+                    قم بتأكيد رقم ولي الأمر
+                  </button>
+                )}
               </div>
 
-              <h4 className="text-gray-dark mb-[16px] mt-[32px] text-[12px] font-bold">
-                عنوان الطالب
-              </h4>
-
-              <div className="flex flex-col md:flex-row items-center  gap-[24px] w-full">
+              <div className="flex flex-col mt-6 md:flex-row items-center  gap-6 w-full">
                 <CustomCityStateField form={form} isSettings />
               </div>
-              <div className="flex flex-col md:flex-row items-center  gap-[24px] w-full">
+
+              {data?.body?.type === 3 && <StudentCenterField />}
+
+              <div className="flex flex-col mt-6 md:flex-row items-center  gap-6 w-full">
                 <CustomInput
                   control={form.control}
                   name="address"
                   disabled
-                  placeholder="المرحله"
+                  label="المرحله"
                   defaultValue={mapGradeToText(data?.body?.grade)}
-                  iconSrc="/assets/user.svg"
                 />
                 <CustomInput
                   control={form.control}
                   name="address"
                   disabled
-                  placeholder="نوع الحساب"
+                  label="نوع الحساب"
                   defaultValue={mapTypeToText(data?.body?.type)}
-                  iconSrc="/assets/user.svg"
                 />
               </div>
-
-              {data?.body?.type === 3 && (
-                <div className="mt-[24px]">
-                  <h2 className="text-[#523412] text-[12px] font-bold">
-                    {" "}
-                    السنتر
-                  </h2>
-                  <Popover open={openCombobox} onOpenChange={setOpenCombox}>
-                    <PopoverTrigger disabled asChild>
-                      <Button
-                        variant="ghost"
-                        role="combobox"
-                        aria-expanded={openCombobox}
-                        className="w-full justify-between border-b border-gray-light! text-custom-brown rounded-none h-10"
-                      >
-                        {value
-                          ? x?.find((framework) => framework.value == value)
-                              ?.label
-                          : "أختر السنتر"}
-                        <ChevronsUpDown className="opacity-50" />
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-[780px] p-0">
-                      <Command>
-                        <CommandInput
-                          placeholder="بحث عن السنتر"
-                          className="h-9"
-                        />
-                        <CommandList>
-                          <CommandEmpty>لا يوجد</CommandEmpty>
-                          <CommandGroup>
-                            {x?.map((framework) => (
-                              <CommandItem
-                                key={framework.value}
-                                value={framework.label}
-                                name={"center_id"}
-                                onSelect={() => {
-                                  setValue(framework.value);
-                                  form.setValue("center_id", framework.value);
-                                  setOpenCombox(false);
-                                }}
-                              >
-                                {framework.label}
-                                <Check
-                                  className={cn(
-                                    "ml-auto",
-                                    value === framework.value
-                                      ? "opacity-100"
-                                      : "opacity-0"
-                                  )}
-                                />
-                              </CommandItem>
-                            ))}
-                          </CommandGroup>
-                        </CommandList>
-                      </Command>
-                    </PopoverContent>
-                  </Popover>
-                </div>
-              )}
 
               <div className="flex-1">
                 <div className="w-full flex justify-between items-center ">
@@ -355,63 +235,12 @@ const PageSettings = () => {
                   {changePassword ? "إلغاء تغيير كلمة السر" : "تغيير كلمة السر"}
                 </button>
 
-                {changePassword && (
-                  <div className="flex flex-col gap-[10px] justify-between">
-                    {
-                      <>
-                        <CustomInput
-                          name="old_password"
-                          control={form.control}
-                          placeholder="كلمة السر القديمة"
-                          iconSrc="/assets/user.svg"
-                          type="password"
-                        />
-
-                        <Link
-                          href="/forgetPassword"
-                          className="text-[12px] cursor-pointer underline inline-block mt-[12px] font-normal text-[#523412]"
-                        >
-                          هل نسيت كلمة السر؟
-                        </Link>
-                        {/* <span
-                          onClick={async () => {
-                            const { isExpired } = isOtpExpired();
-                            if (isExpired) {
-                              await getOtp(data?.body?.phone);
-                            }
-                            setChangeUserNumber(true);
-                          }}
-                          className="text-[12px] cursor-pointer underline inline-block mt-[12px] font-normal text-[#523412]"
-                        >
-                          هل نسيت كلمة السر؟
-                        </span> */}
-                      </>
-                    }
-
-                    <CustomInput
-                      name="password"
-                      control={form.control}
-                      placeholder="كلمة السر الجديدة"
-                      iconSrc="/assets/user.svg"
-                      type="password"
-                    />
-
-                    <CustomInput
-                      name="password_confirmation"
-                      control={form.control}
-                      placeholder="تأكيد كلمة السر"
-                      iconSrc="/assets/user.svg"
-                      type="password"
-                    />
-                  </div>
-                )}
+                {changePassword && <ChangePasswordSettings form={form} />}
               </div>
-              <button
-                type="submit"
-                className="bg-primary-800 flex items-center justify-center border border-gray-light text-white rounded-[10px] py-2 font-bold w-full md:w-[265px] mt-[56px]"
-              >
+
+              <Button type="submit" className="mt-10 max-w-[172px] w-full">
                 {isLoading ? <CustomLoader /> : "حفظ التغيرات"}
-              </button>
+              </Button>
 
               {Object.values(form.formState.errors).length > 0 && (
                 <p className="text-red-500 text-sm">
@@ -423,17 +252,9 @@ const PageSettings = () => {
         </Form>
       </div>
 
-      {(changeUserNumber || changeParentNumber) && (
-        <OtpModal
-          phone={
-            changeUserNumber ? data?.body?.phone : data?.body?.parent_phone
-          }
-          setOpen={
-            changeUserNumber ? setChangeUserNumber : setChangeParentNumber
-          }
-          open={changeUserNumber || changeParentNumber}
-        />
-      )}
+      {/* {!data?.body?.parent_phone && changeParentNumber && (
+        <OtpModal phone={data?.body?.parent_phone} />
+      )} */}
     </div>
   );
 };

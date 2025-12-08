@@ -129,11 +129,9 @@ const Community = ({ lessonId, currentTime, locked }: CommunityProps) => {
             type="single"
             collapsible
             defaultValue={isMobile ? "" : "comments"}
+            className="border-none"
           >
-            <AccordionItem
-              value="comments"
-              className="space-y-6 data-[state=open]:p-0 "
-            >
+            <AccordionItem value="comments" className="space-y-6  ">
               <AccordionTrigger className="py-0">
                 <div className=" text-[11px] text-gray-600">
                   {filterMode === "all"

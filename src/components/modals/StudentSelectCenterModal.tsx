@@ -1,8 +1,7 @@
 import { Button } from "@/components/ui/button";
-import { DialogFooter } from "@/components/ui/dialog";
+import { DialogClose, DialogFooter } from "@/components/ui/dialog";
 
 import { getPublicData } from "@/helpers/client-fetch";
-import { DialogClose } from "@radix-ui/react-dialog";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { useForm } from "react-hook-form";
 
@@ -36,7 +35,7 @@ import Image from "next/image";
 import CustomLoader from "../custom/Loader";
 import { Label } from "../ui/label";
 
-export function StudentSelectCenter() {
+export function StudentSelectCenterModal() {
   const router = useRouter();
   const queryClient = useQueryClient();
   const { toast } = useToast();

@@ -7,12 +7,14 @@ function PriceBubbles({
   className,
   currencyClassName,
   numberClassName,
+  discountClassName,
 }: {
   sale?: { discount_type: number; discount_value: number; id: number };
   price: number | string;
   className?: string;
   currencyClassName?: string;
   numberClassName?: string;
+  discountClassName?: string;
 }) {
   if (sale?.id)
     return (
@@ -32,6 +34,7 @@ function PriceBubbles({
           variant="discount"
           currencyClassName={currencyClassName}
           numberClassName={numberClassName}
+          className={discountClassName}
         />
       </div>
     );

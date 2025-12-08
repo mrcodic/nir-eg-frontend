@@ -2,11 +2,13 @@
 
 import { ImageCropper } from "@/components/Cropper";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import React, { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FileWithPath, useDropzone } from "react-dropzone";
+import { Button } from "./ui/button";
 
 export type FileWithPreview = FileWithPath & {
   preview: string;
+  originalImage?: string;
 };
 
 const accept = {
@@ -17,22 +19,22 @@ export default function UploadWithCrop({
   setValue,
   selectedFile,
   setSelectedFile,
-  avatar,
+  defaultAvatar,
 }) {
-  const [isDialogOpen, setDialogOpen] = React.useState(false);
+  const [isDialogOpen, setDialogOpen] = useState(false);
 
-  const onDrop = React.useCallback(
+  const onDrop = useCallback(
     (acceptedFiles: FileWithPath[]) => {
       const file = acceptedFiles[0];
       if (!file) {
         alert("Selected image is too large!");
         return;
       }
-      console.log(file);
       setValue("avatar", file);
 
       const fileWithPreview = Object.assign(file, {
         preview: URL.createObjectURL(file),
+        originalImage: URL.createObjectURL(file),
       });
 
       setSelectedFile(fileWithPreview);
@@ -52,7 +54,7 @@ export default function UploadWithCrop({
   }, [selectedFile]);
 
   return (
-    <div className="relative flex gap-5 ">
+    <div className="relative flex gap-5 w-full flex-col sm:flex-row max-sm:items-center">
       {selectedFile ? (
         <ImageCropper
           dialogOpen={isDialogOpen}
@@ -63,27 +65,35 @@ export default function UploadWithCrop({
       ) : (
         <Avatar
           {...getRootProps()}
-          className="size-36 cursor-pointer ring-offset-2 ring-2 ring-slate-200"
+          className="size-24 cursor-pointer ring-offset-2 ring-2 ring-slate-200"
         >
           <input {...getInputProps()} id="file" />
-          <AvatarImage src={avatar} alt="@shadcn" />
+          <AvatarImage src={defaultAvatar} alt="@shadcn" />
           <AvatarFallback>image</AvatarFallback>
         </Avatar>
       )}
 
-      <label
-        htmlFor="file"
-        className="self-end cursor-pointer border border-primary p-2 rounded-lg flex gap-4"
-      >
-        <img src="/assets/Edit-1.svg" className="w-[20px] h-[20px]" />
-        <span className="text-primary-800 underline text-sm font-bold">
-          تغيير صورة الملف الشخصي
-        </span>
-      </label>
+      <div className="flex items-end gap-4 sm:ms-auto max-sm:justify-center">
+        <label
+          htmlFor="file"
+          className="self-end cursor-pointer shrink-0 p-2 rounded-lg flex gap-4 h-11 bg-primary-800 hover:bg-primary-800/90"
+        >
+          <span className="text-white  font-bold">
+            {selectedFile ? "تعديل الصورة" : "إضافة صورة"}
+          </span>
+        </label>
 
-      {/* <div className=" absolute -bottom-12 left-28 ">
-        <SvgText />
-      </div> */}
+        {selectedFile && (
+          <Button
+            type="button"
+            onClick={() => setSelectedFile(null)}
+            variant="destructive"
+            className="font-bold text-base h-11"
+          >
+            مسح الصورة
+          </Button>
+        )}
+      </div>
     </div>
   );
 }

@@ -11,7 +11,12 @@ import {
 } from "@/components/ui/dialog";
 import { CropIcon, Trash2Icon } from "lucide-react";
 import React, { type SyntheticEvent } from "react";
-import ReactCrop, { type Crop, type PixelCrop } from "react-image-crop";
+import ReactCrop, {
+  centerCrop,
+  makeAspectCrop,
+  type Crop,
+  type PixelCrop,
+} from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 import { FileWithPreview } from "./UploadImage";
 
@@ -20,6 +25,39 @@ interface ImageCropperProps {
   setDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
   selectedFile: FileWithPreview | null;
   setSelectedFile: React.Dispatch<React.SetStateAction<FileWithPreview | null>>;
+}
+
+export function centerAspectCrop(
+  mediaWidth: number,
+  mediaHeight: number,
+  aspect: number
+): Crop {
+  return centerCrop(
+    makeAspectCrop(
+      {
+        unit: "%",
+        width: 50,
+        height: 50,
+      },
+      aspect,
+      mediaWidth,
+      mediaHeight
+    ),
+    mediaWidth,
+    mediaHeight
+  );
+}
+
+function dataURLtoFile(dataUrl: string, filename: string): File {
+  const arr = dataUrl.split(",");
+  const mime = arr[0].match(/:(.*?);/)?.[1] || "image/png";
+  const bstr = atob(arr[1]);
+  let n = bstr.length;
+  const u8arr = new Uint8Array(n);
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+  return new File([u8arr], filename, { type: mime });
 }
 
 export function ImageCropper({
@@ -39,18 +77,6 @@ export function ImageCropper({
       const { width, height } = e.currentTarget;
       setCrop(centerAspectCrop(144, 144, aspect));
     }
-  }
-
-  function dataURLtoFile(dataUrl: string, filename: string): File {
-    const arr = dataUrl.split(",");
-    const mime = arr[0].match(/:(.*?);/)?.[1] || "image/png";
-    const bstr = atob(arr[1]);
-    let n = bstr.length;
-    const u8arr = new Uint8Array(n);
-    while (n--) {
-      u8arr[n] = bstr.charCodeAt(n);
-    }
-    return new File([u8arr], filename, { type: mime });
   }
 
   function getCroppedImg(image: HTMLImageElement, crop: PixelCrop): string {
@@ -98,6 +124,9 @@ export function ImageCropper({
         const fileWithPreview: FileWithPreview = Object.assign(croppedFile, {
           preview: croppedImageUrl,
         });
+        fileWithPreview.originalImage =
+          selectedFile?.originalImage || URL.createObjectURL(selectedFile);
+
         setSelectedFile(fileWithPreview);
         setCroppedImage(croppedImageUrl);
         setDialogOpen(false);
@@ -110,7 +139,7 @@ export function ImageCropper({
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger id="file">
-        <Avatar className="size-36 cursor-pointer ring-offset-2 ring-2 ring-slate-200">
+        <Avatar className="size-22 cursor-pointer ring-offset-2 ring-2 ring-slate-200">
           <AvatarImage
             src={croppedImage ? croppedImage : selectedFile?.preview}
             alt="@shadcn"
@@ -132,7 +161,7 @@ export function ImageCropper({
                 ref={imgRef}
                 className="size-full rounded-none"
                 alt="Image Cropper Shell"
-                src={selectedFile?.preview}
+                src={selectedFile?.originalImage}
                 onLoad={onImageLoad}
               />
               <AvatarFallback className="size-full min-h-[460px] rounded-none">
@@ -156,7 +185,7 @@ export function ImageCropper({
               إزاله الصورة
             </Button>
           </DialogClose>
-          <Button type="submit" size={"sm"} className="w-fit" onClick={onCrop}>
+          <Button size={"sm"} className="w-fit" onClick={onCrop}>
             <CropIcon className="mr-1.5 size-4" />
             قص الصورة
           </Button>

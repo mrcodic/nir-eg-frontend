@@ -42,7 +42,7 @@ export default function AssignmentModal({
         <div className="w-full">
           {start?.review_pending ? (
             <div className="flex items-center gap-2">
-              <img src="/assets/CorrectColor.svg" />
+              {/* <img src="/assets/CorrectColor.svg" /> */}
               <p className="text-[#121212] inline-block text-lg font-bold">
                 جارى تصحيح الواجب
               </p>
@@ -83,7 +83,7 @@ export default function AssignmentModal({
             </span>
           )}
 
-          <div className="mb-[32px] flex justify-center items-center w-full mx-auto mt-[32px]">
+          <div className=" flex justify-center items-center w-full mx-auto mt-8">
             <div
               className={cn("grid md:grid-cols-2 justify-center gap-6", {
                 "md:grid-cols-1":

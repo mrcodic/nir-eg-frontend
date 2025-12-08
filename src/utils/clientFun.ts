@@ -84,14 +84,18 @@ export const convertDate = (dateStr) => {
   return formatted;
 };
 
-export function secondsToHms(seconds) {
+export function secondsToHms(seconds: number) {
   const h = Math.floor(seconds / 3600);
   const m = Math.floor((seconds % 3600) / 60);
   const s = Math.floor(seconds % 60);
+
+  const pad = (num: number) => String(num).padStart(2, "0");
+
   if (h === 0) {
-    return `${m}m ${s}s`;
+    return `${pad(m)}:${pad(s)}`;
   }
-  return `${h}h ${m}m ${s}s`;
+
+  return `${pad(h)}:${pad(m)}:${pad(s)}`;
 }
 
 export const mapGradeToText = (grade: string | number) => {

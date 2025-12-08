@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
+import Image from "next/image";
 import { useState } from "react";
 
 function TopBanner({
@@ -7,11 +8,13 @@ function TopBanner({
   className,
   showClose = true,
   icon,
+  iconClassName,
 }: {
   render: React.ReactNode;
   className?: string;
   showClose?: boolean;
   icon?: React.ReactNode;
+  iconClassName?: string;
 }) {
   const [hideBanner, setHideBanner] = useState(false);
   if (hideBanner) {
@@ -29,10 +32,23 @@ function TopBanner({
           onClick={() => setHideBanner(true)}
           className="absolute top-1 left-1 cursor-pointer"
         >
-          <X className="stroke-yellow-700 size-5" />
+          <X className="stroke-yellow-700 size-4" />
         </button>
       )}
-      {icon}
+
+      {icon ? (
+        typeof icon === "string" ? (
+          <Image
+            src={icon}
+            width={24}
+            height={24}
+            alt="icon"
+            className={iconClassName}
+          />
+        ) : (
+          icon
+        )
+      ) : null}
 
       {render}
     </div>

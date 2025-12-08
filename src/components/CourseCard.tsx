@@ -48,6 +48,8 @@ const CourseCard = ({
           <PriceBubbles
             sale={courseDetails?.sale}
             price={courseDetails?.price}
+            className="bg-semantics-green-dark"
+            currencyClassName="text-sm"
           />
         </div>
       </div>
@@ -97,7 +99,7 @@ const CourseCard = ({
           </p>
 
           <div
-            className={cn(" mt-auto pt-4 gap-4 flex flex-wrap", {
+            className={cn(" mt-auto pt-4 gap-4 grid grid-cols-2", {
               // "mt-0": isNewCourse && courseDetails?.subscription_type !== "حصة",
             })}
           >
@@ -137,8 +139,13 @@ const CourseCard = ({
             )}
 
             {isNewCourse && token && (
-              <Link href={`/bundles/${courseDetails?.id}`}>
-                <Button variant="secondary">الدخول للكورس</Button>
+              <Link
+                href={`/bundles/${courseDetails?.id}`}
+                className="inline-block"
+              >
+                <Button variant="secondary" className="w-full">
+                  الدخول للكورس
+                </Button>
               </Link>
             )}
           </div>

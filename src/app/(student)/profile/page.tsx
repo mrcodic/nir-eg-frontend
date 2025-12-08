@@ -2,7 +2,7 @@
 
 import Empty from "@/components/Empty";
 import LoadingSpinner from "@/components/Loading";
-import { StudentSelectCenter } from "@/components/modals/StudentSelectCenter";
+import { StudentSelectCenter } from "@/components/modals/StudentSelectCenterModal";
 import Room from "@/components/Room";
 import RoomHeader from "@/components/RoomHeader";
 import { useAuthContext } from "@/context/auth-context";
