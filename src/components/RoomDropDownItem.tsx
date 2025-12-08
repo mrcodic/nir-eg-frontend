@@ -19,7 +19,7 @@ function RoomDropDownItem({
 }: {
   item: {
     id: number;
-    title: string;
+    title?: string | null;
   };
   room: any;
   SingleCourse: any;

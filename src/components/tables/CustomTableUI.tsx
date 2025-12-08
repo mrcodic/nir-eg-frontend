@@ -49,8 +49,6 @@ export default function CustomTableUI({
     manualPagination: true,
   });
 
-  console.log(data);
-
   if (!data.length && pagination.page === 1) {
     return <Empty text="لا يوجد درجات بعد" />;
   }

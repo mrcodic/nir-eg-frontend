@@ -50,6 +50,110 @@ export interface QuizStatus {
   total_score_denominator: number;
 }
 
+export type QuizAnswer =
+  | number
+  | string
+  | number[]
+  | string[]
+  | {
+      type?: string;
+      text?: string;
+      attachments?: Attachment[];
+      graded?: number | boolean;
+      is_correct?: number | boolean;
+      [key: string]: unknown;
+    }
+  | {
+      id: number;
+      valueCk?: string | null;
+      correct?: boolean | "true" | "false" | string;
+      status?: boolean | "true" | "false" | string;
+      [key: string]: unknown;
+    }
+  | Record<string, unknown>;
+
+export interface QuizQuestion {
+  id: number;
+  title?: string | null;
+  type?: number;
+  answers?: QuizAnswer[] | null;
+  has_multi_correct?: boolean | null;
+  related_questions?: QuizQuestion[] | null;
+  [key: string]: unknown;
+}
+
+export interface QuizResult {
+  id?: number;
+  created_at?: string;
+  final_mark?: number | string | null;
+  num_retake?: number | null;
+  points?: number | null;
+  quiz_id?: number;
+  student_id?: number;
+  total_correct_answer?: string | number;
+  total_score?: number | string;
+  updated_at?: string;
+  retake?: number | boolean;
+  room_id?: number;
+  score?: number | string;
+  show_answer?: number | boolean;
+  timer?: string | number;
+  title?: string;
+  type?: number;
+  user_id?: number;
+  answers?: Record<string, QuizAnswer>;
+  [key: string]: unknown;
+}
+
+export interface QuizObject {
+  id: number;
+  title?: string | null;
+  type?: number;
+  completed?: boolean;
+  locked?: boolean;
+  missed?: boolean;
+  must_pass?: boolean;
+  question_count?: number;
+  questions?: QuizQuestion[];
+  related_questions?: QuizQuestion[] | null;
+  retake?: boolean;
+  score?: number | string;
+  show_answer?: boolean;
+  [key: string]: unknown;
+}
+
+export interface QuizItem {
+  id: number;
+  quiz_id?: number;
+  title?: string;
+  type?: number;
+  created_at?: string;
+  updated_at?: string;
+  lock_after?: string | null;
+  price?: string | null;
+  question_bank_id?: string | number | null;
+  randomize_answer?: number | boolean;
+  randomize_question?: number | boolean;
+  add_to_instructor_calendar?: number | boolean;
+  add_to_student_calendar?: number | boolean;
+  classroom_id?: number | null;
+  force_show_answer?: number | boolean;
+  grade?: number | null;
+  result?: QuizResult | null;
+  showed?: number | boolean;
+  student_id?: number | null;
+  total_correct_answer?: string | number | null;
+  total_score?: number | string | null;
+  updated?: string;
+  retake?: number | boolean;
+  room_id?: number;
+  score?: number | string | null;
+  show_answer?: number | boolean;
+  timer?: string | number | null;
+  user_id?: number | null;
+  [key: string]: unknown;
+}
+
 export enum paymentType {
   wallet = "WALLET",
   visa = "CARD",
@@ -209,6 +313,31 @@ export interface Sale {
   duration: number;
 }
 
+// export interface IRoom {
+//   id?: number;
+//   title?: string;
+//   description?: string | null;
+//   created_at?: string;
+//   price?: string | null;
+//   assignments?: Assignment[] | null;
+//   attachments?: Attachment[] | null;
+//   lessons?: Lesson[] | null;
+//   quizzes?: QuizItem[] | null;
+//   lock_after?: string | null;
+//   locked_to_pass?: boolean;
+//   [key: string]: unknown;
+// }
+
+export interface LatestRoom {
+  classroom?: string;
+  id: number;
+  is_subscriped?: boolean;
+  latest_room?: RoomData | null;
+  parent_phone_verification?: boolean;
+  student_phone_verification?: boolean;
+  [key: string]: unknown;
+}
+
 export interface Bundle {
   id: number;
   name: string;
@@ -249,11 +378,11 @@ interface Assignment {
 }
 
 interface Lesson {
+  id: number;
   active: boolean;
   completed: boolean;
   description: string;
   duration: string;
-  id: number;
   lesson_order: number;
   title: string;
   vedio_id: string;
@@ -275,7 +404,7 @@ export interface RoomData {
   assignments: Assignment[];
   attachments: Attachment[];
   lessons: Lesson[];
-  quizzes: any[];
+  quizzes: (QuizItem | QuizObject)[];
 
   grade?: Grade;
 
@@ -290,7 +419,7 @@ export interface RoomData {
 
   live_sessions?: boolean;
   locked_to_pass: boolean;
-  lock_after?: string | null;
+  lock_after?: number | null;
 
   is_subscriped: boolean;
   parent_phone_verification: boolean;
@@ -307,7 +436,7 @@ export interface IRoomDetails {
   lessons: Lesson[];
   locked_to_pass: boolean;
   parent_phone_verification: boolean;
-  quizzes: any[];
+  quizzes: QuizItem[];
   room: RoomData;
   student_phone_verification: boolean;
   subscription_type: string;

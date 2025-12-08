@@ -11,9 +11,9 @@ import { PaymentUI } from "../ui/PaymentUI";
 interface PaymentModalProps {
   courseId?: string;
   bundleId?: string;
-  roomId?: string;
+  roomId?: string | number;
   centerId?: string | number;
-  price?: number;
+  price?: number | string;
   sale?: CourseType["sale"];
   hasCoupon?: boolean;
 }

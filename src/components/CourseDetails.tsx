@@ -111,7 +111,7 @@ const CourseDetails = ({ details, profile }: Props) => {
                           details?.subscription_type === "حصة"
                         }
                         verify={details?.parent_phone_verification}
-                        subType={details?.subscription_type || null}
+                        // subType={details?.subscription_type || null}
                       />
                     );
                   })}

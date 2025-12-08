@@ -13,13 +13,14 @@ function PriceBadge({
   numberClassName,
   variant = "default",
 }: {
-  price: number;
+  price: number | string;
   className?: string;
   currencyClassName?: string;
   numberClassName?: string;
   variant?: keyof typeof variants;
 }) {
-  const formattedPrice = price % 1 === 0 ? price.toString() : price.toFixed(2);
+  const formattedPrice =
+    Number(price) % 1 === 0 ? price.toString() : Number(price).toFixed(2);
 
   return (
     <div

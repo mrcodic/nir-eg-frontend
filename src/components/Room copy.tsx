@@ -23,16 +23,19 @@ const Room = ({
   room,
   subscribe,
   verify,
+  subType,
 }: {
   isProfile?: any;
   room: RoomData;
   subscribe?: any;
   verify?: any;
+  subType?: any;
 }) => {
   const modal = useModal();
   const { SingleCourse } = useParams();
 
-  const lock_after = "lock_after" in room && room?.lock_after;
+  const lock_after =
+    "lock_after" in room ? room?.lock_after : room?.latest_room?.lock_after;
 
   return (
     <>
@@ -55,24 +58,23 @@ const Room = ({
               <div className="flex-1 w-full">
                 <div className="flex  items-center justify-between w-full flex-wrap gap-y-2 sm:pl-6">
                   <h3 className="text-[18px] font-bold text-[#121212] line-clamp-2">
-                    {room?.title}
+                    {room?.title || room?.latest_room?.title}
                   </h3>
 
                   <div className="flex flex-col gap-2 ms-auto">
-                    {subscribe &&
-                      (lock_after == null || Number(lock_after) !== 0) && (
-                        <RoomProgressBadge progress={room?.progress || 0} />
-                      )}
+                    {subscribe && (lock_after == null || lock_after !== 0) && (
+                      <RoomProgressBadge progress={room?.progress || 0} />
+                    )}
 
                     {lock_after !== null && (
                       <div className="flex gap-6 text-sm font-bold ms-auto ">
-                        {Number(lock_after) !== 0 ? (
+                        {lock_after !== 0 ? (
                           <div
                             style={{
                               boxShadow:
                                 "0px 2px 10px 4px rgba(157, 130, 66, 0.20)",
                             }}
-                            className=" hidden md:flex font-bold  border border-gray-light text-[10px] items-center  gap-1 py-1 pr-px pl-2 rounded-[12px] bg-background"
+                            className=" hidden md:flex font-bold text-[#523412]  border border-gray-light text-[10px] items-center  gap-[4px] py-1 pr-px pl-[8px] rounded-[12px] bg-background"
                           >
                             <Image
                               src={"/assets/LockColor.svg"}
@@ -101,11 +103,11 @@ const Room = ({
 
                                 modal.setDialogContent(
                                   <PaymentModel
-                                    roomId={room?.id}
-                                    centerId={
-                                      SingleCourse?.toString() || room.id
+                                    roomId={room?.latest_room?.id || room?.id}
+                                    centerId={SingleCourse || room.id}
+                                    price={
+                                      room?.price || room?.latest_room?.price
                                     }
-                                    price={room?.price}
                                   />
                                 );
 
@@ -115,7 +117,10 @@ const Room = ({
                               اشترك الآن
                             </Button>
 
-                            <PriceBadge className="h-8" price={room?.price} />
+                            <PriceBadge
+                              className="h-8"
+                              price={room?.price || room?.latest_room?.price}
+                            />
                           </div>
                         )}
                       </div>
@@ -126,7 +131,7 @@ const Room = ({
                 <div className="md:my-4  my-3 bg-gray-light  h-px" />
 
                 <h3 className="text-right text-sm text-gray-dark">
-                  {room?.description}
+                  {room?.description || room?.latest_room?.description}
                 </h3>
               </div>
             </div>
@@ -134,7 +139,9 @@ const Room = ({
 
           <AccordionContent>
             <div className="mt-6 space-y-2">
-              {(room?.locked_to_pass || Number(lock_after) == 0) && (
+              {(room?.locked_to_pass ||
+                room?.latest_room?.locked_to_pass ||
+                lock_after == 0) && (
                 <div className="flex items-center gap-2 bg-background p-2 rounded-lg border border-gray-light ">
                   <Image
                     src="/assets/warning-fill.svg"
@@ -149,68 +156,85 @@ const Room = ({
                 </div>
               )}
 
-              {room?.quizzes &&
-                (room?.quizzes).map((quiz) => {
-                  return (
-                    <RoomDropDownQuiz
-                      key={"quiz-" + quiz.id}
-                      item={quiz}
-                      room={room}
-                      SingleCourse={SingleCourse}
-                      subscribe={subscribe || room?.is_subscriped}
-                      verify={verify || room?.parent_phone_verification}
-                      locked={lock_after == 0}
-                      linkText="فتح الامتحان"
-                      type="exam"
-                    />
-                  );
-                })}
+              {(room?.latest_room?.quizzes || room?.quizzes) &&
+                (room?.latest_room?.quizzes || room?.quizzes).map(
+                  (quiz, index) => {
+                    return (
+                      <RoomDropDownQuiz
+                        key={"quiz-" + quiz.id}
+                        item={quiz}
+                        room={room}
+                        SingleCourse={SingleCourse}
+                        subscribe={subscribe || room?.is_subscriped}
+                        verify={verify || room?.parent_phone_verification}
+                        locked={lock_after == 0}
+                        linkText="فتح الامتحان"
+                        type="exam"
+                      />
+                    );
+                  }
+                )}
 
-              {room?.lessons?.map((lesson, index) => {
-                return (
-                  <RoomRevision
-                    key={index}
-                    lesson={lesson}
-                    subscribe={subscribe || room?.is_subscriped}
-                    verify={verify || room?.parent_phone_verification}
-                    roomId={room?.id}
-                    latestRoomId={room?.id}
-                    locked={room?.locked_to_pass || lock_after == 0}
-                  />
-                );
-              })}
-
-              {room?.attachments &&
-                (room?.attachments).map((attachment, index) => {
+              {(room?.latest_room?.lessons || room?.lessons)?.map(
+                (lesson, index) => {
                   return (
-                    <RoomFileDownloadLink
+                    <RoomRevision
                       key={index}
-                      attachment={attachment}
-                      room={room}
+                      lesson={lesson}
                       subscribe={subscribe || room?.is_subscriped}
                       verify={verify || room?.parent_phone_verification}
-                      lock_after={lock_after}
-                      index={index}
+                      roomId={room?.id}
+                      latestRoomId={room?.latest_room?.id}
+                      locked={
+                        room?.locked_to_pass ||
+                        room?.latest_room?.locked_to_pass ||
+                        lock_after == 0
+                      }
                     />
                   );
-                })}
+                }
+              )}
 
-              {room?.assignments &&
-                (room?.assignments).map((ass) => {
-                  return (
-                    <RoomDropDownQuiz
-                      key={"ass-" + ass.id}
-                      item={ass}
-                      room={room}
-                      SingleCourse={SingleCourse}
-                      subscribe={subscribe || room?.is_subscriped}
-                      verify={verify || room?.parent_phone_verification}
-                      locked={room?.locked_to_pass || lock_after == 0}
-                      linkText="فتح الواجب"
-                      type="ass"
-                    />
-                  );
-                })}
+              {(room?.attachments || room?.latest_room?.attachments) &&
+                (room?.attachments || room?.latest_room?.attachments).map(
+                  (attachment, index) => {
+                    return (
+                      <RoomFileDownloadLink
+                        key={index}
+                        attachment={attachment}
+                        room={room}
+                        subscribe={subscribe || room?.is_subscriped}
+                        disabled={room?.quizzes?.must_pass}
+                        verify={verify || room?.parent_phone_verification}
+                        lock_after={lock_after}
+                        index={index}
+                      />
+                    );
+                  }
+                )}
+
+              {(room?.latest_room?.assignments || room?.assignments) &&
+                (room?.latest_room?.assignments || room?.assignments).map(
+                  (ass, index) => {
+                    return (
+                      <RoomDropDownQuiz
+                        key={"ass-" + ass.id}
+                        item={ass}
+                        room={room}
+                        SingleCourse={SingleCourse}
+                        subscribe={subscribe || room?.is_subscriped}
+                        verify={verify || room?.parent_phone_verification}
+                        locked={
+                          room?.locked_to_pass ||
+                          room?.latest_room?.locked_to_pass ||
+                          lock_after == 0
+                        }
+                        linkText="فتح الواجب"
+                        type="ass"
+                      />
+                    );
+                  }
+                )}
             </div>
           </AccordionContent>
         </AccordionItem>

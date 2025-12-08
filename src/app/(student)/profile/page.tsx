@@ -2,7 +2,8 @@
 
 import Empty from "@/components/Empty";
 import LoadingSpinner from "@/components/Loading";
-import { StudentSelectCenter } from "@/components/modals/StudentSelectCenterModal";
+import { StudentSelectCenterModal } from "@/components/modals/StudentSelectCenterModal";
+
 import Room from "@/components/Room";
 import RoomHeader from "@/components/RoomHeader";
 import { useAuthContext } from "@/context/auth-context";
@@ -12,39 +13,18 @@ import ProfileHeaderCard from "@/modules/profile/components/ProfileHeaderCard";
 import ProfilePointsTable from "@/modules/profile/components/ProfilePointsTable";
 import ProfileVerifyPhoneCard from "@/modules/profile/components/ProfileVerifyPhoneCard";
 import StudentTasksOverview from "@/modules/profile/components/StudentTasksOverview";
-import { IUser } from "@/types";
+import { ApiResponse, IUser, LatestRoom } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useEffect } from "react";
-
-const Tabs = [
-  {
-    id: 1,
-    title: "الحصص",
-    iconSrc: "/assets/RoomsColor.svg",
-  },
-  {
-    id: 2,
-    title: "الامتحانات",
-    iconSrc: "/assets/ExamsColor.svg",
-  },
-  {
-    id: 3,
-    title: "الأنشطة",
-    iconSrc: "/assets/star-colored.svg",
-  },
-  {
-    id: 4,
-    title: "ترتيب الطلاب",
-    iconSrc: "/assets/RankColor.svg",
-  },
-];
 
 const ProfilePage = () => {
   const { grade } = useAuthContext();
   const modal = useModal();
 
-  const { data: rooms, isLoading: isLoadingRooms } = useQuery({
+  const { data: rooms, isLoading: isLoadingRooms } = useQuery<
+    ApiResponse<LatestRoom[]>
+  >({
     queryKey: ["/students/profile/latest_classes"],
     queryFn: getClientPrivateData,
   });
@@ -56,10 +36,12 @@ const ProfilePage = () => {
 
   useEffect(() => {
     if (profileData?.body?.type === 3 && !profileData?.body?.has_center) {
-      modal.setDialogContent(<StudentSelectCenter />);
+      modal.setDialogContent(<StudentSelectCenterModal />);
       modal.openModal();
     }
-  }, [profileData]);
+  }, [profileData, modal]);
+
+  console.log("rooms : ", rooms);
 
   return (
     <div className="mb-12 mt-[140px]">
@@ -78,15 +60,16 @@ const ProfilePage = () => {
 
           {!isLoadingRooms ? (
             <div className="mt-8">
-              {rooms?.body?.length > 100 ? (
+              {rooms && rooms?.body?.length > 0 ? (
                 <div className="flex flex-col gap-4">
                   {rooms?.body?.map((room) => {
                     return (
                       <Room
                         key={room?.id}
                         isProfile={true}
-                        room={room}
+                        room={room?.latest_room}
                         verify={true}
+                        subscribe={room?.is_subscriped}
                       />
                     );
                   })}
