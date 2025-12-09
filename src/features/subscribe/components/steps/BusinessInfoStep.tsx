@@ -7,10 +7,10 @@ import {
   CustomSelect,
   CustomTextarea,
 } from "@/components/fields";
-import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import type { BusinessInfoFormData } from "@/lib/validations/subscribe";
 import { UseFormReturn } from "react-hook-form";
+import NavigationButtons from "../shared/NavigationButtons";
 
 interface BusinessInfoStepProps {
   form: UseFormReturn<BusinessInfoFormData>;
@@ -155,7 +155,7 @@ export default function BusinessInfoStep({
         />
 
         {/* Location Section */}
-        <div className="border-t pt-4 mt-4">
+        <div className="border-t pt-4 mt-4 border-gray-light">
           <h3 className="text-lg font-bold mb-4">الموقع</h3>
 
           <CustomSelect
@@ -220,22 +220,7 @@ export default function BusinessInfoStep({
         />
 
         {/* Navigation Buttons */}
-        <div className="flex gap-4 justify-center pt-6">
-          <Button
-            type="submit"
-            className="w-28 bg-primary-800 hover:bg-primary-800/90"
-          >
-            التالي
-          </Button>
-          <Button
-            type="button"
-            variant="outline"
-            className="w-28"
-            onClick={onPrevious}
-          >
-            السابق
-          </Button>
-        </div>
+        <NavigationButtons onPrevious={onPrevious} />
       </form>
     </Form>
   );

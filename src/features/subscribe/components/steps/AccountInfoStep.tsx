@@ -1,7 +1,6 @@
 "use client";
 
 import { CustomCheckbox, CustomInput, CustomSelect } from "@/components/fields";
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -16,6 +15,7 @@ import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { UseFormReturn } from "react-hook-form";
+import NavigationButtons from "../shared/NavigationButtons";
 
 interface AccountInfoStepProps {
   form: UseFormReturn<AccountInfoFormData>;
@@ -200,14 +200,7 @@ export default function AccountInfoStep({
         </div>
 
         {/* Submit Button */}
-        <div className="flex justify-center pt-6">
-          <Button
-            type="submit"
-            className="w-32 bg-primary-800 hover:bg-primary-800/90"
-          >
-            التالي
-          </Button>
-        </div>
+        <NavigationButtons isFirstStep />
       </form>
     </Form>
   );

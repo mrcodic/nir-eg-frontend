@@ -1,7 +1,6 @@
 "use client";
 
 import { CustomRadioGroup } from "@/components/fields";
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -15,6 +14,7 @@ import type { BrandingFormData } from "@/lib/validations/subscribe";
 import type { TemplateOption } from "@/types/subscribe";
 import { UseFormReturn } from "react-hook-form";
 import { FileUpload, TemplateSelector } from "../shared";
+import NavigationButtons from "../shared/NavigationButtons";
 
 interface BrandingStepProps {
   form: UseFormReturn<BrandingFormData>;
@@ -63,8 +63,6 @@ export default function BrandingStep({
   const websiteName = form.watch("websiteName");
   const domainType = form.watch("domainType");
 
-  console.log(form.getValues());
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onNext)} className="space-y-6">
@@ -83,15 +81,13 @@ export default function BrandingStep({
             <FormItem>
               <FormLabel>اسم الموقع</FormLabel>
               <FormControl>
-                <div className="relative">
-                  <Input
-                    placeholder="أدخل اسم الموقع"
-                    className=" pl-32"
-                    {...field}
-                  />
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-dark text-sm border-r border-gray-light pr-2">
-                    {domainType === "full-domain" ? "" : "nir-edu.com."}
-                  </span>
+                <div className="relative flex mt-2 items-center gap-4">
+                  {domainType === "sub-domain" && (
+                    <span className=" border h-11 flex items-center border-gray-light text-gray-dark text-sm px-2 py-1 whitespace-nowrap rounded-lg bg-background">
+                      nir-edu.com.
+                    </span>
+                  )}
+                  <Input placeholder="أدخل اسم الموقع" {...field} />
                 </div>
               </FormControl>
               {websiteName && (
@@ -156,22 +152,7 @@ export default function BrandingStep({
         </div>
 
         {/* Navigation Buttons */}
-        <div className="flex gap-4 justify-center pt-6">
-          <Button
-            type="submit"
-            className="w-28 bg-primary-800 hover:bg-primary-800/90"
-          >
-            {isLastStep ? "تأكيد" : "التالي"}
-          </Button>
-          <Button
-            type="button"
-            variant="outline"
-            className="w-28"
-            onClick={onPrevious}
-          >
-            السابق
-          </Button>
-        </div>
+        <NavigationButtons isLastStep={isLastStep} onPrevious={onPrevious} />
       </form>
     </Form>
   );

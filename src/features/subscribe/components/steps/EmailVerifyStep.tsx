@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -12,6 +11,7 @@ import type { EmailVerifyFormData } from "@/lib/validations/subscribe";
 import { useCallback, useEffect, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { OtpInput } from "../shared";
+import NavigationButtons from "../shared/NavigationButtons";
 
 interface EmailVerifyStepProps {
   form: UseFormReturn<EmailVerifyFormData>;
@@ -143,23 +143,7 @@ export default function EmailVerifyStep({
         )}
 
         {/* Navigation Buttons */}
-        <div className="flex gap-4 pt-6">
-          <Button
-            type="submit"
-            className="w-28 bg-primary-800 hover:bg-primary-800/90"
-            disabled={isVerifying}
-          >
-            التالي
-          </Button>
-          <Button
-            type="button"
-            variant="outline"
-            className="w-28"
-            onClick={onPrevious}
-          >
-            السابق
-          </Button>
-        </div>
+        <NavigationButtons onPrevious={onPrevious} />
       </form>
     </Form>
   );

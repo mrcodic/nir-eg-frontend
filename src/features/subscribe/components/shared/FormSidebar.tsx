@@ -2,6 +2,7 @@
 
 import type { FormVariant, PaidTier } from "@/types/subscribe";
 import { Calendar, Check, Tag } from "lucide-react";
+import { memo } from "react";
 
 interface FormSidebarProps {
   variant: FormVariant;
@@ -34,10 +35,7 @@ const tierSeats: Record<PaidTier, number> = {
   enterprise: 5000,
 };
 
-export default function FormSidebar({
-  variant,
-  tier = "pro",
-}: FormSidebarProps) {
+function FormSidebar({ variant, tier = "pro" }: FormSidebarProps) {
   const isDemo = variant === "demo";
   const features = isDemo ? demoFeatures : paidFeatures;
   const seatCount = tierSeats[tier];
@@ -110,3 +108,5 @@ export default function FormSidebar({
     </aside>
   );
 }
+
+export default memo(FormSidebar);

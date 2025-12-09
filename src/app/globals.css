@@ -42,6 +42,7 @@
   --radius-xl: calc(var(--radius) + 4px);
 
   --text-32: 32px;
+  --text-10: 10px;
 
   --drop-shadow-text: -1px 3px 1px hsla(32, 92%, 52%, 0.3);
 
@@ -49,6 +50,7 @@
   --color-gray-dark: var(--gray-dark);
   --color-black: hsla(0, 0%, 7%, 1);
 
+  --color-primary-50: hsla(196, 81%, 94%, 1);
   --color-primary-100: hsla(201, 56%, 84%, 1);
   --color-primary-800: hsla(206, 58%, 43%, 1);
 

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { FieldValues } from "react-hook-form";
 import {
   FormControl,
@@ -13,6 +14,7 @@ import { CustomFieldProps } from "./fields.types";
 export interface RadioOption {
   value: string;
   label: string;
+  icons?: string[];
 }
 
 interface CustomRadioGroupProps<T extends FieldValues>
@@ -53,10 +55,23 @@ function CustomRadioGroup<T extends FieldValues>({
                 >
                   <Label
                     htmlFor={option.value}
-                    className={`flex relative overflow-hidden cursor-pointer p-2.5  border-2 border-gray-light rounded-lg has-[button[data-state=checked]]:bg-background items-center space-x-2 has-[button[data-state=checked]]:border-primary-800 `}
+                    className={`flex relative overflow-hidden cursor-pointer p-2.5  border-2 border-gray-light rounded-lg has-[button[data-state=checked]]:bg-primary-50 items-center space-x-2 has-[button[data-state=checked]]:border-primary-800 `}
                   >
                     <RadioGroupItem value={option.value} id={option.value} />
-                    <p className="flex gap-6 items-center">
+
+                    {option?.icons && (
+                      <div className="flex gap-2">
+                        {option?.icons?.map((icon) => (
+                          <div
+                            key={icon}
+                            className="h-8 sm:w-44 w-[126px] relative flex items-center justify-center"
+                          >
+                            <Image src={icon} fill alt="payment icon" />
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    <p className="flex gap-6 items-center sm:text-base text-xs">
                       <span className="font-bold">{option.label}</span>
                     </p>
                   </Label>

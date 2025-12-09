@@ -146,7 +146,6 @@ export const paymentSchema = z.object({
   paymentMethod: z.enum(["e-wallet", "bank-account"], {
     message: "وسيلة الدفع مطلوبة",
   }),
-  paymentDetails: z.string().min(1, "تفاصيل الدفع مطلوبة"),
 });
 
 // ==========================================

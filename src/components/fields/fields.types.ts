@@ -4,6 +4,7 @@ import {
   FieldValues,
   Path,
   UseFormReturn,
+  UseFormStateReturn,
 } from "react-hook-form";
 
 export interface GenericFieldProps<T extends FieldValues> {
@@ -14,7 +15,7 @@ export interface GenericFieldProps<T extends FieldValues> {
     field,
   }: {
     field: ControllerRenderProps<T, Path<T>>;
-    // formState: UseFormStateReturn<T>;
+    formState: UseFormStateReturn<T>;
   }) => React.ReactNode;
 }
 

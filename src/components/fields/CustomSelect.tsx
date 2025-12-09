@@ -35,13 +35,16 @@ function CustomSelect<T extends FieldValues>({
 }: CustomSelectProps<T>) {
   return (
     <GenericField form={form} name={name} label={label}>
-      {({ field }) => (
+      {({ field, formState }) => (
         <Select
           value={field.value}
           onValueChange={field.onChange}
           disabled={disabled}
         >
-          <SelectTrigger className={cn("w-full", triggerClassName)}>
+          <SelectTrigger
+            aria-invalid={formState.errors[name] ? true : undefined}
+            className={cn("w-full", triggerClassName)}
+          >
             <SelectValue placeholder={placeholder || `اختر ${label}`} />
           </SelectTrigger>
           <SelectContent>

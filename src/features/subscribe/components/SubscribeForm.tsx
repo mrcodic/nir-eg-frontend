@@ -125,7 +125,6 @@ export default function SubscribeForm({
     defaultValues: {
       paymentPeriod: "yearly",
       paymentMethod: "e-wallet",
-      paymentDetails: "",
     },
   });
 
@@ -240,13 +239,6 @@ export default function SubscribeForm({
       {/* Sidebar - Fixed on desktop */}
       <FormSidebar variant={variant} tier={tier} />
 
-      {/* Mobile Header - Only shows on small screens */}
-      {/* <div className="lg:hidden  z-50 bg-blue-gradient text-white p-4">
-        <h2 className="text-lg font-bold text-center">
-          {variant === "demo" ? "النسخة التجريبية" : "الباقة المدفوعة"}
-        </h2>
-      </div> */}
-
       {/* Main Content - Scrollable */}
       <main className="flex-1 flex flex-col lg:min-h-0 shrink-0">
         {/* Scrollable Content Area */}
@@ -273,7 +265,7 @@ export default function SubscribeForm({
           </div>
 
           {/* Form Content */}
-          <div className="lg:max-w-2xl mx-auto w-full ">{renderStep()}</div>
+          <div className="max-w-2xl mx-auto w-full ">{renderStep()}</div>
         </div>
       </main>
     </div>
