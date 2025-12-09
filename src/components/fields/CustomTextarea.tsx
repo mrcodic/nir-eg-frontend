@@ -1,18 +1,23 @@
+import { ComponentProps } from "react";
 import { FieldValues } from "react-hook-form";
 import { Textarea } from "../ui/textarea";
 import GenericField from "./GenericField";
 import { CustomFieldProps } from "./fields.types";
+
+type FieldProps = Omit<ComponentProps<typeof Textarea>, "form">;
 
 function CustomTextarea<T extends FieldValues>({
   form,
   name,
   label,
   placeholder,
-}: CustomFieldProps<T>) {
+  ...props
+}: FieldProps & CustomFieldProps<T>) {
   return (
     <GenericField form={form} name={name} label={label}>
       {({ field }) => (
         <Textarea
+          {...props}
           {...field}
           placeholder={placeholder || `قم بإدخال ${label}`}
           rows={5}

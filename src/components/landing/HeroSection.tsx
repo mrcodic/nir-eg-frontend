@@ -4,7 +4,8 @@ import { Button } from "../ui/button";
 function HeroSection() {
   return (
     <section className="wrapper bg-background w-full relative text-center pb-12 overflow-x-hidden">
-      <Image className="" fill src="/bg-vector.svg" alt="" />
+      <Image className="" fill src="/bg-vector.png" alt="" />
+
       <div className="flex flex-col items-center mt-12">
         <span className="text-primary-800 font-bold text-xl">
           أهلاً بك في نَيِّر!
@@ -32,8 +33,17 @@ function HeroSection() {
           className="aspect-square lg:-top-[120px] z-10 lg:-left-[100px] -top-20 -left-[60px] absolute lg:size-[220px] size-40"
           width={220}
           height={220}
+          loading="eager"
+          priority
         />
-        <Image src="/hero.svg" alt="hero" fill className="z-0" />
+        <Image
+          src="/hero.svg"
+          alt="hero"
+          fill
+          className="z-0"
+          loading="eager"
+          priority
+        />
       </div>
     </section>
   );

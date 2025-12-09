@@ -25,6 +25,7 @@ function CustomLink({ link }: { link: { name: string; href: string } }) {
         className=" ms-2 bg-secondary absolute h-0.5"
         initial={{ width: 0 }}
         animate={{ width: isActive ? "40px" : 0 }}
+        whileHover={{ width: "40px" }}
       />
     </div>
   );

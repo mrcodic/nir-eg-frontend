@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const contactSchema = z.object({
   name: z.string().min(1, "الاسم مطلوب"),
-  email: z.string().email("البريد الإلكتروني غير صالح"),
+  email: z.email("البريد الإلكتروني غير صالح"),
   role: z.enum(["student", "educator", "company", "other"], {
     error: "اختر الوظيفة / الدور",
   }),

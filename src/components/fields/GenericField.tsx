@@ -18,10 +18,10 @@ function GenericField<T extends FieldValues>({
     <FormField
       control={form.control}
       name={name}
-      render={({ field, formState }) => (
+      render={({ field }) => (
         <FormItem>
           <FormLabel className="text-sm text-right">{label}</FormLabel>
-          <FormControl>{children({ field, formState })}</FormControl>
+          <FormControl>{children({ field })}</FormControl>
           <FormMessage />
         </FormItem>
       )}

@@ -21,7 +21,14 @@ function NavBar() {
       <div className="wrapper relative flex h-20 items-center justify-between bg-background z-30">
         {/* Logo */}
         <Link href="/">
-          <Image src="/logo.svg" alt="logo" width={110} height={48} />
+          <Image
+            src="/logo.svg"
+            alt="logo"
+            width={110}
+            height={48}
+            loading="eager"
+            priority
+          />
         </Link>
 
         {/* Desktop nav */}
@@ -53,6 +60,7 @@ function NavBar() {
           </Button>
         </div>
       </div>
+
       {/* Mobile dropdown + overlay with animation */}
       <AnimatePresence>
         {isOpen && (

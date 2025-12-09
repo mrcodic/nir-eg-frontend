@@ -76,11 +76,11 @@ export async function POST(req: NextRequest) {
       if (tags.includes(",")) {
         const tagsArray = tags.split(",");
         tagsArray.forEach((tag) => {
-          revalidateTag(tag, "max");
+          revalidateTag(tag);
         });
       } else {
         console.log("revalidateTag : ", tags.trim());
-        revalidateTag(tags, "max");
+        revalidateTag(tags);
       }
     }
 

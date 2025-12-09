@@ -33,6 +33,7 @@ export default function ContactUsForm() {
   const [serverMessage, setServerMessage] = useState<string | null>(null);
 
   const form = useForm<ContactFormValues>({
+    mode: "onChange",
     resolver: zodResolver(contactSchema),
     defaultValues: {
       name: "",
@@ -75,12 +76,7 @@ export default function ContactUsForm() {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-4"
-        // no client-side validation browser UI (we rely on RHF + zod)
-        noValidate
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <div className="grid grid-cols-1 gap-3">
           <CustomInput form={form} name="name" label="الاسم بالكامل" />
 
@@ -101,7 +97,7 @@ export default function ContactUsForm() {
                     value={field.value}
                     onValueChange={(value) => field.onChange(value)}
                   >
-                    <SelectTrigger className="w-full">
+                    <SelectTrigger className="w-full ">
                       <SelectValue placeholder="اختر الوظيفة / الدور" />
                     </SelectTrigger>
                     <SelectContent>
@@ -139,9 +135,9 @@ export default function ContactUsForm() {
         </div>
 
         {serverMessage && (
-          <div className="text-sm text-right text-slate-700">
+          <p aria-live="polite" className="text-sm text-right text-slate-700">
             {serverMessage}
-          </div>
+          </p>
         )}
       </form>
     </Form>

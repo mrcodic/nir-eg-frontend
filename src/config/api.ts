@@ -45,10 +45,10 @@ export const revalidateData = async (tags: string) => {
   if (tags.includes(",")) {
     const tagsArray = tags.split(",");
     tagsArray.forEach((tag) => {
-      revalidateTag(tag, "max");
+      revalidateTag(tag);
     });
   } else {
-    revalidateTag(tags, "max");
+    revalidateTag(tags);
   }
 
   return null;

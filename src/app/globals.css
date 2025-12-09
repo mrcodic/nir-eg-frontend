@@ -41,6 +41,8 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
+  --text-32: 32px;
+
   --drop-shadow-text: -1px 3px 1px hsla(32, 92%, 52%, 0.3);
 
   --color-gray-light: var(--gray-light);
@@ -129,9 +131,9 @@
 }
 
 @layer base {
-  * {
+  /* * {
     @apply border-border outline-ring/50;
-  }
+  } */
   body {
     @apply text-black font-sans;
   }
