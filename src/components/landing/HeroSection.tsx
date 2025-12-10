@@ -1,4 +1,5 @@
 import Image from "next/image";
+import MotionWrapper from "../MotionWrapper";
 import { Button } from "../ui/button";
 
 function HeroSection() {
@@ -26,7 +27,12 @@ function HeroSection() {
         <Button variant="secondary">شاهد الفيديو التعريفي</Button>
       </div>
 
-      <div className=" relative aspect-[1.7] max-w-7xl mx-auto mt-12">
+      <MotionWrapper
+        className=" relative aspect-[1.7] max-w-7xl mx-auto mt-12"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
         <Image
           src="/assets/graduation.svg"
           alt="graduation"
@@ -44,7 +50,7 @@ function HeroSection() {
           loading="eager"
           priority
         />
-      </div>
+      </MotionWrapper>
     </section>
   );
 }

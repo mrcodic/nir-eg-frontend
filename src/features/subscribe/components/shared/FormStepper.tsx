@@ -32,7 +32,7 @@ function FormStepper({ steps, currentStep, completedSteps }: FormStepperProps) {
                     ? "bg-primary-800 text-white"
                     : isCurrent
                     ? "bg-primary-800 text-white sm:size-13 size-9  border-2 border-primary-100 -mt-px"
-                    : "bg-gray-light text-gray-dark"
+                    : "bg-gray-light text-gray-dark opacity-30"
                 )}
               >
                 {isCompleted ? (
@@ -40,7 +40,7 @@ function FormStepper({ steps, currentStep, completedSteps }: FormStepperProps) {
                 ) : isCurrent ? (
                   <LoaderCircle className="sm:size-6 size-3 animate-spin" />
                 ) : (
-                  <LoaderCircle className="sm:size-6 size-3 opacity-60" />
+                  <LoaderCircle className="sm:size-6 size-3 " />
                 )}
               </div>
 
@@ -50,7 +50,7 @@ function FormStepper({ steps, currentStep, completedSteps }: FormStepperProps) {
                   "mt-2 sm:text-xs text-10 text-center max-w-20",
                   isCurrent || isCompleted
                     ? "text-primary-800 font-medium"
-                    : "text-gray-dark"
+                    : "text-gray-dark opacity-50"
                 )}
               >
                 {step.title}

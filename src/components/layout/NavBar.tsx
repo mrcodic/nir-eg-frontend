@@ -86,9 +86,11 @@ function NavBar() {
                   </Link>
                 ))}
 
-                <Button className="mt-3 w-full" onClick={closeMenu}>
-                  احصل على النسخة التجريبية
-                </Button>
+                <Link href="/subscribe?type=demo" className="w-full">
+                  <Button className="mt-3 w-full" onClick={closeMenu}>
+                    احصل على النسخة التجريبية
+                  </Button>
+                </Link>
               </nav>
             </motion.div>
 

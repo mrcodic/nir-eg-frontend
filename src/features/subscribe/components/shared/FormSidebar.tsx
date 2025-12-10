@@ -1,8 +1,10 @@
 "use client";
 
+import { plans } from "@/constants/pricing-plans";
 import type { FormVariant, PaidTier } from "@/types/subscribe";
-import { Calendar, Check, Tag } from "lucide-react";
-import { memo } from "react";
+import { Check } from "lucide-react";
+import Image from "next/image";
+import { memo, useMemo } from "react";
 
 interface FormSidebarProps {
   variant: FormVariant;
@@ -19,26 +21,11 @@ const demoFeatures = [
   "هذا النص هو مثال لنص",
 ];
 
-const paidFeatures = [
-  "هذا النص هو مثال لنص",
-  "هذا النص هو مثال لنص",
-  "هذا النص هو مثال لنص",
-  "هذا النص هو مثال لنص",
-  "هذا النص هو مثال لنص",
-  "هذا النص هو مثال لنص",
-  "هذا النص هو مثال لنص",
-];
-
-const tierSeats: Record<PaidTier, number> = {
-  basic: 500,
-  pro: 1000,
-  enterprise: 5000,
-};
-
 function FormSidebar({ variant, tier = "pro" }: FormSidebarProps) {
   const isDemo = variant === "demo";
-  const features = isDemo ? demoFeatures : paidFeatures;
-  const seatCount = tierSeats[tier];
+  const plan = useMemo(() => plans.find((plan) => plan.id === tier), [tier]);
+  const features = isDemo ? demoFeatures : plan?.features || [];
+  const seatCount = isDemo ? 586 : plan?.seats;
 
   return (
     <aside
@@ -50,30 +37,31 @@ function FormSidebar({ variant, tier = "pro" }: FormSidebarProps) {
       `}
     >
       {/* Badge/Icon */}
-      <div className="relative w-32 h-32 mb-6 flex items-center justify-center">
+      <div className="relative mb-6 flex items-center justify-center w-full">
         {isDemo ? (
-          <div className="relative">
-            {/* Free badge icon */}
-            <div className="w-24 h-28 relative">
-              <Tag
-                className="w-full h-full text-green-400 transform rotate-12"
-                strokeWidth={1.5}
-              />
-              <span className="absolute inset-0 flex items-center justify-center text-lg font-bold text-white transform rotate-12">
-                FREE
-              </span>
-            </div>
-          </div>
+          <Image
+            src="/assets/demo-photo.png"
+            alt="demo"
+            width={224}
+            height={224}
+          />
         ) : (
           <div className="flex flex-col items-center justify-center w-full h-full">
-            <Calendar className="w-16 h-16 text-white mb-2" strokeWidth={1.5} />
-            <span className="text-2xl font-bold">{seatCount} مقعد</span>
+            <Image
+              src="/assets/calendar.png"
+              alt="paid"
+              width={224}
+              height={224}
+            />
+            <p className="text-2xl font-bold text-start w-full">
+              {seatCount} مقعد
+            </p>
           </div>
         )}
       </div>
 
       {/* Title */}
-      <h2 className="text-xl font-bold text-center mb-2">
+      <h2 className="text-xl font-bold text-start mb-2 w-full">
         {isDemo ? (
           <>
             احصل على <span className="text-secondary">النسخة التجريبية</span>
@@ -90,7 +78,7 @@ function FormSidebar({ variant, tier = "pro" }: FormSidebarProps) {
       </h2>
 
       {/* Subtitle */}
-      <p className="text-sm text-center text-white/80 mb-8">
+      <p className="text-sm text-start text-white/80 mb-8">
         {isDemo
           ? "ابدأ رحلتك مع نِيْر و احصل على النسخة التجريبية الآن"
           : "احصل على جميع المميزات واستمتع بتجربة كاملة"}

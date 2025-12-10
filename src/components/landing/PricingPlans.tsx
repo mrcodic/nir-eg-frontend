@@ -2,66 +2,11 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { plans } from "@/constants/pricing-plans";
 import { cn } from "@/lib/utils";
 import { Check } from "lucide-react";
+import Link from "next/link";
 import PricingTypeSwtich from "../PricingTypeSwtich";
-
-type PricingPlan = {
-  id: string;
-  name: string;
-  seatsLabel: string;
-  pricePerMonth: string;
-  trialLabel: string;
-  features: string[];
-  featured?: boolean;
-};
-
-const plans: PricingPlan[] = [
-  {
-    id: "left",
-    name: "خطة أساسية",
-    seatsLabel: "1000 مقعد",
-    pricePerMonth: "30000",
-    trialLabel: "التجربة المجانية: 14 يوم",
-    features: [
-      "هذا مثال عن النص يمكن أن يتم استبداله",
-      "هذا مثال عن النص يمكن أن يتم استبداله",
-      "هذا مثال عن النص يمكن أن يتم استبداله",
-      "هذا مثال عن النص يمكن أن يتم استبداله",
-      "هذا مثال عن النص يمكن أن يتم استبداله",
-    ],
-  },
-  {
-    id: "center",
-    name: "الخطة الأكثر شهرة",
-    seatsLabel: "1000 مقعد",
-    pricePerMonth: "30000",
-    trialLabel: "التجربة المجانية: 14 يوم",
-    featured: true,
-    features: [
-      "هذا مثال عن النص يمكن أن يتم استبداله",
-      "هذا مثال عن النص يمكن أن يتم استبداله",
-      "هذا مثال عن النص يمكن أن يتم استبداله",
-      "هذا مثال عن النص يمكن أن يتم استبداله",
-      "هذا مثال عن النص يمكن أن يتم استبداله",
-      "هذا مثال عن النص يمكن أن يتم استبداله",
-    ],
-  },
-  {
-    id: "right",
-    name: "خطة متقدمة",
-    seatsLabel: "1000 مقعد",
-    pricePerMonth: "30000",
-    trialLabel: "التجربة المجانية: 14 يوم",
-    features: [
-      "هذا مثال عن النص يمكن أن يتم استبداله",
-      "هذا مثال عن النص يمكن أن يتم استبداله",
-      "هذا مثال عن النص يمكن أن يتم استبداله",
-      "هذا مثال عن النص يمكن أن يتم استبداله",
-      "هذا مثال عن النص يمكن أن يتم استبداله",
-    ],
-  },
-];
 
 export default function PricingPlans() {
   return (
@@ -71,7 +16,7 @@ export default function PricingPlans() {
         <PricingTypeSwtich />
 
         {/* cards */}
-        <div className="flex flex-col items-stretch gap-6 lg:flex-row lg:items-end lg:justify-center">
+        <div className="flex flex-col items-stretch xl:gap-6 lg:gap-2 gap-6 lg:flex-row lg:items-end lg:justify-center">
           {plans.map((plan) => {
             const isFeatured = plan.featured;
 
@@ -79,9 +24,9 @@ export default function PricingPlans() {
               <Card
                 key={plan.id}
                 className={[
-                  "relative flex-1 overflow-hidden   backdrop-blur transition-transform duration-200 border-none shadow-none max-w-md max-lg:w-full mx-auto p-4",
+                  "relative flex-1 rounded-lg overflow-hidden   backdrop-blur transition-transform duration-200 border-none shadow-none max-w-md max-lg:w-full mx-auto p-4",
                   isFeatured
-                    ? "z-10 lg:scale-105 max-lg:order-first   bg-dark-radial border-primary"
+                    ? "z-10 lg:scale-105 max-lg:order-first bg-dark-radial "
                     : "lg:scale-95   bg-background",
                 ].join(" ")}
               >
@@ -104,7 +49,7 @@ export default function PricingPlans() {
                         "text-white": isFeatured,
                       })}
                     >
-                      {plan.seatsLabel}
+                      {plan.seats} مقعد
                     </h4>
                     <p
                       className={cn("text-lg font-bold text-gray-dark", {
@@ -145,7 +90,14 @@ export default function PricingPlans() {
 
                   {/* price + CTA */}
                   <div className=" flex flex-col items-start gap-4">
-                    <div className="flex items-baseline justify-start gap-1 text-slate-900">
+                    <div
+                      className={cn(
+                        "flex items-baseline justify-start w-full gap-1 pb-2 border-b border-gray-light",
+                        {
+                          "border-accent-800": isFeatured,
+                        }
+                      )}
+                    >
                       <span className="text-3xl text-secondary font-bold">
                         {plan.pricePerMonth}
                       </span>
@@ -158,13 +110,21 @@ export default function PricingPlans() {
                       </span>
                     </div>
 
-                    <Button
+                    <Link
+                      href={`/subscribe?type=paid&tier=${plan.id}`}
                       className="w-full"
-                      size="lg"
-                      variant={isFeatured ? "secondary" : "default"}
                     >
-                      اشترك الآن
-                    </Button>
+                      <Button
+                        className={cn("w-full font-bold", {
+                          "border-primary-800 text-primary-800 hover:bg-primary-800 hover:text-white":
+                            !isFeatured,
+                        })}
+                        size="lg"
+                        variant="outline"
+                      >
+                        اشترك الآن
+                      </Button>
+                    </Link>
                   </div>
                 </CardContent>
               </Card>

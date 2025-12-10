@@ -23,10 +23,8 @@ function LoadingFallback() {
 async function SubscribeContent({ searchParams }: SubscribePageProps) {
   const params = await searchParams;
 
-  // Determine form variant from URL params
   const variant: FormVariant = params.type === "paid" ? "paid" : "demo";
 
-  // Determine tier for paid subscriptions
   const validTiers: PaidTier[] = ["basic", "pro", "enterprise"];
   const tier: PaidTier = validTiers.includes(params.tier as PaidTier)
     ? (params.tier as PaidTier)
