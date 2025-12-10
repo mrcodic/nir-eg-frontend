@@ -43,9 +43,9 @@ function NavBar() {
         </nav>
 
         {/* Desktop CTA */}
-        <div className="hidden md:block">
+        <Link href="/subscribe?type=demo" className="hidden md:block">
           <Button>احصل على النسخة التجريبية</Button>
-        </div>
+        </Link>
 
         {/* Mobile actions */}
         <div className="flex items-center gap-2 md:hidden">
