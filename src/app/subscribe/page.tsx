@@ -18,8 +18,6 @@ async function SubscribePage({ searchParams }: SubscribePageProps) {
     ? (params.tier as PaidTier)
     : "pro";
 
-  throw new Error("Invalid tier");
-
   return <SubscribeForm variant={variant} tier={tier} />;
 }
 
