@@ -2,6 +2,7 @@ import Footer from "@/components/layout/Footer";
 import NavBar from "@/components/layout/NavBar";
 import type { Metadata } from "next";
 import { Almarai } from "next/font/google";
+import { Toaster } from "sonner";
 import "./globals.css";
 
 const almarai = Almarai({
@@ -31,6 +32,7 @@ export default function RootLayout({
           {children}
         </div>
         <Footer />
+        <Toaster />
       </body>
     </html>
   );

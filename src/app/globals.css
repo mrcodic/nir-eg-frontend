@@ -160,3 +160,10 @@
     #3286c2 100%
   );
 }
+
+@utility text-gradient-custom {
+  background-image: linear-gradient(90deg, #389ad6 0.01%, #0d2237 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}

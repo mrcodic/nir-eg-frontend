@@ -20,8 +20,10 @@ import type {
   StepId,
 } from "@/types/subscribe";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/router";
 import { useCallback, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { FormSidebar, FormStepper } from "./shared";
 import {
   AccountInfoStep,
@@ -56,6 +58,7 @@ export default function SubscribeForm({
   variant,
   tier = "pro",
 }: SubscribeFormProps) {
+  const router = useRouter();
   const steps = useMemo(() => getSteps(variant), [variant]);
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [completedSteps, setCompletedSteps] = useState<StepId[]>([]);
@@ -170,10 +173,12 @@ export default function SubscribeForm({
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
       // Success - redirect or show success message
-      alert("تم الاشتراك بنجاح! 🎉");
+      toast.success("تم الاشتراك بنجاح! 🎉");
+      // alert("تم الاشتراك بنجاح! 🎉");
+      router.push("/subscribe/building?timestamp=" + Date.now());
     } catch (error) {
       console.error("Submission error:", error);
-      alert("حدث خطأ أثناء الإرسال. يرجى المحاولة مرة أخرى.");
+      toast.error("حدث خطأ أثناء الإرسال. يرجى المحاولة مرة أخرى.");
     } finally {
       setIsSubmitting(false);
     }
@@ -184,6 +189,7 @@ export default function SubscribeForm({
     brandingForm,
     paymentForm,
     variant,
+    router,
   ]);
 
   // isLastStep is determined per-step in renderStep
