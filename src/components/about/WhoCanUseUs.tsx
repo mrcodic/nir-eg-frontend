@@ -60,12 +60,12 @@ export default function WhoCanUseUs() {
                 persona?.className
               )}
             >
-              <div className="flex items-center justify-between w-full h-full px-6">
-                <h4 className="text-3xl font-bold group-hover:opacity-0 transition-all">
+              <div className="flex absolute inset-0 items-center justify-between w-full h-full px-6">
+                <h4 className="sm:text-3xl text-2xl font-bold group-hover:opacity-0 transition-all">
                   {persona.title}
                 </h4>
                 {persona.image && (
-                  <div className="relative h-full min-w-3/5 shrink-0">
+                  <div className="absolute inset-y-0 left-0 h-full min-w-[200px] w-3/5 shrink-0">
                     <Image
                       src={persona.image}
                       alt={persona.title}
@@ -75,8 +75,9 @@ export default function WhoCanUseUs() {
                   </div>
                 )}
               </div>
-              <div className="text-center md:text-right space-y-1 inset-0 absolute opacity-0 group-hover:opacity-100 transition-all p-6">
-                <h3 className="text-sm md:text-2xl font-semibold  pb-1 border-b border-primary-100">
+
+              <div className="text-right space-y-1 relative opacity-0 group-hover:opacity-100 transition-all p-6">
+                <h3 className="text-sm md:text-lg lg:text-xl xl:text-2xl font-semibold  pb-1 border-b border-primary-100">
                   {persona.title}
                 </h3>
 
