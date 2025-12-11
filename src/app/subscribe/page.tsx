@@ -1,6 +1,5 @@
 import { SubscribeForm } from "@/features/subscribe/components";
 import type { FormVariant, PaidTier } from "@/types/subscribe";
-import { Suspense } from "react";
 
 interface SubscribePageProps {
   searchParams: Promise<{
@@ -9,18 +8,7 @@ interface SubscribePageProps {
   }>;
 }
 
-function LoadingFallback() {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <div className="w-12 h-12 border-4 border-primary-800 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-        <p className="text-gray-dark">جاري التحميل...</p>
-      </div>
-    </div>
-  );
-}
-
-async function SubscribeContent({ searchParams }: SubscribePageProps) {
+async function SubscribePage({ searchParams }: SubscribePageProps) {
   const params = await searchParams;
 
   const variant: FormVariant = params.type === "paid" ? "paid" : "demo";
@@ -30,13 +18,9 @@ async function SubscribeContent({ searchParams }: SubscribePageProps) {
     ? (params.tier as PaidTier)
     : "pro";
 
+  throw new Error("Invalid tier");
+
   return <SubscribeForm variant={variant} tier={tier} />;
 }
 
-export default function SubscribePage(props: SubscribePageProps) {
-  return (
-    <Suspense fallback={<LoadingFallback />}>
-      <SubscribeContent {...props} />
-    </Suspense>
-  );
-}
+export default SubscribePage;

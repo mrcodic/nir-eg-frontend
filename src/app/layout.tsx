@@ -28,7 +28,7 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <NavBar />
-        <div className="min-h-[calc(100dvh-80px)] mt-20 grow flex flex-col [&>main]:grow">
+        <div className="min-h-[calc(100dvh-80px)] mt-20 grow flex flex-col [&>*]:grow">
           {children}
         </div>
         <Footer />
