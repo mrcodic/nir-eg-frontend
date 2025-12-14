@@ -61,7 +61,7 @@ export default function WhoCanUseUs() {
               )}
             >
               <div className="flex absolute inset-0 items-center justify-between w-full h-full px-6">
-                <h4 className="sm:text-3xl text-2xl font-bold group-hover:opacity-0 transition-all">
+                <h4 className="sm:text-3xl text-2xl font-bold group-hover:opacity-0 transition-all hidden md:block">
                   {persona.title}
                 </h4>
                 {persona.image && (
@@ -70,13 +70,13 @@ export default function WhoCanUseUs() {
                       src={persona.image}
                       alt={persona.title}
                       fill
-                      className="object-contain object-bottom group-hover:-translate-x-1/4 transition-all group-hover:blur-xl group-hover:opacity-30"
+                      className="object-contain object-bottom max-md:blur-xs max-md:opacity-40 md:group-hover:-translate-x-1/4 max-md:-translate-x-1/4 transition-all md:group-hover:blur-xl md:group-hover:opacity-30"
                     />
                   </div>
                 )}
               </div>
 
-              <div className="text-right space-y-1 relative opacity-0 group-hover:opacity-100 transition-all p-6">
+              <div className="text-right space-y-1 relative md:opacity-0 md:group-hover:opacity-100 transition-all p-6 ">
                 <h3 className="text-sm md:text-lg lg:text-xl xl:text-2xl font-semibold  pb-1 border-b border-primary-100">
                   {persona.title}
                 </h3>

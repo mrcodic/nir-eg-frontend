@@ -75,7 +75,7 @@ export default function FeaturesSection() {
                 alt={feature.title}
                 width={160}
                 height={160}
-                className="absolute bottom-0 left-0 md:-translate-x-1/3 z-1 translate-y-1/3 md:blur-xl md:group-hover:blur-none group-hover:translate-0 transition-all sm:size-40 size-28"
+                className="absolute bottom-0 left-0 md:-translate-x-1/3 z-1 md:translate-y-1/3 md:blur-xl md:group-hover:blur-none group-hover:translate-0 transition-all sm:size-40 size-28 max-sm:opacity-40"
               />
             </article>
           ))}
