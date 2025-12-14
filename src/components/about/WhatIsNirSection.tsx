@@ -34,7 +34,7 @@ export default function WhatIsNirHero() {
         </div>
 
         {/* Video thumbnail */}
-        <div className="flex relative justify-center max-w-full rounded-lg overflow-hidden">
+        <div className="flex relative  w-full justify-center max-w-[466px] rounded-lg overflow-hidden">
           <Image
             src="/assets/video-thumbnail.png"
             alt="فيديو نَيِّر"

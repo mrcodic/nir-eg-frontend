@@ -10,7 +10,7 @@ const postData = async ([endpoint, data, method = "post"]: [
   string?
 ]) => {
   try {
-    const token = (await cookies()).get("penguin_user_token")?.value || null;
+    const token = (await cookies()).get("user_token")?.value || null;
     const headersList = await headers();
 
     const response = await instance.request({

@@ -3,7 +3,7 @@ import SocialLinks from "@/components/SocialLinks";
 
 function page() {
   return (
-    <main className="flex w-full flex-col gap-22 my-22">
+    <main className="flex w-full flex-col gap-22 md:my-22 my-16">
       <ContactUsSection />
 
       <section className="flex flex-col  wrapper ">

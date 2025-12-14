@@ -16,7 +16,7 @@ const fetcherServer = async <T>(
 
   if (authenticated) {
     const cookiesStore = await cookies();
-    token = cookiesStore.get("penguin_user_token")?.value || "";
+    token = cookiesStore.get("user_token")?.value || "";
 
     if (!token) {
       return null;
@@ -35,7 +35,7 @@ const fetcherServer = async <T>(
         tags: [endpoint?.includes("?") ? endpoint?.split("?")[0] : endpoint],
         ...next,
       },
-      cache: cache || "no-store",
+      cache: cache || "default",
     });
 
     if (!res.ok) {
@@ -58,22 +58,12 @@ const fetcherServer = async <T>(
   } catch (error) {
     console.error(`Error in fetcher for ${endpoint}:`, error);
     if (error instanceof CustomError) {
-      console.log("custom error ");
       throw error;
     } else {
       throw new CustomError(`Failed to fetch data from ${endpoint}`, 500);
     }
   }
 };
-
-// export const getServerPublicData = reactCache(
-//   async <T>({
-//     queryKey: [endpoint],
-//     next,
-//     cache,
-//   }: IGetDataOptions): Promise<T | null> =>
-//     fetcherServer({ queryKey: [endpoint], next, cache }, false),
-// );
 
 export const getServerPrivateData = reactCache(
   async <T>({

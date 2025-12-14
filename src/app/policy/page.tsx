@@ -1,6 +1,6 @@
 function page() {
   return (
-    <main className="flex w-full flex-col gap-22 my-22 wrapper">
+    <main className="flex w-full flex-col gap-22 md:my-22 my-16 wrapper">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-3xl font-bold mb-10">سياسة الخصوصية</h1>
         <div className="space-y-6">

@@ -28,7 +28,7 @@ const faqData = [
 export default function FAQSection() {
   return (
     <section className="wrapper bg-background w-full relative text-center py-8 space-y-6 bg-[url('/bg-vector.png')] bg-cover bg-no-repeat">
-      <h3 className="text-[32px] font-bold">
+      <h3 className="text-32 font-bold">
         يمكنك ان تجد{" "}
         <span className="text-primary-800 drop-shadow-text    ">
           {" "}
@@ -51,7 +51,7 @@ export default function FAQSection() {
               <AccordionTrigger className="p-0 text-start text-sm font-extrabold text-black-3 hover:no-underline tablet:text-xl">
                 <p className="flex items-center gap-4">{faq.question}</p>
               </AccordionTrigger>
-              <AccordionContent className="mt-4 border-t-2 border-gray-medium pt-4 text-xs font-medium text-black-3 tablet:text-lg">
+              <AccordionContent className="mt-4 border-t-2 border-gray-light pt-4 text-xs font-medium text-black-3 tablet:text-lg">
                 <p className="flex items-start gap-4 leading-6">{faq.answer}</p>
               </AccordionContent>
             </AccordionItem>

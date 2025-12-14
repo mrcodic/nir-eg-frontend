@@ -36,7 +36,7 @@ function NavBar() {
           <ul className="flex gap-8">
             {navlinks.map((link) => (
               <li key={link.name}>
-                <CustomLink link={link} />
+                <CustomLink href={link.href} name={link.name} />
               </li>
             ))}
           </ul>
@@ -74,16 +74,15 @@ function NavBar() {
               transition={{ duration: 0.2, ease: "easeOut" }}
               className="absolute left-0 right-0 top-full z-20 border-b border-gray-light bg-background shadow-md md:hidden"
             >
-              <nav className="flex flex-col gap-2 px-4 py-4">
+              <nav className="flex flex-col gap-4 px-4 py-4">
                 {navlinks.map((link) => (
-                  <Link
+                  <CustomLink
                     key={link.name}
                     href={link.href}
+                    name={link.name}
                     className="py-2 text-base font-medium"
                     onClick={closeMenu}
-                  >
-                    {link.name}
-                  </Link>
+                  />
                 ))}
 
                 <Link href="/subscribe?type=demo" className="w-full">
