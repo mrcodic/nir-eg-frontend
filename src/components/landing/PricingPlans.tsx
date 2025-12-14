@@ -24,7 +24,7 @@ export default function PricingPlans() {
               <Card
                 key={plan.id}
                 className={[
-                  "relative flex-1 rounded-lg overflow-hidden   backdrop-blur transition-transform duration-200 border-none shadow-none max-w-md max-lg:w-full mx-auto p-4",
+                  "relative flex-1 rounded-lg overflow-hidden   backdrop-blur transition-transform duration-200 border-none shadow-none max-w-md max-lg:w-full lg:min-w-[280px] mx-auto p-4",
                   isFeatured
                     ? "z-10 lg:scale-105 max-lg:order-first bg-dark-radial "
                     : "lg:scale-95   bg-background",
