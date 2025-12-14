@@ -1,18 +1,19 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 
 import { useAuthContext } from "@/context/auth-context";
 
+import { getCurrentTemplate } from "@/helpers/sass";
+import { cn } from "@/lib/utils";
 import NavNotifications from "@/modules/norifications/components/NavNotifications";
 import LinkStyled from "./LinkStyled";
 import MobileDropDown from "./MobileDropDown";
 import NavUserMenu from "./NavUserMenu";
 
 const AuthNavBar = () => {
-  const pathName = usePathname();
   const { profile, grade } = useAuthContext();
+  const template = getCurrentTemplate();
 
   const STUDENTSONLINELINKS = [
     {
@@ -56,9 +57,21 @@ const AuthNavBar = () => {
   ];
 
   return (
-    <div className=" h-20 border-b fixed top-0 left-0 w-full z-30 border-gray-light flex items-center  bg-background aria-hidden:pointer-events-auto! data-[aria-hidden='true']:pointer-events-auto!">
-      <div className="wrapper">
-        <div className="flex  items-center justify-between gap-4">
+    <div
+      className={cn(
+        " h-20 border-b fixed top-0 left-0 w-full z-30 border-gray-light flex items-center  bg-background aria-hidden:pointer-events-auto! data-[aria-hidden='true']:pointer-events-auto!",
+        {
+          "bg-transparent  h-28 items-end border-none": template == 3,
+        }
+      )}
+    >
+      <div className="wrapper ">
+        <div
+          className={cn("flex  items-center justify-between gap-4", {
+            "bg-background p-4 rounded-lg border border-gray-light":
+              template == 3,
+          })}
+        >
           <Link
             href={
               profile?.has_center
@@ -67,7 +80,7 @@ const AuthNavBar = () => {
             }
             className="flex self-end gap-2"
           >
-            <img src="/logo.svg" />
+            <img src="/logo.svg" alt="logo" />
           </Link>
 
           <ul className=" hidden mobile:flex mx-auto list-none text-[#FFFFFF] text-[16px] font-bold items-center gap-6">
@@ -81,25 +94,9 @@ const AuthNavBar = () => {
                 title={studentLink.title}
               />
             ))}
-
-            {/* <WrapperHOC queryKey={["settings/books"]}>
-              {({ data }: { data: { data: BookLinksSettings } }) => {
-                const booksData = data?.data;
-                if (!booksData?.links?.length) return null;
-
-                return <LinkStyled href={"/books"} title="متجر الكتب" />;
-              }}
-            </WrapperHOC> */}
           </ul>
 
           <div className="flex gap-4 mobile:gap-6">
-            {/* <WrapperHOC queryKey={["settings/books"]}>
-              {({ data }: { data: { data: BookLinksSettings } }) => {
-                if (data?.data?.hide_books) return;
-                return <NavCartButton />;
-              }}
-            </WrapperHOC> */}
-
             <NavNotifications />
 
             <NavUserMenu profile={profile} />

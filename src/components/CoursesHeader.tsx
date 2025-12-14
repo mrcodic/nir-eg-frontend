@@ -1,6 +1,8 @@
 "use client";
 
 import { getClientPrivateData } from "@/helpers/client-fetch";
+import { getCurrentTemplate } from "@/helpers/sass";
+import { cn } from "@/lib/utils";
 import { ICourseDetails, IUser } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
@@ -10,6 +12,8 @@ import DataWithLabel from "./ui/DataWithLabel";
 import PriceBadge from "./ui/PriceBadge";
 
 const CoursesHeader = ({ details }: { details: ICourseDetails }) => {
+  const template = getCurrentTemplate();
+
   const COURSEDETAILS = [
     {
       icon: "/assets/time.svg",
@@ -38,7 +42,11 @@ const CoursesHeader = ({ details }: { details: ICourseDetails }) => {
   const subType = details?.subscription_type;
 
   return (
-    <div className={`relative  bg-dark-radial`}>
+    <div
+      className={cn(`relative  bg-dark-radial mt-20`, {
+        "mt-0 pt-28": template == 3,
+      })}
+    >
       <div className="absolute inset-0 z-1 ">
         <Image
           src="/assets/bg/bg.png"

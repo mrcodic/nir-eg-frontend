@@ -33,7 +33,7 @@ const SingleCourse = async ({ params }) => {
       }
       verify={true}
     >
-      <div className="mt-20 ">
+      <div className="">
         <CoursesHeader details={bundleRooms?.body} />
 
         <CourseFloatingCards

@@ -1,5 +1,6 @@
 "use client";
 
+import { getCurrentTemplate } from "@/helpers/sass";
 import { cn } from "@/lib/utils";
 import NavCartButton from "@/modules/books-store/components/NavCartButton";
 import { BookLinksSettings } from "@/types/books.types";
@@ -11,16 +12,24 @@ import WrapperHOC from "./WrapperHOC";
 
 const GuestNavBar = () => {
   const pathname = usePathname();
+  const template = getCurrentTemplate();
 
   return (
     <div
-      style={{
-        boxShadow: "0px 2px 4px 2px rgba(157,130,66,0.10)",
-      }}
-      className=" h-20  border-b fixed top-0 left-0 w-full z-30 border-secondary flex items-center  bg-background  aria-hidden:pointer-events-auto! data-[aria-hidden='true']:pointer-events-auto!"
+      className={cn(
+        " h-20  border-b fixed top-0 left-0 w-full z-30 border-secondary flex items-center  bg-background  aria-hidden:pointer-events-auto! data-[aria-hidden='true']:pointer-events-auto!",
+        {
+          "bg-transparent h-28 items-end border-none": template == 3,
+        }
+      )}
     >
       <div className="wrapper ">
-        <div className="flex items-center justify-between w-full gap-2">
+        <div
+          className={cn("flex  items-center justify-between gap-2", {
+            "bg-background p-4 rounded-lg border border-gray-light":
+              template == 3,
+          })}
+        >
           <div className="flex  items-center self-end font-bold gap-12 mobile:gap-[120px]">
             <Link href={"/"}>
               <Image

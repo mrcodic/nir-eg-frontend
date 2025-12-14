@@ -1,10 +1,14 @@
 "use client";
 
+import { getCurrentTemplate } from "@/helpers/sass";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { useEffect } from "react";
 import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 
 const AuthLayout = ({ children, img }) => {
+  const template = getCurrentTemplate();
+
   useEffect(() => {
     return () => {
       // Delay cleanup by e.g. 300ms
@@ -34,7 +38,14 @@ const AuthLayout = ({ children, img }) => {
         appendTo: "head",
       }}
     >
-      <div className="grow min-h-[calc(100%-80px)] mt-20 flex flex-wrap h-full lg:items-start">
+      <div
+        className={cn(
+          "grow min-h-[calc(100%-80px)] mt-20 flex flex-wrap h-full lg:items-start",
+          {
+            "mt-28": template == 3,
+          }
+        )}
+      >
         <div className="flex justify-center lg:w-[38%] bg-dark-radial max-lg:w-full max-lg:h-[400px] lg:self-stretch items-center relative">
           <Image
             className="w-full  object-cover  lg:object-bottom relative z-10"

@@ -8,6 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { getCurrentTemplate } from "@/helpers/sass";
 import { cn } from "@/lib/utils";
 import { MenuIcon } from "lucide-react";
 
@@ -17,6 +18,7 @@ function MobileDropDown({
   STUDENTSOFFLINELINKS,
 }) {
   const pathName = usePathname();
+  const template = getCurrentTemplate();
 
   return (
     <DropdownMenu>
@@ -24,10 +26,20 @@ function MobileDropDown({
         <MenuIcon size={24} />
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent sideOffset={20} className="mobile:hidden">
+      <DropdownMenuContent
+        sideOffset={20}
+        className={cn("mobile:hidden w-full ", {
+          "w-[calc(100vw-32px)] sm:w-[85vw]  md:w-[calc(80vw-32px)] ms-4 sm:ms-[7.5vw] md:ms-[calc(10vw+16px)]":
+            template == 3,
+        })}
+      >
         <div
           className={cn(
-            `relative  left-0  flex-col  w-screen bg-background p-4 transition-all    `
+            `relative  left-0  flex-col   bg-background p-4 transition-all    `,
+            {
+              wrapper: template == 3,
+              "w-screen": template != 3,
+            }
           )}
         >
           {(profile?.type === 3

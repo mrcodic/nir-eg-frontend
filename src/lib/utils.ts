@@ -82,7 +82,7 @@ interface Answer {
   selected?: boolean;
 }
 
-export const getAnswerState = (answer?: Answer): AnswerState => {
+export const getAnswerState = (answer?: Answer) => {
   if (!answer) return "unanswered";
 
   const hasSelectedKey = "selected" in answer;

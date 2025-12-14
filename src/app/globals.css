@@ -378,7 +378,7 @@
     scroll-margin-top: -500px !important;
   }
   .section--style {
-    @apply mb-12 mt-[140px] w-[85%] mx-auto;
+    @apply mb-12 mt-[140px] wrapper;
   }
 
   .textStroke {
