@@ -1,19 +1,10 @@
 "use client";
 
 import { CustomCheckbox, CustomInput, CustomSelect } from "@/components/fields";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import type { AccountInfoFormData } from "@/lib/validations/subscribe";
-import { Eye, EyeOff } from "lucide-react";
+import { Form } from "@/components/ui/form";
+import PasswordInput from "@/components/ui/password-input";
+import type { AccountInfoFormData } from "@/lib/schemas/subscribe.schema";
 import Link from "next/link";
-import { useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import NavigationButtons from "../shared/NavigationButtons";
 
@@ -38,9 +29,6 @@ export default function AccountInfoStep({
   form,
   onNext,
 }: AccountInfoStepProps) {
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onNext)} className="space-y-4">
@@ -72,71 +60,13 @@ export default function AccountInfoStep({
         />
 
         {/* Password - Custom with toggle */}
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field, fieldState }) => (
-            <FormItem>
-              <FormLabel>كلمة المرور</FormLabel>
-              <FormControl>
-                <div className="relative">
-                  <Input
-                    type={showPassword ? "text" : "password"}
-                    placeholder="أدخل كلمة المرور"
-                    className="pl-10"
-                    {...field}
-                    aria-invalid={fieldState.error ? true : undefined}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-dark hover:text-primary-800"
-                  >
-                    {showPassword ? (
-                      <EyeOff className="w-4 h-4" />
-                    ) : (
-                      <Eye className="w-4 h-4" />
-                    )}
-                  </button>
-                </div>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <PasswordInput form={form} name="password" />
 
         {/* Confirm Password - Custom with toggle */}
-        <FormField
-          control={form.control}
+        <PasswordInput
+          form={form}
           name="confirmPassword"
-          render={({ field, fieldState }) => (
-            <FormItem>
-              <FormLabel>تأكيد كلمة المرور</FormLabel>
-              <FormControl>
-                <div className="relative">
-                  <Input
-                    type={showConfirmPassword ? "text" : "password"}
-                    placeholder="أكد كلمة المرور"
-                    className="pl-10"
-                    {...field}
-                    aria-invalid={fieldState.error ? true : undefined}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-dark hover:text-primary-800"
-                  >
-                    {showConfirmPassword ? (
-                      <EyeOff className="w-4 h-4" />
-                    ) : (
-                      <Eye className="w-4 h-4" />
-                    )}
-                  </button>
-                </div>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="تأكيد كلمة المرور"
         />
 
         {/* Language & Timezone - Two columns */}

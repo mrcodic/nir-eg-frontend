@@ -7,7 +7,7 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import type { EmailVerifyFormData } from "@/lib/validations/subscribe";
+import type { EmailVerifyFormData } from "@/lib/schemas/subscribe.schema";
 import { useCallback, useEffect, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { OtpInput } from "../shared";
@@ -143,7 +143,11 @@ export default function EmailVerifyStep({
         )}
 
         {/* Navigation Buttons */}
-        <NavigationButtons onPrevious={onPrevious} />
+        <NavigationButtons
+          onPrevious={onPrevious}
+          isPending={isVerifying}
+          pendingText="جاري التحقق..."
+        />
       </form>
     </Form>
   );

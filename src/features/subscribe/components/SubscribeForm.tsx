@@ -12,7 +12,7 @@ import {
   type BusinessInfoFormData,
   type EmailVerifyFormData,
   type PaymentFormData,
-} from "@/lib/validations/subscribe";
+} from "@/lib/schemas/subscribe.schema";
 import type {
   FormStep,
   FormVariant,
@@ -133,7 +133,6 @@ export default function SubscribeForm({
 
   // Navigation handlers
   const handleNext = useCallback(() => {
-    console.log("handleNext", currentStep.title, currentStepIndex);
     // Mark current step as completed
     setCompletedSteps((prev) => {
       if (!prev.includes(currentStep.id)) {
@@ -150,7 +149,7 @@ export default function SubscribeForm({
       // );
       // setCurrentStepIndex(currentIndex + 1);
     }
-  }, [currentStep.id, currentStep.title, currentStepIndex, steps]);
+  }, [currentStep.id, currentStepIndex, steps]);
 
   const handlePrevious = useCallback(() => {
     if (currentStepIndex > 0) {

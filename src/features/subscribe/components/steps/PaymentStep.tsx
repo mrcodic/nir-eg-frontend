@@ -1,11 +1,11 @@
 "use client";
 
 import { CustomRadioGroup } from "@/components/fields";
-import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import type { PaymentFormData } from "@/lib/validations/subscribe";
+import type { PaymentFormData } from "@/lib/schemas/subscribe.schema";
 import type { PaidTier } from "@/types/subscribe";
 import { UseFormReturn } from "react-hook-form";
+import NavigationButtons from "../shared/NavigationButtons";
 
 interface PaymentStepProps {
   form: UseFormReturn<PaymentFormData>;
@@ -95,24 +95,11 @@ export default function PaymentStep({
         />
 
         {/* Navigation Buttons */}
-        <div className="flex gap-4 lg:justify-end justify-center pt-6">
-          <Button
-            type="submit"
-            className="w-28 bg-primary-800 hover:bg-primary-800/90"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? "جاري الإرسال..." : "التالي"}
-          </Button>
-          <Button
-            type="button"
-            variant="outline"
-            className="w-28 border-gray-light text-gray-dark hover:bg-gray-dark hover:text-gray-light"
-            onClick={onPrevious}
-            disabled={isSubmitting}
-          >
-            السابق
-          </Button>
-        </div>
+        <NavigationButtons
+          onPrevious={onPrevious}
+          isPending={isSubmitting}
+          isLastStep={true}
+        />
       </form>
     </Form>
   );

@@ -31,7 +31,7 @@ function FormStepper({ steps, currentStep, completedSteps }: FormStepperProps) {
                   isCompleted
                     ? "bg-primary-800 text-white"
                     : isCurrent
-                    ? "bg-primary-800 text-white sm:size-13 size-9  border-2 border-primary-100 -mt-px"
+                    ? "bg-primary-800 text-white  border-2 border-primary-100 -mt-px"
                     : "bg-gray-light text-gray-dark opacity-30"
                 )}
               >

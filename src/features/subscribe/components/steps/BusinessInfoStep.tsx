@@ -8,7 +8,7 @@ import {
   CustomTextarea,
 } from "@/components/fields";
 import { Form } from "@/components/ui/form";
-import type { BusinessInfoFormData } from "@/lib/validations/subscribe";
+import type { BusinessInfoFormData } from "@/lib/schemas/subscribe.schema";
 import { UseFormReturn } from "react-hook-form";
 import NavigationButtons from "../shared/NavigationButtons";
 

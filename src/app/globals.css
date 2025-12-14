@@ -57,7 +57,10 @@
   --color-accent-800: hsla(211, 42%, 22%, 1);
 
   --color-semantics-red: hsla(0, 66%, 63%, 1);
+  --color-semantics-red-50: hsla(0, 66%, 94%, 1);
   --color-semantics-green: hsla(101, 43%, 58%, 1);
+  --color-semantics-green-50: hsla(100, 43%, 92%, 1);
+  --color-semantics-green-dark: hsla(101, 31%, 52%, 1);
 }
 
 :root {
