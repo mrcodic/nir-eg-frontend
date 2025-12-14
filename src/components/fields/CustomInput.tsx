@@ -25,6 +25,12 @@ function CustomInput<T extends FieldValues>({
                 onChange: (e) => field.onChange(Number(e.target.valueAsNumber)),
               }
             : {})}
+          {...(props?.onChange && {
+            onChange: (e) => {
+              field.onChange(e);
+              props?.onChange?.(e);
+            },
+          })}
         />
       )}
     </GenericField>

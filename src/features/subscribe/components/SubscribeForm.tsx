@@ -131,8 +131,14 @@ export default function SubscribeForm({
     },
   });
 
+  const emailVerified = useMemo(
+    () =>
+      verifyForm.getValues("otp") !== "" && completedSteps.includes("verify"),
+    [completedSteps, verifyForm]
+  );
+
   // Navigation handlers
-  const handleNext = useCallback(() => {
+  const handleNext = useCallback(async () => {
     // Mark current step as completed
     setCompletedSteps((prev) => {
       if (!prev.includes(currentStep.id)) {
@@ -142,20 +148,32 @@ export default function SubscribeForm({
     });
 
     // Move to next step
+    // step over email verification if completed
     if (currentStepIndex < steps.length - 1) {
-      setCurrentStepIndex((prev) => prev + 1);
-      // const currentIndex = steps.findIndex(
-      //   (step) => step.id === currentStep.id
-      // );
-      // setCurrentStepIndex(currentIndex + 1);
+      const nextStepId = steps[currentStepIndex + 1].id;
+      if (nextStepId === "verify" && emailVerified) {
+        setCurrentStepIndex((prev) => prev + 2);
+      } else {
+        setCurrentStepIndex((prev) => prev + 1);
+      }
     }
-  }, [currentStep.id, currentStepIndex, steps]);
+  }, [currentStep, currentStepIndex, emailVerified, steps]);
 
   const handlePrevious = useCallback(() => {
     if (currentStepIndex > 0) {
-      setCurrentStepIndex((prev) => prev - 1);
+      const previousStepId = steps[currentStepIndex - 1].id;
+      if (previousStepId === "verify" && emailVerified) {
+        setCurrentStepIndex((prev) => prev - 2);
+      } else {
+        setCurrentStepIndex((prev) => prev - 1);
+      }
     }
-  }, [currentStepIndex]);
+  }, [currentStepIndex, emailVerified, steps]);
+
+  const resetEmailVerificationForm = useCallback(() => {
+    verifyForm.reset();
+    setCompletedSteps((prev) => prev.filter((step) => step !== "verify"));
+  }, [verifyForm]);
 
   // Final submission
   const handleFinalSubmit = useCallback(async () => {
@@ -196,11 +214,25 @@ export default function SubscribeForm({
     router,
   ]);
 
+  console.log(
+    "Current step",
+    currentStep,
+    currentStepIndex,
+    verifyForm.getValues(),
+    emailVerified
+  );
+
   // Render current step
   const renderStep = () => {
     switch (currentStep.id) {
       case "account":
-        return <AccountInfoStep form={accountForm} onNext={handleNext} />;
+        return (
+          <AccountInfoStep
+            form={accountForm}
+            onNext={handleNext}
+            resetEmailVerificationForm={resetEmailVerificationForm}
+          />
+        );
       case "verify":
         return (
           <EmailVerifyStep
@@ -244,7 +276,7 @@ export default function SubscribeForm({
   };
 
   return (
-    <div className="flex flex-row-reverse wrapper my-22 gap-10">
+    <div className="flex flex-row-reverse wrapper my-16 md:my-22 gap-10">
       {/* Sidebar - Fixed on desktop */}
       <FormSidebar variant={variant} tier={tier} />
 
@@ -269,6 +301,7 @@ export default function SubscribeForm({
             <FormStepper
               steps={steps}
               currentStep={currentStep.id}
+              setCurrentStepIndex={setCurrentStepIndex}
               completedSteps={completedSteps}
             />
           </div>

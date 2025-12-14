@@ -14,7 +14,7 @@ function CustomCheckbox<T extends FieldValues>({
       control={form.control}
       name={name}
       render={({ field }) => (
-        <FormItem className="flex flex-row items-center gap-3">
+        <FormItem className="flex flex-row items-center gap-3 ">
           <FormControl>
             <Checkbox
               id={name}
@@ -22,10 +22,12 @@ function CustomCheckbox<T extends FieldValues>({
               onCheckedChange={field.onChange}
             />
           </FormControl>
-          <Label className="text-sm cursor-pointer" htmlFor={name}>
-            {label}
-          </Label>
-          <FormMessage />
+          <div className="flex flex-wrap gap-2 items-center">
+            <Label className="text-sm cursor-pointer" htmlFor={name}>
+              {label}
+            </Label>
+            <FormMessage />
+          </div>
         </FormItem>
       )}
     />

@@ -11,6 +11,7 @@ import NavigationButtons from "../shared/NavigationButtons";
 interface AccountInfoStepProps {
   form: UseFormReturn<AccountInfoFormData>;
   onNext: () => void;
+  resetEmailVerificationForm: () => void;
 }
 
 const languages = [
@@ -28,6 +29,7 @@ const timezones = [
 export default function AccountInfoStep({
   form,
   onNext,
+  resetEmailVerificationForm,
 }: AccountInfoStepProps) {
   return (
     <Form {...form}>
@@ -47,6 +49,9 @@ export default function AccountInfoStep({
           label="البريد الإلكتروني"
           placeholder="قم بإدخال البريد الإلكتروني"
           type="email"
+          onChange={() => {
+            resetEmailVerificationForm();
+          }}
         />
 
         {/* Phone */}
