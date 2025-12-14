@@ -1,6 +1,7 @@
 "use client";
 
 import { CustomRadioGroup } from "@/components/fields";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -14,13 +15,13 @@ import type { BrandingFormData } from "@/lib/validations/subscribe";
 import type { TemplateOption } from "@/types/subscribe";
 import { UseFormReturn } from "react-hook-form";
 import { FileUpload, TemplateSelector } from "../shared";
-import NavigationButtons from "../shared/NavigationButtons";
 
 interface BrandingStepProps {
   form: UseFormReturn<BrandingFormData>;
   onNext: () => void;
   onPrevious: () => void;
   isLastStep?: boolean;
+  isSubmitting?: boolean;
 }
 
 // Default templates - These would come from API in production
@@ -59,6 +60,7 @@ export default function BrandingStep({
   onNext,
   onPrevious,
   isLastStep = false,
+  isSubmitting = false,
 }: BrandingStepProps) {
   const websiteName = form.watch("websiteName");
   const domainType = form.watch("domainType");
@@ -152,7 +154,24 @@ export default function BrandingStep({
         </div>
 
         {/* Navigation Buttons */}
-        <NavigationButtons isLastStep={isLastStep} onPrevious={onPrevious} />
+        <div className="flex gap-4 lg:justify-end justify-center pt-6">
+          <Button
+            type="submit"
+            className="w-28 bg-primary-800 hover:bg-primary-800/90"
+            disabled={isSubmitting}
+          >
+            {isSubmitting && isLastStep ? "جاري الإرسال..." : "التالي"}
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            className="w-28 border-gray-light text-gray-dark hover:bg-gray-dark hover:text-gray-light"
+            onClick={onPrevious}
+            disabled={isSubmitting}
+          >
+            السابق
+          </Button>
+        </div>
       </form>
     </Form>
   );

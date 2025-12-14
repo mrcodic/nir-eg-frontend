@@ -133,6 +133,7 @@ export default function SubscribeForm({
 
   // Navigation handlers
   const handleNext = useCallback(() => {
+    console.log("handleNext", currentStep.title, currentStepIndex);
     // Mark current step as completed
     setCompletedSteps((prev) => {
       if (!prev.includes(currentStep.id)) {
@@ -144,8 +145,12 @@ export default function SubscribeForm({
     // Move to next step
     if (currentStepIndex < steps.length - 1) {
       setCurrentStepIndex((prev) => prev + 1);
+      // const currentIndex = steps.findIndex(
+      //   (step) => step.id === currentStep.id
+      // );
+      // setCurrentStepIndex(currentIndex + 1);
     }
-  }, [currentStep, currentStepIndex, steps.length]);
+  }, [currentStep.id, currentStep.title, currentStepIndex, steps]);
 
   const handlePrevious = useCallback(() => {
     if (currentStepIndex > 0) {
@@ -192,8 +197,6 @@ export default function SubscribeForm({
     router,
   ]);
 
-  // isLastStep is determined per-step in renderStep
-
   // Render current step
   const renderStep = () => {
     switch (currentStep.id) {
@@ -223,6 +226,7 @@ export default function SubscribeForm({
             onNext={variant === "demo" ? handleFinalSubmit : handleNext}
             onPrevious={handlePrevious}
             isLastStep={variant === "demo"}
+            isSubmitting={isSubmitting}
           />
         );
       case "payment":

@@ -27,6 +27,7 @@ export default function OtpInput({
   className,
 }: OtpInputProps) {
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const completedRef = useRef(false);
   const [activeIndex, setActiveIndex] = useState(0);
 
   // Split value into array
@@ -43,7 +44,11 @@ export default function OtpInput({
   useEffect(() => {
     // Trigger onComplete when all digits are entered
     if (value.length === length && onComplete) {
+      if (completedRef.current) return;
+      completedRef.current = true;
       onComplete(value);
+    } else {
+      completedRef.current = false;
     }
   }, [value, length, onComplete]);
 

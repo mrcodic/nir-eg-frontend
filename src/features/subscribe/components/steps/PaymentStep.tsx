@@ -106,7 +106,7 @@ export default function PaymentStep({
           <Button
             type="button"
             variant="outline"
-            className="w-28 border-gray-light"
+            className="w-28 border-gray-light text-gray-dark hover:bg-gray-dark hover:text-gray-light"
             onClick={onPrevious}
             disabled={isSubmitting}
           >
