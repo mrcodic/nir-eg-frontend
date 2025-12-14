@@ -88,7 +88,7 @@ export default function ClientsCarousel({ className }: { className?: string }) {
         >
           {/* Previous button */}
           <CarouselPrevious
-            className="hidden md:flex size-11 bg-background  items-center justify-center rounded-lg shadow-sm border border-gray-light left-0 z-10"
+            className="flex size-11 bg-background  items-center justify-center rounded-lg shadow-sm border border-gray-light left-0 z-10"
             variant="ghost"
             size="icon"
             aria-label="Previous"
@@ -108,7 +108,7 @@ export default function ClientsCarousel({ className }: { className?: string }) {
 
           {/* Next button */}
           <CarouselNext
-            className="hidden md:flex size-11 bg-background  items-center justify-center rounded-lg shadow-sm border border-gray-light right-0 z-10"
+            className="flex size-11 bg-background  items-center justify-center rounded-lg shadow-sm border border-gray-light right-0 z-10"
             variant="ghost"
             size="icon"
             aria-label="Next"
@@ -126,7 +126,6 @@ function CardItem({
   clientName,
   projectName,
   description,
-  icon,
   isActive,
 }: Card) {
   return (

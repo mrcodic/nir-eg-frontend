@@ -36,7 +36,7 @@ function PartnersSection() {
     <section className="wrapper w-full relative text-center  space-y-6">
       <div className="max-w-7xl mx-auto">
         <div className="mb-6">
-          <h3 className="text-[32px] font-bold">
+          <h3 className="text-32 font-bold">
             شركاؤنا فى{" "}
             <span className="text-primary-800 drop-shadow-text    ">
               {" "}
@@ -65,7 +65,7 @@ function PartnersSection() {
               <CarouselItem
                 key={index}
                 data-carousel="partner"
-                className="carousel-item flex basis-1/3 items-center justify-center select-none md:basis-1/4 xl:basis-1/7"
+                className="carousel-item flex basis-1/2 min-[400px]:basis-1/3 items-center justify-center select-none md:basis-1/4 xl:basis-1/7"
               >
                 <div className="relative flex shrink-0 size-24 items-center justify-center overflow-hidden rounded-full border-2 border-neutral-3 bg-white p-6 transition-all  sm:size-34">
                   {partner.image_url ? (
