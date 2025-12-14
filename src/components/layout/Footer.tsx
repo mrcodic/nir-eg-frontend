@@ -1,5 +1,4 @@
 import { footerLinks } from "@/constants/navlinks";
-import { Mail, Phone } from "lucide-react";
 import Image from "next/image";
 import CustomLink from "../CustomLink";
 import SocialLinks from "../SocialLinks";
@@ -29,16 +28,31 @@ function Footer() {
 
           <div className="flex items-center gap-6 flex-wrap">
             <div className="flex items-center gap-4">
-              <Mail className="size-5 stroke-accent-800" />
+              <Image
+                src="/assets/email.svg"
+                width={20}
+                height={20}
+                alt="phone"
+              />
               <span>info@nir-edu.com</span>
             </div>
             <div className="flex items-center gap-4">
-              <Phone className="size-5 stroke-accent-800" />
-              <span>+966 0596207549</span>
+              <Image
+                src="/assets/phone.svg"
+                width={20}
+                height={20}
+                alt="phone"
+              />
+              <span dir="ltr">+966 0596207549</span>
             </div>
             <div className="flex items-center gap-4">
-              <Phone className="size-5 stroke-accent-800" />
-              <span>+20 15000 48 141</span>
+              <Image
+                src="/assets/phone.svg"
+                width={20}
+                height={20}
+                alt="email"
+              />
+              <span dir="ltr">+20 15000 48 141</span>
             </div>
           </div>
         </div>
