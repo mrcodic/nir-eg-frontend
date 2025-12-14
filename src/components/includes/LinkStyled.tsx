@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useState } from "react";
-import { StudentSelectCenter } from "../modals/StudentSelectCenterModal";
+import { StudentSelectCenterModal } from "../modals/StudentSelectCenterModal";
 
 function LinkStyled({ href, title }: { href: string; title: string }) {
   const modal = useModal();
@@ -26,7 +26,7 @@ function LinkStyled({ href, title }: { href: string; title: string }) {
   ) {
     if (!x) return;
     if (x && profile?.has_center === false) {
-      modal.setDialogContent(<StudentSelectCenter />);
+      modal.setDialogContent(<StudentSelectCenterModal />);
       modal.openModal();
     }
   }

@@ -65,9 +65,9 @@ const fetcherServer = async <T>(
     return res.json() as Promise<T>;
   } catch (error) {
     console.error(`Error in fetcher for ${endpoint}:`, error);
+
     if (error?.response?.data?.code === 403) {
       console.log("unauth redirect");
-
       redirect("/unAuth");
     } else if (error?.status === 403) {
       console.log("unauth center redirect");
