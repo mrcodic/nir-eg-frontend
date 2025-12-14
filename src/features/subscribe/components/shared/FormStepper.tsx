@@ -31,7 +31,7 @@ function FormStepper({
         return (
           <button
             key={step.id}
-            className="flex items-center"
+            className="flex items-center "
             onClick={() =>
               setCurrentStepIndex(
                 emailVerifiedStep && isCompleted ? index + 1 : index
@@ -47,12 +47,14 @@ function FormStepper({
             <div className="flex flex-col items-center">
               <div
                 className={cn(
-                  "size-12  rounded-full flex items-center justify-center transition-all duration-300 shrink-0",
+                  "size-12 cursor-pointer disabled:cursor-not-allowed rounded-full flex items-center justify-center transition-all duration-300 shrink-0",
                   isCurrent
                     ? "bg-gray-dark text-white  border-2 border-primary-800 "
                     : isCompleted
-                    ? "bg-dark-radial text-white"
-                    : "bg-gray-light text-gray-dark opacity-30"
+                    ? emailVerifiedStep
+                      ? "bg-semantics-green-dark opacity-80 text-white  border-2 border-semantics-green-dark cursor-auto"
+                      : "bg-dark-radial text-white"
+                    : "bg-gray-light text-gray-dark opacity-30 cursor-auto"
                 )}
               >
                 {isCurrent ? (

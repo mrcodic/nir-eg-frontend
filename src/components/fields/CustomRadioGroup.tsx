@@ -43,7 +43,7 @@ function CustomRadioGroup<T extends FieldValues>({
               value={field.value}
               className={
                 direction === "horizontal"
-                  ? "flex gap-6"
+                  ? "flex gap-6 max-sm:flex-wrap"
                   : "flex flex-col gap-3"
               }
               dir="rtl"
@@ -60,7 +60,7 @@ function CustomRadioGroup<T extends FieldValues>({
                     <RadioGroupItem value={option.value} id={option.value} />
 
                     {option?.icons && (
-                      <div className="flex gap-2">
+                      <div className="flex gap-2 ">
                         {option?.icons?.map((icon) => (
                           <div
                             key={icon}
