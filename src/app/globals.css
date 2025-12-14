@@ -170,3 +170,14 @@
   background-clip: text;
   color: transparent;
 }
+
+@utility text-dark-radial {
+  background: radial-gradient(
+    79.17% 79.17% at 20.83% 69.6%,
+    #20364e 0%,
+    #0d2237 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}

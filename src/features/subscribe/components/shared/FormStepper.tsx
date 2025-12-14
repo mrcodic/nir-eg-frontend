@@ -47,11 +47,11 @@ function FormStepper({
             <div className="flex flex-col items-center">
               <div
                 className={cn(
-                  "size-12 rounded-full flex items-center justify-center transition-all duration-300 shrink-0",
+                  "size-12  rounded-full flex items-center justify-center transition-all duration-300 shrink-0",
                   isCurrent
-                    ? "bg-primary-800 text-white  border-2 border-primary-100 "
+                    ? "bg-gray-dark text-white  border-2 border-primary-800 "
                     : isCompleted
-                    ? "bg-primary-800 text-white"
+                    ? "bg-dark-radial text-white"
                     : "bg-gray-light text-gray-dark opacity-30"
                 )}
               >
@@ -68,8 +68,10 @@ function FormStepper({
               <span
                 className={cn(
                   "mt-2 sm:text-xs text-10 text-center max-w-20",
-                  isCurrent || isCompleted
-                    ? "text-primary-800 font-medium"
+                  isCurrent
+                    ? "text-black font-bold"
+                    : isCompleted
+                    ? "text-dark-radial font-bold"
                     : "text-gray-dark opacity-50"
                 )}
               >
@@ -82,7 +84,7 @@ function FormStepper({
               <div
                 className={cn(
                   "sm:w-12 w-full h-0.5 mx-1.5 transition-all duration-300 self-start mt-10",
-                  index < currentIndex ? "bg-primary-800" : "bg-gray-light"
+                  index < currentIndex ? "bg-dark-radial" : "bg-gray-light"
                 )}
               />
             )}
