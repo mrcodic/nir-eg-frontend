@@ -22,7 +22,7 @@ function CustomLink({ link }: { link: { name: string; href: string } }) {
         {link.name}
       </Link>
       <motion.div
-        className=" ms-2 bg-secondary absolute h-0.5"
+        className=" ms-2 bg-secondary absolute h-0.5 shadow-secondary shadow-sm"
         initial={{ width: 0 }}
         animate={{ width: isActive ? "40px" : 0 }}
         whileHover={{ width: "40px" }}

@@ -32,7 +32,7 @@ function Footer() {
                 src="/assets/email.svg"
                 width={20}
                 height={20}
-                alt="phone"
+                alt="email"
               />
               <span>info@nir-edu.com</span>
             </div>
