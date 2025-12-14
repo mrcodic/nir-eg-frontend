@@ -32,7 +32,7 @@ function NavigationButtons({
         variant="outline"
         className="w-28 border-gray-light text-gray-dark hover:bg-gray-dark hover:text-gray-light"
         onClick={!isFirstStep ? onPrevious : undefined}
-        disabled={isPending}
+        disabled={isPending || isFirstStep}
       >
         السابق
       </Button>

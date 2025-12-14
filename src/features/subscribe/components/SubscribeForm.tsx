@@ -214,14 +214,6 @@ export default function SubscribeForm({
     router,
   ]);
 
-  console.log(
-    "Current step",
-    currentStep,
-    currentStepIndex,
-    verifyForm.getValues(),
-    emailVerified
-  );
-
   // Render current step
   const renderStep = () => {
     switch (currentStep.id) {
@@ -289,7 +281,7 @@ export default function SubscribeForm({
             <h1 className="lg:text-32 text-2xl font-bold">
               املأ <StyledText text="النموذج" /> التالي
             </h1>
-            <p className="text-gray-dark mt-2 lg:text-xl text-sm">
+            <p className="text-gray-dark mt-2 lg:text-xl text-sm font-bold">
               {variant === "demo"
                 ? "املأ النموذج لتحصل على نسختك التجريبية"
                 : "املأ النموذج لتحصل على موقعك الإلكتروني"}
