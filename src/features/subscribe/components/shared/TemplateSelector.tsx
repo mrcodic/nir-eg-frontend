@@ -47,7 +47,7 @@ export default function TemplateSelector({
         اختر قالب الموقع
       </label>
 
-      <div className="grid grid-cols-[minmax(100px,400px)] max-sm:justify-center sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-[minmax(100px,350px)] max-sm:justify-center sm:grid-cols-3 gap-4">
         {templates.map((template, index) => {
           const isSelected = value === template.id;
 
@@ -57,7 +57,7 @@ export default function TemplateSelector({
               type="button"
               onClick={() => onChange(template.id)}
               className={cn(
-                "relative group rounded-lg overflow-hidden border-2 transition-all duration-200 p-2",
+                "relative group rounded-lg overflow-hidden border-2 transition-all duration-200 p-2 aspect-4/5 flex flex-col",
                 isSelected
                   ? "border-primary-800 bg-background ring-2 ring-primary-100"
                   : "border-gray-light hover:border-primary-800/50"
@@ -66,14 +66,14 @@ export default function TemplateSelector({
               {/* Template Preview - Using gradient fallback */}
               <div
                 className={cn(
-                  "relative aspect-4/3 flex items-center justify-center",
+                  "relative flex items-center justify-center grow",
                   `bg-linear-to-br ${
                     templateColors[index % templateColors.length]
                   }`
                 )}
               >
                 {/* Placeholder design pattern */}
-                <div className="flex flex-col items-center justify-center h-[202px] gap-2 text-white/80">
+                <div className="flex flex-col items-center justify-center  gap-2 text-white/80">
                   <Monitor className="w-10 h-10" />
                   <span className="text-xs">قالب {index + 1}</span>
                 </div>

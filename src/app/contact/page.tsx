@@ -7,9 +7,9 @@ function page() {
       <ContactUsSection />
 
       <section className="flex flex-col  wrapper ">
-        <div className="relative px-20 text-center mx-auto">
+        <div className="relative sm:px-20 px-10 text-center mx-auto">
           <hr className="bg-primary-100 absolute top-1/2 w-full left-1/2 -translate-x-1/2 h-1 z-1" />
-          <h2 className="text-xl font-bold bg-white  text-gray-dark px-2 relative z-2">
+          <h2 className="sm:text-xl text-lg font-bold bg-white  text-gray-dark px-2 relative z-2">
             يمكنك متابعتنا على وسائل التواصل الاجتماعي
           </h2>
         </div>
