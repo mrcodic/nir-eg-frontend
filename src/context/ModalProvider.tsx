@@ -63,13 +63,14 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   useEffect(() => {
+    console.log("isOpen : ", isOpen);
     if (!isOpen) {
-      const tid = setTimeout(() => {
-        setModalContent(undefined);
-        setDialogContentProps(null);
-        setSideElement(undefined);
-      }, 200);
-      return () => clearTimeout(tid);
+      // const tid = setTimeout(() => {
+      setModalContent(undefined);
+      setDialogContentProps(null);
+      setSideElement(undefined);
+      // }, 200);
+      // return () => clearTimeout(tid);
     }
     return;
   }, [isOpen]);
@@ -88,39 +89,41 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
     >
       {children}
 
-      <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-        {sideElement}
+      {isOpen && (
+        <Dialog open={isOpen} onOpenChange={handleOpenChange}>
+          {sideElement}
 
-        <DialogTitle />
-        <DialogDescription />
-        <DialogContent
-          {...dialogContentProps}
-          className={cn(
-            "bg-white max-md:p-2 overflow-visible max-h-[calc(100vh-2rem)] overflow-y-auto",
-            dialogContentProps?.className
-          )}
-          onPointerDownOutside={(e) => {
-            if (
-              e.target instanceof Element &&
-              e.target.closest("[data-toast]")
-            ) {
-              e.preventDefault();
-            }
+          <DialogTitle />
+          <DialogDescription />
+          <DialogContent
+            {...dialogContentProps}
+            className={cn(
+              "bg-white max-md:p-2 overflow-visible max-h-[calc(100vh-2rem)] overflow-y-auto",
+              dialogContentProps?.className
+            )}
+            onPointerDownOutside={(e) => {
+              if (
+                e.target instanceof Element &&
+                e.target.closest("[data-toast]")
+              ) {
+                e.preventDefault();
+              }
 
-            dialogContentProps?.onPointerDownOutside?.(e);
-          }}
-        >
-          <Suspense
-            fallback={
-              <div className="flex items-center justify-center size-full min-h-[400px]">
-                <FaSpinner className="animate-spin text-primary-800 size-10" />
-              </div>
-            }
+              dialogContentProps?.onPointerDownOutside?.(e);
+            }}
           >
-            {modalContent}
-          </Suspense>
-        </DialogContent>
-      </Dialog>
+            <Suspense
+              fallback={
+                <div className="flex items-center justify-center size-full min-h-[400px]">
+                  <FaSpinner className="animate-spin text-primary-800 size-10" />
+                </div>
+              }
+            >
+              {modalContent}
+            </Suspense>
+          </DialogContent>
+        </Dialog>
+      )}
     </ModalContext.Provider>
   );
 };
