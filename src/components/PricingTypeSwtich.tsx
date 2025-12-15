@@ -1,11 +1,14 @@
 import { cn } from "@/lib/utils";
 import { Check } from "lucide-react";
-import { useState } from "react";
 import { Switch } from "./ui/switch";
 
-function PricingTypeSwtich() {
-  const [type, setType] = useState<"monthly" | "yearly">("monthly");
-
+function PricingTypeSwtich({
+  type,
+  setType,
+}: {
+  type: "monthly" | "yearly";
+  setType: (type: "monthly" | "yearly") => void;
+}) {
   return (
     <div className="text-center mb-6">
       <h2 className="text-xl md:text-2xl font-bold ">خطط الأسعار</h2>

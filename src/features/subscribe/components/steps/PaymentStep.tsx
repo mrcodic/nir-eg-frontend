@@ -3,7 +3,7 @@
 import { CustomRadioGroup } from "@/components/fields";
 import { Form } from "@/components/ui/form";
 import type { PaymentFormData } from "@/lib/schemas/subscribe.schema";
-import type { PaidTier } from "@/types/subscribe";
+import type { PaidTier } from "@/types/subscribe.types";
 import { UseFormReturn } from "react-hook-form";
 import NavigationButtons from "../shared/NavigationButtons";
 
@@ -60,7 +60,7 @@ export default function PaymentStep({
         <CustomRadioGroup
           form={form}
           name="paymentPeriod"
-          label="فترة الدفع"
+          label="طريقة الدفع"
           options={paymentPeriodOptions}
         />
 

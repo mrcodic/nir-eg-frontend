@@ -1,6 +1,6 @@
 "use client";
 
-import type { FormVariant, StepId } from "@/types/subscribe";
+import type { FormVariant, StepId } from "@/types/subscribe.types";
 import { useCallback, useState } from "react";
 
 const STORAGE_KEY = "nir-subscribe-form";

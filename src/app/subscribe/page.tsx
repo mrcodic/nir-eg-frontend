@@ -1,24 +1,28 @@
 import { SubscribeForm } from "@/features/subscribe/components";
-import type { FormVariant, PaidTier } from "@/types/subscribe";
+import type { FormVariant, PaidTier } from "@/types/subscribe.types";
 
 interface SubscribePageProps {
   searchParams: Promise<{
     type?: string;
     tier?: string;
+    period?: string;
   }>;
 }
+
+const validTiers: PaidTier[] = ["basic", "pro", "enterprise"];
 
 async function SubscribePage({ searchParams }: SubscribePageProps) {
   const params = await searchParams;
 
   const variant: FormVariant = params.type === "paid" ? "paid" : "demo";
 
-  const validTiers: PaidTier[] = ["basic", "pro", "enterprise"];
   const tier: PaidTier = validTiers.includes(params.tier as PaidTier)
     ? (params.tier as PaidTier)
     : "pro";
 
-  return <SubscribeForm variant={variant} tier={tier} />;
+  const period = params?.period === "monthly" ? "monthly" : "yearly";
+
+  return <SubscribeForm variant={variant} tier={tier} period={period} />;
 }
 
 export default SubscribePage;

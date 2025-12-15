@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import type { TemplateOption } from "@/types/subscribe";
+import type { TemplateOption } from "@/types/subscribe.types";
 import { Monitor } from "lucide-react";
 
 interface TemplateSelectorProps {

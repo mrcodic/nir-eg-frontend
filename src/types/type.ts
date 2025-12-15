@@ -1,4 +1,4 @@
-import { PaidTier } from "./subscribe";
+import { PaidTier } from "./subscribe.types";
 
 export type PricingPlan = {
   id: PaidTier;

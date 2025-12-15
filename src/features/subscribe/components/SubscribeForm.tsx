@@ -1,29 +1,17 @@
 "use client";
 
 import StyledText from "@/components/ui/StyledText";
-import {
-  accountInfoSchema,
-  brandingSchema,
-  businessInfoSchema,
-  emailVerifySchema,
-  paymentSchema,
-  type AccountInfoFormData,
-  type BrandingFormData,
-  type BusinessInfoFormData,
-  type EmailVerifyFormData,
-  type PaymentFormData,
-} from "@/lib/schemas/subscribe.schema";
 import type {
   FormStep,
   FormVariant,
   PaidTier,
+  PaymentPeriod,
   StepId,
-} from "@/types/subscribe";
-import { zodResolver } from "@hookform/resolvers/zod";
+} from "@/types/subscribe.types";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
-import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import useStepsForms from "../hooks/useStepsForms";
 import { FormSidebar, FormStepper } from "./shared";
 import {
   AccountInfoStep,
@@ -36,6 +24,7 @@ import {
 interface SubscribeFormProps {
   variant: FormVariant;
   tier?: PaidTier;
+  period: PaymentPeriod;
 }
 
 // Step configuration
@@ -57,6 +46,7 @@ const getSteps = (variant: FormVariant): FormStep[] => {
 export default function SubscribeForm({
   variant,
   tier = "pro",
+  period,
 }: SubscribeFormProps) {
   const router = useRouter();
   const steps = useMemo(() => getSteps(variant), [variant]);
@@ -67,69 +57,8 @@ export default function SubscribeForm({
   const currentStep = steps[currentStepIndex];
 
   // Form instances for each step
-  const accountForm = useForm<AccountInfoFormData>({
-    resolver: zodResolver(accountInfoSchema),
-    defaultValues: {
-      fullName: "",
-      email: "",
-      phone: "",
-      password: "",
-      confirmPassword: "",
-      language: "ar",
-      timezone: "Africa/Cairo",
-      acceptTerms: false,
-      acceptPrivacy: false,
-      acceptSms: false,
-      acceptWhatsapp: false,
-    },
-  });
-
-  const verifyForm = useForm<EmailVerifyFormData>({
-    resolver: zodResolver(emailVerifySchema),
-    defaultValues: {
-      otp: "",
-    },
-  });
-
-  const businessForm = useForm<BusinessInfoFormData>({
-    resolver: zodResolver(businessInfoSchema),
-    defaultValues: {
-      teacherType: "individual",
-      brandName: "",
-      legalName: "",
-      subjects: [],
-      gradeLevels: [],
-      teachingMethod: "hybrid",
-      expectedStudents: 20,
-      country: "egypt",
-      governorate: "",
-      city: "",
-      address: "",
-      howDidYouHear: "",
-      additionalNotes: "",
-      discountCode: "",
-    },
-  });
-
-  const brandingForm = useForm<BrandingFormData>({
-    resolver: zodResolver(brandingSchema),
-    defaultValues: {
-      domainType: "sub-domain",
-      websiteName: "",
-      selectedTemplate: "",
-      logoFile: null,
-      faviconFile: null,
-      coverFile: null,
-    },
-  });
-
-  const paymentForm = useForm<PaymentFormData>({
-    resolver: zodResolver(paymentSchema),
-    defaultValues: {
-      paymentPeriod: "yearly",
-      paymentMethod: "e-wallet",
-    },
-  });
+  const { accountForm, verifyForm, businessForm, brandingForm, paymentForm } =
+    useStepsForms({ period });
 
   const emailVerified = useMemo(
     () =>

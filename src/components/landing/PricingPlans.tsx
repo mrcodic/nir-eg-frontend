@@ -4,16 +4,20 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { plans } from "@/constants/pricing-plans";
 import { cn } from "@/lib/utils";
+import { PaymentPeriod } from "@/types/subscribe.types";
 import { Check } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
 import PricingTypeSwtich from "../PricingTypeSwtich";
 
 export default function PricingPlans() {
+  const [type, setType] = useState<PaymentPeriod>("yearly");
+
   return (
     <section className="wrapper w-full relative text-center pb-12 space-y-6">
       <div className="mx-auto max-w-7xl ">
         {/* header */}
-        <PricingTypeSwtich />
+        <PricingTypeSwtich type={type} setType={setType} />
 
         {/* cards */}
         <div className="flex flex-col items-stretch xl:gap-6 lg:gap-2 gap-6 lg:flex-row lg:items-end lg:justify-center">
@@ -111,7 +115,7 @@ export default function PricingPlans() {
                     </div>
 
                     <Link
-                      href={`/subscribe?type=paid&tier=${plan.id}`}
+                      href={`/subscribe?type=paid&tier=${plan.id}&period=${type}`}
                       className="w-full"
                     >
                       <Button

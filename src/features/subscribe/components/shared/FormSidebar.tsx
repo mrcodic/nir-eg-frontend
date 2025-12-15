@@ -1,7 +1,7 @@
 "use client";
 
 import { plans } from "@/constants/pricing-plans";
-import type { FormVariant, PaidTier } from "@/types/subscribe";
+import type { FormVariant, PaidTier } from "@/types/subscribe.types";
 import { Check } from "lucide-react";
 import Image from "next/image";
 import { memo, useMemo } from "react";
@@ -33,7 +33,7 @@ function FormSidebar({ variant, tier = "pro" }: FormSidebarProps) {
         hidden lg:flex flex-col h-fit justify-center items-center
         w-[min(360px,25vw)] p-4 text-white
         ${isDemo ? "bg-blue-gradient" : "bg-dark-radial"}
-        rounded-xl
+        rounded-lg
       `}
     >
       {/* Badge/Icon */}

@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import type { FormStep, StepId } from "@/types/subscribe";
+import type { FormStep, StepId } from "@/types/subscribe.types";
 import { Check, LoaderCircle } from "lucide-react";
 import { memo } from "react";
 

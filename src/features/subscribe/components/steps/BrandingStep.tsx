@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import type { BrandingFormData } from "@/lib/schemas/subscribe.schema";
-import type { TemplateOption } from "@/types/subscribe";
+import type { TemplateOption } from "@/types/subscribe.types";
 import { UseFormReturn } from "react-hook-form";
 import { FileUpload, TemplateSelector } from "../shared";
 import NavigationButtons from "../shared/NavigationButtons";
