@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/input";
 import type { BrandingFormData } from "@/lib/schemas/subscribe.schema";
 import type { TemplateOption } from "@/types/subscribe.types";
 import { UseFormReturn } from "react-hook-form";
-import { FileUpload, TemplateSelector } from "../shared";
+import { ColorPicker, FileUpload, TemplateSelector } from "../shared";
 import NavigationButtons from "../shared/NavigationButtons";
 
 interface BrandingStepProps {
@@ -117,6 +117,24 @@ export default function BrandingStep({
                   templates={templates}
                   value={field.value || ""}
                   onChange={field.onChange}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* Brand Color */}
+        <FormField
+          control={form.control}
+          name="brandColor"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <ColorPicker
+                  value={field.value}
+                  onChange={field.onChange}
+                  label="اللون الأساسي"
                 />
               </FormControl>
               <FormMessage />

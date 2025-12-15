@@ -100,6 +100,7 @@ export const brandingSchema = z
       .min(3, "اسم الموقع يجب أن يكون 3 أحرف على الأقل")
       .max(50, "اسم الموقع يجب أن يكون أقل من 50 حرف"),
 
+    brandColor: z.string().min(1, "يجب اختيار لون الموقع"),
     selectedTemplate: z.string().min(1, "يجب اختيار قالب للموقع"),
     logoFile: z.any().optional().nullable(),
     faviconFile: z.any().optional().nullable(),

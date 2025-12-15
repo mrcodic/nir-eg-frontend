@@ -1,3 +1,4 @@
+export { default as ColorPicker } from "./ColorPicker";
 export { default as FileUpload } from "./FileUpload";
 export { default as FormSidebar } from "./FormSidebar";
 export { default as FormStepper } from "./FormStepper";

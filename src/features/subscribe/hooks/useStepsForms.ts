@@ -1,3 +1,4 @@
+import { PREDEFINED_COLORS } from "@/constants/template";
 import {
   AccountInfoFormData,
   accountInfoSchema,
@@ -68,6 +69,7 @@ function useStepsForms({ period }: Props) {
     defaultValues: {
       domainType: "sub-domain", // or full-domain
       websiteName: "",
+      brandColor: PREDEFINED_COLORS[0], // Default Blue
       selectedTemplate: "",
       logoFile: null,
       faviconFile: null,
