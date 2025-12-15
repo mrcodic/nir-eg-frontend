@@ -4,11 +4,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { BookLinksSettings } from "@/types/books.types";
+import { getCurrentTemplate } from "@/helpers/sass";
+import { cn } from "@/lib/utils";
 import Link from "next/link";
-import WrapperHOC from "./WrapperHOC";
 
 function GuestDropdown() {
+  const template = getCurrentTemplate();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -17,7 +19,12 @@ function GuestDropdown() {
         </button>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent className="realtive p-6 w-screen flex felx-col items-center   flex-col gap-2  bg-background  transition-all">
+      <DropdownMenuContent
+        className={cn("mobile:hidden w-full flex flex-col gap-2 p-2 ", {
+          "w-[calc(100vw-32px)] sm:w-[85vw]  md:w-[calc(80vw-32px)] ms-4 sm:ms-[7.5vw] md:ms-[calc(10vw+16px)] mt-5":
+            template == 3,
+        })}
+      >
         <Link
           href={"/login"}
           className="text-center font-bold w-full mx-auto flex justify-center items-center  bg-[#523412] p-2 border border-[#523412] outline-offset-1 outline-red-500 text-white   rounded-[10px]"
@@ -41,7 +48,7 @@ function GuestDropdown() {
           </Link>
         </div>
 
-        <WrapperHOC queryKey={["settings/books"]}>
+        {/* <WrapperHOC queryKey={["settings/books"]}>
           {({ data }: { data: { data: BookLinksSettings } }) => {
             const booksData = data?.data;
             if (!booksData?.links?.length) return null;
@@ -60,7 +67,7 @@ function GuestDropdown() {
               </div>
             );
           }}
-        </WrapperHOC>
+        </WrapperHOC> */}
       </DropdownMenuContent>
     </DropdownMenu>
   );

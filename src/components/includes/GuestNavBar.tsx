@@ -2,13 +2,10 @@
 
 import { getCurrentTemplate } from "@/helpers/sass";
 import { cn } from "@/lib/utils";
-import NavCartButton from "@/modules/books-store/components/NavCartButton";
-import { BookLinksSettings } from "@/types/books.types";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import GuestDropdown from "./GuestDropdown";
-import WrapperHOC from "./WrapperHOC";
 
 const GuestNavBar = () => {
   const pathname = usePathname();
@@ -55,43 +52,10 @@ const GuestNavBar = () => {
                 <img className="size-8" src="/assets/GradeColor.svg" />
                 <h3>الصفوف الدراسية</h3>
               </Link>
-
-              <WrapperHOC queryKey={["settings/books"]}>
-                {({ data }: { data: { data: BookLinksSettings } }) => {
-                  const booksData = data?.data;
-
-                  if (!booksData?.links?.length) return null;
-
-                  return (
-                    <Link
-                      href="/books"
-                      className={`border  transition-all  mobile:text-base text-sm cursor-pointer hidden md:flex items-center gap-2 rounded-[10px] border-gray-light p-2 justify-center ${
-                        pathname === "/books"
-                          ? "bg-primary-800 text-white"
-                          : "bg-transparent "
-                      }   `}
-                    >
-                      الكتب
-                    </Link>
-                  );
-                }}
-              </WrapperHOC>
             </div>
           </div>
 
           <div className="flex  gap-3">
-            {/* <button className="w-[40px] cursor-pointer relative h-[40px] flex items-center justify-center rounded-mobile bg-white md:hidden">
-                <span className="bg-[#B75050] absolute -top-1 -right-1 inline-block text-center rounded-full text-white w-[12px] h-[12px] text-[10px]">
-                  3
-                </span>
-                <img src="/assets/Notification.svg" />
-              </button> */}
-            <WrapperHOC queryKey={["settings/books"]}>
-              {({ data }: { data: { data: BookLinksSettings } }) => {
-                if (data?.data?.hide_books) return;
-                return <NavCartButton />;
-              }}
-            </WrapperHOC>
             <GuestDropdown />
           </div>
 

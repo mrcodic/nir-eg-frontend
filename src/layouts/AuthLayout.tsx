@@ -42,7 +42,7 @@ const AuthLayout = ({ children, img }) => {
         className={cn(
           "grow min-h-[calc(100%-80px)] mt-20 flex flex-wrap h-full lg:items-start",
           {
-            "mt-28": template == 3,
+            "mt-0": template == 3,
           }
         )}
       >
@@ -55,7 +55,14 @@ const AuthLayout = ({ children, img }) => {
           />
         </div>
 
-        <main className="py-[62px] relative z-10 p-5 lg:w-[52%] lg:mx-auto mx-4 max-lg:w-full -mt-40 lg:mt-0 bg-white!">
+        <main
+          className={cn(
+            "py-[62px] relative z-10 p-5 lg:w-[52%] lg:mx-auto mx-4 max-lg:w-full -mt-40 lg:mt-0 bg-white!",
+            {
+              "lg:mt-32": template == 3,
+            }
+          )}
+        >
           {children}
         </main>
       </div>

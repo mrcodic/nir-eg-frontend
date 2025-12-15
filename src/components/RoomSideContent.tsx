@@ -1,5 +1,6 @@
 "use client";
 
+import { getCurrentTemplate } from "@/helpers/sass";
 import LinkLocked from "@/layouts/LinkLocked";
 import { cn } from "@/lib/utils";
 import { IRoomDetails } from "@/types";
@@ -27,12 +28,16 @@ const RoomSideContent = ({
   className,
 }: RoomSideContentProps) => {
   const { SingleCourse, room } = useParams();
+  const template = getCurrentTemplate();
   const router = useRouter();
 
   return (
     <div
       className={cn(
         "overflow-y-auto max-h-[max(calc(100vh-88px),768px)] w-full border border-gray-light rounded-lg p-4 h-fit sticky top-22",
+        {
+          "top-29": template == 3,
+        },
         className
       )}
     >

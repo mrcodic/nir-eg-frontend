@@ -58,26 +58,6 @@ function MobileDropDown({
               <DropdownMenuItem>{studentOffline.title}</DropdownMenuItem>
             </Link>
           ))}
-
-          {/* <WrapperHOC queryKey={["settings/books"]}>
-            {({ data }: { data: { data: BookLinksSettings } }) => {
-              const booksData = data?.data;
-              if (!booksData?.links?.length) return null;
-
-              return (
-                <Link
-                  href="/books"
-                  className={`border px-3 border-gray-light h-[44px] flex items-center justify-center rounded-[10px] ${
-                    pathName === "/books"
-                      ? "bg-primary text-white"
-                      : "bg-transparent text-[#523412]"
-                  }   `}
-                >
-                  كتب
-                </Link>
-              );
-            }}
-          </WrapperHOC> */}
         </div>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -15,7 +15,6 @@ function SideNavLink({
   const handleClick = (e: React.MouseEvent, hash: string) => {
     e.preventDefault();
 
-    console.log("hash : ", hash);
     const element = document.getElementById(hash.slice(1));
 
     if (element) {
