@@ -11,7 +11,7 @@ import type {
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
 import { toast } from "sonner";
-import useStepsForms from "../hooks/useStepsForms";
+import { useStepsForms } from "../hooks";
 import { FormSidebar, FormStepper } from "./shared";
 import {
   AccountInfoStep,
@@ -147,6 +147,15 @@ export default function SubscribeForm({
   const renderStep = () => {
     switch (currentStep.id) {
       case "account":
+        return (
+          <BrandingStep
+            form={brandingForm}
+            onNext={variant === "demo" ? handleFinalSubmit : handleNext}
+            onPrevious={handlePrevious}
+            isLastStep={variant === "demo"}
+            isSubmitting={isSubmitting}
+          />
+        );
         return (
           <AccountInfoStep
             form={accountForm}

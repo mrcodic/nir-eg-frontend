@@ -1,5 +1,9 @@
 import { SubscribeForm } from "@/features/subscribe/components";
-import type { FormVariant, PaidTier } from "@/types/subscribe.types";
+import type {
+  FormVariant,
+  PaidTier,
+  PaymentPeriod,
+} from "@/types/subscribe.types";
 
 interface SubscribePageProps {
   searchParams: Promise<{
@@ -20,7 +24,8 @@ async function SubscribePage({ searchParams }: SubscribePageProps) {
     ? (params.tier as PaidTier)
     : "pro";
 
-  const period = params?.period === "monthly" ? "monthly" : "yearly";
+  const period: PaymentPeriod =
+    params?.period === "monthly" ? "monthly" : "yearly";
 
   return <SubscribeForm variant={variant} tier={tier} period={period} />;
 }

@@ -101,7 +101,11 @@ export default function AccountInfoStep({
             label={
               <p>
                 أوافق على{" "}
-                <Link className="text-primary-800 underline" href="/terms">
+                <Link
+                  className="text-primary-800 underline"
+                  href="/terms"
+                  target="_blank"
+                >
                   شروط الخدمة
                 </Link>
               </p>
@@ -114,7 +118,11 @@ export default function AccountInfoStep({
             label={
               <p>
                 أوافق على{" "}
-                <Link className="text-primary-800 underline" href="/policy">
+                <Link
+                  className="text-primary-800 underline"
+                  href="/policy"
+                  target="_blank"
+                >
                   سياسة الخصوصية
                 </Link>
               </p>

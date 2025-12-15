@@ -65,6 +65,8 @@ export default function BrandingStep({
   const websiteName = form.watch("websiteName");
   const domainType = form.watch("domainType");
 
+  console.log("form render");
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onNext)} className="space-y-6">
