@@ -46,7 +46,7 @@ const AuthLayout = ({ children, img }) => {
           }
         )}
       >
-        <div className="flex justify-center lg:w-[38%] bg-dark-radial max-lg:w-full max-lg:h-[400px] lg:self-stretch items-center relative">
+        <div className="flex justify-center lg:w-[38%] bg-primary-radial max-lg:w-full max-lg:h-[400px] lg:self-stretch items-center relative">
           <Image
             className="w-full  object-cover  lg:object-bottom relative z-10"
             src="/assets/bg/design.png"

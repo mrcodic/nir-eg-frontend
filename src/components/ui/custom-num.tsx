@@ -12,7 +12,7 @@ function CustomNum({
   return (
     <div
       className={cn(
-        "md:size-10 size-8 aspect-square relative flex items-center justify-center bg-dark-radial rounded-lg",
+        "md:size-10 size-8 aspect-square relative flex items-center justify-center bg-primary-radial rounded-lg",
         className
       )}
     >

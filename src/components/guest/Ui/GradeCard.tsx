@@ -19,7 +19,7 @@ const GradeCard = ({ grade }) => {
 
       <motion.div
         variants={{ isHovered: { height: "100%" } }}
-        className={`bg-dark-gradient transition-all  mt-auto flex-col gap-6 w-full flex z-10  justify-between p-4  rounded-t-lg backdrop-blur-xs`}
+        className={`bg-gradient-primary-overlay-soft transition-all  mt-auto flex-col gap-6 w-full flex z-10  justify-between p-4  rounded-t-lg backdrop-blur-xs`}
       >
         <motion.h2
           initial={{ opacity: 1 }}

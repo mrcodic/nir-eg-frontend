@@ -3,3 +3,9 @@ export const getCurrentTemplate = () => {
 
   return template;
 };
+
+export const getCurrentTemplateColor = () => {
+  const color = process.env.NEXT_PUBLIC_TEMPLATE_COLOR || "#012d5a";
+
+  return color;
+};

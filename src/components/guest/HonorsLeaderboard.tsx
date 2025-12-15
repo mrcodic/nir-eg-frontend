@@ -86,7 +86,7 @@ const StudentCard = ({
         />
       </CardContent>
 
-      <div className="absolute lg:-top-8 lg:-left-8 -left-6 -top-6 lg:size-16 size-12 rounded-full border border-secondary bg-dark-radial flex items-center justify-center">
+      <div className="absolute lg:-top-8 lg:-left-8 -left-6 -top-6 lg:size-16 size-12 rounded-full border border-secondary bg-primary-radial flex items-center justify-center">
         <span className="font-bold text-2xl lg:text-4xl text-white ">
           {rank}
         </span>

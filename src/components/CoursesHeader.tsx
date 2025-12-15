@@ -43,7 +43,7 @@ const CoursesHeader = ({ details }: { details: ICourseDetails }) => {
 
   return (
     <div
-      className={cn(`relative  bg-dark-radial mt-20`, {
+      className={cn(`relative  bg-primary-radial mt-20`, {
         "mt-0 pt-28": template == 3,
       })}
     >

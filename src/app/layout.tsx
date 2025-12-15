@@ -19,7 +19,7 @@ export const metadata = {
   title: "NIR",
   description:
     "أكتر من مجرد منهج. !انضم الآن وطور مهاراتك اللغوية مع مس مي ماجدي طاحون.",
-  metadataBase: new URL("https://more-english.net"), // Base URL for relative links
+  metadataBase: new URL("https://more-english.net"),
   icons: {
     icon: "/logo.ico",
     apple: "https://admin.more-english.net/img/hero1.png",
@@ -50,16 +50,29 @@ export const metadata = {
   },
   robots: "index, follow",
 };
-// const { token } = useContext(AuthContext);
 
 export default function Layout({ children }) {
+  const primary = process.env.NEXT_PUBLIC_TEMPLATE_COLOR; // server-side
+
+  console.log("primary", primary);
+
+  const cssVars =
+    primary && primary.split(" ").length === 3
+      ? ({
+          "--primary-h": primary.split(" ")[0],
+          "--primary-s": primary.split(" ")[1],
+          "--primary-l": primary.split(" ")[2],
+        } as React.CSSProperties)
+      : undefined;
+
   return (
-    <html lang="ar" className="">
+    <html lang="ar" style={cssVars}>
       <body
         className={`${almarai.className} flex flex-col antialiased`}
         suppressHydrationWarning
       >
         <NavTopbar />
+
         <Providers>
           <NavbarWrapper />
 
@@ -68,13 +81,8 @@ export default function Layout({ children }) {
           </main>
 
           <Footer />
-
           <UserModalsWrapper />
-
-          {/* <WhatsappFloating /> */}
-
           <Toaster />
-          {/* <Announcement /> */}
         </Providers>
       </body>
     </html>

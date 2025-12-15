@@ -28,7 +28,7 @@ function MobileDropDown({
 
       <DropdownMenuContent
         sideOffset={20}
-        className={cn("mobile:hidden w-full ", {
+        className={cn("mobile:hidden w-full mt-2", {
           "w-[calc(100vw-32px)] sm:w-[85vw]  md:w-[calc(80vw-32px)] ms-4 sm:ms-[7.5vw] md:ms-[calc(10vw+16px)]":
             template == 3,
         })}
