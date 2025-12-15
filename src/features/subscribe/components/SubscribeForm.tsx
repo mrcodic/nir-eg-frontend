@@ -228,7 +228,7 @@ export default function SubscribeForm({
           </div>
 
           {/* Form Content */}
-          <div className="max-w-2xl mx-auto w-full ">{renderStep()}</div>
+          <div className="max-w-3xl mx-auto w-full ">{renderStep()}</div>
         </div>
       </main>
     </div>

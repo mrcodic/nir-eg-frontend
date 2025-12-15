@@ -66,7 +66,7 @@ function useStepsForms({ period }: Props) {
   const brandingForm = useForm<BrandingFormData>({
     resolver: zodResolver(brandingSchema),
     defaultValues: {
-      domainType: "sub-domain",
+      domainType: "sub-domain", // or full-domain
       websiteName: "",
       selectedTemplate: "",
       logoFile: null,
