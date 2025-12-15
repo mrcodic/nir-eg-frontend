@@ -47,7 +47,7 @@ export default function TemplateSelector({
         اختر قالب الموقع
       </label>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-[minmax(100px,400px)] max-sm:justify-center sm:grid-cols-3 gap-4">
         {templates.map((template, index) => {
           const isSelected = value === template.id;
 

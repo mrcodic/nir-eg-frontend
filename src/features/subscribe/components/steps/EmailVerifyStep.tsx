@@ -74,6 +74,7 @@ export default function EmailVerifyStep({
 
   const verifyOtp = useCallback(async (otp: string) => {
     console.log("Verifying OTP:", otp);
+    await new Promise((resolve) => setTimeout(resolve, 2000));
     // await verifyOtpAction({ email, otp });
   }, []);
 
