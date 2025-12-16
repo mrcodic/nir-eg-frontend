@@ -1,9 +1,5 @@
 import { SubscribeForm } from "@/features/subscribe/components";
-import type {
-  FormVariant,
-  PaidTier,
-  PaymentPeriod,
-} from "@/types/subscribe.types";
+import type { FormVariant, PaymentPeriod } from "@/types/subscribe.types";
 
 interface SubscribePageProps {
   searchParams: Promise<{
@@ -12,8 +8,6 @@ interface SubscribePageProps {
     period?: string;
   }>;
 }
-
-const validTiers: PaidTier[] = ["basic", "pro", "enterprise"];
 
 async function SubscribePage({ searchParams }: SubscribePageProps) {
   const params = await searchParams;

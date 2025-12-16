@@ -8,13 +8,14 @@ import {
   IPricingPlan,
   PricingPlansApiResponse,
 } from "@/types/pricing-api.types";
-import type { FormVariant } from "@/types/subscribe.types";
+import type { FormVariant, PaymentPeriod } from "@/types/subscribe.types";
 import { useQuery } from "@tanstack/react-query";
 import { memo } from "react";
 
 interface FormSidebarProps {
   variant: FormVariant;
   planId?: string;
+  period?: PaymentPeriod;
 }
 
 const demoFeatures = [
@@ -27,7 +28,7 @@ const demoFeatures = [
   "هذا النص هو مثال لنص",
 ];
 
-function FormSidebar({ variant, planId }: FormSidebarProps) {
+function FormSidebar({ variant, planId, period }: FormSidebarProps) {
   const isDemo = variant === "demo";
 
   const { data, isLoading } = useQuery({
@@ -53,12 +54,7 @@ function FormSidebar({ variant, planId }: FormSidebarProps) {
     );
 
   return (
-    <PricingPlanCard
-      plan={plan!}
-      type={isDemo ? "yearly" : "monthly"}
-      isDemo={isDemo}
-      isOverview
-    />
+    <PricingPlanCard plan={plan!} type={period} isDemo={isDemo} isOverview />
   );
 }
 

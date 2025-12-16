@@ -12,6 +12,7 @@ import {
 } from "@/types/pricing-api.types";
 import type { PaidTier } from "@/types/subscribe.types";
 import { useQuery } from "@tanstack/react-query";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { UseFormReturn } from "react-hook-form";
 import NavigationButtons from "../shared/NavigationButtons";
 
@@ -52,8 +53,9 @@ export default function PaymentStep({
   isSubmitting = false,
 }: PaymentStepProps) {
   const paymentPeriod = form.watch("paymentPeriod");
-
-  console.log(planId);
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
 
   const { data, isLoading } = useQuery({
     queryKey: [`/plans/${planId}`],
@@ -84,6 +86,13 @@ export default function PaymentStep({
           name="paymentPeriod"
           label="طريقة الدفع"
           options={paymentPeriodOptions}
+          onChangeExtra={(value) => {
+            const params = new URLSearchParams(searchParams.toString());
+            params.set("period", value);
+            router.replace(`${pathname}?${params.toString()}`, {
+              scroll: false,
+            });
+          }}
         />
 
         {/* Total Amount Display */}

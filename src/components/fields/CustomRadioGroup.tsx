@@ -21,6 +21,7 @@ interface CustomRadioGroupProps<T extends FieldValues>
   extends Omit<CustomFieldProps<T>, "placeholder"> {
   options: RadioOption[];
   direction?: "horizontal" | "vertical";
+  onChangeExtra?: (value: string) => void;
 }
 
 function CustomRadioGroup<T extends FieldValues>({
@@ -29,6 +30,7 @@ function CustomRadioGroup<T extends FieldValues>({
   label,
   options,
   direction = "horizontal",
+  onChangeExtra,
 }: CustomRadioGroupProps<T>) {
   return (
     <FormField
@@ -39,7 +41,10 @@ function CustomRadioGroup<T extends FieldValues>({
           <FormLabel>{label}</FormLabel>
           <FormControl>
             <RadioGroup
-              onValueChange={field.onChange}
+              onValueChange={(value) => {
+                field.onChange(value);
+                onChangeExtra?.(value);
+              }}
               value={field.value}
               className={
                 direction === "horizontal"

@@ -15,7 +15,7 @@ const FEATURE_LIMIT = 7;
 
 interface PricingPlanCardProps {
   plan: IPricingPlan;
-  type: PaymentPeriod;
+  type?: PaymentPeriod;
   isThreePlans?: boolean;
   isOverview?: boolean;
   isDemo?: boolean;
@@ -48,7 +48,7 @@ export default function PricingPlanCard({
       className={cn(
         isOverview
           ? ` hidden relative overflow-hidden lg:flex flex-col h-fit justify-center items-center
-        w-[min(360px,25vw)] p-4 text-white
+        w-[min(360px,25vw)] p-4 border-none
         ${isDemo ? "bg-blue-gradient" : "bg-dark-radial"}
         rounded-lg`
           : "relative flex-1 rounded-lg h-fit overflow-hidden backdrop-blur transition-transform duration-200 border-none shadow-none max-lg:w-full max-w-lg max-lg:mx-auto lg:min-w-[280px] p-4 min-h-[554px]",
@@ -63,7 +63,7 @@ export default function PricingPlanCard({
     >
       {/* Featured Badge */}
       {isFeatured && (
-        <div className="pointer-events-none absolute -left-14 top-5 -rotate-45 bg-secondary px-12 py-1 font-semibold tracking-wide text-white shadow-md">
+        <div className="pointer-events-none absolute -left-13.5 top-5 -rotate-45 bg-secondary px-12 py-1.5 font-semibold tracking-wide text-white shadow-md text-base">
           الأكثر شيوعًا
         </div>
       )}

@@ -199,7 +199,7 @@ export default function SubscribeForm({
     <div className="flex flex-row-reverse wrapper my-16 md:my-22 gap-10">
       {/* Sidebar - Fixed on desktop */}
       <aside className="hidden lg:block">
-        <FormSidebar variant={variant} planId={planId} />
+        <FormSidebar variant={variant} planId={planId} period={period} />
       </aside>
 
       {/* Main Content - Scrollable */}
