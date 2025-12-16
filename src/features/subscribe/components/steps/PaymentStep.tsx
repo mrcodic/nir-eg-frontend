@@ -10,7 +10,6 @@ import {
   IPricingPlan,
   PricingPlansApiResponse,
 } from "@/types/pricing-api.types";
-import type { PaidTier } from "@/types/subscribe.types";
 import { useQuery } from "@tanstack/react-query";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { UseFormReturn } from "react-hook-form";
@@ -23,13 +22,6 @@ interface PaymentStepProps {
   onPrevious: () => void;
   isSubmitting?: boolean;
 }
-
-// Tier pricing
-const tierPricing: Record<PaidTier, { monthly: number; yearly: number }> = {
-  basic: { monthly: 500, yearly: 5000 },
-  pro: { monthly: 1500, yearly: 15000 },
-  enterprise: { monthly: 5000, yearly: 50000 },
-};
 
 const paymentPeriodOptions = [
   { value: "yearly", label: "سنوي" },

@@ -69,7 +69,7 @@ function useStepsForms({ period }: Props) {
     defaultValues: {
       domainType: "sub-domain", // or full-domain
       websiteName: "",
-      brandColor: PREDEFINED_COLORS[0], // Default Blue "206 58% 43%"
+      brandColor: PREDEFINED_COLORS[0], // Default Blue
       selectedTemplate: "",
       logoFile: null,
       faviconFile: null,

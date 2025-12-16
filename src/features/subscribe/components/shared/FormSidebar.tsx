@@ -18,16 +18,6 @@ interface FormSidebarProps {
   period?: PaymentPeriod;
 }
 
-const demoFeatures = [
-  "هذا النص هو مثال لنص",
-  "هذا النص هو مثال لنص",
-  "هذا النص هو مثال لنص",
-  "هذا النص هو مثال لنص",
-  "هذا النص هو مثال لنص",
-  "هذا النص هو مثال لنص",
-  "هذا النص هو مثال لنص",
-];
-
 function FormSidebar({ variant, planId, period }: FormSidebarProps) {
   const isDemo = variant === "demo";
 
