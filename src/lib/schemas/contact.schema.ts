@@ -15,8 +15,8 @@ export const contactSchema = z.object({
       message: "رقم الهاتف غير صالح",
     }),
 
-  institution: z.string().optional(),
-  message: z.string().optional(),
+  institution: z.string().min(1, "المؤسسة / الجهة مطلوبة"),
+  message: z.string().min(1, "الرسالة مطلوبة"),
 });
 
 export type ContactFormValues = z.infer<typeof contactSchema>;

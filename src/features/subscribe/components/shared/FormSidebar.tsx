@@ -29,7 +29,7 @@ function FormSidebar({ variant, planId, period }: FormSidebarProps) {
     enabled: !!planId || isDemo,
   });
 
-  const plan = isDemo ? data?.data?.[0] : data?.data;
+  const plan = isDemo ? (data?.data as [IPricingPlan])?.[0] : data?.data;
 
   if (isLoading)
     return <Skeleton className="w-[min(360px,25vw)] h-full max-h-[768px]" />;
@@ -44,7 +44,12 @@ function FormSidebar({ variant, planId, period }: FormSidebarProps) {
     );
 
   return (
-    <PricingPlanCard plan={plan!} type={period} isDemo={isDemo} isOverview />
+    <PricingPlanCard
+      plan={plan as IPricingPlan}
+      type={period}
+      isDemo={isDemo}
+      isOverview
+    />
   );
 }
 

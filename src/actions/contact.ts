@@ -2,22 +2,57 @@
 
 import { ContactFormValues, contactSchema } from "@/lib/schemas/contact.schema";
 
-export default async function submitContact(formData: FormData) {
-  "use server";
+const URL = process.env.NEXT_PUBLIC_BASE_URL;
 
+export default async function submitContact(formData: FormData) {
   const entries = Object.fromEntries(formData);
   const result = contactSchema.safeParse(entries);
 
   if (!result.success) {
-    throw new Error("Validation failed on server");
+    return { ok: false, message: "Validation failed on server" };
   }
 
-  const payload: ContactFormValues = result.data;
+  try {
+    const payload: ContactFormValues = result.data;
 
-  // TODO: persist to DB / send email / enqueue job
-  // Example (server-side logging)
-  console.log("New contact submission:", payload);
+    const res = await fetch(`${URL}/message`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
 
-  // Optionally: return a small success payload to the client
-  return { ok: true, message: "تم إرسال النموذج بنجاح" };
+    if (!res.ok) {
+      const error = await res.json();
+      return {
+        ok: false,
+        message: error?.message || "حدث خطاء اثناء ارسال النموذج",
+        errors: error?.errors || [],
+      };
+    }
+
+    // Optionally: return a small success payload to the client
+    return { ok: true, message: "تم إرسال النموذج بنجاح" };
+  } catch (error) {
+    console.error("Error submitting contact form:", error);
+    return {
+      ok: false,
+      message: error?.message || "حدث خطاء اثناء ارسال النموذج",
+      errors: error?.errors || [],
+    };
+  }
 }
+
+// {
+//     "message": "The name field is required. (and 1 more error)",
+//     "errors": {
+//         "name": [
+//             "The name field is required."
+//         ],
+//         "email": [
+//             "The email field is required."
+//         ]
+//     }
+// }

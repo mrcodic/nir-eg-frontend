@@ -60,6 +60,8 @@ export default function ContactUsForm() {
 
       const res = await submitContact(fd);
 
+      console.log("submitContact response ", res);
+
       if (res && (res as any).ok) {
         setServerMessage((res as any).message ?? "تم الإرسال");
         form.reset();
