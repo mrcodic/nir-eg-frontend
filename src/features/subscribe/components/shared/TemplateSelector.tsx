@@ -5,29 +5,9 @@ import type { TemplateOption } from "@/types/subscribe.types";
 import { Monitor } from "lucide-react";
 
 interface TemplateSelectorProps {
-  templates?: TemplateOption[];
   value: string;
   onChange: (value: string) => void;
 }
-
-// Default templates with placeholder backgrounds
-const defaultTemplates: TemplateOption[] = [
-  {
-    id: "template-1",
-    name: "temp 1",
-    previewImage: "/images/templates/template-1.png",
-  },
-  {
-    id: "template-2",
-    name: "temp 2",
-    previewImage: "/images/templates/template-2.png",
-  },
-  {
-    id: "template-3",
-    name: "temp 3",
-    previewImage: "/images/templates/template-3.png",
-  },
-];
 
 // Fallback colors for templates without images
 const templateColors = [
@@ -36,8 +16,26 @@ const templateColors = [
   "from-teal-400 to-teal-600",
 ];
 
+// Default templates - These would come from API in production
+const templates: TemplateOption[] = [
+  {
+    id: "template-1",
+    name: "عربي",
+    previewImage: "/images/templates/template-1.png",
+  },
+  {
+    id: "template-2",
+    name: "عربي",
+    previewImage: "/images/templates/template-2.png",
+  },
+  {
+    id: "template-3",
+    name: "عربي",
+    previewImage: "/images/templates/template-3.png",
+  },
+];
+
 export default function TemplateSelector({
-  templates = defaultTemplates,
   value,
   onChange,
 }: TemplateSelectorProps) {

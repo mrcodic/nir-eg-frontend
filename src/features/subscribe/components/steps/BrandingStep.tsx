@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import type { BrandingFormData } from "@/lib/schemas/subscribe.schema";
-import type { TemplateOption } from "@/types/subscribe.types";
 import { UseFormReturn } from "react-hook-form";
 import { ColorPicker, FileUpload, TemplateSelector } from "../shared";
 import NavigationButtons from "../shared/NavigationButtons";
@@ -23,25 +22,6 @@ interface BrandingStepProps {
   isLastStep?: boolean;
   isSubmitting?: boolean;
 }
-
-// Default templates - These would come from API in production
-const templates: TemplateOption[] = [
-  {
-    id: "template-1",
-    name: "عربي",
-    previewImage: "/images/templates/template-1.png",
-  },
-  {
-    id: "template-2",
-    name: "عربي",
-    previewImage: "/images/templates/template-2.png",
-  },
-  {
-    id: "template-3",
-    name: "عربي",
-    previewImage: "/images/templates/template-3.png",
-  },
-];
 
 // File upload configs
 const fileUploads = [
@@ -64,8 +44,6 @@ export default function BrandingStep({
 }: BrandingStepProps) {
   const websiteName = form.watch("websiteName");
   const domainType = form.watch("domainType");
-
-  console.log("form render");
 
   return (
     <Form {...form}>
@@ -116,7 +94,6 @@ export default function BrandingStep({
             <FormItem>
               <FormControl>
                 <TemplateSelector
-                  templates={templates}
                   value={field.value || ""}
                   onChange={field.onChange}
                 />

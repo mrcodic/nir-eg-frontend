@@ -3,7 +3,7 @@
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import debounce from "lodash/debounce";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useEffectEvent, useMemo, useRef, useState } from "react";
 import { HexColorPicker } from "react-colorful";
 
 interface ColorPickerProps {
@@ -90,16 +90,20 @@ export default function ColorPicker({
   }, [debouncedOnChange]);
 
   // Sync external value (form reset, etc.)
+  const handleValueChange = useEffectEvent(() => {
+    const nextHex = hslToHex(value);
+    if (nextHex !== hex) {
+      setHex(nextHex);
+    }
+  });
+
   useEffect(() => {
     if (isInternalChange.current) {
       isInternalChange.current = false;
       return;
     }
 
-    const nextHex = hslToHex(value);
-    if (nextHex !== hex) {
-      setHex(nextHex);
-    }
+    handleValueChange();
   }, [value]); // intentionally exclude `hex`
 
   const handleChange = (newHex: string) => {

@@ -77,6 +77,7 @@ export const getPublicData = reactCache(
     queryKey: [endpoint],
     next,
     cache,
+    authenticated = false,
   }: IGetDataOptions): Promise<T | null> =>
-    fetcherClient({ queryKey: [endpoint], next, cache }, false)
+    fetcherClient({ queryKey: [endpoint], next, cache }, authenticated)
 );

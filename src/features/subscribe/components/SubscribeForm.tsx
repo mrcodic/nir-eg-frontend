@@ -148,15 +148,6 @@ export default function SubscribeForm({
     switch (currentStep.id) {
       case "account":
         return (
-          <BrandingStep
-            form={brandingForm}
-            onNext={variant === "demo" ? handleFinalSubmit : handleNext}
-            onPrevious={handlePrevious}
-            isLastStep={variant === "demo"}
-            isSubmitting={isSubmitting}
-          />
-        );
-        return (
           <AccountInfoStep
             form={accountForm}
             onNext={handleNext}
