@@ -31,8 +31,10 @@ export default function PricingPlans() {
   const pricingPlans = useMemo(() => {
     return pricingPlansResponse?.data?.length == 3
       ? pricingPlansResponse?.data.sort((a, b) => a.price_month - b.price_month)
-      : [];
+      : pricingPlansResponse?.data || [];
   }, [pricingPlansResponse]);
+
+  console.log(pricingPlansResponse, pricingPlans);
 
   if (!pricingPlans.length) return null;
 

@@ -22,14 +22,14 @@ function FormSidebar({ variant, planId, period }: FormSidebarProps) {
   const isDemo = variant === "demo";
 
   const { data, isLoading } = useQuery({
-    queryKey: [`/plans/${planId}`],
+    queryKey: [isDemo ? `/plans?is_demo=true` : `/plans/${planId}`],
     queryFn: getPublicData as () => Promise<
-      PricingPlansApiResponse<IPricingPlan>
+      PricingPlansApiResponse<IPricingPlan | [IPricingPlan]>
     >,
-    enabled: !!planId,
+    enabled: !!planId || isDemo,
   });
 
-  const plan = data?.data;
+  const plan = isDemo ? data?.data?.[0] : data?.data;
 
   if (isLoading)
     return <Skeleton className="w-[min(360px,25vw)] h-full max-h-[768px]" />;

@@ -48,15 +48,16 @@ export default function PricingPlanCard({
       className={cn(
         isOverview
           ? ` hidden relative overflow-hidden lg:flex flex-col h-fit justify-center items-center
-        w-[min(360px,25vw)] p-4 border-none
-        ${isDemo ? "bg-blue-gradient" : "bg-dark-radial"}
-        rounded-lg`
+        w-[min(360px,25vw)] p-4 border-none rounded-lg`
           : "relative flex-1 rounded-lg h-fit overflow-hidden backdrop-blur transition-transform duration-200 border-none shadow-none max-lg:w-full max-w-lg max-lg:mx-auto lg:min-w-[280px] p-4 min-h-[554px]",
-        isFeatured ? "bg-dark-radial" : "bg-background",
         {
           "max-w-md mx-auto": isThreePlans,
           "z-10 lg:scale-105 max-lg:order-first": isFeatured && isThreePlans,
           "lg:scale-95": !isFeatured && isThreePlans,
+          "bg-dark-radial": !isDemo && isFeatured,
+          "bg-background": !isDemo && !isFeatured,
+          "bg-blue-gradient text-white": isDemo && !isFeatured,
+          "bg-dark-radial text-white": isDemo && isFeatured,
         },
         className
       )}
@@ -107,6 +108,7 @@ export default function PricingPlanCard({
           <p
             className={cn("text-lg font-bold text-gray-dark", {
               "text-gray-light": isFeatured,
+              "text-white": isDemo,
             })}
           >
             التجربة المجانية: {plan.free_trial} يوم
@@ -126,7 +128,7 @@ export default function PricingPlanCard({
                 </span>
                 <span
                   className={cn("ml-2 text-sm font-bold", {
-                    "text-white": isFeatured,
+                    "text-white": isFeatured || isDemo,
                   })}
                 >
                   {feature}
@@ -174,7 +176,7 @@ export default function PricingPlanCard({
             <span className="text-3xl text-secondary font-bold">{price}</span>
             <span
               className={cn("text-lg text-gray-dark", {
-                "text-white": isFeatured,
+                "text-white": isFeatured || isDemo,
               })}
             >
               {type === "yearly" ? "جنيه /سنة" : "جنيه /شهر"}

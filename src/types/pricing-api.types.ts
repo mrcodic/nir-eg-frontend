@@ -28,6 +28,7 @@ export interface IPricingPlan {
   features: PlanFeatures;
   created_at: string;
   is_main: boolean;
+  is_demo: boolean;
 }
 
 export interface PricingPlansApiResponse<T> {
