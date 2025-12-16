@@ -3,7 +3,7 @@
 import ExamForm from "@/components/forms/ExamForm";
 import RoomSheet from "@/components/sheets/RoomSheet";
 import { useTaskContext } from "@/context/TaskProvider";
-import { getCurrentTemplate } from "@/helpers/sass";
+import { getCurrentTemplate } from "@/helpers/template.helpers";
 import ProtectedRoute from "@/layouts/ProtectedRoute";
 import { cn } from "@/lib/utils";
 import ExamSideInfo from "@/modules/exam/components/ExamSideInfo";

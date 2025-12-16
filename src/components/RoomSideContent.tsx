@@ -1,6 +1,6 @@
 "use client";
 
-import { getCurrentTemplate } from "@/helpers/sass";
+import { getCurrentTemplate } from "@/helpers/template.helpers";
 import LinkLocked from "@/layouts/LinkLocked";
 import { cn } from "@/lib/utils";
 import { IRoomDetails } from "@/types";

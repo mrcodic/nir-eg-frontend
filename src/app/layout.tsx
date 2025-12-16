@@ -6,6 +6,7 @@ import "rsuite/dist/rsuite-no-reset.min.css";
 import Providers from "./providers";
 
 import UserModalsWrapper from "@/components/UserModalsWrapper";
+import { hexToHsl } from "@/helpers/template.helpers";
 import { Almarai } from "next/font/google";
 import "./globals.css";
 
@@ -52,16 +53,18 @@ export const metadata = {
 };
 
 export default function Layout({ children }) {
-  const primary = process.env.NEXT_PUBLIC_TEMPLATE_COLOR; // server-side
+  const primary = process.env.NEXT_PUBLIC_TEMPLATE_COLOR;
 
   console.log("primary", primary);
 
+  const hslFromHex = hexToHsl(primary);
+
   const cssVars =
-    primary && primary.split(" ").length === 3
+    hslFromHex && hslFromHex.split(" ").length === 3
       ? ({
-          "--primary-h": primary.split(" ")[0],
-          "--primary-s": primary.split(" ")[1],
-          "--primary-l": primary.split(" ")[2],
+          "--primary-h": hslFromHex.split(" ")[0],
+          "--primary-s": hslFromHex.split(" ")[1],
+          "--primary-l": hslFromHex.split(" ")[2],
         } as React.CSSProperties)
       : undefined;
 

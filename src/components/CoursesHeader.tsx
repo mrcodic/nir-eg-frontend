@@ -1,7 +1,7 @@
 "use client";
 
 import { getClientPrivateData } from "@/helpers/client-fetch";
-import { getCurrentTemplate } from "@/helpers/sass";
+import { getCurrentTemplate } from "@/helpers/template.helpers";
 import { cn } from "@/lib/utils";
 import { ICourseDetails, IUser } from "@/types";
 import { useQuery } from "@tanstack/react-query";

@@ -1,10 +1,12 @@
 "use client";
 
 import NextTopLoader from "nextjs-toploader";
+
 const MyComponent = () => {
+  const primary = process.env.NEXT_PUBLIC_TEMPLATE_COLOR;
   return (
     <NextTopLoader
-      color="#2E77AE"
+      color={primary || "#2E77AE"}
       initialPosition={0.08}
       crawlSpeed={200}
       height={4}

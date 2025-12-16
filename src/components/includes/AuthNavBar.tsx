@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { useAuthContext } from "@/context/auth-context";
 
-import { getCurrentTemplate } from "@/helpers/sass";
+import { getCurrentTemplate } from "@/helpers/template.helpers";
 import { cn } from "@/lib/utils";
 import NavNotifications from "@/modules/norifications/components/NavNotifications";
 import LinkStyled from "./LinkStyled";

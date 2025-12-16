@@ -8,7 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { getCurrentTemplate } from "@/helpers/sass";
+import { getCurrentTemplate } from "@/helpers/template.helpers";
 import { cn } from "@/lib/utils";
 import { MenuIcon } from "lucide-react";
 

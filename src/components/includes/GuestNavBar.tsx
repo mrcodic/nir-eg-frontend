@@ -1,6 +1,6 @@
 "use client";
 
-import { getCurrentTemplate } from "@/helpers/sass";
+import { getCurrentTemplate } from "@/helpers/template.helpers";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";

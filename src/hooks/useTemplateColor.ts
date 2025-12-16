@@ -1,6 +1,6 @@
 "use client";
 
-import { getCurrentTemplateColor } from "@/helpers/sass";
+import { getCurrentTemplateColor } from "@/helpers/template.helpers";
 import { useEffect } from "react";
 
 function useTemplateColor() {

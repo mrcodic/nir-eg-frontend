@@ -1,7 +1,7 @@
 import TemplateOne from "@/components/guest-templates/TemplateOne";
 import TemplateThree from "@/components/guest-templates/TemplateThree";
 import TemplateTwo from "@/components/guest-templates/TemplateTwo";
-import { getCurrentTemplate } from "@/helpers/sass";
+import { getCurrentTemplate } from "@/helpers/template.helpers";
 
 const template = getCurrentTemplate();
 
