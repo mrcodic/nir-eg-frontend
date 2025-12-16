@@ -21,12 +21,18 @@ const Empty = ({
       )}
     >
       <Image
-        src={isError ? "/assets/error.svg" : "/assets/box.svg"}
+        src={isError ? "/error-ilustration.png" : "/assets/box.svg"}
         alt=" "
-        width={120}
-        height={120}
+        width={200}
+        height={100}
+        className="sm:w-[400px] w-[200px] aspect-2 object-contain"
       />
-      <h2 className="text-[24px] text-[#454545]">
+      <h2
+        className={cn(
+          "text-2xl font-bold text-center ",
+          isError && "text-red-500"
+        )}
+      >
         {text || (isError ? "حدث خطأ ما" : "لا يوجد محتوى بعد")}
       </h2>
 

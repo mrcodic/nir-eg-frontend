@@ -1,4 +1,4 @@
-import { ApiPricingPlan, PlanFeatures } from "@/types/pricing-api.types";
+import { IPricingPlan, PlanFeatures } from "@/types/pricing-api.types";
 
 export const FEATURE_LABELS: Record<keyof PlanFeatures, string> = {
   max_classrooms: "فصول دراسية",
@@ -59,7 +59,7 @@ export const getPlanFeaturesList = (features: PlanFeatures): string[] => {
 };
 
 export const isPlanFeatured = (
-  plan: ApiPricingPlan,
+  plan: IPricingPlan,
   index: number,
   totalPlans: number
 ): boolean => {

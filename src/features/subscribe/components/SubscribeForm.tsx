@@ -4,7 +4,6 @@ import StyledText from "@/components/ui/StyledText";
 import type {
   FormStep,
   FormVariant,
-  PaidTier,
   PaymentPeriod,
   StepId,
 } from "@/types/subscribe.types";
@@ -23,7 +22,7 @@ import {
 
 interface SubscribeFormProps {
   variant: FormVariant;
-  tier?: PaidTier;
+  planId?: string;
   period: PaymentPeriod;
 }
 
@@ -45,7 +44,7 @@ const getSteps = (variant: FormVariant): FormStep[] => {
 
 export default function SubscribeForm({
   variant,
-  tier = "pro",
+  planId,
   period,
 }: SubscribeFormProps) {
   const router = useRouter();
@@ -185,7 +184,7 @@ export default function SubscribeForm({
         return (
           <PaymentStep
             form={paymentForm}
-            tier={tier}
+            planId={planId}
             onSubmit={handleFinalSubmit}
             onPrevious={handlePrevious}
             isSubmitting={isSubmitting}
@@ -199,7 +198,9 @@ export default function SubscribeForm({
   return (
     <div className="flex flex-row-reverse wrapper my-16 md:my-22 gap-10">
       {/* Sidebar - Fixed on desktop */}
-      <FormSidebar variant={variant} tier={tier} />
+      <aside className="hidden lg:block">
+        <FormSidebar variant={variant} planId={planId} />
+      </aside>
 
       {/* Main Content - Scrollable */}
       <main className="flex-1 flex flex-col lg:min-h-0 shrink-0">

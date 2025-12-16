@@ -1,15 +1,23 @@
 "use client";
 
+import Empty from "@/components/Empty";
 import { CustomRadioGroup } from "@/components/fields";
 import { Form } from "@/components/ui/form";
+import Spinner from "@/components/ui/Spinner";
+import { getPublicData } from "@/config/client-fetch";
 import type { PaymentFormData } from "@/lib/schemas/subscribe.schema";
+import {
+  IPricingPlan,
+  PricingPlansApiResponse,
+} from "@/types/pricing-api.types";
 import type { PaidTier } from "@/types/subscribe.types";
+import { useQuery } from "@tanstack/react-query";
 import { UseFormReturn } from "react-hook-form";
 import NavigationButtons from "../shared/NavigationButtons";
 
 interface PaymentStepProps {
   form: UseFormReturn<PaymentFormData>;
-  tier?: PaidTier;
+  planId?: string;
   onSubmit: () => void;
   onPrevious: () => void;
   isSubmitting?: boolean;
@@ -38,16 +46,30 @@ const paymentMethods = [
 
 export default function PaymentStep({
   form,
-  tier = "pro",
+  planId,
   onSubmit,
   onPrevious,
   isSubmitting = false,
 }: PaymentStepProps) {
   const paymentPeriod = form.watch("paymentPeriod");
 
-  const pricing = tierPricing[tier];
+  console.log(planId);
+
+  const { data, isLoading } = useQuery({
+    queryKey: [`/plans/${planId}`],
+    queryFn: getPublicData as () => Promise<
+      PricingPlansApiResponse<IPricingPlan>
+    >,
+  });
+
+  const plan = data?.data;
+
+  if (isLoading) return <Spinner />;
+
+  if (!plan) return <Empty text="حدث خطأ اثناء عرض بيانات الدفع" isError />;
+
   const totalAmount =
-    paymentPeriod === "monthly" ? pricing.monthly : pricing.yearly;
+    paymentPeriod === "monthly" ? plan?.price_month : plan?.price_year;
 
   return (
     <Form {...form}>
@@ -69,15 +91,16 @@ export default function PaymentStep({
           <div className="flex justify-between items-center">
             <span className="text-white">إجمالي المبلغ</span>
             <span className="text-2xl font-bold text-white">
-              {totalAmount.toLocaleString("ar-EG")} جنية
+              {totalAmount?.toLocaleString("ar-EG")} جنية
             </span>
           </div>
+
           {paymentPeriod === "yearly" && (
             <p className="text-base text-green-50 font-bold mt-2">
               وفر{" "}
               {(
-                ((pricing.monthly * 12 - pricing.yearly) /
-                  (pricing.monthly * 12)) *
+                ((plan?.price_month * 12 - plan?.price_year) /
+                  (plan?.price_month * 12)) *
                 100
               ).toFixed(0)}
               % مع الدفع السنوي!

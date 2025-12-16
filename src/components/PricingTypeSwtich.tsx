@@ -10,10 +10,8 @@ function PricingTypeSwtich({
   setType: (type: "monthly" | "yearly") => void;
 }) {
   return (
-    <div className="text-center mb-6">
-      <h2 className="text-xl md:text-2xl font-bold ">خطط الأسعار</h2>
-
-      <div className="mt-4 inline-flex items-center gap-2 rounded-full p-1">
+    <div className="text-center mb-6 mt-4">
+      <div className=" inline-flex items-center gap-2 rounded-full p-1">
         <div className="relative">
           <button
             className={cn("text-gray-dark font-bold", {

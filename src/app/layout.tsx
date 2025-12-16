@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Almarai } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
+import Providers from "./Providers";
 
 const almarai = Almarai({
   subsets: ["latin"],
@@ -27,11 +28,14 @@ export default function RootLayout({
         className={`${almarai.variable}  antialiased flex flex-col`}
         suppressHydrationWarning
       >
-        <NavBar />
-        <div className="min-h-[max(calc(100dvh-80px),500px)] mt-20 grow flex flex-col [&>*]:grow">
-          {children}
-        </div>
-        <Footer />
+        <Providers>
+          <NavBar />
+          <div className="min-h-[max(calc(100dvh-80px),500px)] mt-20 grow flex flex-col [&>*]:grow">
+            {children}
+          </div>
+          <Footer />
+        </Providers>
+
         <Toaster />
       </body>
     </html>

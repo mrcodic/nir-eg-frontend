@@ -16,7 +16,7 @@ export interface PlanFeatures {
   certificate_generator: boolean;
 }
 
-export interface ApiPricingPlan {
+export interface IPricingPlan {
   id: number;
   code: string;
   name: string;
@@ -30,9 +30,9 @@ export interface ApiPricingPlan {
   is_main: boolean;
 }
 
-export interface PricingPlansApiResponse {
+export interface PricingPlansApiResponse<T> {
   status_code: number;
   status: boolean;
-  data: ApiPricingPlan[];
+  data: T;
   message: string;
 }

@@ -8,7 +8,7 @@ import type {
 interface SubscribePageProps {
   searchParams: Promise<{
     type?: string;
-    tier?: string;
+    plan_id?: string;
     period?: string;
   }>;
 }
@@ -20,14 +20,12 @@ async function SubscribePage({ searchParams }: SubscribePageProps) {
 
   const variant: FormVariant = params.type === "paid" ? "paid" : "demo";
 
-  const tier: PaidTier = validTiers.includes(params.tier as PaidTier)
-    ? (params.tier as PaidTier)
-    : "pro";
+  const plan_id = variant === "paid" ? params?.plan_id : undefined;
 
   const period: PaymentPeriod =
     params?.period === "monthly" ? "monthly" : "yearly";
 
-  return <SubscribeForm variant={variant} tier={tier} period={period} />;
+  return <SubscribeForm variant={variant} planId={plan_id} period={period} />;
 }
 
 export default SubscribePage;
