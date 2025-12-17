@@ -44,8 +44,8 @@ const personasTop = [
 
 export default function WhoCanUseUs() {
   return (
-    <section dir="rtl" className="wrapper">
-      <div className="max-w-6xl mx-auto px-4 space-y-8">
+    <section dir="rtl">
+      <div className="section  space-y-8">
         <h2 className="text-lg text-center mx-auto md:text-[28px] font-bold max-w-[564px]">
           من يمكنه استخدام{" "}
           <span className="text-primary-800 drop-shadow-text "> نَيِّر </span>؟

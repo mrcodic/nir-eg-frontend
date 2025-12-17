@@ -1,6 +1,5 @@
-// components/sections/TetrFeaturesSection.tsx
-
 import { cn } from "@/lib/utils";
+import { AboutFeatureItem } from "@/types/about.types";
 import Image from "next/image";
 
 const featuresTop = [
@@ -44,10 +43,22 @@ const featuresTop = [
   },
 ];
 
-export default function FeaturesSection() {
+export default function FeaturesSection({
+  features,
+}: {
+  features: AboutFeatureItem[];
+}) {
+  const featuresWithStyles = features
+    .map((feature, index) => ({
+      ...feature,
+      className: featuresTop?.[index].className || "",
+      icon: featuresTop?.[index].icon || "/assets/books&grad.png",
+    }))
+    .filter((feature) => feature.title && feature.description);
+
   return (
-    <section className="wrapper  ">
-      <div className="max-w-6xl mx-auto px-4 space-y-8">
+    <section>
+      <div className="section space-y-8">
         {/* Heading */}
         <h2 className="text-lg md:text-[28px] font-bold max-w-[564px]">
           <span className="text-primary-800 drop-shadow-text "> نَيِّر </span>
@@ -56,7 +67,7 @@ export default function FeaturesSection() {
 
         {/* Top row */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 max-md:justify-items-center">
-          {featuresTop.map((feature) => (
+          {featuresWithStyles.map((feature) => (
             <article
               key={feature.title}
               className={cn(

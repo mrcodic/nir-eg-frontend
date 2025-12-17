@@ -5,7 +5,13 @@ import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import Image from "next/image";
 import { useRef, useState } from "react";
 
-export default function WhatIsNirHero() {
+export default function WhatIsNirHero({
+  description,
+  video_url,
+}: {
+  description: string;
+  video_url: string;
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -18,8 +24,8 @@ export default function WhatIsNirHero() {
   };
 
   return (
-    <section dir="rtl" className="wrapper ">
-      <div className="max-w-6xl mx-auto  flex items-center 2xl:gap-30 gap-16 lg:gap-8 xl:gap-24 max-lg:flex-col">
+    <section dir="rtl">
+      <div className="section flex items-center 2xl:gap-30 gap-16 lg:gap-8 xl:gap-24 max-lg:flex-col">
         {/* Title + description */}
         <div className="space-y-3">
           <h1 className="text-2xl md:text-[40px] font-bold">
@@ -27,14 +33,11 @@ export default function WhatIsNirHero() {
             <span className="text-primary-800 drop-shadow-text "> نَيِّر </span>
             ؟
           </h1>
-          <p className="text-base md:text-xl text-gray-dark ">
-            نير - Nir هو نظام إدارة التعليم يهدف إلى سد احتياجات المؤسسات
-            التعليمية الحديثة
-          </p>
+          <p className="text-base md:text-xl text-gray-dark ">{description}</p>
         </div>
 
         {/* Video thumbnail */}
-        <div className="flex relative  w-full justify-center max-w-[466px] rounded-lg overflow-hidden">
+        <div className="flex relative lg:ms-auto w-full justify-center max-w-[466px] rounded-lg overflow-hidden">
           <Image
             src="/assets/video-thumbnail.png"
             alt="فيديو نَيِّر"
@@ -64,22 +67,21 @@ export default function WhatIsNirHero() {
       {/* Fullscreen Video Modal - Video only loads when modal is open */}
       <Dialog open={isOpen} onOpenChange={handleOpenChange}>
         <DialogContent
-          className="max-w-[95vw] w-full max-h-[95vh] h-auto p-0 bg-black border-none rounded-xl overflow-hidden sm:max-w-[95vw]"
+          className="max-w-[95vw] w-full  aspect-video max-h-[95vh]  p-0 bg-black border-none rounded-xl overflow-hidden sm:max-w-[95vw]"
           showCloseButton={true}
         >
           <VisuallyHidden>
             <DialogTitle>فيديو نَيِّر</DialogTitle>
           </VisuallyHidden>
-          <div className="relative w-full aspect-video">
+          <div className="relative mx-auto  h-full">
             {isOpen && (
               <video
                 ref={videoRef}
-                className="w-full h-full object-contain"
+                className="h-full aspect-video"
                 controls
                 autoPlay
               >
-                <source src="movie.mp4" type="video/mp4" />
-                <source src="movie.ogg" type="video/ogg" />
+                <source src={video_url} type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
             )}
