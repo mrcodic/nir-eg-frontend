@@ -21,6 +21,6 @@ export const footerLinks = [
   },
   {
     name: "سياسة الخصوصية",
-    href: "/policy",
+    href: "/privacy",
   },
 ];

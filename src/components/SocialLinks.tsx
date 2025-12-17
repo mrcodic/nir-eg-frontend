@@ -1,9 +1,10 @@
 import { cn } from "@/lib/utils";
+import { FooterSocials } from "@/types/type";
 import Image from "next/image";
 
-const links = [
+const linksData = [
   {
-    name: "Facebook",
+    name: "facebook",
     href: "#",
     src: "/assets/facebook.svg",
   },
@@ -24,10 +25,27 @@ const links = [
   },
 ];
 
-function SocialLinks({ className }: { className?: string }) {
+function SocialLinks({
+  className,
+  links,
+}: {
+  className?: string;
+  links?: FooterSocials;
+}) {
+  const linksWithHref = linksData
+    ?.map((link) => ({
+      ...link,
+      href: links?.[link.name.toLowerCase() as keyof FooterSocials] || "",
+    }))
+    .filter((link) => link.href !== "");
+
+  if (!linksWithHref?.length) {
+    return null;
+  }
+
   return (
     <div className={cn("flex items-center gap-6 flex-wrap", className)}>
-      {links.map((link) => (
+      {linksWithHref?.map((link) => (
         <a
           href={link.href}
           key={link.name}

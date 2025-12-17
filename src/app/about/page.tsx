@@ -11,7 +11,7 @@ async function page() {
 
   console.log("about us page content : ", data);
 
-  if (!data) {
+  if (!data?.data) {
     throw new Error("About us page content not found");
   }
 

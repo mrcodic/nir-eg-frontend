@@ -36,7 +36,6 @@ export default function ContactUsSection() {
             className="aspect-square max-w-full mx-auto max-lg:hidden"
             width={334}
             height={334}
-            quality={100}
           />
         </div>
       </div>

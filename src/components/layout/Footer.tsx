@@ -1,9 +1,28 @@
+import { getPublicData } from "@/config/client-fetch";
 import { footerLinks } from "@/constants/navlinks";
+import { FooterData } from "@/types/type";
 import Image from "next/image";
 import CustomLink from "../CustomLink";
 import SocialLinks from "../SocialLinks";
 
-function Footer() {
+async function Footer() {
+  let footerData: FooterData | undefined = undefined;
+
+  try {
+    const data: { data: FooterData } | null = await getPublicData({
+      queryKey: ["/settings/contact-us"],
+      next: {
+        revalidate: 60 * 60 * 60 * 24 * 7,
+      },
+    });
+
+    footerData = data?.data;
+  } catch (error) {
+    console.log("footer data error : ", error);
+  }
+
+  console.log("footer data : ", footerData);
+
   return (
     <footer className="bg-background bg-[url('/bg-vector.png')] wrapper py-10">
       <div className="section  flex flex-col gap-6">
@@ -18,7 +37,7 @@ function Footer() {
             </ul>
           </nav>
 
-          <SocialLinks className="ms-auto" />
+          <SocialLinks className="ms-auto" links={footerData?.socials} />
         </div>
 
         <div className="w-full flex justify-between gap-6 items-center flex-wrap">
@@ -27,33 +46,39 @@ function Footer() {
           </p>
 
           <div className="flex items-center gap-6 flex-wrap">
-            <div className="flex items-center gap-4">
-              <Image
-                src="/assets/email.svg"
-                width={20}
-                height={20}
-                alt="email"
-              />
-              <span>info@nir-edu.com</span>
-            </div>
-            <div className="flex items-center gap-4">
-              <Image
-                src="/assets/phone.svg"
-                width={20}
-                height={20}
-                alt="phone"
-              />
-              <span dir="ltr">+966 0596207549</span>
-            </div>
-            <div className="flex items-center gap-4">
-              <Image
-                src="/assets/phone.svg"
-                width={20}
-                height={20}
-                alt="email"
-              />
-              <span dir="ltr">+20 15000 48 141</span>
-            </div>
+            {footerData?.email && (
+              <div className="flex items-center gap-4">
+                <Image
+                  src="/assets/email.svg"
+                  width={20}
+                  height={20}
+                  alt="email"
+                />
+                <span>{footerData?.email}</span>
+              </div>
+            )}
+            {footerData?.phone_sa && (
+              <div className="flex items-center gap-4">
+                <Image
+                  src="/assets/phone.svg"
+                  width={20}
+                  height={20}
+                  alt="phone"
+                />
+                <span dir="ltr">+{footerData?.phone_sa}</span>
+              </div>
+            )}
+            {footerData?.phone && (
+              <div className="flex items-center gap-4">
+                <Image
+                  src="/assets/phone.svg"
+                  width={20}
+                  height={20}
+                  alt="email"
+                />
+                <span dir="ltr">+{footerData?.phone}</span>
+              </div>
+            )}
           </div>
         </div>
       </div>

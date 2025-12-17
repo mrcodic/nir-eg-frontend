@@ -126,7 +126,7 @@ export default function AccountInfoStep({
                 أوافق على{" "}
                 <Link
                   className="text-primary-800 underline"
-                  href="/policy"
+                  href="/privacy"
                   target="_blank"
                 >
                   سياسة الخصوصية
