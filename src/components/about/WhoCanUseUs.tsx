@@ -70,7 +70,7 @@ export default function WhoCanUseUs() {
                       src={persona.image}
                       alt={persona.title}
                       fill
-                      className="object-contain object-bottom max-md:blur-xs max-md:opacity-40 md:group-hover:-translate-x-1/4 max-md:-translate-x-1/4 transition-all md:group-hover:blur-xl md:group-hover:opacity-30"
+                      className="object-contain object-bottom  max-md:opacity-40 md:group-hover:-translate-x-1/4 max-md:-translate-x-1/4 transition-all md:group-hover:blur-xl md:group-hover:opacity-30"
                     />
                   </div>
                 )}
