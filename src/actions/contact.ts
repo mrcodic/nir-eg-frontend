@@ -39,8 +39,8 @@ export default async function submitContact(formData: FormData) {
     console.error("Error submitting contact form:", error);
     return {
       ok: false,
-      message: error?.message || "حدث خطاء اثناء ارسال النموذج",
-      errors: error?.errors || [],
+      message: "حدث خطاء اثناء ارسال النموذج",
+      errors: [],
     };
   }
 }

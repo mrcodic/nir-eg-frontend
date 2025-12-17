@@ -10,6 +10,7 @@ import { PaymentPeriod } from "@/types/subscribe.types";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import Empty from "../Empty";
+import MotionWrapper from "../MotionWrapper";
 import PricingPlanCard from "../PricingPlanCard";
 import PricingTypeSwtich from "../PricingTypeSwtich";
 import { Skeleton } from "../ui/skeleton";
@@ -33,8 +34,6 @@ export default function PricingPlans() {
       ? pricingPlansResponse?.data.sort((a, b) => a.price_month - b.price_month)
       : pricingPlansResponse?.data || [];
   }, [pricingPlansResponse]);
-
-  console.log(pricingPlansResponse, pricingPlans);
 
   if (!pricingPlans.length) return null;
 
@@ -68,13 +67,20 @@ export default function PricingPlans() {
           <>
             <PricingTypeSwtich type={type} setType={setType} />
 
-            <div
+            <MotionWrapper
               className={cn(
                 "flex flex-col items-stretch xl:gap-6 lg:gap-4 gap-6 lg:flex-row lg:justify-center",
                 {
                   "lg:items-center": isThreePlans,
                 }
               )}
+              viewport={{ amount: 0.3, once: true }}
+              whileInView={{
+                opacity: 1,
+                y: 0,
+                transition: { duration: 0.5 },
+              }}
+              initial={{ opacity: 0, y: 20 }}
             >
               {pricingPlans.map((plan) => (
                 <PricingPlanCard
@@ -84,7 +90,7 @@ export default function PricingPlans() {
                   isThreePlans={isThreePlans}
                 />
               ))}
-            </div>
+            </MotionWrapper>
           </>
         )}
       </div>

@@ -12,7 +12,7 @@ export const removeCookies = (key: string | string[]) => {
 };
 
 export function errorHandler(obj: any) {
-  if (!obj) return " حدث خطاء ما";
+  if (!obj) return null;
 
   const keys = Object?.keys(obj);
   let text = "";

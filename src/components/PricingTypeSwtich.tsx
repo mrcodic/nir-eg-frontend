@@ -34,9 +34,9 @@ function PricingTypeSwtich({
             setType(isChecked ? "yearly" : "monthly");
           }}
           checked={type === "yearly"}
-          className="data-[state=checked]:bg-gray-light data-[state=unchecked]:bg-gray-light"
-          thumbClassName="bg-primary-800 flex items-center justify-center border border-gray-light shrink-0"
-          thumbIcon={<Check className="size-3 stroke-white" />}
+          className="data-[state=checked]:bg-gray-light data-[state=unchecked]:bg-gray-light w-11 cursor-pointer h-6"
+          thumbClassName="bg-primary-800 flex items-center justify-center border border-gray-light shrink-0 size-5.5 "
+          thumbIcon={<Check className="size-4! stroke-white" />}
         />
 
         <div className="relative">

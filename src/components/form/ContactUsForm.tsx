@@ -24,13 +24,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { errorHandler } from "@/config/func.client";
+import { cn } from "@/lib/utils";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import CustomInput from "../fields/CustomInput";
 import CustomTextarea from "../fields/CustomTextarea";
 
 export default function ContactUsForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [serverMessage, setServerMessage] = useState<string | null>(null);
+  const [serverMessage, setServerMessage] = useState<{
+    message: string;
+    success: boolean;
+  } | null>(null);
 
   const form = useForm<ContactFormValues>({
     mode: "onChange",
@@ -62,15 +68,20 @@ export default function ContactUsForm() {
 
       console.log("submitContact response ", res);
 
-      if (res && (res as any).ok) {
-        setServerMessage((res as any).message ?? "تم الإرسال");
+      if (res && res?.ok) {
+        setServerMessage({
+          message: res?.message ?? "تم الإرسال",
+          success: true,
+        });
         form.reset();
       } else {
-        setServerMessage("حصل خطأ أثناء الإرسال");
+        setServerMessage({ message: "حصل خطأ أثناء الإرسال", success: false });
+        toast.error(errorHandler(res?.errors || "حصل خطأ أثناء الإرسال"));
       }
     } catch (err: any) {
       console.error(err);
-      setServerMessage(err?.message ?? "حصل خطأ");
+      toast.error(errorHandler(err?.message || "حصل خطأ أثناء الإرسال"));
+      setServerMessage({ message: err?.message ?? "حصل خطأ", success: false });
     } finally {
       setIsSubmitting(false);
     }
@@ -137,8 +148,14 @@ export default function ContactUsForm() {
         </div>
 
         {serverMessage && (
-          <p aria-live="polite" className="text-sm text-right text-slate-700">
-            {serverMessage}
+          <p
+            aria-live="polite"
+            className={cn("text-sm text-right font-bold", {
+              "text-red-500": !serverMessage.success,
+              "text-green-500": serverMessage.success,
+            })}
+          >
+            {serverMessage.message}
           </p>
         )}
       </form>
