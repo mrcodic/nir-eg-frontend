@@ -5,7 +5,11 @@ import { z } from "zod";
 // ==========================================
 export const accountInfoSchema = z
   .object({
-    fullName: z
+    first_name: z
+      .string()
+      .min(3, "الاسم يجب أن يكون 3 أحرف على الأقل")
+      .max(100, "الاسم يجب أن يكون أقل من 100 حرف"),
+    last_name: z
       .string()
       .min(3, "الاسم يجب أن يكون 3 أحرف على الأقل")
       .max(100, "الاسم يجب أن يكون أقل من 100 حرف"),
@@ -25,7 +29,7 @@ export const accountInfoSchema = z
         "كلمة المرور يجب أن تحتوي على حرف كبير وصغير ورقم"
       ),
     confirmPassword: z.string().min(1, "تأكيد كلمة المرور مطلوب"),
-    language: z.string().min(1, "اللغة مطلوبة"),
+    // language: z.string().min(1, "اللغة مطلوبة"),
     timezone: z.string().min(1, "المنطقة الزمنية مطلوبة"),
     acceptTerms: z.boolean().refine((val) => val === true, {
       message: "يجب الموافقة على الشروط والأحكام",

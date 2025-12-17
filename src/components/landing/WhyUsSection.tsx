@@ -1,28 +1,8 @@
 import { cn } from "@/lib/utils";
+import { WhyChooseSection } from "@/types/landing.types";
 import { Variants } from "motion";
 import Image from "next/image";
 import MotionWrapper from "../MotionWrapper";
-
-const ourAdvantages = [
-  {
-    icon: "/assets/dashboard-fill.svg",
-    title: "لوحة تحكم كاملة",
-    description: "لمتابعة أداء الطلاب و إدارة الفصول",
-    imgClassName: "bg-primary-800",
-  },
-  {
-    icon: "/assets/stars-fill.svg",
-    title: "نظام نقاط و مكافآت",
-    description: "إضافة الحصص و الدروس بسهولة",
-    imgClassName: "bg-secondary",
-  },
-  {
-    icon: "/assets/time-fill.svg",
-    title: "تقارير دورية و تنبيهات فورية",
-    description: "تنبيهات للمدرسين، الطلاب و أولياء الأمور",
-    imgClassName: "bg-accent-800",
-  },
-];
 
 const itemVariants = {
   initial: {},
@@ -60,12 +40,12 @@ const textVariants = {
   },
 } satisfies Variants;
 
-function WhyUsSection() {
+function WhyUsSection({ data }: { data: WhyChooseSection }) {
   return (
     <section className="wrapper w-full relative text-center  space-y-6">
       <h2 className="text-32 font-bold ">
         لماذا تختار{" "}
-        <span className="text-primary-800 drop-shadow-text    ">نَيِّر</span>?
+        <span className="text-primary-800 drop-shadow-text">نَيِّر</span>?
       </h2>
 
       <MotionWrapper
@@ -73,7 +53,7 @@ function WhyUsSection() {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
       >
-        {ourAdvantages.map((advantage) => (
+        {data?.items.map((advantage) => (
           <MotionWrapper
             key={advantage.title}
             className="flex items-center gap-4 cursor-pointer"
@@ -84,17 +64,11 @@ function WhyUsSection() {
             {/* Icon */}
             <MotionWrapper
               className={cn(
-                advantage.imgClassName,
-                "size-16 rounded-lg p-4 flex items-center justify-center"
+                "size-16 relative rounded-lg flex items-center justify-center"
               )}
               variants={iconVariants}
             >
-              <Image
-                src={advantage.icon}
-                alt={advantage.title}
-                width={32}
-                height={32}
-              />
+              <Image src={advantage.icon_url} alt={advantage.title} fill />
             </MotionWrapper>
 
             {/* Text */}

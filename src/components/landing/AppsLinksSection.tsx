@@ -56,7 +56,7 @@ function AppsLinksSection() {
       whileInView="visible"
       viewport={{ once: true, amount: 0.35 }}
     >
-      <div className="relative p-6 overflow-hidden min-h-[500px] rounded-lg max-w-7xl mx-auto flex">
+      <div className="relative p-6 overflow-hidden min-h-[500px] rounded-lg section flex">
         {/* Gradient */}
         <div className="absolute bg-blue-gradient -z-2 inset-0" />
 

@@ -14,10 +14,10 @@ interface AccountInfoStepProps {
   resetEmailVerificationForm: () => void;
 }
 
-const languages = [
-  { value: "ar", label: "العربية" },
-  { value: "en", label: "English" },
-];
+// const languages = [
+//   { value: "ar", label: "العربية" },
+//   { value: "en", label: "English" },
+// ];
 
 const timezones = [
   { value: "Africa/Cairo", label: "Africa/Cairo" },
@@ -37,9 +37,15 @@ export default function AccountInfoStep({
         {/* Full Name */}
         <CustomInput
           form={form}
-          name="fullName"
-          label="الاسم بالكامل"
-          placeholder="قم بإدخال الاسم بالكامل"
+          name="first_name"
+          label="الاسم الأول"
+          placeholder="قم بإدخال الاسم الأول"
+        />
+        <CustomInput
+          form={form}
+          name="last_name"
+          label="الاسم الأخير"
+          placeholder="قم بإدخال الاسم الأخير"
         />
 
         {/* Email */}
@@ -75,14 +81,14 @@ export default function AccountInfoStep({
         />
 
         {/* Language & Timezone - Two columns */}
-        <CustomSelect
+        {/* <CustomSelect
           form={form}
           name="language"
           label="اللغة"
           placeholder="اختر اللغة"
           options={languages}
           triggerClassName="w-full"
-        />
+        /> */}
 
         <CustomSelect
           form={form}

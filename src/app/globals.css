@@ -148,6 +148,10 @@
   @apply mx-auto w-full px-4 sm:px-14 lg:px-36;
 }
 
+@utility section {
+  @apply max-w-7xl mx-auto;
+}
+
 @utility bg-dark-radial {
   background: radial-gradient(
     79.17% 79.17% at 20.83% 69.6%,

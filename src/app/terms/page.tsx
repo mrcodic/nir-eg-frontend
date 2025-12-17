@@ -1,7 +1,7 @@
 function page() {
   return (
     <main className="flex w-full flex-col gap-22 md:my-22 my-16 wrapper">
-      <div className="max-w-7xl mx-auto">
+      <div className="section">
         <h1 className="text-3xl font-bold mb-10">الشروط و الأحكام</h1>
         <div className="space-y-6">
           <div>

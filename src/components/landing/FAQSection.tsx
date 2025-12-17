@@ -6,26 +6,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { FaqSection } from "@/types/landing.types";
 
-const faqData = [
-  {
-    id: "1",
-    question: "ما هو منصة تقنية عالية في حماية المحتوى من السرقة؟ 1",
-    answer: "تقنية عالية في حماية المحتوى من السرقة",
-  },
-  {
-    id: "2",
-    question: "ما هو منصة تقنية عالية في حماية المحتوى من السرقة؟ 2",
-    answer: "تقنية عالية في حماية المحتوى من السرقة",
-  },
-  {
-    id: "3",
-    question: "ما هو منصة تقنية عالية في حماية المحتوى من السرقة؟ 3",
-    answer: "تقنية عالية في حماية المحتوى من السرقة",
-  },
-];
-
-export default function FAQSection() {
+export default function FAQSection({ data }: { data: FaqSection }) {
   return (
     <section className="wrapper bg-background w-full relative text-center py-8 space-y-6 bg-[url('/bg-vector.png')] bg-cover bg-no-repeat">
       <h3 className="text-32 font-bold">
@@ -42,17 +25,17 @@ export default function FAQSection() {
           collapsible
           className="mx-auto mt-6 max-w-[760px] space-y-4 p-0"
         >
-          {faqData.map((faq) => (
+          {data.items.map((faq, i) => (
             <AccordionItem
-              key={faq.id}
-              value={`item-${faq.id}`}
+              key={`${faq.q}-${i}`}
+              value={`item-${faq.q}-${i}`}
               className="rounded-xl data-[state=closed]:border-none data-[state=open]:bg-background data-[state=open]:border data-[state=open]:border-primary-800 bg-white p-4"
             >
               <AccordionTrigger className="p-0 text-start text-sm font-extrabold text-black-3 hover:no-underline tablet:text-xl">
-                <p className="flex items-center gap-4">{faq.question}</p>
+                <p className="flex items-center gap-4">{faq.q}</p>
               </AccordionTrigger>
               <AccordionContent className="mt-4 border-t-2 border-gray-light pt-4 text-xs font-medium text-black-3 tablet:text-lg">
-                <p className="flex items-start gap-4 leading-6">{faq.answer}</p>
+                <p className="flex items-start gap-4 leading-6">{faq.a}</p>
               </AccordionContent>
             </AccordionItem>
           ))}

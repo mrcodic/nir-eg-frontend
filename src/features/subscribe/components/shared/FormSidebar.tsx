@@ -4,11 +4,9 @@ import Empty from "@/components/Empty";
 import PricingPlanCard from "@/components/PricingPlanCard";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getPublicData } from "@/config/client-fetch";
-import {
-  IPricingPlan,
-  PricingPlansApiResponse,
-} from "@/types/pricing-api.types";
+import { IPricingPlan } from "@/types/pricing-api.types";
 import type { FormVariant, PaymentPeriod } from "@/types/subscribe.types";
+import { ApiResponse } from "@/types/type";
 import { useQuery } from "@tanstack/react-query";
 import { memo } from "react";
 
@@ -24,7 +22,7 @@ function FormSidebar({ variant, planId, period }: FormSidebarProps) {
   const { data, isLoading } = useQuery({
     queryKey: [isDemo ? `/plans?is_demo=true` : `/plans/${planId}`],
     queryFn: getPublicData as () => Promise<
-      PricingPlansApiResponse<IPricingPlan | [IPricingPlan]>
+      ApiResponse<IPricingPlan | [IPricingPlan]>
     >,
     enabled: !!planId || isDemo,
   });

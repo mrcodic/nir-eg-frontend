@@ -69,16 +69,18 @@ function HeroSection() {
         <Link href="/subscribe?type=demo">
           <Button>احصل على النسخة التجريبية</Button>
         </Link>
-        <Button variant="secondary">
-          <Image
-            src="/assets/video.svg"
-            alt="video"
-            className="w-6 h-6"
-            width={24}
-            height={24}
-          />
-          شاهد الفيديو التعريفي{" "}
-        </Button>
+        <Link href="/about">
+          <Button variant="secondary">
+            <Image
+              src="/assets/video.svg"
+              alt="video"
+              className="w-6 h-6"
+              width={24}
+              height={24}
+            />
+            شاهد الفيديو التعريفي{" "}
+          </Button>
+        </Link>
       </MotionWrapper>
 
       <div className="relative z-2">
@@ -110,7 +112,7 @@ function HeroSection() {
         />
 
         <MotionWrapper
-          className="bg-white rounded-lg relative z-2 md:aspect-[1.7] max-w-7xl mx-auto mt-12 overflow-hidden flex flex-col"
+          className="bg-white rounded-lg relative z-2 md:aspect-[1.7] section mt-12 overflow-hidden flex flex-col"
           variants={{
             hidden: { opacity: 0, y: 20 },
             visible: {

@@ -2,11 +2,9 @@
 
 import { getPublicData } from "@/config/client-fetch";
 import { cn } from "@/lib/utils";
-import {
-  IPricingPlan,
-  PricingPlansApiResponse,
-} from "@/types/pricing-api.types";
+import { IPricingPlan } from "@/types/pricing-api.types";
 import { PaymentPeriod } from "@/types/subscribe.types";
+import { ApiResponse } from "@/types/type";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import Empty from "../Empty";
@@ -24,9 +22,7 @@ export default function PricingPlans() {
     error,
   } = useQuery({
     queryKey: ["/plans"],
-    queryFn: getPublicData as () => Promise<
-      PricingPlansApiResponse<IPricingPlan[]>
-    >,
+    queryFn: getPublicData as () => Promise<ApiResponse<IPricingPlan[]>>,
   });
 
   const pricingPlans = useMemo(() => {

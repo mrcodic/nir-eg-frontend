@@ -31,9 +31,3 @@ export interface IPricingPlan {
   is_demo: boolean;
 }
 
-export interface PricingPlansApiResponse<T> {
-  status_code: number;
-  status: boolean;
-  data: T;
-  message: string;
-}

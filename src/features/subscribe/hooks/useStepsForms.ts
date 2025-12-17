@@ -23,12 +23,12 @@ function useStepsForms({ period }: Props) {
   const accountForm = useForm<AccountInfoFormData>({
     resolver: zodResolver(accountInfoSchema),
     defaultValues: {
-      fullName: "",
+      first_name: "",
+      last_name: "",
       email: "",
       phone: "",
       password: "",
       confirmPassword: "",
-      language: "ar",
       timezone: "Africa/Cairo",
       acceptTerms: false,
       acceptPrivacy: false,
@@ -69,7 +69,7 @@ function useStepsForms({ period }: Props) {
     defaultValues: {
       domainType: "sub-domain", // or full-domain
       websiteName: "",
-      brandColor: PREDEFINED_COLORS[0], // Default Blue
+      brandColor: PREDEFINED_COLORS[0], // Default Blue #2E76AD
       selectedTemplate: "",
       logoFile: null,
       faviconFile: null,

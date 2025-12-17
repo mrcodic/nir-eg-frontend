@@ -19,7 +19,7 @@ const MappingFun = async ({
   emptyProps,
   errorProps,
   returnEmptyState = false,
-  requireAuth = true,
+  requireAuth = false,
   endPointOptions,
 }: {
   queryKey: string;

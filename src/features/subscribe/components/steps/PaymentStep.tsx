@@ -6,10 +6,8 @@ import { Form } from "@/components/ui/form";
 import Spinner from "@/components/ui/Spinner";
 import { getPublicData } from "@/config/client-fetch";
 import type { PaymentFormData } from "@/lib/schemas/subscribe.schema";
-import {
-  IPricingPlan,
-  PricingPlansApiResponse,
-} from "@/types/pricing-api.types";
+import { IPricingPlan } from "@/types/pricing-api.types";
+import { ApiResponse } from "@/types/type";
 import { useQuery } from "@tanstack/react-query";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { UseFormReturn } from "react-hook-form";
@@ -51,9 +49,7 @@ export default function PaymentStep({
 
   const { data, isLoading } = useQuery({
     queryKey: [`/plans/${planId}`],
-    queryFn: getPublicData as () => Promise<
-      PricingPlansApiResponse<IPricingPlan>
-    >,
+    queryFn: getPublicData as () => Promise<ApiResponse<IPricingPlan>>,
   });
 
   const plan = data?.data;

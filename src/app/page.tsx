@@ -1,24 +1,86 @@
 import AppsLinksSection from "@/components/landing/AppsLinksSection";
-import ClientsCarousel from "@/components/landing/ClientsCarousel";
 import ContactUsSection from "@/components/landing/ContactUsSection";
 import ContentProtectionSection from "@/components/landing/ContentProtectionSection";
 import FAQSection from "@/components/landing/FAQSection";
 import HeroSection from "@/components/landing/HeroSection";
-import PartnersSection from "@/components/landing/PartnersSection";
+import PartnersAndClientsSection from "@/components/landing/PartnersAndClientsSection";
 import PricingPlans from "@/components/landing/PricingPlans";
 import WhyUsSection from "@/components/landing/WhyUsSection";
+import { Skeleton } from "@/components/ui/skeleton";
+import MappingFun from "@/config/MappingFun";
+import {
+  FaqSection,
+  IContentProtectionSection,
+  WhyChooseSection,
+} from "@/types/landing.types";
+import { Suspense } from "react";
 
 export default function Home() {
   return (
     <main className="flex w-full flex-col gap-22 mb-22">
       <HeroSection />
-      <WhyUsSection />
+
+      <Suspense
+        fallback={
+          <div className="wrapper space-y-6 section">
+            <Skeleton className="h-14 w-38 mx-auto" />
+            <Skeleton className="h-[120px] w-full" />
+          </div>
+        }
+      >
+        <MappingFun
+          queryKey="/settings/home/why-choose"
+          arraypath="data.items"
+          returnEmptyState
+          render={({ data }: { data: WhyChooseSection }) => {
+            return <WhyUsSection data={data} />;
+          }}
+        />
+      </Suspense>
+
       <PricingPlans />
-      <ContentProtectionSection />
-      <FAQSection />
+
+      <Suspense
+        fallback={
+          <div className="wrapper space-y-6 flex justify-between items-center section pb-12">
+            <div className="flex flex-col gap-6 w-1/2">
+              <Skeleton className="h-[50px] w-38 " />
+              <div className="space-y-4">
+                <Skeleton className="h-12 w-full " />
+                <Skeleton className="h-12 w-full " />
+                <Skeleton className="h-12 w-full " />
+              </div>
+            </div>
+
+            <Skeleton className="w-full md:w-1/3 aspect-square" />
+          </div>
+        }
+      >
+        <MappingFun
+          queryKey="/settings/home/features"
+          arraypath="data.items"
+          returnEmptyState
+          render={({ data }: { data: IContentProtectionSection }) => {
+            return <ContentProtectionSection data={data} />;
+          }}
+        />
+      </Suspense>
+
+      <Suspense fallback={null}>
+        <MappingFun
+          queryKey="/settings/home/faq"
+          arraypath="data.items"
+          returnEmptyState
+          render={({ data }: { data: FaqSection }) => {
+            return <FAQSection data={data} />;
+          }}
+        />
+      </Suspense>
+
       <AppsLinksSection />
-      <PartnersSection />
-      <ClientsCarousel />
+
+      <PartnersAndClientsSection />
+
       <ContactUsSection />
     </main>
   );

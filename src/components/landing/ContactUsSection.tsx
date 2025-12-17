@@ -1,10 +1,17 @@
 import Image from "next/image";
 import ContactUsForm from "../form/ContactUsForm";
+import MotionWrapper from "../MotionWrapper";
 
 export default function ContactUsSection() {
   return (
-    <section className="wrapper ">
-      <div className="max-w-7xl mx-auto bg-[url('/bg-vector.png')] p-4 bg-background rounded-lg flex max-lg:flex-col-reverse relative gap-y-8">
+    <MotionWrapper
+      className="wrapper "
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      viewport={{ amount: 0.4, once: true }}
+    >
+      <div className="section bg-[url('/bg-vector.png')] p-4 bg-background rounded-lg flex max-lg:flex-col-reverse relative gap-y-8">
         <div className="bg-white w-1/2 max-lg:w-full rounded-lg shadow-sm p-6">
           <ContactUsForm />
         </div>
@@ -33,6 +40,6 @@ export default function ContactUsSection() {
           />
         </div>
       </div>
-    </section>
+    </MotionWrapper>
   );
 }

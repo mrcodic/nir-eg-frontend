@@ -6,7 +6,7 @@ import SocialLinks from "../SocialLinks";
 function Footer() {
   return (
     <footer className="bg-background bg-[url('/bg-vector.png')] wrapper py-10">
-      <div className="max-w-7xl mx-auto  flex flex-col gap-6">
+      <div className="section  flex flex-col gap-6">
         <div className="flex gap-6 items-start flex-wrap w-full">
           <Image src="/logo.svg" width={110} height={48} alt="logo image" />
 
