@@ -31,8 +31,8 @@ const fileUploads = [
 ];
 
 const domainTypeOptions = [
-  { value: "full-domain", label: "دومين مخصص" },
-  { value: "sub-domain", label: "دومين فرعي" },
+  { value: "custom", label: "دومين مخصص" },
+  { value: "subdomain", label: "دومين فرعي" },
 ];
 
 export default function BrandingStep({
@@ -64,7 +64,7 @@ export default function BrandingStep({
               <FormLabel>اسم الموقع</FormLabel>
               <FormControl>
                 <div className="relative flex mt-2 items-center gap-4">
-                  {domainType === "sub-domain" && (
+                  {domainType === "subdomain" && (
                     <span className=" border h-11 flex items-center border-gray-light text-gray-dark text-sm px-2 py-1 whitespace-nowrap rounded-lg bg-background">
                       nir-edu.com.
                     </span>
@@ -77,7 +77,7 @@ export default function BrandingStep({
                   رابط موقعك سيكون:{" "}
                   <span className="text-primary-800 font-medium" dir="ltr">
                     {websiteName}
-                    {domainType === "full-domain" ? "" : ".nir-edu.com"}
+                    {domainType === "custom" ? "" : ".nir-edu.com"}
                   </span>
                 </p>
               )}

@@ -17,9 +17,10 @@ import { useForm } from "react-hook-form";
 
 type Props = {
   period: PaymentPeriod;
+  planId?: string;
 };
 
-function useStepsForms({ period }: Props) {
+function useStepsForms({ period, planId }: Props) {
   const accountForm = useForm<AccountInfoFormData>({
     resolver: zodResolver(accountInfoSchema),
     defaultValues: {
@@ -52,22 +53,21 @@ function useStepsForms({ period }: Props) {
       legalName: "",
       subjects: [],
       gradeLevels: [],
-      teachingMethod: "hybrid",
+      teachingMethod: "mixed",
       expectedStudents: 20,
-      country: "egypt",
+      // country: "egypt",
       governorate: "",
       city: "",
       address: "",
       howDidYouHear: "",
       additionalNotes: "",
-      discountCode: "",
     },
   });
 
   const brandingForm = useForm<BrandingFormData>({
     resolver: zodResolver(brandingSchema),
     defaultValues: {
-      domainType: "sub-domain", // or full-domain
+      domainType: "subdomain", // or custom
       websiteName: "",
       brandColor: PREDEFINED_COLORS[0], // Default Blue #2E76AD
       selectedTemplate: "",
@@ -80,6 +80,7 @@ function useStepsForms({ period }: Props) {
   const paymentForm = useForm<PaymentFormData>({
     resolver: zodResolver(paymentSchema),
     defaultValues: {
+      planId: planId || "",
       paymentPeriod: period || "yearly",
       paymentMethod: "e-wallet",
     },

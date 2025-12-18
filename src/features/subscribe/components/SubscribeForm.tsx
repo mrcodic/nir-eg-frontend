@@ -1,6 +1,7 @@
 "use client";
 
 import StyledText from "@/components/ui/StyledText";
+import { axiosInstance } from "@/lib/axios-instance";
 import type {
   FormStep,
   FormVariant,
@@ -57,7 +58,7 @@ export default function SubscribeForm({
 
   // Form instances for each step
   const { accountForm, verifyForm, businessForm, brandingForm, paymentForm } =
-    useStepsForms({ period });
+    useStepsForms({ period, planId });
 
   const emailVerified = useMemo(
     () =>
@@ -121,6 +122,15 @@ export default function SubscribeForm({
 
       // TODO: Call API to submit registration
       await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      const res = await axiosInstance.post("/api/subscribe", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Accept: "application/json",
+        },
+      });
+
+      console.log("Response:", res);
 
       // Success - redirect or show success message
       toast.success("تم الاشتراك بنجاح! 🎉");

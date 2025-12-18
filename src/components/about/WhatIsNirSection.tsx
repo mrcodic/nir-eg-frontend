@@ -4,6 +4,45 @@ import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import Image from "next/image";
 import { useRef, useState } from "react";
+import MotionWrapper from "../MotionWrapper";
+
+const variants = {
+  hidden: {},
+  visible: {},
+};
+
+const textVariants = {
+  hidden: {
+    opacity: 0,
+    x: 20,
+  },
+  visible: {
+    opacity: 1,
+    x: 0,
+  },
+};
+
+const videoVariants = {
+  hidden: {
+    opacity: 0,
+    x: -20,
+  },
+  visible: {
+    opacity: 1,
+    x: 0,
+  },
+};
+
+const videoButtonVariants = {
+  hidden: {
+    opacity: 0,
+    scale: 0,
+  },
+  visible: {
+    opacity: 1,
+    scale: [0.5, 1.2, 1],
+  },
+};
 
 export default function WhatIsNirHero({
   description,
@@ -25,19 +64,39 @@ export default function WhatIsNirHero({
 
   return (
     <section dir="rtl">
-      <div className="section flex items-center 2xl:gap-30 gap-16 lg:gap-8 xl:gap-24 max-lg:flex-col">
+      <MotionWrapper
+        key="what-is-nir-hero"
+        className="section flex items-center 2xl:gap-30 gap-16 lg:gap-8 xl:gap-24 max-lg:flex-col"
+        variants={variants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ amount: 0.5, once: true }}
+      >
         {/* Title + description */}
-        <div className="space-y-3">
+        <MotionWrapper
+          className="space-y-3"
+          variants={textVariants}
+          transition={{
+            duration: 0.5,
+            ease: "easeInOut",
+          }}
+        >
           <h1 className="text-2xl md:text-[40px] font-bold">
             ما هو{" "}
             <span className="text-primary-800 drop-shadow-text "> نَيِّر </span>
             ؟
           </h1>
           <p className="text-base md:text-xl text-gray-dark ">{description}</p>
-        </div>
+        </MotionWrapper>
 
         {/* Video thumbnail */}
-        <div className="flex relative lg:ms-auto w-full justify-center max-w-[466px] rounded-lg overflow-hidden">
+        <MotionWrapper
+          className="flex relative lg:ms-auto w-full justify-center max-w-[466px] rounded-lg overflow-hidden"
+          variants={videoVariants}
+          transition={{
+            duration: 0.5,
+          }}
+        >
           <Image
             src="/assets/video-thumbnail.png"
             alt="فيديو نَيِّر"
@@ -51,7 +110,14 @@ export default function WhatIsNirHero({
           <div className="absolute inset-0 bg-black/20 backdrop-blur-xs" />
 
           {/* Play button */}
-          <div className="absolute inset-0 flex items-center justify-center ">
+          <MotionWrapper
+            className="absolute inset-0 flex items-center justify-center "
+            variants={videoButtonVariants}
+            transition={{
+              duration: 0.5,
+              delay: 0.5,
+            }}
+          >
             <div className="absolute top-1/2 left-1/2 -translate-1/2 flex items-center justify-center animate-ping rounded-full z-1 size-18 bg-gray-100 " />
 
             <button
@@ -60,9 +126,9 @@ export default function WhatIsNirHero({
             >
               <span className="ml-2 inline-block h-0 w-0 border-y-14 border-y-transparent border-l-22 border-white" />
             </button>
-          </div>
-        </div>
-      </div>
+          </MotionWrapper>
+        </MotionWrapper>
+      </MotionWrapper>
 
       {/* Fullscreen Video Modal - Video only loads when modal is open */}
       <Dialog open={isOpen} onOpenChange={handleOpenChange}>

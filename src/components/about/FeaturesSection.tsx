@@ -1,47 +1,56 @@
 import { cn } from "@/lib/utils";
 import { AboutFeatureItem } from "@/types/about.types";
+import { Variants } from "motion";
 import Image from "next/image";
+import MotionWrapper from "../MotionWrapper";
 
 const featuresTop = [
   {
-    title: "إدارة الصفوف الافتراضية",
-    description:
-      "يسمح للمدرسين بإدارة الحصص الافتراضية بسهولة مع تنظيم المحاضرات والواجبات والمواد التعليمية.",
     icon: "/assets/lightbulb.png",
   },
   {
-    title: "أدوات التعليم التفاعلي",
-    description:
-      "يوفر مجموعة من الأنشطة التفاعلية التي تزيد من تفاعل الطلاب وتساعد على ترسيخ المفاهيم.",
     icon: "/assets/instructor.png",
   },
   {
-    title: "الأدوات الإدارية",
-    description:
-      "مجموعة متكاملة من الأدوات لإدارة الحسابات، البيانات، والجداول الزمنية داخل المؤسسة.",
     icon: "/assets/books.png",
   },
   {
-    title: "التقارير والاشعارات",
-    description:
-      "إعداد تقارير تفصيلية عن تقدم الطلاب مع إرسال إشعارات فورية لأولياء الأمور والطلاب.",
     icon: "/assets/pen.png",
   },
   {
-    title: "حماية المحتوى من السرقة",
-    description:
-      "حفظ كلّ من الفيديوهات والمحتوى التعليمي داخل المنصة مع تقنيات تمنع نسخ أو تسريب المحتوى.",
     icon: "/assets/lock.png",
     className: "bg-blue-gradient text-white",
   },
   {
-    title: "ملف للشخص",
-    description:
-      "توفير ملف شامل للطلاب والمدرسين يتضمن السجل الأكاديمي، التقدم، وسجلات التفاعل.",
     icon: "/assets/books&grad.png",
     className: "bg-dark-radial text-white",
   },
 ];
+
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.15,
+      delayChildren: 0.1,
+    },
+  },
+} satisfies Variants;
+
+const itemVariants = {
+  hidden: {
+    opacity: 0,
+    y: 24,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: "easeOut",
+    },
+  },
+} satisfies Variants;
 
 export default function FeaturesSection({
   features,
@@ -60,27 +69,42 @@ export default function FeaturesSection({
     <section>
       <div className="section space-y-8">
         {/* Heading */}
-        <h2 className="text-lg md:text-[28px] font-bold max-w-[564px]">
+        <MotionWrapper
+          className="text-lg md:text-[28px] font-bold max-w-[564px]"
+          initial={{ opacity: 0, x: 20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+          viewport={{ once: true, amount: "all" }}
+        >
           <span className="text-primary-800 drop-shadow-text "> نَيِّر </span>
           مُصمم لتبسيط عملية التعليم و توفير أدوات قوية للإداريين و المدرسين
-        </h2>
+        </MotionWrapper>
 
-        {/* Top row */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 max-md:justify-items-center">
+        <MotionWrapper
+          className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 max-md:justify-items-center"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.4 }}
+        >
           {featuresWithStyles.map((feature) => (
-            <article
+            <MotionWrapper
               key={feature.title}
+              as="article"
               className={cn(
-                "rounded-lg max-md:max-w-[360px] aspect-square bg-background border border-transparent group hover:border-primary-800 transition-all p-4 lg:p-6 relative overflow-hidden",
-                feature?.className
+                "rounded-lg max-md:max-w-[360px] aspect-square bg-background border border-transparent group hover:border-primary-800 transition-colors p-4 lg:p-6 relative overflow-hidden",
+                feature.className
               )}
+              variants={itemVariants}
             >
               <h3 className="text-base lg:text-2xl font-semibold mb-8 pb-1 relative z-2 border-b border-primary-100">
                 {feature.title}
               </h3>
-              <p className="text-sm relative z-2 lg:text-lg  ">
+
+              <p className="text-sm lg:text-lg relative z-2">
                 {feature.description}
               </p>
+
               <Image
                 src={feature.icon}
                 alt={feature.title}
@@ -88,9 +112,9 @@ export default function FeaturesSection({
                 height={160}
                 className="absolute bottom-0 left-0 md:-translate-x-1/3 z-1 md:translate-y-1/3 md:blur-xl md:group-hover:blur-none group-hover:translate-0 transition-all sm:size-40 size-28 max-sm:opacity-40"
               />
-            </article>
+            </MotionWrapper>
           ))}
-        </div>
+        </MotionWrapper>
       </div>
     </section>
   );

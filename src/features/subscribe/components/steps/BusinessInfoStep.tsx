@@ -40,7 +40,7 @@ const gradeLevels = [
   { value: "sec-3", label: "الصف الثالث الثانوي" },
 ];
 
-const countries = [{ value: "egypt", label: "مصر" }];
+// const countries = [{ value: "egypt", label: "مصر" }];
 
 const governorates = [
   { value: "cairo", label: "القاهرة" },
@@ -67,11 +67,11 @@ const cities: Record<string, { value: string; label: string }[]> = {
 
 const teacherTypeOptions = [
   { value: "individual", label: "فردي" },
-  { value: "institution", label: "مؤسسة" },
+  { value: "center", label: "سنتر" },
 ];
 
 const teachingMethodOptions = [
-  { value: "hybrid", label: "مختلط" },
+  { value: "mixed", label: "مختلط" },
   { value: "offline", label: "أوفلاين" },
   { value: "online", label: "أونلاين" },
 ];
@@ -158,13 +158,14 @@ export default function BusinessInfoStep({
         <div className="border-t pt-4 mt-4 border-gray-light">
           <h3 className="text-lg font-bold mb-4">الموقع</h3>
 
-          <CustomSelect
+          {/* <CustomSelect
             form={form}
             name="country"
             label="الدولة"
             options={countries}
             placeholder="اختر الدولة"
-          />
+          /> */}
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 items-start">
             <CustomSelect
               form={form}
@@ -209,14 +210,6 @@ export default function BusinessInfoStep({
           name="additionalNotes"
           label="ملاحظات إضافية"
           placeholder="هل تود إضافة ملاحظات؟ (اختياري)"
-        />
-
-        {/* Discount Code */}
-        <CustomInput
-          form={form}
-          name="discountCode"
-          label="كود الخصم"
-          placeholder="أدخل كود الخصم (اختياري)"
         />
 
         {/* Navigation Buttons */}

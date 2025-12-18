@@ -1,13 +1,7 @@
 "use server";
 
-import axios from "axios";
 import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
-
-export const instance = axios.create({
-  baseURL: process.env.BASE_URL,
-  withCredentials: true,
-});
 
 export const saveCookie = async (key: string, value: string) => {
   const cookieStore = await cookies();
@@ -23,10 +17,10 @@ export const revalidateData = async (tags: string) => {
   if (tags.includes(",")) {
     const tagsArray = tags.split(",");
     tagsArray.forEach((tag) => {
-      revalidateTag(tag);
+      revalidateTag(tag, "max");
     });
   } else {
-    revalidateTag(tags);
+    revalidateTag(tags, "max");
   }
 
   return null;

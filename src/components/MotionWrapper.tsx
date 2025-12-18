@@ -1,7 +1,12 @@
 "use client";
 
 import { motion, MotionProps } from "framer-motion";
-import { ComponentPropsWithoutRef, ElementType, ReactNode } from "react";
+import {
+  ComponentPropsWithoutRef,
+  ElementType,
+  ReactNode,
+  useMemo,
+} from "react";
 
 type MotionWrapperProps<T extends ElementType> = {
   children?: ReactNode;
@@ -15,7 +20,7 @@ export default function MotionWrapper<T extends ElementType = "div">({
   as,
   ...props
 }: MotionWrapperProps<T>) {
-  const MotionComponent = motion.create(as || "div");
+  const MotionComponent = useMemo(() => motion.create(as || "div"), [as]);
 
   return (
     // eslint-disable-next-line react-hooks/static-components

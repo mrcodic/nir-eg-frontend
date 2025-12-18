@@ -1,4 +1,4 @@
-import { instance } from "@/config/api";
+import { axiosInstance } from "@/lib/axios-instance";
 import { isAxiosError } from "axios";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { cookies, headers } from "next/headers";
@@ -13,7 +13,7 @@ const postData = async ([endpoint, data, method = "post"]: [
     const token = (await cookies()).get("user_token")?.value || null;
     const headersList = await headers();
 
-    const response = await instance.request({
+    const response = await axiosInstance.request({
       url: endpoint,
       method,
       data,
@@ -76,11 +76,11 @@ export async function POST(req: NextRequest) {
       if (tags.includes(",")) {
         const tagsArray = tags.split(",");
         tagsArray.forEach((tag) => {
-          revalidateTag(tag);
+          revalidateTag(tag, "max");
         });
       } else {
         console.log("revalidateTag : ", tags.trim());
-        revalidateTag(tags);
+        revalidateTag(tags, "max");
       }
     }
 
@@ -140,7 +140,7 @@ export async function GET(req: NextRequest) {
   try {
     const headersList = await headers();
 
-    const response = await instance.get(apiUrl, {
+    const response = await axiosInstance.get(apiUrl, {
       headers: {
         Cookie: headersList.get("cookie"),
       },

@@ -59,7 +59,7 @@ export const emailVerifySchema = z.object({
 // Step 3: Business Details Schema
 // ==========================================
 export const businessInfoSchema = z.object({
-  teacherType: z.enum(["individual", "institution"], {
+  teacherType: z.enum(["individual", "center"], {
     message: "نوع المدرس مطلوب",
   }),
   brandName: z
@@ -74,20 +74,19 @@ export const businessInfoSchema = z.object({
     .array(z.string())
     .min(1, "يجب اختيار مادة دراسية واحدة على الأقل"),
   gradeLevels: z.array(z.string()).min(1, "يجب اختيار صف دراسي واحد على الأقل"),
-  teachingMethod: z.enum(["online", "offline", "hybrid"], {
+  teachingMethod: z.enum(["online", "offline", "mixed"], {
     message: "طريقة التدريس مطلوبة",
   }),
   expectedStudents: z
     .number()
     .min(1, "عدد الطلاب يجب أن يكون 1 على الأقل")
     .max(100000, "عدد الطلاب يجب أن يكون أقل من 100000"),
-  country: z.string().min(1, "الدولة مطلوبة"),
+  // country: z.string().min(1, "الدولة مطلوبة"),
   governorate: z.string().min(1, "المحافظة مطلوبة"),
-  city: z.string().min(1, "المدينة مطلوبة"),
+  city: z.string().optional(),
   address: z.string().min(5, "العنوان يجب أن يكون 5 أحرف على الأقل"),
   howDidYouHear: z.string().optional(),
   additionalNotes: z.string().optional(),
-  discountCode: z.string().optional(),
 });
 
 // ==========================================
@@ -95,7 +94,7 @@ export const businessInfoSchema = z.object({
 // ==========================================
 export const brandingSchema = z
   .object({
-    domainType: z.enum(["full-domain", "sub-domain"], {
+    domainType: z.enum(["custom", "subdomain"], {
       message: "يجب اختيار نوع النطاق",
     }),
 
@@ -119,7 +118,7 @@ export const brandingSchema = z
     // Regex for full domain (example: example.com, my-site.co.uk, etc.)
     const fullDomainRegex = /^(?!:\/\/)([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/;
 
-    if (domainType === "sub-domain") {
+    if (domainType === "subdomain") {
       if (!subDomainRegex.test(websiteName)) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
@@ -130,7 +129,7 @@ export const brandingSchema = z
       }
     }
 
-    if (domainType === "full-domain") {
+    if (domainType === "custom") {
       if (!fullDomainRegex.test(websiteName)) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
@@ -145,6 +144,7 @@ export const brandingSchema = z
 // Step 5: Payment Schema (Paid only)
 // ==========================================
 export const paymentSchema = z.object({
+  planId: z.string().min(1, "يجب اختيار نوع الخطة"),
   paymentPeriod: z.enum(["monthly", "yearly"], {
     message: "طريقة الدفع مطلوبة",
   }),

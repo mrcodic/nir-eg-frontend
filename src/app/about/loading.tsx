@@ -26,7 +26,6 @@ export default function PageLoading() {
               key={i}
               className="space-y-4 border border-gray-light rounded-lg max-md:max-w-[360px] aspect-square p-5"
             >
-              <Skeleton className="h-10 w-10 rounded-md" />
               <Skeleton className="h-4 w-3/4" />
               <Skeleton className="h-3 w-full" />
               <Skeleton className="h-3 w-5/6" />
