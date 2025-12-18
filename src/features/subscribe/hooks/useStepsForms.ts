@@ -1,4 +1,7 @@
+"use client";
+
 import { PREDEFINED_COLORS } from "@/constants/template";
+import useFormPersist from "@/hooks/useFormPersist";
 import {
   AccountInfoFormData,
   accountInfoSchema,
@@ -11,9 +14,11 @@ import {
   PaymentFormData,
   paymentSchema,
 } from "@/lib/schemas/subscribe.schema";
-import { PaymentPeriod } from "@/types/subscribe.types";
+import { PaymentPeriod, StepId } from "@/types/subscribe.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+// import useFormPersist from "react-hook-form-persist";
+import { useLocalStorage } from "usehooks-ts";
 
 type Props = {
   period: PaymentPeriod;
@@ -21,6 +26,14 @@ type Props = {
 };
 
 function useStepsForms({ period, planId }: Props) {
+  const [completedSteps, setCompletedSteps] = useLocalStorage<StepId[]>(
+    "completedSteps",
+    [],
+    {
+      initializeWithValue: false,
+    }
+  );
+
   const accountForm = useForm<AccountInfoFormData>({
     resolver: zodResolver(accountInfoSchema),
     defaultValues: {
@@ -38,11 +51,21 @@ function useStepsForms({ period, planId }: Props) {
     },
   });
 
+  useFormPersist("accountForm", {
+    watch: accountForm.watch,
+    setValue: accountForm.setValue,
+  });
+
   const verifyForm = useForm<EmailVerifyFormData>({
     resolver: zodResolver(emailVerifySchema),
     defaultValues: {
       otp: "",
     },
+  });
+
+  useFormPersist("verifyForm", {
+    watch: verifyForm.watch,
+    setValue: verifyForm.setValue,
   });
 
   const businessForm = useForm<BusinessInfoFormData>({
@@ -64,6 +87,11 @@ function useStepsForms({ period, planId }: Props) {
     },
   });
 
+  useFormPersist("businessForm", {
+    watch: businessForm.watch,
+    setValue: businessForm.setValue,
+  });
+
   const brandingForm = useForm<BrandingFormData>({
     resolver: zodResolver(brandingSchema),
     defaultValues: {
@@ -77,6 +105,11 @@ function useStepsForms({ period, planId }: Props) {
     },
   });
 
+  useFormPersist("brandingForm", {
+    watch: brandingForm.watch,
+    setValue: brandingForm.setValue,
+  });
+
   const paymentForm = useForm<PaymentFormData>({
     resolver: zodResolver(paymentSchema),
     defaultValues: {
@@ -86,12 +119,19 @@ function useStepsForms({ period, planId }: Props) {
     },
   });
 
+  useFormPersist("paymentForm", {
+    watch: paymentForm.watch,
+    setValue: paymentForm.setValue,
+  });
+
   return {
     accountForm,
     verifyForm,
     businessForm,
     brandingForm,
     paymentForm,
+    completedSteps,
+    setCompletedSteps,
   };
 }
 

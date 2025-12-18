@@ -11,6 +11,19 @@ const eslintConfig = defineConfig([
     rules: {
       "@typescript-eslint/no-explicit-any": "warn",
       "react-hooks/set-state-in-effect": "warn",
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        {
+          // Ignore variables like: const _x = ...
+          varsIgnorePattern: "^_",
+
+          // Ignore function args like: (_event)
+          argsIgnorePattern: "^_",
+
+          // Ignore caught errors like: catch (_e)
+          caughtErrorsIgnorePattern: "^_",
+        },
+      ],
     },
   },
   // Override default ignores of eslint-config-next.

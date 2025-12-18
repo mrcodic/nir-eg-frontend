@@ -7,9 +7,17 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+import { axiosInstance } from "@/lib/axios-instance";
 import type { EmailVerifyFormData } from "@/lib/schemas/subscribe.schema";
+import {
+  getRemainingSeconds,
+  OTP_STORAGE_KEY,
+  startNewTimer,
+} from "@/utils/otp-helpers";
+import { Loader2 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { UseFormReturn } from "react-hook-form";
+import { toast } from "sonner";
 import { OtpInput } from "../shared";
 import NavigationButtons from "../shared/NavigationButtons";
 
@@ -19,33 +27,6 @@ interface EmailVerifyStepProps {
   onNext: () => void;
   onPrevious: () => void;
 }
-
-const TIMER_DURATION = 180; // 3 minutes
-
-/* ---------------------------------------------
- * Storage helpers (per email)
- * ------------------------------------------- */
-
-const getStorageKey = (email: string) => `email_otp_expires_at:${email}`;
-
-const getRemainingSeconds = (email: string) => {
-  if (typeof window === "undefined") return 0;
-
-  const expiresAt = Number(localStorage.getItem(getStorageKey(email)));
-
-  if (!expiresAt) return 0;
-
-  const diff = Math.floor((expiresAt - Date.now()) / 1000);
-  return diff > 0 ? diff : 0;
-};
-
-const startNewTimer = (email: string, setTimeLeft: (v: number) => void) => {
-  const expiresAt = Date.now() + TIMER_DURATION * 1000;
-
-  localStorage.setItem(getStorageKey(email), String(expiresAt));
-
-  setTimeLeft(TIMER_DURATION);
-};
 
 const formatTime = (seconds: number) => {
   const m = Math.floor(seconds / 60);
@@ -61,6 +42,7 @@ export default function EmailVerifyStep({
 }: EmailVerifyStepProps) {
   const [timeLeft, setTimeLeft] = useState(0);
   const [isVerifying, setIsVerifying] = useState(false);
+  const [isSending, setIsSending] = useState(false);
 
   // Prevent duplicate OTP sends on strict-mode / re-renders
   const hasSentOtpRef = useRef(false);
@@ -68,24 +50,43 @@ export default function EmailVerifyStep({
   const canResend = timeLeft <= 0;
 
   const sendOtp = useCallback(async () => {
-    console.log("Sending OTP to:", email);
-    // await sendOtpAction(email);
+    try {
+      setIsSending(true);
+      console.log("Sending OTP to:", email);
+      const res = await axiosInstance.post("/email-otp/send", { email });
+      startNewTimer(email, setTimeLeft);
+
+      console.log("OTP sent successfully:", res.data);
+      toast.success("OTP sent successfully");
+      // await sendOtpAction(email);
+    } catch (e) {
+      console.log("Failed to send OTP:", e);
+      toast.error("Failed to send OTP");
+    } finally {
+      setIsSending(false);
+    }
   }, [email]);
 
-  const verifyOtp = useCallback(async (otp: string) => {
-    console.log("Verifying OTP:", otp);
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    // await verifyOtpAction({ email, otp });
-  }, []);
+  const verifyOtp = useCallback(
+    async (otp: string) => {
+      return await axiosInstance.post("/email-otp/verify", {
+        email,
+        code: otp,
+      });
+    },
+    [email]
+  );
 
   /* ---------------------------------------------
    * Initial mount + email change logic
    * ------------------------------------------- */
 
   useEffect(() => {
-    hasSentOtpRef.current = false;
+    if (hasSentOtpRef.current || !email) return;
 
-    const remaining = getRemainingSeconds(email);
+    console.log("email effect otp ", email);
+
+    const remaining = getRemainingSeconds();
 
     if (remaining > 0) {
       setTimeLeft(remaining);
@@ -95,9 +96,7 @@ export default function EmailVerifyStep({
     if (!hasSentOtpRef.current) {
       hasSentOtpRef.current = true;
 
-      sendOtp().then(() => {
-        startNewTimer(email, setTimeLeft);
-      });
+      // sendOtp();
     }
   }, [email, sendOtp]);
 
@@ -121,31 +120,46 @@ export default function EmailVerifyStep({
 
   const handleResend = useCallback(async () => {
     await sendOtp();
-    startNewTimer(email, setTimeLeft);
     form.setValue("otp", "");
-  }, [email, form, sendOtp]);
+  }, [form, sendOtp]);
 
   const handleOtpComplete = useCallback(
     async (otp: string) => {
+      if (localStorage.getItem("last_verified_email") === email) {
+        onNext();
+        return;
+      }
+
       setIsVerifying(true);
 
       try {
-        await verifyOtp(otp);
+        // await verifyOtp(otp);
 
         // Cleanup timer after success
-        localStorage.removeItem(getStorageKey(email));
+        localStorage.removeItem(OTP_STORAGE_KEY);
+        localStorage.setItem("last_verified_email", email);
+        toast.success("OTP verified successfully");
 
         onNext();
+      } catch (e) {
+        console.log("Failed to verify OTP:", e);
+        toast.error("Failed to verify OTP");
       } finally {
         setIsVerifying(false);
       }
     },
-    [email, onNext, verifyOtp]
+    [onNext, verifyOtp]
   );
 
   return (
     <Form {...form}>
-      <form className="flex flex-col items-center space-y-6">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleOtpComplete(form.getValues("otp"));
+        }}
+        className="flex flex-col items-center space-y-6"
+      >
         <div className="pb-2 border-b border-gray-light">
           <p className="lg:text-xl text-lg font-bold text-gray-dark">
             قمنا بإرسال رمز التأكيد إلى
@@ -153,20 +167,25 @@ export default function EmailVerifyStep({
           </p>
         </div>
 
-        <p className="lg:text-xl text-gray-dark">
-          هذا الرمز صالح لمدة
-          <span className="text-semantics-red font-semibold ms-1">
-            {formatTime(timeLeft)}
-          </span>
-        </p>
+        {!canResend ? (
+          <p className="lg:text-xl text-gray-dark">
+            هذا الرمز صالح لمدة
+            <span className="text-semantics-red font-semibold ms-1">
+              {formatTime(timeLeft)}
+            </span>
+          </p>
+        ) : (
+          <p className="lg:text-xl text-gray-dark">يمكنك إعادة الإرسال</p>
+        )}
 
         <button
           type="button"
           onClick={handleResend}
-          disabled={!canResend || isVerifying}
-          className="text-primary-800 text-sm hover:underline disabled:opacity-50"
+          disabled={!canResend || isVerifying || isSending}
+          className="text-primary-800 text-sm hover:underline disabled:opacity-50 cursor-pointer flex items-center gap-1 disabled:cursor-not-allowed"
         >
-          أعد الإرسال
+          أعد الإرسال{" "}
+          {isSending && <Loader2 className=" animate-spin size-4" />}
         </button>
 
         <FormField

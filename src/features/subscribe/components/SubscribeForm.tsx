@@ -6,8 +6,8 @@ import type {
   FormStep,
   FormVariant,
   PaymentPeriod,
-  StepId,
 } from "@/types/subscribe.types";
+import { OTP_STORAGE_KEY } from "@/utils/otp-helpers";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
 import { toast } from "sonner";
@@ -50,15 +50,41 @@ export default function SubscribeForm({
 }: SubscribeFormProps) {
   const router = useRouter();
   const steps = useMemo(() => getSteps(variant), [variant]);
-  const [currentStepIndex, setCurrentStepIndex] = useState(0);
-  const [completedSteps, setCompletedSteps] = useState<StepId[]>([]);
+
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const [currentStepIndex, setCurrentStepIndex] = useState(() => {
+    if (typeof window === "undefined") return 0;
+
+    const storedCompletedSteps = localStorage.getItem("completedSteps");
+
+    try {
+      const parsedCompletedSteps = storedCompletedSteps
+        ? JSON.parse(storedCompletedSteps)
+        : [];
+      // initi current index the the last completed step
+      const lastCompletedStep =
+        parsedCompletedSteps[parsedCompletedSteps.length - 1] || 0;
+      return lastCompletedStep
+        ? steps.findIndex((step) => step.id === lastCompletedStep)
+        : 0;
+    } catch (_e) {
+      return 0;
+    }
+  });
 
   const currentStep = steps[currentStepIndex];
 
   // Form instances for each step
-  const { accountForm, verifyForm, businessForm, brandingForm, paymentForm } =
-    useStepsForms({ period, planId });
+  const {
+    accountForm,
+    verifyForm,
+    businessForm,
+    brandingForm,
+    paymentForm,
+    completedSteps,
+    setCompletedSteps,
+  } = useStepsForms({ period, planId });
 
   const emailVerified = useMemo(
     () =>
@@ -86,7 +112,14 @@ export default function SubscribeForm({
         setCurrentStepIndex((prev) => prev + 1);
       }
     }
-  }, [currentStep, currentStepIndex, emailVerified, steps]);
+  }, [
+    currentStep.id,
+    currentStepIndex,
+    emailVerified,
+    setCompletedSteps,
+    setCurrentStepIndex,
+    steps,
+  ]);
 
   const handlePrevious = useCallback(() => {
     if (currentStepIndex > 0) {
@@ -97,22 +130,36 @@ export default function SubscribeForm({
         setCurrentStepIndex((prev) => prev - 1);
       }
     }
-  }, [currentStepIndex, emailVerified, steps]);
+  }, [currentStepIndex, emailVerified, setCurrentStepIndex, steps]);
 
   const resetEmailVerificationForm = useCallback(() => {
     verifyForm.reset();
     setCompletedSteps((prev) => prev.filter((step) => step !== "verify"));
-  }, [verifyForm]);
+    localStorage.removeItem(OTP_STORAGE_KEY);
+  }, [verifyForm, setCompletedSteps]);
+
+  // check all forms using form.trigger before final submit and change current index to the first form that has errors
+  const checkFormsForErrors = useCallback(async () => {
+    const forms = [accountForm, businessForm, brandingForm, paymentForm];
+    for (let i = 0; i < forms.length; i++) {
+      const form = forms[i];
+      const isValid = await form.trigger();
+      if (!isValid) {
+        setCurrentStepIndex(i);
+        return;
+      }
+    }
+  }, [accountForm, businessForm, brandingForm, paymentForm]);
 
   // Final submission
   const handleFinalSubmit = useCallback(async () => {
     setIsSubmitting(true);
+    await checkFormsForErrors();
 
     try {
       // Collect all form data
       const formData = {
         account: accountForm.getValues(),
-        verify: verifyForm.getValues(),
         business: businessForm.getValues(),
         branding: brandingForm.getValues(),
         ...(variant === "paid" && { payment: paymentForm.getValues() }),
@@ -123,7 +170,7 @@ export default function SubscribeForm({
       // TODO: Call API to submit registration
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
-      const res = await axiosInstance.post("/api/subscribe", formData, {
+      const res = await axiosInstance.post("/tenants/onboard", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Accept: "application/json",
@@ -142,15 +189,7 @@ export default function SubscribeForm({
     } finally {
       setIsSubmitting(false);
     }
-  }, [
-    accountForm,
-    verifyForm,
-    businessForm,
-    brandingForm,
-    paymentForm,
-    variant,
-    router,
-  ]);
+  }, [accountForm, businessForm, brandingForm, paymentForm, variant, router]);
 
   // Render current step
   const renderStep = () => {
