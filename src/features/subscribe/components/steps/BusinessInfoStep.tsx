@@ -44,8 +44,6 @@ export default function BusinessInfoStep({
 }: BusinessInfoStepProps) {
   const selectedGovernorate = form.watch("governorate");
 
-  console.log("bussiness form , ", form.getValues());
-
   return (
     <Form {...form}>
       <form
@@ -102,7 +100,6 @@ export default function BusinessInfoStep({
           form={form}
           name="expectedStudents"
           label="عدد الطلاب المتوقع"
-          placeholder="20"
           type="number"
           min={1}
         />

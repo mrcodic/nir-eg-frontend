@@ -28,7 +28,8 @@ function CustomInput<T extends FieldValues>({
           placeholder={placeholder || `قم بإدخال ${label}`}
           {...(props?.type === "number"
             ? {
-                onChange: (e) => field.onChange(Number(e.target.valueAsNumber)),
+                onChange: (e) =>
+                  field.onChange(Number(e.target.valueAsNumber) || 1),
               }
             : {})}
           {...(props?.onChange && {

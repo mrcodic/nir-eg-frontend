@@ -51,12 +51,13 @@ function CustomSelect<T extends FieldValues>({
     <GenericField form={form} name={name} label={label}>
       {({ field, formState }) => (
         <Select
+          key={isLoading ? "loading" : "loaded"}
           value={field.value}
           onValueChange={(value) => {
             field.onChange(value);
             onAfterSelect?.(value);
           }}
-          disabled={disabled}
+          disabled={disabled || isLoading}
         >
           <SelectTrigger
             aria-invalid={formState.errors[name] ? true : undefined}
@@ -64,6 +65,7 @@ function CustomSelect<T extends FieldValues>({
           >
             <SelectValue placeholder={placeholder || `اختر ${label}`} />
           </SelectTrigger>
+
           <SelectContent>
             {isLoading && (
               <span className="text-right animate-pulse py-1.5 pr-8 pl-2 text-sm">
