@@ -1,11 +1,29 @@
+"use client";
+
+import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { useRef } from "react";
 import AnimatedText from "../AnimatedText";
 import MotionWrapper from "../MotionWrapper";
 import { Button } from "../ui/button";
 import { FloatingHeroIcons } from "./FloatingHeroIcons";
 
 function HeroSection() {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end end"],
+  });
+
+  const springY = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 10,
+    restDelta: 0.01,
+  });
+
+  const y = useTransform(springY, [0, 1], ["0%", "50%"]);
+
   return (
     <section className="wrapper bg-background w-full relative text-center pb-12 overflow-x-hidden">
       <Image className="z-1" fill src="/bg-vector.png" alt="" />
@@ -83,7 +101,7 @@ function HeroSection() {
         </Link>
       </MotionWrapper>
 
-      <div className="relative z-2">
+      <div className="relative z-2" ref={ref}>
         <MotionWrapper
           as={Image}
           src="/assets/graduation.svg"
@@ -130,7 +148,7 @@ function HeroSection() {
         >
           <FloatingHeroIcons />
 
-          <div className="relative mt-auto pt-4">
+          <motion.div style={{ y }} className="relative mt-auto pt-4">
             <MotionWrapper
               as={Image}
               src="/assets/hero/dashboard.png"
@@ -148,7 +166,7 @@ function HeroSection() {
               }}
               transition={{ duration: 0.5, delay: 0.8 }}
             />
-          </div>
+          </motion.div>
         </MotionWrapper>
       </div>
     </section>
