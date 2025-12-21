@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FieldValues, UseFormSetValue, UseFormWatch } from "react-hook-form";
 
 export interface FormPersistConfig<T extends FieldValues> {
@@ -33,10 +33,10 @@ const useFormPersist = <T extends FieldValues>(
     setIsMounted(true);
   }, []);
 
-  const getStorage = (): Storage | null => {
+  const getStorage = useCallback((): Storage | null => {
     if (typeof window === "undefined") return null;
     return storage || window.localStorage;
-  };
+  }, [storage]);
 
   const clearStorage = () => {
     const storageInstance = getStorage();
@@ -124,7 +124,7 @@ const useFormPersist = <T extends FieldValues>(
     });
 
     return () => subscription.unsubscribe();
-  }, [isMounted, watch, name, exclude, timeout, storage]);
+  }, [isMounted, watch, name, exclude, timeout, storage, getStorage]);
 
   return {
     clear: clearStorage,
