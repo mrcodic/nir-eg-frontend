@@ -8,24 +8,25 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { axiosInstance } from "@/lib/axios-instance";
-import type {
-  AccountInfoFormData,
-  EmailVerifyFormData,
+import {
+  emailVerifySchema,
+  type AccountInfoFormData,
+  type EmailVerifyFormData,
 } from "@/lib/schemas/subscribe.schema";
 import {
   getRemainingSeconds,
   OTP_STORAGE_KEY,
   startNewTimer,
 } from "@/utils/otp-helpers";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
-import type { UseFormReturn } from "react-hook-form";
+import { useForm, type UseFormReturn } from "react-hook-form";
 import { toast } from "sonner";
 import { OtpInput } from "../shared";
 import NavigationButtons from "../shared/NavigationButtons";
 
 interface EmailVerifyStepProps {
-  form: UseFormReturn<EmailVerifyFormData>;
   accountForm: UseFormReturn<AccountInfoFormData>;
   onNext: () => void;
   onPrevious: () => void;
@@ -38,17 +39,23 @@ const formatTime = (seconds: number) => {
 };
 
 export default function EmailVerifyStep({
-  form,
   accountForm,
   onNext,
   onPrevious,
 }: EmailVerifyStepProps) {
-  const [timeLeft, setTimeLeft] = useState(() => getRemainingSeconds());
-  const [isVerifying, setIsVerifying] = useState(false);
-  const [isSending, setIsSending] = useState(false);
+  const form = useForm<EmailVerifyFormData>({
+    resolver: zodResolver(emailVerifySchema),
+    defaultValues: {
+      otp: "",
+    },
+  });
 
   const email = accountForm.getValues("email");
   const user_id = accountForm.getValues("user_id");
+
+  const [timeLeft, setTimeLeft] = useState(() => getRemainingSeconds());
+  const [isVerifying, setIsVerifying] = useState(false);
+  const [isSending, setIsSending] = useState(false);
 
   // Prevent duplicate OTP sends on strict-mode / re-renders
   // const hasSentOtpRef = useRef(false);
@@ -150,12 +157,15 @@ export default function EmailVerifyStep({
         accountForm.setValue("email_verified", true);
 
         localStorage.setItem("last_verified_email", email);
-        toast.success("OTP verified successfully");
+
+        toast.success("تم التحقق من رمز التأكيد");
 
         onNext();
       } catch (e) {
         console.log("Failed to verify OTP:", e);
-        toast.error("Failed to verify OTP");
+        toast.error(
+          "حدث خطأ أثناء التحقق من رمز التأكيد. يرجى المحاولة مرة أخرى."
+        );
       } finally {
         setIsVerifying(false);
       }
@@ -231,6 +241,7 @@ export default function EmailVerifyStep({
           onPrevious={onPrevious}
           isPending={isVerifying}
           pendingText="جاري التحقق..."
+          disabledNext={form.watch("otp")?.length !== 6}
         />
       </form>
     </Form>

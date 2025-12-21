@@ -9,8 +9,6 @@ import {
   brandingSchema,
   BusinessInfoFormData,
   businessInfoSchema,
-  EmailVerifyFormData,
-  emailVerifySchema,
   PaymentFormData,
   paymentSchema,
 } from "@/lib/schemas/subscribe.schema";
@@ -53,12 +51,6 @@ function useStepsForms({ period, planId }: Props) {
     },
   });
 
-  const verifyForm = useForm<EmailVerifyFormData>({
-    resolver: zodResolver(emailVerifySchema),
-    defaultValues: {
-      otp: "",
-    },
-  });
   const businessForm = useForm<BusinessInfoFormData>({
     resolver: zodResolver(businessInfoSchema),
     defaultValues: {
@@ -69,7 +61,7 @@ function useStepsForms({ period, planId }: Props) {
       gradeLevels: [],
       teachingMethod: "mixed",
       expectedStudents: 20,
-      // country: "egypt",
+      country: "مصر",
       governorate: "",
       city: "",
       address: "",
@@ -104,10 +96,10 @@ function useStepsForms({ period, planId }: Props) {
     setValue: accountForm.setValue,
   });
 
-  useFormPersist("verifyForm", {
-    watch: verifyForm.watch,
-    setValue: verifyForm.setValue,
-  });
+  // useFormPersist("verifyForm", {
+  //   watch: verifyForm.watch,
+  //   setValue: verifyForm.setValue,
+  // });
 
   useFormPersist("businessForm", {
     watch: businessForm.watch,
@@ -117,6 +109,7 @@ function useStepsForms({ period, planId }: Props) {
   useFormPersist("brandingForm", {
     watch: brandingForm.watch,
     setValue: brandingForm.setValue,
+    exclude: ["logoFile", "faviconFile", "coverFile"],
   });
 
   useFormPersist("paymentForm", {
@@ -126,7 +119,6 @@ function useStepsForms({ period, planId }: Props) {
 
   return {
     accountForm,
-    verifyForm,
     businessForm,
     brandingForm,
     paymentForm,

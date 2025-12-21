@@ -11,10 +11,16 @@ function CustomInput<T extends FieldValues>({
   name,
   label,
   placeholder,
+  labelClassName,
   ...props
 }: FieldProps & CustomFieldProps<T>) {
   return (
-    <GenericField form={form} name={name} label={label}>
+    <GenericField
+      form={form}
+      name={name}
+      label={label}
+      labelClassName={labelClassName}
+    >
       {({ field }) => (
         <Input
           {...props}

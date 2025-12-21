@@ -84,7 +84,7 @@ export const businessInfoSchema = z.object({
     .number()
     .min(1, "عدد الطلاب يجب أن يكون 1 على الأقل")
     .max(100000, "عدد الطلاب يجب أن يكون أقل من 100000"),
-  // country: z.string().min(1, "الدولة مطلوبة"),
+  country: z.string().min(1, "الدولة مطلوبة"),
   governorate: z.string().min(1, "المحافظة مطلوبة"),
   city: z.string().optional(),
   address: z.string().min(5, "العنوان يجب أن يكون 5 أحرف على الأقل"),

@@ -6,19 +6,21 @@ function NavigationButtons({
   isFirstStep,
   isPending,
   pendingText,
+  disabledNext,
 }: {
   onPrevious?: () => void;
   isLastStep?: boolean;
   isFirstStep?: boolean;
   isPending?: boolean;
   pendingText?: string;
+  disabledNext?: boolean;
 }) {
   return (
     <div className="flex gap-4 lg:justify-end justify-center pt-6">
       <Button
         type="submit"
         className="w-28 bg-primary-800 hover:bg-primary-800/90"
-        disabled={isPending}
+        disabled={isPending || disabledNext}
       >
         {isPending
           ? pendingText || "جاري الإرسال..."

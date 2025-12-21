@@ -44,7 +44,7 @@ export default function BusinessInfoStep({
 }: BusinessInfoStepProps) {
   const selectedGovernorate = form.watch("governorate");
 
-  console.log(form.getValues());
+  console.log("bussiness form , ", form.getValues());
 
   return (
     <Form {...form}>
@@ -111,7 +111,15 @@ export default function BusinessInfoStep({
         <div className="border-t pt-4 mt-4 border-gray-light">
           <h3 className="text-lg font-bold mb-4">الموقع</h3>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 items-start">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 items-start">
+            <CustomInput
+              form={form}
+              name="country"
+              label="الدولة"
+              labelClassName="opacity-50"
+              disabled
+            />
+
             <CustomSelect
               form={form}
               name="governorate"

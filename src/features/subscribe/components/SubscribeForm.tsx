@@ -1,6 +1,7 @@
 "use client";
 
 import StyledText from "@/components/ui/StyledText";
+import { cn } from "@/lib/utils";
 import type { FormVariant, PaymentPeriod } from "@/types/subscribe.types";
 import { useSubscribeForm } from "../hooks";
 import { FormSidebar, FormStepper } from "./shared";
@@ -63,7 +64,11 @@ export default function SubscribeForm({
           </div>
 
           {/* Form Content */}
-          <div className="max-w-3xl mx-auto w-full ">
+          <div
+            className={cn("max-w-3xl mx-auto w-full ", {
+              "pointer-events-none opacity-50 animate-pulse": isSubmitting,
+            })}
+          >
             <StepRenderer
               currentStepId={currentStep.id}
               variant={variant}

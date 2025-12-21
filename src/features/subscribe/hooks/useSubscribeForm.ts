@@ -6,6 +6,7 @@ import {
   StepId,
 } from "@/types/subscribe.types";
 import { OTP_STORAGE_KEY } from "@/utils/otp-helpers";
+import { isAxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
@@ -50,7 +51,6 @@ export function useSubscribeForm({
   // Form instances for each step
   const {
     accountForm,
-    verifyForm,
     businessForm,
     brandingForm,
     paymentForm,
@@ -61,8 +61,8 @@ export function useSubscribeForm({
   const emailVerified = useMemo(
     () =>
       accountForm.getValues("email_verified") ||
-      (verifyForm.getValues("otp") !== "" && completedSteps.includes("verify")),
-    [accountForm, completedSteps, verifyForm]
+      completedSteps.includes("verify"),
+    [accountForm, completedSteps]
   );
 
   useEffect(() => {
@@ -77,8 +77,9 @@ export function useSubscribeForm({
         ? JSON.parse(accountFormStr)
         : {};
 
-      if (!parsedAccountForm.email_verified) {
-        setCurrentStepIndex(!parsedAccountForm?.user_id ? 0 : 1);
+      if (!parsedAccountForm?.email_verified) {
+        setCurrentStepIndex(0);
+        // setCurrentStepIndex(!parsedAccountForm?.user_id ? 0 : 1);
         return;
       }
 
@@ -112,6 +113,7 @@ export function useSubscribeForm({
         );
       }
     } catch (_e) {
+      console.error(_e);
       setCurrentStepIndex(0);
     }
   }, [steps, emailVerified]);
@@ -164,17 +166,19 @@ export function useSubscribeForm({
   }, [currentStepIndex, emailVerified, steps]);
 
   const resetEmailVerificationForm = useCallback(() => {
-    verifyForm.reset();
     accountForm.setValue("email_verified", false);
+    accountForm.setValue("user_id", undefined);
     setCompletedSteps((prev: StepId[]) =>
       prev.filter((step) => step !== "verify")
     );
     localStorage.removeItem(OTP_STORAGE_KEY);
-  }, [accountForm, verifyForm, setCompletedSteps]);
+  }, [accountForm, setCompletedSteps]);
 
   // check all forms using form.trigger before final submit and change current index to the first form that has errors
   const checkFormsForErrors = useCallback(async () => {
-    const forms = [accountForm, businessForm, brandingForm, paymentForm];
+    const forms = [accountForm, businessForm, brandingForm];
+    if (variant === "paid") forms.push(paymentForm as any);
+
     for (let i = 0; i < forms.length; i++) {
       const form = forms[i];
       const isValid = await form.trigger();
@@ -185,6 +189,14 @@ export function useSubscribeForm({
         throw new Error("Form has errors");
       }
     }
+  }, [accountForm, businessForm, brandingForm, variant, paymentForm]);
+
+  const resetAllForms = useCallback(() => {
+    accountForm.reset();
+    businessForm.reset();
+    brandingForm.reset();
+    paymentForm.reset();
+    localStorage.removeItem("completedSteps");
   }, [accountForm, businessForm, brandingForm, paymentForm]);
 
   // Final submission
@@ -203,15 +215,13 @@ export function useSubscribeForm({
       // Collect all form data
       const formData = {
         // account: accountForm.getValues(),
+        user_id: accountForm.getValues("user_id"),
         business: businessForm.getValues(),
         branding: brandingForm.getValues(),
         ...(variant === "paid" && { payment: paymentForm.getValues() }),
       };
 
       console.log("Submitting form data:", formData);
-
-      // TODO: Call API to submit registration
-      await new Promise((resolve) => setTimeout(resolve, 2000));
 
       const res = await axiosInstance.post("/tenants/onboard", formData, {
         headers: {
@@ -222,22 +232,30 @@ export function useSubscribeForm({
 
       console.log("Response:", res);
 
-      // Success - redirect or show success message
       toast.success("تم الاشتراك بنجاح! 🎉");
+
+      resetAllForms();
+
       // alert("تم الاشتراك بنجاح! 🎉");
       router.push("/subscribe/building?timestamp=" + Date.now());
     } catch (error) {
       console.error("Submission error:", error);
-      toast.error("حدث خطأ أثناء الإرسال. يرجى المحاولة مرة أخرى.");
+      if (isAxiosError(error) && error.response?.status === 409) {
+        toast.error("هذا الحساب مسجل بالفعل");
+      } else {
+        toast.error("حدث خطأ أثناء الإرسال. يرجى المحاولة مرة أخرى.");
+      }
     } finally {
       setIsSubmitting(false);
     }
   }, [
     checkFormsForErrors,
+    accountForm,
     businessForm,
     brandingForm,
     variant,
     paymentForm,
+    resetAllForms,
     router,
   ]);
 
@@ -251,7 +269,6 @@ export function useSubscribeForm({
     isSubmitting,
     forms: {
       accountForm,
-      verifyForm,
       businessForm,
       brandingForm,
       paymentForm,

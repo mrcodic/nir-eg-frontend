@@ -11,6 +11,7 @@ export interface GenericFieldProps<T extends FieldValues> {
   form: UseFormReturn<T>;
   name: Path<T>;
   label: ReactNode;
+  labelClassName?: string;
   children: ({
     field,
   }: {
@@ -24,4 +25,5 @@ export interface CustomFieldProps<T extends FieldValues> {
   name: Path<T>;
   label: ReactNode;
   placeholder?: string;
+  labelClassName?: string;
 }

@@ -17,16 +17,11 @@ interface AccountInfoStepProps {
   resetEmailVerificationForm: () => void;
 }
 
-// const languages = [
-//   { value: "ar", label: "العربية" },
-//   { value: "en", label: "English" },
-// ];
-
 const timezones = [
-  { value: "Africa/Cairo", label: "Africa/Cairo" },
-  { value: "Asia/Riyadh", label: "Asia/Riyadh" },
-  { value: "Asia/Dubai", label: "Asia/Dubai" },
-  { value: "Europe/London", label: "Europe/London" },
+  { id: "Africa/Cairo", name: "Africa/Cairo" },
+  { id: "Asia/Riyadh", name: "Asia/Riyadh" },
+  { id: "Asia/Dubai", name: "Asia/Dubai" },
+  { id: "Europe/London", name: "Europe/London" },
 ];
 
 export default function AccountInfoStep({
@@ -41,7 +36,14 @@ export default function AccountInfoStep({
 
       console.log(values);
 
-      if (!isFormDirty && isFormValid && values?.user_id) {
+      // when user refresh the page or go back to first step without changing any thing and the email is verified , go to next step which in return will skip the verification of the otp step
+
+      if (
+        !isFormDirty &&
+        isFormValid &&
+        values?.user_id &&
+        values?.email_verified
+      ) {
         onNext();
         return;
       }
@@ -55,15 +57,13 @@ export default function AccountInfoStep({
       form.setValue("user_id", res.data.data.user_id);
       form.setValue("email_verified", res.data.data.email_verified);
 
-      const lastVerifiedEmail = localStorage.getItem("last_verified_email");
-
-      if (res.data.data.email_verified && lastVerifiedEmail === values.email) {
-        onNext();
-        return;
+      if (!res.data.data.email_verified) {
+        toast.success("تم ارسال OTP لبريدك الإلكتروني");
+        startNewTimer();
+      } else {
+        localStorage.setItem("last_verified_email", values.email);
       }
 
-      toast.success("تم ارسال OTP لبريدك الإلكتروني");
-      startNewTimer();
       onNext();
     } catch (error) {
       toast.error("حدث خطأ أثناء إنشاء الحساب");

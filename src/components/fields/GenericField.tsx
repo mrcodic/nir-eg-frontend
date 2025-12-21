@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import { FieldValues } from "react-hook-form";
 import {
   FormControl,
@@ -13,6 +14,7 @@ function GenericField<T extends FieldValues>({
   name,
   label,
   children,
+  labelClassName,
 }: GenericFieldProps<T>) {
   return (
     <FormField
@@ -20,7 +22,9 @@ function GenericField<T extends FieldValues>({
       name={name}
       render={({ field, formState }) => (
         <FormItem>
-          <FormLabel className="text-sm text-right">{label}</FormLabel>
+          <FormLabel className={cn("text-sm text-right", labelClassName)}>
+            {label}
+          </FormLabel>
           <FormControl>{children({ field, formState })}</FormControl>
           <FormMessage />
         </FormItem>

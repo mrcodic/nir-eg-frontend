@@ -27,8 +27,7 @@ export default function StepRenderer({
   forms,
   handlers,
 }: StepRendererProps) {
-  const { accountForm, verifyForm, businessForm, brandingForm, paymentForm } =
-    forms;
+  const { accountForm, businessForm, brandingForm, paymentForm } = forms;
   const {
     handleNext,
     handlePrevious,
@@ -48,7 +47,6 @@ export default function StepRenderer({
     case "verify":
       return (
         <EmailVerifyStep
-          form={verifyForm}
           accountForm={accountForm}
           onNext={handleNext}
           onPrevious={handlePrevious}
