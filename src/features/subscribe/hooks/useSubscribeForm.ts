@@ -1,0 +1,266 @@
+import { axiosInstance } from "@/lib/axios-instance";
+import {
+  FormStep,
+  FormVariant,
+  PaymentPeriod,
+  StepId,
+} from "@/types/subscribe.types";
+import { OTP_STORAGE_KEY } from "@/utils/otp-helpers";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { toast } from "sonner";
+import useStepsForms from "./useStepsForms";
+
+// Step configuration
+export const getSteps = (variant: FormVariant): FormStep[] => {
+  const baseSteps: FormStep[] = [
+    { id: "account", title: "معلومات الحساب" },
+    { id: "verify", title: "تأكيد البريد الإلكتروني" },
+    { id: "business", title: "تفاصيل العمل التجاري" },
+    { id: "branding", title: "الموقع والعلامة التجارية" },
+  ];
+
+  if (variant === "paid") {
+    baseSteps.push({ id: "payment", title: "الدفع والاشتراك" });
+  }
+
+  return baseSteps;
+};
+
+interface UseSubscribeFormProps {
+  variant: FormVariant;
+  planId?: string;
+  period: PaymentPeriod;
+}
+
+export function useSubscribeForm({
+  variant,
+  planId,
+  period,
+}: UseSubscribeFormProps) {
+  const router = useRouter();
+  const steps = useMemo(() => getSteps(variant), [variant]);
+  const initCurrentStepRef = useRef(false);
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [currentStepIndex, setCurrentStepIndex] = useState(0);
+
+  const currentStep = steps[currentStepIndex];
+
+  // Form instances for each step
+  const {
+    accountForm,
+    verifyForm,
+    businessForm,
+    brandingForm,
+    paymentForm,
+    completedSteps,
+    setCompletedSteps,
+  } = useStepsForms({ period, planId });
+
+  const emailVerified = useMemo(
+    () =>
+      accountForm.getValues("email_verified") ||
+      (verifyForm.getValues("otp") !== "" && completedSteps.includes("verify")),
+    [accountForm, completedSteps, verifyForm]
+  );
+
+  useEffect(() => {
+    if (initCurrentStepRef.current) return;
+    initCurrentStepRef.current = true;
+
+    const storedCompletedSteps = localStorage.getItem("completedSteps");
+    const accountFormStr = localStorage.getItem("accountForm");
+
+    try {
+      const parsedAccountForm = accountFormStr
+        ? JSON.parse(accountFormStr)
+        : {};
+
+      if (!parsedAccountForm.email_verified) {
+        setCurrentStepIndex(!parsedAccountForm?.user_id ? 0 : 1);
+        return;
+      }
+
+      const parsedCompletedSteps = storedCompletedSteps
+        ? JSON.parse(storedCompletedSteps)
+        : [];
+
+      const lastCompletedStep =
+        parsedCompletedSteps[parsedCompletedSteps.length - 1] || null;
+
+      if (!lastCompletedStep) {
+        setCurrentStepIndex(0);
+        return;
+      }
+
+      // Find the index of the last completed step
+      const lastCompletedStepIndex = steps.findIndex(
+        (step) => step.id === lastCompletedStep
+      );
+
+      // If last completed step is "verify", move to the next step
+      if (lastCompletedStep === "verify") {
+        const nextStepIndex = lastCompletedStepIndex + 1;
+        setCurrentStepIndex(
+          nextStepIndex < steps.length ? nextStepIndex : lastCompletedStepIndex
+        );
+      } else {
+        // Otherwise, stay on the last completed step
+        setCurrentStepIndex(
+          lastCompletedStepIndex !== -1 ? lastCompletedStepIndex : 0
+        );
+      }
+    } catch (_e) {
+      setCurrentStepIndex(0);
+    }
+  }, [steps, emailVerified]);
+
+  // Navigation handlers
+  const handleNext = useCallback(async () => {
+    // Mark current step as completed and maintain order
+    setCompletedSteps((prev: StepId[]) => {
+      // Create a set of completed step IDs for quick lookup
+      const completedSet = new Set(prev);
+
+      // Add current step if not already completed
+      if (!completedSet.has(currentStep.id)) {
+        completedSet.add(currentStep.id);
+      }
+
+      // Return steps in the same order as they appear in the steps array
+      return steps
+        .map((step) => step.id)
+        .filter((stepId) => completedSet.has(stepId));
+    });
+
+    // Move to next step
+    // step over email verification if completed
+    if (currentStepIndex < steps.length - 1) {
+      const nextStepId = steps[currentStepIndex + 1].id;
+      if (nextStepId === "verify" && emailVerified) {
+        setCurrentStepIndex((prev) => prev + 2);
+      } else {
+        setCurrentStepIndex((prev) => prev + 1);
+      }
+    }
+  }, [
+    currentStep.id,
+    currentStepIndex,
+    emailVerified,
+    setCompletedSteps,
+    steps,
+  ]);
+
+  const handlePrevious = useCallback(() => {
+    if (currentStepIndex > 0) {
+      const previousStepId = steps[currentStepIndex - 1].id;
+      if (previousStepId === "verify" && emailVerified) {
+        setCurrentStepIndex((prev) => prev - 2);
+      } else {
+        setCurrentStepIndex((prev) => prev - 1);
+      }
+    }
+  }, [currentStepIndex, emailVerified, steps]);
+
+  const resetEmailVerificationForm = useCallback(() => {
+    verifyForm.reset();
+    accountForm.setValue("email_verified", false);
+    setCompletedSteps((prev: StepId[]) =>
+      prev.filter((step) => step !== "verify")
+    );
+    localStorage.removeItem(OTP_STORAGE_KEY);
+  }, [accountForm, verifyForm, setCompletedSteps]);
+
+  // check all forms using form.trigger before final submit and change current index to the first form that has errors
+  const checkFormsForErrors = useCallback(async () => {
+    const forms = [accountForm, businessForm, brandingForm, paymentForm];
+    for (let i = 0; i < forms.length; i++) {
+      const form = forms[i];
+      const isValid = await form.trigger();
+      if (!isValid) {
+        console.log("Form has errors", i);
+        setCurrentStepIndex(i > 0 ? i + 1 : i);
+        await form.trigger();
+        throw new Error("Form has errors");
+      }
+    }
+  }, [accountForm, businessForm, brandingForm, paymentForm]);
+
+  // Final submission
+  const handleFinalSubmit = useCallback(async () => {
+    try {
+      await checkFormsForErrors();
+    } catch (error) {
+      console.error("Error checking forms for errors:", error);
+      toast.error("يرجى التأكد من إدخال البيانات بشكل صحيح");
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+
+      // Collect all form data
+      const formData = {
+        // account: accountForm.getValues(),
+        business: businessForm.getValues(),
+        branding: brandingForm.getValues(),
+        ...(variant === "paid" && { payment: paymentForm.getValues() }),
+      };
+
+      console.log("Submitting form data:", formData);
+
+      // TODO: Call API to submit registration
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      const res = await axiosInstance.post("/tenants/onboard", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Accept: "application/json",
+        },
+      });
+
+      console.log("Response:", res);
+
+      // Success - redirect or show success message
+      toast.success("تم الاشتراك بنجاح! 🎉");
+      // alert("تم الاشتراك بنجاح! 🎉");
+      router.push("/subscribe/building?timestamp=" + Date.now());
+    } catch (error) {
+      console.error("Submission error:", error);
+      toast.error("حدث خطأ أثناء الإرسال. يرجى المحاولة مرة أخرى.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  }, [
+    checkFormsForErrors,
+    businessForm,
+    brandingForm,
+    variant,
+    paymentForm,
+    router,
+  ]);
+
+  return {
+    steps,
+    currentStep,
+    currentStepIndex,
+    setCurrentStepIndex,
+    completedSteps,
+    emailVerified,
+    isSubmitting,
+    forms: {
+      accountForm,
+      verifyForm,
+      businessForm,
+      brandingForm,
+      paymentForm,
+    },
+    handlers: {
+      handleNext,
+      handlePrevious,
+      handleFinalSubmit,
+      resetEmailVerificationForm,
+    },
+  };
+}

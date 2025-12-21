@@ -18,53 +18,6 @@ interface BusinessInfoStepProps {
   onPrevious: () => void;
 }
 
-// Mock data - replace with actual data from API
-const subjects = [
-  { value: "math", label: "الرياضيات" },
-  { value: "arabic", label: "اللغة العربية" },
-  { value: "english", label: "اللغة الإنجليزية" },
-  { value: "science", label: "العلوم" },
-  { value: "physics", label: "الفيزياء" },
-  { value: "chemistry", label: "الكيمياء" },
-];
-
-const gradeLevels = [
-  { value: "primary-1", label: "الصف الأول الابتدائي" },
-  { value: "primary-2", label: "الصف الثاني الابتدائي" },
-  { value: "primary-3", label: "الصف الثالث الابتدائي" },
-  { value: "prep-1", label: "الصف الأول الإعدادي" },
-  { value: "prep-2", label: "الصف الثاني الإعدادي" },
-  { value: "prep-3", label: "الصف الثالث الإعدادي" },
-  { value: "sec-1", label: "الصف الأول الثانوي" },
-  { value: "sec-2", label: "الصف الثاني الثانوي" },
-  { value: "sec-3", label: "الصف الثالث الثانوي" },
-];
-
-// const countries = [{ value: "egypt", label: "مصر" }];
-
-const governorates = [
-  { value: "cairo", label: "القاهرة" },
-  { value: "giza", label: "الجيزة" },
-  { value: "alexandria", label: "الإسكندرية" },
-];
-
-const cities: Record<string, { value: string; label: string }[]> = {
-  cairo: [
-    { value: "nasr-city", label: "مدينة نصر" },
-    { value: "heliopolis", label: "مصر الجديدة" },
-    { value: "maadi", label: "المعادي" },
-  ],
-  giza: [
-    { value: "dokki", label: "الدقي" },
-    { value: "mohandessin", label: "المهندسين" },
-    { value: "6october", label: "6 أكتوبر" },
-  ],
-  alexandria: [
-    { value: "montaza", label: "المنتزة" },
-    { value: "sidi-bishr", label: "سيدي بشر" },
-  ],
-};
-
 const teacherTypeOptions = [
   { value: "individual", label: "فردي" },
   { value: "center", label: "سنتر" },
@@ -77,11 +30,11 @@ const teachingMethodOptions = [
 ];
 
 const howDidYouHearOptions = [
-  { value: "social-media", label: "وسائل التواصل الاجتماعي" },
-  { value: "friend", label: "صديق" },
-  { value: "google", label: "بحث جوجل" },
-  { value: "advertisement", label: "إعلان" },
-  { value: "other", label: "أخرى" },
+  { id: "social-media", name: "وسائل التواصل الاجتماعي" },
+  { id: "friend", name: "صديق" },
+  { id: "google", name: "بحث جوجل" },
+  { id: "advertisement", name: "إعلان" },
+  { id: "other", name: "أخرى" },
 ];
 
 export default function BusinessInfoStep({
@@ -90,13 +43,13 @@ export default function BusinessInfoStep({
   onPrevious,
 }: BusinessInfoStepProps) {
   const selectedGovernorate = form.watch("governorate");
-  const availableCities = selectedGovernorate
-    ? cities[selectedGovernorate] || []
-    : [];
+
+  console.log(form.getValues());
 
   return (
     <Form {...form}>
       <form
+        key={"business info form"}
         onSubmit={form.handleSubmit(onNext)}
         className="space-y-4"
         dir="rtl"
@@ -122,7 +75,7 @@ export default function BusinessInfoStep({
           form={form}
           name="subjects"
           label="المواد الدراسية"
-          options={subjects}
+          queryKey="/subjects"
           placeholder="اختر المواد الدراسية"
           triggerClassName="w-full"
         />
@@ -131,7 +84,7 @@ export default function BusinessInfoStep({
           form={form}
           name="gradeLevels"
           label="الصفوف الدراسية"
-          options={gradeLevels}
+          queryKey="/grades"
           placeholder="اختر الصفوف الدراسية"
           triggerClassName="w-full"
         />
@@ -158,28 +111,23 @@ export default function BusinessInfoStep({
         <div className="border-t pt-4 mt-4 border-gray-light">
           <h3 className="text-lg font-bold mb-4">الموقع</h3>
 
-          {/* <CustomSelect
-            form={form}
-            name="country"
-            label="الدولة"
-            options={countries}
-            placeholder="اختر الدولة"
-          /> */}
-
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 items-start">
             <CustomSelect
               form={form}
               name="governorate"
               label="المحافظة"
-              options={governorates}
+              queryKey="/governorates"
               placeholder="اختر المحافظة"
+              onAfterSelect={() => {
+                form.setValue("city", "");
+              }}
             />
 
             <CustomSelect
               form={form}
               name="city"
               label="المدينة"
-              options={availableCities}
+              queryKey={`/governorates/${selectedGovernorate}/cities`}
               placeholder="اختر المدينة"
               disabled={!selectedGovernorate}
             />

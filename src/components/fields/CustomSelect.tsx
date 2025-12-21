@@ -1,4 +1,6 @@
+import { getPublicData } from "@/config/client-fetch";
 import { cn } from "@/lib/utils";
+import { useQuery } from "@tanstack/react-query";
 import { FieldValues, Path, UseFormReturn } from "react-hook-form";
 import {
   Select,
@@ -10,18 +12,20 @@ import {
 import GenericField from "./GenericField";
 
 export interface SelectOption {
-  value: string;
-  label: string;
+  id: number | string;
+  name: string;
 }
 
 interface CustomSelectProps<T extends FieldValues> {
   form: UseFormReturn<T>;
   name: Path<T>;
   label: string;
+  queryKey?: string;
   placeholder?: string;
-  options: SelectOption[];
+  options?: SelectOption[];
   disabled?: boolean;
   triggerClassName?: string;
+  onAfterSelect?: (value?: string) => void;
 }
 
 function CustomSelect<T extends FieldValues>({
@@ -30,15 +34,28 @@ function CustomSelect<T extends FieldValues>({
   label,
   placeholder,
   options,
+  queryKey,
   disabled,
   triggerClassName,
+  onAfterSelect,
 }: CustomSelectProps<T>) {
+  const { data, isLoading } = useQuery({
+    queryKey: [queryKey],
+    queryFn: getPublicData as () => Promise<{ data: SelectOption[] }>,
+    enabled: !!queryKey && !disabled,
+  });
+
+  const queryOptions = data?.data || [];
+
   return (
     <GenericField form={form} name={name} label={label}>
       {({ field, formState }) => (
         <Select
           value={field.value}
-          onValueChange={field.onChange}
+          onValueChange={(value) => {
+            field.onChange(value);
+            onAfterSelect?.(value);
+          }}
           disabled={disabled}
         >
           <SelectTrigger
@@ -48,9 +65,14 @@ function CustomSelect<T extends FieldValues>({
             <SelectValue placeholder={placeholder || `اختر ${label}`} />
           </SelectTrigger>
           <SelectContent>
-            {options.map((option) => (
-              <SelectItem key={option.value} value={option.value}>
-                {option.label}
+            {isLoading && (
+              <span className="text-right animate-pulse py-1.5 pr-8 pl-2 text-sm">
+                ....جاري التحميل
+              </span>
+            )}
+            {(options || queryOptions)?.map((option) => (
+              <SelectItem key={option.id} value={String(option.id)}>
+                {option.name}
               </SelectItem>
             ))}
           </SelectContent>

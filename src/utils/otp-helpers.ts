@@ -14,15 +14,12 @@ export const getRemainingSeconds = () => {
   return diff > 0 ? diff : 0;
 };
 
-export const startNewTimer = (
-  email: string,
-  setTimeLeft: (v: number) => void
-) => {
-  if (typeof window === "undefined") return;
+export const startNewTimer = () => {
+  if (typeof window === "undefined") return 0;
 
   const expiresAt = Date.now() + TIMER_DURATION * 1000;
 
   localStorage.setItem(OTP_STORAGE_KEY, String(expiresAt));
 
-  setTimeLeft(TIMER_DURATION);
+  return TIMER_DURATION;
 };

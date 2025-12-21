@@ -48,12 +48,9 @@ function useStepsForms({ period, planId }: Props) {
       acceptPrivacy: false,
       acceptSms: false,
       acceptWhatsapp: false,
+      user_id: undefined,
+      email_verified: false,
     },
-  });
-
-  useFormPersist("accountForm", {
-    watch: accountForm.watch,
-    setValue: accountForm.setValue,
   });
 
   const verifyForm = useForm<EmailVerifyFormData>({
@@ -62,12 +59,6 @@ function useStepsForms({ period, planId }: Props) {
       otp: "",
     },
   });
-
-  useFormPersist("verifyForm", {
-    watch: verifyForm.watch,
-    setValue: verifyForm.setValue,
-  });
-
   const businessForm = useForm<BusinessInfoFormData>({
     resolver: zodResolver(businessInfoSchema),
     defaultValues: {
@@ -86,12 +77,6 @@ function useStepsForms({ period, planId }: Props) {
       additionalNotes: "",
     },
   });
-
-  useFormPersist("businessForm", {
-    watch: businessForm.watch,
-    setValue: businessForm.setValue,
-  });
-
   const brandingForm = useForm<BrandingFormData>({
     resolver: zodResolver(brandingSchema),
     defaultValues: {
@@ -105,11 +90,6 @@ function useStepsForms({ period, planId }: Props) {
     },
   });
 
-  useFormPersist("brandingForm", {
-    watch: brandingForm.watch,
-    setValue: brandingForm.setValue,
-  });
-
   const paymentForm = useForm<PaymentFormData>({
     resolver: zodResolver(paymentSchema),
     defaultValues: {
@@ -117,6 +97,26 @@ function useStepsForms({ period, planId }: Props) {
       paymentPeriod: period || "yearly",
       paymentMethod: "e-wallet",
     },
+  });
+
+  useFormPersist("accountForm", {
+    watch: accountForm.watch,
+    setValue: accountForm.setValue,
+  });
+
+  useFormPersist("verifyForm", {
+    watch: verifyForm.watch,
+    setValue: verifyForm.setValue,
+  });
+
+  useFormPersist("businessForm", {
+    watch: businessForm.watch,
+    setValue: businessForm.setValue,
+  });
+
+  useFormPersist("brandingForm", {
+    watch: brandingForm.watch,
+    setValue: brandingForm.setValue,
   });
 
   useFormPersist("paymentForm", {

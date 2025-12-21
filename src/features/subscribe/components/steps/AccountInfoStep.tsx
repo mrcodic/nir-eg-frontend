@@ -3,9 +3,12 @@
 import { CustomCheckbox, CustomInput, CustomSelect } from "@/components/fields";
 import { Form } from "@/components/ui/form";
 import PasswordInput from "@/components/ui/password-input";
+import { axiosInstance } from "@/lib/axios-instance";
 import type { AccountInfoFormData } from "@/lib/schemas/subscribe.schema";
+import { startNewTimer } from "@/utils/otp-helpers";
 import Link from "next/link";
 import { UseFormReturn } from "react-hook-form";
+import { toast } from "sonner";
 import NavigationButtons from "../shared/NavigationButtons";
 
 interface AccountInfoStepProps {
@@ -31,9 +34,52 @@ export default function AccountInfoStep({
   onNext,
   resetEmailVerificationForm,
 }: AccountInfoStepProps) {
+  async function handleAccountCreation(values: AccountInfoFormData) {
+    try {
+      const isFormDirty = form.formState.isDirty;
+      const isFormValid = Object.keys(form.formState.errors).length === 0;
+
+      console.log(values);
+
+      if (!isFormDirty && isFormValid && values?.user_id) {
+        onNext();
+        return;
+      }
+
+      const res = await axiosInstance.post("/onboarding/account", {
+        account: values,
+      });
+
+      console.log(res);
+
+      form.setValue("user_id", res.data.data.user_id);
+      form.setValue("email_verified", res.data.data.email_verified);
+
+      const lastVerifiedEmail = localStorage.getItem("last_verified_email");
+
+      if (res.data.data.email_verified && lastVerifiedEmail === values.email) {
+        onNext();
+        return;
+      }
+
+      toast.success("تم ارسال OTP لبريدك الإلكتروني");
+      startNewTimer();
+      onNext();
+    } catch (error) {
+      toast.error("حدث خطأ أثناء إنشاء الحساب");
+
+      console.log(error);
+    }
+  }
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onNext)} className="space-y-4">
+      <form
+        key={"account info form"}
+        onSubmit={form.handleSubmit(handleAccountCreation)}
+        className="space-y-4"
+        dir="rtl"
+      >
         {/* Full Name */}
         <CustomInput
           form={form}
@@ -149,7 +195,11 @@ export default function AccountInfoStep({
         </div>
 
         {/* Submit Button */}
-        <NavigationButtons isFirstStep />
+        <NavigationButtons
+          isFirstStep
+          isPending={form.formState.isSubmitting}
+          pendingText="جاري الإرسال..."
+        />
       </form>
     </Form>
   );

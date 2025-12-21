@@ -39,6 +39,9 @@ export const accountInfoSchema = z
     }),
     acceptSms: z.boolean(),
     acceptWhatsapp: z.boolean(),
+
+    user_id: z.number().optional(),
+    email_verified: z.boolean().optional(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "كلمة المرور غير متطابقة",

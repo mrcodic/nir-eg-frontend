@@ -8,14 +8,17 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { axiosInstance } from "@/lib/axios-instance";
-import type { EmailVerifyFormData } from "@/lib/schemas/subscribe.schema";
+import type {
+  AccountInfoFormData,
+  EmailVerifyFormData,
+} from "@/lib/schemas/subscribe.schema";
 import {
   getRemainingSeconds,
   OTP_STORAGE_KEY,
   startNewTimer,
 } from "@/utils/otp-helpers";
 import { Loader2 } from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type { UseFormReturn } from "react-hook-form";
 import { toast } from "sonner";
 import { OtpInput } from "../shared";
@@ -23,7 +26,7 @@ import NavigationButtons from "../shared/NavigationButtons";
 
 interface EmailVerifyStepProps {
   form: UseFormReturn<EmailVerifyFormData>;
-  email: string;
+  accountForm: UseFormReturn<AccountInfoFormData>;
   onNext: () => void;
   onPrevious: () => void;
 }
@@ -36,16 +39,19 @@ const formatTime = (seconds: number) => {
 
 export default function EmailVerifyStep({
   form,
-  email,
+  accountForm,
   onNext,
   onPrevious,
 }: EmailVerifyStepProps) {
-  const [timeLeft, setTimeLeft] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(() => getRemainingSeconds());
   const [isVerifying, setIsVerifying] = useState(false);
   const [isSending, setIsSending] = useState(false);
 
+  const email = accountForm.getValues("email");
+  const user_id = accountForm.getValues("user_id");
+
   // Prevent duplicate OTP sends on strict-mode / re-renders
-  const hasSentOtpRef = useRef(false);
+  // const hasSentOtpRef = useRef(false);
 
   const canResend = timeLeft <= 0;
 
@@ -53,52 +59,53 @@ export default function EmailVerifyStep({
     try {
       setIsSending(true);
       console.log("Sending OTP to:", email);
-      const res = await axiosInstance.post("/email-otp/send", { email });
-      startNewTimer(email, setTimeLeft);
+
+      const res = await axiosInstance.post("/email-otp/send", { user_id });
+
+      setTimeLeft(startNewTimer());
 
       console.log("OTP sent successfully:", res.data);
+
       toast.success("OTP sent successfully");
-      // await sendOtpAction(email);
     } catch (e) {
       console.log("Failed to send OTP:", e);
       toast.error("Failed to send OTP");
     } finally {
       setIsSending(false);
     }
-  }, [email]);
+  }, [user_id, email]);
 
   const verifyOtp = useCallback(
     async (otp: string) => {
       return await axiosInstance.post("/email-otp/verify", {
         email,
+        user_id,
         code: otp,
       });
     },
-    [email]
+    [email, user_id]
   );
 
   /* ---------------------------------------------
    * Initial mount + email change logic
    * ------------------------------------------- */
 
-  useEffect(() => {
-    if (hasSentOtpRef.current || !email) return;
+  // useEffect(() => {
+  //   if (hasSentOtpRef.current || !email) return;
 
-    console.log("email effect otp ", email);
+  //   const remaining = getRemainingSeconds();
 
-    const remaining = getRemainingSeconds();
+  //   if (remaining > 0) {
+  //     setTimeLeft(remaining);
+  //     return;
+  //   }
 
-    if (remaining > 0) {
-      setTimeLeft(remaining);
-      return;
-    }
+  //   hasSentOtpRef.current = true;
+  //   if (!hasSentOtpRef.current) {
 
-    if (!hasSentOtpRef.current) {
-      hasSentOtpRef.current = true;
-
-      // sendOtp();
-    }
-  }, [email, sendOtp]);
+  //     sendOtp();
+  //   }
+  // }, [email, user_id, sendOtp]);
 
   /* ---------------------------------------------
    * Countdown timer
@@ -133,10 +140,15 @@ export default function EmailVerifyStep({
       setIsVerifying(true);
 
       try {
-        // await verifyOtp(otp);
+        const res = await verifyOtp(otp);
+
+        console.log(res);
 
         // Cleanup timer after success
         localStorage.removeItem(OTP_STORAGE_KEY);
+
+        accountForm.setValue("email_verified", true);
+
         localStorage.setItem("last_verified_email", email);
         toast.success("OTP verified successfully");
 
@@ -148,17 +160,19 @@ export default function EmailVerifyStep({
         setIsVerifying(false);
       }
     },
-    [onNext, verifyOtp]
+    [accountForm, email, onNext, verifyOtp]
   );
 
   return (
     <Form {...form}>
       <form
+        key={"email form"}
         onSubmit={(e) => {
           e.preventDefault();
           handleOtpComplete(form.getValues("otp"));
         }}
         className="flex flex-col items-center space-y-6"
+        dir="rtl"
       >
         <div className="pb-2 border-b border-gray-light">
           <p className="lg:text-xl text-lg font-bold text-gray-dark">
