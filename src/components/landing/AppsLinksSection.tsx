@@ -1,7 +1,7 @@
 "use client";
 
 import MotionWrapper from "@/components/MotionWrapper";
-import { Variants } from "motion";
+import type { Variants } from "motion";
 import Image from "next/image";
 import Link from "next/link";
 import AnimatedPhones from "./AnimatedPhones";

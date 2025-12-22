@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, MotionProps } from "framer-motion";
+import type { MotionProps } from "motion/react";
+import { motion } from "motion/react";
 import {
   ComponentPropsWithoutRef,
   ElementType,
