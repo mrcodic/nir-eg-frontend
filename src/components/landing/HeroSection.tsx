@@ -13,7 +13,7 @@ function HeroSection() {
 
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["end end", "start start"],
+    offset: ["center end", "start start"],
   });
 
   const springY = useSpring(scrollYProgress, {
