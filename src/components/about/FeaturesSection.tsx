@@ -74,7 +74,7 @@ export default function FeaturesSection({
           initial={{ opacity: 0, x: 20 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
-          viewport={{ once: true, amount: "all" }}
+          viewport={{ once: true, amount: 0.1 }}
         >
           <span className="text-primary-800 drop-shadow-text "> نَيِّر </span>
           مُصمم لتبسيط عملية التعليم و توفير أدوات قوية للإداريين و المدرسين
@@ -85,7 +85,7 @@ export default function FeaturesSection({
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.4 }}
+          viewport={{ once: true, amount: 0.1 }}
         >
           {featuresWithStyles.map((feature) => (
             <MotionWrapper

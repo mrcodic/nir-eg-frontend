@@ -94,27 +94,6 @@ export default function EmailVerifyStep({
   );
 
   /* ---------------------------------------------
-   * Initial mount + email change logic
-   * ------------------------------------------- */
-
-  // useEffect(() => {
-  //   if (hasSentOtpRef.current || !email) return;
-
-  //   const remaining = getRemainingSeconds();
-
-  //   if (remaining > 0) {
-  //     setTimeLeft(remaining);
-  //     return;
-  //   }
-
-  //   hasSentOtpRef.current = true;
-  //   if (!hasSentOtpRef.current) {
-
-  //     sendOtp();
-  //   }
-  // }, [email, user_id, sendOtp]);
-
-  /* ---------------------------------------------
    * Countdown timer
    * ------------------------------------------- */
 

@@ -2,6 +2,12 @@ import ContactUsSection from "@/components/landing/ContactUsSection";
 import SocialLinks from "@/components/SocialLinks";
 import MappingFun from "@/config/MappingFun";
 import { FooterData } from "@/types/type";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "تواصل معنا",
+  description: "تواصل مع فريق نَيِّر للاستفسارات والدعم الفني.",
+};
 
 function page() {
   return (

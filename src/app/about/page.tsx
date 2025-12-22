@@ -3,6 +3,12 @@ import WhatIsNirHero from "@/components/about/WhatIsNirSection";
 import WhoCanUseUs from "@/components/about/WhoCanUseUs";
 import { getPublicData } from "@/config/client-fetch";
 import { AboutFeaturesSection } from "@/types/about.types";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "من نحن",
+  description: "تعرف على منصة نَيِّر وكيف نساعدك في إدارة العملية التعليمية.",
+};
 
 async function page() {
   const data: { data: AboutFeaturesSection } | null = await getPublicData({

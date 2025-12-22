@@ -13,7 +13,12 @@ import {
   IContentProtectionSection,
   WhyChooseSection,
 } from "@/types/landing.types";
+import { Metadata } from "next";
 import { Suspense } from "react";
+
+export const metadata: Metadata = {
+  title: "الرئيسية",
+};
 
 export default function Home() {
   return (

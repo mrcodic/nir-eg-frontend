@@ -1,4 +1,10 @@
 import { getPublicData } from "@/config/client-fetch";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "الشروط والأحكام",
+  description: "الشروط والأحكام لاستخدام منصة نَيِّر.",
+};
 
 async function page() {
   const data: { data: { content: string } } | null = await getPublicData({

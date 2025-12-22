@@ -5,13 +5,12 @@ import { IContentProtectionSection } from "@/types/landing.types";
 import { Variants } from "motion";
 import Image from "next/image";
 
-/* ---------------- variants ---------------- */
-
 const sectionVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
+      duration: 0.1,
       when: "beforeChildren",
       staggerChildren: 0.15,
     },
@@ -61,8 +60,6 @@ const imageVariants = {
 const floatAnimation = {
   y: [0, -10, 0],
 };
-
-/* ---------------- component ---------------- */
 
 export default function ContentProtectionSection({
   data,

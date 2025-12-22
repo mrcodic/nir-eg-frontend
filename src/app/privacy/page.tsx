@@ -1,4 +1,10 @@
 import { getPublicData } from "@/config/client-fetch";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "سياسة الخصوصية",
+  description: "سياسة الخصوصية لمنصة نَيِّر.",
+};
 
 async function page() {
   const data: { data: { content: string } } | null = await getPublicData({

@@ -1,5 +1,6 @@
 import { SubscribeForm } from "@/features/subscribe/components";
 import type { FormVariant, PaymentPeriod } from "@/types/subscribe.types";
+import { Metadata } from "next";
 
 interface SubscribePageProps {
   searchParams: Promise<{
@@ -8,6 +9,11 @@ interface SubscribePageProps {
     period?: string;
   }>;
 }
+
+export const metadata: Metadata = {
+  title: "الاشتراك",
+  description: "اشترك في منصة نَيِّر وابدأ رحلتك التعليمية.",
+};
 
 async function SubscribePage({ searchParams }: SubscribePageProps) {
   const params = await searchParams;

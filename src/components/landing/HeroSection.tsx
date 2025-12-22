@@ -11,18 +11,20 @@ import { FloatingHeroIcons } from "./FloatingHeroIcons";
 
 function HeroSection() {
   const ref = useRef(null);
+
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start start", "end end"],
+    offset: ["start end", "end end"],
   });
 
   const springY = useSpring(scrollYProgress, {
     stiffness: 100,
-    damping: 10,
-    restDelta: 0.01,
+    damping: 20,
+    mass: 1,
+    bounce: 0,
   });
 
-  const y = useTransform(springY, [0, 1], ["0%", "50%"]);
+  const y = useTransform(springY, [0, 1], ["50%", "0%"]);
 
   return (
     <section className="wrapper bg-background w-full relative text-center pb-12 overflow-x-hidden">
