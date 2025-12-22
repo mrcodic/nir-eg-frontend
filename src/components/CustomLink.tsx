@@ -16,7 +16,7 @@ function CustomLink({ name, ...props }: LinkProps) {
       <Link
         {...props}
         className={cn(
-          "font-bold text-gray-dark text-lg p-2 transition hover:opacity-80",
+          "font-bold text-gray-dark md:text-base lg:text-lg p-2 transition hover:opacity-80",
           {
             "text-black": isActive,
           },
