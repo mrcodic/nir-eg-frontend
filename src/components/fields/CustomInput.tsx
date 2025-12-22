@@ -1,5 +1,5 @@
-import { ComponentProps } from "react";
-import { FieldValues } from "react-hook-form";
+import type { ComponentProps } from "react";
+import type { FieldValues } from "react-hook-form";
 import { Input } from "../ui/input";
 import GenericField from "./GenericField";
 import { CustomFieldProps } from "./fields.types";

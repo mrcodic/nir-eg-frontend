@@ -1,7 +1,7 @@
 "use client";
 
 import MotionWrapper from "@/components/MotionWrapper";
-import { ElementType } from "react";
+import type { ElementType } from "react";
 
 type AnimatedTextProps<T extends ElementType> = {
   text: string;

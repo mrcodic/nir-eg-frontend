@@ -2,7 +2,7 @@
 
 import { getPublicData } from "@/config/client-fetch";
 import { cn } from "@/lib/utils";
-import { IPricingPlan } from "@/types/pricing-api.types";
+import { type IPricingPlan } from "@/types/pricing-api.types";
 import { PaymentPeriod } from "@/types/subscribe.types";
 import { ApiResponse } from "@/types/type";
 import { useQuery } from "@tanstack/react-query";

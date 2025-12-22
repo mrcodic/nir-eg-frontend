@@ -19,7 +19,7 @@ import { cn } from "@/lib/utils";
 import { ITestimonial } from "@/types/landing.types";
 import { ChevronLeft } from "lucide-react";
 import Image from "next/image";
-import React from "react";
+import { useEffect, useState } from "react";
 
 export default function ClientsCarousel({
   testimonials,
@@ -28,12 +28,12 @@ export default function ClientsCarousel({
   testimonials: ITestimonial[];
   className?: string;
 }) {
-  const [api, setApi] = React.useState<CarouselApi | undefined>(undefined);
-  const [activeIndex, setActiveIndex] = React.useState(0);
+  const [api, setApi] = useState<CarouselApi | undefined>(undefined);
+  const [activeIndex, setActiveIndex] = useState(0);
   const [selectedTestimonial, setSelectedTestimonial] =
-    React.useState<ITestimonial | null>(null);
+    useState<ITestimonial | null>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!api) return;
 
     const update = () => {

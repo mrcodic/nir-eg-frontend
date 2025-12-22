@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ComponentProps } from "react";
+import type { ComponentProps } from "react";
 
 type LinkProps = ComponentProps<typeof Link> & { name: string };
 

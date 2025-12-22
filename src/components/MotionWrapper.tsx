@@ -2,12 +2,8 @@
 
 import type { MotionProps } from "motion/react";
 import { motion } from "motion/react";
-import {
-  ComponentPropsWithoutRef,
-  ElementType,
-  ReactNode,
-  useMemo,
-} from "react";
+import type { ComponentPropsWithoutRef, ElementType, ReactNode } from "react";
+import { useMemo } from "react";
 
 type MotionWrapperProps<T extends ElementType> = {
   children?: ReactNode;

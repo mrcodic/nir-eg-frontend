@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { FieldValues } from "react-hook-form";
+import type { FieldValues } from "react-hook-form";
 import {
   FormControl,
   FormField,
