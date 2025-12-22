@@ -22,7 +22,14 @@ export default function PricingPlans() {
     error,
   } = useQuery({
     queryKey: ["/plans"],
-    queryFn: getPublicData as () => Promise<ApiResponse<IPricingPlan[]>>,
+    queryFn: () =>
+      getPublicData<ApiResponse<IPricingPlan[]>>({
+        queryKey: ["/plans"],
+        next: {
+          tags: ["/plans"],
+          revalidate: 60,
+        },
+      }),
   });
 
   const pricingPlans = useMemo(() => {

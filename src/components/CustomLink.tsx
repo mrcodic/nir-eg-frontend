@@ -12,11 +12,11 @@ function CustomLink({ name, ...props }: LinkProps) {
   const pathname = usePathname();
   const isActive = pathname === props.href;
   return (
-    <div className="relative">
+    <div className="relative flex">
       <Link
         {...props}
         className={cn(
-          "font-bold text-gray-dark md:text-base lg:text-lg p-2 transition hover:opacity-80",
+          "font-bold text-gray-dark md:text-base w-full lg:text-lg p-2 transition hover:opacity-80",
           {
             "text-black": isActive,
           },
@@ -25,8 +25,9 @@ function CustomLink({ name, ...props }: LinkProps) {
       >
         {name}
       </Link>
+
       <motion.div
-        className=" ms-2 bg-secondary absolute h-0.5 shadow-secondary shadow-sm"
+        className=" ms-2 bg-secondary bottom-0 absolute h-0.5 shadow-secondary shadow-sm"
         initial={{ width: 0 }}
         animate={{ width: isActive ? "40px" : 0 }}
         whileHover={{ width: "40px" }}

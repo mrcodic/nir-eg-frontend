@@ -34,14 +34,14 @@ function HeroSection() {
         <MotionWrapper
           initial="hidden"
           whileInView="visible"
-          viewport={{ amount: 0.4, once: true }}
+          viewport={{ amount: 0, once: true }}
           variants={{
             hidden: { opacity: 0, y: 5 },
             visible: {
               opacity: 1,
               y: 0,
               transition: {
-                duration: 0.5,
+                duration: 0.2,
               },
             },
           }}

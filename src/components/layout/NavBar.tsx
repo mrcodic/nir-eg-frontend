@@ -74,19 +74,19 @@ function NavBar() {
               transition={{ duration: 0.2, ease: "easeOut" }}
               className="absolute left-0 right-0 top-full z-20 border-b border-gray-light bg-background shadow-md md:hidden"
             >
-              <nav className="flex flex-col gap-6 py-4 wrapper">
+              <nav className="flex flex-col gap-4 pb-4 pt-6 wrapper">
                 {navlinks.map((link) => (
                   <CustomLink
                     key={link.name}
                     href={link.href}
                     name={link.name}
-                    className="py-2 text-base font-bold"
+                    className="py-2 text-base font-bold w-full"
                     onClick={closeMenu}
                   />
                 ))}
 
-                <Link href="/subscribe?type=demo" className="w-full">
-                  <Button className="mt-3 w-full" onClick={closeMenu}>
+                <Link href="/subscribe?type=demo" className="w-full mt-4">
+                  <Button className="w-full" onClick={closeMenu}>
                     احصل على النسخة التجريبية
                   </Button>
                 </Link>
