@@ -14,7 +14,7 @@ import {
 } from "@/lib/schemas/subscribe.schema";
 import { PaymentPeriod, StepId } from "@/types/subscribe.types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMemo } from "react";
+import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useLocalStorage } from "usehooks-ts";
 
@@ -23,7 +23,6 @@ type Props = {
   planId?: string;
 };
 
-// Helper to get stored form data
 function getStoredFormData<T>(key: string, defaultValues: T): T {
   if (typeof window === "undefined") return defaultValues;
 
@@ -34,7 +33,6 @@ function getStoredFormData<T>(key: string, defaultValues: T): T {
     const parsed = JSON.parse(stored);
     const { _timestamp, ...values } = parsed;
 
-    // Merge stored values with defaults (defaults take precedence for missing keys)
     return { ...defaultValues, ...values };
   } catch (error) {
     console.error(`Failed to restore ${key}:`, error);
@@ -42,7 +40,52 @@ function getStoredFormData<T>(key: string, defaultValues: T): T {
   }
 }
 
+// Define default values as constants
+const accountDefaults: AccountInfoFormData = {
+  first_name: "",
+  last_name: "",
+  email: "",
+  phone: "",
+  password: "",
+  confirmPassword: "",
+  timezone: "Africa/Cairo",
+  acceptTerms: false,
+  acceptPrivacy: false,
+  acceptSms: false,
+  acceptWhatsapp: false,
+  user_id: undefined,
+  email_verified: false,
+};
+
+const businessDefaults: BusinessInfoFormData = {
+  teacherType: "individual",
+  brandName: "",
+  legalName: "",
+  subjects: [],
+  gradeLevels: [],
+  teachingMethod: "mixed",
+  expectedStudents: 20,
+  country: "مصر",
+  governorate: "",
+  city: "",
+  address: "",
+  howDidYouHear: "",
+  additionalNotes: "",
+};
+
+const brandingDefaults: BrandingFormData = {
+  domainType: "subdomain",
+  websiteName: "",
+  brandColor: PREDEFINED_COLORS[0],
+  selectedTemplate: "",
+  logoFile: null,
+  faviconFile: null,
+  coverFile: null,
+};
+
 function useStepsForms({ period, planId }: Props) {
+  const isRestoredRef = useRef(false);
+
   const [completedSteps, setCompletedSteps] = useLocalStorage<StepId[]>(
     "completedSteps",
     [],
@@ -51,93 +94,64 @@ function useStepsForms({ period, planId }: Props) {
     }
   );
 
-  // Get stored values BEFORE form initialization
-  const accountDefaultValues = useMemo(
-    () =>
-      getStoredFormData<AccountInfoFormData>("accountForm", {
-        first_name: "",
-        last_name: "",
-        email: "",
-        phone: "",
-        password: "",
-        confirmPassword: "",
-        timezone: "Africa/Cairo",
-        acceptTerms: false,
-        acceptPrivacy: false,
-        acceptSms: false,
-        acceptWhatsapp: false,
-        user_id: undefined,
-        email_verified: false,
-      }),
-    []
-  );
+  const paymentDefaults: PaymentFormData = {
+    planId: planId || "",
+    paymentPeriod: period || "yearly",
+    paymentMethod: "e-wallet",
+  };
 
-  const businessDefaultValues = useMemo(
-    () =>
-      getStoredFormData<BusinessInfoFormData>("businessForm", {
-        teacherType: "individual",
-        brandName: "",
-        legalName: "",
-        subjects: [],
-        gradeLevels: [],
-        teachingMethod: "mixed",
-        expectedStudents: 20,
-        country: "مصر",
-        governorate: "",
-        city: "",
-        address: "",
-        howDidYouHear: "",
-        additionalNotes: "",
-      }),
-    []
-  );
-
-  const brandingDefaultValues = useMemo(
-    () =>
-      getStoredFormData<BrandingFormData>("brandingForm", {
-        domainType: "subdomain",
-        websiteName: "",
-        brandColor: PREDEFINED_COLORS[0],
-        selectedTemplate: "",
-        logoFile: null,
-        faviconFile: null,
-        coverFile: null,
-      }),
-    []
-  );
-
-  const paymentDefaultValues = useMemo(
-    () =>
-      getStoredFormData<PaymentFormData>("paymentForm", {
-        planId: planId || "",
-        paymentPeriod: period || "yearly",
-        paymentMethod: "e-wallet",
-      }),
-    [period, planId]
-  );
-
-  // Initialize forms with stored values
+  // Initialize forms with synchronous defaults (no async)
   const accountForm = useForm<AccountInfoFormData>({
     resolver: zodResolver(accountInfoSchema),
-    defaultValues: accountDefaultValues,
+    defaultValues: accountDefaults,
   });
 
   const businessForm = useForm<BusinessInfoFormData>({
     resolver: zodResolver(businessInfoSchema),
-    defaultValues: businessDefaultValues,
+    defaultValues: businessDefaults,
   });
 
   const brandingForm = useForm<BrandingFormData>({
     resolver: zodResolver(brandingSchema),
-    defaultValues: brandingDefaultValues,
+    defaultValues: brandingDefaults,
   });
 
   const paymentForm = useForm<PaymentFormData>({
     resolver: zodResolver(paymentSchema),
-    defaultValues: paymentDefaultValues,
+    defaultValues: paymentDefaults,
   });
 
-  // Persist changes (only watches for changes, doesn't restore)
+  // Restore from localStorage ONCE after mount
+  useEffect(() => {
+    if (isRestoredRef.current) return;
+
+    // Small delay to ensure forms are fully mounted
+    const timeoutId = setTimeout(() => {
+      const accountStored = getStoredFormData("accountForm", accountDefaults);
+      const businessStored = getStoredFormData(
+        "businessForm",
+        businessDefaults
+      );
+      const brandingStored = getStoredFormData(
+        "brandingForm",
+        brandingDefaults
+      );
+      const paymentStored = getStoredFormData("paymentForm", paymentDefaults);
+
+      // Reset forms with stored values
+      accountForm.reset(accountStored, { keepDefaultValues: false });
+      businessForm.reset(businessStored, { keepDefaultValues: false });
+      brandingForm.reset(brandingStored, { keepDefaultValues: false });
+      paymentForm.reset(paymentStored, { keepDefaultValues: false });
+
+      isRestoredRef.current = true;
+    }, 0);
+
+    return () => clearTimeout(timeoutId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Empty deps - run only once
+
+  // Persist changes
   useFormPersist("accountForm", {
     watch: accountForm.watch,
     setValue: accountForm.setValue,

@@ -21,8 +21,6 @@ async function Footer() {
     console.log("footer data error : ", error);
   }
 
-  console.log("footer data : ", footerData);
-
   return (
     <footer className="bg-background bg-[url('/bg-vector.png')] wrapper py-10">
       <div className="section  flex flex-col gap-6">
