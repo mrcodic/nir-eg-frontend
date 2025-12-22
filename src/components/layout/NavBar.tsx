@@ -27,7 +27,7 @@ function NavBar() {
             width={110}
             height={48}
             loading="eager"
-            priority
+            priority={true}
           />
         </Link>
 

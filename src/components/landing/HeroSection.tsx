@@ -36,7 +36,7 @@ function HeroSection() {
       <div className="relative z-2" ref={ref}>
         <MotionWrapper
           as={Image}
-          src="/assets/graduation.svg"
+          src="/assets/graduation.png"
           alt="graduation"
           className="absolute z-10 aspect-square 
         sm:-top-20 -top-16 -left-4 sm:-left-10 size-26 sm:size-40

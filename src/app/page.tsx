@@ -1,9 +1,7 @@
 import AppsLinksSection from "@/components/landing/AppsLinksSection";
-import ContactUsSection from "@/components/landing/ContactUsSection";
 import ContentProtectionSection from "@/components/landing/ContentProtectionSection";
 import FAQSection from "@/components/landing/FAQSection";
 import HeroSection from "@/components/landing/HeroSection";
-import PartnersAndClientsSection from "@/components/landing/PartnersAndClientsSection";
 import PricingPlans from "@/components/landing/PricingPlans";
 import WhyUsSection from "@/components/landing/WhyUsSection";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -14,7 +12,15 @@ import {
   WhyChooseSection,
 } from "@/types/landing.types";
 import { Metadata } from "next";
+import dynamic from "next/dynamic";
 import { Suspense } from "react";
+
+const PartnersAndClientsSection = dynamic(
+  () => import("@/components/landing/PartnersAndClientsSection")
+);
+const ContactUsSection = dynamic(
+  () => import("@/components/landing/ContactUsSection")
+);
 
 export const metadata: Metadata = {
   title: "الرئيسية",

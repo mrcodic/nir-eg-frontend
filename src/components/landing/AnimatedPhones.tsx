@@ -121,7 +121,7 @@ export default function AnimatedPhones() {
         }}
       >
         <Image
-          src="/assets/notification-bg.svg"
+          src="/assets/notification-bg.png"
           alt="notification icon"
           fill
           className="object-contain"

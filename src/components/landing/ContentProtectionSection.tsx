@@ -131,7 +131,7 @@ export default function ContentProtectionSection({
         >
           <div className="relative aspect-square overflow-hidden rounded-2xl shadow-lg bg-dark-radial">
             <Image
-              src="/assets/protect.svg"
+              src="/assets/protect.png"
               alt="قفل المحتوى"
               fill
               className="object-contain"
