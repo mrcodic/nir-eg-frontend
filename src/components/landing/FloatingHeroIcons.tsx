@@ -5,11 +5,11 @@ import Image from "next/image";
 import MotionWrapper from "../MotionWrapper";
 
 const pinConfig = [
-  { origin: "top left", rotate: 3, duration: 3.6 },
-  { origin: "top right", rotate: -4.5, duration: 7 },
-  { origin: "top left", rotate: 2.8, duration: 4.0 },
-  { origin: "top right", rotate: -4, duration: 5 },
-  { origin: "top left", rotate: 3.0, duration: 4.4 },
+  { origin: "top left", rotate: 4, duration: 3.6 },
+  { origin: "top right", rotate: -5.5, duration: 7 },
+  { origin: "top left", rotate: 3.8, duration: 4.0 },
+  { origin: "top right", rotate: -5, duration: 5 },
+  { origin: "top left", rotate: 4, duration: 4.4 },
 ];
 
 const hangingVariants = (rotate: number) =>
@@ -28,7 +28,7 @@ const hangingVariants = (rotate: number) =>
 
 export function FloatingHeroIcons() {
   return (
-    <div className="flex flex-row-reverse justify-center mt-8 gap-4 md:w-4/5 w-full mx-auto max-md:flex-wrap">
+    <div className="flex flex-row-reverse justify-center mt-8 gap-4 md:w-4/5 w-full mx-auto max-md:flex-wrap relative z-5">
       {[
         "Group 1.png",
         "Group 2.png",
