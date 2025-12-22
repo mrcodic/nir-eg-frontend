@@ -51,7 +51,7 @@ function CustomSelect<T extends FieldValues>({
     <GenericField form={form} name={name} label={label}>
       {({ field, formState }) => (
         <Select
-          key={isLoading ? "loading" : "loaded"}
+          key={queryOptions?.length ? "loaded" : "loading"}
           value={field.value}
           onValueChange={(value) => {
             field.onChange(value);
@@ -67,16 +67,17 @@ function CustomSelect<T extends FieldValues>({
           </SelectTrigger>
 
           <SelectContent>
-            {isLoading && (
+            {isLoading ? (
               <span className="text-right animate-pulse py-1.5 pr-8 pl-2 text-sm">
                 ....جاري التحميل
               </span>
+            ) : (
+              (options || queryOptions)?.map((option) => (
+                <SelectItem key={option.id} value={String(option.id)}>
+                  {option.name}
+                </SelectItem>
+              ))
             )}
-            {(options || queryOptions)?.map((option) => (
-              <SelectItem key={option.id} value={String(option.id)}>
-                {option.name}
-              </SelectItem>
-            ))}
           </SelectContent>
         </Select>
       )}

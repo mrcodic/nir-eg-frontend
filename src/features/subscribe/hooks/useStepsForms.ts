@@ -14,14 +14,33 @@ import {
 } from "@/lib/schemas/subscribe.schema";
 import { PaymentPeriod, StepId } from "@/types/subscribe.types";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMemo } from "react";
 import { useForm } from "react-hook-form";
-// import useFormPersist from "react-hook-form-persist";
 import { useLocalStorage } from "usehooks-ts";
 
 type Props = {
   period: PaymentPeriod;
   planId?: string;
 };
+
+// Helper to get stored form data
+function getStoredFormData<T>(key: string, defaultValues: T): T {
+  if (typeof window === "undefined") return defaultValues;
+
+  try {
+    const stored = localStorage.getItem(key);
+    if (!stored) return defaultValues;
+
+    const parsed = JSON.parse(stored);
+    const { _timestamp, ...values } = parsed;
+
+    // Merge stored values with defaults (defaults take precedence for missing keys)
+    return { ...defaultValues, ...values };
+  } catch (error) {
+    console.error(`Failed to restore ${key}:`, error);
+    return defaultValues;
+  }
+}
 
 function useStepsForms({ period, planId }: Props) {
   const [completedSteps, setCompletedSteps] = useLocalStorage<StepId[]>(
@@ -32,74 +51,97 @@ function useStepsForms({ period, planId }: Props) {
     }
   );
 
+  // Get stored values BEFORE form initialization
+  const accountDefaultValues = useMemo(
+    () =>
+      getStoredFormData<AccountInfoFormData>("accountForm", {
+        first_name: "",
+        last_name: "",
+        email: "",
+        phone: "",
+        password: "",
+        confirmPassword: "",
+        timezone: "Africa/Cairo",
+        acceptTerms: false,
+        acceptPrivacy: false,
+        acceptSms: false,
+        acceptWhatsapp: false,
+        user_id: undefined,
+        email_verified: false,
+      }),
+    []
+  );
+
+  const businessDefaultValues = useMemo(
+    () =>
+      getStoredFormData<BusinessInfoFormData>("businessForm", {
+        teacherType: "individual",
+        brandName: "",
+        legalName: "",
+        subjects: [],
+        gradeLevels: [],
+        teachingMethod: "mixed",
+        expectedStudents: 20,
+        country: "مصر",
+        governorate: "",
+        city: "",
+        address: "",
+        howDidYouHear: "",
+        additionalNotes: "",
+      }),
+    []
+  );
+
+  const brandingDefaultValues = useMemo(
+    () =>
+      getStoredFormData<BrandingFormData>("brandingForm", {
+        domainType: "subdomain",
+        websiteName: "",
+        brandColor: PREDEFINED_COLORS[0],
+        selectedTemplate: "",
+        logoFile: null,
+        faviconFile: null,
+        coverFile: null,
+      }),
+    []
+  );
+
+  const paymentDefaultValues = useMemo(
+    () =>
+      getStoredFormData<PaymentFormData>("paymentForm", {
+        planId: planId || "",
+        paymentPeriod: period || "yearly",
+        paymentMethod: "e-wallet",
+      }),
+    [period, planId]
+  );
+
+  // Initialize forms with stored values
   const accountForm = useForm<AccountInfoFormData>({
     resolver: zodResolver(accountInfoSchema),
-    defaultValues: {
-      first_name: "",
-      last_name: "",
-      email: "",
-      phone: "",
-      password: "",
-      confirmPassword: "",
-      timezone: "Africa/Cairo",
-      acceptTerms: false,
-      acceptPrivacy: false,
-      acceptSms: false,
-      acceptWhatsapp: false,
-      user_id: undefined,
-      email_verified: false,
-    },
+    defaultValues: accountDefaultValues,
   });
 
   const businessForm = useForm<BusinessInfoFormData>({
     resolver: zodResolver(businessInfoSchema),
-    defaultValues: {
-      teacherType: "individual",
-      brandName: "",
-      legalName: "",
-      subjects: [],
-      gradeLevels: [],
-      teachingMethod: "mixed",
-      expectedStudents: 20,
-      country: "مصر",
-      governorate: "",
-      city: "",
-      address: "",
-      howDidYouHear: "",
-      additionalNotes: "",
-    },
+    defaultValues: businessDefaultValues,
   });
+
   const brandingForm = useForm<BrandingFormData>({
     resolver: zodResolver(brandingSchema),
-    defaultValues: {
-      domainType: "subdomain", // or custom
-      websiteName: "",
-      brandColor: PREDEFINED_COLORS[0], // Default Blue #2E76AD
-      selectedTemplate: "",
-      logoFile: null,
-      faviconFile: null,
-      coverFile: null,
-    },
+    defaultValues: brandingDefaultValues,
   });
 
   const paymentForm = useForm<PaymentFormData>({
     resolver: zodResolver(paymentSchema),
-    defaultValues: {
-      planId: planId || "",
-      paymentPeriod: period || "yearly",
-      paymentMethod: "e-wallet",
-    },
+    defaultValues: paymentDefaultValues,
   });
 
+  // Persist changes (only watches for changes, doesn't restore)
   useFormPersist("accountForm", {
     watch: accountForm.watch,
     setValue: accountForm.setValue,
   });
-
-  // useFormPersist("verifyForm", {
-  //   watch: verifyForm.watch,
-  //   setValue: verifyForm.setValue,
-  // });
 
   useFormPersist("businessForm", {
     watch: businessForm.watch,
