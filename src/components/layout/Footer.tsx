@@ -30,7 +30,9 @@ async function Footer() {
           <nav className="lg:ms-auto pt-3 pe-8 max-md:w-full">
             <ul className="flex max-md:flex-col items-start gap-6 md:items-center flex-wrap">
               {footerLinks.map((link) => (
-                <CustomLink key={link.name} href={link.href} name={link.name} />
+                <li key={link.name}>
+                  <CustomLink href={link.href} name={link.name} />
+                </li>
               ))}
             </ul>
           </nav>

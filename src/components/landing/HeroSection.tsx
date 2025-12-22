@@ -13,7 +13,7 @@ function HeroSection() {
 
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start end", "end end"],
+    offset: ["end end", "start start"],
   });
 
   const springY = useSpring(scrollYProgress, {
@@ -46,7 +46,10 @@ function HeroSection() {
 
       <HeroButtons />
 
-      <div className="relative z-2 section mx-auto" ref={ref}>
+      <div
+        className="relative z-2 section mx-auto border border-red-500"
+        ref={ref}
+      >
         <MotionWrapper
           as={Image}
           src="/assets/graduation.png"
@@ -112,17 +115,17 @@ function HeroSection() {
                 transition={{ duration: 0.5, delay: 0.2 }}
               />
             </motion.div>
+
             <motion.div
               style={{ y: yPen, rotate: rotatePen }}
-              className="absolute left-4 bottom-20 md:bottom-4 z-2 lg:size-[184px] md:size-[120px] size-20"
+              className="absolute left-4 bottom-20 md:bottom-4 z-2 lg:w-[168px] md:w-[120px] w-20  aspect-[0.88]"
             >
               <MotionWrapper
                 as={Image}
                 src="/assets/hero/pen-blur.png"
                 alt="hero"
-                className="w-full h-full"
-                width={184}
-                height={184}
+                className="object-contain"
+                fill
                 priority
                 variants={{
                   hidden: { opacity: 0, y: 20 },
@@ -136,15 +139,14 @@ function HeroSection() {
             </motion.div>
             <motion.div
               style={{ y: yBook, rotate: rotateBook }}
-              className="absolute right-4 bottom-20 md:bottom-4 z-2 lg:size-[184px] md:size-[120px] size-20"
+              className="absolute right-4 bottom-20 md:bottom-4 z-2 aspect-[0.82] lg:w-40 md:w-[120px] w-20"
             >
               <MotionWrapper
                 as={Image}
                 src="/assets/hero/book-blur.png"
                 alt="hero"
-                className="w-full h-full"
-                width={184}
-                height={184}
+                className="object-contain "
+                fill
                 priority
                 variants={{
                   hidden: { opacity: 0, y: 20 },

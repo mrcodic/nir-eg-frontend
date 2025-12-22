@@ -98,13 +98,13 @@ export default function PricingPlanCard({
             "border-accent-800": isFeatured,
           })}
         >
-          <h4
+          <h3
             className={cn("text-3xl font-bold mb-2", {
               "text-white": isFeatured,
             })}
           >
             {plan.seats_included} مقعد
-          </h4>
+          </h3>
           <p
             className={cn("text-lg font-bold text-gray-dark", {
               "text-gray-light": isFeatured,

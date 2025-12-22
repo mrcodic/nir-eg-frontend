@@ -13,7 +13,7 @@ import Image from "next/image";
 export default function FAQSection({ data }: { data: FaqSection }) {
   return (
     <section className="wrapper bg-background w-full relative text-center py-8 space-y-6 ">
-      <Image className="z-1" fill src="/bg-vector.png" alt="" />
+      <Image className="z-1 object-cover" fill src="/bg-vector.png" alt="" />
 
       <h3 className="text-32 font-bold">
         يمكنك ان تجد{" "}

@@ -29,6 +29,7 @@ function PricingTypeSwtich({
 
         <Switch
           dir="rtl"
+          aria-label="Pricing Type switch"
           onCheckedChange={(isChecked) => {
             console.log(isChecked);
             setType(isChecked ? "yearly" : "monthly");
