@@ -46,10 +46,7 @@ function HeroSection() {
 
       <HeroButtons />
 
-      <div
-        className="relative z-2 section mx-auto border border-red-500"
-        ref={ref}
-      >
+      <div className="relative z-2 section mx-auto " ref={ref}>
         <MotionWrapper
           as={Image}
           src="/assets/graduation.png"
