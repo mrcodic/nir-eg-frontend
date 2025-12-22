@@ -5,10 +5,10 @@ import Image from "next/image";
 import MotionWrapper from "../MotionWrapper";
 
 const pinConfig = [
-  { origin: "top left", rotate: 2.5, duration: 3.6 },
-  { origin: "top right", rotate: -2.2, duration: 3.1 },
+  { origin: "top left", rotate: 3, duration: 3.6 },
+  { origin: "top right", rotate: -4.5, duration: 7 },
   { origin: "top left", rotate: 2.8, duration: 4.0 },
-  { origin: "top right", rotate: -2.0, duration: 3.3 },
+  { origin: "top right", rotate: -4, duration: 5 },
   { origin: "top left", rotate: 3.0, duration: 4.4 },
 ];
 
@@ -16,10 +16,12 @@ const hangingVariants = (rotate: number) =>
   ({
     hidden: {
       opacity: 0,
+      y: 20,
       rotate: 0,
     },
     visible: {
       opacity: 1,
+      y: 0,
       rotate: [0, rotate, 0],
     },
   } satisfies Variants);
@@ -49,6 +51,7 @@ export function FloatingHeroIcons() {
             variants={hangingVariants(rotate)}
             transition={{
               opacity: { duration: 0.3, delay: index * 0.15 },
+              y: { duration: 0.3, delay: index * 0.15 },
               rotate: {
                 duration,
                 repeat: Infinity,

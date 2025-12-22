@@ -26,6 +26,7 @@ const frontPhoneVariants = {
     transition: {
       duration: 0.6,
       ease: "easeOut",
+      delay: 1,
     },
   },
 } satisfies Variants;
@@ -43,7 +44,7 @@ const backPhoneVariants = {
     transition: {
       duration: 0.4,
       ease: "easeOut",
-      delay: 0.45,
+      delay: 1.45,
     },
   },
 } satisfies Variants;
@@ -59,7 +60,7 @@ const bellEntryVariants = {
     transition: {
       duration: 0.3,
       ease: "easeOut",
-      delay: 0.6,
+      delay: 1.6,
     },
   },
 } satisfies Variants;
@@ -69,7 +70,7 @@ const bellEntryVariants = {
 export default function AnimatedPhones() {
   return (
     <MotionWrapper
-      className="flex self-end items-end -mb-6 shrink-0 relative pe-6"
+      className="flex self-end items-end -mb-6 shrink-0 relative md:pe-6"
       variants={phonesContainerVariants}
       initial="hidden"
       whileInView="visible"
@@ -78,7 +79,7 @@ export default function AnimatedPhones() {
       {/* Back phone */}
       <MotionWrapper
         variants={backPhoneVariants}
-        className="-me-12 lg:w-[220px] h-fit w-[150px] relative z-1"
+        className="-me-12 lg:w-[220px] h-fit w-[130px] sm:w-[150px] relative z-1"
       >
         <Image
           src="/assets/phone-2.svg"
@@ -105,7 +106,7 @@ export default function AnimatedPhones() {
 
       {/* Bell */}
       <MotionWrapper
-        className="absolute -top-3 right-8 lg:right-18 aspect-square lg:w-[140px] w-20"
+        className="absolute -top-3 right-4 sm:right-8 lg:right-18 aspect-square lg:w-[140px] w-20"
         variants={bellEntryVariants}
         animate={{
           rotate: [0, -4, 4, -3, 3, 0],

@@ -2,12 +2,11 @@
 
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
 import { useRef } from "react";
-import AnimatedText from "../AnimatedText";
 import MotionWrapper from "../MotionWrapper";
-import { Button } from "../ui/button";
 import { FloatingHeroIcons } from "./FloatingHeroIcons";
+import HeroButtons from "./HeroButtons";
+import HeroText from "./HeroText";
 
 function HeroSection() {
   const ref = useRef(null);
@@ -30,78 +29,9 @@ function HeroSection() {
     <section className="wrapper bg-background w-full relative text-center pb-12 overflow-x-hidden">
       <Image className="z-1" fill src="/bg-vector.png" alt="" />
 
-      <div className="flex flex-col items-center mt-12 relative z-2">
-        <MotionWrapper
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ amount: 0, once: true }}
-          variants={{
-            hidden: { opacity: 0, y: 5 },
-            visible: {
-              opacity: 1,
-              y: 0,
-              transition: {
-                duration: 0.2,
-              },
-            },
-          }}
-          className="text-primary-800 font-bold text-xl"
-        >
-          أهلاً بك في نَيِّر!
-        </MotionWrapper>
+      <HeroText />
 
-        <AnimatedText
-          as="h1"
-          text="منصة واحدة لإدارة الحصص و متابعة أداء الطلاب"
-          className="text-[40px] font-bold mt-6"
-          stagger={0.1}
-        />
-        {/* <h1 className="text-[40px] font-bold mt-6">
-          منصة واحدة لإدارة الحصص و متابعة أداء الطلاب
-        </h1> */}
-
-        <AnimatedText
-          text="احصل على منصة باسمك و اللوجو الخاص بك و ابدأ في متابعة أداء الطلاب و
-          تنظيم المواعيد."
-          className="font-bold text-xl text-gray-dark mt-2"
-          stagger={0.07}
-          delay={0.8}
-        />
-      </div>
-
-      <MotionWrapper
-        className="flex justify-center gap-4 mt-8 flex-wrap  relative z-2"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ amount: 0.4, once: true }}
-        variants={{
-          hidden: { opacity: 0, y: 5 },
-          visible: {
-            opacity: 1,
-            y: 0,
-            transition: {
-              duration: 0.5,
-              delay: 0.7,
-            },
-          },
-        }}
-      >
-        <Link href="/subscribe?type=demo">
-          <Button>احصل على النسخة التجريبية</Button>
-        </Link>
-        <Link href="/about">
-          <Button variant="secondary">
-            <Image
-              src="/assets/video.svg"
-              alt="video"
-              className="w-6 h-6"
-              width={24}
-              height={24}
-            />
-            شاهد الفيديو التعريفي{" "}
-          </Button>
-        </Link>
-      </MotionWrapper>
+      <HeroButtons />
 
       <div className="relative z-2" ref={ref}>
         <MotionWrapper

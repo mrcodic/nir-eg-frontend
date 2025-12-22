@@ -16,7 +16,7 @@ const QueryProvider = ({ children }: Props) => {
           queries: {
             refetchOnWindowFocus: true,
             refetchOnMount: true,
-            staleTime: 60 * 1000,
+            staleTime: 1000 * 60,
             retry: (failureCount, error: any) => {
               if (error?.status === 404) return false;
               return failureCount < 3;

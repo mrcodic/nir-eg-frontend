@@ -38,7 +38,7 @@ function PartnersSection({ partners }: { partners: IPartner[] }) {
                   className="size-full shrink-0 object-contain"
                 />
               ) : (
-                <h4 className="text-center shrink-0 text-sm text-font-2">
+                <h4 className="text-center shrink-0 text-sm text-font-2 line-clamp-2">
                   {partner.name}
                 </h4>
               )}

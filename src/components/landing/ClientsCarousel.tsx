@@ -133,7 +133,7 @@ function CardItem({
         <Image src={icon_url} alt="logo" width={52} height={52} className="" />
       </header>
 
-      <p className="mt-6 flex-1 text-center">{description}</p>
+      <p className="mt-6 flex-1 text-center line-clamp-3">{description}</p>
     </article>
   );
 }

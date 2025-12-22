@@ -77,7 +77,7 @@ export default function PricingPlans() {
                   "lg:items-center": isThreePlans,
                 }
               )}
-              viewport={{ amount: 0.3, once: true }}
+              viewport={{ amount: 0.2, once: true }}
               whileInView={{
                 opacity: 1,
                 y: 0,

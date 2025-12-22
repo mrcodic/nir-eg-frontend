@@ -73,7 +73,7 @@ export default function ContentProtectionSection({
       variants={sectionVariants}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount: 0.5 }}
+      viewport={{ once: true, amount: 0.2 }}
     >
       <div className="flex section flex-col items-center gap-8 gap-x-16 md:flex-row md:items-center">
         {/* Right text block */}

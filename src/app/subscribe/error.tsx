@@ -36,6 +36,7 @@ function ErrorPage({
 
         <div className="flex items-center gap-6 justify-center mt-10 flex-wrap">
           <Button onClick={reset}>حاول مرة أخرى</Button>
+
           <Link href="/" className="inline-block ">
             <Button
               variant="outline"
