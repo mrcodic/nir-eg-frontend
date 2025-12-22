@@ -66,7 +66,6 @@ function AppsLinksSection() {
           alt="background overlay image"
           fill
           className="object-contain object-bottom absolute -z-1 pointer-events-none select-none"
-          priority
         />
 
         <div className="flex items-center max-md:flex-col justify-between grow gap-6">

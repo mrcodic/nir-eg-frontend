@@ -1,29 +1,25 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
 import Lottie from "lottie-react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { redirect } from "next/navigation";
 import buildingAnimation from "../../../../public/assets/animations/waiting.json";
 
-function ResultPage() {
-  const searchParams = useSearchParams();
-  const router = useRouter();
+async function ResultPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ timestamp: string }>;
+}) {
+  const timestamp = (await searchParams).timestamp;
 
-  const timestamp = searchParams.get("timestamp");
+  if (!timestamp) {
+    redirect("/");
+  }
 
-  useEffect(() => {
-    if (timestamp) {
-      const date = new Date(Number(timestamp));
-      // redirect to home page if timestamp is older than 1 hour
-      if (date.getTime() < new Date().getTime() - 60 * 60 * 1000) {
-        router.push("/");
-      }
-    } else {
-      router.push("/");
-    }
-  }, [timestamp, router]);
+  const date = new Date(Number(timestamp));
+  // redirect to home page if timestamp is older than 1 hour
+  if (date.getTime() < new Date().getTime() - 60 * 60 * 1000) {
+    redirect("/");
+  }
 
   return (
     <div className="flex items-center justify-center mb-20 mt-10">

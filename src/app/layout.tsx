@@ -7,9 +7,10 @@ import "./globals.css";
 import Providers from "./Providers";
 
 const almarai = Almarai({
-  subsets: ["latin"],
+  subsets: ["arabic"],
   variable: "--font-almarai-sans",
   weight: ["300", "400", "700", "800"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {

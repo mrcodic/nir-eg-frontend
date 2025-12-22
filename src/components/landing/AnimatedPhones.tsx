@@ -86,7 +86,6 @@ export default function AnimatedPhones() {
           alt="phone image"
           width={220}
           height={391}
-          priority
         />
       </MotionWrapper>
 
@@ -100,7 +99,6 @@ export default function AnimatedPhones() {
           alt="phone image 2"
           width={220}
           height={391}
-          priority
         />
       </MotionWrapper>
 

@@ -27,7 +27,15 @@ function HeroSection() {
 
   return (
     <section className="wrapper bg-background w-full relative text-center pb-12 overflow-x-hidden">
-      <Image className="z-1" fill src="/bg-vector.png" alt="" />
+      <Image
+        className="z-1"
+        fill
+        src="/bg-vector.png"
+        alt=""
+        loading="eager"
+        priority={true}
+        fetchPriority="high"
+      />
 
       <HeroText />
 
@@ -44,7 +52,6 @@ function HeroSection() {
           width={220}
           height={220}
           loading="eager"
-          priority
           initial={{ opacity: 0 }}
           viewport={{ amount: 0.5, once: true }}
           whileInView={{ opacity: 1 }}
@@ -96,7 +103,7 @@ function HeroSection() {
                   y: 0,
                 },
               }}
-              transition={{ duration: 0.5, delay: 0.8 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
             />
           </motion.div>
         </MotionWrapper>

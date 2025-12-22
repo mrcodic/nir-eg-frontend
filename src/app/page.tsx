@@ -1,4 +1,3 @@
-import AppsLinksSection from "@/components/landing/AppsLinksSection";
 import ContentProtectionSection from "@/components/landing/ContentProtectionSection";
 import FAQSection from "@/components/landing/FAQSection";
 import HeroSection from "@/components/landing/HeroSection";
@@ -20,6 +19,9 @@ const PartnersAndClientsSection = dynamic(
 );
 const ContactUsSection = dynamic(
   () => import("@/components/landing/ContactUsSection")
+);
+const AppsLinksSection = dynamic(
+  () => import("@/components/landing/AppsLinksSection")
 );
 
 export const metadata: Metadata = {
