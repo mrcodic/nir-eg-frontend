@@ -101,14 +101,12 @@
   --gray-dark: hsla(206, 7%, 28%, 1);
 }
 
-@layer base {
-  /* * {
-    @apply border-border outline-ring/50;
-  } */
+/* @layer base {
+
   body {
     @apply text-black font-sans;
   }
-}
+} */
 
 @utility wrapper {
   @apply mx-auto w-full px-4 sm:px-14 lg:px-36;

@@ -9,7 +9,7 @@ import HeroButtons from "./HeroButtons";
 import HeroText from "./HeroText";
 
 function HeroSection() {
-  const ref = useRef(null);
+  const ref = useRef<HTMLElement | null>(null);
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -46,7 +46,24 @@ function HeroSection() {
 
       <HeroButtons />
 
-      <div className="relative z-2 section mx-auto " ref={ref}>
+      <MotionWrapper
+        className="relative z-2 section mx-auto "
+        ref={ref}
+        variants={{
+          hidden: { opacity: 0, y: 20 },
+          visible: {
+            opacity: 1,
+            y: 0,
+            transition: {
+              duration: 0.5,
+              when: "beforeChildren",
+            },
+          },
+        }}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ amount: 0.3, once: true }}
+      >
         <MotionWrapper
           as={Image}
           src="/assets/graduation.png"
@@ -62,18 +79,26 @@ function HeroSection() {
                     sm:-translate-x-10 sm:-translate-y-20
                     lg:translate-x-[-100px] lg:translate-y-[-120px]
                   "
-          initial={{ opacity: 0 }}
-          viewport={{ amount: 0.5, once: true }}
-          whileInView={{ opacity: 1 }}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: {
+                duration: 0.4,
+                delay: 0.5,
+                ease: "easeOut",
+              },
+            },
+          }}
           animate={{
             y: [0, -8, -2, 0],
             rotate: [0, -2, 2, 0],
           }}
           transition={{
-            opacity: { duration: 0.5 },
             duration: 3,
             repeat: Infinity,
             ease: "easeInOut",
+            delay: 0.5,
           }}
         />
 
@@ -90,9 +115,6 @@ function HeroSection() {
               },
             },
           }}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ amount: 0.4, once: true }}
         >
           <FloatingHeroIcons />
 
@@ -175,7 +197,7 @@ function HeroSection() {
             </motion.div>
           </div>
         </MotionWrapper>
-      </div>
+      </MotionWrapper>
     </section>
   );
 }
