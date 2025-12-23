@@ -14,7 +14,6 @@ import {
 } from "@/lib/schemas/subscribe.schema";
 import { PaymentPeriod, StepId } from "@/types/subscribe.types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useLocalStorage } from "usehooks-ts";
 
@@ -84,8 +83,6 @@ const brandingDefaults: BrandingFormData = {
 };
 
 function useStepsForms({ period, planId }: Props) {
-  const isRestoredRef = useRef(false);
-
   const [completedSteps, setCompletedSteps] = useLocalStorage<StepId[]>(
     "completedSteps",
     [],
@@ -103,53 +100,23 @@ function useStepsForms({ period, planId }: Props) {
   // Initialize forms with synchronous defaults (no async)
   const accountForm = useForm<AccountInfoFormData>({
     resolver: zodResolver(accountInfoSchema),
-    defaultValues: accountDefaults,
+    defaultValues: getStoredFormData("accountForm", accountDefaults),
   });
 
   const businessForm = useForm<BusinessInfoFormData>({
     resolver: zodResolver(businessInfoSchema),
-    defaultValues: businessDefaults,
+    defaultValues: getStoredFormData("businessForm", businessDefaults),
   });
 
   const brandingForm = useForm<BrandingFormData>({
     resolver: zodResolver(brandingSchema),
-    defaultValues: brandingDefaults,
+    defaultValues: getStoredFormData("brandingForm", brandingDefaults),
   });
 
   const paymentForm = useForm<PaymentFormData>({
     resolver: zodResolver(paymentSchema),
-    defaultValues: paymentDefaults,
+    defaultValues: getStoredFormData("paymentForm", paymentDefaults),
   });
-
-  // Restore from localStorage ONCE after mount
-  useEffect(() => {
-    if (isRestoredRef.current) return;
-
-    // Small delay to ensure forms are fully mounted
-    const timeoutId = setTimeout(() => {
-      const accountStored = getStoredFormData("accountForm", accountDefaults);
-      const businessStored = getStoredFormData(
-        "businessForm",
-        businessDefaults
-      );
-      const brandingStored = getStoredFormData(
-        "brandingForm",
-        brandingDefaults
-      );
-      const paymentStored = getStoredFormData("paymentForm", paymentDefaults);
-
-      // Reset forms with stored values
-      accountForm.reset(accountStored, { keepDefaultValues: false });
-      businessForm.reset(businessStored, { keepDefaultValues: false });
-      brandingForm.reset(brandingStored, { keepDefaultValues: false });
-      paymentForm.reset(paymentStored, { keepDefaultValues: false });
-
-      isRestoredRef.current = true;
-    }, 0);
-
-    return () => clearTimeout(timeoutId);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // Empty deps - run only once
 
   // Persist changes
   useFormPersist("accountForm", {

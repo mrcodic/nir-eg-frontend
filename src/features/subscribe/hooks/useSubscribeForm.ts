@@ -46,7 +46,10 @@ export function useSubscribeForm({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
 
-  const currentStep = steps[currentStepIndex];
+  const currentStep = useMemo(
+    () => steps[currentStepIndex],
+    [steps, currentStepIndex]
+  );
 
   // Form instances for each step
   const {

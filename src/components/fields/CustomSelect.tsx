@@ -1,6 +1,10 @@
+"use client";
+
 import { getPublicData } from "@/config/client-fetch";
 import { cn } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
+import dynamic from "next/dynamic";
+import { useState } from "react";
 import { FieldValues, Path, UseFormReturn } from "react-hook-form";
 import {
   Select,
@@ -10,6 +14,10 @@ import {
   SelectValue,
 } from "../ui/select";
 import GenericField from "./GenericField";
+
+const VirtualizedContent = dynamic(() => import("./VirtualizedContent"), {
+  ssr: false,
+});
 
 export interface SelectOption {
   id: number | string;
@@ -26,6 +34,7 @@ interface CustomSelectProps<T extends FieldValues> {
   disabled?: boolean;
   triggerClassName?: string;
   onAfterSelect?: (value?: string) => void;
+  fetchOnMount?: boolean;
 }
 
 function CustomSelect<T extends FieldValues>({
@@ -38,49 +47,76 @@ function CustomSelect<T extends FieldValues>({
   disabled,
   triggerClassName,
   onAfterSelect,
+  fetchOnMount = true,
 }: CustomSelectProps<T>) {
+  const [open, setOpen] = useState(false);
+
   const { data, isLoading } = useQuery({
     queryKey: [queryKey],
     queryFn: getPublicData as () => Promise<{ data: SelectOption[] }>,
-    enabled: !!queryKey && !disabled,
+    enabled: !!queryKey && !disabled && (fetchOnMount || open),
   });
 
   const queryOptions = data?.data || [];
+  const finalOptions = options || queryOptions;
+
+  const needVirtualized = finalOptions.length > 10;
 
   return (
     <GenericField form={form} name={name} label={label}>
-      {({ field, formState }) => (
-        <Select
-          key={queryOptions?.length ? "loaded" : "loading"}
-          value={field.value}
-          onValueChange={(value) => {
-            field.onChange(value);
-            onAfterSelect?.(value);
-          }}
-          disabled={disabled || isLoading}
-        >
-          <SelectTrigger
-            aria-invalid={formState.errors[name] ? true : undefined}
-            className={cn("w-full", triggerClassName)}
-          >
-            <SelectValue placeholder={placeholder || `اختر ${label}`} />
-          </SelectTrigger>
+      {({ field, formState }) => {
+        const selectedOption = needVirtualized
+          ? finalOptions.find(
+              (option) => String(option.id) === String(field.value)
+            )
+          : null;
 
-          <SelectContent>
-            {isLoading ? (
-              <span className="text-right animate-pulse py-1.5 pr-8 pl-2 text-sm">
-                ....جاري التحميل
-              </span>
-            ) : (
-              (options || queryOptions)?.map((option) => (
-                <SelectItem key={option.id} value={String(option.id)}>
-                  {option.name}
-                </SelectItem>
-              ))
-            )}
-          </SelectContent>
-        </Select>
-      )}
+        return (
+          <Select
+            value={field.value}
+            onValueChange={(value) => {
+              field.onChange(value);
+              onAfterSelect?.(value);
+            }}
+            onOpenChange={setOpen}
+            open={open}
+            disabled={disabled || isLoading}
+          >
+            <SelectTrigger
+              aria-invalid={formState.errors[name] ? true : undefined}
+              className={cn("w-full", triggerClassName)}
+            >
+              {isLoading ? (
+                <span className="text-muted-foreground">جاري التحميل...</span>
+              ) : needVirtualized ? (
+                <span
+                  className={cn(!selectedOption && "text-muted-foreground")}
+                >
+                  {selectedOption?.name || placeholder || `اختر ${label}`}
+                </span>
+              ) : (
+                <SelectValue placeholder={placeholder || `اختر ${label}`} />
+              )}
+            </SelectTrigger>
+
+            <SelectContent className="max-h-60 overflow-auto">
+              {isLoading ? (
+                <p className="text-right w-full animate-pulse py-1.5 pr-2 text-sm">
+                  ....جاري التحميل
+                </p>
+              ) : needVirtualized ? (
+                <VirtualizedContent options={finalOptions} />
+              ) : (
+                finalOptions?.map((option) => (
+                  <SelectItem key={option.id} value={String(option.id)}>
+                    {option.name}
+                  </SelectItem>
+                ))
+              )}
+            </SelectContent>
+          </Select>
+        );
+      }}
     </GenericField>
   );
 }

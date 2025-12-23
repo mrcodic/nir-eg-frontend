@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import { FieldValues, UseFormSetValue, UseFormWatch } from "react-hook-form";
+import { useMounted } from "./useMounted";
 
 export interface FormPersistConfig<T extends FieldValues> {
   storage?: Storage;
@@ -27,11 +28,7 @@ const useFormPersist = <T extends FieldValues>(
     timeout,
   }: FormPersistConfig<T>
 ) => {
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const isMounted = useMounted();
 
   const getStorage = useCallback((): Storage | null => {
     if (typeof window === "undefined") return null;

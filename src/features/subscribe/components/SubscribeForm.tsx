@@ -53,7 +53,7 @@ export default function SubscribeForm({
           </div>
 
           {/* Stepper */}
-          <div className="mb-12 overflow-x-auto pb-2">
+          <div className="mb-12 overflow-x-auto pb-2 ">
             <FormStepper
               steps={steps}
               currentStep={currentStep.id}

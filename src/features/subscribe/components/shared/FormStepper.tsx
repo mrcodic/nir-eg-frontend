@@ -1,10 +1,10 @@
 "use client";
 
+import { useMounted } from "@/hooks/useMounted";
 import { cn } from "@/lib/utils";
 import type { FormStep, StepId } from "@/types/subscribe.types";
 import { Check, LoaderCircle } from "lucide-react";
-import { memo } from "react";
-import { useIsMounted } from "usehooks-ts";
+import { memo, useMemo } from "react";
 
 interface FormStepperProps {
   steps: FormStep[];
@@ -21,12 +21,12 @@ function FormStepper({
   setCurrentStepIndex,
   emailVerified,
 }: FormStepperProps) {
-  const mounted = useIsMounted();
-  const isMounted = mounted();
+  const isMounted = useMounted();
 
-  const currentIndex = isMounted
-    ? steps.findIndex((s) => s.id === currentStep)
-    : -1;
+  const currentIndex = useMemo(
+    () => (isMounted ? steps.findIndex((s) => s.id === currentStep) : -1),
+    [isMounted, steps, currentStep]
+  );
 
   return (
     <div className="flex items-start justify-center w-full" dir="rtl">
@@ -58,11 +58,11 @@ function FormStepper({
             <div className="flex flex-col items-center">
               <div
                 className={cn(
-                  "size-12 rounded-full flex items-center justify-center transition-all duration-300 shrink-0",
+                  "size-12 rounded-full flex items-center overflow-visible justify-center transition-all duration-300 shrink-0",
                   !isMounted && "bg-gray-light opacity-30",
                   isMounted &&
                     (isCurrent
-                      ? "bg-gray-dark text-white border-2 border-primary-800"
+                      ? "bg-gray-dark text-white border-4 border-blue-500"
                       : isCompleted
                       ? emailVerifiedStep
                         ? "bg-semantics-green-dark opacity-80 text-white border-2 border-semantics-green-dark"
@@ -70,10 +70,10 @@ function FormStepper({
                       : "bg-gray-light text-gray-dark opacity-30")
                 )}
               >
-                {!isMounted ? null : isCurrent ? (
-                  <LoaderCircle className="size-6 animate-spin" />
-                ) : isCompleted ? (
+                {!isMounted ? null : isCompleted ? (
                   <Check className="size-6" />
+                ) : isCurrent ? (
+                  <LoaderCircle className="size-6 animate-spin" />
                 ) : (
                   <LoaderCircle className="size-6" />
                 )}
