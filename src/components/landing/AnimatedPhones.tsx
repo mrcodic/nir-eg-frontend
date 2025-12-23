@@ -74,7 +74,7 @@ export default function AnimatedPhones() {
       variants={phonesContainerVariants}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount: 0.4 }}
+      viewport={{ once: true, amount: 0.2 }}
     >
       {/* Back phone */}
       <MotionWrapper

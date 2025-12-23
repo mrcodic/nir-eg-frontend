@@ -16,7 +16,7 @@ export default function ContactUsSection() {
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      viewport={{ amount: 0.4, once: true }}
+      viewport={{ amount: 0.2, once: true }}
     >
       <div className="section bg-[url('/bg-vector.png')] p-4 bg-background rounded-lg flex max-lg:flex-col-reverse relative gap-y-8">
         <div className="bg-white w-1/2 max-lg:w-full rounded-lg shadow-sm p-6">
