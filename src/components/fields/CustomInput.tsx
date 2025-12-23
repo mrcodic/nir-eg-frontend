@@ -2,7 +2,7 @@ import type { ComponentProps } from "react";
 import type { FieldValues } from "react-hook-form";
 import { Input } from "../ui/input";
 import GenericField from "./GenericField";
-import { CustomFieldProps } from "./fields.types";
+import type { CustomFieldProps } from "./fields.types";
 
 type FieldProps = Omit<ComponentProps<typeof Input>, "form">;
 

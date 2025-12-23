@@ -35,7 +35,7 @@ function HeroText() {
             تنظيم المواعيد."
         className="font-bold text-xl text-gray-dark mt-2"
         stagger={0.04}
-        delay={0.2}
+        delay={0.05}
       />
     </div>
   );

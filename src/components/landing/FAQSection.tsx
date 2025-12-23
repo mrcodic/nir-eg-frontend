@@ -8,12 +8,11 @@ import {
 } from "@/components/ui/accordion";
 import { FaqSection } from "@/types/landing.types";
 import { motion } from "motion/react";
-import Image from "next/image";
 
 export default function FAQSection({ data }: { data: FaqSection }) {
   return (
-    <section className="wrapper bg-background w-full relative text-center py-8 space-y-6 ">
-      <Image className="z-1 object-cover" fill src="/bg-vector.png" alt="" />
+    <section className="wrapper bg-background w-full relative text-center py-8 space-y-6 bg-[url('/bg-vector.png')] bg-no-repeat bg-cover">
+      {/* <Image className="z-1 object-cover" fill src="/bg-vector.png" alt="" /> */}
 
       <h3 className="text-32 font-bold">
         يمكنك ان تجد{" "}

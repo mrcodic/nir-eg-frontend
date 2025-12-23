@@ -1,6 +1,7 @@
 import ContentProtectionSection from "@/components/landing/ContentProtectionSection";
 import FAQSection from "@/components/landing/FAQSection";
 import HeroSection from "@/components/landing/HeroSection";
+import LazyContactUs from "@/components/landing/LazyContactUs";
 import PricingPlans from "@/components/landing/PricingPlans";
 import WhyUsSection from "@/components/landing/WhyUsSection";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -13,13 +14,12 @@ import {
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
+import { preload } from "react-dom";
 
 const PartnersAndClientsSection = dynamic(
   () => import("@/components/landing/PartnersAndClientsSection")
 );
-const ContactUsSection = dynamic(
-  () => import("@/components/landing/ContactUsSection")
-);
+
 const AppsLinksSection = dynamic(
   () => import("@/components/landing/AppsLinksSection")
 );
@@ -29,6 +29,8 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
+  preload("/bg-vector.png", { as: "image", fetchPriority: "high" });
+
   return (
     <main className="flex w-full flex-col gap-22 mb-22">
       <HeroSection />
@@ -94,7 +96,7 @@ export default function Home() {
 
       <PartnersAndClientsSection />
 
-      <ContactUsSection />
+      <LazyContactUs />
     </main>
   );
 }

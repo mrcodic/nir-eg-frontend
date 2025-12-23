@@ -82,7 +82,7 @@ export default function AnimatedPhones() {
         className="-me-12 lg:w-[220px] h-fit w-[130px] sm:w-[150px] relative z-1"
       >
         <Image
-          src="/assets/phone-2.svg"
+          src="/assets/phone-2.png"
           alt="phone image"
           width={220}
           height={391}
@@ -95,7 +95,7 @@ export default function AnimatedPhones() {
         className="lg:w-[220px] h-fit w-[150px] relative z-2"
       >
         <Image
-          src="/assets/phone-1.svg"
+          src="/assets/phone-1.png"
           alt="phone image 2"
           width={220}
           height={391}

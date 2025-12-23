@@ -31,8 +31,8 @@ function HeroSection() {
   const rotateBook = useTransform(springY, [0, 1], [20, -50]);
 
   return (
-    <section className="wrapper bg-background w-full relative text-center pb-12 overflow-x-hidden">
-      <Image
+    <section className="wrapper bg-background w-full relative text-center pb-12 overflow-x-hidden bg-[url('/bg-vector.png')] bg-no-repeat bg-cover">
+      {/* <Image
         className="z-1 object-cover"
         fill
         src="/bg-vector.png"
@@ -40,7 +40,7 @@ function HeroSection() {
         loading="eager"
         priority={true}
         fetchPriority="high"
-      />
+      /> */}
 
       <HeroText />
 

@@ -1,8 +1,7 @@
 import { getPublicData } from "@/config/client-fetch";
 import { IPartner, ITestimonial } from "@/types/landing.types";
 import { ApiResponse } from "@/types/type";
-import ClientsCarousel from "./ClientsCarousel";
-import PartnersSection from "./PartnersSection";
+import LazyPartnersAndClients from "./LazyPartnersAndClients";
 
 async function PartnersAndClientsSection() {
   let partners: ApiResponse<IPartner[]> | [] = [];
@@ -41,9 +40,10 @@ async function PartnersAndClientsSection() {
           </p>
         </div>
 
-        <PartnersSection partners={partners?.data} />
-
-        <ClientsCarousel testimonials={testimonials?.data} />
+        <LazyPartnersAndClients
+          partners={partners?.data}
+          testimonials={testimonials?.data}
+        />
       </div>
     </section>
   );

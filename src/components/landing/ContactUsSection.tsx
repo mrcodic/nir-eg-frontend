@@ -1,6 +1,8 @@
+"use client";
+
 import Image from "next/image";
-import ContactUsForm from "../form/ContactUsForm";
 import MotionWrapper from "../MotionWrapper";
+import ContactUsForm from "../form/ContactUsForm";
 
 export default function ContactUsSection() {
   return (
