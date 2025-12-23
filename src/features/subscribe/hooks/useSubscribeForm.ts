@@ -145,6 +145,7 @@ export function useSubscribeForm({
       } else {
         setCurrentStepIndex((prev) => prev + 1);
       }
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   }, [
     currentStep.id,

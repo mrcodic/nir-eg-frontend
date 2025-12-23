@@ -100,7 +100,7 @@ function FormStepper({
             {!isLast && (
               <div
                 className={cn(
-                  "sm:w-12 w-full h-0.5 mx-1.5 transition-all duration-300 self-start mt-10",
+                  "sm:w-12 max-sm:hidden w-full h-0.5 mx-1.5 transition-all duration-300 self-start mt-10",
                   isMounted && index < currentIndex
                     ? "bg-dark-radial"
                     : "bg-gray-light"
