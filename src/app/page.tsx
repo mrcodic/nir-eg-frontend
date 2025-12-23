@@ -1,7 +1,8 @@
+import ContactUsSection from "@/components/landing/ContactUsSection";
 import ContentProtectionSection from "@/components/landing/ContentProtectionSection";
 import FAQSection from "@/components/landing/FAQSection";
 import HeroSection from "@/components/landing/HeroSection";
-import LazyContactUs from "@/components/landing/LazyContactUs";
+import PartnersAndClientsSection from "@/components/landing/PartnersAndClientsSection";
 import PricingPlans from "@/components/landing/PricingPlans";
 import WhyUsSection from "@/components/landing/WhyUsSection";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -15,10 +16,6 @@ import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
 import { preload } from "react-dom";
-
-const PartnersAndClientsSection = dynamic(
-  () => import("@/components/landing/PartnersAndClientsSection")
-);
 
 const AppsLinksSection = dynamic(
   () => import("@/components/landing/AppsLinksSection")
@@ -96,7 +93,7 @@ export default function Home() {
 
       <PartnersAndClientsSection />
 
-      <LazyContactUs />
+      <ContactUsSection />
     </main>
   );
 }

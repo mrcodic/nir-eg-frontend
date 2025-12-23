@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import { useInView } from "motion/react";
 import { useRef } from "react";
 
@@ -14,13 +15,12 @@ export default function LazyOnView({
   children,
   offset = "300px",
   className = "",
-  minHeight = "400px",
 }: LazyOnViewProps) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: offset as "0px" });
 
   return (
-    <div ref={ref} className={`w-full ${className}`} style={{ minHeight }}>
+    <div ref={ref} className={cn(`w-full min-h-[300px]`, className)}>
       {isInView ? children : null}
     </div>
   );

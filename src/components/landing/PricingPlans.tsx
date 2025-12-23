@@ -6,12 +6,17 @@ import { type IPricingPlan } from "@/types/pricing-api.types";
 import { PaymentPeriod } from "@/types/subscribe.types";
 import { ApiResponse } from "@/types/type";
 import { useQuery } from "@tanstack/react-query";
+import dynamic from "next/dynamic";
 import { useMemo, useState } from "react";
 import Empty from "../Empty";
+import LazyOnView from "../LazyOnView";
 import MotionWrapper from "../MotionWrapper";
 import PricingPlanCard from "../PricingPlanCard";
-import PricingTypeSwtich from "../PricingTypeSwtich";
 import { Skeleton } from "../ui/skeleton";
+
+const PricingTypeSwtich = dynamic(() => import("../PricingTypeSwtich"), {
+  ssr: false,
+});
 
 export default function PricingPlans() {
   const [type, setType] = useState<PaymentPeriod>("yearly");
@@ -68,7 +73,9 @@ export default function PricingPlans() {
           <Empty text="حدث خطاء اثناء عرض الخطة" isError />
         ) : (
           <>
-            <PricingTypeSwtich type={type} setType={setType} />
+            <LazyOnView className="min-h-8">
+              <PricingTypeSwtich type={type} setType={setType} />
+            </LazyOnView>
 
             <MotionWrapper
               className={cn(

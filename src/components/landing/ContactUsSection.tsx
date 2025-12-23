@@ -1,8 +1,13 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import Image from "next/image";
+import LazyOnView from "../LazyOnView";
 import MotionWrapper from "../MotionWrapper";
-import ContactUsForm from "../form/ContactUsForm";
+
+const ContactUsForm = dynamic(() => import("../form/ContactUsForm"), {
+  ssr: false,
+});
 
 export default function ContactUsSection() {
   return (
@@ -15,7 +20,9 @@ export default function ContactUsSection() {
     >
       <div className="section bg-[url('/bg-vector.png')] p-4 bg-background rounded-lg flex max-lg:flex-col-reverse relative gap-y-8">
         <div className="bg-white w-1/2 max-lg:w-full rounded-lg shadow-sm p-6">
-          <ContactUsForm />
+          <LazyOnView>
+            <ContactUsForm />
+          </LazyOnView>
         </div>
 
         <div className=" lg:w-1/2 flex flex-col justify-center px-8  rounded-lg">
