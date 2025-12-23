@@ -24,7 +24,7 @@ function HeroSection() {
   });
 
   const y = useTransform(springY, [0, 1], ["50%", "0%"]);
-  const yPen = useTransform(springY, [0, 1], ["-180%", "-20%"]);
+  const yPen = useTransform(springY, [0, 1], ["-200%", "-20%"]);
   const rotatePen = useTransform(springY, [0, 1], [0, 65]);
 
   const yBook = useTransform(springY, [0, 1], ["120%", "-70%"]);
@@ -51,12 +51,17 @@ function HeroSection() {
           as={Image}
           src="/assets/graduation.png"
           alt="graduation"
-          className="absolute z-10 aspect-square 
-        sm:-top-20 -top-16 -left-4 sm:-left-10 size-26 sm:size-40
-        lg:-top-[120px] lg:-left-[100px] lg:size-[220px]"
           width={220}
           height={220}
           loading="eager"
+          className="
+                    absolute top-0 left-0 z-10 aspect-square
+                    size-26 sm:size-40 lg:size-[220px]
+
+                    -translate-x-4 -translate-y-16
+                    sm:-translate-x-10 sm:-translate-y-20
+                    lg:translate-x-[-100px] lg:translate-y-[-120px]
+                  "
           initial={{ opacity: 0 }}
           viewport={{ amount: 0.5, once: true }}
           whileInView={{ opacity: 1 }}
@@ -66,7 +71,6 @@ function HeroSection() {
           }}
           transition={{
             opacity: { duration: 0.5 },
-
             duration: 3,
             repeat: Infinity,
             ease: "easeInOut",
@@ -115,42 +119,56 @@ function HeroSection() {
 
             <motion.div
               style={{ y: yPen, rotate: rotatePen }}
-              className="absolute left-4 bottom-20 md:bottom-4 z-2 lg:w-[168px] md:w-[120px] w-20  aspect-[0.88]"
+              className="
+                        absolute bottom-0 left-0 z-2
+                        w-20 md:w-[120px] lg:w-[168px]
+                        aspect-[0.88]
+
+                        translate-x-4
+                        -translate-y-20
+                        md:-translate-y-4
+
+                        will-change-transform
+                      "
             >
               <MotionWrapper
                 as={Image}
                 src="/assets/hero/pen-blur.png"
                 alt="hero"
-                className="object-contain"
                 fill
                 priority
+                className="object-contain"
                 variants={{
                   hidden: { opacity: 0, y: 20 },
-                  visible: {
-                    opacity: 1,
-                    y: 0,
-                  },
+                  visible: { opacity: 1, y: 0 },
                 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
               />
             </motion.div>
             <motion.div
               style={{ y: yBook, rotate: rotateBook }}
-              className="absolute right-4 bottom-20 md:bottom-4 z-2 aspect-[0.82] lg:w-40 md:w-[120px] w-20"
+              className="
+                        absolute bottom-0 right-0 z-2 
+                        w-20 md:w-[120px] lg:w-40
+                        aspect-[0.82]
+
+                        -translate-x-4
+                        -translate-y-20
+                        md:-translate-y-4
+
+                        will-change-transform
+                      "
             >
               <MotionWrapper
                 as={Image}
                 src="/assets/hero/book-blur.png"
                 alt="hero"
-                className="object-contain "
                 fill
                 priority
+                className="object-contain"
                 variants={{
                   hidden: { opacity: 0, y: 20 },
-                  visible: {
-                    opacity: 1,
-                    y: 0,
-                  },
+                  visible: { opacity: 1, y: 0 },
                 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
               />

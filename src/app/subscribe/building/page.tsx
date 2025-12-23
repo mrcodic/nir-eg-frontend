@@ -30,7 +30,7 @@ async function ResultPage({
           </div>
 
           <div className="flex flex-col gap-6 text-center  max-w-[800px] mt-8">
-            <h1 className=" font-black text-xl sm:text-32 text-gradient-custom ">
+            <h1 className=" font-bold text-xl sm:text-32 text-gradient-custom ">
               نحن الآن نعمل على إنشاء موقعك… فقط لحظات وسيكون كل شيء جاهزًا لك.
             </h1>
 

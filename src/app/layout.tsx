@@ -8,8 +8,7 @@ import Providers from "./Providers";
 
 const almarai = Almarai({
   subsets: ["arabic"],
-  variable: "--font-almarai-sans",
-  weight: ["300", "400", "700", "800"],
+  weight: ["400", "700"],
   display: "swap",
 });
 
@@ -30,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="ar" dir="rtl">
       <body
-        className={`${almarai.variable}  antialiased flex flex-col`}
+        className={`${almarai.className}  antialiased flex flex-col`}
         suppressHydrationWarning
       >
         <Providers>

@@ -26,7 +26,7 @@ const frontPhoneVariants = {
     transition: {
       duration: 0.6,
       ease: "easeOut",
-      delay: 1,
+      delay: 0.5,
     },
   },
 } satisfies Variants;
@@ -44,7 +44,7 @@ const backPhoneVariants = {
     transition: {
       duration: 0.4,
       ease: "easeOut",
-      delay: 1.45,
+      delay: 0.95,
     },
   },
 } satisfies Variants;
@@ -60,7 +60,7 @@ const bellEntryVariants = {
     transition: {
       duration: 0.3,
       ease: "easeOut",
-      delay: 1.6,
+      delay: 1.1,
     },
   },
 } satisfies Variants;
@@ -104,7 +104,18 @@ export default function AnimatedPhones() {
 
       {/* Bell */}
       <MotionWrapper
-        className="absolute -top-3 right-4 sm:right-8 lg:right-18 aspect-square lg:w-[140px] w-20"
+        className="
+                  absolute top-0 right-0
+                  aspect-square
+                  w-20 lg:w-[140px]
+
+                  -translate-y-3
+                  -translate-x-4
+                  sm:-translate-x-8
+                  lg:-translate-x-10
+
+                  will-change-transform
+              "
         variants={bellEntryVariants}
         animate={{
           rotate: [0, -4, 4, -3, 3, 0],

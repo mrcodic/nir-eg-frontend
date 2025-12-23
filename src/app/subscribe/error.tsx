@@ -26,7 +26,7 @@ function ErrorPage({
         </div>
 
         <div className="text-center space-y-6">
-          <h1 className="text-gradient-custom text-32 font-black">
+          <h1 className="text-gradient-custom text-32 font-bold">
             حدث خطأ ما!
           </h1>
           <p className="font-bold text-2xl">
