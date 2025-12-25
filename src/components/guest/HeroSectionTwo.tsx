@@ -24,8 +24,12 @@ function HeroSectionTwo() {
 
         <div className="flex flex-wrap gap-4 mt-6">
           {features.map((feature) => (
-            <div className="bg-background p-2 pe-3 rounded-lg flex gap-2 items-center">
+            <div
+              key={feature.text}
+              className="bg-background p-2 pe-3 rounded-lg flex gap-2 items-center"
+            >
               <Image
+                className="w-6 h-6"
                 src={feature.icon}
                 width={24}
                 height={24}

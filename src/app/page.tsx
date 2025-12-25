@@ -12,7 +12,7 @@ const mapTemplate = {
 };
 
 const GuestPage = () => {
-  const Template = mapTemplate[template];
+  const Template = mapTemplate[template] || TemplateOne;
 
   return <Template />;
 };
