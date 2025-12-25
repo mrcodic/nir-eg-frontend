@@ -3,11 +3,11 @@
 import { TaskProvider } from "@/context/TaskProvider";
 import { usePathname } from "next/navigation";
 
-function layout({ children }) {
+function Layout({ children }) {
   const pathname = usePathname();
   const taskType = pathname.includes("exams") ? "exam" : "assignment";
 
   return <TaskProvider taskType={taskType}>{children}</TaskProvider>;
 }
 
-export default layout;
+export default Layout;

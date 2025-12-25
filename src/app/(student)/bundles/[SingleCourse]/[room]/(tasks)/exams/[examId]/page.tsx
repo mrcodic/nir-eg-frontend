@@ -12,6 +12,7 @@ import SubmitLoader from "@/modules/exam/components/SubmitLoader";
 
 const ExamPage = () => {
   const template = getCurrentTemplate();
+
   const {
     start,
     isLoading,

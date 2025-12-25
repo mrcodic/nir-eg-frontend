@@ -1,5 +1,6 @@
 "use client";
 
+import { useToast } from "@/hooks/use-toast";
 import LinkLocked from "@/layouts/LinkLocked";
 import Image from "next/image";
 import { useState } from "react";
@@ -27,6 +28,7 @@ function RoomFileDownloadLink({
   index,
 }: Props) {
   const [isDownloading, setIsDownloading] = useState(false);
+  const { toast } = useToast();
 
   const isLocked =
     room?.locked_to_pass ||
@@ -60,7 +62,10 @@ function RoomFileDownloadLink({
       window.URL.revokeObjectURL(url);
     } catch (error) {
       console.error(error);
-      alert("حدث خطأ أثناء تحميل الملف");
+      toast({
+        icon: "error",
+        description: "حدث خطأ أثناء تحميل الملف",
+      });
     } finally {
       setIsDownloading(false);
     }

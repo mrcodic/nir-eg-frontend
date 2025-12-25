@@ -7,22 +7,26 @@ import { useCallback, useEffect, useRef, useState } from "react";
 export const useTaskLogic = (
   options: {
     onInitialize?: (val: boolean) => void;
-    shouldStartQuiz?: (start: any) => void;
+    shouldStartQuiz?: (start: any) => boolean;
     onRetakeSuccess?: () => void;
   } = {}
 ) => {
   const { toast } = useToast();
   const isInit = useRef(false);
+
   const { onInitialize, shouldStartQuiz, onRetakeSuccess } = options;
 
-  const { form, taskId, start, data, setData } = useTaskContext();
+  // ✅ only stable values from context
+  const { taskId, start, data, setData, setValue, trigger } = useTaskContext();
 
+  // ===== local UI state =====
   const [success, setSuccess] = useState(false);
   const [fail, setFail] = useState(false);
   const [sure, setSure] = useState(false);
-  const [resolver, setResolver] = useState(null);
+  const [resolver, setResolver] = useState<((v: boolean) => void) | null>(null);
   const [status, setStatus] = useState(false);
 
+  // ================= RETAKE LOGIC =================
   const retakeExamLogic = useCallback(async () => {
     try {
       const q = await getClientPrivateData({
@@ -32,53 +36,54 @@ export const useTaskLogic = (
       setData(q?.body);
       setSuccess(false);
       setFail(false);
-      form.clearErrors();
-      form.reset();
+
+      // ✅ form reset without subscribing
+      setValue("questions", {});
+      trigger();
 
       onRetakeSuccess?.();
-    } catch (e) {
+    } catch (e: any) {
       console.log("retake error:", e);
       toast({
         description: e.response?.data?.error?.message || "An error occurred",
         icon: "error",
       });
     }
-  }, [form, onRetakeSuccess, setData, taskId, toast]);
+  }, [taskId, setData, setValue, trigger, onRetakeSuccess, toast]);
 
-  // handle when success model is opened telling exam is still being graded then get graded
+  // ================= HANDLE SUCCESS / FAIL =================
   useEffect(() => {
     if (!success) return;
-    if (start?.score_ratio && !start.result) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (start?.score_ratio && !start?.result) {
       setSuccess(false);
       setFail(true);
     }
   }, [success, start?.score_ratio, start?.result]);
 
-  // hide success and fail model if an instructor checked an exam to be retaken while a model is open
   useEffect(() => {
     if ((success || fail) && !start?.score_ratio && !start?.review_pending) {
-      console.log("retake from dashboard");
-
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       retakeExamLogic();
     }
-  }, [success, fail, start, retakeExamLogic]);
+  }, [
+    success,
+    fail,
+    start?.score_ratio,
+    start?.review_pending,
+    retakeExamLogic,
+  ]);
 
-  // ============= INITIALIZATION =============
+  // ================= INITIALIZATION =================
   useEffect(() => {
     if (isInit.current) return;
+
     const initializeQuiz = async () => {
       const shouldStart = shouldStartQuiz
         ? shouldStartQuiz(start)
-        : start.score === null && !start.review_pending;
+        : start?.score === null && !start?.review_pending;
 
       if (shouldStart) {
         setStatus(false);
-
-        if (onInitialize) {
-          onInitialize(true);
-        }
+        onInitialize?.(true);
 
         try {
           const q = await getClientPrivateData({
@@ -89,15 +94,11 @@ export const useTaskLogic = (
           console.log("get questions error:", e);
         }
       } else {
-        if (onInitialize) {
-          onInitialize(false);
-        }
+        onInitialize?.(false);
 
-        if ((start.result && !fail) || start?.review_pending) {
-          console.log("✨ showing success");
+        if ((start?.result && !fail) || start?.review_pending) {
           setSuccess(true);
         } else {
-          console.log("💥 showing fail");
           setFail(true);
         }
       }
@@ -106,51 +107,65 @@ export const useTaskLogic = (
     };
 
     initializeQuiz();
-  }, [start.score, start.review_pending]);
+  }, [
+    taskId,
+    start?.score,
+    start?.review_pending,
+    start?.result,
+    shouldStartQuiz,
+    onInitialize,
+    fail,
+    setData,
+    start,
+  ]);
 
-  // ============= SHOW ANSWERS =============
-  const showAnswers = async () => {
+  // ================= SHOW ANSWERS =================
+  const showAnswers = useCallback(async () => {
     try {
-      const data = await getClientPrivateData({
+      const res = await getClientPrivateData({
         queryKey: [`students/quiz/show/answers/${taskId}`],
       });
 
-      if (data?.code === 200) {
+      if (res?.code === 200) {
         setSuccess(false);
         setFail(false);
         setStatus(true);
-        form.clearErrors();
-        form.reset();
-        setData({ ...data?.body, solution: true });
+
+        setValue("questions", {});
+        trigger();
+
+        setData({ ...res?.body, solution: true });
       }
     } catch (e) {
       console.log("showAnswers error:", e);
     }
-  };
+  }, [taskId, setData, setValue, trigger]);
 
-  // ============= RETAKE QUIZ =============
-  const retake = async () => {
+  // ================= RETAKE =================
+  const retake = useCallback(async () => {
     try {
       await axios.post(`/api?url=students/quiz/retake/${taskId}`, {});
-
       await retakeExamLogic();
-    } catch (e) {
+    } catch (e: any) {
       console.log("retake error:", e);
       toast({
         description: e.response?.data?.error?.message || "An error occurred",
         icon: "error",
       });
     }
-  };
+  }, [taskId, retakeExamLogic, toast]);
 
-  // ============= HANDLE SURE MODAL =============
-  const handleClose = (confirmed) => {
-    setSure(false);
-    if (resolver) resolver(confirmed);
-  };
+  // ================= SURE MODAL =================
+  const handleClose = useCallback(
+    (confirmed: boolean) => {
+      setSure(false);
+      resolver?.(confirmed);
+      setResolver(null);
+    },
+    [resolver]
+  );
 
   return {
-    form,
     success,
     setSuccess,
     fail,

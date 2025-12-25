@@ -34,6 +34,8 @@ const Room = ({
 
   const lock_after = "lock_after" in room && room?.lock_after;
 
+  console.log(room);
+
   return (
     <>
       <Accordion className="relative " type="single" collapsible>
@@ -134,7 +136,8 @@ const Room = ({
 
           <AccordionContent>
             <div className="mt-6 space-y-2">
-              {(room?.locked_to_pass || Number(lock_after) == 0) && (
+              {(room?.locked_to_pass ||
+                (lock_after !== null && Number(lock_after) == 0)) && (
                 <div className="flex items-center gap-2 bg-background p-2 rounded-lg border border-gray-light ">
                   <Image
                     src="/assets/warning-fill.svg"

@@ -1,6 +1,7 @@
 "use client";
 
 import { getClientPrivateData } from "@/helpers/client-fetch";
+import { cn } from "@/lib/utils";
 import { InnerPagination, StudentActivity } from "@/types";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { createColumnHelper } from "@tanstack/react-table";
@@ -35,11 +36,22 @@ const columns = [
     header: () => (
       <div className="w-[156px] px-2 text-[18px] font-bold">الكورس</div>
     ),
-    cell: (info) => (
-      <div className="p-2 w-[156px] text-center text-[16px] font-medium truncate">
-        {info.getValue()}
-      </div>
-    ),
+    cell: (info) => {
+      const courseExpired =
+        info.row.original.classroom_expired ||
+        info.row.original.classroom === "--";
+
+      return (
+        <div
+          className={cn(
+            "p-2 w-[156px] text-center text-base font-medium truncate",
+            { "text-red-600 text-sm": courseExpired }
+          )}
+        >
+          {courseExpired ? "تم انتهاء الكورس" : info.getValue()}
+        </div>
+      );
+    },
   }),
   columnHelper.accessor("created_at", {
     header: () => (

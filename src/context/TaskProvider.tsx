@@ -11,41 +11,63 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from "react";
-import { useForm } from "react-hook-form";
+import {
+  Control,
+  FormProvider,
+  UseFormGetValues,
+  UseFormSetValue,
+  UseFormTrigger,
+  useForm,
+} from "react-hook-form";
 
 interface TaskContextType {
-  form: any;
+  // ✅ RHF (stable only)
+  control: Control<any>;
+  getValues: UseFormGetValues<any>;
+  setValue: UseFormSetValue<any>;
+  trigger: UseFormTrigger<{
+    quiz_id: string;
+    questions: {};
+  }>;
+
+  // data
   start: QuizStatus;
   isLoading: boolean;
   data: any;
   setData: (data: any) => void;
+
+  // UI state
   showRoom: boolean;
-  setShowRoom: (showRoom: boolean) => void;
+  setShowRoom: (v: boolean) => void;
   startExam: boolean;
-  setStartExam: (startExam: boolean) => void;
+  setStartExam: (v: boolean) => void;
   completed: boolean;
-  setCompleted: (completed: boolean) => void;
+  setCompleted: (v: boolean) => void;
+  isSubmitting: boolean;
+  setIsSubmitting: (v: boolean) => void;
+
+  // callbacks
   onComplete: (data: { completed: boolean }) => void;
+
+  // task info
   taskType: string;
   taskId: string;
-  isSubmitting: boolean;
-  setIsSubmitting: (isSubmitting: boolean) => void;
 }
 
 const TaskContext = createContext<TaskContextType | null>(null);
 
 export const useTaskContext = () => {
-  const context = useContext(TaskContext);
-  if (!context) {
-    throw new Error("useTaskContext must be used within TaskContextProvider");
+  const ctx = useContext(TaskContext);
+  if (!ctx) {
+    throw new Error("useTaskContext must be used within TaskProvider");
   }
-  return context;
+  return ctx;
 };
 
 export const TaskProvider = ({ children, taskType = "exam" }) => {
-  // Get the appropriate ID based on task type
   const params = useParams();
   const taskId = (
     taskType === "exam" ? params.examId : params.assignmentId
@@ -60,19 +82,17 @@ export const TaskProvider = ({ children, taskType = "exam" }) => {
     },
   });
 
-  // Shared state
+  const { control, getValues, setValue, trigger } = form;
+
+  // ===== shared state =====
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [data, setData] = useState();
   const [showRoom, setShowRoom] = useState(false);
   const [startExam, setStartExam] = useState(false);
   const [completed, setCompleted] = useState(false);
 
-  // Fetch task data
-  const {
-    data: start,
-    isLoading,
-    error,
-  } = useQuery<QuizStatus>({
+  // ===== fetch start =====
+  const { data: start, isLoading } = useQuery<QuizStatus>({
     queryKey: [`/students/quiz/start/${taskId}`],
     queryFn: async () => {
       const res = await getClientPrivateData({
@@ -83,46 +103,62 @@ export const TaskProvider = ({ children, taskType = "exam" }) => {
     enabled: !!taskId,
   });
 
-  // Handle completion callback
-  const onComplete = useCallback(
-    ({ completed: isCompleted }) => {
-      if (isCompleted) {
-        setCompleted(true);
-      }
-    },
-    [setCompleted]
-  );
+  const onComplete = useCallback(({ completed }: { completed: boolean }) => {
+    if (completed) setCompleted(true);
+  }, []);
 
   useEffect(() => {
     document.documentElement.scroll({ top: 0 });
   }, []);
 
-  const value = {
-    form,
-    // Data
-    start,
-    isLoading,
-    data,
-    setData,
+  // ✅ memoized context value (NO form)
+  const value = useMemo<TaskContextType>(
+    () => ({
+      control,
+      getValues,
+      setValue,
+      trigger,
 
-    // UI state
-    showRoom,
-    setShowRoom,
-    startExam,
-    setStartExam,
-    completed,
-    setCompleted,
+      start,
+      isLoading,
+      data,
+      setData,
 
-    // Callbacks
-    onComplete,
+      showRoom,
+      setShowRoom,
+      startExam,
+      setStartExam,
+      completed,
+      setCompleted,
+      isSubmitting,
+      setIsSubmitting,
 
-    // Task info
-    taskType,
-    taskId,
+      onComplete,
 
-    isSubmitting,
-    setIsSubmitting,
-  };
+      taskType,
+      taskId,
+    }),
+    [
+      control,
+      getValues,
+      setValue,
+      trigger,
+      start,
+      isLoading,
+      data,
+      showRoom,
+      startExam,
+      completed,
+      isSubmitting,
+      onComplete,
+      taskType,
+      taskId,
+    ]
+  );
 
-  return <TaskContext.Provider value={value}>{children}</TaskContext.Provider>;
+  return (
+    <TaskContext.Provider value={value}>
+      <FormProvider {...form}>{children}</FormProvider>
+    </TaskContext.Provider>
+  );
 };

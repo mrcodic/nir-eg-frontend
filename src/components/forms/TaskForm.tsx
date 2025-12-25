@@ -12,17 +12,17 @@ import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import Link from "next/link";
 import { memo, useCallback, useEffect, useRef } from "react";
+import { useFormContext } from "react-hook-form";
 import CustomLoader from "../custom/Loader";
 import { Button } from "../ui/button";
 
 type Props = {
   taskId: string | number;
-  setSure: (val: boolean) => void;
+  setSure: (v: boolean) => void;
   status: boolean;
-  setSuccess: (val: boolean) => void;
-  setFail: (val: boolean) => void;
-  setResolver: (val: any) => void;
-  form: any;
+  setSuccess: (v: boolean) => void;
+  setFail: (v: boolean) => void;
+  setResolver: (v: any) => void;
   onTaskSubmit?: () => void;
 };
 
@@ -33,133 +33,119 @@ function TaskForm({
   setSuccess,
   setFail,
   setResolver,
-  form,
   onTaskSubmit,
 }: Props) {
   const { toast } = useToast();
-  const queryClient = useQueryClient();
-  const listRef = useRef([]);
 
+  const queryClient = useQueryClient();
+  const listRef = useRef<HTMLDivElement[]>([]);
+
+  const form = useFormContext(); // ✅ required by shadcn
+  const { control, getValues } = form;
+
+  // ✅ only what this component really needs
   const {
     data,
+    isLoading,
     isSubmitting,
     setIsSubmitting,
     completed,
     setCompleted,
-    isLoading,
   } = useTaskContext();
 
-  // ============= AUTO-SUBMIT ON COMPLETION =============
+  // ================= AUTO SUBMIT =================
   useEffect(() => {
     if (completed === true) {
-      form.handleSubmit(onSubmit, onError)();
+      onSubmit();
     }
   }, [completed]);
 
+  // ================= CONFIRM =================
   const saveConfirm = useCallback(() => {
     setSure(true);
-    return new Promise((resolve) => {
+    return new Promise<boolean>((resolve) => {
       setResolver(() => resolve);
     });
-  }, []);
+  }, [setSure, setResolver]);
 
-  const onSubmit = async (v) => {
+  // ================= SUBMIT =================
+  const onSubmit = useCallback(async () => {
     setIsSubmitting(true);
 
     try {
+      const values = getValues();
       const formData = new FormData();
       formData.append("quiz_id", String(taskId));
 
-      const allQuestions = [];
+      const allQuestions: { id: number; type: number }[] = [];
 
-      data?.questions?.forEach((question) => {
-        if (question.type === 2 && question.related_questions) {
-          question.related_questions.forEach((relatedQ) => {
-            allQuestions.push({
-              id: relatedQ.id,
-              type: relatedQ.type,
-            });
+      data?.questions?.forEach((q) => {
+        if (q.type === 2 && q.related_questions) {
+          q.related_questions.forEach((rq) => {
+            allQuestions.push({ id: rq.id, type: rq.type });
           });
         } else {
-          allQuestions.push({
-            id: question.id,
-            type: question.type,
-          });
+          allQuestions.push({ id: q.id, type: q.type });
         }
       });
 
-      allQuestions.forEach(({ id: questionId, type: questionType }) => {
-        const value = v.questions?.[questionId];
+      allQuestions.forEach(({ id, type }) => {
+        const value = values.questions?.[id];
 
         if (!value) {
-          if (questionType === 3) {
-            formData.append(`questions[${questionId}][text]`, null);
-            formData.append(`questions[${questionId}][attachment]`, null);
+          if (type === 3) {
+            formData.append(`questions[${id}][text]`, null);
+            formData.append(`questions[${id}][attachment]`, null);
           } else {
-            formData.append(`questions[${questionId}]`, null);
+            formData.append(`questions[${id}]`, null);
           }
-        } else if (Array.isArray(value)) {
-          if (value.length > 0) {
-            value.forEach((answerId, index) => {
-              formData.append(`questions[${questionId}][${index}]`, answerId);
-            });
-          } else {
-            formData.append(`questions[${questionId}]`, null);
-          }
-        } else if (typeof value === "object" && value !== null) {
-          const hasText = value?.text && value.text?.trim().length > 0;
-          const hasAttachment =
-            value.attachment && value.attachment instanceof File;
+          return;
+        }
 
-          if (hasText) {
-            formData.append(`questions[${questionId}][text]`, value.text);
-          } else {
-            formData.append(`questions[${questionId}][text]`, null);
-          }
-
-          if (hasAttachment) {
-            formData.append(
-              `questions[${questionId}][attachment]`,
-              value.attachment
+        if (Array.isArray(value)) {
+          if (value.length) {
+            value.forEach((v, i) =>
+              formData.append(`questions[${id}][${i}]`, v)
             );
           } else {
-            formData.append(`questions[${questionId}][attachment]`, null);
+            formData.append(`questions[${id}]`, null);
           }
-        } else {
-          // Unexpected value type
-          if (questionType === 3) {
-            formData.append(`questions[${questionId}][text]`, null);
-            formData.append(`questions[${questionId}][attachment]`, null);
-          } else {
-            formData.append(`questions[${questionId}]`, null);
-          }
+          return;
+        }
+
+        if (typeof value === "object") {
+          formData.append(
+            `questions[${id}][text]`,
+            value.text?.trim() ? value.text : null
+          );
+
+          formData.append(
+            `questions[${id}][attachment]`,
+            value.attachment instanceof File ? value.attachment : null
+          );
         }
       });
 
-      const response = await axios.post(
+      const res = await axios.post(
         "/api?url=/students/quiz/answer&type=formData",
         formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
+        { headers: { "Content-Type": "multipart/form-data" } }
       );
 
       queryClient.invalidateQueries({
         queryKey: [`/students/quiz/start/${taskId}`],
       });
 
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await new Promise((r) => setTimeout(r, 1000));
 
-      if (response.data?.body.result || response.data?.body?.review_pending) {
+      if (res.data?.body?.result || res.data?.body?.review_pending) {
         setSuccess(true);
       } else {
         setFail(true);
       }
 
       onTaskSubmit?.();
-    } catch (e) {
+    } catch (e: any) {
       toast({
         description: e.response?.data?.error?.message || "An error occurred",
         icon: "error",
@@ -168,94 +154,102 @@ function TaskForm({
       setCompleted(false);
       setIsSubmitting(false);
     }
-  };
+  }, [
+    data,
+    getValues,
+    onTaskSubmit,
+    queryClient,
+    setCompleted,
+    setFail,
+    setIsSubmitting,
+    setSuccess,
+    taskId,
+    toast,
+  ]);
 
-  const onError = async (errors) => {
-    form.handleSubmit(onSubmit(form.getValues()))();
-  };
-
-  if (isLoading)
+  // ================= STATES =================
+  if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-40">
         <CustomLoader />
       </div>
     );
+  }
 
-  if (!data?.questions?.length)
+  if (!data?.questions?.length) {
     return (
       <div className="flex items-center justify-center min-h-40">
         <Link
           href="/grades"
-          className="bg-primary text-white px-2 py-1 rounded-lg font-bold cursor-pointer"
+          className="bg-primary text-white px-2 py-1 rounded-lg font-bold"
         >
           الذهاب الى الدرجات
         </Link>
       </div>
     );
+  }
 
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit, onError)}
+        onSubmit={(e) => {
+          e.preventDefault();
+          onSubmit();
+        }}
         className={cn("mt-6", {
-          "opacity-80 pointer-events-none":
-            form?.formState?.isSubmitting || isSubmitting,
+          "opacity-80 pointer-events-none": isSubmitting,
         })}
         dir="ltr"
       >
         <div id="taskForm" className="flex">
-          <div className="flex-1  space-y-6 ">
-            {data?.questions?.map((question, index) => {
+          <div className="flex-1 space-y-6">
+            {data.questions.map((question, index) => {
               if (question.type === 2) {
                 return (
                   <ParagraphQuestion
                     key={question.id}
                     question={question}
                     index={index}
-                    form={form}
-                    status={status}
                     listRef={listRef}
-                    isAnswer={data?.solution}
+                    status={status}
+                    isAnswer={data.solution}
                   />
                 );
-              } else if (question.type === 3) {
+              }
+
+              if (question.type === 3) {
                 return (
                   <WrittenQuestion
                     key={question.id}
                     question={question}
                     index={index}
-                    form={form}
                     listRef={listRef}
-                  />
-                );
-              } else {
-                return (
-                  <Question
-                    key={question.id}
-                    question={question}
-                    index={index}
-                    form={form}
-                    status={status}
-                    listRef={listRef}
-                    isAnswer={data?.solution}
                   />
                 );
               }
+
+              return (
+                <Question
+                  key={question.id}
+                  question={question}
+                  index={index}
+                  listRef={listRef}
+                  status={status}
+                  isAnswer={data.solution}
+                />
+              );
             })}
           </div>
         </div>
 
-        {!status && data && (
+        {!status && (
           <Button
-            className="ms-auto flex justify-center mt-10 max-w-[172px] w-full [&_svg]:size-7!"
+            className="ms-auto mt-10 max-w-[172px] w-full"
             type="button"
             disabled={isSubmitting}
-            onClick={async (e) => {
-              e.preventDefault();
-              await form.trigger();
+            onClick={async () => {
               const confirmed = await saveConfirm();
-              if (!confirmed) return;
-              form.handleSubmit(onSubmit, onError)();
+              if (confirmed) onSubmit();
             }}
           >
             {isSubmitting ? <CustomLoader /> : "حفظ الاجابات"}
@@ -263,7 +257,7 @@ function TaskForm({
         )}
       </form>
 
-      {data?.solution && (
+      {data.solution && (
         <ExamPDFGenerator taskId={Number(taskId)} className="mt-8" />
       )}
     </Form>

@@ -1,3 +1,5 @@
+"use client";
+
 import FailModal from "@/components/modals/FailModal";
 import PassedModal from "@/components/modals/passedModal";
 import { useTaskLogic } from "@/modules/exam/hooks/useTaskLogic";
@@ -10,7 +12,7 @@ import {
   TargetGradeBanner,
 } from "@/modules/exam/components/ExamBanners";
 import { QuizStatus } from "@/types";
-import { memo } from "react";
+import { memo, useCallback } from "react";
 import TaskForm from "./TaskForm";
 
 type Props = {
@@ -21,8 +23,11 @@ type Props = {
 const ExamForm = ({ start, setStartExam }: Props) => {
   const { examId } = useParams();
 
+  if (!examId) {
+    redirect("/ErrorPage?message=لم يتم العثور على امتحان");
+  }
+
   const {
-    form,
     success,
     fail,
     sure,
@@ -37,7 +42,7 @@ const ExamForm = ({ start, setStartExam }: Props) => {
     data,
   } = useTaskLogic({
     shouldStartQuiz: (start) => {
-      const nowTime = new Date().getTime();
+      const nowTime = Date.now();
       const storedTime = localStorage.getItem(`timer${examId}`);
 
       return (
@@ -57,24 +62,21 @@ const ExamForm = ({ start, setStartExam }: Props) => {
     },
   });
 
-  const handleRetake = async () => {
+  const handleRetake = useCallback(async () => {
     await retake();
-  };
-
-  if (!examId) {
-    redirect("/ErrorPage?message=لم يتم العثور على امتحان");
-  }
+  }, [retake]);
 
   return (
     <>
-      {!status && data?.score && <TargetGradeBanner score={data?.score} />}
+      {!status && data?.score && <TargetGradeBanner score={data.score} />}
+
       {status && data?.details?.score && (
-        <ResultBanner score={data?.details?.score} />
+        <ResultBanner score={data.details.score} />
       )}
-      {start?.timer && <ExamTimerBanner timer={start?.timer} />}
+
+      {start?.timer && <ExamTimerBanner timer={start.timer} />}
 
       <TaskForm
-        form={form}
         taskId={examId.toString()}
         setSure={setSure}
         status={status}
@@ -87,20 +89,7 @@ const ExamForm = ({ start, setStartExam }: Props) => {
         }}
       />
 
-      {sure && (
-        <Sure
-          open={sure}
-          setOpen={handleClose}
-          length={
-            (form &&
-              form?.formState?.errors?.questions &&
-              form?.formState?.errors?.questions?.filter(
-                (item) => item && item?.toString()?.trim() !== ""
-              )?.length) ||
-            0
-          }
-        />
-      )}
+      {sure && <Sure open={sure} setOpen={handleClose} length={0} />}
 
       {success && (
         <PassedModal
