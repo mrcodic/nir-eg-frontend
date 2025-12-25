@@ -11,7 +11,7 @@ const Coursers = () => {
   const [page, setPage] = useState(1);
 
   return (
-    <div className="wrapper mt-8">
+    <div className="wrapper ">
       <RoomHeader
         className="mb-6  items-start "
         title="الاشتراكات"

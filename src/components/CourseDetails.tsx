@@ -7,7 +7,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getPublicData } from "@/helpers/client-fetch";
 import { cn } from "@/lib/utils";
 import { ICourseDetails, IUser } from "@/types";
-import Image from "next/image";
 import { useParams } from "next/navigation";
 import Empty from "./Empty";
 import InfiniteScroll from "./InfinteScroll";
@@ -74,13 +73,20 @@ const CourseDetails = ({ details, profile }: Props) => {
                 value={tab.value}
                 className={`group min-w-24 rounded-lg data-[state=active]:bg-primary-800 cursor-pointer data-[state=active]:text-white bg-white text-[#523412] flex items-center gap-2 border border-primary-800 px-px py-1 md:p-2 `}
               >
-                <Image
-                  className="size-6 group-data-[state=active]:invert group-data-[state=active]:brightness-0 transition-all duration-300 ease-in-out"
-                  src={tab.iconSrc}
-                  alt={tab.title}
-                  width={24}
-                  height={24}
+                <span
+                  className="
+              size-6
+              bg-primary
+              transition-colors duration-300
+              group-data-[state=active]:bg-white
+
+            "
+                  style={{
+                    WebkitMask: `url(${tab.iconSrc}) no-repeat center / contain`,
+                    mask: `url(${tab.iconSrc}) no-repeat center / contain`,
+                  }}
                 />
+
                 <span className="text-sm text-primary-800 group-data-[state=active]:text-white transition-all duration-300 ease-in-out font-bold">
                   {tab.title}
                 </span>

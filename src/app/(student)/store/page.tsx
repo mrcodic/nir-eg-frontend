@@ -3,7 +3,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getServerData } from "@/helpers/server-fetch";
 import PointsStoreCard from "@/modules/points-store/components/PointsStoreCard";
 import StudentPointsCard from "@/modules/profile/components/StudentPointsCard";
-import Image from "next/image";
 import { Suspense } from "react";
 
 const tabs = [
@@ -70,13 +69,26 @@ const StorePage = async () => {
                   value={tab.value}
                   className={`group min-w-24 rounded-lg data-[state=active]:bg-primary-800 cursor-pointer data-[state=active]:text-white bg-white text-[#523412] flex items-center gap-2 border border-primary-800 px-px py-1 md:p-2 `}
                 >
-                  <Image
+                  <span
+                    className="
+              size-6
+              bg-primary
+              transition-colors duration-300
+              group-data-[state=active]:bg-white
+
+            "
+                    style={{
+                      WebkitMask: `url(${tab.icon}) no-repeat center / contain`,
+                      mask: `url(${tab.icon}) no-repeat center / contain`,
+                    }}
+                  />
+                  {/* <Image
                     className="size-6 group-data-[state=active]:invert group-data-[state=active]:brightness-0 transition-all duration-300 ease-in-out"
                     src={tab.icon}
                     alt={tab.title}
                     width={24}
                     height={24}
-                  />
+                  /> */}
                   <h5 className="text-sm text-primary-800 group-data-[state=active]:text-white transition-all duration-300 ease-in-out font-bold">
                     {tab.title}
                   </h5>

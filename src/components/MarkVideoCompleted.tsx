@@ -73,7 +73,7 @@ function MarkVideoCompleted({
 
   return (
     <div className="flex gap-2 items-center bg-semantics-green-dark px-2 py-1 rounded-lg">
-      <span className="text-sm font-bold text-white">تم الانتهاء</span>
+      <span className="text-xs font-bold text-white">تم الانتهاء</span>
       <Check className="size-4 text-white" />
     </div>
   );

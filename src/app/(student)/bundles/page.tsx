@@ -44,7 +44,7 @@ const BundlesPage = () => {
   }
 
   return (
-    <div className="mb-12 grow mt-[120px] ">
+    <div className="mb-12 grow mt-[120px] space-y-[50px] md:space-y-[100px] ">
       <BundlesCom />
       {token && <Courses />}
       <NewCourses />

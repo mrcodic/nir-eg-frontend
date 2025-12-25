@@ -20,7 +20,7 @@ const NewCourses = () => {
     : `/guest/classrooms/${searchParams.get("grade")}`;
 
   return (
-    <div className=" mt-[50px] md:mt-[100px] wrapper ">
+    <div className="  wrapper ">
       <RoomHeader
         className=""
         title={`كورسات ${mapGradeToText(grade)}`}

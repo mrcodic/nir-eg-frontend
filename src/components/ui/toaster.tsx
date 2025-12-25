@@ -40,7 +40,7 @@ export function Toaster() {
             path = "/icons/State Delete.svg";
             break;
           default:
-            path = "";
+            path = "/icons/State Info.svg";
             break;
         }
         return (

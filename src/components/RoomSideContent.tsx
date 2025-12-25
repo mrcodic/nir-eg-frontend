@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { IRoomDetails } from "@/types";
 import { convertMinutes } from "@/utils/clientFun";
 import { ChevronLeft, ChevronRight, Download } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { memo } from "react";
@@ -42,9 +43,12 @@ const RoomSideContent = ({
       )}
     >
       <div className="flex items-center gap-4">
-        <img
+        <Image
           src={"/assets/grade-placeholder.png"}
           className="size-16 rounded-lg"
+          width={64}
+          height={64}
+          alt="grade placeholder"
         />
 
         <div className="flex flex-col gap-2 w-full">
@@ -82,13 +86,25 @@ const RoomSideContent = ({
           } rounded-lg mb-3 px-2  py-2`}
         >
           <div className="flex text-sm items-center font-bold gap-4">
-            <img src="/assets/videos-fill.svg" className="size-6" />
+            <Image
+              src="/assets/videos-fill.svg"
+              className="size-6"
+              width={24}
+              height={24}
+              alt="videos fill"
+            />
             <h3 className="line-clamp-1">{lesson?.title}</h3>
           </div>
 
           <div className="mr-10 flex justify-between mt-2">
             <div className="flex items-center gap-2">
-              <img className="size-5" src="/assets/time.svg" />
+              <Image
+                src="/assets/time.svg"
+                className="size-5"
+                width={20}
+                height={20}
+                alt="time"
+              />
               <span className=" flex gap-1 text-xs font-medium">
                 {isFinite(Number(lesson?.duration))
                   ? convertMinutes(Number(lesson.duration))
@@ -117,7 +133,14 @@ const RoomSideContent = ({
                 key={quiz.id}
                 className="flex items-center px-2 py-2 rounded-lg border border-gray-light shadow-sm bg-white mt-4 justify-between"
               >
-                <img src="/assets/exam-fill.svg" className="size-6" />
+                <Image
+                  src="/assets/exam-fill.svg"
+                  className="size-6"
+                  width={24}
+                  height={24}
+                  alt="exam fill"
+                />
+
                 <h3 className="text-sm grow font-bold truncate break-all">
                   {quiz?.title}
                 </h3>
@@ -146,7 +169,14 @@ const RoomSideContent = ({
                 key={attachment.name}
                 className="flex gap-2 items-center mb-2 px-2 py-2 bg-white rounded-lg border border-gray-light shadow-sm mt-2.5 justify-between"
               >
-                <img src="/assets/files-fill.svg" className="size-6" />
+                <Image
+                  src="/assets/files-fill.svg"
+                  className="size-6"
+                  width={24}
+                  height={24}
+                  alt="files fill"
+                />
+
                 <h4 className="text-sm grow font-bold truncate  break-all">
                   {attachment.name}
                 </h4>
@@ -179,7 +209,14 @@ const RoomSideContent = ({
                 key={ass?.id}
                 className="flex gap-2 items-center px-2 py-2 rounded-lg border border-gray-light shadow-sm bg-white mt-4 justify-between"
               >
-                <img src="/assets/assignment-fill.svg" className="size-6" />
+                <Image
+                  src="/assets/assignment-fill.svg"
+                  className="size-6"
+                  width={24}
+                  height={24}
+                  alt="assignment fill"
+                />
+
                 <h2 className="text-sm grow font-bold truncate break-all">
                   {ass?.title}
                 </h2>
