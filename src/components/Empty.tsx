@@ -26,16 +26,19 @@ const Empty = ({
         className
       )}
     >
-      <Image
-        src={
-          icon ||
-          (isError ? "/assets/error.svg" : "/assets/bg/search-illustration.svg")
-        }
-        alt=" "
-        width={200}
-        height={200}
-        className={iconClassName}
-      />
+      <div className={cn("w-[200px] h-[150px] relative", iconClassName)}>
+        <Image
+          src={
+            icon ||
+            (isError
+              ? "/assets/error.svg"
+              : "/assets/bg/search-illustration.svg")
+          }
+          alt=" "
+          fill
+          className={cn("w-full h-full object-contain", iconClassName)}
+        />
+      </div>
       <h2 className="text-lg font-bold">
         {text || (isError ? "حدث خطأ ما" : "لا يوجد معلومات لعرضها")}
       </h2>

@@ -5,7 +5,7 @@ import SocialLinks from "../SocialLinks";
 
 const Footer = () => {
   return (
-    <footer className="bg-background bg-[url('/assets/footer.png')] text-[#523412] font-semibold  text-center py-[40px]">
+    <footer className="bg-background bg-[url('/assets/footer.png')] text-black font-semibold  text-center py-[40px]">
       <div className=" wrapper flex max-lg:flex-col justify-between gap-6  md:text-right">
         {/* About Section */}
         <div className="flex grow flex-col w-fit items-start gap-4">
@@ -33,7 +33,7 @@ const Footer = () => {
             <Mail size={20} />{" "}
             <a
               href="mailto:info@more-english.com"
-              className="hover:text-gray-300 underline"
+              className="hover:text-black/80 underline"
             >
               info@more-english.com
             </a>
@@ -44,7 +44,7 @@ const Footer = () => {
             </div>
             <a
               href="tel:+201008673565"
-              className="hover:text-gray-300 underline "
+              className="hover:text-black/80 underline "
               dir="ltr"
             >
               +20 100 867 3565

@@ -442,6 +442,16 @@ export interface IRoomDetails {
   subscription_type: string;
 }
 
+export interface IPointsStoreItem {
+  acquired: boolean;
+  favorite: boolean;
+  id: number;
+  image: string;
+  name: string;
+  points: number;
+  price: number;
+}
+
 export interface InnerPagination {
   current_page: number;
   from: number;

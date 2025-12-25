@@ -1,8 +1,10 @@
 import MappingFun from "@/components/MappingFunc";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getServerData } from "@/helpers/server-fetch";
 import PointsStoreCard from "@/modules/points-store/components/PointsStoreCard";
 import StudentPointsCard from "@/modules/profile/components/StudentPointsCard";
+import { IUser } from "@/types";
 import { Suspense } from "react";
 
 const tabs = [
@@ -45,14 +47,14 @@ const mapTabsToEndpoints = {
 };
 
 const StorePage = async () => {
-  const data = await getServerData({
-    queryKey: ["/students/store/items"],
+  const profileData = await getServerData<{ body: IUser }>({
+    queryKey: ["/students/profile"],
   });
 
   return (
     <div className="wrapper mt-[150px] ">
       <div className="bg-background rounded-lg p-4">
-        <StudentPointsCard points={data?.body.user_points} showLink={false} />
+        <StudentPointsCard points={profileData?.body.points} showLink={false} />
       </div>
 
       <Tabs
@@ -82,13 +84,7 @@ const StorePage = async () => {
                       mask: `url(${tab.icon}) no-repeat center / contain`,
                     }}
                   />
-                  {/* <Image
-                    className="size-6 group-data-[state=active]:invert group-data-[state=active]:brightness-0 transition-all duration-300 ease-in-out"
-                    src={tab.icon}
-                    alt={tab.title}
-                    width={24}
-                    height={24}
-                  /> */}
+
                   <h5 className="text-sm text-primary-800 group-data-[state=active]:text-white transition-all duration-300 ease-in-out font-bold">
                     {tab.title}
                   </h5>
@@ -98,7 +94,18 @@ const StorePage = async () => {
           </div>
         </TabsList>
 
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense
+          fallback={
+            <div className=" gap-5 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 ">
+              {Array.from({ length: 2 }).map((_, index) => (
+                <div key={index} className="flex flex-col gap-4">
+                  <Skeleton className="min-h-[232px]! w-full rounded-lg" />
+                  <Skeleton className=" min-h-[156px]! w-full rounded-lg" />
+                </div>
+              ))}
+            </div>
+          }
+        >
           {Object.entries(mapTabsToEndpoints).map(([key, value]) => {
             return (
               <TabsContent value={key} key={key}>

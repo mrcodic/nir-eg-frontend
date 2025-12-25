@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/error-boundaries */
 import { getServerData } from "@/helpers/server-fetch";
 import CustomError from "@/lib/customError";
 import { IGetDataOptions } from "@/types/helpers.types";

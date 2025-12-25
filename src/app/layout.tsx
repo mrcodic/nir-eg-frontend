@@ -55,8 +55,6 @@ export const metadata = {
 export default function Layout({ children }) {
   const primary = process.env.NEXT_PUBLIC_TEMPLATE_COLOR;
 
-  console.log("primary", primary);
-
   const hslFromHex = hexToHsl(primary);
 
   const cssVars =

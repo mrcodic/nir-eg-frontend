@@ -37,7 +37,7 @@ function GradesTableAction({ row, rowValue }: { row: any; rowValue: number }) {
       {row?.classroom_expired || row?.classroom === "--" ? (
         <ExamPDFGenerator
           taskId={row?.quiz_id}
-          className=" h-9 lg:h-10 p-1 rounded-[10px] bg-primary text-white text-sm  font-bold flex items-center justify-center"
+          className=" h-9 lg:h-10 p-1 rounded-[10px] bg-primary text-white text-sm  font-bold flex items-center justify-center mx-auto"
         />
       ) : (
         <Link
@@ -49,7 +49,7 @@ function GradesTableAction({ row, rowValue }: { row: any; rowValue: number }) {
                 }/${row.quiz_id}`
           }
           className={cn(
-            "w-[120px] lg:w-[155px] h-9 lg:h-10 p-1 rounded-[10px] bg-primary text-white text-sm lg:text-lg font-bold flex items-center justify-center",
+            "w-[120px] lg:w-[155px] h-9 lg:h-10 p-1 rounded-[10px] bg-primary text-white text-sm lg:text-lg font-bold flex items-center justify-center mx-auto",
             {
               "pointer-events-none cursor-not-allowed bg-red-600":
                 row?.classroom_expired,
