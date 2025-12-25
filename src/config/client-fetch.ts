@@ -28,7 +28,7 @@ const fetcherClient = async <T>(
         Accept: "application/json",
         ...(authenticated ? { Authorization: `Bearer ${token}` } : {}),
       },
-      credentials: "include",
+      // credentials: "include",
       next: {
         tags: [endpoint?.includes("?") ? endpoint?.split("?")[0] : endpoint],
         revalidate: 60 * 60 * 12,
