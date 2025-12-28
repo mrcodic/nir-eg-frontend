@@ -83,8 +83,8 @@ export default function Layout({ children }) {
 
           <Footer />
           <UserModalsWrapper />
-          <Toaster />
         </Providers>
+        <Toaster />
       </body>
     </html>
   );

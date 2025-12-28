@@ -17,11 +17,13 @@ export function middleware(request) {
     pathname.startsWith(route)
   );
   const token = request.cookies.get("nir_token");
+
   if (isProtected && !token) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
   const isAuth = authRoutes.some((route) => pathname.startsWith(route));
+
   if (isAuth && token) {
     return NextResponse.redirect(new URL("/", request.url));
   }

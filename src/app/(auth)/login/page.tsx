@@ -29,7 +29,7 @@ const AuthPage = () => {
   const queryClient = useQueryClient();
 
   const [verify, setVerify] = useState(false);
-  const { login, storeGrade } = useAuthContext();
+  const { login } = useAuthContext();
 
   const searchParams = useSearchParams();
   const redirectSearch = searchParams.get("redirect");
@@ -64,14 +64,16 @@ const AuthPage = () => {
       );
 
       await saveCookie(response?.data?.access_token);
+
       // await deleteCookie("guest_token");
       // Cookies.set("nir_token", response?.data?.access_token);
+
       Cookies.remove("guest_token");
       queryClient.invalidateQueries({ queryKey: ["students/profile"] });
 
       login(response.data?.access_token);
-      storeGrade(response.data?.student.grade);
-      localStorage.setItem("student", JSON.stringify(response.data?.student));
+
+      // storeGrade(response.data?.student.grade);
       presistUserPhone(phone.phone, phone.country);
 
       if (
@@ -186,7 +188,7 @@ const AuthPage = () => {
         </Form>
       </div>
 
-      <Verify open={verify} setOpen={setVerify} />
+      {verify && <Verify open={verify} setOpen={setVerify} />}
     </>
   );
 };

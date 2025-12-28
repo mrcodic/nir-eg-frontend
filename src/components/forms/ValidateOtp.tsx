@@ -17,7 +17,7 @@ import axios from "axios";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import CustomLoader from "../custom/Loader";
 import OTPInput from "../custom/OTPInput";
@@ -25,11 +25,10 @@ import { Button } from "../ui/button";
 import CountDownTimerUI from "./CountDownTimerUI";
 
 const ValidateOtp = ({ setResetForm }) => {
+  const { toast } = useToast();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [savedPhone] = useState(() => getLocalStorage("phone"));
-
-  const { toast } = useToast();
+  const [savedPhone, setSavedPhone] = useState(() => getLocalStorage("phone"));
 
   const type = searchParams.get("type");
 
@@ -73,6 +72,16 @@ const ValidateOtp = ({ setResetForm }) => {
     // );
   };
 
+  useEffect(() => {
+    if (typeof window === "undefined" || savedPhone) return;
+    const storagePhone = getLocalStorage("phone");
+    if (storagePhone) {
+      setSavedPhone(storagePhone);
+    } else {
+      router.push("/forgetPassword");
+    }
+  }, [router, savedPhone]);
+
   return (
     <div className="">
       <AuthHeader
@@ -82,7 +91,7 @@ const ValidateOtp = ({ setResetForm }) => {
             سنقوم بإرسال رمز التأكيد إلى رقم الهاتف التالي{" "}
             <span
               dir="ltr"
-              className="text-primary-800 underline font-bold"
+              className="text-primary-800 font-bold underline"
               suppressHydrationWarning
             >
               {savedPhone}
@@ -91,31 +100,38 @@ const ValidateOtp = ({ setResetForm }) => {
         }
       />
 
-      <div className="h-px w-full mt-[16px] bg-gray-light" />
-      <div className="h-px w-full mt-[2px] bg-[#523412]" />
+      <div className="bg-gray-light mt-[16px] h-px w-full" />
+      <div className="mt-[2px] h-px w-full bg-[#523412]" />
+
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="mt-[40px] w-full"
         >
-          <CountDownTimerUI minutes={minutes} seconds={seconds} />
+          {start ? (
+            <CountDownTimerUI minutes={minutes} seconds={seconds} />
+          ) : (
+            <div>
+              <p>قم بإرسال رمز التأكيد إلى رقم الهاتف التالي {savedPhone}</p>
+            </div>
+          )}
 
           <button
             type="button"
             onClick={async () => {
               await sendOtp(savedPhone);
             }}
-            className="text-primary-800 mx-auto cursor-pointer text-[18px]  underline mt-4 font-bold disabled:opacity-50 disabled:cursor-not-allowed flex gap-2 items-center"
+            className="text-primary-800 mx-auto mt-4 flex cursor-pointer items-center gap-2 text-[18px] font-bold underline disabled:cursor-not-allowed disabled:opacity-50"
             disabled={start}
           >
             أعد الإرسال {resending && <Loader2 className="animate-spin" />}
           </button>
 
-          <div className="mt-[58px] flex justify-center " dir="ltr">
+          <div className="mt-[58px] flex justify-center" dir="ltr">
             <FormField
               control={form.control}
               name="otp_code"
-              render={({ field }) => (
+              render={() => (
                 <FormItem>
                   <FormControl>
                     <OTPInput length={6} form={form} name="otp_code" />
@@ -129,24 +145,24 @@ const ValidateOtp = ({ setResetForm }) => {
 
           {type === "forget" ? (
             <div className="mt-6 flex items-center gap-2">
-              <span className=" font-medium inline-block text-gray-dark">
+              <span className="text-gray-dark inline-block font-medium">
                 ليس لديك حساب؟
               </span>
               <Link
                 href={"/register"}
-                className="  text-sm font-bold text-primary-800 underline px-4 rounded-md border border-gray-light"
+                className="text-primary-800 border-gray-light rounded-md border px-4 text-sm font-bold underline"
               >
                 إنشاء حساب
               </Link>
             </div>
           ) : (
             <div className="mt-14 flex gap-2">
-              <span className=" font-medium inline-block text-gray-dark">
+              <span className="text-gray-dark inline-block font-medium">
                 لديك حساب بالفعل؟
               </span>
               <Link
                 href={"/login"}
-                className="  text-sm font-bold text-primary-800 underline px-4 rounded-md border border-gray-light"
+                className="text-primary-800 border-gray-light rounded-md border px-4 text-sm font-bold underline"
               >
                 تسجيل الدخول
               </Link>
@@ -158,10 +174,10 @@ const ValidateOtp = ({ setResetForm }) => {
               form.setValue("recaptcha_token", token);
             }}
           /> */}
-          <div className="flex mt-8">
+          <div className="mt-8 flex">
             <Button
               type="submit"
-              className="ms-auto max-w-40 w-full"
+              className="ms-auto w-full max-w-40"
               disabled={form.formState.isSubmitting}
             >
               {!form.formState.isSubmitting ? "   تأكيد" : <CustomLoader />}

@@ -1,5 +1,6 @@
 "use client";
 
+import { useAuthContext } from "@/context/auth-context";
 import { DateTime } from "luxon";
 import React, {
   ReactNode,
@@ -39,13 +40,9 @@ const TamperResistantOverlay: React.FC<VideoWrapperProps> = ({
   const lastTamperRef = useRef<string>("");
   const animationIdRef = useRef<number | null>(null);
 
-  const [student] = useState(() => {
-    return localStorage.getItem("student")
-      ? JSON.parse(localStorage.getItem("student") as string)
-      : null;
-  });
+  const { profile } = useAuthContext();
 
-  const overlayText = text || student?.id;
+  const overlayText = String(text || profile?.id);
 
   const logTamperAttempt = useCallback(async (message: string) => {
     if (

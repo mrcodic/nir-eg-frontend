@@ -1,6 +1,6 @@
 import { getPublicData } from "@/helpers/client-fetch";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { useAuthContext } from "@/context/auth-context";
 import { useQuery } from "@tanstack/react-query";
@@ -21,14 +21,14 @@ export default function StudentCenterField({
     queryFn: getPublicData,
   });
 
-  const mappedCenters: { value: string; label: string }[] = (
-    centers as any
-  )?.data?.map((d) => {
-    return {
-      value: d.id,
-      label: d.title,
-    };
-  });
+  const mappedCenters: { value: string; label: string }[] = useMemo(() => {
+    return (centers as any)?.data?.map((d) => {
+      return {
+        value: d.id,
+        label: d.title,
+      };
+    });
+  }, [centers]);
 
   useEffect(() => {
     if (

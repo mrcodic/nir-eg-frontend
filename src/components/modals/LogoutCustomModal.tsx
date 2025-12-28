@@ -5,7 +5,7 @@ import { useModal } from "@/context/ModalProvider";
 import { Button } from "../ui/button";
 
 function LogoutCustomModal() {
-  const { logout, deleteGrade } = useAuthContext();
+  const { logout } = useAuthContext();
   const modal = useModal();
 
   return (
@@ -21,7 +21,6 @@ function LogoutCustomModal() {
           onClick={() => {
             logout();
             window.location.href = "/login";
-            deleteGrade();
             modal.closeModal();
           }}
           className="bg-semantics-red hover:bg-semantics-red/90 h-11 w-full"

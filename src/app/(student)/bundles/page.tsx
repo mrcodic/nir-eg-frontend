@@ -1,9 +1,9 @@
 "use client";
 
 import BundlesCom from "@/components/BundlesCom";
-import Courses from "@/components/Courses";
 import LoadingSpinner from "@/components/Loading";
 import NewCourses from "@/components/NewCoursers";
+import SubbedCourses from "@/components/SubbedCourses";
 import { useAuthContext } from "@/context/auth-context";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -12,20 +12,8 @@ const BundlesPage = () => {
   const router = useRouter();
   const { token, profile, isLoading } = useAuthContext();
 
-  // const grade = searchParams.get("grade");
-
-  // useEffect(() => {
-  //   const html = document.documentElement;
-  //   html.classList.remove("grade3", "grade2"); // clear all first
-  //   if (typeof window == "undefined" || !grade) return;
-  //   if (grade == "2") {
-  //     html.classList.add("grade2");
-  //   } else if (grade == "3") {
-  //     html.classList.add("grade3");
-  //   }
-  // }, [grade]);
-
   useEffect(() => {
+    console.log("effect");
     if (!profile || profile?.type !== 3) return;
 
     if (profile?.has_center == false) {
@@ -37,16 +25,16 @@ const BundlesPage = () => {
 
   if (isLoading || profile?.type === 3) {
     return (
-      <div className="mb-12 mt-[120px] grow flex items-center justify-center ">
+      <div className="mt-[120px] mb-12 flex grow items-center justify-center">
         <LoadingSpinner />
       </div>
     );
   }
 
   return (
-    <div className="mb-12 grow mt-[120px] space-y-[50px] md:space-y-[100px] ">
+    <div className="mt-[120px] mb-12 grow space-y-[50px] md:space-y-[100px]">
       <BundlesCom />
-      {token && <Courses />}
+      {token && <SubbedCourses />}
       <NewCourses />
     </div>
   );

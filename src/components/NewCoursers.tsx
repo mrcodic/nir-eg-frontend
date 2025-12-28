@@ -15,25 +15,31 @@ const NewCourses = () => {
   const { token, grade } = useAuthContext();
   const searchParams = useSearchParams();
 
+  const coursesGrade = searchParams.get("grade") || grade;
+
   let api = token
     ? `/students/classrooms`
-    : `/guest/classrooms/${searchParams.get("grade")}`;
+    : `/guest/classrooms/${coursesGrade}`;
 
   return (
-    <div className="  wrapper ">
+    <div className="wrapper">
       <RoomHeader
         className=""
-        title={`كورسات ${mapGradeToText(grade)}`}
+        title={
+          coursesGrade
+            ? `كورسات ${mapGradeToText(coursesGrade)}`
+            : "كورسات جديدة"
+        }
         icon="/assets/book-gif.gif"
       />
 
-      <div className="relative  mt-6 overflow-hidden ">
+      <div className="relative mt-6 overflow-hidden">
         <MappingComp
           queryKey={api}
           render={(data) => {
             const allCourses = data?.data || [];
             const filteredCourses = allCourses.filter(
-              (course: any) => !course?.isSubscribed
+              (course: any) => !course?.isSubscribed,
             );
 
             const pageSize = 6;
@@ -43,7 +49,7 @@ const NewCourses = () => {
             const currentCourses = filteredCourses.slice(start, end);
 
             return (
-              <div className="min-h-[455px] cards-grid rounded-lg">
+              <div className="cards-grid min-h-[455px] rounded-lg">
                 {currentCourses.length > 0 ? (
                   <>
                     {currentCourses.map((course: any, index: number) => (

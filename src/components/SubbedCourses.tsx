@@ -7,13 +7,13 @@ import Empty from "./Empty";
 import PaginationComponent from "./Pagination";
 import RoomHeader from "./RoomHeader";
 
-const Coursers = () => {
+const SubbedCourses = () => {
   const [page, setPage] = useState(1);
 
   return (
-    <div className="wrapper ">
+    <div className="wrapper">
       <RoomHeader
-        className="mb-6  items-start "
+        className="mb-6 items-start"
         title="الاشتراكات"
         icon="/assets/success.svg"
         subText="أنت مشترك في هذه الفصول"
@@ -22,7 +22,7 @@ const Coursers = () => {
       <MappingComp
         queryKey="/students/courses/enrolled"
         render={(data) => {
-          console.log("courses data:", data);
+          console.log("enrolled courses data : ", data);
 
           if (data?.data?.length === 0)
             return <Empty text="لم تشترك في اي كورس" />;
@@ -35,7 +35,7 @@ const Coursers = () => {
           const currentCourses = allCourses.slice(start, end);
 
           return (
-            <div className="mt-6 cards-grid ">
+            <div className="cards-grid mt-6">
               {currentCourses.map((courseDetails: any, index: number) => (
                 <CourseCard
                   key={index}
@@ -60,4 +60,4 @@ const Coursers = () => {
   );
 };
 
-export default Coursers;
+export default SubbedCourses;

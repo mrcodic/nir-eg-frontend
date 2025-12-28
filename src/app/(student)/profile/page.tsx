@@ -41,12 +41,10 @@ const ProfilePage = () => {
     }
   }, [profileData, modal]);
 
-  console.log("rooms : ", rooms);
-
   return (
     <div className="mb-12 mt-[140px]">
       <div className="wrapper">
-        {!profileData?.body?.parent_phone_verification && (
+        {profileData?.body?.parent_phone_verification === false && (
           <ProfileVerifyPhoneCard />
         )}
 

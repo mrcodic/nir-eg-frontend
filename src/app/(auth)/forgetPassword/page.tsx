@@ -22,6 +22,9 @@ import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 import { useForm } from "react-hook-form";
 
 const ForgetPasswordPage = () => {
+  const router = useRouter();
+  const { toast } = useToast();
+
   const form = useForm({
     resolver: zodResolver(forgetPasswordSchema),
     defaultValues: {
@@ -33,9 +36,6 @@ const ForgetPasswordPage = () => {
       recaptcha_token: "",
     },
   });
-
-  const router = useRouter();
-  const { toast } = useToast();
 
   const onSubmit = async (v) => {
     try {
@@ -62,7 +62,7 @@ const ForgetPasswordPage = () => {
           // old otp timestamp
           localStorage.setItem(
             OTP_SEND_TIME_KEY,
-            otpSendTime.getTime().toString()
+            otpSendTime.getTime().toString(),
           );
         }
 
@@ -88,8 +88,9 @@ const ForgetPasswordPage = () => {
         description=" أدخل رقم الهاتف المسجل لدينا لتتمكن من إعادة تعيين كلمة سر جديدة"
       />
 
-      <div className="h-px w-full mt-[16px] bg-gray-light" />
-      <div className="h-px w-full mt-[2px] bg-[#523412]" />
+      <div className="bg-gray-light mt-[16px] h-px w-full" />
+      <div className="mt-[2px] h-px w-full bg-[#523412]" />
+
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -99,7 +100,6 @@ const ForgetPasswordPage = () => {
             name="phone.phone"
             form={form}
             placeholder="رقم هاتف الطالب بالإنجليزية"
-            iconSrc="/assets/Phone1.svg"
             countryFieldName="phone.country"
             countryISOFieldName="phone.country_iso"
           />
@@ -112,12 +112,12 @@ const ForgetPasswordPage = () => {
             /> */}
 
           <div className="mt-6 flex items-center gap-2">
-            <span className=" font-medium inline-block text-gray-dark">
+            <span className="text-gray-dark inline-block font-medium">
               ليس لديك حساب؟
             </span>
             <Link
               href={"/register"}
-              className="  text-sm font-bold text-primary-800 underline px-4 rounded-md border border-gray-light"
+              className="text-primary-800 border-gray-light rounded-md border px-4 text-sm font-bold underline"
             >
               إنشاء حساب
             </Link>
@@ -129,10 +129,10 @@ const ForgetPasswordPage = () => {
               form.setValue("recaptcha_token", token);
             }}
           />
-          <div className="flex mt-8">
+          <div className="mt-8 flex">
             <Button
               type="submit"
-              className="ms-auto max-w-40 w-full"
+              className="ms-auto w-full max-w-40"
               disabled={form.formState.isSubmitting}
             >
               {!form.formState.isSubmitting ? "   تأكيد" : <CustomLoader />}

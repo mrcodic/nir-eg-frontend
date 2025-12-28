@@ -14,20 +14,20 @@ const GuestNavBar = () => {
   return (
     <div
       className={cn(
-        " h-20  border-b fixed top-0 left-0 w-full z-30 border-secondary flex items-center  bg-background  aria-hidden:pointer-events-auto! data-[aria-hidden='true']:pointer-events-auto!",
+        "border-secondary bg-background fixed top-0 left-0 z-30 flex h-20 w-full items-center border-b aria-hidden:pointer-events-auto! data-[aria-hidden='true']:pointer-events-auto!",
         {
-          "bg-transparent h-28 items-end border-none": template == 3,
-        }
+          "h-28 items-end border-none bg-transparent": template == 3,
+        },
       )}
     >
-      <div className="wrapper ">
+      <div className="wrapper">
         <div
-          className={cn("flex  items-center justify-between gap-2", {
-            "bg-background p-4 rounded-lg border border-gray-light":
+          className={cn("flex items-center justify-between gap-2", {
+            "bg-background border-gray-light rounded-lg border p-4":
               template == 3,
           })}
         >
-          <div className="flex  items-center self-end font-bold gap-12 mobile:gap-[120px]">
+          <div className="mobile:gap-[120px] flex items-center gap-12 self-end font-bold">
             <Link href={"/"}>
               <Image
                 className=""
@@ -38,37 +38,43 @@ const GuestNavBar = () => {
               />
             </Link>
 
-            <div className="hidden md:flex gap-2">
+            <div className="hidden gap-2 md:flex">
               <Link
                 href="/#grades"
                 className={cn(
-                  "border  transition-all mobile:text-base text-sm  cursor-pointer   hidden md:flex items-center gap-2 rounded-[10px] border-gray-light p-2 justify-center",
+                  "mobile:text-base border-gray-light hidden cursor-pointer items-center justify-center gap-2 rounded-[10px] border p-2 text-sm transition-all md:flex",
                   {
                     "bg-primary-800 text-white": pathname === "/",
-                    "bg-transparent ": pathname !== "/",
-                  }
+                    "bg-transparent": pathname !== "/",
+                  },
                 )}
               >
-                <img className="size-8" src="/assets/GradeColor.svg" />
+                <Image
+                  width={32}
+                  height={32}
+                  className="size-8"
+                  src="/assets/books-colored.svg"
+                  alt="books icon"
+                />
                 <h3>الصفوف الدراسية</h3>
               </Link>
             </div>
           </div>
 
-          <div className="flex  gap-3">
+          <div className="flex gap-3">
             <GuestDropdown />
           </div>
 
-          <div className="md:flex  gap-4 mobile:gap-6 hidden">
+          <div className="mobile:gap-6 hidden gap-4 md:flex">
             <Link
               href={"/login"}
-              className="border transition-all mobile:text-base text-sm hover:bg-secondary-hover text-center font-bold bg-transparent p-2 text-[18px] text-secondary  border-secondary w-[135px] mobile:w-[159px] rounded-[10px]"
+              className="mobile:text-base hover:bg-secondary-hover text-secondary border-secondary mobile:w-[159px] w-[135px] rounded-[10px] border bg-transparent p-2 text-center text-sm text-[18px] font-bold transition-all"
             >
               <span>تسجيل دخول</span>
             </Link>
             <Link
               href="/register"
-              className="text-center mobile:text-base text-sm font-bold bg-primary-800 after:w-0.5 after   p-2  text-white w-[135px] mobile:w-[159px] rounded-[10px] hover:bg-primary-800/90 transition-all"
+              className="mobile:text-base bg-primary-800 after mobile:w-[159px] hover:bg-primary-800/90 w-[135px] rounded-[10px] p-2 text-center text-sm font-bold text-white transition-all after:w-0.5"
             >
               إنشاء حساب
             </Link>

@@ -7,7 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "nextjs-toploader/app";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { PaymentModel } from "./modals/PaymentModel";
 import RoomHeader from "./RoomHeader";
 import { Button } from "./ui/button";
@@ -22,34 +22,27 @@ const BundlesCom = () => {
   const router = useRouter();
 
   const { profile, isLoading } = useAuthContext();
-  const [BundlesData, setBundlesData] = useState([]);
 
   let api = "";
+
   if (profile) {
     api = "/students/bundles";
   } else {
     api = `/guest/bundels?grade_id=${searchParams.get("grade")}`;
   }
 
-  const { data, isLoading: bundlesLoading } = useQuery({
+  const { data } = useQuery({
     queryKey: [api],
     queryFn: profile ? getClientPrivateData : getPublicData,
     gcTime: 0,
     enabled: !isLoading && profile?.type !== 5,
-    // suspense: true,
   });
 
-  useEffect(() => {
-    if (profile && !BundlesData) {
-      setBundlesData(data?.body?.budles);
-    } else {
-      setBundlesData(data?.body);
-    }
-  }, [profile, BundlesData, data]);
+  const bundlesData = profile ? data?.body?.budles : data?.body;
 
   console.log("bundles query data : ", api, data);
 
-  if (!BundlesData?.length) return null;
+  if (!bundlesData?.length) return null;
 
   return (
     <div className="wrapper">
@@ -61,7 +54,7 @@ const BundlesCom = () => {
       />
 
       <div className="flex flex-col gap-6 mt-8 max-h-[600px] overflow-y-auto">
-        {BundlesData?.map((bundle, index) => {
+        {bundlesData?.map((bundle, index) => {
           return (
             <div
               key={index}
@@ -162,13 +155,6 @@ const BundlesCom = () => {
             </div>
           );
         })}
-
-        {/* <PaymentModel
-          open={isSubscribeNow}
-          setOpen={setIsSubscribeNow}
-          bundleId={selectedId}
-          price={BundlesData?.price || BundlesData?.latest_room?.price}
-        /> */}
       </div>
     </div>
   );

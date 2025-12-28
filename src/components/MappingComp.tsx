@@ -25,7 +25,7 @@ const MappingComp = ({
   emptyProps,
   errorProps,
 }: Props) => {
-  const { token } = useAuthContext();
+  const { token, isLoading: authLoading } = useAuthContext();
   const { data, error, isLoading } = useQuery({
     queryKey: Array.isArray(queryKey)
       ? [...queryKey, token ? "authenticated" : "guest"]
@@ -34,7 +34,7 @@ const MappingComp = ({
     enabled: enable,
   });
 
-  const authLoading = typeof token === "undefined";
+  // const authLoading = typeof token === "undefined";
 
   if (authLoading || isLoading) {
     return <LoadingSpinner />;
