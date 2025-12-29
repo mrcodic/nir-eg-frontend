@@ -12,7 +12,7 @@ async function Footer() {
     const data: { data: FooterData } | null = await getPublicData({
       queryKey: ["/settings/contact-us"],
       next: {
-        revalidate: 60 * 60 * 60 * 24 * 7,
+        revalidate: 60 * 60 * 24 * 7,
       },
     });
 

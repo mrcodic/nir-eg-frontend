@@ -113,7 +113,7 @@
 }
 
 @utility section {
-  @apply max-w-7xl mx-auto;
+  @apply max-w-7xl mx-auto w-full;
 }
 
 @utility bg-dark-radial {

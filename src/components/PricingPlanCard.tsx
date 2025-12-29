@@ -11,7 +11,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
-const FEATURE_LIMIT = 7;
+const FEATURE_LIMIT = 8;
 
 interface PricingPlanCardProps {
   plan: IPricingPlan;

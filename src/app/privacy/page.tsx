@@ -10,7 +10,7 @@ async function page() {
   const data: { data: { content: string } } | null = await getPublicData({
     queryKey: ["/settings/legal/privacy"],
     next: {
-      revalidate: 60 * 60 * 60 * 24 * 7,
+      revalidate: 60 * 60 * 24 * 7,
     },
   });
 

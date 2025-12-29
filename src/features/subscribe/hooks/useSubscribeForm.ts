@@ -205,6 +205,7 @@ export function useSubscribeForm({
 
   // Final submission
   const handleFinalSubmit = useCallback(async () => {
+    console.log("Final submit");
     try {
       await checkFormsForErrors();
     } catch (error) {

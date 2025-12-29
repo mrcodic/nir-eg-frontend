@@ -135,10 +135,10 @@ function useStepsForms({ period, planId }: Props) {
     exclude: ["logoFile", "faviconFile", "coverFile"],
   });
 
-  useFormPersist("paymentForm", {
-    watch: paymentForm.watch,
-    setValue: paymentForm.setValue,
-  });
+  // useFormPersist("paymentForm", {
+  //   watch: paymentForm.watch,
+  //   setValue: paymentForm.setValue,
+  // });
 
   return {
     accountForm,
