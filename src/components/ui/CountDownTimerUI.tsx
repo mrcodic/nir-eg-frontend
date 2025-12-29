@@ -4,14 +4,14 @@ const formatTime = (num) => num.toString().padStart(2, "0");
 
 function CountDownTimerUI({ minutes, seconds }) {
   return (
-    <div className=" flex-1 flex gap-2  items-center text-gray-dark justify-center ">
-      <span className="text-gray-dark font-bold inline-block text-xl">
+    <div className="text-gray-dark flex flex-1 items-center justify-center gap-2">
+      <span className="text-gray-dark inline-block text-xl font-bold">
         هذا الرمز صالح لمدة
       </span>
       <div
         className={cn(
-          "text-[#B75050] font-bold text-xl",
-          minutes === 0 && seconds === 0 && "text-gray-light"
+          "text-xl font-bold text-[#B75050]",
+          minutes === 0 && seconds === 0 && "text-gray-light",
         )}
       >
         <span>{formatTime(minutes)}</span>:<span>{formatTime(seconds)}</span>

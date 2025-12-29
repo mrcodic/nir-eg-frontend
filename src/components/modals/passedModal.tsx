@@ -34,11 +34,11 @@ export default function Passed({
     <Dialog open={open}>
       <DialogContent
         hideClose={true}
-        className="p-8 max-w-xl bg-white rounded-lg shadow-lg"
+        className="max-w-xl rounded-lg bg-white p-8 shadow-lg"
       >
         <DialogTitle className="hidden" />
         <DialogDescription className="hidden" />
-        <div className=" w-full">
+        <div className="w-full">
           {!start?.review_pending && start?.result && (
             <div className="mb-6">
               <Image
@@ -48,7 +48,7 @@ export default function Passed({
                 height={56}
               />
 
-              <div className="flex gap-3 mt-2 flex-wrap justify-between items-center ">
+              <div className="mt-2 flex flex-wrap items-center justify-between gap-3">
                 <span className="inline-block text-base font-bold">
                   عمل رائع، حصلت على
                 </span>
@@ -59,28 +59,28 @@ export default function Passed({
 
           <div>
             {start?.review_pending ? (
-              <div className="flex flex-col  gap-3">
-                <p className="text-[#121212] inline-block text-lg font-bold">
+              <div className="flex flex-col gap-3">
+                <p className="inline-block text-lg font-bold text-[#121212]">
                   جارى تصحيح الامتحان
                 </p>
-                <p className="text-[18px]  font-medium mt-6">
+                <p className="mt-6 text-[18px] font-medium">
                   - ستتمكن من عرض اجاباتك بعد تصحيح الامتحان
                 </p>
               </div>
             ) : (
-              <div className="mt-6 space-y-2 border-b border-gray-light pb-2">
-                <p className=" inline-block font-bold">
+              <div className="mt-6 space-y-2">
+                <p className="inline-block font-bold">
                   - نجحت في الامتحان و حصلت على {start?.score_ratio}
                 </p>
 
                 {start?.retake && (
-                  <p className=" inline-block font-bold">
+                  <p className="inline-block font-bold">
                     - إذا قمت بعرض الإجابات مرة أخرى لن تتمكن من إعادة الامتحان
                   </p>
                 )}
 
                 {start?.show_answer && !start?.review_pending && (
-                  <p className=" inline-block font-bold">
+                  <p className="inline-block font-bold">
                     - يمكنك تنزيل نموذج الإجابة بالكامل
                   </p>
                 )}
@@ -88,22 +88,19 @@ export default function Passed({
             )}
           </div>
 
-          <hr className="h-px my-3 border-gray-light" />
+          <hr className="border-gray-light my-3 h-px" />
 
           <div
-            className={cn(
-              "grid grid-cols-2 justify-center gap-6  mt-6 w-full",
-              {
-                "grid-cols-1": start?.review_pending,
-              }
-            )}
+            className={cn("mt-6 grid w-full grid-cols-2 justify-center gap-6", {
+              "grid-cols-1": start?.review_pending,
+            })}
           >
             {!start?.review_pending && (
               <>
                 {start?.show_answer && (
                   <Button
                     onClick={showAnswers}
-                    className="h-11  w-full font-bold"
+                    className="h-11 w-full font-bold"
                   >
                     عرض الإجابات
                   </Button>
@@ -112,7 +109,7 @@ export default function Passed({
                   <Button
                     onClick={retake}
                     variant="secondary"
-                    className="h-11  w-full font-bold"
+                    className="h-11 w-full font-bold"
                   >
                     إعادة الامتحان
                   </Button>
@@ -124,7 +121,7 @@ export default function Passed({
               href={`/bundles/${SingleCourse}/${room}`}
               className="inline-block w-full"
             >
-              <Button variant="outline" className="h-11  w-full font-bold">
+              <Button variant="outline" className="h-11 w-full font-bold">
                 الرجوع للحصه
               </Button>
             </Link>

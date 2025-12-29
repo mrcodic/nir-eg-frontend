@@ -2,7 +2,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Countdown from "react-countdown";
 
-const Completionist = () => <span>Time is up!</span>;
+const Completionist = () => <span>انتهى الوقت</span>;
 
 export function MyTimer({ minutes, onComplete, start }) {
   const { examId } = useParams();
@@ -36,7 +36,7 @@ export function MyTimer({ minutes, onComplete, start }) {
 
   if (!start) return null;
 
-  if (!minutes) return <span>Time is up!</span>;
+  if (!minutes) return <Completionist />;
 
   // Retrieve the stored end time from localStorage or set a new one
 
@@ -47,7 +47,9 @@ export function MyTimer({ minutes, onComplete, start }) {
     } else {
       const timerLessThan2Minutes = minutes < 2 && hours === 0;
       return (
-        <span className={timerLessThan2Minutes && "animate-pulse"}>
+        <span
+          className={`tracking-wider ${timerLessThan2Minutes && "animate-pulse"}`}
+        >
           {String(hours * 60 + minutes).padStart(2, "0")}:
           {String(seconds).padStart(2, "0")}
         </span>
