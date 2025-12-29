@@ -24,6 +24,7 @@ function HeroSection() {
   });
 
   const y = useTransform(springY, [0, 1], ["50%", "0%"]);
+
   const yPen = useTransform(springY, [0, 1], ["-200%", "-20%"]);
   const rotatePen = useTransform(springY, [0, 1], [0, 65]);
 
@@ -32,16 +33,6 @@ function HeroSection() {
 
   return (
     <section className="wrapper bg-background w-full relative text-center pb-12 overflow-x-hidden bg-[url('/bg-vector.png')] bg-no-repeat bg-cover">
-      {/* <Image
-        className="z-1 object-cover"
-        fill
-        src="/bg-vector.png"
-        alt=""
-        loading="eager"
-        priority={true}
-        fetchPriority="high"
-      /> */}
-
       <HeroText />
 
       <HeroButtons />

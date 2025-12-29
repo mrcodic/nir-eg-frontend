@@ -3,6 +3,7 @@ import SocialLinks from "@/components/SocialLinks";
 import MappingFun from "@/config/MappingFun";
 import { FooterData } from "@/types/type";
 import { Metadata } from "next";
+import { preload } from "react-dom";
 
 export const metadata: Metadata = {
   title: "تواصل معنا",
@@ -10,6 +11,8 @@ export const metadata: Metadata = {
 };
 
 function page() {
+  preload("/bg-vector.png", { as: "image", fetchPriority: "high" });
+
   return (
     <main className="flex w-full flex-col gap-22 md:my-22 my-16">
       <ContactUsSection />

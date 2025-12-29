@@ -76,7 +76,7 @@ export default function WhoCanUseUs() {
                 )}
               </div>
 
-              <div className="text-right space-y-1 relative md:opacity-0 md:group-hover:opacity-100 transition-all p-6 ">
+              <div className="text-right space-y-1 relative md:opacity-0 md:group-hover:opacity-100 md:self-start transition-all p-6 ">
                 <h3 className="text-sm md:text-lg lg:text-xl xl:text-2xl font-semibold  pb-1 border-b border-primary-100">
                   {persona.title}
                 </h3>

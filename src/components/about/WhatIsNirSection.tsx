@@ -103,7 +103,9 @@ export default function WhatIsNirHero({
             width={600}
             height={340}
             className="size-full rounded-lg object-cover"
-            priority={false}
+            priority={true}
+            fetchPriority="high"
+            loading="eager"
           />
 
           {/* Overlay gradient */}

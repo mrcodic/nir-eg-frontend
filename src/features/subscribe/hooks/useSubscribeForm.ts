@@ -245,10 +245,16 @@ export function useSubscribeForm({
       router.push("/subscribe/building?timestamp=" + Date.now());
     } catch (error) {
       console.error("Submission error:", error);
-      if (isAxiosError(error) && error.response?.status === 409) {
+      if (
+        isAxiosError(error) &&
+        (error.response?.status === 409 ||
+          (error.response?.status === 422 &&
+            error.response?.data.message ===
+              "The selected user id is invalid."))
+      ) {
         toast.error("هذا الحساب مسجل بالفعل");
       } else {
-        toast.error("حدث خطأ أثناء الإرسال. يرجى المحاولة مرة أخرى.");
+        toast.error("حدث خطأ ما. يرجى المحاولة مرة أخرى.");
       }
     } finally {
       setIsSubmitting(false);
