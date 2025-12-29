@@ -15,7 +15,7 @@ import MarkVideoCompleted from "./MarkVideoCompleted";
 import { Button } from "./ui/button";
 
 type RoomSideContentProps = {
-  data: IRoomDetails;
+  data: IRoomDetails | undefined;
   onLessonClick?: (videoId?: string, lessonId?: string | number) => void;
   locked: boolean;
   videoId?: string;
@@ -35,12 +35,14 @@ const RoomSideContent = ({
   const template = getCurrentTemplate();
   const router = useRouter();
 
+  if (!data) return null;
+
   return (
     <div
       className={cn(
-        "overflow-y-auto max-h-[max(calc(100vh-88px),768px)] w-full border border-gray-light rounded-lg p-4 h-fit sticky top-22",
+        "border-gray-light sticky top-22 h-fit max-h-[max(calc(100vh-88px),768px)] w-full overflow-y-auto rounded-lg border p-4",
         { "top-29": template === 3 },
-        className
+        className,
       )}
     >
       {/* Header */}
@@ -53,19 +55,19 @@ const RoomSideContent = ({
           alt="grade placeholder"
         />
 
-        <div className="flex flex-col gap-2 w-full">
-          <h1 className="text-[18px] font-bold line-clamp-1">
-            {data.room.title}
+        <div className="flex w-full flex-col gap-2">
+          <h1 className="line-clamp-1 text-[18px] font-bold">
+            {data?.room?.title}
           </h1>
-          <hr className="h-px w-full border-gray-light" />
-          <p className="text-xs text-gray-dark">{data.room.grade?.title}</p>
+          <hr className="border-gray-light h-px w-full" />
+          <p className="text-gray-dark text-xs">{data?.room?.grade?.title}</p>
         </div>
       </div>
 
       {/* Back Button */}
       <Button
         onClick={() => router.push(`/bundles/${SingleCourse}`)}
-        className="mt-6 w-full bg-white text-primary-800 border border-primary-800 py-2.5 h-11 hover:bg-primary-800 hover:text-white group"
+        className="text-primary-800 border-primary-800 hover:bg-primary-800 group mt-6 h-11 w-full border bg-white py-2.5 hover:text-white"
       >
         <ChevronRight className="group-hover:stroke-white" />
         <span>العودة للكورس</span>
@@ -87,7 +89,7 @@ const RoomSideContent = ({
       {/* Quizzes */}
       {!!data.quizzes?.length && (
         <>
-          <div className="h-px w-full bg-gray-light my-4" />
+          <div className="bg-gray-light my-4 h-px w-full" />
           <h3 className="text-gray-dark text-sm font-bold">الامتحانات</h3>
           {data.quizzes.map((quiz) => (
             <QuizCard key={quiz.id} quiz={quiz} room={room as string} />
@@ -98,8 +100,8 @@ const RoomSideContent = ({
       {/* Attachments */}
       {!!data.room.attachments?.length && (
         <>
-          <div className="h-px w-full bg-gray-light my-4" />
-          <h3 className="text-sm text-gray-dark font-bold">الملفات</h3>
+          <div className="bg-gray-light my-4 h-px w-full" />
+          <h3 className="text-gray-dark text-sm font-bold">الملفات</h3>
           {data.room.attachments.map((attachment) => (
             <AttachmentCard
               key={attachment.name}
@@ -113,8 +115,8 @@ const RoomSideContent = ({
       {/* Assignments */}
       {!!data.assignments?.length && (
         <>
-          <div className="h-px w-full bg-gray-light my-4" />
-          <h3 className="text-sm text-gray-dark font-bold">الواجبات</h3>
+          <div className="bg-gray-light my-4 h-px w-full" />
+          <h3 className="text-gray-dark text-sm font-bold">الواجبات</h3>
           {data.assignments.map((ass) => (
             <AssignmentCard
               key={ass.id}
@@ -151,13 +153,13 @@ const LessonCard = memo(function LessonCard({
         onClick?.();
       }}
       className={cn(
-        "mt-4 border cursor-pointer rounded-lg mb-3 px-2 py-2",
+        "mt-4 mb-3 cursor-pointer rounded-lg border px-2 py-2",
         active
           ? "border-primary-800 bg-background"
-          : "border-[#1EAD7B] bg-white"
+          : "border-[#1EAD7B] bg-white",
       )}
     >
-      <div className="flex text-sm items-center font-bold gap-4">
+      <div className="flex items-center gap-4 text-sm font-bold">
         <Image
           src="/assets/videos-fill.svg"
           className="size-6"
@@ -168,7 +170,7 @@ const LessonCard = memo(function LessonCard({
         <h3 className="line-clamp-1">{lesson.title}</h3>
       </div>
 
-      <div className="mr-10 flex justify-between mt-2">
+      <div className="mt-2 mr-10 flex justify-between">
         <div className="flex items-center gap-2">
           <Image
             src="/assets/time.svg"
@@ -203,7 +205,7 @@ const QuizCard = memo(function QuizCard({
   room: string;
 }) {
   return (
-    <div className="flex items-center px-2 py-2 rounded-lg border border-gray-light shadow-sm bg-white mt-4 justify-between">
+    <div className="border-gray-light mt-4 flex items-center justify-between rounded-lg border bg-white px-2 py-2 shadow-sm">
       <Image
         src="/assets/exam-fill.svg"
         className="size-6"
@@ -211,12 +213,12 @@ const QuizCard = memo(function QuizCard({
         height={24}
         alt="exam fill"
       />
-      <h3 className="text-sm grow font-bold truncate">{quiz.title}</h3>
+      <h3 className="grow truncate text-sm font-bold">{quiz.title}</h3>
       <Link
         href={`${room}/exams/${quiz.id}`}
-        className="flex items-center justify-center size-9 bg-primary-800 rounded-lg"
+        className="bg-primary-800 flex size-9 items-center justify-center rounded-lg"
       >
-        <ChevronLeft className="stroke-white size-5" />
+        <ChevronLeft className="size-5 stroke-white" />
       </Link>
     </div>
   );
@@ -241,7 +243,7 @@ const AttachmentCard = memo(function AttachmentCard({
       setDownloading(true);
 
       const res = await fetch(
-        isProd ? attachment.url : `/api/blob-proxy?url=${attachment.url}`
+        isProd ? attachment.url : `/api/blob-proxy?url=${attachment.url}`,
       );
       if (!res.ok) throw new Error("Download failed");
 
@@ -267,7 +269,7 @@ const AttachmentCard = memo(function AttachmentCard({
   };
 
   return (
-    <div className="flex gap-2 items-center mb-2 px-2 py-2 bg-white rounded-lg border border-gray-light shadow-sm mt-2.5 justify-between">
+    <div className="border-gray-light mt-2.5 mb-2 flex items-center justify-between gap-2 rounded-lg border bg-white px-2 py-2 shadow-sm">
       <Image
         src="/assets/files-fill.svg"
         className="size-6"
@@ -276,11 +278,11 @@ const AttachmentCard = memo(function AttachmentCard({
         alt="files fill"
       />
 
-      <h4 className="text-sm grow font-bold truncate">{attachment.name}</h4>
+      <h4 className="grow truncate text-sm font-bold">{attachment.name}</h4>
 
       <LinkLocked
         locked={locked}
-        className="flex items-center shrink-0 justify-center size-9 bg-primary-800 rounded-lg"
+        className="bg-primary-800 flex size-9 shrink-0 items-center justify-center rounded-lg"
       >
         <button
           onClick={handleDownload}
@@ -288,9 +290,9 @@ const AttachmentCard = memo(function AttachmentCard({
           className="disabled:opacity-70"
         >
           {downloading ? (
-            <Loader2 className="size-5 stroke-white animate-spin" />
+            <Loader2 className="size-5 animate-spin stroke-white" />
           ) : (
-            <Download className="stroke-white size-5" />
+            <Download className="size-5 stroke-white" />
           )}
         </button>
       </LinkLocked>
@@ -308,7 +310,7 @@ const AssignmentCard = memo(function AssignmentCard({
   href: string;
 }) {
   return (
-    <div className="flex gap-2 items-center px-2 py-2 rounded-lg border border-gray-light shadow-sm bg-white mt-4 justify-between">
+    <div className="border-gray-light mt-4 flex items-center justify-between gap-2 rounded-lg border bg-white px-2 py-2 shadow-sm">
       <Image
         src="/assets/assignment-fill.svg"
         className="size-6"
@@ -317,14 +319,14 @@ const AssignmentCard = memo(function AssignmentCard({
         alt="assignment fill"
       />
 
-      <h2 className="text-sm grow font-bold truncate">{assignment.title}</h2>
+      <h2 className="grow truncate text-sm font-bold">{assignment.title}</h2>
 
       <LinkLocked
         locked={locked}
-        className="flex items-center shrink-0 justify-center size-9 bg-primary-800 rounded-lg"
+        className="bg-primary-800 flex size-9 shrink-0 items-center justify-center rounded-lg"
       >
         <Link href={href}>
-          <ChevronLeft className="stroke-white size-5" />
+          <ChevronLeft className="size-5 stroke-white" />
         </Link>
       </LinkLocked>
     </div>

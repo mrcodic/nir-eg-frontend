@@ -12,10 +12,6 @@ function StudentTasksOverview() {
     queryFn: getClientPrivateData,
   });
 
-  // if (isLoading || !data || !data?.body) return null;
-
-  console.log("exam overview ", data);
-
   if (isLoading) return null;
 
   const {

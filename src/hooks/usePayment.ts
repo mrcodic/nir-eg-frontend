@@ -128,9 +128,9 @@ export const usePayment = ({
     setLoading(true);
     await checkToken();
 
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
+    // setTimeout(() => {
+    //   setLoading(false);
+    // }, 1000);
   };
 
   return {

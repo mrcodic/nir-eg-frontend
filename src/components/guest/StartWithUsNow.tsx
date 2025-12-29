@@ -5,8 +5,8 @@ import { Button } from "../ui/button";
 function StartWithUsNow() {
   return (
     <section>
-      <div className="justify-center items-center flex gap-2">
-        <h2 className="flex items-center justify-center text-32 gap-1 flex-wrap">
+      <div className="flex items-center justify-center gap-2">
+        <h2 className="text-32 flex flex-wrap items-center justify-center gap-1">
           ابدأ الآن مع <StyledText text="نير" />{" "}
         </h2>
         <Image
@@ -17,11 +17,12 @@ function StartWithUsNow() {
         />
       </div>
 
-      <div className=" mt-8 rounded-lg bg-[url('/assets/bg/bg-vector.png'),radial-gradient(79.17%_79.17%_at_20.83%_69.6%,#20364e_0%,#0d2237_100%)] bg-no-repeat bg-bottom min-h-80 relative p-10 flex gap-6 lg:pe-72">
-        <div className="text-white relative z-10  flex justify-center flex-col w-fit h-full gap-10 max-w-[524px]">
+      {/* <div className=" mt-8 rounded-lg bg-[url('/assets/bg/bg-vector.png'),radial-gradient(79.17%_79.17%_at_20.83%_69.6%,#20364e_0%,#0d2237_100%)] bg-no-repeat bg-bottom min-h-80 relative p-10 flex gap-6 lg:pe-72"> */}
+      <div className="relative mt-8 flex min-h-80 gap-6 rounded-lg bg-[url('/assets/bg/bg-vector.png'),var(--gradient-primary-radial)] bg-bottom bg-no-repeat p-10 max-[360px]:pb-20 lg:pe-72">
+        <div className="relative z-10 flex h-full w-fit max-w-[524px] flex-col justify-center gap-10 text-white">
           <div className="space-y-2">
             <h4 className="text-32 font-bold">انضم لأكثر من 5000 طالب</h4>
-            <p className="text-xl font-bold text-background">
+            <p className="text-background text-xl font-bold">
               انضم لعدد كبير من الطلاب، شاهد فيديوهات الحصص و احصل على النقاط من
               خلال الامتحانات و الكويزات
             </p>
@@ -37,11 +38,11 @@ function StartWithUsNow() {
           </Button>
         </div>
 
-        <div className="absolute left-0 inset-y-0 h-full w-[200px] lg:w-[400px]">
+        <div className="absolute inset-y-0 left-0 h-full w-[200px] lg:w-[400px]">
           <Image
             src="/assets/bg/student-photo.png"
             fill
-            className="object-contain w-fit h-full object-bottom-left"
+            className="h-full w-fit object-contain object-bottom-left"
             alt="student photo"
           />
         </div>

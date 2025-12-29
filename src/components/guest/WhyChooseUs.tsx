@@ -35,15 +35,18 @@ function WhyChooseUs() {
   return (
     <section className="space-y-8">
       <div className="flex justify-center">
-        <h3 className="text-32 font-bold mx-auto">
+        <h3 className="text-32 mx-auto font-bold">
           ليه تختار <StyledText text="نير ؟ " />
         </h3>
       </div>
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
         {ourFeatures.map((card) => (
-          <Card className="hover:border-secondary transition-all hover:bg-background">
-            <CardHeader className="gap-6 items-center pb-2 ">
+          <Card
+            key={card.title}
+            className="hover:border-secondary hover:bg-background transition-all"
+          >
+            <CardHeader className="items-center gap-6 pb-2">
               <Image src={card.icon} width={56} height={56} alt="icon" />
               <UnderlineStyle isActive className="text-center">
                 <h3 className="text-primary-800 text-lg font-bold whitespace-nowrap">

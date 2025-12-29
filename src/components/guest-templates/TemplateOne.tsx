@@ -6,7 +6,7 @@ import WhyChooseUs from "../guest/WhyChooseUs";
 
 function TemplateOne() {
   return (
-    <div className="min-h-[calc(100%-80px) mt-[168px] space-y-[88px]  wrapper pb-[88px]">
+    <div className="min-h-[calc(100%-80px) wrapper mt-[168px] space-y-[88px] pb-[88px]">
       <HeroSection />
       <WhyChooseUs />
       <GradesSection />

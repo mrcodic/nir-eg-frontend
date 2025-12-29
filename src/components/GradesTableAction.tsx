@@ -9,8 +9,8 @@ function GradesTableAction({ row, rowValue }: { row: any; rowValue: number }) {
   const isExam = type === "امتحان";
 
   return (
-    <div className="flex items-center gap-4 w-full justify-start p-2">
-      <div className=" flex shrink-0 items-center justify-center font-bold gap-2 p-1 rounded-lg w-[136px] ">
+    <div className="flex w-full items-center justify-start gap-4 p-2">
+      <div className="flex w-[136px] shrink-0 items-center justify-center gap-2 rounded-lg p-1 font-bold">
         {isExam ? (
           !!row?.score_ratio ? (
             <>
@@ -26,7 +26,7 @@ function GradesTableAction({ row, rowValue }: { row: any; rowValue: number }) {
               passed={row.passed}
               type={row.type}
               text="جارى التصحيح"
-              className="text-yellow-500 bg-yellow-50"
+              className="bg-yellow-50 text-yellow-500"
             />
           )
         ) : (
@@ -37,7 +37,7 @@ function GradesTableAction({ row, rowValue }: { row: any; rowValue: number }) {
       {row?.classroom_expired || row?.classroom === "--" ? (
         <ExamPDFGenerator
           taskId={row?.quiz_id}
-          className=" h-9 lg:h-10 p-1 rounded-[10px] bg-primary text-white text-sm  font-bold flex items-center justify-center mx-auto"
+          className="bg-primary mx-auto flex h-9 items-center justify-center rounded-[10px] p-1 text-sm font-bold text-white lg:h-10"
         />
       ) : (
         <Link
@@ -49,11 +49,11 @@ function GradesTableAction({ row, rowValue }: { row: any; rowValue: number }) {
                 }/${row.quiz_id}`
           }
           className={cn(
-            "w-[120px] lg:w-[155px] h-9 lg:h-10 p-1 rounded-[10px] bg-primary text-white text-sm lg:text-lg font-bold flex items-center justify-center mx-auto",
+            "bg-primary mx-auto flex h-9 w-[120px] items-center justify-center rounded-[10px] p-1 text-sm font-bold text-white lg:h-10 lg:w-[155px]",
             {
               "pointer-events-none cursor-not-allowed bg-red-600":
                 row?.classroom_expired,
-            }
+            },
           )}
         >
           {row?.classroom_expired
