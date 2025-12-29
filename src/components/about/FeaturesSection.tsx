@@ -92,7 +92,7 @@ export default function FeaturesSection({
               key={feature.title}
               as="article"
               className={cn(
-                "rounded-lg max-md:max-w-[360px] aspect-square bg-background border border-transparent group hover:border-primary-800 transition-colors p-4 lg:p-6 relative overflow-hidden",
+                "rounded-lg max-md:max-w-[360px] w-full aspect-square bg-background border border-transparent group hover:border-primary-800 transition-colors p-4 lg:p-6 relative overflow-hidden",
                 feature.className
               )}
               variants={itemVariants}

@@ -20,7 +20,7 @@ export default function ContactUsSection() {
     >
       <div className="section bg-[url('/bg-vector.png')] p-4 bg-background rounded-lg flex max-lg:flex-col-reverse relative gap-y-8">
         <div className="bg-white w-1/2 max-lg:w-full rounded-lg shadow-sm p-6">
-          <LazyOnView>
+          <LazyOnView className="min-h-[600px]">
             <ContactUsForm />
           </LazyOnView>
         </div>
@@ -31,7 +31,7 @@ export default function ContactUsSection() {
             alt="logo"
             className="mb-10"
             width={144}
-            height={61}
+            height={63}
           />
           <h2 className="text-3xl font-bold mb-4">تواصل معنا لمعرفة المزيد</h2>
 
