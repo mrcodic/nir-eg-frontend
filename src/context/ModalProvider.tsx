@@ -18,6 +18,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from "react";
 import { FaSpinner } from "react-icons/fa";
@@ -65,28 +66,30 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     console.log("isOpen : ", isOpen);
     if (!isOpen) {
-      // const tid = setTimeout(() => {
-      setModalContent(undefined);
-      setDialogContentProps(null);
-      setSideElement(undefined);
-      // }, 200);
-      // return () => clearTimeout(tid);
+      const tid = setTimeout(() => {
+        setModalContent(undefined);
+        setDialogContentProps(null);
+        setSideElement(undefined);
+      }, 50);
+      return () => clearTimeout(tid);
     }
     return;
   }, [isOpen]);
 
+  const values = useMemo(() => {
+    return {
+      isOpen,
+      openModal,
+      closeModal,
+      setDialogContent: setModalContent,
+      setDialogContentProps,
+      addSideElement,
+      removeSideElement,
+    };
+  }, [addSideElement, closeModal, isOpen, openModal, removeSideElement]);
+
   return (
-    <ModalContext.Provider
-      value={{
-        isOpen,
-        openModal,
-        closeModal,
-        setDialogContent: setModalContent,
-        setDialogContentProps,
-        addSideElement,
-        removeSideElement,
-      }}
-    >
+    <ModalContext.Provider value={values}>
       {children}
 
       {isOpen && (
@@ -98,8 +101,8 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
           <DialogContent
             {...dialogContentProps}
             className={cn(
-              "bg-white max-md:p-2 overflow-visible max-h-[calc(100vh-2rem)] overflow-y-auto",
-              dialogContentProps?.className
+              "max-h-[calc(100vh-2rem)] overflow-visible overflow-y-auto bg-white max-md:p-2",
+              dialogContentProps?.className,
             )}
             onPointerDownOutside={(e) => {
               if (
@@ -114,8 +117,8 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
           >
             <Suspense
               fallback={
-                <div className="flex items-center justify-center size-full min-h-[400px]">
-                  <FaSpinner className="animate-spin text-primary-800 size-10" />
+                <div className="flex size-full min-h-[400px] items-center justify-center">
+                  <FaSpinner className="text-primary-800 size-10 animate-spin" />
                 </div>
               }
             >

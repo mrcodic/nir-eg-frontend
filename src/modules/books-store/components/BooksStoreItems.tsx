@@ -45,8 +45,8 @@ function BooksStoreItems({
         className={cn(
           booksClassName,
           isPlaceholderData
-            ? "pointer-events-none opacity-80 animate-pulse"
-            : ""
+            ? "pointer-events-none animate-pulse opacity-80"
+            : "",
         )}
       />
 

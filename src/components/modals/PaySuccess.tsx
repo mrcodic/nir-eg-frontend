@@ -53,39 +53,39 @@ export function PaySuccess({
           recycle={false} // Stops after pieces are gone
         />
       )}
-      <DialogContent className="p-8 max-w-lg bg-white rounded-lg shadow-lg">
+      <DialogContent className="max-w-lg rounded-lg bg-white p-8 shadow-lg">
         <DotLottieReact
-          className=" mx-auto"
+          className="mx-auto"
           src="/Animations/Success.lottie"
           autoplay
           loop
         />
-        <h2 className="text-2xl font-semibold text-green-600 text-center mb-4">
+        <h2 className="mb-4 text-center text-2xl font-semibold text-green-600">
           تم عملية الدفع بنجاح
         </h2>
         {data?.body?.type == 4 && (
-          <div className="flex border rounded-lg p-2 border-[#F8DEC5] gap-2 ">
+          <div className="flex gap-2 rounded-lg border border-[#F8DEC5] p-2">
             <Image
               width={32}
               height={32}
               src="/assets/tele1.svg"
               alt="tele"
-              className="w-[32px] h-[32px]"
+              className="h-[32px] w-[32px]"
             />
-            <p className="font-bold text-[16px] md:text-[20px] text-center">
+            <p className="text-center text-[16px] font-bold md:text-[20px]">
               انضم الآن لجروب الدعم العلمي على تليجرام
             </p>
           </div>
         )}
 
-        <DialogFooter className="flex justify-center items-center  w-full mt-5">
+        <DialogFooter className="mt-5 flex w-full items-center justify-center">
           <DialogClose
             asChild
-            className="flex items-center justify-center! w-full"
+            className="flex w-full items-center justify-center!"
           >
             <Button
               type="submit"
-              className="text-gray-25 font-bold border-2  py-6!  rounded-2xl text-center text-white bg-primary-800 hover:bg-primary-800 w-[200px] mx-auto"
+              className="text-gray-25 bg-primary-800 hover:bg-primary-800 mx-auto w-[200px] rounded-2xl border-2 py-6! text-center font-bold text-white"
             >
               تأكيد
             </Button>
@@ -93,14 +93,14 @@ export function PaySuccess({
           {data?.body?.type == 4 && (
             <Link
               href={tgHref}
-              className="text-gray-25 text-center flex items-center justify-center py-3!   rounded-2xl relative z-100000 font-bold border-2 bg-gray-light text-white  w-[200px] mx-auto"
+              className="text-gray-25 bg-gray-light relative z-100000 mx-auto flex w-[200px] items-center justify-center rounded-2xl border-2 py-3! text-center font-bold text-white"
             >
               <Image
                 width={32}
                 height={32}
                 src="/assets/tele1.svg"
                 alt="tele"
-                className="w-[24px] h-[24px]"
+                className="h-[24px] w-[24px]"
               />
               <span>الدعم العلمي</span>
             </Link>

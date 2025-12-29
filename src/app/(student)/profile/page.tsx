@@ -42,7 +42,7 @@ const ProfilePage = () => {
   }, [profileData, modal]);
 
   return (
-    <div className="mb-12 mt-[140px]">
+    <div className="mt-[140px] mb-12">
       <div className="wrapper">
         {profileData?.body?.parent_phone_verification === false && (
           <ProfileVerifyPhoneCard />
@@ -80,7 +80,7 @@ const ProfilePage = () => {
                   />
                   <Link
                     href={`/bundles?grade=${grade}`}
-                    className="bg-primary-800 w-full max-w-[172px] py-2 rounded-lg text-white text-center font-bold text-base  "
+                    className="bg-primary-800 w-full max-w-[172px] rounded-lg py-2 text-center text-base font-bold text-white"
                   >
                     اذهب للباقات
                   </Link>

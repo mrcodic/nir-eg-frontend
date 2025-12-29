@@ -1,9 +1,9 @@
 import LoadingSpinner from "@/components/Loading";
 import { Label } from "@/components/ui/label";
 import PriceBubbles from "@/components/ui/price-bubble";
-import PriceBadge from "@/components/ui/PriceBadge";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useCartStore } from "@/context/BooksStoreProvider";
+import PriceBadge from "@/modules/payment/components/PriceBadge";
 import { CourseType, paymentType, PricingResponse } from "@/types";
 import Image from "next/image";
 import React from "react";
@@ -44,7 +44,7 @@ export const BooksPaymentUI: React.FC<PaymentUIProps> = ({
   return (
     <>
       {loading && (
-        <div className="absolute z-50 top-0 left-0 bg-black/40 h-full w-full">
+        <div className="absolute top-0 left-0 z-50 h-full w-full bg-black/40">
           <LoadingSpinner />
         </div>
       )}
@@ -52,23 +52,23 @@ export const BooksPaymentUI: React.FC<PaymentUIProps> = ({
       {isSingleBook && (
         <>
           <div className="mt-[16px] flex items-center gap-[12px]">
-            <img src="/assets/PaymentColor.svg" className="w-[24px] h-[24px]" />
-            <span className="text-[#121212] text-[18px] font-bold">
+            <img src="/assets/PaymentColor.svg" className="h-[24px] w-[24px]" />
+            <span className="text-[18px] font-bold text-[#121212]">
               اختر طريقة الدفع
             </span>
           </div>
 
-          <div className="h-px w-full bg-gray-light my-[12px]" />
+          <div className="bg-gray-light my-[12px] h-px w-full" />
         </>
       )}
 
-      <div className={isSingleBook ? " mb-4" : "mb-10"}>
+      <div className={isSingleBook ? "mb-4" : "mb-10"}>
         {isSingleBook && (
           <div className="space-y-4">
-            <h4 className="sm:text-2xl text-lg font-bold">{name}</h4>
+            <h4 className="text-lg font-bold sm:text-2xl">{name}</h4>
 
-            <div className="flex items-center p-2 rounded-lg justify-between gap-3 bg-background">
-              <h5 className="text-[#121212] font-bold">السعر</h5>
+            <div className="bg-background flex items-center justify-between gap-3 rounded-lg p-2">
+              <h5 className="font-bold text-[#121212]">السعر</h5>
               {!!coupon?.promo?.value ? (
                 <>
                   <PriceBadge
@@ -103,13 +103,13 @@ export const BooksPaymentUI: React.FC<PaymentUIProps> = ({
       </div>
 
       {paymentMethodValue === paymentType.fawerypay && (
-        <span className="text-red-600 text-sm font-bold mb-2 ">
+        <span className="mb-2 text-sm font-bold text-red-600">
           <Image
             src={"/assets/WarningColor.svg"}
             width={30}
             height={30}
             alt="warinng"
-            className="inline-block ml-2"
+            className="ml-2 inline-block"
           />
           بعد ما تضغط &quot;التالي&quot;، هيتعرضلك كود الدفع. خده وادفعه في أقرب
           فرع فورى أو تطبيق فورى احتفظ بالايصال وفي خلال 30 دقيقة الباقه هتتفتح,
@@ -131,25 +131,25 @@ export const BooksPaymentUI: React.FC<PaymentUIProps> = ({
           {paymentTypes.map((payment) => (
             <div
               key={payment.value}
-              className="flex flex-col text-right gap-6 cursor-pointer"
+              className="flex cursor-pointer flex-col gap-6 text-right"
             >
               <Label
                 htmlFor={payment.value}
-                className={`flex relative overflow-hidden cursor-pointer ${
+                className={`relative flex cursor-pointer overflow-hidden ${
                   paymentMethodValue === payment.value
                     ? "border-[#023E3E]"
                     : "border-gray-light"
-                } p-2 gap-[10px] border-2 rounded-lg bg-background z-0! items-center space-x-2`}
+                } bg-background z-0! items-center gap-[10px] space-x-2 rounded-lg border-2 p-2`}
               >
                 <RadioGroupItem value={payment.value} id={payment.value} />
                 <Label
-                  className="flex gap-6 items-center"
+                  className="flex items-center gap-6"
                   htmlFor={payment.value}
                 >
                   {payment.icons.map((icon) => (
                     <img key={icon} src={icon} />
                   ))}
-                  <span className="text-[#121212] font-bold">
+                  <span className="font-bold text-[#121212]">
                     {payment.label}
                   </span>
                 </Label>
@@ -164,7 +164,7 @@ export const BooksPaymentUI: React.FC<PaymentUIProps> = ({
         </RadioGroup>
       ) : (
         <div>
-          <span className="text-red-600 text-sm font-bold mb-2 ">
+          <span className="mb-2 text-sm font-bold text-red-600">
             لا يوجد طرق دفع متاحة
           </span>
         </div>

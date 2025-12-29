@@ -25,7 +25,7 @@ function useHandleFeaturesDisplay() {
 
         if (!savedFeatures || savedFeatures !== stringifiedFeatures) {
           modal.setDialogContent(
-            <NewFeaturesModal features={features?.data} />
+            <NewFeaturesModal features={features?.data} />,
           );
           modal.openModal();
           localStorage.setItem("more-features", stringifiedFeatures);

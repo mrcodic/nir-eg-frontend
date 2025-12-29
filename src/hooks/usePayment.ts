@@ -45,33 +45,8 @@ export const usePayment = ({
       asModal,
       isCodeCenter,
       userType: profile?.type,
-    }
+    },
   );
-
-  // Handle payment success/failure messages (modal mode)
-  useEffect(() => {
-    if (!asModal) return;
-
-    const handleMessage = (event: MessageEvent) => {
-      if (event.origin !== window.location.origin) return;
-      if (event.data === 200) {
-        modal.closeModal();
-        toast({
-          description: "تم الدفع بنجاح",
-          icon: "success",
-        });
-        router.push(`/bundle/${bundleId}`);
-      } else if (event.data === 500) {
-        toast({
-          description: "حصل مشكله اثناء الدفع",
-          icon: "error",
-        });
-      }
-    };
-
-    window.addEventListener("message", handleMessage);
-    return () => window.removeEventListener("message", handleMessage);
-  }, [asModal, bundleId, router, toast]);
 
   // Initialize payment method value
   useEffect(() => {
@@ -137,19 +112,22 @@ export const usePayment = ({
         router.push(`/payment?bundleId=${bundleId}&type=${paymentMethodValue}`);
       } else if (roomId) {
         router.push(
-          `/payment?roomId=${roomId}&centerId=${centerId}&type=${paymentMethodValue}`
+          `/payment?roomId=${roomId}&centerId=${centerId}&type=${paymentMethodValue}`,
         );
       }
     }
 
     if (asModal) {
-      modal.closeModal();
+      setTimeout(() => {
+        modal.closeModal();
+      }, 1000);
     }
   };
 
-  const handleNextClick = () => {
+  const handleNextClick = async () => {
     setLoading(true);
-    checkToken();
+    await checkToken();
+
     setTimeout(() => {
       setLoading(false);
     }, 1000);

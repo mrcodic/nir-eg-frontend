@@ -15,7 +15,7 @@ const columnHelper = createColumnHelper<StudentActivity>();
 const columns = [
   columnHelper.accessor("title", {
     header: () => (
-      <div className="py-3 min-w-[200px] px-2 block w-full first:ps-0   text-[18px] font-bold">
+      <div className="block w-full min-w-[200px] px-2 py-3 text-[18px] font-bold first:ps-0">
         الأنشطة
       </div>
     ),
@@ -23,13 +23,13 @@ const columns = [
       const row = info.row.original;
 
       return (
-        <div className="p-2  min-w-[200px] w-full max-w-[200px] md:max-w-[300px]  text-[16px] font-medium flex flex-wrap items-center gap-2 truncate">
+        <div className="flex w-full max-w-[200px] min-w-[200px] flex-wrap items-center gap-2 truncate p-2 text-[16px] font-medium md:max-w-[300px]">
           <p className="truncate">{info.getValue()}</p>
           <Link
             href={`/bundles/${row?.classroom_id}/${row?.room_id}/${
               row.type === "امتحان" ? "exams" : "assignment"
             }/${row?.quiz_id}`}
-            className="text-[#D9B45C] underline truncate font-bold flex items-center justify-center"
+            className="flex items-center justify-center truncate font-bold text-[#D9B45C] underline"
           >
             عرض {row.type === "امتحان" ? "الامتحان" : "الواجب"}
           </Link>
@@ -42,7 +42,7 @@ const columns = [
       <div className="w-[156px] px-2 text-[18px] font-bold">النوع</div>
     ),
     cell: (info) => (
-      <div className="p-2 w-[156px] text-start text-[16px] font-medium">
+      <div className="w-[156px] p-2 text-start text-[16px] font-medium">
         {info.getValue()}
       </div>
     ),
@@ -52,7 +52,7 @@ const columns = [
       <div className="w-52 px-2 text-[18px] font-bold">التاريخ</div>
     ),
     cell: (info) => (
-      <div className="p-2 w-52 text-start text-[16px] font-medium">
+      <div className="w-52 p-2 text-start text-[16px] font-medium">
         {info.getValue()}
       </div>
     ),

@@ -21,9 +21,9 @@ const columnHelper = createColumnHelper<StudentRank>();
 
 const columns = [
   columnHelper.accessor("id", {
-    header: () => <div className="py-3  text-[18px] font-bold">الترتيب</div>,
+    header: () => <div className="py-3 text-[18px] font-bold">الترتيب</div>,
     cell: ({ row }) => (
-      <div className="p-2 text-[16px] font-medium flex items-center justify-center">
+      <div className="flex items-center justify-center p-2 text-[16px] font-medium">
         <CustomNum num={row.index + 1} />
       </div>
     ),
@@ -36,7 +36,7 @@ const columns = [
       <div className="w-[156px] px-2 text-[18px] font-bold">الطالب</div>
     ),
     cell: (info) => (
-      <div className="p-2 w-[156px] text-center text-[16px] font-medium flex items-center justify-center gap-6">
+      <div className="flex w-[156px] items-center justify-center gap-6 p-2 text-center text-[16px] font-medium">
         <Image
           src="/assets/avatar-user.svg"
           width={48}
@@ -44,7 +44,7 @@ const columns = [
           alt="avatar"
           className="rounded-full"
         />
-        <span className="text-lg font-bold text-[#121212] leading-4">
+        <span className="text-lg leading-4 font-bold text-[#121212]">
           {info.getValue()}
         </span>
       </div>
@@ -55,10 +55,10 @@ const columns = [
   }),
   columnHelper.accessor("points", {
     header: () => (
-      <div className=" px-2 text-start text-lg font-bold pe-8">النقاط</div>
+      <div className="px-2 pe-8 text-start text-lg font-bold">النقاط</div>
     ),
     cell: (info) => (
-      <div className="p-2 ps-0 text-base font-medium flex items-end justify-start gap-2 ">
+      <div className="flex items-end justify-start gap-2 p-2 ps-0 text-base font-medium">
         <Image
           src="/assets/star-colored.svg"
           width={32}
@@ -67,16 +67,16 @@ const columns = [
         />
 
         <div className="relative">
-          <h3 className="textStroke text-2xl absolute top-0 left-0 flex items-center z-0 text-primary-800/20">
+          <h3 className="textStroke text-primary-800/20 absolute top-0 left-0 z-0 flex items-center text-2xl">
             {info.getValue()}
           </h3>
 
-          <h3 className="relative z-10 text-2xl font-bold text-primary-800 top-px left-px">
+          <h3 className="text-primary-800 relative top-px left-px z-10 text-2xl font-bold">
             {info.getValue()}
           </h3>
         </div>
 
-        <span className="text-xs font-bold self-end text-primary-800">
+        <span className="text-primary-800 self-end text-xs font-bold">
           نقطة
         </span>
       </div>

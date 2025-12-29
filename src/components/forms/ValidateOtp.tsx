@@ -22,7 +22,7 @@ import { useForm } from "react-hook-form";
 import CustomLoader from "../custom/Loader";
 import OTPInput from "../custom/OTPInput";
 import { Button } from "../ui/button";
-import CountDownTimerUI from "./CountDownTimerUI";
+import CountDownTimerUI from "../ui/CountDownTimerUI";
 
 const ValidateOtp = ({ setResetForm }) => {
   const { toast } = useToast();

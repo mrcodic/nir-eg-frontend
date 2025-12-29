@@ -31,7 +31,7 @@ function usePaymentsTypesFiltered({
 
       return list.filter((item) => !data[item.filter]);
     },
-    [data]
+    [data],
   );
 
   // Determine payment types based on mode and user type

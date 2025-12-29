@@ -9,7 +9,7 @@ export const useTaskLogic = (
     onInitialize?: (val: boolean) => void;
     shouldStartQuiz?: (start: any) => boolean;
     onRetakeSuccess?: () => void;
-  } = {}
+  } = {},
 ) => {
   const { toast } = useToast();
   const isInit = useRef(false);
@@ -162,7 +162,7 @@ export const useTaskLogic = (
       resolver?.(confirmed);
       setResolver(null);
     },
-    [resolver]
+    [resolver],
   );
 
   return {

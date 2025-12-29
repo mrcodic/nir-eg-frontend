@@ -1,6 +1,5 @@
 import CustomError from "@/lib/customError";
 import { IGetDataOptions } from "@/types/helpers.types";
-import { deleteCookie } from "@/utils/api";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import "server-only";
@@ -8,7 +7,7 @@ import reactCache from "./reactCache";
 
 const fetcherServer = async <T>(
   { queryKey: [endpoint], next, cache }: IGetDataOptions,
-  authenticated: boolean
+  authenticated: boolean,
 ) => {
   if (!endpoint || typeof endpoint !== "string") {
     return null;
@@ -57,7 +56,7 @@ const fetcherServer = async <T>(
         // console.error(`Failed to fetch data from ${endpoint}`);
         throw new CustomError(
           `Failed to fetch data from ${endpoint}`,
-          res.status || 500
+          res.status || 500,
         );
       }
     }
@@ -74,8 +73,7 @@ const fetcherServer = async <T>(
       redirect("/unAuthCenter");
     } else if (error?.status == 401 || error?.response?.data?.code == 410) {
       console.log("login redirect");
-      await deleteCookie();
-      redirect("/login");
+      redirect("/api/delete-session");
     } else if (error instanceof CustomError) {
       console.log("custom error redirect");
       throw error;
@@ -92,5 +90,5 @@ export const getServerData = reactCache(
     cache,
     isAuth = true,
   }: IGetDataOptions): Promise<T | null> =>
-    fetcherServer({ queryKey: [endpoint], next, cache }, isAuth)
+    fetcherServer({ queryKey: [endpoint], next, cache }, isAuth),
 );

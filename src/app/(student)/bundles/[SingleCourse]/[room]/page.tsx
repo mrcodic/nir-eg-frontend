@@ -50,7 +50,7 @@ const SingleVideo = () => {
       setCurrentTime(0);
       setOtpError(false);
     },
-    [videoId, lessonId]
+    [videoId, lessonId],
   );
 
   const fetchOtpAndViews = async (vid) => {
@@ -103,7 +103,7 @@ const SingleVideo = () => {
       console.log("init from search--------------------");
       setVideoId(initialVideoId);
       const lesson = data?.body?.lessons?.find(
-        (les) => les.vedio_id === initialVideoId
+        (les) => les.vedio_id === initialVideoId,
       );
       if (lesson) {
         setLessonId(lesson.id);
@@ -117,7 +117,7 @@ const SingleVideo = () => {
 
   const selectedLesson = useMemo(
     () => data?.body?.lessons?.find((lesson) => lesson.id === lessonId),
-    [data?.body?.lessons, lessonId]
+    [data?.body?.lessons, lessonId],
   );
 
   // console.log("selected lessonId : ", lessonId);
@@ -141,8 +141,8 @@ const SingleVideo = () => {
         isLoading={isLoading}
       >
         <div className="wrapper mt-[110px]">
-          <div className="flex flex-col-reverse lg:flex-row py-8 gap-6">
-            <div className="w-full flex lg:w-[30%] ">
+          <div className="flex flex-col-reverse gap-6 py-8 lg:flex-row">
+            <div className="flex w-full lg:w-[30%]">
               <RoomSideContent
                 data={data?.body}
                 videoId={videoId}
@@ -154,7 +154,7 @@ const SingleVideo = () => {
               />
             </div>
 
-            <div className="flex-1 flex flex-col lg:w-[calc(70%-1.5rem)] ">
+            <div className="flex flex-1 flex-col lg:w-[calc(70%-1.5rem)]">
               <div className="relative">
                 {viewCount && (
                   <TopBanner
@@ -183,10 +183,10 @@ const SingleVideo = () => {
                 />
               </div>
 
-              <div className="border border-gray-light rounded-lg p-2 mt-4">
+              <div className="border-gray-light mt-4 rounded-lg border p-2">
                 <h2 className="text-lg font-bold">{selectedLesson?.title}</h2>
                 <hr className="border-gray-light my-2" />
-                <p className="text-xs font-bold text-gray-dark">
+                <p className="text-gray-dark text-xs font-bold">
                   {data?.body?.room?.grade?.title || "--"}
                 </p>
               </div>

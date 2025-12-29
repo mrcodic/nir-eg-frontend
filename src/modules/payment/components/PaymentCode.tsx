@@ -9,13 +9,14 @@ import { PricingResponse } from "@/types";
 import axios from "axios";
 import { Loader } from "lucide-react";
 import { useState } from "react";
+import PaymentWhatsappLink from "./PaymentWhatsappLink";
 
 const initialState = {
   message: "",
   state: "",
 };
 
-function PaymentCoupon({
+function PaymentCode({
   coupon,
   setCoupon,
   courseId,
@@ -83,50 +84,55 @@ function PaymentCoupon({
   };
 
   return (
-    <div className={cn("", className)}>
-      <Label
-        aria-invalid={couponState?.state === "error"}
-        className="mb-1 w-full"
-      >
-        كود الخصم
-      </Label>
+    <div className={cn("space-y-6", className)}>
+      <Label aria-invalid={couponState?.state === "error"}>الكود</Label>
+      <div className="flex flex-col gap-1">
+        <div className="flex items-center gap-4 sm:gap-6">
+          <Input
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            className="border-gray-light h-11 w-full grow border ps-2 text-sm focus:outline-hidden"
+            aria-invalid={couponState?.state === "error"}
+            placeholder="أدخل الكود"
+            disabled={loading}
+          />
+          <Button
+            onClick={handleCouponSubmit}
+            disabled={loading || !value}
+            className="bg-primary-800 h-11 w-full max-w-[70px] rounded-lg px-3 text-sm sm:max-w-[104px] sm:px-6 sm:text-base"
+          >
+            {loading && <Loader className="mr-2 h-4 w-4 animate-spin" />}
+            ادخال
+          </Button>
+        </div>
 
-      <div className="mt-1! flex items-center gap-4 sm:gap-6">
-        <Input
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          className="h-11 w-full grow ps-2 text-sm focus:outline-none"
-          aria-invalid={couponState?.state === "error"}
-          placeholder="كود الخصم"
-          disabled={loading}
-        />
-        <Button
-          onClick={handleCouponSubmit}
-          disabled={loading || !value}
-          className="h-11 w-full max-w-[70px] rounded-lg bg-[#012D5A] px-3 text-sm sm:max-w-[104px] sm:px-6 sm:text-base"
-        >
-          {loading && <Loader className="mr-2 h-4 w-4 animate-spin" />}
-          تأكيد
-        </Button>
+        {couponState?.state && (
+          <p
+            className={`text-xs ${
+              couponState.state === "success"
+                ? "text-green-500"
+                : "text-red-500"
+            }`}
+          >
+            {couponState.message}{" "}
+            {couponState.state === "success" &&
+              `حصلت على خصم  ${
+                coupon?.promo?.type_discount === 1
+                  ? `${coupon?.promo?.value}%`
+                  : `${coupon?.promo?.value} جنيه`
+              }`}
+          </p>
+        )}
       </div>
 
-      {couponState?.state && (
-        <p
-          className={`text-xs ${
-            couponState.state === "success" ? "text-green-500" : "text-red-500"
-          }`}
-        >
-          {couponState.message}{" "}
-          {couponState.state === "success" &&
-            `حصلت على خصم  ${
-              coupon?.promo?.type_discount === 1
-                ? `${coupon?.promo?.value}%`
-                : `${coupon?.promo?.value} جنيه`
-            }`}
-        </p>
-      )}
+      <PaymentWhatsappLink />
+
+      <div className="text-primary-800 relative text-center text-base font-medium">
+        <hr className="border-primary-800 absolute inset-x-0 top-1/2 mx-4 -translate-y-1/2 sm:mx-20" />
+        <span className="relative z-5 bg-white px-8">او</span>
+      </div>
     </div>
   );
 }
 
-export default PaymentCoupon;
+export default PaymentCode;

@@ -33,8 +33,8 @@ export default function Announcement() {
   if (!data?.announcements?.length) return null;
 
   return (
-    <div className="fixed  top-24  left-1/2 z-50 -translate-x-1/2 py-2 w-[95%] md:max-w-[85%] pointer-events-auto! aria-hidden:pointer-events-auto! data-[aria-hidden='true']:pointer-events-auto!">
-      <div className="flex flex-col gap-4 ">
+    <div className="pointer-events-auto! fixed top-24 left-1/2 z-50 w-[95%] -translate-x-1/2 py-2 aria-hidden:pointer-events-auto! data-[aria-hidden='true']:pointer-events-auto! md:max-w-[85%]">
+      <div className="flex flex-col gap-4">
         {/* {Array.from({ length: 3 }).map((announce, idx) => { */}
         {data?.announcements.map((announce, idx) => (
           <div
@@ -42,17 +42,17 @@ export default function Announcement() {
             style={{
               boxShadow: "0px 2px 10px 4px rgba(157,130,66,0.20)",
             }}
-            className="p-4 bg-[url('/assets/announcementBg.svg')] bg-no-repeat bg-position-[center_left] flex flex-wrap items-center min-h-[121px] justify-between px-10 gap-5 bg-background border  text-sm font-bold text-[#523412] border-gray-light rounded-lg   relative"
+            className="bg-background border-gray-light relative flex min-h-[121px] flex-wrap items-center justify-between gap-5 rounded-lg border bg-[url('/assets/announcementBg.svg')] bg-position-[center_left] bg-no-repeat p-4 px-10 text-sm font-bold text-[#523412]"
           >
-            <div className="flex flex-wrap items-center md:max-w-[70%] gap-6">
+            <div className="flex flex-wrap items-center gap-6 md:max-w-[70%]">
               <DotLottieReact
-                className="h-20 scale-x-[-1] "
+                className="h-20 scale-x-[-1]"
                 src="/Animations/announcement.lottie"
                 autoplay
                 loop
               />
               <div>
-                <p className="text-base text-wrap  ">{announce.desc}</p>
+                <p className="text-base text-wrap">{announce.desc}</p>
               </div>
             </div>
 
@@ -62,14 +62,14 @@ export default function Announcement() {
                 download
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-3 h-8 flex max-w-[170px] text-nowrap items-center gap-3 rounded-lg h-[3 text-white border border-[#9D8242] bg-primary text-xs md:text-sm font-bold"
+                className="h-[3 bg-primary flex h-8 max-w-[170px] items-center gap-3 rounded-lg border border-[#9D8242] p-3 text-xs font-bold text-nowrap text-white md:text-sm"
               >
                 <Download />
                 نزل الملف من هنا
               </a>
             )}
             <X
-              className="absolute right-1 top-1 bg-[#F8DEC5] p-1 rounded-full cursor-pointer"
+              className="absolute top-1 right-1 cursor-pointer rounded-full bg-[#F8DEC5] p-1"
               onClick={() => closeAnnounce(idx)}
             />
           </div>

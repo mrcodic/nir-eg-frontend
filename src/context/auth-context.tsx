@@ -31,7 +31,7 @@ export const useAuthContext = () => {
 
 export const AuthContextProvider = ({ children }) => {
   const [token, setToken] = useState<undefined | string | null>(
-    () => Cookies.get("nir_token") || undefined
+    () => Cookies.get("nir_token") || undefined,
   );
 
   const { data: profileData, isLoading } = useQuery({

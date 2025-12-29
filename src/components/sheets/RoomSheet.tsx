@@ -19,7 +19,7 @@ export default function RoomSheet({ open, setOpen }) {
         <RoomSideContent
           data={data?.body}
           locked={data?.body?.locked_to_pass}
-          className="static pt-14 border-none"
+          className="static border-none pt-14"
         />
       </SheetContent>
     </Sheet>

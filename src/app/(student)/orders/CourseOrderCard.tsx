@@ -1,17 +1,17 @@
 import DataLabel from "@/components/custom/DataLabel";
 import CustomImage from "@/components/ui/CustomImage";
-import PaymentStatusBadge from "@/components/ui/PaymentStatusBadge";
-import PriceBadge from "@/components/ui/PriceBadge";
 import { paymentTypesObj } from "@/constants";
+import PaymentStatusBadge from "@/modules/payment/components/PaymentStatusBadge";
+import PriceBadge from "@/modules/payment/components/PriceBadge";
 import { CourseOrder } from "@/types";
 import Image from "next/image";
 
 function CourseOrderCard({ item }: { item: CourseOrder }) {
   return (
-    <div className="flex flex-col md:flex-row gap-x-6 gap-y-4">
-      <div className="max-md:w-full max-md:max-w-full max-md:h-[200px] max-md:mx-auto md:w-[200px] aspect-square border border-gray-light relative bg-background rounded-lg">
+    <div className="flex flex-col gap-x-6 gap-y-4 md:flex-row">
+      <div className="border-gray-light bg-background relative aspect-square rounded-lg border max-md:mx-auto max-md:h-[200px] max-md:w-full max-md:max-w-full md:w-[200px]">
         <CustomImage
-          className=" inset-4 absolute object-contain object-center rounded-lg"
+          className="absolute inset-4 rounded-lg object-contain object-center"
           src={item?.model?.cover}
           fallback={"/assets/grade-placeholder.png"}
           alt="course cover"
@@ -19,9 +19,9 @@ function CourseOrderCard({ item }: { item: CourseOrder }) {
         />
       </div>
 
-      <div className={`flex-1  rounded-lg p-4 border border-gray-light `}>
-        <div className="flex w-full items-center justify-between gap-6 flex-wrap">
-          <h2 className="text-[#121212] text-sm md:text-xl font-bold">
+      <div className={`border-gray-light flex-1 rounded-lg border p-4`}>
+        <div className="flex w-full flex-wrap items-center justify-between gap-6">
+          <h2 className="text-sm font-bold text-[#121212] md:text-xl">
             {item?.model?.name}
             <p className="text-sm text-gray-500">{item?.trasnsaction_id}</p>
           </h2>
@@ -29,27 +29,27 @@ function CourseOrderCard({ item }: { item: CourseOrder }) {
           <PaymentStatusBadge status={item.payment_status} />
         </div>
 
-        <div className="h-px w-full bg-gray-light my-[12px]" />
+        <div className="bg-gray-light my-[12px] h-px w-full" />
 
         {item?.model_type === "Bundle" && (
-          <div className="flex gap-1  flex-col border-b pb-3 border-gray-light">
+          <div className="border-gray-light flex flex-col gap-1 border-b pb-3">
             <span className="text-gray-dark inline-block text-sm">
               تحتوي الباقة على التالي:
             </span>
 
-            <span className="inline-block font-bold text-base">
+            <span className="inline-block text-base font-bold">
               {item?.model?.courses?.join(" و ")}
             </span>
           </div>
         )}
 
-        <div className="flex flex-wrap gap-8 items-center mt-4">
+        <div className="mt-4 flex flex-wrap items-center gap-8">
           <DataLabel text="السعر"> {item.amount} جنية</DataLabel>
 
           <DataLabel text="التاريخ">
             {" "}
-            <div className=" flex gap-[40px]">
-              <span className="text-[#523412] ">
+            <div className="flex gap-[40px]">
+              <span className="text-[#523412]">
                 {new Date(item?.created_at).toISOString().split("T")[0]}
               </span>
             </div>
@@ -67,9 +67,9 @@ function CourseOrderCard({ item }: { item: CourseOrder }) {
                     alt=""
                     width={0}
                     height={0}
-                    className=" object-contain size-auto"
+                    className="size-auto object-contain"
                   />
-                )
+                ),
               )
             )}
           </DataLabel>

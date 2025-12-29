@@ -11,10 +11,10 @@ const protectedRoutes = [
 const authRoutes = ["/login", "/register"];
 
 export function middleware(request) {
-  const { pathname, searchParams, search } = request.nextUrl;
+  const { pathname } = request.nextUrl;
 
   const isProtected = protectedRoutes.some((route) =>
-    pathname.startsWith(route)
+    pathname.startsWith(route),
   );
   const token = request.cookies.get("nir_token");
 

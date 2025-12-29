@@ -1,11 +1,11 @@
 "use client";
+
 import Exam from "@/components/Exam";
 import RoomHeader from "@/components/RoomHeader";
 import CourseActivitiesTable from "@/components/tables/CourseActivitiesTable";
 import RankTable from "@/components/tables/RankTable";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getPublicData } from "@/helpers/client-fetch";
-import { cn } from "@/lib/utils";
 import { ICourseDetails, IUser } from "@/types";
 import { useParams } from "next/navigation";
 import Empty from "./Empty";
@@ -61,33 +61,27 @@ const CourseDetails = ({ details, profile }: Props) => {
   return (
     <Tabs
       defaultValue="lessons"
-      className={`wrapper flex flex-col gap-10  mb-12 mt-10  md:mb-[100px]`}
+      className={`wrapper mt-10 mb-12 flex flex-col gap-10 md:mb-[100px]`}
       dir="rtl"
     >
       {details?.is_subscriped && (
-        <TabsList className="flex justify-center  w-full mt-10  ">
-          <div className="flex font-bold max-sm:flex-col justify-center w-full gap-2 md:gap-6 my-10 ">
+        <TabsList className="mt-10 flex w-full justify-center">
+          <div className="flex w-full justify-center gap-2 font-bold max-sm:flex-col md:gap-6">
             {Tabs3.map((tab, index) => (
               <TabsTrigger
                 key={index}
                 value={tab.value}
-                className={`group min-w-24 rounded-lg data-[state=active]:bg-primary-800 cursor-pointer data-[state=active]:text-white bg-white text-[#523412] flex items-center gap-2 border border-primary-800 px-px py-1 md:p-2 `}
+                className={`group data-[state=active]:bg-primary-800 border-primary-800 flex min-w-24 cursor-pointer items-center gap-2 rounded-lg border bg-white px-px py-1 text-[#523412] data-[state=active]:text-white md:p-2`}
               >
                 <span
-                  className="
-              size-6
-              bg-primary
-              transition-colors duration-300
-              group-data-[state=active]:bg-white
-
-            "
+                  className="bg-primary size-6 transition-colors duration-300 group-data-[state=active]:bg-white"
                   style={{
                     WebkitMask: `url(${tab.iconSrc}) no-repeat center / contain`,
                     mask: `url(${tab.iconSrc}) no-repeat center / contain`,
                   }}
                 />
 
-                <span className="text-sm text-primary-800 group-data-[state=active]:text-white transition-all duration-300 ease-in-out font-bold">
+                <span className="text-primary-800 text-sm font-bold transition-all duration-300 ease-in-out group-data-[state=active]:text-white">
                   {tab.title}
                 </span>
               </TabsTrigger>
@@ -96,7 +90,7 @@ const CourseDetails = ({ details, profile }: Props) => {
         </TabsList>
       )}
 
-      <TabsContent value="lessons" className={cn("mt-8", {})}>
+      <TabsContent value="lessons">
         <RoomHeader title="محتوى الكورس" icon="/assets/books-colored.svg" />
 
         {details?.rooms?.length ? (
@@ -130,7 +124,7 @@ const CourseDetails = ({ details, profile }: Props) => {
         )}
       </TabsContent>
 
-      <TabsContent value="exams" className="mt-8">
+      <TabsContent value="exams">
         <RoomHeader
           title="الامتحانات القادمة"
           icon="/assets/english-icon.svg"
@@ -143,13 +137,13 @@ const CourseDetails = ({ details, profile }: Props) => {
         </div>
       </TabsContent>
 
-      <TabsContent value="activities" className=" mt-8">
+      <TabsContent value="activities">
         <RoomHeader title="الأنشطة" icon="/assets/star-colored.svg" />
 
         <CourseActivitiesTable />
       </TabsContent>
 
-      <TabsContent value="rank" className=" mt-8">
+      <TabsContent value="rank">
         <RoomHeader title="ترتيب الطلاب" icon="/assets/rank-colored.svg" />
 
         <RankTable />

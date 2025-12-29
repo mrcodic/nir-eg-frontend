@@ -15,7 +15,7 @@ async function page({ params }: { params: Promise<{ bookId: string }> }) {
 
   return (
     <div className="section--style">
-      <h1 className="font-bold text-[28px]">{book?.data?.name}</h1>
+      <h1 className="text-[28px] font-bold">{book?.data?.name}</h1>
 
       {/* <PaymentResultClient /> */}
       <PaymentNotifStatus currentPath={`/books/${bookId}`} />

@@ -61,7 +61,7 @@ const PageSettings = () => {
       password: "",
       password_confirmation: "",
     }),
-    [data, phoneInfo]
+    [data, phoneInfo],
   );
 
   const form = useForm({
@@ -112,7 +112,7 @@ const PageSettings = () => {
 
             Authorization: `Bearer ${tokenCookie}`,
           },
-        }
+        },
       );
 
       if (response?.data?.code === 200) {
@@ -138,8 +138,8 @@ const PageSettings = () => {
   console.log(form.getValues());
 
   return (
-    <div className="mt-[168px] mb-12 wrapper ">
-      <div className=" w-full md:max-w-[792px] mx-auto border border-gray-light p-4 rounded-lg">
+    <div className="wrapper mt-[168px] mb-12">
+      <div className="border-gray-light mx-auto w-full rounded-lg border p-4 md:max-w-[792px]">
         <h1 className="text-xl font-bold">إعدادات الحساب</h1>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="mt-10 w-full">
@@ -152,8 +152,8 @@ const PageSettings = () => {
               />
             </div>
 
-            <div className="mt-10 ">
-              <div className="flex flex-col md:flex-row gap-6 w-full">
+            <div className="mt-10">
+              <div className="flex w-full flex-col gap-6 md:flex-row">
                 <div className="flex-1">
                   <CustomInput
                     name="first_name"
@@ -170,7 +170,7 @@ const PageSettings = () => {
                 </div>
               </div>
 
-              <div className="flex flex-col md:flex-row  gap-6 w-full">
+              <div className="flex w-full flex-col gap-6 md:flex-row">
                 <CustomPhoneInput
                   name="parent_phone.phone"
                   form={form}
@@ -189,14 +189,14 @@ const PageSettings = () => {
                       }
                       // setChangeParentNumber(true);
                     }}
-                    className="text-xs cursor-pointer underline inline-block mt-2 font-normal "
+                    className="mt-2 inline-block cursor-pointer text-xs font-normal underline"
                   >
                     قم بتأكيد رقم ولي الأمر
                   </button>
                 )}
               </div>
 
-              <div className="flex flex-col mt-6 md:flex-row items-center  gap-6 w-full">
+              <div className="mt-6 flex w-full flex-col items-center gap-6 md:flex-row">
                 <CustomCityStateField form={form} isSettings />
               </div>
 
@@ -209,13 +209,13 @@ const PageSettings = () => {
                       typeof v === "string" ? v : v.value,
                       {
                         shouldValidate: true,
-                      }
+                      },
                     );
                   }}
                 />
               )}
 
-              <div className="flex flex-col mt-6 md:flex-row items-center  gap-6 w-full">
+              <div className="mt-6 flex w-full flex-col items-center gap-6 md:flex-row">
                 <CustomInput
                   control={form.control}
                   name="address"
@@ -233,8 +233,8 @@ const PageSettings = () => {
               </div>
 
               <div className="flex-1">
-                <div className="w-full flex justify-between items-center ">
-                  <h4 className="text-gray-dark mb-[16px] mt-[32px] text-[12px] font-bold">
+                <div className="flex w-full items-center justify-between">
+                  <h4 className="text-gray-dark mt-[32px] mb-[16px] text-[12px] font-bold">
                     كلمة السر
                   </h4>
                   <span className="text-gray-dark mt-[20px] inline-block text-[12px] font-medium">
@@ -245,7 +245,7 @@ const PageSettings = () => {
                 <button
                   type="button"
                   onClick={() => setIsChangePassword((t) => !t)}
-                  className="text-[#523412] cursor-pointer text-sm font-medium mt-[8px] underline"
+                  className="mt-[8px] cursor-pointer text-sm font-medium text-[#523412] underline"
                 >
                   {changePassword ? "إلغاء تغيير كلمة السر" : "تغيير كلمة السر"}
                 </button>
@@ -253,12 +253,12 @@ const PageSettings = () => {
                 {changePassword && <ChangePasswordSettings form={form} />}
               </div>
 
-              <Button type="submit" className="mt-10 max-w-[172px] w-full">
+              <Button type="submit" className="mt-10 w-full max-w-[172px]">
                 {isLoading ? <CustomLoader /> : "حفظ التغيرات"}
               </Button>
 
               {Object.values(form.formState.errors).length > 0 && (
-                <p className="text-red-500 text-sm">
+                <p className="text-sm text-red-500">
                   يرجى ملء جميع الحقول المطلوبة
                 </p>
               )}

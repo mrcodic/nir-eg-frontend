@@ -6,7 +6,7 @@ import { usePayment } from "@/hooks/usePayment";
 import { CourseType } from "@/types";
 import { DialogClose } from "@radix-ui/react-dialog";
 import React from "react";
-import { PaymentUI } from "../ui/PaymentUI";
+import { PaymentUI } from "../../modules/payment/components/PaymentUI";
 
 interface PaymentModalProps {
   courseId?: string;
@@ -59,7 +59,7 @@ export const PaymentModel: React.FC<PaymentModalProps> = ({
         hasCoupon={hasCoupon}
         isLoadingMethods={isLoadingMethods}
       />
-      <DialogFooter className="flex max-sm:flex-wrap flex-row! justify-center gap-5 mt-5 w-full sm:justify-center sm:space-x-0">
+      <DialogFooter className="mt-5 flex w-full flex-row! justify-center gap-5 max-sm:flex-wrap sm:justify-center sm:space-x-0">
         {paymentTypes.length > 0 && (
           <Button className="w-full" onClick={handleNextClick}>
             التالي
@@ -68,7 +68,7 @@ export const PaymentModel: React.FC<PaymentModalProps> = ({
 
         <DialogClose asChild>
           <Button
-            className="w-full text-black border-gray-light hover:bg-gray-dark hover:text-white"
+            className="border-gray-light hover:bg-gray-dark w-full text-black hover:text-white"
             variant="outline"
           >
             إلغاء

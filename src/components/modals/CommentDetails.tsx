@@ -57,33 +57,18 @@ const CommentDetails = ({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent
         hideClose={true}
-        className="md:left-0! left-0! inset-y-0! translate-x-0! translate-y-0!  flex flex-col sm:gap-8 gap-4 text-right fixed   h-full! max-w-[800px]! min-h-screen overflow-y-auto sm:p-4 p-2"
+        className="fixed inset-y-0! left-0! flex h-full! min-h-screen max-w-[800px]! translate-x-0! translate-y-0! flex-col gap-4 overflow-y-auto p-2 text-right sm:gap-8 sm:p-4 md:left-0!"
       >
         <DialogTitle className="hidden" />
         <DialogDescription className="hidden" />
 
-        <div
-          className="
-        flex 
-        border-b-2 
-        p-2 
-        h-[80px] 
-        w-full 
-        border-gray-light    
-        justify-between"
-        >
-          <h2 className="text-[#121212] font-bold sm:text-lg text-sm">
+        <div className="border-gray-light flex h-[80px] w-full justify-between border-b-2 p-2">
+          <h2 className="text-sm font-bold text-[#121212] sm:text-lg">
             عرض الأسئلة والاستفسارات{" "}
           </h2>
           <div
             onClick={() => setOpen(false)}
-            className=" 
-              text-gray-500 
-              absolute 
-              cursor-pointer 
-              text-[18px] 
-              font-bold  
-              left-[40px]!"
+            className="absolute left-[40px]! cursor-pointer text-[18px] font-bold text-gray-500"
           >
             ✕
           </div>
@@ -92,15 +77,15 @@ const CommentDetails = ({
         {showDetailsCard && (
           <div
             // href={`/bundles/${comment?.classroom_id}/${comment?.lesson_id}`}
-            className="border flex flex-col gap-2 p-3  h-20 bg-background rounded-lg border-[#F8DEC5] relative"
+            className="bg-background relative flex h-20 flex-col gap-2 rounded-lg border border-[#F8DEC5] p-3"
           >
-            <div className="flex items-center gap-2 justify-between">
-              <h2 className="text-[#121212] font-bold sm:text-lg text-sm">
+            <div className="flex items-center justify-between gap-2">
+              <h2 className="text-sm font-bold text-[#121212] sm:text-lg">
                 كورس : {comment?.classroom_title}
               </h2>
             </div>
 
-            <h3 className="text-[#121212] font-bold sm:text-base text-xs">
+            <h3 className="text-xs font-bold text-[#121212] sm:text-base">
               حصة : {comment?.lesson_title}
             </h3>
 
@@ -110,13 +95,7 @@ const CommentDetails = ({
                 e.preventDefault();
                 setShowDetailsCard(false);
               }}
-              className=" 
-              text-gray-500 
-              absolute 
-              cursor-pointer 
-              text-[18px] 
-              font-bold  
-              left-2 top-1 text-sm"
+              className="absolute top-1 left-2 cursor-pointer text-sm text-[18px] font-bold text-gray-500"
             >
               ✕
             </button>
@@ -125,10 +104,10 @@ const CommentDetails = ({
 
         <div
           className={cn(
-            "overflow-y-auto min-h-[150px]! grow flex flex-col gap-2",
+            "flex min-h-[150px]! grow flex-col gap-2 overflow-y-auto",
             {
               "animate-pulse opacity-80": isPlaceholderData,
-            }
+            },
           )}
         >
           {isLoading ? (

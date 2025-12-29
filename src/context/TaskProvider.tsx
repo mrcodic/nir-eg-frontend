@@ -153,7 +153,7 @@ export const TaskProvider = ({ children, taskType = "exam" }) => {
       onComplete,
       taskType,
       taskId,
-    ]
+    ],
   );
 
   return (

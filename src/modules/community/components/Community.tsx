@@ -67,9 +67,9 @@ const Community = ({ lessonId, currentTime, locked }: CommunityProps) => {
   return (
     <div className="mt-6">
       {!locked && (
-        <div className=" flex flex-col gap-2 ">
-          <div className="md:flex gap-2 flex-wrap hidden ms-[68px]">
-            <p className="text-xs font-medium text-gray-dark">
+        <div className="flex flex-col gap-2">
+          <div className="ms-[68px] hidden flex-wrap gap-2 md:flex">
+            <p className="text-gray-dark text-xs font-medium">
               سيتم كتابة ملاحظاتك في الدقيقة
             </p>
             <p className="text-xs font-bold text-[#523412]">
@@ -77,7 +77,7 @@ const Community = ({ lessonId, currentTime, locked }: CommunityProps) => {
             </p>
           </div>
 
-          <div className="flex gap-x-6 gap-y-2 max-sm:flex-wrap items-start">
+          <div className="flex items-start gap-x-6 gap-y-2 max-sm:flex-wrap">
             <Image
               unoptimized
               src={comments?.avatar || "/assets/avatar-user.svg"}
@@ -90,9 +90,9 @@ const Community = ({ lessonId, currentTime, locked }: CommunityProps) => {
               alt="avatar"
             />
 
-            <div className="flex flex-col grow gap-2 h-full self-stretch">
-              <div className="flex gap-2 flex-wrap md:hidden">
-                <p className="text-xs font-medium text-gray-dark">
+            <div className="flex h-full grow flex-col gap-2 self-stretch">
+              <div className="flex flex-wrap gap-2 md:hidden">
+                <p className="text-gray-dark text-xs font-medium">
                   سيتم كتابة ملاحظاتك في الدقيقة
                 </p>
                 <p className="text-xs font-bold text-[#523412]">
@@ -111,11 +111,11 @@ const Community = ({ lessonId, currentTime, locked }: CommunityProps) => {
         </div>
       )}
 
-      <hr className="mt-4 border-gray-light" />
+      <hr className="border-gray-light mt-4" />
 
       {comments?.data?.length > 0 ? (
         <div>
-          <div className="flex items-center justify-between my-3">
+          <div className="my-3 flex items-center justify-between">
             <h2 className="text-[12px] font-bold">ملاحظات الطلاب</h2>
 
             {/* Filter Controls */}
@@ -131,9 +131,9 @@ const Community = ({ lessonId, currentTime, locked }: CommunityProps) => {
             defaultValue={isMobile ? "" : "comments"}
             className="border-none"
           >
-            <AccordionItem value="comments" className="space-y-6  ">
+            <AccordionItem value="comments" className="space-y-6">
               <AccordionTrigger className="py-0">
-                <div className=" text-[11px] text-gray-600">
+                <div className="text-[11px] text-gray-600">
                   {filterMode === "all"
                     ? `عرض ${paginatedComments.length} من إجمالي ${comments.data.length} تعليق`
                     : `عرض ${paginatedComments.length} من ${filteredComments.length} تعليق (إجمالي ${comments.data.length})`}
@@ -141,7 +141,7 @@ const Community = ({ lessonId, currentTime, locked }: CommunityProps) => {
               </AccordionTrigger>
 
               <AccordionContent>
-                <div className="overflow-y-auto max-h-[700px] mt-4 flex flex-col gap-4  ">
+                <div className="mt-4 flex max-h-[700px] flex-col gap-4 overflow-y-auto">
                   {paginatedComments.length > 0 ? (
                     paginatedComments.map((comment, index) => (
                       <div key={comment.id || index}>
@@ -154,7 +154,7 @@ const Community = ({ lessonId, currentTime, locked }: CommunityProps) => {
                       </div>
                     ))
                   ) : (
-                    <div className="text-center text-gray-500 text-[12px] py-8">
+                    <div className="py-8 text-center text-[12px] text-gray-500">
                       لا توجد تعليقات في هذا الوقت
                     </div>
                   )}
@@ -162,7 +162,7 @@ const Community = ({ lessonId, currentTime, locked }: CommunityProps) => {
 
                 {/* Pagination Controls */}
                 {totalPages > 1 && (
-                  <div className="mt-2 pb-2 border-t border-gray-light">
+                  <div className="border-gray-light mt-2 border-t pb-2">
                     <PaginationComponent
                       currentPage={currentPage}
                       total={filteredComments?.length}
@@ -177,7 +177,7 @@ const Community = ({ lessonId, currentTime, locked }: CommunityProps) => {
           </Accordion>
         </div>
       ) : (
-        <div className="text-center text-gray-500 text-[12px] py-8">
+        <div className="py-8 text-center text-[12px] text-gray-500">
           لا توجد تعليقات , قم بكتابة أول تعليق
         </div>
       )}

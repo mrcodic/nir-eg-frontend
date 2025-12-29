@@ -64,7 +64,7 @@ export function StudentSelectCenterModal() {
     try {
       const response = await axios.post(
         "/api?url=students/subscribe-center",
-        v
+        v,
       );
 
       toast({
@@ -93,7 +93,7 @@ export function StudentSelectCenterModal() {
 
   return (
     <div className="">
-      <div className="flex gap-3 items-center border-b border-b-primary-700 pb-3">
+      <div className="border-b-primary-700 flex items-center gap-3 border-b pb-3">
         <Image
           src="/assets/LocationColor.svg"
           width={24}
@@ -101,18 +101,18 @@ export function StudentSelectCenterModal() {
           alt="location icon"
         />
 
-        <h2 className="font-bold text-lg text-[#121212]">اختر السنتر</h2>
+        <h2 className="text-lg font-bold text-[#121212]">اختر السنتر</h2>
       </div>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="">
-          <Label className="text-custom-brown font-bold mb-1">السنتر</Label>
+          <Label className="text-custom-brown mb-1 font-bold">السنتر</Label>
           <Popover open={openCombobox} onOpenChange={setOpenCombox}>
             <PopoverTrigger asChild>
               <Button
                 variant="ghost"
                 role="combobox"
-                className="w-full justify-between border-b border-gray-light! text-custom-brown rounded-none h-10"
+                className="border-gray-light! text-custom-brown h-10 w-full justify-between rounded-none border-b"
                 onClick={() => setOpenCombox(true)}
               >
                 <div className="flex items-center gap-2">
@@ -125,7 +125,7 @@ export function StudentSelectCenterModal() {
                   <span className="truncate">
                     {value
                       ? mappedCenters?.find(
-                          (framework) => framework.value == value
+                          (framework) => framework.value == value,
                         )?.label || "--"
                       : "أختر السنتر"}
                   </span>
@@ -134,7 +134,7 @@ export function StudentSelectCenterModal() {
               </Button>
             </PopoverTrigger>
 
-            <PopoverContent className=" p-0 w-(--radix-popover-trigger-width) max-h-[400px]">
+            <PopoverContent className="max-h-[400px] w-(--radix-popover-trigger-width) p-0">
               <Command>
                 <CommandInput placeholder="بحث عن السنتر" className="h-9" />
                 <CommandList>
@@ -156,7 +156,7 @@ export function StudentSelectCenterModal() {
                             "ml-auto",
                             value === framework.value
                               ? "opacity-100"
-                              : "opacity-0"
+                              : "opacity-0",
                           )}
                         />
                       </CommandItem>
@@ -168,12 +168,12 @@ export function StudentSelectCenterModal() {
           </Popover>
 
           {form.formState.errors.center_id && (
-            <p className="text-red-500 text-[12px]">من فضلك اختر السنتر</p>
+            <p className="text-[12px] text-red-500">من فضلك اختر السنتر</p>
           )}
 
-          <DialogFooter className="flex max-sm:flex-col flex-row  gap-6 items-center sm:justify-center  w-full mt-8">
+          <DialogFooter className="mt-8 flex w-full flex-row items-center gap-6 max-sm:flex-col sm:justify-center">
             <Button
-              className="bg-primary-800 border text-white font-bold border-gray-light h-8 w-36 rounded-lg"
+              className="bg-primary-800 border-gray-light h-8 w-36 rounded-lg border font-bold text-white"
               type="submit"
             >
               {!form.formState.isSubmitting ? "   تأكيد" : <CustomLoader />}
@@ -181,10 +181,10 @@ export function StudentSelectCenterModal() {
 
             <DialogClose
               asChild
-              className="flex items-center justify-center! w-full"
+              className="flex w-full items-center justify-center!"
             >
               <Button
-                className=" border bg-white text-black hover:text-white  font-bold  h-8 w-36 rounded-lg"
+                className="h-8 w-36 rounded-lg border bg-white font-bold text-black hover:text-white"
                 onClick={() => {
                   modal.closeModal();
                 }}

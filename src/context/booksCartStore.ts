@@ -97,7 +97,7 @@ export const createCartStore = (initState?: Partial<CartState>) => {
 
             console.log(
               "🛒 ~ initializeCart response ~ serverCart:",
-              serverCart
+              serverCart,
             );
 
             set((state) => {
@@ -123,7 +123,7 @@ export const createCartStore = (initState?: Partial<CartState>) => {
               ) {
                 Cookies.set(
                   "guest_token",
-                  serverCart?.data?.owner?.guest_token
+                  serverCart?.data?.owner?.guest_token,
                 );
               }
               localStorage.removeItem("cart-storage");
@@ -152,7 +152,7 @@ export const createCartStore = (initState?: Partial<CartState>) => {
           // Optimistic update
           set((state) => {
             const existingItem = state.items.find(
-              (item) => item.id === book.id
+              (item) => item.id === book.id,
             );
             if (existingItem) {
               existingItem.quantity += 1;
@@ -170,14 +170,14 @@ export const createCartStore = (initState?: Partial<CartState>) => {
             // Rollback on error
             set((state) => {
               const existingItem = state.items.find(
-                (item) => item.id === book.id
+                (item) => item.id === book.id,
               );
               if (existingItem) {
                 if (existingItem.quantity > 1) {
                   existingItem.quantity -= 1;
                 } else {
                   state.items = state.items.filter(
-                    (item) => item.id !== book.id
+                    (item) => item.id !== book.id,
                   );
                 }
               }
@@ -338,13 +338,13 @@ export const createCartStore = (initState?: Partial<CartState>) => {
         getTotalPrice: () =>
           get()?.items?.reduce(
             (total, item) => total + Number(item.price) * (item.quantity || 1),
-            0
+            0,
           ) || 0,
 
         getTotalItems: () =>
           get()?.items?.reduce(
             (total, item) => total + (item.quantity || 1),
-            0
+            0,
           ) || 0,
 
         checkIfItemExists: (id) => get().items.find((item) => item.id === id),
@@ -356,7 +356,7 @@ export const createCartStore = (initState?: Partial<CartState>) => {
         name: "cart-storage",
         storage: createJSONStorage(() => localStorage),
         partialize: (state) => ({ items: state.items }),
-      }
-    )
+      },
+    ),
   );
 };

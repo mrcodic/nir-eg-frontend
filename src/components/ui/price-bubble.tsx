@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import PriceBadge from "./PriceBadge";
+import PriceBadge from "../../modules/payment/components/PriceBadge";
 
 function PriceBubbles({
   sale,
@@ -20,7 +20,7 @@ function PriceBubbles({
 }) {
   if (sale?.id)
     return (
-      <div className={cn("flex gap-2.5 ms-auto items-center", className)}>
+      <div className={cn("ms-auto flex items-center gap-2.5", className)}>
         <PriceBadge
           price={Number(price)}
           variant="crossed"

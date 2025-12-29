@@ -6,14 +6,14 @@ import "rsuite/dist/rsuite-no-reset.min.css";
 import Providers from "./providers";
 
 import UserModalsWrapper from "@/components/UserModalsWrapper";
+import { extractTenantFromHost } from "@/helpers/fetch-utils";
 import { hexToHsl } from "@/helpers/template.helpers";
 import { Almarai } from "next/font/google";
 import "./globals.css";
 
 const almarai = Almarai({
-  subsets: ["latin"],
-  variable: "--font-almarai-sans",
-  weight: ["300", "400", "700", "800"],
+  subsets: ["arabic"],
+  weight: ["400", "700"],
 });
 
 export const metadata = {
@@ -52,7 +52,11 @@ export const metadata = {
   robots: "index, follow",
 };
 
-export default function Layout({ children }) {
+export default async function Layout({ children }) {
+  const tenant = await extractTenantFromHost();
+
+  console.log(tenant);
+
   const primary = process.env.NEXT_PUBLIC_TEMPLATE_COLOR;
 
   const hslFromHex = hexToHsl(primary);
@@ -77,7 +81,7 @@ export default function Layout({ children }) {
         <Providers>
           <NavbarWrapper />
 
-          <main className="flex flex-col justify-between min-h-screen grow">
+          <main className="flex min-h-screen grow flex-col justify-between">
             {children}
           </main>
 

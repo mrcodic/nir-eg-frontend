@@ -9,14 +9,15 @@ import { redirect } from "next/navigation";
 
 const SingleCourse = async ({ params }) => {
   const { SingleCourse } = await params;
-  const [profileData, bundleRooms] = await Promise.all([
-    getClientPrivateData({
-      queryKey: [`/students/profile`],
-    }),
-    getServerData<{ body: ICourseDetails }>({
-      queryKey: [`/students/get-rooms/${SingleCourse}?page=1&per_page=10`],
-    }),
-  ]);
+
+  const profileData = await getClientPrivateData({
+    queryKey: [`/students/profile`],
+  });
+
+  const bundleRooms = await getServerData<{ body: ICourseDetails }>({
+    queryKey: [`/students/get-rooms/${SingleCourse}?page=1&per_page=10`],
+    isAuth: !!profileData,
+  });
 
   if (profileData?.body?.has_center === false) {
     redirect("/profile");

@@ -58,7 +58,7 @@ function TransactionsList({ type = "course" }: { type: "course" | "cart" }) {
       render={(data) => {
         console.log("🚀 ~ orders ~ data : ", type, data);
         return (
-          <div dir="rtl" className="flex flex-col md:gap-6 gap-12 ">
+          <div dir="rtl" className="flex flex-col gap-12 md:gap-6">
             {data?.map((item) => {
               return isCourses ? (
                 <CourseOrderCard item={item} />
@@ -80,20 +80,20 @@ export default function Page() {
   const orderType = searchParams.get("orderType") || "courses";
 
   return (
-    <div className="my-[120px] w-[90%] md:max-w-[80%] mx-auto space-y-6 ">
-      <h2 className="text-2xl  font-bold">الطلبات </h2>
+    <div className="mx-auto my-[120px] w-[90%] space-y-6 md:max-w-[80%]">
+      <h2 className="text-2xl font-bold">الطلبات </h2>
 
       <Tabs defaultValue={orderType} className="space-y-6">
         <TabsList className="w-full gap-6">
           <TabsTrigger
             value="books"
-            className="data-[state=active]:bg-primary-800 data-[state=active]:text-white rounded-[10px] border border-gray-light h-11 font-bold p-2 px-3"
+            className="data-[state=active]:bg-primary-800 border-gray-light h-11 rounded-[10px] border p-2 px-3 font-bold data-[state=active]:text-white"
           >
             طلبات الكتب
           </TabsTrigger>
           <TabsTrigger
             value="courses"
-            className="data-[state=active]:bg-primary-800 data-[state=active]:text-white rounded-[10px] border border-gray-light h-11 font-bold p-2 px-3"
+            className="data-[state=active]:bg-primary-800 border-gray-light h-11 rounded-[10px] border p-2 px-3 font-bold data-[state=active]:text-white"
           >
             طلبات الكورسات
           </TabsTrigger>

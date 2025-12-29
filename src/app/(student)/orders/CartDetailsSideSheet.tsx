@@ -1,7 +1,6 @@
 "use client";
 
 import DataLabel from "@/components/custom/DataLabel";
-import PaymentStatusBadge from "@/components/ui/PaymentStatusBadge";
 import PriceSummary from "@/components/ui/price-summary";
 import {
   Sheet,
@@ -10,6 +9,7 @@ import {
   SheetHeader,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import PaymentStatusBadge from "@/modules/payment/components/PaymentStatusBadge";
 import { ChevronLeft } from "lucide-react";
 import Image from "next/image";
 
@@ -17,34 +17,34 @@ function CartDetailsSideSheet({ item }: { item: any }) {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <button className="bg-primary-800 rounded-[10px]  size-8 ring-2 ring-primary-700 hover:ring-offset-1 transition-all flex items-center justify-center">
+        <button className="bg-primary-800 ring-primary-700 flex size-8 items-center justify-center rounded-[10px] ring-2 transition-all hover:ring-offset-1">
           <ChevronLeft size={18} color="white" />
         </button>
       </SheetTrigger>
       <SheetContent
         side="left"
-        className="sm:min-w-[600px] max-sm:w-[90vw] overflow-y-auto"
+        className="overflow-y-auto max-sm:w-[90vw] sm:min-w-[600px]"
       >
-        <SheetHeader className="sm:text-start text-start">
-          <h2 className="flex w-full mt-8 items-center justify-between gap-x-4 gap-y-2 flex-wrap border-b border-gray-light pb-2">
-            <span className="text-[#121212] text-sm md:text-[18px] font-bold">
+        <SheetHeader className="text-start sm:text-start">
+          <h2 className="border-gray-light mt-8 flex w-full flex-wrap items-center justify-between gap-x-4 gap-y-2 border-b pb-2">
+            <span className="text-sm font-bold text-[#121212] md:text-[18px]">
               {item?.model?.name}
               <p className="text-sm text-gray-500">{item?.trasnsaction_id}</p>
             </span>
 
-            <span className="flex items-center ms-auto flex-wrap font-bold gap-1">
+            <span className="ms-auto flex flex-wrap items-center gap-1 font-bold">
               حالة الدفع : <PaymentStatusBadge status={item.payment_status} />
             </span>
           </h2>
         </SheetHeader>
 
         <div className="flex flex-col">
-          <div className="flex flex-wrap gap-x-8 gap-y-4 items-center mt-6 border-b border-gray-light pb-4">
+          <div className="border-gray-light mt-6 flex flex-wrap items-center gap-x-8 gap-y-4 border-b pb-4">
             <DataLabel text="السعر"> {item.amount} جنية</DataLabel>
             <DataLabel text="التاريخ">
               {" "}
-              <div className=" flex gap-[40px]">
-                <span className="text-[#523412] ">
+              <div className="flex gap-[40px]">
+                <span className="text-[#523412]">
                   {new Date(item?.created_at).toISOString().split("T")[0]}
                 </span>
               </div>
@@ -56,17 +56,17 @@ function CartDetailsSideSheet({ item }: { item: any }) {
                 alt=""
                 width={0}
                 height={0}
-                className=" object-contain size-auto"
+                className="size-auto object-contain"
               />
             </DataLabel>
           </div>
 
           {/* cart books (items) cards */}
 
-          <div className="max-h-[250px] mt-8 overflow-y-auto flex flex-col gap-6">
+          <div className="mt-8 flex max-h-[250px] flex-col gap-6 overflow-y-auto">
             {Array.from({ length: 3 })?.map((_: any) => (
-              <div className="flex flex-col md:flex-row gap-[24px] pb-3 border-b border-gray-200">
-                <div className="relative size-24 bg-background rounded-lg aspect-square">
+              <div className="flex flex-col gap-[24px] border-b border-gray-200 pb-3 md:flex-row">
+                <div className="bg-background relative aspect-square size-24 rounded-lg">
                   <Image
                     className="object-contain"
                     src={item?.model?.cover || "/assets/grade-placeholder.png"}
@@ -76,7 +76,7 @@ function CartDetailsSideSheet({ item }: { item: any }) {
                 </div>
 
                 <div className="w-full">
-                  <h3 className="text-lg font-bold ">{item?.model?.name}</h3>
+                  <h3 className="text-lg font-bold">{item?.model?.name}</h3>
                   <hr className="border-gray-light mt-2 mb-4" />
                   <div className="grid grid-cols-2 gap-4">
                     <DataLabel text="السعر"> 50 جنية</DataLabel>

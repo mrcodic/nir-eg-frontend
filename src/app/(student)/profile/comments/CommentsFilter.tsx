@@ -37,7 +37,7 @@ function CommentsFilter({
   });
 
   return (
-    <div className="grid md:grid-cols-3 grid-cols-1 mt-[10px] gap-x-8 gap-y-4">
+    <div className="mt-[10px] grid grid-cols-1 gap-x-8 gap-y-4 md:grid-cols-3">
       <Select
         value={courseId || "all"}
         onValueChange={(val) => {
@@ -83,7 +83,7 @@ function CommentsFilter({
             <SelectLabel>اختر الأسبوع</SelectLabel>
             <SelectItem value={"all"}>كل الأسابيع</SelectItem>
             {roomsLoading ? (
-              <p className=" text-sm">جاري التحميل ...</p>
+              <p className="text-sm">جاري التحميل ...</p>
             ) : (
               rooms?.body?.rooms?.map((room) => (
                 <SelectItem key={room.id} value={String(room.id)}>
@@ -112,7 +112,7 @@ function CommentsFilter({
             <SelectLabel>اختر الحصة</SelectLabel>
             <SelectItem value={"all"}>كل الحصص</SelectItem>
             {lessonsLoading ? (
-              <p className=" text-sm">جاري التحميل ...</p>
+              <p className="text-sm">جاري التحميل ...</p>
             ) : (
               lessons?.body?.lessons?.map((lesson) => (
                 <SelectItem key={lesson.id} value={String(lesson.id)}>

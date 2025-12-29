@@ -21,6 +21,9 @@ import { presistUserPhone } from "@/lib/utils";
 import { useForm } from "react-hook-form";
 
 const RegisterPage = () => {
+  const router = useRouter();
+  const { toast } = useToast();
+
   const form = useForm({
     mode: "all",
     resolver: zodResolver(registerSchema),
@@ -42,11 +45,10 @@ const RegisterPage = () => {
       // city: "",
       state_id: "",
       city_id: "",
+
+      recaptcha_token: "",
     },
   });
-
-  const router = useRouter();
-  const { toast } = useToast();
 
   const onSubmit = async (v) => {
     try {
@@ -84,9 +86,6 @@ const RegisterPage = () => {
     }
   };
 
-  console.log(form.getValues());
-  console.log("errors : ", form.formState.errors);
-
   return (
     <>
       <AuthHeader
@@ -94,14 +93,14 @@ const RegisterPage = () => {
         description=" أدخل بياناتك لتتمكن من التسجيل معنا"
       />
 
-      <div className="h-px w-full mt-2 bg-gray-light" />
+      <div className="bg-gray-light mt-2 h-px w-full" />
 
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit, (errors) => {
             const first = Object.values(errors)?.[0];
             // show first validation message (zod) or a fallback
-            const msg = first?.message || "Please fill all required fields.";
+            const msg = first?.message || "قم بملء جميع الحقول المطلوبة";
             console.error("Form validation errors:", errors);
             // toast is already in your file
             // @ts-ignore
@@ -113,7 +112,7 @@ const RegisterPage = () => {
           })}
           className="mt-10 w-full"
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-y-8 gap-x-6 items-start ">
+          <div className="grid grid-cols-1 items-start gap-x-6 gap-y-8 md:grid-cols-2">
             <CustomInput
               name="first_name"
               control={form.control}
@@ -181,12 +180,12 @@ const RegisterPage = () => {
           </div>
 
           <div className="mt-14 flex gap-2">
-            <span className=" font-medium inline-block text-gray-dark">
+            <span className="text-gray-dark inline-block font-medium">
               لديك حساب بالفعل؟
             </span>
             <Link
               href={"/login"}
-              className="  text-sm font-bold text-primary-800 underline px-4 rounded-md border border-gray-light"
+              className="text-primary-800 border-gray-light rounded-md border px-4 text-sm font-bold underline"
             >
               تسجيل الدخول
             </Link>
@@ -197,10 +196,10 @@ const RegisterPage = () => {
               form.setValue("recaptcha_token", token);
             }}
           />
-          <div className="flex mt-10">
+          <div className="mt-10 flex">
             <Button
               type="submit"
-              className="ms-auto max-w-40 w-full"
+              className="ms-auto w-full max-w-40"
               disabled={form.formState.isSubmitting}
             >
               {!form.formState.isSubmitting ? "إنشاء حساب" : <CustomLoader />}

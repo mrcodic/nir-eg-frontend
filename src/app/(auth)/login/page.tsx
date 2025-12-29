@@ -60,13 +60,10 @@ const AuthPage = () => {
         },
         {
           withCredentials: true,
-        }
+        },
       );
 
       await saveCookie(response?.data?.access_token);
-
-      // await deleteCookie("guest_token");
-      // Cookies.set("nir_token", response?.data?.access_token);
 
       Cookies.remove("guest_token");
       queryClient.invalidateQueries({ queryKey: ["students/profile"] });
@@ -81,14 +78,14 @@ const AuthPage = () => {
         response?.data?.student?.has_center === true
       ) {
         router.push(
-          redirect || `bundles/${response?.data?.student?.center_id}`
+          redirect || `bundles/${response?.data?.student?.center_id}`,
         );
       } else if (
         response?.data?.student.type === 4 ||
         response?.data?.student.type === 5
       ) {
         router.push(
-          redirect || `bundles?grade=${response?.data?.student?.grade}`
+          redirect || `bundles?grade=${response?.data?.student?.grade}`,
         );
       } else if (
         response?.data?.student?.type === 3 &&
@@ -120,12 +117,12 @@ const AuthPage = () => {
           description=" أدخل رقم الهاتف المسجل لدينا و كلمة السر لتتمكن من الدخول لحسابك"
         />
 
-        <div className="h-px w-full mt-2 bg-gray-light" />
+        <div className="bg-gray-light mt-2 h-px w-full" />
 
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="mt-[40px] w-full "
+            className="mt-[40px] w-full"
           >
             <CustomPhoneInput
               name="phone.phone"
@@ -148,17 +145,17 @@ const AuthPage = () => {
               type="password"
             />
 
-            <div className="text-primary-800 mt-1   w-full  underline font-medium inline-block text-left ">
+            <div className="text-primary-800 mt-1 inline-block w-full text-left font-medium underline">
               <Link href={"/forgetPassword"}>نسيت كلمة السر؟</Link>
             </div>
 
             <div className="mt-6 flex items-center gap-2">
-              <span className=" font-medium inline-block text-gray-dark">
+              <span className="text-gray-dark inline-block font-medium">
                 ليس لديك حساب؟
               </span>
               <Link
                 href={"/register"}
-                className="  text-sm font-bold text-primary-800 underline px-4 rounded-md border border-gray-light"
+                className="text-primary-800 border-gray-light rounded-md border px-4 text-sm font-bold underline"
               >
                 إنشاء حساب
               </Link>
@@ -171,10 +168,10 @@ const AuthPage = () => {
               }}
             />
 
-            <div className="flex mt-10">
+            <div className="mt-10 flex">
               <Button
                 type="submit"
-                className="ms-auto max-w-40 w-full"
+                className="ms-auto w-full max-w-40"
                 disabled={form.formState.isSubmitting}
               >
                 {!form.formState.isSubmitting ? (

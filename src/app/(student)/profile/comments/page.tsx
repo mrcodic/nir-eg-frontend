@@ -88,16 +88,16 @@ const Comments = () => {
   }, [searchParams]);
 
   const selectedComment = comments?.data?.find(
-    (comment) => comment.lesson_id === selectedCommentLesson
+    (comment) => comment.lesson_id === selectedCommentLesson,
   );
 
   console.log("commentsss : ", comments?.data);
   console.log("selectedComment : ", selectedComment);
 
   return (
-    <div className="mt-[120px] mb-[48px] w-[85%] mx-auto">
+    <div className="mx-auto mt-[120px] mb-[48px] w-[85%]">
       <div className="flex flex-col justify-between">
-        <h3 className="text-[#121212] text-lg font-bold">
+        <h3 className="text-lg font-bold text-[#121212]">
           الاسئلة والاستفسارات
         </h3>
 
@@ -113,15 +113,15 @@ const Comments = () => {
       </div>
 
       {isLoading && (
-        <div className="flex items-center justify-center min-h-80">
+        <div className="flex min-h-80 items-center justify-center">
           <LoadingSpinner />
         </div>
       )}
 
       <div
         className={cn(
-          "grid w-full grid-cols-1 mt-6 gap-4 md:grid-cols-2",
-          isPlaceholderData && "animate-pulse opacity-70"
+          "mt-6 grid w-full grid-cols-1 gap-4 md:grid-cols-2",
+          isPlaceholderData && "animate-pulse opacity-70",
         )}
       >
         {comments?.data?.length > 0 &&
@@ -135,7 +135,7 @@ const Comments = () => {
       </div>
 
       {!comments?.data?.length && !isLoading && (
-        <div className="flex items-center justify-center  w-full">
+        <div className="flex w-full items-center justify-center">
           <Empty text={"لا يوجد استفسارات"} />
         </div>
       )}

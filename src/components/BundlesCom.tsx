@@ -53,44 +53,44 @@ const BundlesCom = () => {
         subText="أحدث الباقات المضافة"
       />
 
-      <div className="flex flex-col gap-6 mt-8 max-h-[600px] overflow-y-auto">
+      <div className="mt-8 flex max-h-[600px] flex-col gap-6 overflow-y-auto">
         {bundlesData?.map((bundle, index) => {
           return (
             <div
               key={index}
-              className="flex flex-col mobile:flex-row mobile:gap-6"
+              className="mobile:flex-row mobile:gap-6 flex flex-col"
             >
-              <div className=" w-full max-h-[270px] mobile:w-[270px] aspect-square bg-background rounded-lg overflow-hidden relative max-mobile:mx-auto">
+              <div className="mobile:w-[270px] bg-background max-mobile:mx-auto relative aspect-square max-h-[270px] w-full overflow-hidden rounded-lg">
                 <Image
-                  className=" object-contain "
+                  className="object-contain"
                   src={bundle?.cover || "/assets/grade-placeholder.png"}
                   fill
                   alt="bundle cover image"
                 />
               </div>
 
-              <div className={`flex-1 border rounded-lg p-4 `}>
-                <div className="flex w-full items-center justify-between gap-6 border-b border-gray-light pb-3">
-                  <h2 className=" text-sm mobile:text-2xl font-bold">
+              <div className={`flex-1 rounded-lg border p-4`}>
+                <div className="border-gray-light flex w-full items-center justify-between gap-6 border-b pb-3">
+                  <h2 className="mobile:text-2xl text-sm font-bold">
                     {bundle.name}
                   </h2>
 
                   <PriceBubbles price={bundle.price} sale={bundle.sale} />
                 </div>
 
-                <div className="flex flex-col  mobile:text-base gap-1  mobile:gap-2 mt-4">
-                  <h3 className="text-gray-dark text-sm ">
+                <div className="mobile:text-base mobile:gap-2 mt-4 flex flex-col gap-1">
+                  <h3 className="text-gray-dark text-sm">
                     تحتوي الباقة على التالي:
                   </h3>
 
-                  <span className=" inline-block font-bold">
+                  <span className="inline-block font-bold">
                     {bundle.classrooms
                       .map((classroom) => classroom.title)
                       .join(" و ")}
                   </span>
                 </div>
 
-                <div className="flex gap-2 items-center mt-4 pb-2 border-b border-gray-light">
+                <div className="border-gray-light mt-4 flex items-center gap-2 border-b pb-2">
                   <Image
                     className=""
                     width={24}
@@ -110,9 +110,9 @@ const BundlesCom = () => {
                   />
                 </div>
 
-                <div className="flex justify-between items-center flex-wrap gap-4 mt-6">
+                <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
                   {!bundle.is_subscribed && (
-                    <div className="flex w-full gap-x-6 gap-y-4 text-sm font-bold flex-wrap">
+                    <div className="flex w-full flex-wrap gap-x-6 gap-y-4 text-sm font-bold">
                       <Button
                         onClick={() => {
                           setSelectedId(bundle.id);
@@ -121,14 +121,14 @@ const BundlesCom = () => {
                               <PaymentModel
                                 bundleId={selectedId.toString()}
                                 price={bundle.price}
-                              />
+                              />,
                             );
                             modal.openModal();
                           } else {
                             router.push("/register?redirect=/bundles");
                           }
                         }}
-                        className="max-w-[171px] w-full"
+                        className="w-full max-w-[171px]"
                       >
                         اشترك الآن
                       </Button>
@@ -138,7 +138,7 @@ const BundlesCom = () => {
                           router.push(`/bundles/showBundle?type=${bundle.id}`);
                         }}
                         variant="secondary"
-                        className="max-w-[171px] w-full"
+                        className="w-full max-w-[171px]"
                       >
                         عرض الباقة
                       </Button>
@@ -146,7 +146,7 @@ const BundlesCom = () => {
                   )}
 
                   {bundle.is_subscribed === true && (
-                    <div className="w-[116px] rounded-lg flex items-center justify-center py-1 mt-6 text-white border border-[#9D8242] bg-primary text-sm font-bold">
+                    <div className="bg-primary mt-6 flex w-[116px] items-center justify-center rounded-lg border border-[#9D8242] py-1 text-sm font-bold text-white">
                       مشترك
                     </div>
                   )}

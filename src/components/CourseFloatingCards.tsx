@@ -1,7 +1,7 @@
 import { IUser } from "@/types";
+import PaymentCom from "../modules/payment/components/PaymentCom";
 import CoursePhoneVerifyCard from "./CoursePhoneVerifyCard";
 import CourseProgressCard from "./CourseProgressCard";
-import PaymentCom from "./PaymentCom";
 
 function CourseFloatingCards({
   data,

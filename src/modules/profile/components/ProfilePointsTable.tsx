@@ -48,14 +48,14 @@ const columnHelper = createColumnHelper<Row>();
 const columns = [
   columnHelper.accessor("name", {
     header: () => (
-      <div className="py-3 px-2 w-full text-[18px] font-bold">الأنشطة</div>
+      <div className="w-full px-2 py-3 text-[18px] font-bold">الأنشطة</div>
     ),
     cell: (info) => (
-      <div className="p-2 max-w-[200px] truncate md:max-w-[250px] text-[16px] font-medium flex gap-1 ">
+      <div className="flex max-w-[200px] gap-1 truncate p-2 text-[16px] font-medium md:max-w-[250px]">
         <p className="">{info.getValue()}</p>
         <Link
           href={generatePointHref(info.row.original)}
-          className="text-primary-800  font-bold underline truncate"
+          className="text-primary-800 truncate font-bold underline"
         >
           {info.row.original.item_title}
         </Link>
@@ -67,7 +67,7 @@ const columns = [
       <div className="w-[100px] px-2 text-[18px] font-bold">النوع</div>
     ),
     cell: (info) => (
-      <div className="p-2 w-[100px] text-center text-[16px] font-medium">
+      <div className="w-[100px] p-2 text-center text-[16px] font-medium">
         {info?.getValue() || "-"}
       </div>
     ),
@@ -77,7 +77,7 @@ const columns = [
       <div className="w-[156px] px-2 text-[18px] font-bold">الكورس</div>
     ),
     cell: (info) => (
-      <div className="p-2 w-[156px] text-center text-[16px] font-medium truncate">
+      <div className="w-[156px] truncate p-2 text-center text-[16px] font-medium">
         {info.getValue()}
       </div>
     ),
@@ -87,7 +87,7 @@ const columns = [
       <div className="min-w-[110px] px-2 text-[18px] font-bold">التاريخ</div>
     ),
     cell: (info) => (
-      <div className="p-2 w-[110px] text-center text-[16px] font-medium">
+      <div className="w-[110px] p-2 text-center text-[16px] font-medium">
         {info.getValue()}
       </div>
     ),
@@ -97,18 +97,18 @@ const columns = [
       <div className="min-w-[110px] px-2 text-[18px] font-bold">النقاط</div>
     ),
     cell: (info) => (
-      <div className="flex items-center gap-4 w-full justify-start p-2">
-        <div className="flex shrink-0 items-center gap-2 rounded-lg w-[136px]">
+      <div className="flex w-full items-center justify-start gap-4 p-2">
+        <div className="flex w-[136px] shrink-0 items-center gap-2 rounded-lg">
           <Image
             src="/assets/star-colored.svg"
             width={32}
             height={32}
             alt="Star"
           />
-          <span className="text-2xl font-bold text-primary-800">
+          <span className="text-primary-800 text-2xl font-bold">
             {info.getValue()}
           </span>
-          <span className="text-[16px] font-bold ">نقطة</span>
+          <span className="text-[16px] font-bold">نقطة</span>
         </div>
       </div>
     ),

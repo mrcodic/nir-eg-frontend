@@ -42,14 +42,14 @@ function NavNotifications() {
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
-        <button className="size-10 relative   focus:outline-hidden stroke-black text-black  rounded-lg bg-white shadow-md flex items-center justify-center">
+        <button className="relative flex size-10 items-center justify-center rounded-lg bg-white stroke-black text-black shadow-md focus:outline-hidden">
           {notifications?.meta?.unread_count > 0 && (
             <CountBubble count={notifications?.meta?.unread_count} />
           )}
 
           <DotLottieReact
             key={notifications?.meta?.unread_count}
-            className="size-28 mx-auto"
+            className="mx-auto size-28"
             src="/Animations/bell-icon.lottie"
             autoplay={notifications?.meta?.unread_count > 0}
             loop
@@ -59,16 +59,16 @@ function NavNotifications() {
 
       <DropdownMenuContent
         className={cn(
-          "p-2 z-100! max-w-[min(438px,95vw)] w-screen",
-          "bg-white border rounded-lg border-gray-light",
+          "z-100! w-screen max-w-[min(438px,95vw)] p-2",
+          "border-gray-light rounded-lg border bg-white",
           "flex flex-col overflow-hidden",
-          "max-h-[min(80vh,var(--radix-dropdown-menu-content-available-height))]"
+          "max-h-[min(80vh,var(--radix-dropdown-menu-content-available-height))]",
         )}
         sideOffset={8}
         collisionPadding={8}
       >
-        <div className="flex flex-row-reverse justify-between  w-full shrink-0">
-          <h3 className="text-[16px] text-[#121212] font-bold">الإشعارات</h3>
+        <div className="flex w-full shrink-0 flex-row-reverse justify-between">
+          <h3 className="text-[16px] font-bold text-[#121212]">الإشعارات</h3>
 
           {notifications?.meta?.unread_count > 0 && (
             <MarkAllAsRead key={notifications?.meta?.unread_count} />
@@ -77,11 +77,11 @@ function NavNotifications() {
 
         <div
           className={cn(
-            "border-t mt-2 border-gray-light flex-1 overflow-y-auto pr-1 pb-2",
+            "border-gray-light mt-2 flex-1 overflow-y-auto border-t pr-1 pb-2",
             {
               "animate-pulse opacity-80": isPlaceholderData,
               "border-t-0": notifications?.data?.length === 0,
-            }
+            },
           )}
         >
           {notifications?.data?.length > 0 ? (
@@ -94,18 +94,18 @@ function NavNotifications() {
                       closeMenu={() => setOpen(false)}
                     />
                   </div>
-                )
+                ),
             )
           ) : (
-            <div className="flex flex-col  py-6  items-center justify-center">
+            <div className="flex flex-col items-center justify-center py-6">
               <Image
                 src="/assets/search-illustration.svg"
                 width={300}
                 height={200}
                 alt="empty notifications icon"
-                className="md:w-[300px] md:h-[200px] w-[200px] h-[150px]"
+                className="h-[150px] w-[200px] md:h-[200px] md:w-[300px]"
               />
-              <p className="text-sm text-[#121212]text-center">
+              <p className="text-[#121212]text-center text-sm">
                 لا يوجد إشعارات
               </p>
             </div>
@@ -113,7 +113,7 @@ function NavNotifications() {
         </div>
 
         {/* Keep pagination OUTSIDE the scroller */}
-        <div className="pt-2 shrink-0 empty:p-0">
+        <div className="shrink-0 pt-2 empty:p-0">
           <SimplePagination
             currentPage={notifications?.meta?.current_page}
             lastPage={notifications?.meta?.last_page}

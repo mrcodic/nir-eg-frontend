@@ -205,7 +205,10 @@ export const getDeviceCode = async () => {
 };
 
 export const deleteCookie = async (name: string[] | string = "nir_token") => {
+  "use server";
+
   const cookieStore = await cookies();
+
   if (typeof name === "string") {
     cookieStore.delete(name);
   } else {

@@ -198,9 +198,9 @@
     );
 
     --gradient-primary-radial: radial-gradient(
-      80% 80% at 30% 30%,
-      hsl(var(--primary-h) var(--primary-s) 75%),
-      hsl(var(--primary-h) var(--primary-s) 45%)
+      79.17% 79.17% at 20.83% 69.6%,
+      hsl(var(--primary-h) var(--primary-s) 20%),
+      hsl(var(--primary-h) var(--primary-s) 10%)
     );
 
     --gradient-primary-overlay: linear-gradient(
@@ -270,11 +270,11 @@
   }
 
   body {
-    @apply font-sans  text-foreground;
+    @apply text-foreground font-sans;
   }
 
   .cards-grid {
-    @apply justify-items-stretch grid sm:grid-cols-[repeat(auto-fill,minmax(300px,1fr))] grid-cols-[repeat(auto-fill,minmax(260px,1fr))] gap-5;
+    @apply grid grid-cols-[repeat(auto-fill,minmax(260px,1fr))] justify-items-stretch gap-5 sm:grid-cols-[repeat(auto-fill,minmax(300px,1fr))];
   }
 }
 
@@ -355,7 +355,7 @@
    ========================= */
 
 @utility wrapper {
-  @apply md:w-[80%] sm:w-[90%] w-full mx-auto px-4;
+  @apply mx-auto w-full px-4 sm:w-[90%] md:w-[80%];
 }
 
 @layer utilities {
@@ -471,7 +471,7 @@
     scroll-margin-top: -500px !important;
   }
   .section--style {
-    @apply mb-12 mt-[140px] wrapper;
+    @apply wrapper mt-[140px] mb-12;
   }
 
   .textStroke {
@@ -489,10 +489,10 @@
 }
 
 .form-message {
-  @apply mt-2 absolute -bottom-6 right-0;
+  @apply absolute right-0 -bottom-6 mt-2;
 }
 .form-link {
-  @apply text-[#d3a740] underline mx-1 cursor-pointer;
+  @apply mx-1 cursor-pointer text-[#d3a740] underline;
 }
 
 /* filepond */

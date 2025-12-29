@@ -3,8 +3,8 @@ import { paymentTypesObj } from "@/constants";
 import { useModal } from "@/context/ModalProvider";
 import { ChevronRight } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { PaymentModel } from "./modals/PaymentModel";
-import { Button } from "./ui/button";
+import { PaymentModel } from "../../../components/modals/PaymentModel";
+import { Button } from "../../../components/ui/button";
 
 export default function PayLabel({ type, price }) {
   const router = useRouter();
@@ -23,20 +23,20 @@ export default function PayLabel({ type, price }) {
         bundleId={bundleId}
         roomId={roomId}
         price={price}
-      />
+      />,
     );
 
     modal.openModal();
   }
 
   return (
-    <div className="flex  flex-wrap md:flex-nowrap  justify-between items-end gap-6">
-      <div className="flex gap-4 flex-wrap items-center ">
-        <h4 className=" text-nowrap ">طريقة الدفع:</h4>
+    <div className="flex flex-wrap items-end justify-between gap-6 md:flex-nowrap">
+      <div className="flex flex-wrap items-center gap-4">
+        <h4 className="text-nowrap">طريقة الدفع:</h4>
 
-        <div className="flex items-center  gap-2">
+        <div className="flex items-center gap-2">
           <img
-            className=" object-contain h-8"
+            className="h-8 object-contain"
             src={paymentTypesObj[type].icons[0]}
           />
           <span> {paymentTypesObj[type].label}</span>
@@ -45,10 +45,10 @@ export default function PayLabel({ type, price }) {
 
       <Button
         onClick={backtoPayMethod}
-        className="bg-white ms-auto text-primary-800 rounded-lg border-primary-800 border [&>svg]:size-6 group hover:text-white transition-all"
+        className="text-primary-800 border-primary-800 group ms-auto rounded-lg border bg-white transition-all hover:text-white [&>svg]:size-6"
       >
         <ChevronRight />
-        <span className="font-bold ">العودة لاختيار طريقة الدفع</span>
+        <span className="font-bold">العودة لاختيار طريقة الدفع</span>
       </Button>
     </div>
   );

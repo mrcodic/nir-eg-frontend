@@ -1,7 +1,6 @@
-import PayLabel from "@/components/PayLabel";
-import PayComp from "@/components/paymentTypes/PayComp";
 import PayModel from "@/components/paymentTypes/PayModel";
 import { getServerData } from "@/helpers/server-fetch";
+import PayLabel from "@/modules/payment/components/PayLabel";
 
 const page = async ({ searchParams }) => {
   const { courseId, bundleId, roomId, centerId, type } = await searchParams;
@@ -24,13 +23,11 @@ const page = async ({ searchParams }) => {
   }
 
   return (
-    <div className="mb-12  wrapper  mt-20 pt-22">
-      <h2 className="text-28 mb-10  whitespace-nowrap font-bold">
-        شراء الباقة
-      </h2>
+    <div className="wrapper mt-20 mb-12 pt-22">
+      <h2 className="text-28 mb-10 font-bold whitespace-nowrap">شراء الباقة</h2>
 
-      <div className="flex flex-col justify-center ">
-        <div className="flex-1  font-bold ">
+      <div className="flex flex-col justify-center">
+        <div className="flex-1 font-bold">
           <PayLabel type={type} price={data?.price} />
 
           <PayModel
@@ -42,7 +39,7 @@ const page = async ({ searchParams }) => {
           />
         </div>
 
-        <PayComp type={type} data={data} />
+        {/* <PayComp type={type} data={data} /> */}
       </div>
     </div>
   );

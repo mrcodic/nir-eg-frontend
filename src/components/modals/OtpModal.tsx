@@ -25,7 +25,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 import CustomLoader from "../custom/Loader";
 import OTPInput from "../custom/OTPInput";
-import CountDownTimerUI from "../forms/CountDownTimerUI";
+import CountDownTimerUI from "../ui/CountDownTimerUI";
 import { DialogClose, DialogFooter } from "../ui/dialog";
 
 export default function OtpModal({ phone }) {
@@ -91,17 +91,17 @@ export default function OtpModal({ phone }) {
           className="size-8"
         />
         <div>
-          <h3 className="text-[#121212] text-[20px] font-bold">
+          <h3 className="text-[20px] font-bold text-[#121212]">
             تأكيد رقم الهاتف
           </h3>
           {/* <h3 className="text-[#121212] text-[20px] font-bold">
               تأكيد رقم هاتف ولي الأمر
             </h3> */}
           <div>
-            <p className="text-[16px] font-medium mt-1 text-gray-dark">
+            <p className="text-gray-dark mt-1 text-[16px] font-medium">
               ٍسنقوم بإرسال رمز التأكيد إلى رقم الهاتف التالي
             </p>
-            <span className="text-[#121212] font-bold inline-block  " dir="ltr">
+            <span className="inline-block font-bold text-[#121212]" dir="ltr">
               {phone}
             </span>
             {/* <span className="text-[16px] font-medium mt-[8px] text-gray-dark">
@@ -111,7 +111,7 @@ export default function OtpModal({ phone }) {
         </div>
       </div>
 
-      <div className="h-px w-full mt-4 bg-gray-light" />
+      <div className="bg-gray-light mt-4 h-px w-full" />
 
       <Form {...form}>
         <form
@@ -125,13 +125,13 @@ export default function OtpModal({ phone }) {
               e.preventDefault();
               sendOtp(phone);
             }}
-            className="text-[#523412] disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer text-[18px]  underline flex items-center gap-1 mt-4 font-bold"
+            className="mt-4 flex cursor-pointer items-center gap-1 text-[18px] font-bold text-[#523412] underline disabled:cursor-not-allowed disabled:opacity-60"
             disabled={start}
           >
             أعد الإرسال {resending && <Loader2 className="animate-spin" />}
           </button>
-          <FormLabel className="text-xl block "> أدخل رمز التأكيد</FormLabel>
-          <div className=" flex justify-end text-32! " dir="ltr">
+          <FormLabel className="block text-xl"> أدخل رمز التأكيد</FormLabel>
+          <div className="text-32! flex justify-end" dir="ltr">
             <FormField
               control={form.control}
               name="otp_code"
@@ -147,9 +147,9 @@ export default function OtpModal({ phone }) {
             />
           </div>
 
-          <DialogFooter className="flex justify-start! gap-6 items-center  w-full mt-20!">
+          <DialogFooter className="mt-20! flex w-full items-center justify-start! gap-6">
             <Button
-              className="bg-primary-800 border text-white font-bold border-gray-light h-8 w-36 rounded-lg"
+              className="bg-primary-800 border-gray-light h-8 w-36 rounded-lg border font-bold text-white"
               type="submit"
             >
               {!form.formState.isSubmitting ? "   تأكيد" : <CustomLoader />}
@@ -157,10 +157,10 @@ export default function OtpModal({ phone }) {
 
             <DialogClose
               asChild
-              className="flex items-center justify-center! w-full"
+              className="flex w-full items-center justify-center!"
             >
               <Button
-                className=" border bg-white text-black hover:text-white  font-bold  h-8 w-36 rounded-lg"
+                className="h-8 w-36 rounded-lg border bg-white font-bold text-black hover:text-white"
                 onClick={() => {
                   modal.closeModal();
                 }}

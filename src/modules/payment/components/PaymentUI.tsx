@@ -2,11 +2,12 @@ import LoadingSpinner from "@/components/Loading";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useAuthContext } from "@/context/auth-context";
-import PaymentCoupon from "@/modules/payment/components/PaymentCoupon";
+
+import PriceBubbles from "@/components/ui/price-bubble";
 import { CourseType, paymentType, PricingResponse } from "@/types";
 import Image from "next/image";
 import React from "react";
-import PriceBubbles from "./price-bubble";
+import PaymentCoupon from "./PaymentCoupon";
 import PriceBadge from "./PriceBadge";
 
 interface PaymentUIProps {
@@ -47,19 +48,19 @@ export const PaymentUI: React.FC<PaymentUIProps> = ({
   return (
     <>
       {loading && (
-        <div className="absolute z-50 top-0 left-0 bg-black/40 h-full w-full">
+        <div className="absolute top-0 left-0 z-50 h-full w-full bg-black/40">
           <LoadingSpinner />
         </div>
       )}
 
       {isModal && (
-        <h4 className=" text-[18px] font-bold mb-4">اختر طريقة الدفع</h4>
+        <h4 className="mb-4 text-[18px] font-bold">اختر طريقة الدفع</h4>
       )}
 
-      <div className="space-y-2 mb-6 empty:hidden">
+      <div className="mb-6 space-y-2 empty:hidden">
         {isModal && !!price && (
-          <div className="flex items-center p-2 rounded-lg justify-between gap-3 bg-background">
-            <h5 className="text-[#121212] font-bold">السعر</h5>
+          <div className="bg-background flex items-center justify-between gap-3 rounded-lg p-2">
+            <h5 className="font-bold text-[#121212]">السعر</h5>
             {hasCoupon && !!coupon?.promo?.value && isOnline ? (
               <>
                 <PriceBadge
@@ -76,25 +77,23 @@ export const PaymentUI: React.FC<PaymentUIProps> = ({
           </div>
         )}
 
-        {hasPaymentMethods && isOnline && hasCoupon ? (
+        {hasPaymentMethods && isOnline && hasCoupon && (
           <PaymentCoupon
             coupon={coupon}
             setCoupon={setCoupon}
             courseId={courseId}
           />
-        ) : (
-          <hr className="h-px w-full border-gray-light my-3" />
         )}
       </div>
 
-      {paymentMethodValue === paymentType.fawerypay && (
-        <span className="text-red-600 block text-sm font-bold mb-2 leading-6">
+      {hasPaymentMethods && paymentMethodValue === paymentType.fawerypay && (
+        <span className="mb-2 block text-sm leading-6 font-bold text-red-600">
           <Image
             src={"/assets/warning-fill.svg"}
             width={24}
             height={24}
             alt="warinng"
-            className="inline-block ml-2"
+            className="ml-2 inline-block"
           />
           بعد ما تضغط &quot;التالي&quot; ، هيتعرضلك كود الدفع. خده وادفعه في
           أقرب فرع فورى أو تطبيق فورى احتفظ بالايصال وفي خلال 30 دقيقة الباقه
@@ -116,25 +115,25 @@ export const PaymentUI: React.FC<PaymentUIProps> = ({
           {paymentTypes.map((payment) => (
             <div
               key={payment.value}
-              className="flex flex-col text-right gap-6 cursor-pointer"
+              className="flex cursor-pointer flex-col gap-6 text-right"
             >
               <Label
                 htmlFor={payment.value}
-                className={`flex relative overflow-hidden cursor-pointer bg-transparent ${
+                className={`relative flex cursor-pointer overflow-hidden bg-transparent ${
                   paymentMethodValue === payment.value
                     ? "border-primary-800 bg-primary-50"
                     : "border-gray-light"
-                } p-2 gap-2.5 border-2 rounded-lg  z-0! items-center space-x-2`}
+                } z-0! items-center gap-2.5 space-x-2 rounded-lg border-2 p-2`}
               >
                 <RadioGroupItem value={payment.value} id={payment.value} />
                 <Label
-                  className="flex gap-6 items-center"
+                  className="flex items-center gap-6"
                   htmlFor={payment.value}
                 >
                   {payment.icons.map((icon) => (
                     <img key={icon} src={icon} />
                   ))}
-                  <span className="text-[#121212] font-bold">
+                  <span className="font-bold text-[#121212]">
                     {payment.label}
                   </span>
                 </Label>
@@ -149,7 +148,7 @@ export const PaymentUI: React.FC<PaymentUIProps> = ({
         </RadioGroup>
       ) : (
         <div>
-          <span className="text-red-600 text-sm font-bold mb-2 ">
+          <span className="mb-2 text-sm font-bold text-red-600">
             لا يوجد طرق دفع متاحة
           </span>
         </div>

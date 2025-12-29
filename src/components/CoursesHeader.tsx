@@ -6,10 +6,10 @@ import { cn } from "@/lib/utils";
 import { ICourseDetails, IUser } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
+import PriceBadge from "../modules/payment/components/PriceBadge";
 import CourseInfoBadge from "./CourseInfoBadge";
 import SupportBadge from "./SupportBadge";
 import DataWithLabel from "./ui/DataWithLabel";
-import PriceBadge from "./ui/PriceBadge";
 
 const CoursesHeader = ({ details }: { details: ICourseDetails }) => {
   const template = getCurrentTemplate();
@@ -43,24 +43,24 @@ const CoursesHeader = ({ details }: { details: ICourseDetails }) => {
 
   return (
     <div
-      className={cn(`relative  bg-primary-radial mt-20`, {
+      className={cn(`bg-primary-radial relative mt-20`, {
         "mt-0 pt-28": template == 3,
       })}
     >
-      <div className="absolute inset-0 z-1 ">
+      <div className="absolute inset-0 z-1">
         <Image
           src="/assets/bg/bg.png"
           alt=""
           fill
-          className="object-contain top-[10px] object-bottom-left -z-1"
+          className="top-[10px] -z-1 object-contain object-bottom-left"
           priority
         />
       </div>
 
       <div className="relative z-2">
-        <div className="wrapper pb-20 h-full flex flex-col ">
-          <div className="flex gap-6 flex-wrap  h-full items-center justify-between pt-12">
-            <div className="flex flex-wrap gap-2  md:justify-start md:gap-6 md:max-w-[70%]  grow">
+        <div className="wrapper flex h-full flex-col pb-20">
+          <div className="flex h-full flex-wrap items-center justify-between gap-6 pt-12">
+            <div className="flex grow flex-wrap gap-2 md:max-w-[70%] md:justify-start md:gap-6">
               <CourseInfoBadge
                 value={details?.total_lessons_count}
                 text="فيديو"
@@ -91,19 +91,19 @@ const CoursesHeader = ({ details }: { details: ICourseDetails }) => {
           </div>
 
           <div className="mt-14 flex w-full justify-between">
-            <h2 className=" text-[18px] md:text-28 text-white">
+            <h2 className="md:text-28 text-[18px] text-white">
               {details?.classroom}
             </h2>
 
             {subType !== "حصة" &&
               (details?.classroom_price || details?.is_subscriped) &&
               (details?.is_subscriped ? (
-                <span className="text-white bg-semantics-green-dark ps-2 pe-3 rounded-lg flex items-center text-lg gap-2 h-8">
+                <span className="bg-semantics-green-dark flex h-8 items-center gap-2 rounded-lg ps-2 pe-3 text-lg text-white">
                   <Image
                     src="/assets/success.svg"
                     width={24}
                     height={24}
-                    className="invert brightness-0"
+                    className="brightness-0 invert"
                     alt="success icon"
                   />
                   <span>مشترك</span>
@@ -113,18 +113,19 @@ const CoursesHeader = ({ details }: { details: ICourseDetails }) => {
               ))}
           </div>
 
-          <div className="h-px w-full bg-gray-light my-3" />
+          <div className="bg-gray-light my-3 h-px w-full" />
 
-          <h3 className="text-gray-light text-sm md:text-[20px] mb-6 empty:hidden">
+          <h3 className="text-gray-light mb-6 text-sm empty:hidden md:text-[20px]">
             {details?.grade_name}
           </h3>
 
-          <div className="flex flex-wrap gap-10 mt-auto">
+          <div className="mt-auto flex flex-wrap gap-10">
             {COURSEDETAILS.map((detail) => {
               if (!detail.title) return;
 
               return (
                 <DataWithLabel
+                  key={detail.label}
                   className="gap-1"
                   label={detail.label}
                   data={detail?.title + " " + (detail?.specification || "")}

@@ -35,7 +35,7 @@ const ShowBundle = () => {
 
   if (isLoading) {
     return (
-      <div className="wrapper mt-[140px]  flex items-center justify-center min-h-[min(calc(100vh-140px),768px)]">
+      <div className="wrapper mt-[140px] flex min-h-[min(calc(100vh-140px),768px)] items-center justify-center">
         <CustomLoader />
       </div>
     );
@@ -50,7 +50,7 @@ const ShowBundle = () => {
   console.log("bundle : ", bundle);
 
   return (
-    <div className="mt-[140px] mb-22 wrapper">
+    <div className="wrapper mt-[140px] mb-22">
       <RoomHeader
         width={"w-auto"}
         height={"h-auto"}
@@ -61,7 +61,7 @@ const ShowBundle = () => {
         <div className="flex flex-wrap items-center justify-between">
           <h2 className="text-32 font-bold">{bundle?.name}</h2>
 
-          <div className="flex items-end gap-3 flex-col">
+          <div className="flex flex-col items-end gap-3">
             <PriceBubbles
               price={bundle?.price}
               sale={bundle?.sale}
@@ -78,13 +78,13 @@ const ShowBundle = () => {
           </div>
         </div>
 
-        <hr className="bg-gray-light h-px w-full my-4" />
+        <hr className="bg-gray-light my-4 h-px w-full" />
 
         <BundleCard bundle={bundle} />
 
-        <h5 className=" text-2xl font-bold mt-10">تحتوى الباقة على </h5>
+        <h5 className="mt-10 text-2xl font-bold">تحتوى الباقة على </h5>
 
-        <div className="mt-6 gap-4  grid grid-cols-1  md:grid-cols-2  lg:grid-cols-3">
+        <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {bundle?.classrooms.map((classroom) => (
             <CourseCard
               isBundles={true}
@@ -94,13 +94,13 @@ const ShowBundle = () => {
           ))}
         </div>
 
-        <div className="bg-background p-4 border border-primary-800 rounded-lg mt-10 max-w-[780px] mx-auto text-center flex flex-col items-center gap-6">
+        <div className="bg-background border-primary-800 mx-auto mt-10 flex max-w-[780px] flex-col items-center gap-6 rounded-lg border p-4 text-center">
           <p className="text-xl font-bold">
             ستقوم بتوفير{" "}
             <StyledText
               className="text-32"
               text={formatCurrency(
-                Number(bundle?.price) - (bundle?.sale?.discount_value || 0)
+                Number(bundle?.price) - (bundle?.sale?.discount_value || 0),
               )}
             />
             {"  "}
@@ -108,7 +108,7 @@ const ShowBundle = () => {
           </p>
 
           <Button
-            className="max-w-43 w-full"
+            className="w-full max-w-43"
             onClick={() => {
               if (profile) {
                 modal.setDialogContent(
@@ -116,12 +116,12 @@ const ShowBundle = () => {
                     bundleId={bundleId}
                     price={Number(bundle?.price)}
                     sale={bundle?.sale}
-                  />
+                  />,
                 );
                 modal.openModal();
               } else {
                 router.push(
-                  `/login?redirect=/bundles/showBundle?type=${bundleId}`
+                  `/login?redirect=/bundles/showBundle?type=${bundleId}`,
                 );
               }
             }}

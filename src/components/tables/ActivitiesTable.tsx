@@ -14,11 +14,11 @@ const columnHelper = createColumnHelper<StudentActivity>();
 const columns = [
   columnHelper.accessor("title", {
     header: () => (
-      <div className="py-3 px-2 w-full text-[18px] font-bold">الأنشطة</div>
+      <div className="w-full px-2 py-3 text-[18px] font-bold">الأنشطة</div>
     ),
     cell: (info) => (
-      <div className="p-2 max-w-[200px] md:max-w-[300px] text-[16px] font-medium flex items-center gap-2 truncate">
-        <p className="text-[#D9B45C] underline truncate">{info.getValue()}</p>
+      <div className="flex max-w-[200px] items-center gap-2 truncate p-2 text-[16px] font-medium md:max-w-[300px]">
+        <p className="truncate text-[#D9B45C] underline">{info.getValue()}</p>
       </div>
     ),
   }),
@@ -27,7 +27,7 @@ const columns = [
       <div className="w-[100px] px-2 text-[18px] font-bold">النوع</div>
     ),
     cell: (info) => (
-      <div className="p-2 w-[100px] text-center text-[16px] font-medium">
+      <div className="w-[100px] p-2 text-center text-[16px] font-medium">
         {info.getValue()}
       </div>
     ),
@@ -44,8 +44,8 @@ const columns = [
       return (
         <div
           className={cn(
-            "p-2 w-[156px] text-center text-base font-medium truncate",
-            { "text-red-600 text-sm": courseExpired }
+            "w-[156px] truncate p-2 text-center text-base font-medium",
+            { "text-sm text-red-600": courseExpired },
           )}
         >
           {courseExpired ? "تم انتهاء الكورس" : info.getValue()}
@@ -58,7 +58,7 @@ const columns = [
       <div className="min-w-[110px] px-2 text-[18px] font-bold">التاريخ</div>
     ),
     cell: (info) => (
-      <div className="p-2 w-[110px] text-center text-[16px] font-medium">
+      <div className="w-[110px] p-2 text-center text-[16px] font-medium">
         {info.getValue()}
       </div>
     ),

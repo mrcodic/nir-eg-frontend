@@ -33,7 +33,7 @@ const NewCourses = () => {
         icon="/assets/book-gif.gif"
       />
 
-      <div className="relative mt-6 overflow-hidden">
+      <div className="relative mt-6">
         <MappingComp
           queryKey={api}
           render={(data) => {
@@ -47,6 +47,8 @@ const NewCourses = () => {
             const start = (page - 1) * pageSize;
             const end = start + pageSize;
             const currentCourses = filteredCourses.slice(start, end);
+
+            // console.log(allCourses);
 
             return (
               <div className="cards-grid min-h-[455px] rounded-lg">
