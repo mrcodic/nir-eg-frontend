@@ -13,6 +13,7 @@ import {
 } from "@/modules/exam/components/ExamBanners";
 import { QuizStatus } from "@/types";
 import { memo, useCallback } from "react";
+import { useFormState } from "react-hook-form";
 import TaskForm from "./TaskForm";
 
 type Props = {
@@ -26,6 +27,8 @@ const ExamForm = ({ start, setStartExam }: Props) => {
   if (!examId) {
     redirect("/ErrorPage?message=لم يتم العثور على امتحان");
   }
+
+  const { errors } = useFormState();
 
   const {
     success,
@@ -89,7 +92,19 @@ const ExamForm = ({ start, setStartExam }: Props) => {
         }}
       />
 
-      {sure && <Sure open={sure} setOpen={handleClose} length={0} />}
+      {sure && (
+        <Sure
+          open={sure}
+          setOpen={handleClose}
+          length={
+            (errors?.questions &&
+              (errors?.questions?.message || errors?.questions.root
+                ? start?.questions_count
+                : Object.keys(errors?.questions).length)) ||
+            0
+          }
+        />
+      )}
 
       {success && (
         <PassedModal

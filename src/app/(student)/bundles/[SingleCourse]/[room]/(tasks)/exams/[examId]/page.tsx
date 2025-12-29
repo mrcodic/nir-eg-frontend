@@ -34,18 +34,18 @@ const ExamPage = () => {
     >
       <div
         className={cn(
-          "py-4  flex flex-col lg:flex-row items-center md:items-start mb-[186px] h-[calc(100%-80px)] mt-28 gap-8 md:gap-10 lg:gap-8 wrapper",
+          "wrapper mt-28 mb-[186px] flex h-[calc(100%-80px)] flex-col items-center gap-8 py-4 md:items-start md:gap-10 lg:flex-row lg:gap-8",
           {
             "mt-32": template == 3,
-          }
+          },
         )}
       >
         <div
           className={cn(
-            "  flex flex-col  space-y-4 lg:sticky top-[85px] max-lg:w-full lg:max-h-[calc(100vh-126px)] overflow-y-auto",
+            "top-[85px] flex flex-col space-y-4 overflow-y-auto max-lg:w-full lg:sticky lg:max-h-[calc(100vh-90px)]",
             {
               "top-29 lg:max-h-[calc(100vh-126px)]": template == 3,
-            }
+            },
           )}
         >
           <ExamSideInfo
@@ -59,7 +59,7 @@ const ExamPage = () => {
           <ExamSideNav />
         </div>
 
-        <div className="flex-1  w-full min-w-[50%]">
+        <div className="w-full min-w-[50%] flex-1">
           <ExamForm start={start} setStartExam={setStartExam} />
         </div>
 

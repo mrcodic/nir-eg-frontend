@@ -1,15 +1,18 @@
 import AssignmentModal from "@/components/modals/AssignmentModal";
 import FailModal from "@/components/modals/FailModal";
 import { useTaskLogic } from "@/modules/exam/hooks/useTaskLogic";
+import { QuizStatus } from "@/types";
 import { redirect, useParams } from "next/navigation";
+import { useFormState } from "react-hook-form";
 import { Sure } from "../modals/Sure";
 import TaskForm from "./TaskForm";
 
-const AssignmentForm = ({ start }) => {
+const AssignmentForm = ({ start }: { start: QuizStatus }) => {
   const { assignmentId } = useParams();
 
+  const { errors } = useFormState();
+
   const {
-    form,
     success,
     fail,
     sure,
@@ -27,12 +30,9 @@ const AssignmentForm = ({ start }) => {
     redirect("/ErrorPage?message=لم يتم العثور على واجب");
   }
 
-  console.log(start);
-
   return (
     <>
       <TaskForm
-        form={form}
         taskId={assignmentId?.toString()}
         setSure={setSure}
         status={status}
@@ -46,8 +46,10 @@ const AssignmentForm = ({ start }) => {
           open={sure}
           setOpen={handleClose}
           length={
-            (form?.formState?.errors?.questions &&
-              Object.keys(form?.formState?.errors?.questions).length) ||
+            (errors?.questions &&
+              (errors?.questions?.message || errors?.questions.root
+                ? start?.questions_count
+                : Object.keys(errors?.questions).length)) ||
             0
           }
         />

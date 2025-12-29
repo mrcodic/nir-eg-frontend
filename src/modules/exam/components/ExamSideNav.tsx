@@ -18,10 +18,10 @@ function ExamSideNav() {
   if (!questions.length) return null;
 
   return (
-    <div className="w-full md:min-w-[280px] flex flex-col gap-2 border rounded-lg border-primary-800 bg-background">
-      <h2 className="text-[20px] p-4 pb-0 text-right font-bold">الاسئلة:</h2>
+    <div className="bg-background flex w-full flex-col gap-2 rounded-lg md:min-w-[280px]">
+      <h2 className="p-4 pb-0 text-right text-[20px] font-bold">الاسئلة:</h2>
 
-      <div className="flex flex-col gap-4 max-h-80 overflow-y-auto p-4 pt-0">
+      <div className="flex max-h-80 flex-col gap-4 overflow-y-auto p-4 pt-0">
         {questions.map((q, index) => (
           <SideNavItem
             key={q.id}

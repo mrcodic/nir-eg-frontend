@@ -16,7 +16,7 @@ export default function RoomSheet({ open, setOpen }) {
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
-      <SheetContent className="overflow-y-auto px-2">
+      <SheetContent className="px-2">
         {isLoading ? (
           <div className="flex h-full items-center justify-center">
             <FaSpinner className="animate-spin" />
@@ -25,7 +25,7 @@ export default function RoomSheet({ open, setOpen }) {
           <RoomSideContent
             data={data?.body}
             locked={data?.body?.locked_to_pass}
-            className="static border-none pt-14"
+            className="static max-h-[calc(100vh-20px)] border-none pt-14"
           />
         )}
       </SheetContent>

@@ -41,7 +41,7 @@ function TaskForm({
   const listRef = useRef<HTMLDivElement[]>([]);
 
   const form = useFormContext(); // ✅ required by shadcn
-  const { control, getValues } = form;
+  const { getValues } = form;
 
   // ✅ only what this component really needs
   const {
@@ -105,7 +105,7 @@ function TaskForm({
         if (Array.isArray(value)) {
           if (value.length) {
             value.forEach((v, i) =>
-              formData.append(`questions[${id}][${i}]`, v)
+              formData.append(`questions[${id}][${i}]`, v),
             );
           } else {
             formData.append(`questions[${id}]`, null);
@@ -116,12 +116,12 @@ function TaskForm({
         if (typeof value === "object") {
           formData.append(
             `questions[${id}][text]`,
-            value.text?.trim() ? value.text : null
+            value.text?.trim() ? value.text : null,
           );
 
           formData.append(
             `questions[${id}][attachment]`,
-            value.attachment instanceof File ? value.attachment : null
+            value.attachment instanceof File ? value.attachment : null,
           );
         }
       });
@@ -129,7 +129,7 @@ function TaskForm({
       const res = await axios.post(
         "/api?url=/students/quiz/answer&type=formData",
         formData,
-        { headers: { "Content-Type": "multipart/form-data" } }
+        { headers: { "Content-Type": "multipart/form-data" } },
       );
 
       queryClient.invalidateQueries({
@@ -170,7 +170,7 @@ function TaskForm({
   // ================= STATES =================
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-40">
+      <div className="flex min-h-40 items-center justify-center">
         <CustomLoader />
       </div>
     );
@@ -178,10 +178,10 @@ function TaskForm({
 
   if (!data?.questions?.length) {
     return (
-      <div className="flex items-center justify-center min-h-40">
+      <div className="flex min-h-40 items-center justify-center">
         <Link
           href="/grades"
-          className="bg-primary text-white px-2 py-1 rounded-lg font-bold"
+          className="bg-primary rounded-lg px-2 py-1 font-bold text-white"
         >
           الذهاب الى الدرجات
         </Link>
@@ -196,8 +196,9 @@ function TaskForm({
           e.preventDefault();
           onSubmit();
         }}
-        className={cn("mt-6", {
-          "opacity-80 pointer-events-none": isSubmitting,
+        className={cn("max-md:mt-6", {
+          "pointer-events-none opacity-80": isSubmitting,
+          // "mt-6": !status,
         })}
         dir="ltr"
       >
@@ -244,7 +245,7 @@ function TaskForm({
 
         {!status && (
           <Button
-            className="ms-auto mt-10 max-w-[172px] w-full"
+            className="ms-auto mt-10 w-full max-w-[172px]"
             type="button"
             disabled={isSubmitting}
             onClick={async () => {
