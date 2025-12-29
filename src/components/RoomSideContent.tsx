@@ -40,7 +40,7 @@ const RoomSideContent = ({
   return (
     <div
       className={cn(
-        "border-gray-light sticky top-22 h-fit max-h-[max(calc(100vh-88px),768px)] w-full overflow-y-auto rounded-lg border p-4",
+        "border-gray-light sticky top-22 h-fit max-h-[max(calc(100vh-90px),600px)] w-full overflow-y-auto rounded-lg border p-4",
         { "top-29": template === 3 },
         className,
       )}
@@ -170,7 +170,7 @@ const LessonCard = memo(function LessonCard({
         <h3 className="line-clamp-1">{lesson.title}</h3>
       </div>
 
-      <div className="mt-2 mr-10 flex justify-between">
+      <div className="mt-2 mr-10 flex flex-wrap justify-between gap-y-1">
         <div className="flex items-center gap-2">
           <Image
             src="/assets/time.svg"

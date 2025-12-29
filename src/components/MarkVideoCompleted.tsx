@@ -36,7 +36,7 @@ function MarkVideoCompleted({
           room_id: Number(roomId),
           lesson_id: Number(lessonId),
           classroom_id: Number(classroomId),
-        }
+        },
       );
 
       // invalidate lesson data to refresh completed status
@@ -59,7 +59,7 @@ function MarkVideoCompleted({
       <button
         onClick={handleMarkCompleted}
         disabled={isLoading}
-        className="text-xs cursor-pointer flex disabled:opacity-60 items-center gap-1 border border-gray-light py-1 px-2  font-bold  text-gray-dark rounded-lg hover:bg-gray-dark hover:text-gray-light transition-all"
+        className="border-gray-light text-gray-dark hover:bg-gray-dark hover:text-gray-light ms-auto flex cursor-pointer items-center gap-1 rounded-lg border px-2 py-1 text-xs font-bold transition-all disabled:opacity-60"
       >
         انتهيت من الدرس؟{" "}
         {isLoading ? (
@@ -72,7 +72,7 @@ function MarkVideoCompleted({
   }
 
   return (
-    <div className="flex gap-2 items-center bg-semantics-green-dark px-2 py-1 rounded-lg">
+    <div className="bg-semantics-green-dark ms-auto flex items-center gap-2 rounded-lg px-2 py-1">
       <span className="text-xs font-bold text-white">تم الانتهاء</span>
       <Check className="size-4 text-white" />
     </div>

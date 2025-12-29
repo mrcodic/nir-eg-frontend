@@ -4,31 +4,31 @@ import { DialogClose } from "@radix-ui/react-dialog";
 
 export function Sure({ open, setOpen, length }) {
   return (
-    <Dialog open={open}>
-      <DialogContent className="max-w-lg bg-white rounded-lg shadow-lg">
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogContent className="max-w-lg rounded-lg bg-white shadow-lg">
         <div className="">
           <p className="text-[18px] font-bold text-[#121212]">
             هل أنت متأكد من أنك تريد حفظ الإجابات؟
           </p>
-          <p className="text-[#121212] inline-block font-medium mt-8">
+          <p className="mt-8 inline-block font-medium text-[#121212]">
             لن تتمكن من تغيير الإجابات مرة أخرى
           </p>
 
           {length > 0 && (
-            <span className="text-red-500 ms-1 inline-block font-medium">
+            <span className="ms-1 inline-block font-medium text-red-500">
               لم تقم بالإجابة على {length} سؤال{" "}
             </span>
           )}
         </div>
 
-        <DialogFooter className="flex justify-start gap-6 items-center  w-full mt-5">
+        <DialogFooter className="mt-5 flex w-full items-center justify-start gap-6">
           <DialogClose
             asChild
-            className="flex items-center justify-center w-full"
+            className="flex w-full items-center justify-center"
           >
             <Button
               type="submit"
-              className="font-bold  h-11 w-full rounded-lg"
+              className="h-11 w-full rounded-lg font-bold"
               onClick={() => {
                 setOpen(true);
               }}
@@ -38,11 +38,11 @@ export function Sure({ open, setOpen, length }) {
           </DialogClose>
           <DialogClose
             asChild
-            className="flex items-center !justify-center w-full"
+            className="flex w-full items-center !justify-center"
           >
             <Button
               variant="ghost"
-              className="h-11 w-full rounded-lg border border-gray-light"
+              className="border-gray-light h-11 w-full rounded-lg border"
               onClick={() => {
                 setOpen(false);
               }}

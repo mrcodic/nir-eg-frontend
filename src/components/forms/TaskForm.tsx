@@ -10,7 +10,6 @@ import Question from "@/modules/exam/components/Question";
 import WrittenQuestion from "@/modules/exam/components/WrittenQuestion";
 import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import Link from "next/link";
 import { memo, useCallback, useEffect, useRef } from "react";
 import { useFormContext } from "react-hook-form";
 import CustomLoader from "../custom/Loader";
@@ -168,7 +167,7 @@ function TaskForm({
   ]);
 
   // ================= STATES =================
-  if (isLoading) {
+  if (isLoading || !data?.questions?.length) {
     return (
       <div className="flex min-h-40 items-center justify-center">
         <CustomLoader />
@@ -176,18 +175,18 @@ function TaskForm({
     );
   }
 
-  if (!data?.questions?.length) {
-    return (
-      <div className="flex min-h-40 items-center justify-center">
-        <Link
-          href="/grades"
-          className="bg-primary rounded-lg px-2 py-1 font-bold text-white"
-        >
-          الذهاب الى الدرجات
-        </Link>
-      </div>
-    );
-  }
+  // if (!data?.questions?.length) {
+  //   return (
+  //     <div className="flex min-h-40 items-center justify-center">
+  //       <Link
+  //         href="/grades"
+  //         className="bg-primary rounded-lg px-2 py-1 font-bold text-white"
+  //       >
+  //         الذهاب الى الدرجات
+  //       </Link>
+  //     </div>
+  //   );
+  // }
 
   return (
     <Form {...form}>
