@@ -5,6 +5,7 @@ import HeroSection from "@/components/landing/HeroSection";
 import PartnersAndClientsSection from "@/components/landing/PartnersAndClientsSection";
 import PricingPlans from "@/components/landing/PricingPlans";
 import WhyUsSection from "@/components/landing/WhyUsSection";
+import LazyOnView from "@/components/LazyOnView";
 import { Skeleton } from "@/components/ui/skeleton";
 import MappingFun from "@/config/MappingFun";
 import {
@@ -89,7 +90,9 @@ export default function Home() {
         />
       </Suspense>
 
-      <AppsLinksSection />
+      <LazyOnView className="min-h-[730px] md:min-h-[500px]">
+        <AppsLinksSection />
+      </LazyOnView>
 
       <PartnersAndClientsSection />
 

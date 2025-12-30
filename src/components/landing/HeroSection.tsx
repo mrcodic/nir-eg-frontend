@@ -32,7 +32,7 @@ function HeroSection() {
   const rotateBook = useTransform(springY, [0, 1], [20, -50]);
 
   return (
-    <section className="wrapper bg-background w-full relative text-center pb-12 overflow-x-hidden bg-[url('/bg-vector.png')] bg-no-repeat bg-cover">
+    <section className="wrapper bg-background w-full relative text-center pb-12  bg-[url('/bg-vector.png')] bg-no-repeat bg-cover overflow-x-hidden">
       <HeroText />
 
       <HeroButtons />
@@ -94,7 +94,7 @@ function HeroSection() {
         />
 
         <MotionWrapper
-          className="bg-white rounded-lg relative z-2 md:aspect-[1.7] section mt-12 overflow-hidden flex flex-col"
+          className="bg-white rounded-lg relative z-2 md:aspect-[1.7] section mt-12  flex flex-col"
           variants={{
             hidden: { opacity: 0, y: 20 },
             visible: {
@@ -109,7 +109,7 @@ function HeroSection() {
         >
           <FloatingHeroIcons />
 
-          <div className="relative mt-auto pt-4">
+          <div className="relative mt-auto pt-4 overflow-hidden z-2">
             <motion.div
               style={{ y: yDashboard }}
               className="w-[80%] mx-[10%] relative z-3"
@@ -123,20 +123,27 @@ function HeroSection() {
                 height={540}
                 priority
                 variants={{
-                  hidden: { opacity: 0, y: 20 },
+                  hidden: { opacity: 0 },
                   visible: {
                     opacity: 1,
-                    y: 0,
                   },
                 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
               />
             </motion.div>
+          </div>
 
-            <motion.div
-              style={{ y: yPen, rotate: rotatePen }}
-              className="
-                        absolute bottom-0 left-0 z-2
+          <motion.div
+            style={{ y: yPen, rotate: rotatePen }}
+            variants={{
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+              },
+            }}
+            transition={{ delay: 0.8 }}
+            className="
+                        absolute bottom-0 left-0 z-1
                         w-20 md:w-[120px] lg:w-[168px]
                         aspect-[0.88]
 
@@ -146,25 +153,26 @@ function HeroSection() {
 
                         will-change-transform
                       "
-            >
-              <MotionWrapper
-                as={Image}
-                src="/assets/hero/pen-blur.png"
-                alt="hero"
-                fill
-                priority
-                className="object-contain"
-                variants={{
-                  hidden: { opacity: 0, y: 20 },
-                  visible: { opacity: 1, y: 0 },
-                }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-              />
-            </motion.div>
-            <motion.div
-              style={{ y: yBook, rotate: rotateBook }}
-              className="
-                        absolute bottom-0 right-0 z-2 
+          >
+            <Image
+              src="/assets/hero/pen-blur.png"
+              alt="hero"
+              fill
+              priority
+              className="object-contain"
+            />
+          </motion.div>
+          <motion.div
+            style={{ y: yBook, rotate: rotateBook }}
+            variants={{
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+              },
+            }}
+            transition={{ delay: 0.8 }}
+            className="
+                        absolute bottom-0 right-0 z-1 
                         w-20 md:w-[120px] lg:w-40
                         aspect-[0.82]
 
@@ -174,22 +182,15 @@ function HeroSection() {
 
                         will-change-transform
                       "
-            >
-              <MotionWrapper
-                as={Image}
-                src="/assets/hero/book-blur.png"
-                alt="hero"
-                fill
-                priority
-                className="object-contain"
-                variants={{
-                  hidden: { opacity: 0, y: 20 },
-                  visible: { opacity: 1, y: 0 },
-                }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-              />
-            </motion.div>
-          </div>
+          >
+            <Image
+              src="/assets/hero/book-blur.png"
+              alt="hero"
+              fill
+              priority
+              className="object-contain"
+            />
+          </motion.div>
         </MotionWrapper>
       </MotionWrapper>
     </section>
