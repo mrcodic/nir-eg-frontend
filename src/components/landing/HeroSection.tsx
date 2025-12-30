@@ -23,7 +23,7 @@ function HeroSection() {
     bounce: 0,
   });
 
-  const y = useTransform(springY, [0, 1], ["50%", "0%"]);
+  const yDashboard = useTransform(springY, [0, 1], ["50%", "0%"]);
 
   const yPen = useTransform(springY, [0, 1], ["-200%", "-20%"]);
   const rotatePen = useTransform(springY, [0, 1], [0, 65]);
@@ -110,7 +110,10 @@ function HeroSection() {
           <FloatingHeroIcons />
 
           <div className="relative mt-auto pt-4">
-            <motion.div style={{ y }} className="w-[80%] mx-[10%] relative z-3">
+            <motion.div
+              style={{ y: yDashboard }}
+              className="w-[80%] mx-[10%] relative z-3"
+            >
               <MotionWrapper
                 as={Image}
                 src="/assets/hero/dashboard.png"

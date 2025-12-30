@@ -5,11 +5,11 @@ import Image from "next/image";
 import MotionWrapper from "../MotionWrapper";
 
 const pinConfig = [
-  { origin: "top left", rotate: 4, duration: 3.6 },
-  { origin: "top right", rotate: -5.5, duration: 7 },
-  { origin: "top left", rotate: 3.8, duration: 4.0 },
-  { origin: "top right", rotate: -5, duration: 5 },
-  { origin: "top left", rotate: 4, duration: 4.4 },
+  { origin: "top left", rotate: 6, duration: 3.6 },
+  { origin: "top right", rotate: -7.5, duration: 7 },
+  { origin: "top left", rotate: 5.8, duration: 4.0 },
+  { origin: "top right", rotate: -7, duration: 5 },
+  { origin: "top left", rotate: 6, duration: 4.4 },
 ];
 
 const hangingVariants = (rotate: number) =>
