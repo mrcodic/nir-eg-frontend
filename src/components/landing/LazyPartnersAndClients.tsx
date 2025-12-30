@@ -24,8 +24,10 @@ export default function LazyPartnersAndClients({
   return (
     <LazyOnView>
       <>
-        <PartnersSection partners={partners} />
-        <ClientsCarousel testimonials={testimonials} />
+        {partners.length > 0 && <PartnersSection partners={partners} />}
+        {testimonials.length > 0 && (
+          <ClientsCarousel testimonials={testimonials} />
+        )}
       </>
     </LazyOnView>
   );
