@@ -38,7 +38,7 @@ export function Sure({ open, setOpen, length }) {
           </DialogClose>
           <DialogClose
             asChild
-            className="flex w-full items-center !justify-center"
+            className="flex w-full items-center justify-center!"
           >
             <Button
               variant="ghost"

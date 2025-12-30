@@ -43,13 +43,13 @@ const AnswerOption = ({
         field.onChange([...selectedAnswers, String(answer.id)]);
       } else {
         field.onChange(
-          selectedAnswers.filter((id) => id !== String(answer.id))
+          selectedAnswers.filter((id) => id !== String(answer.id)),
         );
       }
 
       trigger(`questions.${questionId}` as Path<{ questions: {} }>);
     },
-    [answer.id, field, isMultiple, questionId, selectedAnswers, trigger]
+    [answer.id, field, isMultiple, questionId, selectedAnswers, trigger],
   );
 
   const answerState = getAnswerState(answer);
@@ -74,22 +74,19 @@ const AnswerOption = ({
     <label
       htmlFor={answerId}
       dir="ltr"
-      className={cn(
-        "rounded-lg bg-white border p-2 cursor-pointer",
-        borderClass
-      )}
+      className={cn("rounded-lg border bg-white p-2", borderClass)}
     >
-      <FormItem className="flex items-center space-x-3 space-y-0">
+      <FormItem className="flex items-center space-y-0 space-x-3">
         <FormControl>
-          <div className="flex p-2 items-center gap-x-2">
+          <div className="flex items-center gap-x-2 p-2">
             <Checkbox
               id={answerId}
               disabled={disabled}
               checked={isChecked}
               onCheckedChange={handleCheckboxChange}
               className={cn(
-                "rounded-full size-6 border-gray-dark data-[state=checked]:bg-white group",
-                checkboxClass
+                "border-gray-dark group size-6 rounded-full data-[state=checked]:bg-white",
+                checkboxClass,
               )}
               icon={
                 <Circle className="h-4 w-4 group-data-[state=checked]:fill-black" />
@@ -100,7 +97,10 @@ const AnswerOption = ({
 
         <FormLabel
           htmlFor={answerId}
-          className="font-normal text-black! cursor-pointer"
+          className={cn("font-normal text-black!", {
+            "text-red-500": answerState === "incorrect-selected",
+            "text-green-500": answerState === "correct-selected",
+          })}
         >
           {answer.valueInput || (
             <div

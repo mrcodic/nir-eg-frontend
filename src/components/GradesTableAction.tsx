@@ -37,7 +37,7 @@ function GradesTableAction({ row, rowValue }: { row: any; rowValue: number }) {
       {row?.classroom_expired || row?.classroom === "--" ? (
         <ExamPDFGenerator
           taskId={row?.quiz_id}
-          className="bg-primary mx-auto flex h-9 items-center justify-center rounded-[10px] p-1 text-sm font-bold text-white lg:h-10"
+          className="bg-secondary mx-auto flex h-9 items-center justify-center rounded-[10px] p-1 text-sm font-bold text-white lg:h-10"
         />
       ) : (
         <Link

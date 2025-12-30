@@ -59,6 +59,7 @@ const ExamPDFGenerator = ({
   return (
     <Button
       className={cn("h-11 w-full font-bold [&>svg]:size-5", className)}
+      variant="secondary"
       onClick={handleDownload}
       disabled={loading}
     >

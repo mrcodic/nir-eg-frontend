@@ -1,3 +1,4 @@
+import Image from "next/image";
 import {
   FormControl,
   FormField,
@@ -38,30 +39,36 @@ const CustomSelect = ({
         control={control}
         name={name}
         render={({ field }) => (
-          <FormItem className={`form-item w-full   ${className}`}>
+          <FormItem className={`form-item w-full ${className}`}>
             <FormLabel className="form-label">{label}</FormLabel>
-            <div className="flex flex-col w-full flex-1 mt-1">
+            <div className="mt-1 flex w-full flex-1 flex-col">
               <FormControl>
                 <Select
                   dir="rtl"
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
-                  <SelectTrigger className="w-full gap-2 flex   border-gray-light">
-                    {iconSrc && <img className="ml-2" src={iconSrc} />}
+                  <SelectTrigger className="border-gray-light flex w-full gap-2">
+                    {iconSrc && (
+                      <Image
+                        className="ml-2"
+                        width={20}
+                        height={20}
+                        src={iconSrc}
+                        alt=""
+                      />
+                    )}
                     <SelectValue placeholder={placeholder} />
                   </SelectTrigger>
-                  <SelectContent className="bg-white z-9999999 text-black">
+                  <SelectContent className="z-9999999 bg-white text-black">
                     {options.map((option) => (
-                      <>
-                        <SelectItem
-                          key={option.value}
-                          value={option.value}
-                          className="text-black"
-                        >
-                          {option.label}
-                        </SelectItem>
-                      </>
+                      <SelectItem
+                        key={option.value}
+                        value={option.value}
+                        className="text-black"
+                      >
+                        {option.label}
+                      </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>

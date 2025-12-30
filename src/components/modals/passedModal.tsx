@@ -69,18 +69,19 @@ export default function Passed({
               </div>
             ) : (
               <div className="mt-6 space-y-2">
-                <p className="inline-block font-bold">
-                  - نجحت في الامتحان و حصلت على {start?.score_ratio}
+                <p className="inline-block">
+                  - نجحت في الامتحان و جاوبت على{" "}
+                  <span className="font-bold">{start?.score_ratio}</span> سؤال
                 </p>
 
                 {start?.retake && (
-                  <p className="inline-block font-bold">
+                  <p className="inline-block">
                     - إذا قمت بعرض الإجابات مرة أخرى لن تتمكن من إعادة الامتحان
                   </p>
                 )}
 
                 {start?.show_answer && !start?.review_pending && (
-                  <p className="inline-block font-bold">
+                  <p className="inline-block">
                     - يمكنك تنزيل نموذج الإجابة بالكامل
                   </p>
                 )}
@@ -108,7 +109,7 @@ export default function Passed({
                 {start?.retake && (
                   <Button
                     onClick={retake}
-                    variant="secondary"
+                    variant="outline"
                     className="h-11 w-full font-bold"
                   >
                     إعادة الامتحان
