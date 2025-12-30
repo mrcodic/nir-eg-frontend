@@ -22,7 +22,7 @@ export default function LazyPartnersAndClients({
   testimonials: ITestimonial[];
 }) {
   return (
-    <LazyOnView>
+    <LazyOnView className="min-h-0">
       <>
         {partners.length > 0 && <PartnersSection partners={partners} />}
         {testimonials.length > 0 && (
