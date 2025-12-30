@@ -25,11 +25,17 @@ async function page() {
 
   return (
     <main className="flex w-full flex-col gap-22 md:my-22 my-16 wrapper">
-      <WhatIsNirHero
-        description={aboutContent.section_title}
-        video_url={aboutContent.video_url}
-      />
-      <FeaturesSection features={aboutContent.items} />
+      {(aboutContent.small_description || aboutContent.video_url) && (
+        <WhatIsNirHero
+          description={aboutContent.small_description}
+          video_url={aboutContent.video_url}
+        />
+      )}
+
+      {aboutContent.items.length > 0 && (
+        <FeaturesSection features={aboutContent.items} />
+      )}
+
       <WhoCanUseUs />
     </main>
   );
