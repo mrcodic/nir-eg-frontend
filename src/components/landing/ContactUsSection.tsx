@@ -18,7 +18,7 @@ export default function ContactUsSection() {
       transition={{ duration: 0.5 }}
       viewport={{ amount: 0.2, once: true }}
     >
-      <div className="section bg-[url('/bg-vector.png')] p-4 bg-background rounded-lg flex max-lg:flex-col-reverse relative gap-y-8">
+      <div className="section bg-[url('/assets/backgrounds/bg-vector.png')] p-4 bg-background rounded-lg flex max-lg:flex-col-reverse relative gap-y-8">
         <div className="bg-white w-1/2 max-lg:w-full rounded-lg shadow-sm p-6">
           <LazyOnView className="min-h-[600px]">
             <ContactUsForm />

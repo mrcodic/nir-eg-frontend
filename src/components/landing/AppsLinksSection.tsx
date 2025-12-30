@@ -62,7 +62,7 @@ function AppsLinksSection() {
 
         {/* Vector overlay */}
         <Image
-          src="/bg-vector-2.png"
+          src="/assets/backgrounds/bg-vector-2.png"
           alt="background overlay image"
           fill
           className="object-contain object-bottom absolute -z-1 pointer-events-none select-none"

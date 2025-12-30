@@ -17,7 +17,7 @@ function NavBar() {
   const toggleMenu = () => setIsOpen((prev) => !prev);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-30 border-b border-gray-light">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-gray-light">
       <div className="wrapper relative flex h-20 items-center justify-between bg-background z-30">
         {/* Logo */}
         <Link href="/">

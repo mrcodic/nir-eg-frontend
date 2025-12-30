@@ -141,8 +141,12 @@ export default function ContactUsForm() {
           />
         </div>
 
-        <div className="flex items-center justify-end mt-2">
-          <Button type="submit" disabled={isSubmitting}>
+        <div className="flex items-center justify-end mt-10">
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+            className="max-w-[120px] w-full h-11 font-bold"
+          >
             {isSubmitting ? "جارٍ الإرسال..." : "إرسال"}
           </Button>
         </div>

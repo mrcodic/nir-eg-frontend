@@ -14,7 +14,6 @@ export const navlinks = [
 ];
 
 export const footerLinks = [
-  ...navlinks,
   {
     name: "الشروط و الاحكام",
     href: "/terms",

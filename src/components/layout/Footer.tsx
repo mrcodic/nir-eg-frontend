@@ -1,5 +1,5 @@
 import { getPublicData } from "@/config/client-fetch";
-import { footerLinks } from "@/constants/navlinks";
+import { footerLinks, navlinks } from "@/constants/navlinks";
 import { FooterData } from "@/types/type";
 import Image from "next/image";
 import CustomLink from "../CustomLink";
@@ -22,14 +22,20 @@ async function Footer() {
   }
 
   return (
-    <footer className="bg-background bg-[url('/bg-vector.png')] bg-no-repeat bg-cover wrapper py-10">
+    <footer className="bg-background bg-[url('/assets/backgrounds/bg-vector.png')] bg-no-repeat bg-cover wrapper py-10">
       <div className="section  flex flex-col gap-6">
-        <div className="flex gap-6 items-start flex-wrap w-full">
-          <Image src="/logo.svg" width={110} height={48} alt="logo image" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 items-start w-full">
+          <div className="flex flex-col gap-4 sm:col-span-2 md:col-span-1">
+            <Image src="/logo.svg" width={110} height={48} alt="logo image" />
+            <p className="text-slate-600 font-bold text-sm">
+              نَيِّر - Nir هو نظام إدارة التعليم يهدف إلى سد احتياجات المؤسسات
+              التعليمية الحديثة
+            </p>
+          </div>
 
-          <nav className="lg:ms-auto pt-3 pe-8 max-md:w-full">
-            <ul className="flex max-md:flex-col items-start gap-6 md:items-center flex-wrap">
-              {footerLinks.map((link) => (
+          <nav className=" w-full">
+            <ul className="flex flex-col items-start gap-4 ">
+              {navlinks.map((link) => (
                 <li key={link.name}>
                   <CustomLink href={link.href} name={link.name} />
                 </li>
@@ -37,48 +43,59 @@ async function Footer() {
             </ul>
           </nav>
 
-          <SocialLinks className="ms-auto" links={footerData?.socials} />
+          <div className="space-y-4">
+            <SocialLinks
+              className="pb-2 border-b border-gray-light w-fit"
+              links={footerData?.socials}
+            />
+
+            <div className="flex flex-col gap-4 flex-wrap">
+              {footerData?.email && (
+                <div className="flex items-center gap-4">
+                  <Image
+                    src="/assets/email.svg"
+                    width={20}
+                    height={20}
+                    alt="email"
+                  />
+                  <span>{footerData?.email}</span>
+                </div>
+              )}
+              {footerData?.phone_sa && (
+                <div className="flex items-center gap-4">
+                  <Image
+                    src="/assets/phone.svg"
+                    width={20}
+                    height={20}
+                    alt="phone"
+                  />
+                  <span dir="ltr">+{footerData?.phone_sa}</span>
+                </div>
+              )}
+              {footerData?.phone && (
+                <div className="flex items-center gap-4">
+                  <Image
+                    src="/assets/phone.svg"
+                    width={20}
+                    height={20}
+                    alt="email"
+                  />
+                  <span dir="ltr">+{footerData?.phone}</span>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
 
-        <div className="w-full flex justify-between gap-6 items-center flex-wrap">
+        <div className="w-full flex justify-center md:justify-between gap-y-4 gap-6 items-center flex-wrap-reverse">
           <p className="text-slate-600 font-bold text-sm">
             © جميع الحقوق محفوظة لدى نَيِّر - Nir 2024
           </p>
 
-          <div className="flex items-center gap-6 flex-wrap">
-            {footerData?.email && (
-              <div className="flex items-center gap-4">
-                <Image
-                  src="/assets/email.svg"
-                  width={20}
-                  height={20}
-                  alt="email"
-                />
-                <span>{footerData?.email}</span>
-              </div>
-            )}
-            {footerData?.phone_sa && (
-              <div className="flex items-center gap-4">
-                <Image
-                  src="/assets/phone.svg"
-                  width={20}
-                  height={20}
-                  alt="phone"
-                />
-                <span dir="ltr">+{footerData?.phone_sa}</span>
-              </div>
-            )}
-            {footerData?.phone && (
-              <div className="flex items-center gap-4">
-                <Image
-                  src="/assets/phone.svg"
-                  width={20}
-                  height={20}
-                  alt="email"
-                />
-                <span dir="ltr">+{footerData?.phone}</span>
-              </div>
-            )}
+          <div className="flex items-center md:ms-auto max-sm:flex-wrap justify-center gap-x-2">
+            {footerLinks.map((link) => (
+              <CustomLink key={link.name} href={link.href} name={link.name} />
+            ))}
           </div>
         </div>
       </div>

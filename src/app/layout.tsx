@@ -8,7 +8,7 @@ import Providers from "./Providers";
 
 const almarai = Almarai({
   subsets: ["arabic"],
-  weight: ["400", "700"],
+  weight: ["400", "700", "800"],
   display: "swap",
 });
 

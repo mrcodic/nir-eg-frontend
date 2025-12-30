@@ -11,7 +11,10 @@ export const metadata: Metadata = {
 };
 
 function page() {
-  preload("/bg-vector.png", { as: "image", fetchPriority: "high" });
+  preload("/assets/backgrounds/bg-vector.png", {
+    as: "image",
+    fetchPriority: "high",
+  });
 
   return (
     <main className="flex w-full flex-col gap-22 md:my-22 my-16">

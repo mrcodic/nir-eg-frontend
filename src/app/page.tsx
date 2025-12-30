@@ -4,6 +4,8 @@ import FAQSection from "@/components/landing/FAQSection";
 import HeroSection from "@/components/landing/HeroSection";
 import PartnersAndClientsSection from "@/components/landing/PartnersAndClientsSection";
 import PricingPlans from "@/components/landing/PricingPlans";
+import SmartAssistantSection from "@/components/landing/SmartAssistantSection";
+import WhatMakesUsUniqueSection from "@/components/landing/WhatMakesUsUniqueSection";
 import WhyUsSection from "@/components/landing/WhyUsSection";
 import LazyOnView from "@/components/LazyOnView";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -27,7 +29,10 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
-  preload("/bg-vector.png", { as: "image", fetchPriority: "high" });
+  preload("/assets/backgrounds/bg-vector.png", {
+    as: "image",
+    fetchPriority: "high",
+  });
 
   return (
     <main className="flex w-full flex-col gap-22 mb-22">
@@ -50,6 +55,10 @@ export default function Home() {
           }}
         />
       </Suspense>
+
+      <SmartAssistantSection />
+
+      <WhatMakesUsUniqueSection />
 
       <PricingPlans />
 

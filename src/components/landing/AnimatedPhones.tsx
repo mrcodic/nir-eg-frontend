@@ -79,7 +79,7 @@ export default function AnimatedPhones() {
       {/* Back phone */}
       <MotionWrapper
         variants={backPhoneVariants}
-        className="-me-12 lg:w-[220px] h-fit w-[130px] sm:w-[150px] relative z-1"
+        className="-me-12 lg:w-[220px] h-fit w-[130px] sm:w-[150px] relative z-1 -mb-10"
       >
         <Image
           src="/assets/phone-2.png"
@@ -92,7 +92,7 @@ export default function AnimatedPhones() {
       {/* Front phone */}
       <MotionWrapper
         variants={frontPhoneVariants}
-        className="lg:w-[220px] h-fit w-[150px] relative z-2"
+        className="lg:w-[220px] h-fit w-[150px] relative z-2 -mb-10"
       >
         <Image
           src="/assets/phone-1.png"

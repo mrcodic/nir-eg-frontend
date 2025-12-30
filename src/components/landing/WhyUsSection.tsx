@@ -1,89 +1,52 @@
-import { cn } from "@/lib/utils";
+"use client";
+
 import { WhyChooseSection } from "@/types/landing.types";
-import { Variants } from "motion";
-import Image from "next/image";
+import Lottie from "lottie-react";
+import dashboardAnimation from "../../../public/assets/animations/dashboard-1.json";
+import liveAnimation from "../../../public/assets/animations/live-2.json";
+import toolsAnimation from "../../../public/assets/animations/tools-3.json";
 import MotionWrapper from "../MotionWrapper";
 
-const itemVariants = {
-  initial: {},
-  hover: {},
-};
-
-const iconVariants = {
-  initial: {
-    scale: 1,
-    rotate: 0,
-  },
-  hover: {
-    scale: 1.15,
-    rotate: -6,
-    transition: {
-      type: "spring",
-      stiffness: 300,
-      damping: 15,
-    },
-  },
-} satisfies Variants;
-
-const textVariants = {
-  initial: {
-    x: 0,
-    opacity: 1,
-  },
-  hover: {
-    x: -8,
-    opacity: 1,
-    transition: {
-      duration: 0.25,
-      ease: "easeOut",
-    },
-  },
-} satisfies Variants;
+const animations = [dashboardAnimation, liveAnimation, toolsAnimation];
 
 function WhyUsSection({ data }: { data: WhyChooseSection }) {
   if (!data?.items?.length) return null;
 
   return (
     <section className="wrapper w-full relative text-center  space-y-6">
-      <h2 className="text-32 font-bold ">
-        لماذا تختار{" "}
-        <span className="text-primary-800 drop-shadow-text">نَيِّر</span>?
+      <h2 className="text-32 font-extrabold text-gradient-custom ">
+        لماذا تختار نَيِّر؟
       </h2>
 
       <MotionWrapper
-        className="flex flex-wrap max-md:flex-col max-w-7xl w-full mx-auto gap-6 justify-center p-4 rounded-lg border border-gray-light min-h-[120px]"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full section gap-6 justify-center "
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
+        viewport={{ amount: 0.2, once: true }}
+        transition={{ duration: 0.5 }}
       >
-        {data?.items.map((advantage) => (
-          <MotionWrapper
+        {data?.items.map((advantage, index) => (
+          <div
             key={advantage.title}
-            className="flex items-center gap-4 cursor-pointer"
-            variants={itemVariants}
-            initial="initial"
-            whileHover="hover"
+            className="flex relative items-center group  transition-all flex-col gap-6  bg-background p-4 rounded-lg overflow-hidden max-w-[462px] max-md:mx-auto max-md:w-full"
           >
-            {/* Icon */}
-            <MotionWrapper
-              className={cn(
-                "size-16 relative rounded-lg flex items-center justify-center"
-              )}
-              variants={iconVariants}
-            >
-              <Image src={advantage.icon_url} alt={advantage.title} fill />
-            </MotionWrapper>
+            <div className="absolute opacity-0 inset-0 bg-blue-gradient group-hover:opacity-100 transition-all z-1" />
+
+            <Lottie
+              animationData={animations[index]}
+              className="size-60 aspect-square max-w-full relative z-2"
+            />
 
             {/* Text */}
-            <MotionWrapper
-              className="flex gap-2 flex-col items-start text-start"
-              variants={textVariants}
-            >
-              <h3 className="text-xl font-bold">{advantage.title}</h3>
-              <p className="font-bold text-gray-dark">
+            <div className="space-y-2 text-center relative z-2">
+              <h3 className="text-xl font-bold border-b border-gray-light mb-3 pb-2 group-hover:text-white transition-all group-hover:border-primary-800">
+                {advantage.title}
+              </h3>
+              <p className="font-bold text-gray-dark text-lg group-hover:text-white transition-all">
                 {advantage.description}
               </p>
-            </MotionWrapper>
-          </MotionWrapper>
+            </div>
+          </div>
         ))}
       </MotionWrapper>
     </section>
