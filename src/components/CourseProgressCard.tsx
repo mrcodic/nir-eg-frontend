@@ -1,28 +1,36 @@
+import Image from "next/image";
+
 function CourseProgressCard({ progress = 0 }: { progress: number }) {
   return (
     <div
       style={{
         boxShadow: "0px 2px 10px 4px rgba(157, 130, 66, 0.20)",
       }}
-      className="bg-[#F9FAFC] md:text-2xl whitespace-nowrap
-               font-bold mx-auto -mt-8 flex max-md:justify-center flex-wrap md:gap-x-6 gap-x-4 gap-y-1 items-center  max-w-[min(85%,760px)] w-full relative border py-3 md:py-8 px-6 md:px-10 border-primary-800 rounded-lg z-10"
+      className="border-primary-800 bg-background relative z-10 mx-auto -mt-8 flex w-full max-w-[min(85%,760px)] flex-wrap items-center gap-x-4 gap-y-1 rounded-lg border px-6 py-3 font-bold whitespace-nowrap max-md:justify-center md:gap-x-6 md:px-10 md:py-8 md:text-2xl"
     >
-      <img src="../assets/star-colored.svg" className="w-[48px] h-[48px]" />
+      <Image
+        width={48}
+        height={48}
+        src="../assets/star-colored.svg"
+        className="size-12"
+        alt="star icon"
+      />
 
-      <span className=" text-[#523412] inline-block">لقد أنهيت</span>
-      <div className="relative   ">
+      <span className="text-primary-800 inline-block">لقد أنهيت</span>
+
+      <div className="relative">
         {" "}
-        <h3 className="textStroke text-[32px] absolute flex items-center  -top-0.5 -left-0.5  z-0">
+        <h3 className="textStroke text-32 absolute -top-0.5 -left-0.5 z-0 flex items-center">
           {" "}
           <span>%</span>
           <span>{progress}</span>
         </h3>
-        <h3 className="text-primary flex items-center relative   z-10 text-[32px]">
+        <h3 className="text-primary text-32 relative z-10 flex items-center">
           <span>%</span>
           <span>{progress}</span>
         </h3>
       </div>
-      <p className="text-[#523412] inline-block">من الكورس</p>
+      <p className="text-primary-800 inline-block">من الكورس</p>
     </div>
   );
 }
