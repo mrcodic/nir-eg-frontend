@@ -53,7 +53,7 @@ const itemVariants = {
 } satisfies Variants;
 
 export default function FeaturesSection({
-  features,
+  features = [],
 }: {
   features: AboutFeatureItem[];
 }) {
@@ -64,6 +64,8 @@ export default function FeaturesSection({
       icon: featuresTop?.[index].icon || "/assets/books&grad.png",
     }))
     .filter((feature) => feature.title && feature.description);
+
+  if (featuresWithStyles.length === 0) return null;
 
   return (
     <section>

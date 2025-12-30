@@ -41,6 +41,8 @@ const textVariants = {
 } satisfies Variants;
 
 function WhyUsSection({ data }: { data: WhyChooseSection }) {
+  if (!data?.items?.length) return null;
+
   return (
     <section className="wrapper w-full relative text-center  space-y-6">
       <h2 className="text-32 font-bold ">
