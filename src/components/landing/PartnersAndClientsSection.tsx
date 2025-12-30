@@ -21,6 +21,8 @@ async function PartnersAndClientsSection() {
     return null;
   }
 
+  console.log("partners and testimonials : ", partners, testimonials);
+
   if (!partners?.data?.length && !testimonials?.data?.length) return null;
 
   return (

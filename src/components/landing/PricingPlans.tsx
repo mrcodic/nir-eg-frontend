@@ -54,8 +54,8 @@ export default function PricingPlans() {
 
         {isLoading ? (
           <div className="flex flex-col items-center">
-            <Skeleton className="h-8 mb-6 w-36" />
-            <div className="flex w-full flex-col items-stretch lg:items-center xl:gap-6 lg:gap-4 gap-6 lg:flex-row lg:justify-center">
+            <Skeleton className="h-8 mb-6 mt-4 w-36" />
+            <div className="flex w-full mt-6 flex-col items-stretch lg:items-center xl:gap-6 lg:gap-4 gap-6 lg:flex-row lg:justify-center">
               {Array.from({ length: 3 }).map((_, index) => (
                 <Skeleton
                   key={index}
@@ -73,7 +73,7 @@ export default function PricingPlans() {
           <Empty text="حدث خطاء اثناء عرض الخطة" isError />
         ) : (
           <>
-            <LazyOnView className="min-h-8">
+            <LazyOnView className="min-h-8  mb-6 mt-4">
               <PricingTypeSwtich type={type} setType={setType} />
             </LazyOnView>
 

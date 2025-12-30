@@ -68,6 +68,8 @@ export default function ContentProtectionSection({
 }) {
   if (!data?.items?.length) return null;
 
+  console.log("protection data : ", data);
+
   return (
     <MotionWrapper
       as="section"

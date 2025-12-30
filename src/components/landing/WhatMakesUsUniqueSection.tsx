@@ -240,7 +240,7 @@ export default function WhatMakesUsUniqueSection() {
 
         {/* Desktop */}
         <div className="relative hidden lg:block">
-          <div className="mx-auto max-w-[1100px]">
+          <div className="">
             <div className="sticky top-[120px] grid grid-cols-2 gap-6">
               <LogoBox src={rightLogo} />
               <LogoBox src={leftLogo} />

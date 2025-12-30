@@ -9,9 +9,10 @@ import AnimatedPhones from "./AnimatedPhones";
 /* ================== Variants ================== */
 
 const sectionVariants = {
-  hidden: { opacity: 0 },
+  hidden: { opacity: 0, y: 50 },
   visible: {
     opacity: 1,
+    y: 0,
     transition: {
       when: "beforeChildren",
       staggerChildren: 0.15,
@@ -54,7 +55,7 @@ function AppsLinksSection() {
       variants={sectionVariants}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount: 0.35 }}
+      viewport={{ once: true, amount: 0.3 }}
     >
       <div className="relative p-6 overflow-hidden min-h-[500px] rounded-lg section flex">
         {/* Gradient */}
