@@ -49,6 +49,7 @@ function SocialLinks({
         <a
           href={link.href}
           key={link.name}
+          target="_blank"
           className="size-8 group hover:bg-primary-800 transition-colors bg-white rounded-lg p-1"
         >
           <Image

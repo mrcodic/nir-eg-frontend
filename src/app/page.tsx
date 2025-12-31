@@ -19,7 +19,7 @@ import { preload } from "react-dom";
 const AppsLinksSection = dynamic(
   () => import("@/components/landing/AppsLinksSection")
 );
-const PricingPlans = dynamic(() => import("@/components/landing/PricingPlans"));
+// const PricingPlans = dynamic(() => import("@/components/landing/PricingPlans"));
 const WhyUsSection = dynamic(() => import("@/components/landing/WhyUsSection"));
 const ContentProtectionSection = dynamic(
   () => import("@/components/landing/ContentProtectionSection")
@@ -67,9 +67,9 @@ export default function Home() {
         <WhatMakesUsUniqueSection />
       </LazyOnView>
 
-      <LazyOnView className="min-h-[740px]">
+      {/* <LazyOnView className="min-h-[740px]">
         <PricingPlans />
-      </LazyOnView>
+      </LazyOnView> */}
 
       <LazyOnView className="min-h-[340px]">
         <Suspense

@@ -1,5 +1,6 @@
 import Footer from "@/components/layout/Footer";
 import NavBar from "@/components/layout/NavBar";
+import WhatsAppFloating from "@/components/layout/WhatsappFloating";
 import type { Metadata } from "next";
 import { Almarai } from "next/font/google";
 import { Toaster } from "sonner";
@@ -39,7 +40,12 @@ export default function RootLayout({
           </div>
           <Footer />
         </Providers>
-
+        <WhatsAppFloating
+          phone="+201500048141"
+          message={"مرحبًا، أحتاج إلى مساعدة"}
+          delayMs={2500}
+          showOncePerSession={false}
+        />
         <Toaster />
       </body>
     </html>

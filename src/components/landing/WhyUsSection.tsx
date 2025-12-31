@@ -19,7 +19,7 @@ function WhyUsSection({ data }: { data: WhyChooseSection }) {
       </h2>
 
       <MotionWrapper
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full section gap-6 justify-center "
+        className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 w-full section gap-6 justify-center "
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ amount: 0.2, once: true }}

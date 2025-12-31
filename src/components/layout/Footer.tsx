@@ -22,10 +22,11 @@ async function Footer() {
   }
 
   return (
-    <footer className="bg-background bg-[url('/assets/backgrounds/bg-vector.png')] bg-no-repeat bg-cover wrapper py-10">
+    // bg-[url('/assets/backgrounds/bg-vector.png')]
+    <footer className="bg-background   wrapper py-10">
       <div className="section  flex flex-col gap-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 items-start w-full">
-          <div className="flex flex-col gap-4 sm:col-span-2 md:col-span-1">
+        <div className="grid grid-cols-12  items-start w-full gap-y-6">
+          <div className="flex flex-col gap-4 col-span-12 md:col-span-5 md:max-w-4/5">
             <Image src="/logo.svg" width={110} height={48} alt="logo image" />
             <p className="text-slate-600 font-bold text-sm">
               نَيِّر - Nir هو نظام إدارة التعليم يهدف إلى سد احتياجات المؤسسات
@@ -33,7 +34,7 @@ async function Footer() {
             </p>
           </div>
 
-          <nav className=" w-full">
+          <nav className=" col-span-12 md:col-span-3 md:justify-self-center">
             <ul className="flex flex-col items-start gap-4 ">
               {navlinks.map((link) => (
                 <li key={link.name}>
@@ -47,9 +48,9 @@ async function Footer() {
             </ul>
           </nav>
 
-          <div className="space-y-4">
+          <div className="space-y-4 col-span-12 md:col-span-3 md:col-start-10 md:justify-self-end">
             <SocialLinks
-              className="pb-2 border-b border-gray-light w-fit"
+              className="pb-2 border-b border-gray-light w-fit flex-nowrap"
               links={footerData?.socials}
             />
 

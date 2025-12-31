@@ -32,27 +32,31 @@ function NavBar() {
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden md:block">
+        <nav className="hidden lg:block">
           <ul className="flex gap-6 lg:gap-8">
             {navlinks.map((link) => (
               <li key={link.name}>
-                <CustomLink href={link.href} name={link.name} />
+                <CustomLink
+                  href={link.href}
+                  name={link.name}
+                  className="lg:text-sm xl:text-base"
+                />
               </li>
             ))}
           </ul>
         </nav>
 
         {/* Desktop CTA */}
-        <Link href="/subscribe?type=demo" className="hidden md:block">
+        <Link href="/subscribe?type=demo" className="hidden lg:block">
           <Button>احصل على النسخة التجريبية</Button>
         </Link>
 
         {/* Mobile actions */}
-        <div className="flex items-center gap-2 md:hidden">
+        <div className="flex items-center gap-2 lg:hidden">
           <Button
             size="icon"
             variant="ghost"
-            className="md:hidden"
+            className="lg:hidden"
             aria-label="Toggle menu"
             onClick={toggleMenu}
           >
@@ -72,7 +76,7 @@ function NavBar() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -12 }}
               transition={{ duration: 0.2, ease: "easeOut" }}
-              className="absolute left-0 right-0 top-full z-20 border-b border-gray-light bg-background shadow-md md:hidden"
+              className="absolute left-0 right-0 top-full z-20 border-b border-gray-light bg-background shadow-md lg:hidden"
             >
               <nav className="flex flex-col gap-4 pb-4 pt-6 wrapper">
                 {navlinks.map((link) => (

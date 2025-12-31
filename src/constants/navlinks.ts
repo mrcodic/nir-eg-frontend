@@ -11,6 +11,10 @@ export const navlinks = [
     name: "تواصل معنا",
     href: "/contact",
   },
+  {
+    name: "الاسئلة الشائعة",
+    href: "/faq",
+  },
 ];
 
 export const footerLinks = [

@@ -139,6 +139,8 @@ export default function ContentProtectionSection({
               alt="قفل المحتوى"
               fill
               className="object-contain"
+              quality={100}
+              unoptimized
             />
           </div>
         </MotionWrapper>

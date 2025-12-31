@@ -1,52 +1,51 @@
 "use client";
 
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-} from "@/components/ui/carousel";
 import { IPartner } from "@/types/landing.types";
-import autoplay from "embla-carousel-autoplay";
 import Image from "next/image";
 
 function PartnersSection({ partners }: { partners: IPartner[] }) {
+  const items = [...partners, ...partners];
   return (
-    <Carousel
-      opts={{
-        direction: "rtl",
-        loop: true,
-      }}
-      plugins={[
-        autoplay({
-          delay: 5000,
-        }),
-      ]}
-    >
-      <CarouselContent wrapperClassName="peer">
-        {partners.map((partner, index) => (
-          <CarouselItem
+    <section className="w-full overflow-hidden relative [direction:rtl]">
+      <div
+        className="
+          flex w-max gap-4
+          animate-[marquee_25s_linear_infinite]
+          hover:paused
+        "
+      >
+        {items.map((partner, index) => (
+          <div
             key={index}
-            data-carousel="partner"
-            className="carousel-item flex basis-1/2 min-[400px]:basis-1/3 items-center justify-center select-none md:basis-1/4 xl:basis-1/7"
+            className="
+              flex shrink-0 items-center justify-center
+              w-[140px] sm:w-[170px]
+            "
           >
-            <div className="relative flex shrink-0 size-24 items-center justify-center   bg-white transition-all  sm:size-34">
+            <div
+              className="
+                relative flex items-center justify-center
+                size-22 sm:size-28
+                bg-white
+              "
+            >
               {partner.image_url ? (
                 <Image
                   src={partner.image_url}
+                  alt={partner.name ?? ""}
                   fill
-                  alt=""
-                  className="size-full shrink-0 object-contain"
+                  className="object-contain"
                 />
               ) : (
-                <h4 className="text-center shrink-0 text-sm text-font-2 line-clamp-2">
+                <span className="text-sm text-center leading-tight px-2">
                   {partner.name}
-                </h4>
+                </span>
               )}
             </div>
-          </CarouselItem>
+          </div>
         ))}
-      </CarouselContent>
-    </Carousel>
+      </div>
+    </section>
   );
 }
 
