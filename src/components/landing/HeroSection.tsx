@@ -1,24 +1,20 @@
-"use client";
-
-import Lottie from "lottie-react";
 import Image from "next/image";
 import { preload } from "react-dom";
-import heroAnimation from "../../../public/assets/animations/hero-nir.json";
 import MotionWrapper from "../MotionWrapper";
 import HeroButtons from "./HeroButtons";
+import HeroLottie from "./HeroLottie";
 import HeroText from "./HeroText";
 
 function HeroSection() {
-  preload("/assets/animations/hero-nir.json", {
+  preload("/assets/animations/optimized-hero-nir.json", {
+    as: "object",
+    type: "application/json",
     fetchPriority: "high",
-    type: "json",
-    as: "fetch",
   });
 
   return (
-    <section className="wrapper bg-background w-full relative text-center pb-12  bg-[url('/assets/backgrounds/bg-vector.png')] bg-fill overflow-hidden">
+    <section className="wrapper bg-[url('/assets/backgrounds/bg-vector.png')] bg-fill overflow-hidden relative text-center pb-12">
       <HeroText />
-
       <HeroButtons />
 
       <MotionWrapper
@@ -29,7 +25,7 @@ function HeroSection() {
             opacity: 1,
             y: 0,
             transition: {
-              duration: 0.5,
+              duration: 0.2,
               when: "beforeChildren",
             },
           },
@@ -58,8 +54,8 @@ function HeroSection() {
             visible: {
               opacity: 1,
               transition: {
-                duration: 0.4,
-                delay: 0.5,
+                duration: 0.3,
+                delay: 0.3,
                 ease: "easeOut",
               },
             },
@@ -72,7 +68,7 @@ function HeroSection() {
             duration: 3,
             repeat: Infinity,
             ease: "easeInOut",
-            delay: 0.5,
+            delay: 0.3,
           }}
         />
 
@@ -87,7 +83,7 @@ function HeroSection() {
           }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <Lottie animationData={heroAnimation} />
+          <HeroLottie />
         </MotionWrapper>
       </MotionWrapper>
     </section>

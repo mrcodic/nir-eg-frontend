@@ -34,8 +34,8 @@ function HeroText() {
         text="احصل على منصة باسمك و اللوجو الخاص بك و ابدأ في متابعة أداء الطلاب و
             تنظيم المواعيد."
         className="font-bold text-xl text-gray-dark mt-2"
-        stagger={0.04}
-        delay={0.05}
+        stagger={0.05}
+        delay={0.06}
       />
     </div>
   );

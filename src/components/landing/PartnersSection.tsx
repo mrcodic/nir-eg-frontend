@@ -29,7 +29,7 @@ function PartnersSection({ partners }: { partners: IPartner[] }) {
             data-carousel="partner"
             className="carousel-item flex basis-1/2 min-[400px]:basis-1/3 items-center justify-center select-none md:basis-1/4 xl:basis-1/7"
           >
-            <div className="relative flex shrink-0 size-24 items-center justify-center overflow-hidden rounded-full border-2 border-neutral-3 bg-white p-6 transition-all  sm:size-34">
+            <div className="relative flex shrink-0 size-24 items-center justify-center   bg-white transition-all  sm:size-34">
               {partner.image_url ? (
                 <Image
                   src={partner.image_url}
