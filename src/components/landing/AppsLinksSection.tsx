@@ -100,7 +100,10 @@ function AppsLinksSection() {
                   },
                 }}
               >
-                <MotionWrapper variants={buttonVariants}>
+                <MotionWrapper
+                  variants={buttonVariants}
+                  whileHover={{ scale: 1.1 }}
+                >
                   <Link href="#">
                     <Image
                       src="/assets/Google Play.svg"
@@ -111,7 +114,10 @@ function AppsLinksSection() {
                   </Link>
                 </MotionWrapper>
 
-                <MotionWrapper variants={buttonVariants}>
+                <MotionWrapper
+                  variants={buttonVariants}
+                  whileHover={{ scale: 1.1 }}
+                >
                   <Link href="#">
                     <Image
                       src="/assets/apple.svg"

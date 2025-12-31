@@ -66,7 +66,7 @@ export default function WhatIsNirHero({
     <section dir="rtl">
       <MotionWrapper
         key="what-is-nir-hero"
-        className="section flex lg:items-center 2xl:gap-30 gap-16 lg:gap-8 xl:gap-24 max-lg:flex-col"
+        className="section flex md:items-center 2xl:gap-30 gap-16 md:gap-8 xl:gap-24 max-md:flex-col"
         variants={variants}
         initial="hidden"
         whileInView="visible"
@@ -91,7 +91,7 @@ export default function WhatIsNirHero({
 
         {/* Video thumbnail */}
         <MotionWrapper
-          className="flex relative lg:ms-auto w-full justify-center max-w-[466px] rounded-lg overflow-hidden max-lg:mx-auto"
+          className="flex relative md:ms-auto w-full justify-center max-w-[466px] rounded-lg overflow-hidden max-md:mx-auto md:max-w-1/2"
           variants={videoVariants}
           transition={{
             duration: 0.5,

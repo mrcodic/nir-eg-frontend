@@ -45,6 +45,19 @@ function SmartAssistantSection() {
           transition={{
             duration: 0.3,
             delay: 0.5,
+            y: {
+              duration: 2,
+              repeat: Infinity,
+              delay: 0.5,
+              ease: "easeInOut",
+            },
+            rotate: {
+              duration: 0.3,
+              delay: 0,
+            },
+          }}
+          animate={{
+            y: [0, -10, 0],
           }}
         >
           <Image

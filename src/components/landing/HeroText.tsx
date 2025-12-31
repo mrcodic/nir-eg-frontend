@@ -9,7 +9,7 @@ function HeroText() {
         whileInView="visible"
         viewport={{ amount: 0, once: true }}
         variants={{
-          hidden: { opacity: 0, y: 5 },
+          hidden: { opacity: 0, y: -5 },
           visible: {
             opacity: 1,
             y: 0,
@@ -34,7 +34,7 @@ function HeroText() {
         text="احصل على منصة باسمك و اللوجو الخاص بك و ابدأ في متابعة أداء الطلاب و
             تنظيم المواعيد."
         className="font-bold text-xl text-gray-dark mt-2"
-        stagger={0.05}
+        stagger={0.035}
         delay={0.06}
       />
     </div>
