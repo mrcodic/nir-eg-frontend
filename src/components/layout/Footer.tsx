@@ -37,7 +37,11 @@ async function Footer() {
             <ul className="flex flex-col items-start gap-4 ">
               {navlinks.map((link) => (
                 <li key={link.name}>
-                  <CustomLink href={link.href} name={link.name} />
+                  <CustomLink
+                    href={link.href}
+                    name={link.name}
+                    className="lg:text-base "
+                  />
                 </li>
               ))}
             </ul>
@@ -94,7 +98,12 @@ async function Footer() {
 
           <div className="flex items-center md:ms-auto max-sm:flex-wrap justify-center gap-x-2">
             {footerLinks.map((link) => (
-              <CustomLink key={link.name} href={link.href} name={link.name} />
+              <CustomLink
+                key={link.name}
+                href={link.href}
+                name={link.name}
+                className="lg:text-sm md:text-sm"
+              />
             ))}
           </div>
         </div>
