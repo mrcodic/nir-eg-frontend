@@ -8,7 +8,7 @@ async function FaqPage() {
   const faqData = await getPublicData<{ data: FaqSection }>({
     queryKey: ["/settings/home/faq"],
     next: {
-      revalidate: 60 * 60 * 1,
+      revalidate: 0,
     },
   });
 
