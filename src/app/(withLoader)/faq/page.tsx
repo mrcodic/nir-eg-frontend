@@ -8,11 +8,10 @@ async function FaqPage() {
   const faqData = await getPublicData<{ data: FaqSection }>({
     queryKey: ["/settings/home/faq"],
     next: {
-      revalidate: 60 * 60 * 24 * 7,
+      revalidate: 60 * 60 * 1,
     },
   });
 
-  console.log(faqData);
   return (
     <main className="flex w-full flex-col gap-22  wrapper bg-background relative  pt-10 sm:pt-14 pb-16 space-y-6 bg-[url('/assets/backgrounds/bg-vector.png')] ">
       <section className="section">

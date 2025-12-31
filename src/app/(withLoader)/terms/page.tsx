@@ -10,11 +10,9 @@ async function page() {
   const data: { data: { content: string } } | null = await getPublicData({
     queryKey: ["/settings/legal/terms"],
     next: {
-      revalidate: 60 * 60 * 24 * 7,
+      revalidate: 60 * 60 * 1,
     },
   });
-
-  console.log("terms page content : ", data?.data?.content);
 
   return (
     <main className="flex w-full flex-col gap-22 md:my-22 my-16 wrapper">

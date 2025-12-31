@@ -33,7 +33,7 @@ const fetcherServer = async <T>(
       credentials: "include",
       next: {
         tags: [endpoint?.includes("?") ? endpoint?.split("?")[0] : endpoint],
-        revalidate: 60 * 60 * 12,
+        revalidate: 60 * 60 * 1,
         ...next,
       },
       cache: cache || "default",
