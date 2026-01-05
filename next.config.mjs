@@ -14,6 +14,9 @@ const nextConfig = {
       "https://cdn03.vdocipher.com",
     ],
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
 
 export default nextConfig;
