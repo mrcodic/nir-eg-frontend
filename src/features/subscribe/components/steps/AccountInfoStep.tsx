@@ -49,7 +49,7 @@ export default function AccountInfoStep({
       }
 
       const res = await axiosInstance.post("/onboarding/account", {
-        account: values,
+        account: { ...values, lang: "ar" },
       });
 
       console.log(res);

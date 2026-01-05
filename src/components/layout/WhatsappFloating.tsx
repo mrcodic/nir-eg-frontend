@@ -143,7 +143,7 @@ export default function WhatsAppFloating({
       <button
         onClick={() => setOpen((o) => !o)}
         aria-label={TEXT.openWhatsapp}
-        className="fixed z-10 rounded-full cursor-pointer "
+        className="fixed z-30 rounded-full cursor-pointer "
         style={{
           width: 80,
           height: 80,

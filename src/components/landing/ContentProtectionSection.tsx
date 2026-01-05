@@ -114,7 +114,7 @@ export default function ContentProtectionSection({
                 </MotionWrapper>
 
                 {/* Text */}
-                <p className="font-bold text-xl">{title}</p>
+                <p className="font-bold text-sm md:text-xl">{title}</p>
               </MotionWrapper>
             ))}
           </ul>

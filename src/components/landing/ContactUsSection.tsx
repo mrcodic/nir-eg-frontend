@@ -19,13 +19,13 @@ export default function ContactUsSection() {
       viewport={{ amount: 0.2, once: true }}
     >
       <div className="section bg-[url('/assets/backgrounds/bg-vector.png')] p-4 bg-background rounded-lg flex max-lg:flex-col-reverse relative gap-y-8">
-        <div className="bg-white w-1/2 max-lg:w-full rounded-lg shadow-sm p-6">
+        <div className="bg-white w-1/2 max-lg:w-full rounded-lg shadow-sm sm:p-6 p-3">
           <LazyOnView className="min-h-[600px]">
             <ContactUsForm />
           </LazyOnView>
         </div>
 
-        <div className=" lg:w-1/2 flex flex-col justify-center px-8  rounded-lg">
+        <div className=" lg:w-1/2 flex flex-col justify-center lg:px-8  rounded-lg">
           <Image
             src="/logo.svg"
             alt="logo"

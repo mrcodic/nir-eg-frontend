@@ -112,11 +112,13 @@ export default function Home() {
         </Suspense>
       </LazyOnView>
 
-      <LazyOnView className="min-h-[730px] md:min-h-[500px]">
+      <LazyOnView className="min-h-[500px]">
         <AppsLinksSection />
       </LazyOnView>
 
-      <PartnersAndClientsSection />
+      <Suspense fallback={null}>
+        <PartnersAndClientsSection />
+      </Suspense>
 
       <ContactUsSection />
     </main>

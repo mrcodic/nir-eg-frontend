@@ -1,13 +1,14 @@
 "use client";
 
+import LottieFromPath from "@/lib/lottie-wrapper";
 import { WhyChooseSection } from "@/types/landing.types";
-import Lottie from "lottie-react";
-import dashboardAnimation from "../../../public/assets/animations/dashboard-1.json";
-import liveAnimation from "../../../public/assets/animations/live-2.json";
-import toolsAnimation from "../../../public/assets/animations/tools-3.json";
 import MotionWrapper from "../MotionWrapper";
 
-const animations = [dashboardAnimation, liveAnimation, toolsAnimation];
+const animations = [
+  "/assets/animations/dashboard-1.json",
+  "/assets/animations/live-2.json",
+  "/assets/animations/tools-3.json",
+];
 
 function WhyUsSection({ data }: { data: WhyChooseSection }) {
   if (!data?.items?.length) return null;
@@ -32,8 +33,8 @@ function WhyUsSection({ data }: { data: WhyChooseSection }) {
           >
             <div className="absolute opacity-0 inset-0 bg-blue-gradient group-hover:opacity-100 transition-all z-1" />
 
-            <Lottie
-              animationData={animations[index]}
+            <LottieFromPath
+              path={animations[index]}
               className="size-60 aspect-square max-w-full relative z-2"
             />
 

@@ -57,7 +57,7 @@ function AppsLinksSection() {
       whileInView="visible"
       viewport={{ once: true, amount: 0.3 }}
     >
-      <div className="relative p-6 overflow-hidden min-h-[500px] rounded-lg section flex">
+      <div className="relative p-3 sm:p-6 overflow-hidden min-h-[500px] rounded-lg section flex">
         {/* Gradient */}
         <div className="absolute bg-blue-gradient -z-2 inset-0" />
 
@@ -93,7 +93,7 @@ function AppsLinksSection() {
               </h5>
 
               <MotionWrapper
-                className="flex gap-6 mt-4 flex-wrap"
+                className="flex gap-2 sm:gap-6 mt-4 "
                 variants={{
                   visible: {
                     transition: { staggerChildren: 0.1 },

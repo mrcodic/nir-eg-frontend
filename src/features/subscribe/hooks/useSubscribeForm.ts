@@ -242,7 +242,9 @@ export function useSubscribeForm({
       resetAllForms();
 
       // alert("تم الاشتراك بنجاح! 🎉");
-      router.push("/subscribe/building?timestamp=" + Date.now());
+      router.push(
+        "/subscribe/building?tenant_id=" + res?.data.data?.tenant?.id
+      );
     } catch (error) {
       console.error("Submission error:", error);
       if (

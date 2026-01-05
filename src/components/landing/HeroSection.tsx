@@ -1,17 +1,10 @@
+import LottieFromPath from "@/lib/lottie-wrapper";
 import Image from "next/image";
-import { preload } from "react-dom";
 import MotionWrapper from "../MotionWrapper";
 import HeroButtons from "./HeroButtons";
-import HeroLottie from "./HeroLottie";
 import HeroText from "./HeroText";
 
 function HeroSection() {
-  preload("/assets/animations/optimized-hero-nir.json", {
-    as: "object",
-    type: "application/json",
-    fetchPriority: "high",
-  });
-
   return (
     <section className="wrapper bg-[url('/assets/backgrounds/bg-vector.png')] bg-fill overflow-hidden relative text-center pb-12">
       <HeroText />
@@ -83,7 +76,7 @@ function HeroSection() {
           }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <HeroLottie />
+          <LottieFromPath path={"/assets/animations/optimized-hero-nir.json"} />
         </MotionWrapper>
       </MotionWrapper>
     </section>

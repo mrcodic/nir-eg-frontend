@@ -30,9 +30,9 @@ export default function SubscribeForm({
   } = useSubscribeForm({ variant, planId, period });
 
   return (
-    <div className="flex flex-row-reverse wrapper my-16 md:my-22 gap-10">
+    <div className="flex flex-row-reverse wrapper my-16 md:my-22 gap-16 lg:gap-10 max-lg:flex-col-reverse">
       {/* Sidebar - Fixed on desktop */}
-      <aside className="hidden lg:block">
+      <aside className="">
         <FormSidebar variant={variant} planId={planId} period={period} />
       </aside>
 

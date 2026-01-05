@@ -47,8 +47,8 @@ export default function PricingPlanCard({
     <Card
       className={cn(
         isOverview
-          ? ` hidden relative overflow-hidden lg:flex flex-col h-fit justify-center items-center
-        w-[min(360px,25vw)] p-4 border-none rounded-lg`
+          ? `  relative overflow-hidden flex flex-col h-fit justify-center items-center
+        lg:w-[min(360px,25vw)] p-4 border-none rounded-lg`
           : "relative flex-1 rounded-lg h-fit overflow-hidden backdrop-blur transition-transform duration-200 border-none shadow-none max-lg:w-full max-w-lg max-lg:mx-auto lg:min-w-[280px] p-4 min-h-[554px]",
         {
           "max-w-md mx-auto": isThreePlans,
