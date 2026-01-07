@@ -11,14 +11,14 @@ function GuestDropdown() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="mobile:hidden flex size-10 items-center justify-center rounded-lg bg-white shadow-md">
+        <button className="mobile:hidden flex size-10 cursor-pointer items-center justify-center rounded-lg bg-white shadow-md">
           <img src="/assets/burgerIcon.svg" className=" " />
         </button>
       </DropdownMenuTrigger>
       {/* w-[calc(100vw-32px)] sm:ms-[7.5vw] sm:w-[85vw] md:ms-[calc(10vw+16px)] md:w-[calc(80vw-32px)] */}
       <DropdownMenuContent
         className={cn(
-          "mobile:hidden flex w-full min-w-[200px] flex-col gap-2 p-2 group-data-[template=landing-v3]/template:ms-4 group-data-[template=landing-v3]/template:mt-5",
+          "mobile:hidden bg-primary-50 flex w-full min-w-[200px] flex-col gap-2 p-2 group-data-[template=landing-v3]/template:ms-4 group-data-[template=landing-v3]/template:mt-5",
           // {
           //   "ms-4 mt-5": template == 3,
           // },
@@ -26,16 +26,22 @@ function GuestDropdown() {
       >
         <Link
           href={"/login"}
-          className="mx-auto flex w-full items-center justify-center rounded-[10px] border border-[#523412] bg-[#523412] p-2 text-center font-bold text-white outline-offset-1 outline-red-500"
+          className="border-primary-800 bg-primary-800 mx-auto flex w-full items-center justify-center rounded-[10px] border p-2 text-center font-bold text-white outline-offset-1 outline-red-500"
         >
-          <DropdownMenuItem> تسجيل دخول </DropdownMenuItem>
+          <DropdownMenuItem className="cursor-pointer">
+            {" "}
+            تسجيل دخول{" "}
+          </DropdownMenuItem>
         </Link>
 
         <Link
           href={"/register"}
-          className="mx-auto flex w-full items-center justify-center rounded-[10px] border border-[#523412] bg-transparent p-2 text-center text-[18px] font-bold text-[#523412]"
+          className="border-primary-800 text-primary-800 mx-auto flex w-full items-center justify-center rounded-[10px] border bg-transparent p-2 text-center text-[18px] font-bold"
         >
-          <DropdownMenuItem> إنشاء حساب</DropdownMenuItem>
+          <DropdownMenuItem className="cursor-pointer">
+            {" "}
+            إنشاء حساب
+          </DropdownMenuItem>
         </Link>
 
         <div className="border-gray-light flex w-full items-center justify-center gap-2 rounded-[10px] border p-2 md:hidden">

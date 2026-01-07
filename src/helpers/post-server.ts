@@ -1,23 +1,13 @@
-// helpers/mutate-client.ts
-"use client";
-
-import Cookies from "js-cookie";
 import { cookies } from "next/headers";
 import { buildApiUrl, extractTenantFromHost, parseError } from "./fetch-utils";
 
-export async function mutateClient<T>(
+export async function mutateServer<T>(
   endpoint: string,
   body: unknown,
   auth = false,
 ): Promise<T> {
   try {
-    const isClient = typeof window !== "undefined";
-
-    const token = auth
-      ? isClient
-        ? Cookies.get("nir_token")
-        : (await cookies()).get("nir_token")?.value
-      : undefined;
+    const token = auth ? (await cookies()).get("nir_token")?.value : undefined;
 
     const { subdomain, host } = extractTenantFromHost();
 
