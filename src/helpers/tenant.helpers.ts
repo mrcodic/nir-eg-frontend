@@ -10,6 +10,12 @@ export const getCurrentTemplateColor = () => {
   return color;
 };
 
+export const mapTemplateToNumber = {
+  "landing-v1": 1,
+  "landing-v2": 2,
+  "landing-v3": 3,
+};
+
 export const hslToHex = (hsl: string) => {
   const [h, s, l] = hsl.replace(/%/g, "").split(" ").map(Number);
   if ([h, s, l].some(Number.isNaN)) return "#000000";

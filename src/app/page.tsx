@@ -1,18 +1,18 @@
 import TemplateOne from "@/components/guest-templates/TemplateOne";
 import TemplateThree from "@/components/guest-templates/TemplateThree";
 import TemplateTwo from "@/components/guest-templates/TemplateTwo";
-import { getCurrentTemplate } from "@/helpers/template.helpers";
-
-const template = getCurrentTemplate();
+import { getTenantSettingsServer } from "@/services/getTenantSettingsServer";
 
 const mapTemplate = {
-  1: TemplateOne,
-  2: TemplateTwo,
-  3: TemplateThree,
+  "landing-v1": TemplateOne,
+  "landing-v2": TemplateTwo,
+  "landing-v3": TemplateThree,
 };
 
-const GuestPage = () => {
-  const Template = mapTemplate[template] || TemplateOne;
+const GuestPage = async () => {
+  const tenantSettings = await getTenantSettingsServer();
+
+  const Template = mapTemplate[tenantSettings?.landing_template] || TemplateOne;
 
   return <Template />;
 };

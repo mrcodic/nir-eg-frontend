@@ -1,70 +1,50 @@
+// helpers/fetch-server.ts
+import "server-only";
+
 import CustomError from "@/lib/customError";
 import { IGetDataOptions } from "@/types/helpers.types";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import "server-only";
+import { buildApiUrl, FetchOptions } from "./fetch-utils";
 import reactCache from "./reactCache";
+import { extractTenantFromHostServer } from "./server-utils";
 
-const fetcherServer = async <T>(
-  { queryKey: [endpoint], next, cache }: IGetDataOptions,
-  authenticated: boolean,
-) => {
-  if (!endpoint || typeof endpoint !== "string") {
-    return null;
-  }
-
-  let token = "";
-
-  if (authenticated) {
-    const cookiesStore = await cookies();
-    token = cookiesStore.get("nir_token")?.value || "";
-
-    if (!token && endpoint.includes("students/profile")) {
-      return null;
-    }
-  }
-
+export async function fetchServer<T>({
+  queryKey: [endpoint],
+  auth = false,
+  cache = "default",
+  next,
+}: FetchOptions): Promise<T | null> {
   try {
-    const fullUrl = `${process.env.NEXT_PUBLIC_BASE_URL}${
-      endpoint.startsWith("/") ? endpoint : `/${endpoint}`
-    }`;
+    if (!endpoint || typeof endpoint !== "string") return null;
 
-    const res = await fetch(fullUrl, {
+    const { subdomain, host } = await extractTenantFromHostServer();
+
+    const token = auth ? (await cookies()).get("nir_token")?.value : null;
+
+    if (auth && !token) return null;
+
+    const res = await fetch(buildApiUrl(subdomain, endpoint), {
       headers: {
         Accept: "application/json",
-        ...(authenticated ? { Authorization: `Bearer ${token}` } : {}),
+        "X-Tenant-Domain": host,
+        ...(auth ? { Authorization: `Bearer ${token}` } : {}),
       },
       credentials: "include",
-      next: {
-        tags: [endpoint?.includes("?") ? endpoint?.split("?")[0] : endpoint],
-        ...next,
-      },
-      cache: cache || "default",
+      cache,
+      next,
     });
 
     if (!res.ok) {
-      console.log("res : ", res);
-      try {
-        const data = await res.json();
-        console.error(`💥 response : `, data);
-        throw new CustomError(data.message, res.status || 500);
-      } catch (error) {
-        if (error instanceof CustomError) {
-          throw error;
-        }
-        console.error(`💥 response err : `, res);
-        // console.error(`Failed to fetch data from ${endpoint}`);
-        throw new CustomError(
-          `Failed to fetch data from ${endpoint}`,
-          res.status || 500,
-        );
-      }
+      if (res.status === 401) redirect("/login");
+      if (res.status === 403) redirect("/unauthorized");
+
+      const data = await res.json().catch(() => null);
+      throw new CustomError(data?.message ?? "Server error", res.status);
     }
 
     return res.json() as Promise<T>;
   } catch (error) {
-    console.error(`Error in fetcher for ${endpoint}:`, error);
-
     if (error?.response?.data?.code === 403) {
       console.log("unauth redirect");
       redirect("/unAuth");
@@ -81,7 +61,7 @@ const fetcherServer = async <T>(
       throw new CustomError(`Failed to fetch data from ${endpoint}`, 500);
     }
   }
-};
+}
 
 export const getServerData = reactCache(
   async <T = any>({
@@ -90,5 +70,5 @@ export const getServerData = reactCache(
     cache,
     isAuth = true,
   }: IGetDataOptions): Promise<T | null> =>
-    fetcherServer({ queryKey: [endpoint], next, cache }, isAuth),
+    fetchServer({ queryKey: [endpoint], next, cache, auth: isAuth }),
 );

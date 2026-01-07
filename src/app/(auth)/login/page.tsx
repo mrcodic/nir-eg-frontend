@@ -120,10 +120,7 @@ const AuthPage = () => {
         <div className="bg-gray-light mt-2 h-px w-full" />
 
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="mt-[40px] w-full"
-          >
+          <form onSubmit={form.handleSubmit(onSubmit)} className="mt-10 w-full">
             <CustomPhoneInput
               name="phone.phone"
               form={form}
@@ -131,12 +128,7 @@ const AuthPage = () => {
               countryFieldName="phone.country"
               countryISOFieldName="phone.country_iso"
             />
-            {/* <CustomInput
-              name="phone.phone"
-              control={form.control}
-              placeholder="رقم هاتف الطالب"
-              iconSrc="/assets/Phone1.svg"
-            /> */}
+
             <CustomInput
               className="mt-6"
               name="password"

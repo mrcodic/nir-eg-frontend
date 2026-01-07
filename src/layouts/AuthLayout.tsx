@@ -1,14 +1,11 @@
 "use client";
 
-import { getCurrentTemplate } from "@/helpers/template.helpers";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { useEffect } from "react";
 import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 
 const AuthLayout = ({ children, img }) => {
-  const template = getCurrentTemplate();
-
   useEffect(() => {
     return () => {
       // Delay cleanup by e.g. 300ms
@@ -40,15 +37,15 @@ const AuthLayout = ({ children, img }) => {
     >
       <div
         className={cn(
-          "grow min-h-[calc(100%-80px)] mt-20 flex flex-wrap h-full lg:items-start",
-          {
-            "mt-0": template == 3,
-          }
+          "mt-20 flex h-full min-h-[calc(100%-80px)] grow flex-wrap group-data-[template=landing-v3]/template:mt-0 lg:items-start",
+          // {
+          //   "mt-0": template == 3,
+          // },
         )}
       >
-        <div className="flex justify-center lg:w-[38%] bg-primary-radial max-lg:w-full max-lg:h-[400px] lg:self-stretch items-center relative">
+        <div className="bg-primary-radial relative flex items-center justify-center max-lg:h-[400px] max-lg:w-full lg:w-[38%] lg:self-stretch">
           <Image
-            className="w-full  object-cover  lg:object-bottom relative z-10"
+            className="relative z-10 w-full object-cover lg:object-bottom"
             src="/assets/bg/design.png"
             alt="instructor photo"
             fill
@@ -57,10 +54,10 @@ const AuthLayout = ({ children, img }) => {
 
         <main
           className={cn(
-            "py-[62px] relative z-10 p-5 lg:w-[52%] lg:mx-auto mx-4 max-lg:w-full -mt-40 lg:mt-0 bg-white!",
-            {
-              "lg:mt-32": template == 3,
-            }
+            "relative z-10 mx-4 -mt-40 bg-white! p-5 py-[62px] max-lg:w-full lg:mx-auto lg:mt-0 lg:w-[52%] group-data-[template=landing-v3]/template:lg:mt-32",
+            // {
+            //   "lg:mt-32": template == 3,
+            // },
           )}
         >
           {children}

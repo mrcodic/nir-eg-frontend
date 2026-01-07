@@ -3,7 +3,6 @@
 import ExamForm from "@/components/forms/ExamForm";
 import RoomSheet from "@/components/sheets/RoomSheet";
 import { useTaskContext } from "@/context/TaskProvider";
-import { getCurrentTemplate } from "@/helpers/template.helpers";
 import ProtectedRoute from "@/layouts/ProtectedRoute";
 import { cn } from "@/lib/utils";
 import ExamSideInfo from "@/modules/exam/components/ExamSideInfo";
@@ -11,8 +10,6 @@ import ExamSideNav from "@/modules/exam/components/ExamSideNav";
 import SubmitLoader from "@/modules/exam/components/SubmitLoader";
 
 const ExamPage = () => {
-  const template = getCurrentTemplate();
-
   const {
     start,
     isLoading,
@@ -34,18 +31,18 @@ const ExamPage = () => {
     >
       <div
         className={cn(
-          "wrapper mt-28 mb-[186px] flex h-[calc(100%-80px)] flex-col items-center gap-8 py-4 md:items-start md:gap-10 lg:flex-row lg:gap-8",
-          {
-            "mt-32": template == 3,
-          },
+          "wrapper group- mt-28 mb-[186px] flex h-[calc(100%-80px)] flex-col items-center gap-8 py-4 group-data-[template=landing-v3]/template:mt-32 md:items-start md:gap-10 lg:flex-row lg:gap-8",
+          // {
+          //   "mt-32": template == 3,
+          // },
         )}
       >
         <div
           className={cn(
-            "top-[85px] flex flex-col space-y-4 overflow-y-auto max-lg:w-full lg:sticky lg:max-h-[calc(100vh-90px)]",
-            {
-              "top-29 lg:max-h-[calc(100vh-126px)]": template == 3,
-            },
+            "top-[85px] flex flex-col space-y-4 overflow-y-auto group-data-[template=landing-v3]/template:top-29 max-lg:w-full lg:sticky lg:max-h-[calc(100vh-90px)] group-data-[template=landing-v3]/template:lg:max-h-[calc(100vh-126px)]",
+            // {
+            //   "top-29 lg:max-h-[calc(100vh-126px)]": template == 3,
+            // },
           )}
         >
           <ExamSideInfo

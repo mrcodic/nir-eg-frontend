@@ -2,12 +2,6 @@ import { CartItem } from "@/context/booksCartStore";
 import { Book } from "@/types/books.types";
 import { instanceClient } from "@/utils/instanceClient";
 
-import axios from "axios";
-
-export const axiosInstance = axios.create({
-  withCredentials: true,
-});
-
 interface ServerGetCartResponse {
   data: {
     id: number;
@@ -50,7 +44,7 @@ const cartServices = {
 
   removeItem: async (id: string): Promise<void> => {
     try {
-      const res = await instanceClient.delete("/cart/remove/" + id);
+      await instanceClient.delete("/cart/remove/" + id);
     } catch (error) {
       console.log("🚀 ~ removeItem ~ error:", error);
       throw error;
@@ -59,7 +53,7 @@ const cartServices = {
 
   updateItem: async (id: string, delta: number): Promise<void> => {
     try {
-      const res = await instanceClient.post("/cart/items/" + id, {
+      await instanceClient.post("/cart/items/" + id, {
         delta,
       });
     } catch (error) {

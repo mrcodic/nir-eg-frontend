@@ -8,7 +8,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { getCurrentTemplate } from "@/helpers/template.helpers";
 import { cn } from "@/lib/utils";
 import { MenuIcon } from "lucide-react";
 
@@ -18,28 +17,30 @@ function MobileDropDown({
   STUDENTSOFFLINELINKS,
 }) {
   const pathName = usePathname();
-  const template = getCurrentTemplate();
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="size-10 rounded-lg bg-white  shadow-md  flex justify-center items-center mobile:hidden px-1">
+      <DropdownMenuTrigger className="mobile:hidden flex size-10 items-center justify-center rounded-lg bg-white px-1 shadow-md">
         <MenuIcon size={24} />
       </DropdownMenuTrigger>
 
       <DropdownMenuContent
         sideOffset={20}
-        className={cn("mobile:hidden w-full mt-2", {
-          "w-[calc(100vw-32px)] sm:w-[85vw]  md:w-[calc(80vw-32px)] ms-4 sm:ms-[7.5vw] md:ms-[calc(10vw+16px)]":
-            template == 3,
-        })}
+        className={cn(
+          "mobile:hidden mt-2 w-full group-data-[template=landing-v3]/template:ms-4 group-data-[template=landing-v3]/template:w-[calc(100vw-32px)] group-data-[template=landing-v3]/template:sm:ms-[7.5vw] group-data-[template=landing-v3]/template:sm:w-[85vw] group-data-[template=landing-v3]/template:md:ms-[calc(10vw+16px)] group-data-[template=landing-v3]/template:md:w-[calc(80vw-32px)]",
+          //    {
+          //   "ms-4 w-[calc(100vw-32px)] sm:ms-[7.5vw] sm:w-[85vw] md:ms-[calc(10vw+16px)] md:w-[calc(80vw-32px)]":
+          //     template == 3,
+          // }
+        )}
       >
         <div
           className={cn(
-            `relative  left-0  flex-col   bg-background p-4 transition-all    `,
-            {
-              wrapper: template == 3,
-              "w-screen": template != 3,
-            }
+            `bg-background group-data-[template=landing-v3]/template:wrapper relative left-0 flex-col p-4 transition-all group-data-[template!=landing-v3]/template:w-screen`,
+            // {
+            //   wrapper: template == 3,
+            //   "w-screen": template != 3,
+            // },
           )}
         >
           {(profile?.type === 3
@@ -49,11 +50,11 @@ function MobileDropDown({
             <Link
               key={index}
               href={studentOffline.href}
-              className={`border px-3 border-gray-light mb-4 h-[44px] flex items-center justify-center rounded-[10px] ${
+              className={`border-gray-light mb-4 flex h-11 items-center justify-center rounded-[10px] border px-3 ${
                 pathName.substring(0, 6) === studentOffline.href.substring(0, 6)
                   ? "bg-primary text-white"
                   : "bg-transparent text-[#523412]"
-              }   `}
+              } `}
             >
               <DropdownMenuItem>{studentOffline.title}</DropdownMenuItem>
             </Link>

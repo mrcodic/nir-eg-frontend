@@ -1,6 +1,5 @@
 "use client";
 
-import { getCurrentTemplate } from "@/helpers/template.helpers";
 import { useToast } from "@/hooks/use-toast";
 import LinkLocked from "@/layouts/LinkLocked";
 import { cn } from "@/lib/utils";
@@ -32,7 +31,6 @@ const RoomSideContent = ({
   className,
 }: RoomSideContentProps) => {
   const { SingleCourse, room } = useParams();
-  const template = getCurrentTemplate();
   const router = useRouter();
 
   if (!data) return null;
@@ -40,8 +38,8 @@ const RoomSideContent = ({
   return (
     <div
       className={cn(
-        "border-gray-light sticky top-22 h-fit max-h-[max(calc(100vh-90px),600px)] w-full overflow-y-auto rounded-lg border p-4",
-        { "top-29": template === 3 },
+        "border-gray-light sticky top-22 h-fit max-h-[max(calc(100vh-90px),600px)] w-full overflow-y-auto rounded-lg border p-4 group-data-[template=landing-v3]/template:top-29",
+        // { "top-29": template === 3 },
         className,
       )}
     >

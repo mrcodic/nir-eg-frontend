@@ -12,13 +12,14 @@ export async function mutateClient<T>(
 ): Promise<T> {
   try {
     const isClient = typeof window !== "undefined";
+
     const token = auth
       ? isClient
         ? Cookies.get("nir_token")
         : (await cookies()).get("nir_token")?.value
       : undefined;
 
-    const { subdomain, host } = await extractTenantFromHost();
+    const { subdomain, host } = extractTenantFromHost();
 
     const res = await fetch(buildApiUrl(subdomain, endpoint), {
       method: "POST",

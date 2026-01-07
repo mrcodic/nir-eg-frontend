@@ -1,14 +1,15 @@
 "use server";
 
+import { getServerData } from "@/helpers/server-fetch";
 import axios from "axios";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import "nprogress/nprogress.css";
 
-export const instance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BASE_URL,
-});
+// export const instance = axios.create({
+//   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
+// });
 
 export const logoutAction = async () => {
   await deleteCookie();
@@ -90,7 +91,7 @@ export const postTamperAttempt = async ({
       client: [userIp, ua, screen, tz, lang],
     };
 
-    const res = await instance.post("/sensors/ingest", body, {
+    const res = await axios.post("/sensors/ingest", body, {
       headers: {
         Authorization: `Bearer ${JSON.parse(authToken)}`,
         "Content-Type": "application/json",
@@ -105,25 +106,12 @@ export const postTamperAttempt = async ({
   }
 };
 
-export const getCities = async ({ queryKey: [path] }) => {
-  try {
-    const normalized = path.startsWith("/") ? path : `/${path}`;
-    const { data } = await instance.get(normalized);
-    return data;
-  } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      throw error;
-    }
-    throw error;
-  }
-};
-
 export const postData = async ([endpoint, body]) => {
   try {
     let token = await getCookie();
     const headersList = await headers();
 
-    const response = await instance.post(endpoint, body, {
+    const response = await axios.post(endpoint, body, {
       withCredentials: true,
       headers: {
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
@@ -142,7 +130,7 @@ export const postCommentData = async (endpoint, body) => {
   try {
     let token = await getCookie();
 
-    const response = await instance.post(endpoint, body, {
+    const response = await axios.post(endpoint, body, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -157,7 +145,7 @@ export const postFormData = async (body) => {
   try {
     let token = await getCookie();
 
-    const response = await instance.post("/students/profile/edit", body, {
+    const response = await axios.post("/students/profile/edit", body, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",
@@ -171,7 +159,7 @@ export const postFormData = async (body) => {
 
 export const getOtp = async (phone) => {
   try {
-    const response = await instance.post("/otp/request", {
+    const response = await axios.post("/otp/request", {
       phone,
     });
 
@@ -182,7 +170,10 @@ export const getOtp = async (phone) => {
 };
 export const getProfile = async () => {
   try {
-    const response = await instance.get("/students/profile");
+    const response = await getServerData({
+      queryKey: ["/students/profile"],
+      isAuth: true,
+    });
 
     return response.data;
   } catch (error) {
@@ -194,6 +185,7 @@ export const saveCookie = async (token) => {
   const cookieStore = await cookies();
   cookieStore.set("nir_token", token);
 };
+
 export const getCookie = async (name: string = "nir_token") => {
   const cookieStore = await cookies();
   return cookieStore.get(name)?.value || null;

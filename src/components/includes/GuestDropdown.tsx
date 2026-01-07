@@ -4,46 +4,48 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { getCurrentTemplate } from "@/helpers/template.helpers";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
 function GuestDropdown() {
-  const template = getCurrentTemplate();
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="size-10 rounded-lg bg-white shadow-md  flex justify-center items-center md:hidden  ">
+        <button className="mobile:hidden flex size-10 items-center justify-center rounded-lg bg-white shadow-md">
           <img src="/assets/burgerIcon.svg" className=" " />
         </button>
       </DropdownMenuTrigger>
-
+      {/* w-[calc(100vw-32px)] sm:ms-[7.5vw] sm:w-[85vw] md:ms-[calc(10vw+16px)] md:w-[calc(80vw-32px)] */}
       <DropdownMenuContent
-        className={cn("mobile:hidden w-full flex flex-col gap-2 p-2 ", {
-          "w-[calc(100vw-32px)] sm:w-[85vw]  md:w-[calc(80vw-32px)] ms-4 sm:ms-[7.5vw] md:ms-[calc(10vw+16px)] mt-5":
-            template == 3,
-        })}
+        className={cn(
+          "mobile:hidden flex w-full min-w-[200px] flex-col gap-2 p-2 group-data-[template=landing-v3]/template:ms-4 group-data-[template=landing-v3]/template:mt-5",
+          // {
+          //   "ms-4 mt-5": template == 3,
+          // },
+        )}
       >
         <Link
           href={"/login"}
-          className="text-center font-bold w-full mx-auto flex justify-center items-center  bg-[#523412] p-2 border border-[#523412] outline-offset-1 outline-red-500 text-white   rounded-[10px]"
+          className="mx-auto flex w-full items-center justify-center rounded-[10px] border border-[#523412] bg-[#523412] p-2 text-center font-bold text-white outline-offset-1 outline-red-500"
         >
           <DropdownMenuItem> تسجيل دخول </DropdownMenuItem>
         </Link>
 
         <Link
           href={"/register"}
-          className="border text-center font-bold w-full mx-auto flex justify-center items-center bg-transparent p-2 text-[18px] text-[#523412]  border-[#523412]  rounded-[10px]"
+          className="mx-auto flex w-full items-center justify-center rounded-[10px] border border-[#523412] bg-transparent p-2 text-center text-[18px] font-bold text-[#523412]"
         >
           <DropdownMenuItem> إنشاء حساب</DropdownMenuItem>
         </Link>
 
-        <div className="border flex w-full  items-center justify-center gap-2 rounded-[10px] border-gray-light p-2">
-          <Link href="/#grades" className="w-full flex justify-center">
+        <div className="border-gray-light flex w-full items-center justify-center gap-2 rounded-[10px] border p-2 md:hidden">
+          <Link href="/#grades" className="flex w-full justify-center">
             <DropdownMenuItem>
               <h3>الصفوف الدراسية</h3>
-              <img className="w-[32px] h-[32px]" src="/assets/GradeColor.svg" />
+              <img
+                className="h-[32px] w-[32px]"
+                src="/assets/books-colored.svg"
+              />
             </DropdownMenuItem>
           </Link>
         </div>

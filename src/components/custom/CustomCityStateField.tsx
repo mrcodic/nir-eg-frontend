@@ -1,4 +1,4 @@
-import { getCities } from "@/utils/api";
+import { getPublicData } from "@/helpers/client-fetch";
 import { useCallback, useEffect, useState } from "react";
 import { ComboboxForm } from "./ComboBoxForm";
 
@@ -57,7 +57,7 @@ function CustomCityStateField({
         shouldValidate: true,
       });
     },
-    [form]
+    [form],
   );
 
   const onSelctState = useCallback(
@@ -70,9 +70,10 @@ function CustomCityStateField({
         shouldValidate: true,
       });
 
-      const response = await getCities({
+      const response = await getPublicData({
         queryKey: [`states/${framework.value}/cities`],
       });
+
       const mapped = Array.isArray(response)
         ? response.map((c) => ({ value: String(c.id), label: c.name }))
         : [];
@@ -88,7 +89,7 @@ function CustomCityStateField({
         form.setValue("city_id", undefined, { shouldValidate: true });
       }
     },
-    [isSettings, watchCity, cityValue, onSelctCity, form]
+    [isSettings, watchCity, cityValue, onSelctCity, form],
   );
 
   // for initial render to populate user data
@@ -96,7 +97,7 @@ function CustomCityStateField({
     if (!isSettings || stateValue) return;
     if (watchState) {
       const state = stateOptions.find(
-        (c) => String(c.value) == String(watchState)
+        (c) => String(c.value) == String(watchState),
       );
       onSelctState(state);
     }

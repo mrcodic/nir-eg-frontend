@@ -380,44 +380,7 @@
   }
 }
 
-/* @utility bg-primary-radial {
-  background: radial-gradient(
-    79.17% 79.17% at 20.83% 69.6%,
-    #20364e 0%,
-    #0d2237 100%
-  );
-}
-
-@utility bg-blue-gradient {
-  background: radial-gradient(
-    79.17% 79.17% at 20.83% 69.6%,
-    #25568b 0%,
-    #3286c2 100%
-  );
-}
-
-@utility bg-dark-gradient {
-  background-image: linear-gradient(
-    180deg,
-    rgba(13, 34, 55, 0.7) 0%,
-    rgba(13, 34, 55, 0.56) 40.59%,
-    rgba(13, 34, 55, 0.28) 106.39%
-  );
-} */
-
 @layer utilities {
-  /* :root {
-    --primary: #012d5a;
-    --overlay-primary: rgba(1, 32, 66, 0.8);
-  }
-  .grade2 {
-    --primary: #a23a38;
-    --overlay-primary: rgba(78, 30, 37, 0.8);
-  }
-  .grade3 {
-    --primary: #00696d;
-    --overlay-primary: rgba(2, 45, 45, 0.8);
-  } */
   body {
     direction: rtl;
     scroll-behavior: smooth;

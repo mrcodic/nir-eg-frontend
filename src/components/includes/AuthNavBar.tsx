@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { useAuthContext } from "@/context/auth-context";
 
-import { getCurrentTemplate } from "@/helpers/template.helpers";
+import { useTenant } from "@/context/TenantProvider";
 import { cn } from "@/lib/utils";
 import NavNotifications from "@/modules/norifications/components/NavNotifications";
 import LinkStyled from "./LinkStyled";
@@ -13,7 +13,7 @@ import NavUserMenu from "./NavUserMenu";
 
 const AuthNavBar = () => {
   const { profile, grade } = useAuthContext();
-  const template = getCurrentTemplate();
+  const { templateNumber } = useTenant();
 
   const STUDENTSONLINELINKS = [
     {
@@ -59,17 +59,17 @@ const AuthNavBar = () => {
   return (
     <div
       className={cn(
-        " h-20 border-b fixed top-0 left-0 w-full z-30 border-gray-light flex items-center  bg-background aria-hidden:pointer-events-auto! data-[aria-hidden='true']:pointer-events-auto!",
+        "border-gray-light bg-background fixed top-0 left-0 z-30 flex h-20 w-full items-center border-b aria-hidden:pointer-events-auto! data-[aria-hidden='true']:pointer-events-auto!",
         {
-          "bg-transparent  h-28 items-end border-none": template == 3,
-        }
+          "h-28 items-end border-none bg-transparent": templateNumber == 3,
+        },
       )}
     >
-      <div className="wrapper ">
+      <div className="wrapper">
         <div
-          className={cn("flex  items-center justify-between gap-4", {
-            "bg-background p-4 rounded-lg border border-gray-light":
-              template == 3,
+          className={cn("flex items-center justify-between gap-4", {
+            "bg-background border-gray-light rounded-lg border p-4":
+              templateNumber == 3,
           })}
         >
           <Link
@@ -78,12 +78,12 @@ const AuthNavBar = () => {
                 ? `/bundles/${profile?.center_id}`
                 : `/bundles?grade=${grade}`
             }
-            className="flex self-end gap-2"
+            className="flex gap-2 self-end"
           >
             <img src="/logo.svg" alt="logo" />
           </Link>
 
-          <ul className=" hidden mobile:flex mx-auto list-none text-[#FFFFFF] text-[16px] font-bold items-center gap-6">
+          <ul className="mobile:flex mx-auto hidden list-none items-center gap-6 text-[16px] font-bold text-[#FFFFFF]">
             {(profile?.type === 3
               ? STUDENTSOFFLINELINKS
               : STUDENTSONLINELINKS
@@ -96,7 +96,7 @@ const AuthNavBar = () => {
             ))}
           </ul>
 
-          <div className="flex gap-4 mobile:gap-6">
+          <div className="mobile:gap-6 flex gap-4">
             <NavNotifications />
 
             <NavUserMenu profile={profile} />

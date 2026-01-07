@@ -23,7 +23,7 @@ const BundlesPage = () => {
     }
   }, [profile, router]);
 
-  if (typeof window === "undefined" || isLoading || profile?.type === 3) {
+  if (isLoading || profile?.type === 3) {
     return (
       <div className="mt-[120px] mb-12 flex grow items-center justify-center">
         <LoadingSpinner />

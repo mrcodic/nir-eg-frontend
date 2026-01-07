@@ -1,8 +1,12 @@
+import { buildApiUrl, extractTenantFromHost } from "@/helpers/fetch-utils";
 import axios from "axios";
 import Cookies from "js-cookie";
 
+const { subdomain } = extractTenantFromHost();
+const apiURL = buildApiUrl(subdomain, "/");
+
 export const instanceClient = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BASE_URL,
+  baseURL: apiURL,
   withCredentials: true,
   headers: {
     accept: "application/json",
@@ -19,5 +23,5 @@ instanceClient.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );

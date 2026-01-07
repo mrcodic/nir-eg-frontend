@@ -1,5 +1,4 @@
 import CustomError from "@/lib/customError";
-import { headers } from "next/headers";
 
 export interface FetchOptions {
   queryKey: readonly unknown[];
@@ -8,10 +7,8 @@ export interface FetchOptions {
   auth?: boolean;
 }
 
-export async function extractTenantFromHost() {
-  const isServer = typeof window === "undefined";
-
-  const host = isServer ? (await headers()).get("host") : window.location.host;
+export function extractTenantFromHost() {
+  const host = window.location.host;
 
   // remove port
   const cleanHost = host.replace(/:\d+$/, "");
@@ -23,7 +20,7 @@ export async function extractTenantFromHost() {
 }
 
 export function buildTenantApiBase(tenant: string) {
-  return `https://${tenant}.admin.dashboard.com/api`;
+  return `https://${tenant}.dev.nir-edu.com/api/v1`;
 }
 
 export function buildApiUrl(tenant: string, endpoint: string) {
@@ -35,6 +32,8 @@ export function buildApiUrl(tenant: string, endpoint: string) {
 export async function parseError(res: Response) {
   try {
     const data = await res.json();
+
+    console.log(data);
     throw new CustomError(data?.message ?? "Request failed", res.status);
   } catch {
     throw new CustomError("Request failed", res.status);

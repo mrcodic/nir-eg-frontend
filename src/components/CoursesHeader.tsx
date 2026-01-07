@@ -1,7 +1,6 @@
 "use client";
 
 import { getClientPrivateData } from "@/helpers/client-fetch";
-import { getCurrentTemplate } from "@/helpers/template.helpers";
 import { cn } from "@/lib/utils";
 import { ICourseDetails, IUser } from "@/types";
 import { useQuery } from "@tanstack/react-query";
@@ -12,8 +11,6 @@ import SupportBadge from "./SupportBadge";
 import DataWithLabel from "./ui/DataWithLabel";
 
 const CoursesHeader = ({ details }: { details: ICourseDetails }) => {
-  const template = getCurrentTemplate();
-
   const COURSEDETAILS = [
     {
       icon: "/assets/time.svg",
@@ -43,9 +40,12 @@ const CoursesHeader = ({ details }: { details: ICourseDetails }) => {
 
   return (
     <div
-      className={cn(`bg-primary-radial relative mt-20`, {
-        "mt-0 pt-28": template == 3,
-      })}
+      className={cn(
+        `bg-primary-radial relative mt-20 group-data-[template=landing-v3]/template:mt-0 group-data-[template=landing-v3]/template:pt-28`,
+        //    {
+        //   "mt-0 pt-28": template == 3,
+        // }
+      )}
     >
       <div className="absolute inset-0 z-1">
         <Image

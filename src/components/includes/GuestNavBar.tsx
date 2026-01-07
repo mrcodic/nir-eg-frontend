@@ -1,6 +1,5 @@
 "use client";
 
-import { getCurrentTemplate } from "@/helpers/template.helpers";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,23 +8,25 @@ import GuestDropdown from "./GuestDropdown";
 
 const GuestNavBar = () => {
   const pathname = usePathname();
-  const template = getCurrentTemplate();
 
   return (
     <div
       className={cn(
-        "border-secondary bg-background fixed top-0 left-0 z-30 flex h-20 w-full items-center border-b aria-hidden:pointer-events-auto! data-[aria-hidden='true']:pointer-events-auto!",
-        {
-          "h-28 items-end border-none bg-transparent": template == 3,
-        },
+        "border-secondary bg-background fixed top-0 left-0 z-30 flex h-20 w-full items-center border-b group-data-[template=landing-v3]/template:h-28 group-data-[template=landing-v3]/template:items-end group-data-[template=landing-v3]/template:border-none group-data-[template=landing-v3]/template:bg-transparent aria-hidden:pointer-events-auto! data-[aria-hidden='true']:pointer-events-auto!",
+        // {
+        //   "h-28 items-end border-none bg-transparent": template == 3,
+        // },
       )}
     >
       <div className="wrapper">
         <div
-          className={cn("flex items-center justify-between gap-2", {
-            "bg-background border-gray-light rounded-lg border p-4":
-              template == 3,
-          })}
+          className={cn(
+            "group-data-[template=landing-v3]/template:bg-background group-data-[template=landing-v3]/template:border-gray-light flex items-center justify-between gap-2 group-data-[template=landing-v3]/template:rounded-lg group-data-[template=landing-v3]/template:border group-data-[template=landing-v3]/template:p-4",
+            //    {
+            //   "bg-background border-gray-light rounded-lg border p-4":
+            //     template == 3,
+            // }
+          )}
         >
           <div className="mobile:gap-[120px] flex items-center gap-12 self-end font-bold">
             <Link href={"/"}>
@@ -65,16 +66,16 @@ const GuestNavBar = () => {
             <GuestDropdown />
           </div>
 
-          <div className="mobile:gap-6 hidden gap-4 md:flex">
+          <div className="mobile:gap-6 mobile:flex hidden gap-4">
             <Link
               href={"/login"}
-              className="mobile:text-base hover:bg-secondary-hover text-secondary border-secondary mobile:w-[159px] w-[135px] rounded-[10px] border bg-transparent p-2 text-center text-sm text-[18px] font-bold transition-all"
+              className="mobile:text-base hover:bg-secondary-hover text-secondary border-secondary mobile:w-[159px] w-[135px] rounded-[10px] border bg-transparent p-2 text-center text-sm font-bold transition-all lg:text-lg"
             >
-              <span>تسجيل دخول</span>
+              تسجيل الدخول
             </Link>
             <Link
               href="/register"
-              className="mobile:text-base bg-primary-800 after mobile:w-[159px] hover:bg-primary-800/90 w-[135px] rounded-[10px] p-2 text-center text-sm font-bold text-white transition-all after:w-0.5"
+              className="mobile:text-base bg-primary-800 after mobile:w-[159px] hover:bg-primary-800/90 w-[135px] rounded-[10px] p-2 text-center text-sm font-bold text-white transition-all after:w-0.5 lg:text-lg"
             >
               إنشاء حساب
             </Link>

@@ -10,8 +10,6 @@ const AppTree = memo(function AppTree({ children }: { children: ReactNode }) {
 });
 
 function Providers({ children }: { children: React.ReactNode }) {
-  // useTemplateColor();
-
   return (
     <QueryProvider>
       <AuthContextProvider>
