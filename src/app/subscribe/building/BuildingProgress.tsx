@@ -5,6 +5,7 @@ import { Progress } from "@/components/ui/progress";
 import { getPublicData } from "@/config/client-fetch";
 import { StepName, TenantProgress } from "@/types/building.types";
 import Lottie from "lottie-react";
+import { Loader2 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import buildingAnimation from "../../../../public/assets/animations/waiting.json";
 
@@ -20,6 +21,7 @@ const mapStepNameToArabic: Record<StepName, string> = {
 export default function BuildProgress({ tenantId }: { tenantId: string }) {
   const [data, setData] = useState<TenantProgress | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
 
   useEffect(() => {
     // eslint-disable-next-line prefer-const
@@ -31,16 +33,16 @@ export default function BuildProgress({ tenantId }: { tenantId: string }) {
           queryKey: [`/tenants/${tenantId}/progress`],
         });
 
-        if (data?.percent === 100) {
-          // window.open(data?.domains?.public, "_blank");
-          // window.open(data?.domains?.admin + "/login", "_blank");
+        setData(data);
 
+        if (data?.percent === 100) {
           clearInterval(timer);
         }
-
-        setData(data);
       } catch {
         setError("حدث خطأ أثناء متابعة حالة الإنشاء");
+      } finally {
+        // ✅ stop loading ONLY after first response
+        setIsInitialLoading(false);
       }
     };
 
@@ -59,8 +61,25 @@ export default function BuildProgress({ tenantId }: { tenantId: string }) {
       : [];
   }, [data]);
 
+  const isCompleted = data?.percent === 100;
+
   const currentStep = useMemo(() => {
     if (!stepsArray.length) return null;
+
+    // ✅ Force last step as done when completed (UI only)
+    if (isCompleted) {
+      const lastStep = stepsArray.at(-1);
+      if (!lastStep) return null;
+
+      return [
+        lastStep[0],
+        {
+          ...lastStep[1],
+          status: "done",
+          skipped: false,
+        },
+      ] as typeof lastStep;
+    }
 
     const running = stepsArray.find(
       ([, step]) => step.status !== "done" && !step.skipped
@@ -68,9 +87,8 @@ export default function BuildProgress({ tenantId }: { tenantId: string }) {
     if (running) return running;
 
     const doneSteps = stepsArray.filter(([, step]) => step.status === "done");
-
     return doneSteps.at(-1) ?? null;
-  }, [stepsArray]);
+  }, [stepsArray, isCompleted]);
 
   return (
     <div className="flex items-center justify-center mb-20 mt-10">
@@ -106,6 +124,17 @@ export default function BuildProgress({ tenantId }: { tenantId: string }) {
 
           {error && <p className="mt-4 text-red-500 font-bold">{error}</p>}
 
+          {/* First-load loading progress */}
+          {isInitialLoading && !data && (
+            <div className="w-full mt-6 flex justify-center items-center gap-1">
+              <Loader2 className="animate-spin size-4 text-black" />
+              <p className="font-semibold sm:text-base text-sm animate-pulse">
+                جاري بدء عملية الإنشاء…
+              </p>
+            </div>
+          )}
+
+          {/* Actions after completion */}
           {data?.percent === 100 && (
             <div className="mt-6 flex gap-4">
               <a
@@ -113,25 +142,31 @@ export default function BuildProgress({ tenantId }: { tenantId: string }) {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Button variant={"animated-gradient"}>زيارة الموقع</Button>
+                <Button className="font-bold" variant="animated-gradient">
+                  زيارة الموقع
+                </Button>
               </a>
 
               <a
-                href={`${data?.domains?.admin}/login`}
+                href={`${data?.domains?.admin}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Button variant={"animated-gradient"}>لوحة التحكم</Button>
+                <Button className="font-bold" variant="animated-gradient">
+                  لوحة التحكم
+                </Button>
               </a>
             </div>
           )}
-          {/* Progress bar */}
-          <div className="w-full mt-4 space-y-3">
-            <Progress value={data?.percent ?? 0} />
-            <p className="font-semibold sm:text-base text-sm">
-              {data?.percent ?? 0}% مكتمل
-            </p>
-          </div>
+
+          {!isInitialLoading && (
+            <div className="w-full mt-4 space-y-3">
+              <Progress value={data?.percent ?? 0} />
+              <p className="font-semibold sm:text-base text-sm">
+                {data?.percent ?? 0}% مكتمل
+              </p>
+            </div>
+          )}
         </div>
       </main>
     </div>

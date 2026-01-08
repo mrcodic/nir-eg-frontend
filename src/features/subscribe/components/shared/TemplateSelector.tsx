@@ -19,18 +19,18 @@ const templateColors = [
 // Default templates - These would come from API in production
 const templates: TemplateOption[] = [
   {
-    id: "template-1",
-    name: "عربي",
+    id: "landing-v1",
+    name: "landing-v1",
     previewImage: "/images/templates/template-1.png",
   },
   {
-    id: "template-2",
-    name: "عربي",
+    id: "landing-v2",
+    name: "landing-v2",
     previewImage: "/images/templates/template-2.png",
   },
   {
-    id: "template-3",
-    name: "عربي",
+    id: "landing-v3",
+    name: "landing-v3",
     previewImage: "/images/templates/template-3.png",
   },
 ];
