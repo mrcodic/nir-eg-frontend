@@ -4,10 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { getPublicData } from "@/config/client-fetch";
 import { StepName, TenantProgress } from "@/types/building.types";
-import Lottie from "lottie-react";
 import { Loader2 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import buildingAnimation from "../../../../public/assets/animations/waiting.json";
+import BuildingAnimation from "./BuildingAnimation";
 
 const POLL_INTERVAL = 3000;
 
@@ -66,21 +65,6 @@ export default function BuildProgress({ tenantId }: { tenantId: string }) {
   const currentStep = useMemo(() => {
     if (!stepsArray.length) return null;
 
-    // ✅ Force last step as done when completed (UI only)
-    if (isCompleted) {
-      const lastStep = stepsArray.at(-1);
-      if (!lastStep) return null;
-
-      return [
-        lastStep[0],
-        {
-          ...lastStep[1],
-          status: "done",
-          skipped: false,
-        },
-      ] as typeof lastStep;
-    }
-
     const running = stepsArray.find(
       ([, step]) => step.status !== "done" && !step.skipped
     );
@@ -88,28 +72,30 @@ export default function BuildProgress({ tenantId }: { tenantId: string }) {
 
     const doneSteps = stepsArray.filter(([, step]) => step.status === "done");
     return doneSteps.at(-1) ?? null;
-  }, [stepsArray, isCompleted]);
+  }, [stepsArray]);
 
   return (
     <div className="flex items-center justify-center mb-20 mt-10">
       <main className="wrapper">
         <div className="flex flex-col items-center text-center">
           {/* Animation */}
-          <div className="sm:size-[428px] max-w-[428px] max-sm:w-full aspect-square">
-            <Lottie animationData={buildingAnimation} loop />
-          </div>
+          <BuildingAnimation isCompleted={isCompleted} />
 
           {/* Title */}
           <h1 className="mt-6 font-bold text-xl sm:text-32 text-gradient-custom">
-            نحن الآن نعمل على إنشاء موقعك…
+            {isCompleted
+              ? "تم انشاء موقعك بنجاح"
+              : "نحن الآن نعمل على إنشاء موقعك…"}
           </h1>
 
           <p className="mt-2 text-base sm:text-xl font-bold">
-            لا تغلق الصفحة، سيتم تحويلك تلقائيًا عند الانتهاء
+            {isCompleted
+              ? "يمكنك الان زيارة موقعك او لوحة التحكم الخاصة بك"
+              : "نحن الآن نعمل على إنشاء موقعك…"}
           </p>
 
           {/* Current step */}
-          {currentStep && (
+          {!isCompleted && currentStep && (
             <div className="mt-6 text-sm sm:text-base font-bold text-gray-dark flex gap-2 items-center">
               <span>{mapStepNameToArabic[currentStep[0]]}</span>
               <span>
@@ -126,7 +112,7 @@ export default function BuildProgress({ tenantId }: { tenantId: string }) {
 
           {/* First-load loading progress */}
           {isInitialLoading && !data && (
-            <div className="w-full mt-6 flex justify-center items-center gap-1">
+            <div className="w-full mt-8 flex justify-center items-center gap-1">
               <Loader2 className="animate-spin size-4 text-black" />
               <p className="font-semibold sm:text-base text-sm animate-pulse">
                 جاري بدء عملية الإنشاء…
@@ -136,7 +122,7 @@ export default function BuildProgress({ tenantId }: { tenantId: string }) {
 
           {/* Actions after completion */}
           {data?.percent === 100 && (
-            <div className="mt-6 flex gap-4">
+            <div className="mt-8 flex gap-4">
               <a
                 href={data?.domains?.public}
                 target="_blank"
