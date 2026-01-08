@@ -9,28 +9,15 @@ const links = [
 
 function SocialLinks({ className }: { className?: string }) {
   return (
-    <div className={cn("flex items-center gap-6 flex-wrap", className)}>
+    <div className={cn("flex flex-wrap items-center gap-6", className)}>
       {links.map((link) => (
         <a
           key={link.name}
           href={link.href}
-          className="
-            group
-            w-8 h-8 rounded-lg
-            bg-white
-            hover:bg-primary
-            transition-colors duration-300
-            flex items-center justify-center
-          "
+          className="group hover:bg-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white transition-colors duration-300"
         >
           <span
-            className="
-              w-5 h-5
-              bg-primary
-              transition-colors duration-300
-              group-hover:bg-white
-
-            "
+            className="bg-primary h-5 w-5 transition-colors duration-300 group-hover:bg-white"
             style={{
               WebkitMask: `url(${link.src}) no-repeat center / contain`,
               mask: `url(${link.src}) no-repeat center / contain`,

@@ -99,7 +99,7 @@ function NavNotifications() {
           ) : (
             <div className="flex flex-col items-center justify-center py-6">
               <Image
-                src="/assets/search-illustration.svg"
+                src="/assets/BellColor.svg"
                 width={300}
                 height={200}
                 alt="empty notifications icon"

@@ -9,14 +9,11 @@ import { createContext, useContext, useState } from "react";
 
 interface AuthContextType {
   token: string;
-  login: (token: string) => void;
   logout: () => Promise<void>;
   isLoading: boolean;
   setToken: (token: string) => void;
   profile: IUser | null;
   grade: number | undefined;
-  // storeGrade: (grade: string) => void;
-  // deleteGrade: () => void;
 }
 
 const AuthContext = createContext<AuthContextType>(null);
@@ -42,10 +39,6 @@ export const AuthContextProvider = ({ children }) => {
 
   const grade = profileData?.body?.grade;
 
-  const login = (token) => {
-    setToken(token);
-  };
-
   const logout = async () => {
     setToken(null);
     localStorage.removeItem("timer");
@@ -54,17 +47,17 @@ export const AuthContextProvider = ({ children }) => {
     await deleteCookie("nir_token");
   };
 
+  console.log("profile -> ", profileData?.body);
+
   return (
     <AuthContext.Provider
       value={{
-        login: login,
         logout: logout,
         token: token,
         setToken,
         profile: profileData?.body,
         isLoading,
         grade,
-        // deleteGrade,
       }}
     >
       {children}

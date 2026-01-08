@@ -70,6 +70,10 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function Layout({ children }) {
   const tenantSettings = await getTenantSettingsServer();
 
+  if (!tenantSettings) {
+    throw new Error("Tenant settings not found");
+  }
+
   const hslFromHex = hexToHsl(tenantSettings.primary_color);
 
   const cssVars =

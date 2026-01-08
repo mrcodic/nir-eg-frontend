@@ -1,32 +1,25 @@
+import axios from "axios";
 import Cookies from "js-cookie";
-import { buildApiUrl, extractTenantFromHost, parseError } from "./fetch-utils";
+import { buildApiUrl, extractTenantFromHost } from "./fetch-utils";
 
-export async function mutateClient<T>(
+export async function mutateClient<T = any>(
   endpoint: string,
-  body: unknown,
-  auth = false,
+  { body, auth = false }: { body: unknown; auth?: boolean },
 ): Promise<T> {
   try {
     const token = auth ? Cookies.get("nir_token") : undefined;
 
     const { subdomain, host } = extractTenantFromHost();
 
-    const res = await fetch(buildApiUrl(subdomain, endpoint), {
-      method: "POST",
+    const res = await axios.post(buildApiUrl(subdomain, endpoint), body, {
       headers: {
-        "Content-Type": "application/json",
         "X-Tenant-Domain": host,
         ...(auth && token ? { Authorization: `Bearer ${token}` } : {}),
       },
-      body: JSON.stringify(body),
-      credentials: "include",
+      withCredentials: true,
     });
 
-    if (!res.ok) {
-      await parseError(res);
-    }
-
-    return res.json();
+    return res.data;
   } catch (error) {
     console.log("post data error ", endpoint, error);
     throw error;

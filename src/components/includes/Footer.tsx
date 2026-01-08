@@ -14,15 +14,13 @@ const Footer = () => {
           </Link>
 
           <p className="text-right text-sm leading-relaxed font-bold">
-            More English هي مؤسسة تعليمية تهدف إلى تقديم أفضل الخدمات التعليمية
-            والتدريبية في اللغة الإنجليزية، تعمل على توفير بيئة تعليمية متطورة
-            تساعد على تحقيق الأهداف الشخصية والمهنية مع التركيز على تقديم دعم
-            مستمر وخدمات متكاملة لاحتياجاتك.
+            نَيِّر - Nir هو نظام إدارة التعليم يهدف إلى سد احتياجات المؤسسات
+            التعليمية الحديثة
           </p>
         </div>
 
         {/* Contact Section */}
-        <div className="mobile:col-span-4 mobile:mx-auto mobile:w-fit mobile:col-start-6 col-span-12 space-y-2">
+        <div className="mobile:col-span-4 mobile:mx-auto mobile:w-fit mobile:col-start-6 col-span-12 space-y-2 lg:pe-6">
           <h3 className="mb-4 text-right text-[16px] font-semibold">
             تواصل معنا
           </h3>

@@ -4,9 +4,9 @@ import "server-only";
 import CustomError from "@/lib/customError";
 import { IGetDataOptions } from "@/types/helpers.types";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 import { buildApiUrl, FetchOptions } from "./fetch-utils";
 import reactCache from "./reactCache";
+import { handleServerFetchError } from "./server-error-handler";
 import { extractTenantFromHostServer } from "./server-utils";
 
 export async function fetchServer<T>({
@@ -22,7 +22,12 @@ export async function fetchServer<T>({
 
     const token = auth ? (await cookies()).get("nir_token")?.value : null;
 
-    if (auth && !token) return null;
+    if (auth && !token) {
+      return handleServerFetchError(
+        new CustomError("Unauthenticated", 401),
+        endpoint,
+      );
+    }
 
     const res = await fetch(buildApiUrl(subdomain, endpoint), {
       headers: {
@@ -36,30 +41,25 @@ export async function fetchServer<T>({
     });
 
     if (!res.ok) {
-      if (res.status === 401) redirect("/login");
-      if (res.status === 403) redirect("/unauthorized");
-
       const data = await res.json().catch(() => null);
-      throw new CustomError(data?.message ?? "Server error", res.status);
+      throw new CustomError(data?.message ?? "Request failed", res.status);
     }
 
     return res.json() as Promise<T>;
   } catch (error) {
-    if (error?.response?.data?.code === 403) {
-      console.log("unauth redirect");
-      redirect("/unAuth");
-    } else if (error?.status === 403) {
-      console.log("unauth center redirect");
-      redirect("/unAuthCenter");
-    } else if (error?.status == 401 || error?.response?.data?.code == 410) {
-      console.log("login redirect");
-      redirect("/api/delete-session");
-    } else if (error instanceof CustomError) {
-      console.log("custom error redirect");
-      throw error;
-    } else {
-      throw new CustomError(`Failed to fetch data from ${endpoint}`, 500);
-    }
+    return handleServerFetchError(error, endpoint as string);
+    // if (error?.response?.data?.code === 403 || error?.status === 403) {
+    //   console.log("unauth redirect");
+    //   redirect("/unauthorized");
+    // } else if (error?.status == 401 || error?.response?.data?.code == 410) {
+    //   console.log("login redirect");
+    //   redirect("/api/delete-session");
+    // } else if (error instanceof CustomError) {
+    //   console.log("custom error redirect");
+    //   throw error;
+    // } else {
+    //   throw new CustomError(`Failed to fetch data from ${endpoint}`, 500);
+    // }
   }
 }
 

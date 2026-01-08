@@ -5,12 +5,14 @@ import LoadingSpinner from "@/components/Loading";
 import NewCourses from "@/components/NewCoursers";
 import SubbedCourses from "@/components/SubbedCourses";
 import { useAuthContext } from "@/context/auth-context";
+import { useMounted } from "@/hooks/useMounted";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 const BundlesPage = () => {
   const router = useRouter();
   const { token, profile, isLoading } = useAuthContext();
+  const isMounted = useMounted();
 
   useEffect(() => {
     console.log("effect");
@@ -23,7 +25,7 @@ const BundlesPage = () => {
     }
   }, [profile, router]);
 
-  if (isLoading || profile?.type === 3) {
+  if (!isMounted || isLoading || profile?.type === 3) {
     return (
       <div className="mt-[120px] mb-12 flex grow items-center justify-center">
         <LoadingSpinner />

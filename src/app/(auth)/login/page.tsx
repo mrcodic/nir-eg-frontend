@@ -10,6 +10,7 @@ import { Verify } from "@/components/modals/Verify";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useAuthContext } from "@/context/auth-context";
+import { mutateClient } from "@/helpers/post-client";
 import { useToast } from "@/hooks/use-toast";
 import AuthHeader from "@/layouts/AuthHeader";
 import { loginSchema } from "@/lib/schemas";
@@ -17,7 +18,6 @@ import { getUserPhoneFromStorage, presistUserPhone } from "@/lib/utils";
 import { saveCookie } from "@/utils/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
 import Cookies from "js-cookie";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -29,7 +29,7 @@ const AuthPage = () => {
   const queryClient = useQueryClient();
 
   const [verify, setVerify] = useState(false);
-  const { login } = useAuthContext();
+  const { setToken } = useAuthContext();
 
   const searchParams = useSearchParams();
   const redirectSearch = searchParams.get("redirect");
@@ -52,44 +52,32 @@ const AuthPage = () => {
   const onSubmit = async (v) => {
     try {
       const { phone, ...rest } = v;
-      const response = await axios.post(
-        "/api?url=auth/login",
-        {
+      const response = await mutateClient("/auth/login", {
+        body: {
           ...rest,
           ...phone,
         },
-        {
-          withCredentials: true,
-        },
-      );
+      });
 
-      await saveCookie(response?.data?.access_token);
+      await saveCookie(response?.access_token);
 
       Cookies.remove("guest_token");
       queryClient.invalidateQueries({ queryKey: ["students/profile"] });
 
-      login(response.data?.access_token);
+      setToken(response?.access_token);
 
-      // storeGrade(response.data?.student.grade);
       presistUserPhone(phone.phone, phone.country);
 
       if (
-        response?.data?.student?.type === 3 &&
-        response?.data?.student?.has_center === true
+        response?.student?.type === 3 &&
+        response?.student?.has_center === true
       ) {
-        router.push(
-          redirect || `bundles/${response?.data?.student?.center_id}`,
-        );
+        router.push(redirect || `bundles/${response?.student?.center_id}`);
+      } else if (response?.student.type === 4 || response?.student.type === 5) {
+        router.push(redirect || `bundles?grade=${response?.student?.grade}`);
       } else if (
-        response?.data?.student.type === 4 ||
-        response?.data?.student.type === 5
-      ) {
-        router.push(
-          redirect || `bundles?grade=${response?.data?.student?.grade}`,
-        );
-      } else if (
-        response?.data?.student?.type === 3 &&
-        response?.data?.student?.has_center === false
+        response?.student?.type === 3 &&
+        response?.student?.has_center === false
       ) {
         router.push(redirect || `profile`);
       }
@@ -102,7 +90,7 @@ const AuthPage = () => {
       } else {
         toast({
           status: err.status,
-          description: err?.response?.data?.error?.message,
+          description: err?.response?.error?.message,
           icon: "error",
         });
       }

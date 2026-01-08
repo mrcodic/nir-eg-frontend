@@ -29,13 +29,34 @@ export function buildApiUrl(tenant: string, endpoint: string) {
   }`;
 }
 
-export async function parseError(res: Response) {
-  try {
-    const data = await res.json();
+export async function parseError(res: Response): Promise<never> {
+  let message = "Request failed";
+  let payload: unknown = null;
 
-    console.log(data);
-    throw new CustomError(data?.message ?? "Request failed", res.status);
+  try {
+    payload = await res.json();
+
+    if (
+      payload &&
+      typeof payload === "object" &&
+      "message" in payload &&
+      typeof (payload as any).message === "string"
+    ) {
+      message = (payload as any).message;
+    }
   } catch {
-    throw new CustomError("Request failed", res.status);
+    // response has no JSON body (204, HTML error, etc.)
   }
+
+  throw new CustomError(message, res.status);
+}
+
+export function safeRedirect(path: string) {
+  if (typeof window === "undefined") return;
+
+  const current = window.location.pathname;
+
+  if (current === path) return;
+
+  window.location.href = path;
 }
