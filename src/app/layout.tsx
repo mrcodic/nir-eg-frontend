@@ -24,7 +24,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const siteUrl =
     tenant.domain_type === "domain"
       ? `https://${tenant.site_name}`
-      : `https://${tenant.slug}.your-main-domain.com`;
+      : `https://${tenant.slug}.nir-edu.com`;
 
   const title = tenant.brand_name;
   const description =
@@ -35,7 +35,7 @@ export async function generateMetadata(): Promise<Metadata> {
     description,
     metadataBase: new URL(siteUrl),
     icons: {
-      icon: "/logo.ico",
+      icon: "/favicon.ico",
       apple: "/apple-touch-icon.png",
     },
     openGraph: {
@@ -47,7 +47,7 @@ export async function generateMetadata(): Promise<Metadata> {
       locale: "ar_AR",
       images: [
         {
-          url: `${siteUrl}/og-image.png`,
+          url: `${siteUrl}/icon.svg`,
           width: 1200,
           height: 630,
           alt: tenant.brand_name,
@@ -58,7 +58,7 @@ export async function generateMetadata(): Promise<Metadata> {
       card: "summary_large_image",
       title,
       description,
-      images: [`${siteUrl}/og-image.png`],
+      images: [`${siteUrl}/icon.svg`],
     },
     robots: {
       index: true,
