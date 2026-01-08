@@ -11,7 +11,6 @@ import {
   IContentProtectionSection,
   WhyChooseSection,
 } from "@/types/landing.types";
-import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
 import { preload } from "react-dom";
@@ -26,10 +25,6 @@ const ContentProtectionSection = dynamic(
 );
 
 const FAQSection = dynamic(() => import("@/components/landing/FAQSection"));
-
-export const metadata: Metadata = {
-  title: "الرئيسية",
-};
 
 export default function Home() {
   preload("/assets/backgrounds/bg-vector.png", {

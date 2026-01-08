@@ -4,6 +4,11 @@ import Lottie from "@/lib/LottiesClient";
 import { FaqSection } from "@/types/landing.types";
 import optimizedLottie from "../../../../public/assets/animations/faq.json";
 
+export const metadata = {
+  title: "سؤال وجواب",
+  description: "سؤال وجواب لمنصة نَيِّر.",
+};
+
 async function FaqPage() {
   const faqData = await getPublicData<{ data: FaqSection }>({
     queryKey: ["/settings/home/faq"],
