@@ -58,7 +58,7 @@ const phoneCodeValidator = ({
 
 const checkPhoneForCountryCode = (
   phoneNumber: string,
-  country: CountryCode
+  country: CountryCode,
 ) => {
   const phone = phoneNumber?.startsWith("+") ? phoneNumber : `+${phoneNumber}`;
 
@@ -104,7 +104,7 @@ export const phoneSchema = phoneSchemaBase.superRefine(
         path: ["phone"],
       });
     }
-  }
+  },
 );
 
 export const registerSchema = z
@@ -128,14 +128,14 @@ export const registerSchema = z
           .min(1, "رقم هاتف الطالب مطلوب")
           .refine(
             (val) => val && !val.startsWith("+"),
-            "لا تدخل كود الدولة هنا"
+            "لا تدخل كود الدولة هنا",
           ),
         parent__phone: z
           .string()
           .min(1, "رقم هاتف ولي الأمر مطلوب")
           .refine(
             (val) => val && !val.startsWith("+"),
-            "لا تدخل كود الدولة هنا"
+            "لا تدخل كود الدولة هنا",
           ),
       })
       .superRefine(({ phone, parent__phone, country_iso, country }, ctx) => {
@@ -258,28 +258,28 @@ export const editProfileSchema = z
 
     avatar: z.any(),
 
-    center_id: z.number().optional(),
+    center_id: z.coerce.number().optional(),
 
     old_password: z
       .string()
       .optional()
       .refine(
         (value) => (value?.length ? value?.length >= 8 : true),
-        "يجب أن تكون كلمة السر 8 أحرف على الأقل"
+        "يجب أن تكون كلمة السر 8 أحرف على الأقل",
       ),
     password: z
       .string()
       .optional()
       .refine(
         (value) => (value?.length ? value?.length >= 8 : true),
-        "يجب أن تكون كلمة السر 8 أحرف على الأقل"
+        "يجب أن تكون كلمة السر 8 أحرف على الأقل",
       ),
     password_confirmation: z
       .string()
       .optional()
       .refine(
         (value) => (value?.length ? value?.length >= 8 : true),
-        "يجب أن تكون كلمة السر 8 أحرف على الأقل"
+        "يجب أن تكون كلمة السر 8 أحرف على الأقل",
       ),
   })
   .superRefine(({ old_password, password, password_confirmation }, ctx) => {
@@ -327,7 +327,7 @@ export const quizSchema = z.object({
               .optional()
               .refine(
                 (value) => (value?.size ? value?.size < 5000000 : true),
-                "Attachment size must be less than 5MB"
+                "Attachment size must be less than 5MB",
               ),
           })
           .superRefine(({ text, attachment }, ctx) => {
@@ -339,7 +339,7 @@ export const quizSchema = z.object({
               });
             }
           }),
-      ])
+      ]),
     )
     .refine(
       (questions) => {
@@ -355,6 +355,6 @@ export const quizSchema = z.object({
           return false;
         });
       },
-      { message: "At least one question must have an answer" }
+      { message: "At least one question must have an answer" },
     ),
 });

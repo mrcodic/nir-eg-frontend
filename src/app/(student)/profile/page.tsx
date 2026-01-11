@@ -16,11 +16,12 @@ import StudentTasksOverview from "@/modules/profile/components/StudentTasksOverv
 import { ApiResponse, IUser, LatestRoom } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 const ProfilePage = () => {
   const { grade } = useAuthContext();
   const modal = useModal();
+  const modalShown = useRef(false);
 
   const { data: rooms, isLoading: isLoadingRooms } = useQuery<
     ApiResponse<LatestRoom[]>
@@ -35,9 +36,11 @@ const ProfilePage = () => {
   });
 
   useEffect(() => {
+    if (modalShown.current) return;
     if (profileData?.body?.type === 3 && !profileData?.body?.has_center) {
       modal.setDialogContent(<StudentSelectCenterModal />);
       modal.openModal();
+      modalShown.current = true;
     }
   }, [profileData, modal]);
 

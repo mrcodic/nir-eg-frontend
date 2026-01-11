@@ -22,8 +22,6 @@ const SubbedCourses = () => {
       <MappingComp
         queryKey="/students/courses/enrolled"
         render={(data) => {
-          console.log("enrolled courses data : ", data);
-
           if (data?.data?.length === 0)
             return <Empty text="لم تشترك في اي كورس" />;
 

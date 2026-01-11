@@ -69,14 +69,27 @@ const GuestNavBar = () => {
           <div className="mobile:gap-6 mobile:flex hidden gap-4">
             <Link
               href={"/login"}
-              className="mobile:text-base hover:bg-secondary-hover text-secondary border-secondary mobile:w-[159px] w-[135px] rounded-[10px] border bg-transparent p-2 text-center text-sm font-bold transition-all lg:text-lg"
+              className="mobile:text-base hover:bg-secondary-hover text-secondary border-secondary mobile:w-[170px] flex w-[135px] items-center justify-between gap-1 rounded-[10px] border bg-transparent p-2 text-center text-sm font-bold transition-all lg:text-lg"
             >
+              <span
+                className="bg-secondary inline-block size-6"
+                style={{
+                  maskImage: "url(/assets/icons/sign-out.svg)",
+                  WebkitMaskImage: "url(/assets/icons/sign-out.svg)",
+                }}
+              />
               تسجيل الدخول
             </Link>
             <Link
               href="/register"
-              className="mobile:text-base bg-primary-800 after mobile:w-[159px] hover:bg-primary-800/90 w-[135px] rounded-[10px] p-2 text-center text-sm font-bold text-white transition-all after:w-0.5 lg:text-lg"
+              className="mobile:text-base bg-primary-800 after mobile:w-[159px] hover:bg-primary-800/90 flex w-[135px] items-center justify-between gap-1 rounded-[10px] p-2 text-center text-sm font-bold text-white transition-all after:w-0.5 lg:text-lg"
             >
+              <Image
+                src="/assets/icons/add-user.svg"
+                width={24}
+                height={24}
+                alt="sign out"
+              />
               إنشاء حساب
             </Link>
           </div>

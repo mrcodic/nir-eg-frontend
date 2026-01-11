@@ -1,0 +1,36 @@
+import { getPublicData } from "@/helpers/client-fetch";
+import { useQuery } from "@tanstack/react-query";
+import { ComponentProps, useMemo } from "react";
+import CustomSelect from "./customSelect";
+
+type Props = Omit<ComponentProps<typeof CustomSelect>, "options"> & {
+  queryKey: string;
+};
+
+function DynamicSelect({ queryKey, ...rest }: Props) {
+  const { data, isLoading } = useQuery({
+    queryKey: [queryKey],
+    queryFn: getPublicData,
+  });
+
+  console.log("select ", queryKey, data);
+
+  const modifiedOptions = useMemo(() => {
+    return (data as any)?.data?.map((d: any) => ({
+      value: String(d.id),
+      label: d.name,
+    }));
+  }, [data]);
+
+  console.log("modifiedOptions", modifiedOptions);
+
+  return (
+    <CustomSelect
+      {...rest}
+      isLoading={isLoading}
+      options={modifiedOptions || []}
+    />
+  );
+}
+
+export default DynamicSelect;

@@ -1,3 +1,4 @@
+import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import {
   FormControl,
@@ -22,6 +23,7 @@ type Props = {
   className?: string;
   iconSrc?: string;
   options: { value: string; label: string }[];
+  isLoading?: boolean;
 };
 
 const CustomSelect = ({
@@ -32,6 +34,7 @@ const CustomSelect = ({
   className,
   iconSrc,
   options,
+  isLoading,
 }: Props) => {
   return (
     <>
@@ -61,15 +64,21 @@ const CustomSelect = ({
                     <SelectValue placeholder={placeholder} />
                   </SelectTrigger>
                   <SelectContent className="z-9999999 bg-white text-black">
-                    {options.map((option) => (
-                      <SelectItem
-                        key={option.value}
-                        value={option.value}
-                        className="text-black"
-                      >
-                        {option.label}
-                      </SelectItem>
-                    ))}
+                    {isLoading ? (
+                      <div className="flex min-h-16 items-center justify-center">
+                        <Loader2 className="size-4 animate-spin" />
+                      </div>
+                    ) : (
+                      options.map((option) => (
+                        <SelectItem
+                          key={option.value}
+                          value={option.value}
+                          className="text-black"
+                        >
+                          {option.label}
+                        </SelectItem>
+                      ))
+                    )}
                   </SelectContent>
                 </Select>
               </FormControl>

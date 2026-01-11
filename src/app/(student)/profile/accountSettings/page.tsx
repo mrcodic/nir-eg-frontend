@@ -13,16 +13,15 @@ import { getPhoneInfoFromCode, isOtpExpired } from "@/lib/utils";
 import { getOtp } from "@/utils/api";
 import { mapGradeToText, mapTypeToText } from "@/utils/clientFun";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import StudentCenterField from "@/components/custom/StudentCenterField";
-import { getClientPrivateData } from "@/helpers/client-fetch";
+import { useAuthContext } from "@/context/auth-context";
 import ChangePasswordSettings from "@/modules/profile/components/ChangePasswordSettings";
-import { ApiResponse, IUser } from "@/types";
 import Cookies from "js-cookie";
 
 const PageSettings = () => {
@@ -34,34 +33,28 @@ const PageSettings = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { data } = useQuery<ApiResponse<IUser>>({
-    queryKey: ["/students/profile"],
-    queryFn: getClientPrivateData,
-    staleTime: 0,
-  });
+  const { profile } = useAuthContext();
 
-  console.log(data);
-
-  const phoneInfo = getPhoneInfoFromCode(data?.body?.code_country);
+  const phoneInfo = getPhoneInfoFromCode(profile?.code_country);
 
   const defaultData = useMemo(
     () => ({
-      first_name: data?.body?.first_name ?? "",
-      last_name: data?.body?.last_name ?? "",
+      first_name: profile?.first_name ?? "",
+      last_name: profile?.last_name ?? "",
       parent_phone: {
         country: phoneInfo?.code || "",
         country_iso: phoneInfo?.isoCode || "",
-        phone: data?.body?.parent_phone || "",
+        phone: profile?.parent_phone || "",
       },
-      state_id: data?.body?.state_id ?? "",
-      center_id: data?.body?.center_id ?? "",
-      city_id: data?.body?.city_id ?? "",
+      state_id: profile?.state_id ?? "",
+      center_id: profile?.center_id ?? "",
+      city_id: profile?.city_id ?? "",
       avatar: null,
       old_password: "",
       password: "",
       password_confirmation: "",
     }),
-    [data, phoneInfo],
+    [profile, phoneInfo],
   );
 
   const form = useForm({
@@ -94,9 +87,11 @@ const PageSettings = () => {
 
       setIsLoading(true);
 
-      console.log(values);
+      const { parent_phone, center_id, ...rest } = values;
 
-      const { parent_phone, ...rest } = values;
+      if (center_id && profile?.type === 3) {
+        rest.center_id = center_id;
+      }
 
       const response = await axios.post(
         "/api?url=/students/profile/edit&type=formData",
@@ -135,7 +130,7 @@ const PageSettings = () => {
     }
   };
 
-  console.log(form.getValues());
+  console.log(form.formState.errors);
 
   return (
     <div className="wrapper mt-[168px] mb-12">
@@ -145,7 +140,7 @@ const PageSettings = () => {
           <form onSubmit={form.handleSubmit(onSubmit)} className="mt-10 w-full">
             <div className="flex gap-6">
               <UploadWithCrop
-                defaultAvatar={data?.body?.avatar}
+                defaultAvatar={profile?.avatar}
                 selectedFile={selectedFile}
                 setSelectedFile={setSelectedFile}
                 setValue={form.setValue}
@@ -180,12 +175,12 @@ const PageSettings = () => {
                   className="mt-6"
                 />
 
-                {data?.body?.parent_phone_verification === false && (
+                {profile?.parent_phone_verification === false && (
                   <button
                     onClick={async () => {
                       const { isExpired } = isOtpExpired();
                       if (isExpired) {
-                        await getOtp(data?.body?.parent_phone);
+                        await getOtp(profile?.parent_phone);
                       }
                       // setChangeParentNumber(true);
                     }}
@@ -200,7 +195,7 @@ const PageSettings = () => {
                 <CustomCityStateField form={form} isSettings />
               </div>
 
-              {data?.body?.type === 3 && (
+              {profile?.type === 3 && (
                 <StudentCenterField
                   onSelect={(v) => {
                     console.log(v);
@@ -221,14 +216,14 @@ const PageSettings = () => {
                   name="address"
                   disabled
                   label="المرحله"
-                  defaultValue={mapGradeToText(data?.body?.grade)}
+                  defaultValue={mapGradeToText(profile?.grade)}
                 />
                 <CustomInput
                   control={form.control}
                   name="address"
                   disabled
                   label="نوع الحساب"
-                  defaultValue={mapTypeToText(data?.body?.type)}
+                  defaultValue={mapTypeToText(profile?.type)}
                 />
               </div>
 
@@ -238,7 +233,7 @@ const PageSettings = () => {
                     كلمة السر
                   </h4>
                   <span className="text-gray-dark mt-[20px] inline-block text-[12px] font-medium">
-                    آخر تحديث: {data?.body?.updated_at}
+                    آخر تحديث: {profile?.updated_at}
                   </span>
                 </div>
 
@@ -267,8 +262,8 @@ const PageSettings = () => {
         </Form>
       </div>
 
-      {/* {!data?.body?.parent_phone && changeParentNumber && (
-        <OtpModal phone={data?.body?.parent_phone} />
+      {/* {!profile?.parent_phone && changeParentNumber && (
+        <OtpModal phone={profile?.parent_phone} />
       )} */}
     </div>
   );

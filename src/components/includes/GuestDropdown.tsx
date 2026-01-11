@@ -17,8 +17,9 @@ function GuestDropdown() {
       </DropdownMenuTrigger>
       {/* w-[calc(100vw-32px)] sm:ms-[7.5vw] sm:w-[85vw] md:ms-[calc(10vw+16px)] md:w-[calc(80vw-32px)] */}
       <DropdownMenuContent
+        sideOffset={6}
         className={cn(
-          "mobile:hidden bg-primary-50 flex w-full min-w-[200px] flex-col gap-2 p-2 group-data-[template=landing-v3]/template:ms-4 group-data-[template=landing-v3]/template:mt-5",
+          "mobile:hidden bg-primary-50 flex w-full min-w-[200px] flex-col gap-2 p-2 group-data-[template=landing-v3]/template:ms-4 group-data-[template=landing-v3]/template:mt-5 sm:group-data-[template=landing-v3]/template:ms-[calc((100vw/20)+16px)] md:group-data-[template=landing-v3]/template:ms-[calc((100vw/10)+16px)]",
           // {
           //   "ms-4 mt-5": template == 3,
           // },

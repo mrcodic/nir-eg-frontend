@@ -15,7 +15,6 @@ const BundlesPage = () => {
   const isMounted = useMounted();
 
   useEffect(() => {
-    console.log("effect");
     if (!profile || profile?.type !== 3) return;
 
     if (profile?.has_center == false) {
@@ -34,7 +33,7 @@ const BundlesPage = () => {
   }
 
   return (
-    <div className="mt-[120px] mb-12 grow space-y-[50px] md:space-y-[100px]">
+    <div className="mt-[120px] mb-12 grow space-y-[50px] group-data-[template=landing-v3]/template:mt-[140px] md:space-y-[100px]">
       <BundlesCom />
       {token && <SubbedCourses />}
       <NewCourses />

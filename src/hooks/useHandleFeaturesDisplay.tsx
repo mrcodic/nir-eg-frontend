@@ -15,8 +15,6 @@ function useHandleFeaturesDisplay() {
         queryKey: ["settings/newFeatures"],
       });
 
-      console.log(features);
-
       // 1) check if feature enabled
       if (features?.data?.enabled === 1) {
         // 2) check if seen the features

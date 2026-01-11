@@ -15,6 +15,7 @@ import { useRouter } from "nextjs-toploader/app";
 import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 
 import CustomPhoneInput from "@/components/custom/CustomPhoneInput";
+import DynamicSelect from "@/components/custom/DynamicSelect";
 import { Button } from "@/components/ui/button";
 import AuthHeader from "@/layouts/AuthHeader";
 import { presistUserPhone } from "@/lib/utils";
@@ -86,6 +87,8 @@ const RegisterPage = () => {
     }
   };
 
+  console.log(form.getValues());
+
   return (
     <>
       <AuthHeader
@@ -144,16 +147,13 @@ const RegisterPage = () => {
 
             <CustomCityStateField form={form} />
 
-            <CustomSelect
+            <DynamicSelect
               name="grade_id"
               control={form.control}
               label="الصف"
-              options={[
-                { value: "1", label: "الأول الثانوي" },
-                { value: "2", label: "الثاني الثانوي" },
-                { value: "3", label: "الثالث الثانوي" },
-              ]}
+              queryKey="/grades"
             />
+
             <CustomSelect
               name="type"
               control={form.control}

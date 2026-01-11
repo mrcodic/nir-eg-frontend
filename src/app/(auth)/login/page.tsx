@@ -90,7 +90,10 @@ const AuthPage = () => {
       } else {
         toast({
           status: err.status,
-          description: err?.response?.error?.message,
+          description:
+            err?.response?.error?.message ||
+            err?.response?.data?.message ||
+            "حدث خطأ",
           icon: "error",
         });
       }

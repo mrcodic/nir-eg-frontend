@@ -40,8 +40,6 @@ const BundlesCom = () => {
 
   const bundlesData = profile ? data?.body?.budles : data?.body;
 
-  console.log("bundles query data : ", api, data);
-
   if (!bundlesData?.length) return null;
 
   return (

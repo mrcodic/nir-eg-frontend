@@ -74,6 +74,8 @@ export default async function Layout({ children }) {
     throw new Error("Tenant settings not found");
   }
 
+  console.log("tenantSettings", tenantSettings);
+
   const hslFromHex = hexToHsl(tenantSettings.primary_color);
 
   const cssVars =
