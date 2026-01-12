@@ -1,21 +1,26 @@
+import { TenantLandingResponse } from "@/types/tenant.types";
+import Image from "next/image";
 import { Button } from "../ui/button";
 
-function HeroSection() {
+function HeroSection({
+  content,
+}: {
+  content: TenantLandingResponse["data"]["main"];
+}) {
   return (
-    <section className="flex items-center justify-between max-lg:flex-col gap-6 gap-x-12">
+    <section className="flex items-center justify-between gap-6 gap-x-12 max-lg:flex-col">
       <div>
-        <h1 className="text-32  font-bold">
-          هذا النص هو مثال لنص يمكن أن يتم استبداله
-        </h1>
-        <p className="text-lg font-bold mt-6">
-          هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا
-          النص من مولد النص العربي.
-        </p>
+        <h1 className="text-32 font-bold">{content?.title}</h1>
+        <p className="mt-6 text-lg font-bold">{content?.description}</p>
 
         <Button className="mt-14">اشترك معنا</Button>
       </div>
 
-      <div className="max-w-[466px] w-full lg:max-w-1/2 h-[600px] bg-gray-light"></div>
+      <div className="bg-gray-light relative h-[450px] w-full max-w-[466px] overflow-hidden lg:h-[600px] lg:max-w-1/2">
+        {content?.image && (
+          <Image src={content?.image} fill alt="hero image" className="" />
+        )}
+      </div>
     </section>
   );
 }

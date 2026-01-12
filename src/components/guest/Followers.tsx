@@ -37,6 +37,8 @@ export default function Followers({
 }: {
   followers: TenantLandingResponse["data"]["social"];
 }) {
+  if (!followers?.items?.length) return null;
+
   return (
     <section className="flex flex-col items-center gap-2">
       <h2 className="md:text-32 text-center text-[20px] font-bold text-black">

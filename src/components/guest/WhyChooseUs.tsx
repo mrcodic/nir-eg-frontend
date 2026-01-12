@@ -1,6 +1,6 @@
+import { TenantLandingResponse } from "@/types/tenant.types";
 import Image from "next/image";
 import { Card, CardContent, CardHeader } from "../ui/card";
-import StyledText from "../ui/StyledText";
 import UnderlineStyle from "../UnderlineStyle";
 
 const ourFeatures = [
@@ -31,31 +31,44 @@ const ourFeatures = [
   },
 ];
 
-function WhyChooseUs() {
+function WhyChooseUs({
+  content,
+}: {
+  content: TenantLandingResponse["data"]["why"];
+}) {
+  if (!content?.items?.length) return null;
+
   return (
     <section className="space-y-8">
       <div className="flex justify-center">
         <h3 className="text-32 mx-auto font-bold">
-          ليه تختار <StyledText text="نير ؟ " />
+          {/* ليه تختار <StyledText text="نير ؟ " /> */}
+          {content?.section_title}
         </h3>
       </div>
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-        {ourFeatures.map((card) => (
+        {content?.items?.map((card) => (
           <Card
             key={card.title}
-            className="hover:border-secondary hover:bg-background transition-all"
+            className="hover:border-secondary hover:bg-background flex flex-col transition-all"
           >
-            <CardHeader className="items-center gap-6 pb-2">
-              <Image src={card.icon} width={56} height={56} alt="icon" />
-              <UnderlineStyle isActive className="text-center">
-                <h3 className="text-primary-800 text-lg font-bold whitespace-nowrap">
+            {card?.image && (
+              <CardHeader className="mb-6 items-center pb-0">
+                <Image src={card?.image} width={56} height={56} alt="icon" />
+              </CardHeader>
+            )}
+            <CardContent className="mt-auto p-4 pt-0 text-center">
+              <UnderlineStyle
+                isActive
+                className="mx-auto mt-auto w-fit text-center"
+              >
+                <h3 className="text-primary-800 text-lg font-bold">
                   {card.title}
                 </h3>
               </UnderlineStyle>
-            </CardHeader>
-            <CardContent className="p-4 pt-0 text-center">
-              <p className="font-bold">{card.description}</p>
+
+              <p className="mt-2 font-bold">{card.description}</p>
             </CardContent>
           </Card>
         ))}

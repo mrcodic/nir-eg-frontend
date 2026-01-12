@@ -5,11 +5,9 @@ const nextConfig = {
   },
   images: {
     domains: [
-      "dev.more-english.net",
-      "admin.more-english.net",
+      "dev.nir-edu.com",
+      "admin.nir-edu.com",
       "cdn03.vdocipher.com",
-      "https://dev.more-english.net",
-      "https://admin.more-english.net",
       "www.youtube.com",
       "https://cdn03.vdocipher.com",
     ],

@@ -1,3 +1,5 @@
+import { getServerData } from "@/helpers/server-fetch";
+import { Grade } from "@/types";
 import Image from "next/image";
 import StyledText from "../ui/StyledText";
 import GradeCard from "./Ui/GradeCard";
@@ -26,10 +28,19 @@ const GradesData = [
   },
 ];
 
-const GradesSection = () => {
+const GradesSection = async () => {
+  const grades = await getServerData<{ data: Grade[] }>({
+    queryKey: ["grades"],
+    isAuth: false,
+  });
+
+  console.log("grades : ", grades);
+
+  if (!grades?.data?.length) return null;
+
   return (
     <section id="grades">
-      <div className="flex flex-col items-center mb-4 justify-center gap-2 text-center">
+      <div className="mb-4 flex flex-col items-center justify-center gap-2 text-center">
         <Image
           src="/assets/book-gif.gif"
           width={64}
@@ -39,12 +50,12 @@ const GradesSection = () => {
         <StyledText
           as="h2"
           text="الفصول الدراسية"
-          className=" font-bold text-32"
+          className="text-32 font-bold"
         />
       </div>
 
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))]   gap-8 mt-8">
-        {GradesData.map((grade, index) => {
+      <div className="mt-8 grid grid-cols-1 justify-items-center gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {grades?.data?.map((grade, index) => {
           return <GradeCard key={index} grade={grade} />;
         })}
       </div>

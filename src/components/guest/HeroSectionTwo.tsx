@@ -1,3 +1,4 @@
+import { TenantLandingResponse } from "@/types/tenant.types";
 import Image from "next/image";
 import { Button } from "../ui/button";
 
@@ -14,33 +15,39 @@ const features = [
   },
 ];
 
-function HeroSectionTwo() {
+function HeroSectionTwo({
+  main,
+  features,
+}: {
+  main?: TenantLandingResponse["data"]["main"];
+  features?: TenantLandingResponse["data"]["features"];
+}) {
   return (
-    <section className="flex items-center justify-between xl:gap-x-30.5 gap-x-20 max-mobile:flex-col gap-y-20">
+    <section className="max-mobile:flex-col flex items-center justify-between gap-x-20 gap-y-20 xl:gap-x-30.5">
       <div>
-        <h1 className="text-32 font-bold">
-          هذا النص هو مثال لنص يمكن أن يتم استبداله
-        </h1>
+        <h1 className="text-32 font-bold">{main?.section_title}</h1>
 
-        <div className="flex flex-wrap gap-4 mt-6">
-          {features.map((feature) => (
+        <div className="mt-6 flex flex-wrap gap-4">
+          {features?.items?.map((feature) => (
             <div
               key={feature.text}
-              className="bg-background p-2 pe-3 rounded-lg flex gap-2 items-center"
+              className="bg-background flex items-center gap-2 rounded-lg p-2 pe-3"
             >
-              <Image
-                className="w-6 h-6"
-                src={feature.icon}
-                width={24}
-                height={24}
-                alt={feature.text}
-              />
+              {feature?.image && (
+                <Image
+                  className="h-6 w-6"
+                  src={feature.image}
+                  width={24}
+                  height={24}
+                  alt={feature.text}
+                />
+              )}
               <p>{feature.text}</p>
             </div>
           ))}
         </div>
 
-        <div className="mt-14 flex items-center gap-6 flex-wrap ">
+        <div className="mt-14 flex flex-wrap items-center gap-6">
           <Button>
             <Image
               src="/assets/launch-white.svg"
@@ -56,14 +63,21 @@ function HeroSectionTwo() {
               width={20}
               height={20}
               alt="join us icon"
-              className="group-hover/btn:brightness-0 group-hover/btn:invert transition-all"
+              className="transition-all group-hover/btn:brightness-0 group-hover/btn:invert"
             />
             تسجيل دخول
           </Button>
         </div>
       </div>
 
-      <div className="mobile:max-w-5/12 rounded-2xl w-full mobile:h-[600px] h-[400px] bg-gray-light"></div>
+      <div className="mobile:max-w-5/12 mobile:h-[600px] bg-gray-light relative h-[400px] w-full overflow-hidden rounded-2xl">
+        <Image
+          src={main?.image}
+          fill
+          alt="hero image"
+          className="object-cover"
+        />
+      </div>
     </section>
   );
 }

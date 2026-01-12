@@ -64,10 +64,12 @@ export interface TenantLandingResponse {
       image1: string;
       image2: string;
     };
-    features?: Array<{
-      title: string;
-      image: string;
-    }>;
+    features?: {
+      items: Array<{
+        text: string;
+        image: string;
+      }>;
+    };
     social?: {
       section_title: string;
       items: SocialItem[];

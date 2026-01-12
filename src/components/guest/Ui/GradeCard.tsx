@@ -1,32 +1,38 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Grade } from "@/types";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 
 const MotionLink = motion.create(Link);
 
-const GradeCard = ({ grade }) => {
+const GradeCard = ({ grade }: { grade: Grade }) => {
   return (
     // max-w-[368px]
     <MotionLink
       whileHover="isHovered"
       href={`/bundles?grade=${grade.id}`}
-      className="flex group relative aspect-square rounded-lg overflow-hidden "
+      className="group relative flex aspect-square w-full max-w-[500px] overflow-hidden rounded-lg max-md:mx-auto max-md:w-full"
     >
-      <Image src={grade.image} fill className="-z-1" alt="grade type image" />
+      <Image
+        src={grade?.image || "/assets/grade-placeholder.png"}
+        fill
+        className="-z-1"
+        alt="grade type image"
+      />
 
       <motion.div
         variants={{ isHovered: { height: "100%" } }}
-        className={`bg-gradient-primary-overlay-soft transition-all  mt-auto flex-col gap-6 w-full flex z-10  justify-between p-4  rounded-t-lg backdrop-blur-xs`}
+        className={`bg-gradient-primary-overlay-soft z-10 mt-auto flex w-full flex-col justify-between gap-6 rounded-t-lg p-4 backdrop-blur-xs transition-all`}
       >
         <motion.h2
           initial={{ opacity: 1 }}
           variants={{ isHovered: { opacity: 0 } }}
           className="text-[16px] font-bold text-white"
         >
-          {grade.title}
+          {grade.name}
         </motion.h2>
 
         <motion.div
@@ -34,13 +40,13 @@ const GradeCard = ({ grade }) => {
           variants={{
             isHovered: { opacity: 1, scaleY: 1, position: "relative" },
           }}
-          className="mt-auto "
+          className="mt-auto"
         >
-          <h2 className="text-base font-bold text-white">{grade.title}</h2>
-          <p className="text-sm font-bold text-white">{grade.content}</p>
+          <h2 className="text-base font-bold text-white">{grade.name}</h2>
+          <p className="text-sm font-bold text-white">محتويات {grade.name}</p>
         </motion.div>
 
-        <Button className="me-auto ">اشترى الان</Button>
+        <Button className="me-auto">اشترى الان</Button>
       </motion.div>
     </MotionLink>
   );

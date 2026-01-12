@@ -20,27 +20,30 @@ function NavUserMenu({ profile }) {
 
   return (
     <DropdownMenu dir="rtl" modal={false}>
-      <DropdownMenuTrigger className="focus-visible:outline-hidden shrink-0">
-        <CustomImage src={profile?.avatar} className="rounded-full" />
+      <DropdownMenuTrigger className="shrink-0 focus-visible:outline-hidden">
+        <CustomImage
+          src={profile?.avatar}
+          className="border-primary-100 rounded-full border"
+        />
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent className="relative left-10 z-9999 w-[272px]  mobile:top-1 bg-[#FFFFFF] max-h-[calc(100vh-90px)] overflow-y-auto border rounded-lg border-gray-light py-4">
+      <DropdownMenuContent className="mobile:top-1 border-gray-light relative left-10 z-9999 max-h-[calc(100vh-90px)] w-[272px] overflow-y-auto rounded-lg border bg-[#FFFFFF] py-4">
         {" "}
-        <DropdownMenuItem className="flex flex-col w-full gap-4 items-center justify-center">
+        <DropdownMenuItem className="flex w-full flex-col items-center justify-center gap-4">
           <CustomImage
             src={profile?.avatar}
             size={56}
             className="rounded-full"
           />
 
-          <h3 className="text-[#121212] text-base font-bold">
+          <h3 className="text-base font-bold text-[#121212]">
             {profile?.first_name + " " + profile?.last_name}
           </h3>
 
-          <div className="mb-4 h-px w-full bg-gray-light" />
+          <div className="bg-gray-light mb-4 h-px w-full" />
         </DropdownMenuItem>
         <DropdownMenuItem className="">
-          <div className="flex items-center gap-2 mb-3">
+          <div className="mb-3 flex items-center gap-2">
             <Image
               className="size-5"
               src="/assets/phone.svg"
@@ -48,31 +51,29 @@ function NavUserMenu({ profile }) {
               height={20}
               alt="phone icon"
             />
-            <h3 className="text-gray-dark text-[12px] font-bold ">
-              رقم الهاتف
-            </h3>
+            <h3 className="text-gray-dark text-[12px] font-bold">رقم الهاتف</h3>
           </div>
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <div className="grid grid-cols-2 gap-2 w-full">
-            <div className="flex  flex-col gap-2 bg-background p-2 rounded-lg">
-              <h3 className="text-xs text-gray-dark font-bold">رقم الطالب:</h3>
-              <span className="  text-sm font-bold  tracking-wider">
+          <div className="grid w-full grid-cols-2 gap-2">
+            <div className="bg-background flex flex-col gap-2 rounded-lg p-2">
+              <h3 className="text-gray-dark text-xs font-bold">رقم الطالب:</h3>
+              <span className="text-sm font-bold tracking-wider">
                 {profile?.phone}
               </span>
             </div>
 
-            <div className="flex flex-col gap-2 bg-background p-2 rounded-lg">
-              <h3 className="text-xs text-gray-dark font-bold">
+            <div className="bg-background flex flex-col gap-2 rounded-lg p-2">
+              <h3 className="text-gray-dark text-xs font-bold">
                 رقم ولي الأمر:
               </h3>
-              <span className="  text-sm font-bold  tracking-wider">
+              <span className="text-sm font-bold tracking-wider">
                 {profile?.parent_phone}
               </span>
             </div>
           </div>
         </DropdownMenuItem>
-        <div className="mb-4 my-4 h-px w-full bg-gray-light px-4" />
+        <div className="bg-gray-light my-4 mb-4 h-px w-full px-4" />
         <MenuItem
           onClick={() => router.push("/profile/accountSettings")}
           icon="/assets/settings.svg"
@@ -98,7 +99,7 @@ function NavUserMenu({ profile }) {
           icon="/assets/sign-out.svg"
           text="تسجيل خروج"
           textClassName="text-semantics-red"
-          className="mt-2 pt-4 border-t border-gray-light rounded-none"
+          className="border-gray-light mt-2 rounded-none border-t pt-4"
         />
         {profile?.id && profile?.type === 3 && (
           <div className="flex flex-col items-center gap-4 p-5">
@@ -134,8 +135,8 @@ const MenuItem = ({
     <DropdownMenuItem>
       <div
         className={cn(
-          "cursor-pointer w-full py-2 font-bold flex items-center gap-4 px-0 rounded-lg  text-sm",
-          className
+          "flex w-full cursor-pointer items-center gap-4 rounded-lg px-0 py-2 text-sm font-bold",
+          className,
         )}
         onClick={() => {
           onClick();

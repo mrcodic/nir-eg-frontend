@@ -1,16 +1,21 @@
+import { TenantLandingResponse } from "@/types/tenant.types";
 import Image from "next/image";
-import StyledText from "../ui/StyledText";
 import { Button } from "../ui/button";
 
-function StartWithUsNow() {
+function StartWithUsNow({
+  content,
+}: {
+  content: TenantLandingResponse["data"]["start"];
+}) {
   return (
     <section>
       <div className="flex items-center justify-center gap-2">
         <h2 className="text-32 flex flex-wrap items-center justify-center gap-1">
-          ابدأ الآن مع <StyledText text="نير" />{" "}
+          {/* ابدأ الآن مع <StyledText text="نير" />{" "} */}
+          {content?.section_title}
         </h2>
         <Image
-          src="/assets/lightbulb.png"
+          src={content?.image1 || "/assets/lightbulb.png"}
           width={48}
           height={48}
           alt="light bulbs"
@@ -40,7 +45,7 @@ function StartWithUsNow() {
 
         <div className="absolute inset-y-0 left-0 h-full w-[200px] lg:w-[400px]">
           <Image
-            src="/assets/bg/student-photo.png"
+            src={content?.image2 || "/assets/bg/student-photo.png"}
             fill
             className="h-full w-fit object-contain object-bottom-left"
             alt="student photo"

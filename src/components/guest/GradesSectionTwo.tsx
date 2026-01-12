@@ -32,7 +32,7 @@ const GradesSectionTwo = async () => {
     <section id="grades">
       <SectionTitle title="الكورسات" />
 
-      <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-3">
+      <div className="mt-8 grid grid-cols-1 justify-items-center gap-6 md:grid-cols-2 lg:grid-cols-3">
         {grades?.data?.map((grade) => (
           <Link
             href={`/bundles?grade=${grade.id}`}

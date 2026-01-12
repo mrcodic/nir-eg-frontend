@@ -8,11 +8,11 @@ import WhyChooseUs from "../guest/WhyChooseUs";
 function TemplateOne({ data }: { data: TenantLandingResponse["data"] }) {
   return (
     <div className="min-h-[calc(100%-80px) wrapper mt-[168px] space-y-[88px] pb-[88px]">
-      <HeroSection />
-      <WhyChooseUs />
+      <HeroSection content={data?.main} />
+      <WhyChooseUs content={data?.why} />
       <GradesSection />
       <HonorsLeaderboard />
-      <StartWithUsNow />
+      <StartWithUsNow content={data?.start} />
     </div>
   );
 }
