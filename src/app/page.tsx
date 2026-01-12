@@ -1,7 +1,7 @@
 import TemplateOne from "@/components/guest-templates/TemplateOne";
 import TemplateThree from "@/components/guest-templates/TemplateThree";
 import TemplateTwo from "@/components/guest-templates/TemplateTwo";
-import { getTenantSettingsServer } from "@/services/getTenantSettingsServer";
+import { getTenantContentServer } from "@/services/tenantServices";
 
 const mapTemplate = {
   "landing-v1": TemplateOne,
@@ -10,10 +10,12 @@ const mapTemplate = {
 };
 
 const GuestPage = async () => {
-  const tenantSettings = await getTenantSettingsServer();
+  const content = await getTenantContentServer();
 
-  const Template = mapTemplate[tenantSettings?.landing_template] || TemplateOne;
+  console.log("content : ", content);
 
-  return <Template />;
+  const Template = mapTemplate[content?.active_template] || TemplateOne;
+
+  return <Template data={content.data} />;
 };
 export default GuestPage;

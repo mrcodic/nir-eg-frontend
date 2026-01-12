@@ -131,11 +131,14 @@ export const PaymentUI: React.FC<PaymentUIProps> = ({
                   htmlFor={payment.value}
                 >
                   {payment.icons.map((icon) => (
-                    <img key={icon} src={icon} />
+                    <img key={icon} src={icon} className="h-8 object-contain" />
                   ))}
-                  <span className="font-bold text-[#121212]">
-                    {payment.label}
-                  </span>
+
+                  {payment.label && (
+                    <span className="font-bold text-[#121212]">
+                      {payment.label}
+                    </span>
+                  )}
                 </Label>
                 {/* {payment.soon && (
                 <div className="bg-red-600 text-white px-8 absolute top-4 -left-5 -rotate-45 h-5 text-sm">

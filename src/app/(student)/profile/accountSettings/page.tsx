@@ -130,8 +130,6 @@ const PageSettings = () => {
     }
   };
 
-  console.log(form.formState.errors);
-
   return (
     <div className="wrapper mt-[168px] mb-12">
       <div className="border-gray-light mx-auto w-full rounded-lg border p-4 md:max-w-[792px]">

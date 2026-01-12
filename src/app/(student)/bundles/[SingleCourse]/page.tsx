@@ -1,7 +1,6 @@
 import CourseDetails from "@/components/CourseDetails";
 import CourseFloatingCards from "@/components/CourseFloatingCards";
 import CoursesHeader from "@/components/CoursesHeader";
-import { getClientPrivateData } from "@/helpers/client-fetch";
 import { getServerData } from "@/helpers/server-fetch";
 import ProtectedRoute from "@/layouts/ProtectedRoute";
 import { ICourseDetails } from "@/types";
@@ -10,7 +9,7 @@ import { redirect } from "next/navigation";
 const SingleCourse = async ({ params }) => {
   const { SingleCourse } = await params;
 
-  const profileData = await getClientPrivateData({
+  const profileData = await getServerData({
     queryKey: [`/students/profile`],
   });
 
@@ -19,7 +18,7 @@ const SingleCourse = async ({ params }) => {
     isAuth: !!profileData,
   });
 
-  if (profileData?.body?.has_center === false) {
+  if (profileData?.body?.type == 3 && profileData?.body?.has_center === false) {
     redirect("/profile");
   }
 

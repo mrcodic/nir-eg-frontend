@@ -266,7 +266,7 @@ export interface NotificationsData extends IPagination<INotification> {}
 
 export interface Grade {
   id: number;
-  title: string;
+  name: string;
 }
 
 export interface TopStudent {

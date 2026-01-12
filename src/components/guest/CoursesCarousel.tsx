@@ -66,17 +66,17 @@ function CoursesCarousel() {
                   <div className="mb-4 h-56 w-full rounded-xl bg-gray-200 transition-colors hover:bg-gray-300"></div>
 
                   {/* Content Card */}
-                  <div className="rounded-xl border border-primary-800 bg-white p-4 shadow-sm transition-shadow hover:shadow-md ">
+                  <div className="border-primary-800 group-hover:bg-primary-800 rounded-xl border bg-white p-4 shadow-sm transition-all hover:shadow-md">
                     {/* Text Info */}
                     <div className="relative mb-1 inline-block">
-                      <h3 className="md:text-xl text-base font-bold text-black">
+                      <h3 className="text-base font-bold text-black transition-all group-hover:text-white md:text-xl">
                         {course.title}
                       </h3>
-                      <span className="absolute -bottom-1 right-0 h-[3px] w-8 rounded-full bg-secondary"></span>
+                      <span className="bg-secondary absolute right-0 -bottom-1 h-[3px] w-8 rounded-full"></span>
                     </div>
 
-                    <div className="flex items-center justify-between gap-6 mt-6 flex-wrap">
-                      <p className="md:text-xl text-base font-bold ">
+                    <div className="mt-6 flex flex-wrap items-center justify-between gap-6">
+                      <p className="text-base font-bold text-black transition-all group-hover:text-white md:text-xl">
                         {course.grade}
                       </p>
                       {/* Price Badge */}
@@ -88,14 +88,14 @@ function CoursesCarousel() {
             ))}
           </CarouselContent>
           <CarouselPrevious
-            className="flex size-11 bg-background  items-center justify-center rounded-lg shadow-sm border border-gray-light -left-5 z-10"
+            className="bg-background border-gray-light -left-5 z-10 flex size-11 items-center justify-center rounded-lg border shadow-sm"
             variant="ghost"
             size="icon"
             aria-label="Previous"
             icon={<ChevronLeft className="size-6!" />}
           />
           <CarouselNext
-            className="flex size-11 bg-background  items-center justify-center rounded-lg shadow-sm border border-gray-light -right-6 z-10"
+            className="bg-background border-gray-light -right-6 z-10 flex size-11 items-center justify-center rounded-lg border shadow-sm"
             variant="ghost"
             size="icon"
             aria-label="Next"

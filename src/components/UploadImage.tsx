@@ -2,6 +2,7 @@
 
 import { ImageCropper } from "@/components/Cropper";
 import { Avatar } from "@/components/ui/avatar";
+import { Camera } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { FileWithPath, useDropzone } from "react-dropzone";
 import { Button } from "./ui/button";
@@ -42,7 +43,7 @@ export default function UploadWithCrop({
       setDialogOpen(true);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
+    [],
   );
 
   const { getRootProps, getInputProps } = useDropzone({
@@ -55,35 +56,40 @@ export default function UploadWithCrop({
   }, [selectedFile]);
 
   return (
-    <div className="relative flex gap-5 w-full flex-col sm:flex-row max-sm:items-center">
-      {selectedFile ? (
-        <ImageCropper
-          dialogOpen={isDialogOpen}
-          setDialogOpen={setDialogOpen}
-          selectedFile={selectedFile}
-          setSelectedFile={setSelectedFile}
-        />
-      ) : (
-        <Avatar
-          {...getRootProps()}
-          className="size-24 cursor-pointer ring-offset-2 ring-2 ring-slate-200"
-        >
-          <input {...getInputProps()} id="file" />
-          <CustomImage
-            src={defaultAvatar}
-            alt="user avatar"
-            size={96}
-            className="rounded-full"
+    <div className="relative flex w-full flex-col gap-5 max-sm:items-center sm:flex-row">
+      <div className="group relative">
+        <div className="pointer-events-none absolute inset-0 z-10 flex cursor-pointer items-center justify-center rounded-full bg-gray-200/60 opacity-0 transition-opacity group-hover:opacity-100">
+          <Camera className="size-10 text-white" />
+        </div>
+        {selectedFile ? (
+          <ImageCropper
+            dialogOpen={isDialogOpen}
+            setDialogOpen={setDialogOpen}
+            selectedFile={selectedFile}
+            setSelectedFile={setSelectedFile}
           />
-        </Avatar>
-      )}
+        ) : (
+          <Avatar
+            {...getRootProps()}
+            className="size-24 cursor-pointer ring-2 ring-slate-200 ring-offset-2"
+          >
+            <input {...getInputProps()} id="file" />
+            <CustomImage
+              src={defaultAvatar}
+              alt="user avatar"
+              size={96}
+              className="rounded-full"
+            />
+          </Avatar>
+        )}
+      </div>
 
-      <div className="flex items-end gap-4 sm:ms-auto max-sm:justify-center">
+      <div className="flex items-end gap-4 max-sm:justify-center sm:ms-auto">
         <label
           htmlFor="file"
-          className="self-end cursor-pointer shrink-0 p-2 rounded-lg flex gap-4 h-11 bg-primary-800 hover:bg-primary-800/90"
+          className="bg-primary-800 hover:bg-primary-800/90 flex h-11 shrink-0 cursor-pointer gap-4 self-end rounded-lg p-2"
         >
-          <span className="text-white  font-bold">
+          <span className="font-bold text-white">
             {selectedFile ? "تعديل الصورة" : "إضافة صورة"}
           </span>
         </label>
@@ -93,7 +99,7 @@ export default function UploadWithCrop({
             type="button"
             onClick={() => setSelectedFile(null)}
             variant="destructive"
-            className="font-bold text-base h-11"
+            className="h-11 text-base font-bold"
           >
             مسح الصورة
           </Button>

@@ -1,3 +1,5 @@
+import { getServerData } from "@/helpers/server-fetch";
+import { Grade } from "@/types";
 import Link from "next/link";
 import SectionTitle from "./Ui/SectionTitle";
 
@@ -16,13 +18,22 @@ const grades = [
   },
 ];
 
-const GradesSectionTwo = () => {
+const GradesSectionTwo = async () => {
+  const grades = await getServerData<{ data: Grade[] }>({
+    queryKey: ["grades"],
+    isAuth: false,
+  });
+
+  console.log(grades);
+
+  if (!grades?.data?.length) return null;
+
   return (
     <section id="grades">
       <SectionTitle title="الكورسات" />
 
       <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-3">
-        {grades.map((grade) => (
+        {grades?.data?.map((grade) => (
           <Link
             href={`/bundles?grade=${grade.id}`}
             key={grade.id}
@@ -34,7 +45,7 @@ const GradesSectionTwo = () => {
             {/* Footer */}
             <div className="bg-primary-800 group-hover:bg-primary-800/90 mt-6 rounded-xl p-4 text-white transition-colors">
               <div className="relative inline-block">
-                <h3 className="text-xl font-bold">{grade.title}</h3>
+                <h3 className="text-xl font-bold">{grade.name}</h3>
                 <span className="absolute right-0 -bottom-1 h-[3px] w-8 rounded-full bg-[#f59e0b]"></span>
               </div>
             </div>

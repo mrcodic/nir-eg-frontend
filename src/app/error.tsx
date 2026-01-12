@@ -12,34 +12,35 @@ export default function Error({
   reset: () => void;
 }) {
   const router = useRouter();
+  const isProd = process.env.NODE_ENV === "production";
+
   return (
     <AuthLayout img={"/assets/error.png"}>
       <div className="form-layout flex items-center justify-center">
-        <div className=" card p-6 bg-white/70 flex items-center justify-center flex-col space-y-10 ">
-          {/* {JSON.stringify(error)} */}
-          <p>{error?.message}</p>
+        <div className="card flex flex-col items-center justify-center space-y-10 bg-white/70 p-6">
+          {!isProd && <p>{error?.message}</p>}
 
-          <div className="flex space-y-6 flex-col justify-center items-center  dark:bg-gray-900 text-center px-4">
+          <div className="flex flex-col items-center justify-center space-y-6 px-4 text-center dark:bg-gray-900">
             <h1 className="text-6xl font-bold text-red-800">500</h1>
-            <h2 className="text-2xl font-semibold mt-4 dark:text-gray-200 text-primary-800">
+            <h2 className="text-primary-800 mt-4 text-2xl font-semibold dark:text-gray-200">
               حدث خطأ غير متوقع
             </h2>
-            <p className="mt-2 dark:text-gray-400 max-w-md">
+            <p className="mt-2 max-w-md dark:text-gray-400">
               نأسف! حدث خطأ ما. يرجى المحاولة مرة أخرى أو العودة إلى الصفحة
               الرئيسية.
             </p>
 
-            <div className="flex gap-4 w-full flex-wrap">
+            <div className="flex w-full flex-wrap gap-4">
               <Button
                 onClick={() => router.push("/")}
-                className="text-gray-25 border-2 bg-white hover:bg-gray-100 w-[200px] mx-auto"
+                className="text-gray-25 mx-auto w-[200px] border-2 bg-white hover:bg-gray-100"
               >
                 العودة للرئيسية
               </Button>
 
               <Button
                 onClick={() => reset()}
-                className="text-gray-25 border-2 bg-[#523412] text-white  w-[200px] "
+                className="text-gray-25 w-[200px] border-2 bg-[#523412] text-white"
               >
                 حاول مرة أخرى
               </Button>

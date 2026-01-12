@@ -8,7 +8,7 @@ import Providers from "./providers";
 import UserModalsWrapper from "@/components/UserModalsWrapper";
 import { TenantProvider } from "@/context/TenantProvider";
 import { hexToHsl } from "@/helpers/tenant.helpers";
-import { getTenantSettingsServer } from "@/services/getTenantSettingsServer";
+import { getTenantSettingsServer } from "@/services/tenantServices";
 import { Metadata } from "next";
 import { Almarai } from "next/font/google";
 import "./globals.css";
