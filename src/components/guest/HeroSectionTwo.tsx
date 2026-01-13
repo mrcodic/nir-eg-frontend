@@ -76,6 +76,8 @@ function HeroSectionTwo({
           fill
           alt="hero image"
           className="object-cover"
+          fetchPriority="high"
+          loading="eager"
         />
       </div>
     </section>

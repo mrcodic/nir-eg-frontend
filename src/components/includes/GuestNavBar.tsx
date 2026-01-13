@@ -36,6 +36,8 @@ const GuestNavBar = () => {
                 height={48}
                 src="/logo.svg"
                 alt="logo icon"
+                loading="eager"
+                fetchPriority="high"
               />
             </Link>
 

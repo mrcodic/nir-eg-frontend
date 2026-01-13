@@ -3,23 +3,33 @@ export type Templates = "landing-v1" | "landing-v2" | "landing-v3";
 export interface TenantSettings {
   id: string; // UUID
   owner_user_id: number;
+
   name: string;
   slug: string;
   status: number;
-  plan_id: number;
+
+  plan_id: number | null;
   trial_ends_at: string;
-  meta: Record<string, unknown> | null;
+
   brand_name: string;
   legal_name: string;
+  site_name: string;
+
+  landing_template: Templates;
+  primary_color: string;
+
   expected_students: number;
   heard_about_us: string;
   notes: string;
   referral_code: string | null;
-  site_name: string;
-  landing_template: Templates;
-  primary_color: string;
-  data: Record<string, unknown> | null;
+
   domain_type: "subdomain" | "domain";
+
+  // NEW media fields
+  logo: string;
+  favicon: string;
+  cover: string;
+
   created_at: string;
   updated_at: string;
 }

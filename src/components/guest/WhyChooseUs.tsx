@@ -53,12 +53,20 @@ function WhyChooseUs({
             key={card?.title || i}
             className="hover:border-secondary hover:bg-background flex flex-col transition-all"
           >
-            {card?.image && (
-              <CardHeader className="mb-6 items-center pb-0">
-                <Image src={card?.image} width={56} height={56} alt="icon" />
-              </CardHeader>
-            )}
-            <CardContent className="mt-auto p-4 pt-0 text-center">
+            <CardHeader className="mb-6 items-center pb-0">
+              {card?.image ? (
+                <Image
+                  src={card?.image}
+                  width={56}
+                  height={56}
+                  alt="icon"
+                  className="size-14 object-contain"
+                />
+              ) : (
+                <div className="size-14 rounded-xl bg-gray-100" />
+              )}
+            </CardHeader>
+            <CardContent className="p-4 pt-0 text-center">
               <UnderlineStyle
                 isActive
                 className="mx-auto mt-auto w-fit text-center"

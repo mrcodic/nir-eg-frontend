@@ -18,7 +18,14 @@ function HeroSection({
 
       <div className="bg-gray-light relative h-[450px] w-full max-w-[466px] overflow-hidden lg:h-[600px] lg:max-w-1/2">
         {content?.image && (
-          <Image src={content?.image} fill alt="hero image" className="" />
+          <Image
+            src={content?.image}
+            fill
+            alt="hero image"
+            className=""
+            fetchPriority="high"
+            loading="eager"
+          />
         )}
       </div>
     </section>

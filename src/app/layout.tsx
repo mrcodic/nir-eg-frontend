@@ -21,23 +21,34 @@ const almarai = Almarai({
 export async function generateMetadata(): Promise<Metadata> {
   const tenant = await getTenantSettingsServer();
 
+  const isProd = process.env.NODE_ENV === "production";
+
   const siteUrl =
     tenant.domain_type === "domain"
       ? `https://${tenant.site_name}`
-      : `https://${tenant.slug}.nir-edu.com`;
+      : `https://${tenant.slug}.${isProd ? "nir-edu.com" : "localhost:3000"}`;
+
+  const metadataBase = new URL(siteUrl);
 
   const title = tenant.brand_name;
   const description =
-    tenant.notes ?? "منصة تعليمية متكاملة لتطوير مهاراتك بأسلوب حديث وفعّال.";
+    tenant.notes?.trim() ||
+    "منصة تعليمية متكاملة لتطوير مهاراتك بأسلوب حديث وفعّال.";
+
+  const favicon = tenant.favicon || "/favicon.ico";
+  const ogImage = tenant.cover || tenant.logo || "/icon.svg";
 
   return {
+    metadataBase,
+
     title,
     description,
-    metadataBase: new URL(siteUrl),
+
     icons: {
-      icon: "/favicon.ico",
-      apple: "/apple-touch-icon.png",
+      icon: favicon,
+      apple: favicon,
     },
+
     openGraph: {
       type: "website",
       title,
@@ -47,19 +58,21 @@ export async function generateMetadata(): Promise<Metadata> {
       locale: "ar_AR",
       images: [
         {
-          url: `${siteUrl}/icon.svg`,
+          url: ogImage,
           width: 1200,
           height: 630,
           alt: tenant.brand_name,
         },
       ],
     },
+
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: [`${siteUrl}/icon.svg`],
+      images: [ogImage],
     },
+
     robots: {
       index: true,
       follow: true,

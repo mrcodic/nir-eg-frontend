@@ -42,7 +42,13 @@ function HeroSectionThree({
 
         <div className="mobile:max-w-[466px] bg-gray-light aspect-square w-full overflow-hidden rounded-2xl">
           {content?.image && (
-            <Image src={content?.image} fill alt="hero image" />
+            <Image
+              src={content?.image}
+              fill
+              alt="hero image"
+              fetchPriority="high"
+              loading="eager"
+            />
           )}
         </div>
       </div>

@@ -7,6 +7,7 @@ import { useAuthContext } from "@/context/auth-context";
 import { useTenant } from "@/context/TenantProvider";
 import { cn } from "@/lib/utils";
 import NavNotifications from "@/modules/norifications/components/NavNotifications";
+import Image from "next/image";
 import LinkStyled from "./LinkStyled";
 import MobileDropDown from "./MobileDropDown";
 import NavUserMenu from "./NavUserMenu";
@@ -80,7 +81,15 @@ const AuthNavBar = () => {
             }
             className="flex gap-2 self-end"
           >
-            <img src="/logo.svg" alt="logo" />
+            <Image
+              src="/logo.svg"
+              width={110}
+              height={48}
+              unoptimized
+              loading="eager"
+              fetchPriority="high"
+              alt="logo"
+            />
           </Link>
 
           <ul className="mobile:flex mx-auto hidden list-none items-center gap-6 text-[16px] font-bold text-[#FFFFFF]">
