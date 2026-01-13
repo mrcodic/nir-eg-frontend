@@ -71,14 +71,16 @@ function HeroSectionTwo({
       </div>
 
       <div className="mobile:max-w-5/12 mobile:h-[600px] bg-gray-light relative h-[400px] w-full overflow-hidden rounded-2xl">
-        <Image
-          src={main?.image}
-          fill
-          alt="hero image"
-          className="object-cover"
-          fetchPriority="high"
-          loading="eager"
-        />
+        {main?.image && (
+          <Image
+            src={main?.image}
+            fill
+            alt="hero image"
+            className="object-cover"
+            fetchPriority="high"
+            loading="eager"
+          />
+        )}
       </div>
     </section>
   );

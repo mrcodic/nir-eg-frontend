@@ -15,7 +15,7 @@ import {
   setNewOtpSendTime,
 } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
+import axios, { isAxiosError } from "axios";
 import Link from "next/link";
 import { useRouter } from "nextjs-toploader/app";
 import { GoogleReCaptcha } from "react-google-recaptcha-v3";
@@ -73,11 +73,17 @@ const ForgetPasswordPage = () => {
       }
     } catch (err) {
       console.log(err);
-      toast({
-        status: err.status,
-        description: "الرقم غلط او بعتنالك otp من قبل",
-        icon: "error",
-      });
+      if (isAxiosError(err) && err?.response?.status === 404) {
+        toast({
+          description: "لا يوجد طالب او ولى امر مسجل بهذا الرقم",
+          icon: "error",
+        });
+      } else {
+        toast({
+          description: "الرقم غلط او بعتنالك otp من قبل",
+          icon: "error",
+        });
+      }
     }
   };
 
@@ -104,13 +110,6 @@ const ForgetPasswordPage = () => {
             countryISOFieldName="phone.country_iso"
           />
 
-          {/* <CustomInput
-              name="phone"
-              control={form.control}
-              placeholder="رقم هاتف الطالب"
-              iconSrc="/assets/Phone1.svg"
-            /> */}
-
           <div className="mt-6 flex items-center gap-2">
             <span className="text-gray-dark inline-block font-medium">
               ليس لديك حساب؟
@@ -125,7 +124,6 @@ const ForgetPasswordPage = () => {
 
           <GoogleReCaptcha
             onVerify={(token) => {
-              // setToken(token);
               form.setValue("recaptcha_token", token);
             }}
           />
@@ -135,7 +133,7 @@ const ForgetPasswordPage = () => {
               className="ms-auto w-full max-w-40"
               disabled={form.formState.isSubmitting}
             >
-              {!form.formState.isSubmitting ? "   تأكيد" : <CustomLoader />}
+              {!form.formState.isSubmitting ? "تأكيد" : <CustomLoader />}
             </Button>
           </div>
         </form>

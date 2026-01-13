@@ -1,5 +1,6 @@
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
+import { memo } from "react";
 import {
   FormControl,
   FormField,
@@ -92,7 +93,7 @@ const CustomSelect = ({
   );
 };
 
-export default CustomSelect;
+export default memo(CustomSelect);
 
 {
   /* <FormField

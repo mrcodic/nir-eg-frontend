@@ -1,6 +1,6 @@
 import { getPublicData } from "@/helpers/client-fetch";
 import { useQuery } from "@tanstack/react-query";
-import { ComponentProps, useMemo } from "react";
+import { ComponentProps, memo, useMemo } from "react";
 import CustomSelect from "./customSelect";
 
 type Props = Omit<ComponentProps<typeof CustomSelect>, "options"> & {
@@ -33,4 +33,4 @@ function DynamicSelect({ queryKey, ...rest }: Props) {
   );
 }
 
-export default DynamicSelect;
+export default memo(DynamicSelect);

@@ -21,6 +21,7 @@ import { otpSchema } from "@/lib/schemas";
 import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 import CustomLoader from "../custom/Loader";
@@ -91,9 +92,12 @@ export default function OtpModal({ phone }) {
   return (
     <div>
       <div className="flex gap-2">
-        <img
-          src={true ? "/assets/icons/LockColor.svg" : "/assets/icons/Done.svg"}
+        <Image
+          src={start ? "/assets/icons/LockColor.svg" : "/assets/icons/Done.svg"}
+          width={32}
+          height={32}
           className="size-8"
+          alt="otp modal icon"
         />
         <div>
           <h3 className="text-[20px] font-bold text-[#121212]">
@@ -102,7 +106,8 @@ export default function OtpModal({ phone }) {
 
           <div>
             <p className="text-gray-dark mt-1 text-[16px] font-medium">
-              ٍسنقوم بإرسال رمز التأكيد إلى رقم الهاتف التالي
+              {start ? "قمنا" : "سنقوم"} بإرسال رمز التأكيد إلى رقم الهاتف
+              التالي
             </p>
             <span className="inline-block font-bold text-[#121212]" dir="ltr">
               {phone}

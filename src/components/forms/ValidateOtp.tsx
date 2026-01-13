@@ -1,4 +1,5 @@
 "use client";
+
 import {
   Form,
   FormControl,
@@ -8,6 +9,7 @@ import {
 } from "@/components/ui/form";
 import { OTP_SEND_TIME_KEY } from "@/constants";
 import { useToast } from "@/hooks/use-toast";
+import { useMounted } from "@/hooks/useMounted";
 import useOtp from "@/hooks/useOtp";
 import AuthHeader from "@/layouts/AuthHeader";
 import { otpSchema } from "@/lib/schemas";
@@ -29,6 +31,7 @@ const ValidateOtp = ({ setResetForm }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [savedPhone, setSavedPhone] = useState(() => getLocalStorage("phone"));
+  const isMounted = useMounted();
 
   const type = searchParams.get("type");
 
@@ -88,7 +91,7 @@ const ValidateOtp = ({ setResetForm }) => {
         title="تأكيد رقم الهاتف"
         description={
           <span>
-            سنقوم بإرسال رمز التأكيد إلى رقم الهاتف التالي{" "}
+            {start ? "قمنا" : "سنقوم"} بإرسال رمز التأكيد إلى رقم الهاتف التالي{" "}
             <span
               dir="ltr"
               className="text-primary-800 font-bold underline"
@@ -100,19 +103,18 @@ const ValidateOtp = ({ setResetForm }) => {
         }
       />
 
-      <div className="bg-gray-light mt-[16px] h-px w-full" />
-      <div className="mt-[2px] h-px w-full bg-[#523412]" />
+      <div className="bg-gray-light mt-4 h-px w-full" />
+      <div className="mt-0.5 h-px w-full bg-[#523412]" />
 
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="mt-[40px] w-full"
-        >
-          {start ? (
+        <form onSubmit={form.handleSubmit(onSubmit)} className="mt-10 w-full">
+          {start && isMounted ? (
             <CountDownTimerUI minutes={minutes} seconds={seconds} />
           ) : (
             <div>
-              <p>قم بإرسال رمز التأكيد إلى رقم الهاتف التالي {savedPhone}</p>
+              <p suppressHydrationWarning>
+                قم بإرسال رمز التأكيد إلى رقم الهاتف التالي {savedPhone}
+              </p>
             </div>
           )}
 
@@ -168,12 +170,7 @@ const ValidateOtp = ({ setResetForm }) => {
               </Link>
             </div>
           )}
-          {/* <GoogleReCaptcha
-            onVerify={(token) => {
-              // setToken(token);
-              form.setValue("recaptcha_token", token);
-            }}
-          /> */}
+
           <div className="mt-8 flex">
             <Button
               type="submit"

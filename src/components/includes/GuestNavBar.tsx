@@ -38,6 +38,7 @@ const GuestNavBar = () => {
                 alt="logo icon"
                 loading="eager"
                 fetchPriority="high"
+                priority
               />
             </Link>
 

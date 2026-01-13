@@ -89,6 +89,7 @@ const AuthNavBar = () => {
               loading="eager"
               fetchPriority="high"
               alt="logo"
+              priority
             />
           </Link>
 

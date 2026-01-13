@@ -78,8 +78,6 @@ const RegisterPage = () => {
     }
   };
 
-  console.log(form.getValues());
-
   return (
     <>
       <AuthHeader
@@ -181,12 +179,14 @@ const RegisterPage = () => {
               تسجيل الدخول
             </Link>
           </div>
+
           <GoogleReCaptcha
             onVerify={(token) => {
               // setToken(token);
               form.setValue("recaptcha_token", token);
             }}
           />
+
           <div className="mt-10 flex">
             <Button
               type="submit"
