@@ -28,21 +28,21 @@ function HeroSectionTwo({
         <h1 className="text-32 font-bold">{main?.section_title}</h1>
 
         <div className="mt-6 flex flex-wrap gap-4">
-          {features?.items?.map((feature) => (
+          {features?.items?.map((feature, i) => (
             <div
-              key={feature.text}
+              key={feature?.text || i}
               className="bg-background flex items-center gap-2 rounded-lg p-2 pe-3"
             >
               {feature?.image && (
                 <Image
                   className="h-6 w-6"
-                  src={feature.image}
+                  src={feature?.image}
                   width={24}
                   height={24}
-                  alt={feature.text}
+                  alt={feature?.text}
                 />
               )}
-              <p>{feature.text}</p>
+              <p>{feature?.text}</p>
             </div>
           ))}
         </div>

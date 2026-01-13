@@ -17,7 +17,7 @@ export default function SocialCard({ card }: { card: SocialItem }) {
             ease: "easeInOut",
           }}
         >
-          {card.image ? (
+          {card?.image ? (
             <Image src={card.image} width={88} height={88} alt={card.name} />
           ) : (
             <div className="h-22 w-22 rounded-full bg-gray-400" />
@@ -26,14 +26,14 @@ export default function SocialCard({ card }: { card: SocialItem }) {
 
         <div className="text-center font-bold text-black transition-all group-hover:text-white">
           <h2 dir="ltr" className="text-28 md:text-32">
-            {card.number}
+            {card?.number}
           </h2>
-          <p className="text-sm md:text-base">{card.name}</p>
+          <p className="text-sm md:text-base">{card?.name}</p>
         </div>
       </div>
 
       <Link
-        href={card.link}
+        href={card?.link || ""}
         className="text-primary-800 group/link mt-6 flex items-center justify-center gap-2 transition-all group-hover:text-white"
       >
         <span className="font-bold underline">تابعنا الان</span>

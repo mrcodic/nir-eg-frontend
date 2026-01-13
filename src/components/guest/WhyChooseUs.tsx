@@ -48,9 +48,9 @@ function WhyChooseUs({
       </div>
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-        {content?.items?.map((card) => (
+        {content?.items?.map((card, i) => (
           <Card
-            key={card.title}
+            key={card?.title || i}
             className="hover:border-secondary hover:bg-background flex flex-col transition-all"
           >
             {card?.image && (
@@ -64,11 +64,11 @@ function WhyChooseUs({
                 className="mx-auto mt-auto w-fit text-center"
               >
                 <h3 className="text-primary-800 text-lg font-bold">
-                  {card.title}
+                  {card?.title}
                 </h3>
               </UnderlineStyle>
 
-              <p className="mt-2 font-bold">{card.description}</p>
+              <p className="mt-2 font-bold">{card?.description}</p>
             </CardContent>
           </Card>
         ))}
