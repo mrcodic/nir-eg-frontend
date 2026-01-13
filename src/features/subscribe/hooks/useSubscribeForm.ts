@@ -235,8 +235,6 @@ export function useSubscribeForm({
         },
       });
 
-      console.log("Response:", res);
-
       toast.success("تم الاشتراك بنجاح! 🎉");
 
       resetAllForms();

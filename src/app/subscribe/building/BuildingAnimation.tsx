@@ -5,7 +5,13 @@ import { useEffect, useState } from "react";
 
 type AnimationData = Record<string, unknown>;
 
-function BuildingAnimation({ isCompleted }: { isCompleted: boolean }) {
+function BuildingAnimation({
+  isCompleted,
+  isError,
+}: {
+  isCompleted: boolean;
+  isError: boolean;
+}) {
   const [animationData, setAnimationData] = useState<AnimationData | null>(
     null
   );
@@ -19,10 +25,13 @@ function BuildingAnimation({ isCompleted }: { isCompleted: boolean }) {
         ? await import(
             "../../../../public/assets/animations/success-animation.json"
           )
+        : isError
+        ? await import("../../../../public/assets/animations/Fail.json")
         : await import("../../../../public/assets/animations/waiting.json");
 
       if (isMounted) {
         // 👇 THIS IS THE KEY LINE
+
         setAnimationData(animationModule.default);
 
         if (isCompleted) {
@@ -39,7 +48,7 @@ function BuildingAnimation({ isCompleted }: { isCompleted: boolean }) {
     return () => {
       isMounted = false;
     };
-  }, [isCompleted]);
+  }, [isCompleted, isError]);
 
   if (!animationData)
     return (
@@ -52,7 +61,7 @@ function BuildingAnimation({ isCompleted }: { isCompleted: boolean }) {
         <Lottie
           animationData={confettiFile}
           loop={false}
-          className="fixed  inset-0 w-screen"
+          className="fixed  inset-0 w-screen -z-1"
         />
       )}
       <Lottie animationData={animationData} loop={!isCompleted} />

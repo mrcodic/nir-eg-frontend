@@ -5,10 +5,11 @@ import { Progress } from "@/components/ui/progress";
 import { getPublicData } from "@/config/client-fetch";
 import { StepName, TenantProgress } from "@/types/building.types";
 import { Loader2 } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import BuildingAnimation from "./BuildingAnimation";
 
-const POLL_INTERVAL = 3000;
+const POLL_INTERVAL = 4000;
 
 const mapStepNameToArabic: Record<StepName, string> = {
   create_db: "إنشاء قاعدة البيانات",
@@ -39,6 +40,7 @@ export default function BuildProgress({ tenantId }: { tenantId: string }) {
         }
       } catch {
         setError("حدث خطأ أثناء متابعة حالة الإنشاء");
+        clearInterval(timer);
       } finally {
         // ✅ stop loading ONLY after first response
         setIsInitialLoading(false);
@@ -79,20 +81,24 @@ export default function BuildProgress({ tenantId }: { tenantId: string }) {
       <main className="wrapper">
         <div className="flex flex-col items-center text-center">
           {/* Animation */}
-          <BuildingAnimation isCompleted={isCompleted} />
+          <BuildingAnimation isCompleted={isCompleted} isError={!!error} />
 
           {/* Title */}
           <h1 className="mt-6 font-bold text-xl sm:text-32 text-gradient-custom">
             {isCompleted
               ? "تم انشاء موقعك بنجاح"
+              : error
+              ? "حدث خطاء اثناء متابعة حالة الانشاء"
               : "نحن الآن نعمل على إنشاء موقعك…"}
           </h1>
 
-          <p className="mt-2 text-base sm:text-xl font-bold">
-            {isCompleted
-              ? "يمكنك الان زيارة موقعك او لوحة التحكم الخاصة بك"
-              : "نحن الآن نعمل على إنشاء موقعك…"}
-          </p>
+          {!error && (
+            <p className="mt-2 text-base sm:text-xl font-bold">
+              {isCompleted
+                ? "يمكنك الان زيارة موقعك او لوحة التحكم الخاصة بك"
+                : "نحن الآن نعمل على إنشاء موقعك…"}
+            </p>
+          )}
 
           {/* Current step */}
           {!isCompleted && currentStep && (
@@ -108,7 +114,22 @@ export default function BuildProgress({ tenantId }: { tenantId: string }) {
             </div>
           )}
 
-          {error && <p className="mt-4 text-red-500 font-bold">{error}</p>}
+          {error && (
+            <div className="space-y-4">
+              <p className="mt-4 text-red-500 font-extrabold text-lg">
+                {error}
+              </p>
+              {/* "+201500048141" */}
+              <Link href="https://wa.me/201500048141">
+                <Button
+                  className="w-full rounded-lg px-4 py-3 text-lg h-11"
+                  variant="animated-gradient"
+                >
+                  تواصل مع فريق الدعم
+                </Button>
+              </Link>
+            </div>
+          )}
 
           {/* First-load loading progress */}
           {isInitialLoading && !data && (
@@ -121,7 +142,7 @@ export default function BuildProgress({ tenantId }: { tenantId: string }) {
           )}
 
           {/* Actions after completion */}
-          {data?.percent === 100 && (
+          {!error && data?.percent === 100 && (
             <div className="mt-8 flex gap-4">
               <a
                 href={data?.domains?.public}
@@ -145,7 +166,7 @@ export default function BuildProgress({ tenantId }: { tenantId: string }) {
             </div>
           )}
 
-          {!isInitialLoading && (
+          {!error && !isInitialLoading && (
             <div className="w-full mt-4 space-y-3">
               <Progress value={data?.percent ?? 0} />
               <p className="font-semibold sm:text-base text-sm">

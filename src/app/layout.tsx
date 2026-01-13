@@ -40,6 +40,7 @@ export default function RootLayout({
           </div>
           <Footer />
         </Providers>
+
         <WhatsAppFloating
           phone="+201500048141"
           message={"مرحبًا، أحتاج إلى مساعدة"}
