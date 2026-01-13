@@ -4,13 +4,23 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    domains: [
-      "dev.nir-edu.com",
-      "admin.nir-edu.com",
-      "admin.hq.nir-edu.com",
-      "cdn03.vdocipher.com",
-      "www.youtube.com",
-      "https://cdn03.vdocipher.com",
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "admin.hq.nir-edu.com",
+      },
+      {
+        protocol: "https",
+        hostname: "*.admin.nir-edu.com",
+      },
+      {
+        protocol: "https",
+        hostname: "*.dev.nir-edu.com",
+      },
+      {
+        protocol: "https",
+        hostname: "cdn03.vdocipher.com",
+      },
     ],
   },
   eslint: {
