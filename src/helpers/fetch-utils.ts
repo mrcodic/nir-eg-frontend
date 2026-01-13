@@ -20,7 +20,8 @@ export function extractTenantFromHost() {
 }
 
 export function buildTenantApiBase(tenant: string) {
-  return `https://${tenant}.dev.nir-edu.com/api/v1`;
+  const tenantUrl = process.env.NEXT_PUBLIC_TENANT_URL;
+  return tenantUrl.replace("tenant", tenant);
 }
 
 export function buildApiUrl(tenant: string, endpoint: string) {

@@ -62,15 +62,6 @@ const RegisterPage = () => {
       presistUserPhone(phones.phone, phones.country);
 
       if (response.status) {
-        // const otp = await getOtp(localStorage.getItem("phone"));
-        // if (otp.status) {
-        //   toast({
-        //     description: " بعتنالك otp عبر sms  ",
-        //     icon: "success",
-        //   });
-
-        // }
-
         toast({
           description: "تم إنشاء الحساب بنجاح سجل دخولك الان",
           icon: "success",

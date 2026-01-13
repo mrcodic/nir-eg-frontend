@@ -64,6 +64,7 @@ export default function OtpModal({ phone }) {
       localStorage.removeItem(OTP_SEND_TIME_KEY);
       router.refresh();
     } catch (e) {
+      console.log(e);
       toast({
         description: " رمز التأكيد غلط او وقته خلص",
         icon: "error",
@@ -74,6 +75,10 @@ export default function OtpModal({ phone }) {
   }
 
   useEffect(() => {
+    if (!isExpired && !initialSend.current) {
+      initialSend.current = true;
+      return;
+    }
     if (initialSend.current || !open) return;
 
     if (isExpired) {
@@ -81,22 +86,20 @@ export default function OtpModal({ phone }) {
       initialSend.current = true;
       sendOtp(phone);
     }
-  }, [isExpired, open]);
+  }, [isExpired, phone, sendOtp]);
 
   return (
     <div>
       <div className="flex gap-2">
         <img
-          src={true ? "/assets/LockColor.svg" : "/assets/Done.svg"}
+          src={true ? "/assets/icons/LockColor.svg" : "/assets/icons/Done.svg"}
           className="size-8"
         />
         <div>
           <h3 className="text-[20px] font-bold text-[#121212]">
             تأكيد رقم الهاتف
           </h3>
-          {/* <h3 className="text-[#121212] text-[20px] font-bold">
-              تأكيد رقم هاتف ولي الأمر
-            </h3> */}
+
           <div>
             <p className="text-gray-dark mt-1 text-[16px] font-medium">
               ٍسنقوم بإرسال رمز التأكيد إلى رقم الهاتف التالي
@@ -114,10 +117,7 @@ export default function OtpModal({ phone }) {
       <div className="bg-gray-light mt-4 h-px w-full" />
 
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="w-2/3 space-y-6"
-        >
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 pt-4">
           {start && <CountDownTimerUI minutes={minutes} seconds={seconds} />}
 
           <button
@@ -125,10 +125,11 @@ export default function OtpModal({ phone }) {
               e.preventDefault();
               sendOtp(phone);
             }}
-            className="mt-4 flex cursor-pointer items-center gap-1 text-[18px] font-bold text-[#523412] underline disabled:cursor-not-allowed disabled:opacity-60"
+            className="text-secondary mt-4 flex cursor-pointer items-center gap-1 text-base font-bold underline disabled:cursor-not-allowed disabled:opacity-60"
             disabled={start}
           >
-            أعد الإرسال {resending && <Loader2 className="animate-spin" />}
+            أعد الإرسال{" "}
+            {resending && <Loader2 className="size-4 animate-spin" />}
           </button>
           <FormLabel className="block text-xl"> أدخل رمز التأكيد</FormLabel>
           <div className="text-32! flex justify-end" dir="ltr">
@@ -147,7 +148,7 @@ export default function OtpModal({ phone }) {
             />
           </div>
 
-          <DialogFooter className="mt-20! flex w-full items-center justify-start! gap-6">
+          <DialogFooter className="mt-16! flex w-full items-center justify-start! gap-6">
             <Button
               className="bg-primary-800 border-gray-light h-8 w-36 rounded-lg border font-bold text-white"
               type="submit"

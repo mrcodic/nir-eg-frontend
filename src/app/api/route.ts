@@ -8,9 +8,9 @@ import { cookies, headers } from "next/headers";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
-  const url = new URL(req.url);
-  const apiUrl = url.searchParams.get("url");
-  const type = url.searchParams.get("type");
+  const reqUrl = new URL(req.url);
+  const apiUrl = reqUrl.searchParams.get("url");
+  const type = reqUrl.searchParams.get("type");
   const paths = req.nextUrl.searchParams.get("paths");
 
   try {

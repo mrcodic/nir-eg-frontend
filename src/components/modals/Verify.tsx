@@ -8,9 +8,9 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { OTP_SEND_TIME_KEY } from "@/constants";
+import { mutateClient } from "@/helpers/post-client";
 import { useToast } from "@/hooks/use-toast";
 import { isOtpExpired, setNewOtpSendTime } from "@/lib/utils";
-import { getOtp } from "@/utils/api";
 import { DialogClose } from "@radix-ui/react-dialog";
 import Image from "next/image";
 import Link from "next/link";
@@ -22,10 +22,10 @@ export function Verify({ open, setOpen }) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="sm:max-w-[450px] p-6">
+      <DialogContent className="p-6 sm:max-w-[450px]">
         <DialogHeader className="text-center">
           {/* 🔥 Warning Image/Icon */}
-          <div className="flex justify-center mb-4">
+          <div className="mb-4 flex justify-center">
             <Image
               src="/assets/notfError.svg"
               alt="Warning"
@@ -36,8 +36,8 @@ export function Verify({ open, setOpen }) {
           </div>
 
           {/* 🚨 Warning Title */}
-          <DialogTitle className="text-xl text-center font-semibold text-red-600"></DialogTitle>
-          <DialogDescription className="text-black text-xl">
+          <DialogTitle className="text-center text-xl font-semibold text-red-600"></DialogTitle>
+          <DialogDescription className="text-xl text-black">
             محتاج تعمل تأكيد لرقم الموبايل من خلال ال otp{" "}
           </DialogDescription>
         </DialogHeader>
@@ -45,14 +45,17 @@ export function Verify({ open, setOpen }) {
         {/* ❗ Warning Alert Section */}
 
         {/* ✅ Dialog Buttons */}
-        <DialogFooter className="flex justify-between gap-5 mt-5">
+        <DialogFooter className="mt-5 flex justify-between gap-5">
           <DialogClose asChild>
-            <Link href="/resetPassword" className="w-full text-center ">
+            <Link href="/resetPassword" className="w-full text-center">
               <Button
-                className="w-[150px] h-full bg-primary-800"
+                className="bg-primary-800 h-full w-[150px]"
                 onClick={async () => {
                   const phone = localStorage.getItem("phone");
-                  const otp = await getOtp(phone);
+                  const otp = await mutateClient("/otp/request", {
+                    body: { phone },
+                  });
+
                   if (otp) {
                     const { otpSendTime, isExpired } = isOtpExpired();
 
@@ -68,7 +71,7 @@ export function Verify({ open, setOpen }) {
                       // old otp timestamp
                       localStorage.setItem(
                         OTP_SEND_TIME_KEY,
-                        otpSendTime.getTime().toString()
+                        otpSendTime.getTime().toString(),
                       );
                     }
 

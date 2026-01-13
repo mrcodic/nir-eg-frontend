@@ -1,8 +1,8 @@
 "use client";
 
 import { OTP_SEND_TIME_KEY } from "@/constants";
-import { getOtp } from "@/utils/api";
-import { useState } from "react";
+import { mutateClient } from "@/helpers/post-client";
+import { useCallback, useState } from "react";
 import { useTimer } from "react-timer-hook";
 import { isOtpExpired, setNewOtpSendTime } from "../lib/utils";
 import { useToast } from "./use-toast";
@@ -23,38 +23,43 @@ function useOtp() {
     autoStart: start,
   });
 
-  const sendOtp = async (phone: string) => {
-    try {
-      if (typeof window == "undefined") return;
-      //  const { otpSendTime, isExpired } = isOtpExpired();
+  const sendOtp = useCallback(
+    async (phone: string) => {
+      try {
+        if (typeof window == "undefined") return;
+        //  const { otpSendTime, isExpired } = isOtpExpired();
 
-      setResending(true);
+        setResending(true);
 
-      const res = await getOtp(phone);
-
-      const newTime = setNewOtpSendTime();
-
-      restart(newTime);
-      setStart(true);
-
-      if (res.status) {
-        console.log(res);
-        toast({
-          description: "بعتنالك otp تاني ",
-          icon: "success",
+        const res = await mutateClient("/otp/request", {
+          body: { phone },
         });
+
+        const newTime = setNewOtpSendTime();
+
+        restart(newTime);
+        setStart(true);
+
+        if (res.status) {
+          console.log(res);
+          toast({
+            description: "بعتنالك otp تاني ",
+            icon: "success",
+          });
+        }
+      } catch (e) {
+        console.log(e);
+        toast({
+          status: e.status,
+          description: "الرقم غلط او بعتنالك otp من قبل",
+          icon: "error",
+        });
+      } finally {
+        setResending(false);
       }
-    } catch (e) {
-      console.log(e);
-      toast({
-        status: e.status,
-        description: "الرقم غلط او بعتنالك otp من قبل",
-        icon: "error",
-      });
-    } finally {
-      setResending(false);
-    }
-  };
+    },
+    [restart, toast],
+  );
 
   return {
     sendOtp,

@@ -9,8 +9,7 @@ import { Form } from "@/components/ui/form";
 import UploadWithCrop from "@/components/UploadImage";
 import { useToast } from "@/hooks/use-toast";
 import { editProfileSchema } from "@/lib/schemas";
-import { getPhoneInfoFromCode, isOtpExpired } from "@/lib/utils";
-import { getOtp } from "@/utils/api";
+import { getPhoneInfoFromCode } from "@/lib/utils";
 import { mapGradeToText, mapTypeToText } from "@/utils/clientFun";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
@@ -20,7 +19,9 @@ import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import StudentCenterField from "@/components/custom/StudentCenterField";
+import OtpModal from "@/components/modals/OtpModal";
 import { useAuthContext } from "@/context/auth-context";
+import { useModal } from "@/context/ModalProvider";
 import ChangePasswordSettings from "@/modules/profile/components/ChangePasswordSettings";
 import Cookies from "js-cookie";
 
@@ -28,6 +29,7 @@ const PageSettings = () => {
   const router = useRouter();
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const modal = useModal();
 
   const [changePassword, setIsChangePassword] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -163,7 +165,7 @@ const PageSettings = () => {
                 </div>
               </div>
 
-              <div className="flex w-full flex-col gap-6 md:flex-row">
+              <div className="flex w-full flex-col gap-2">
                 <CustomPhoneInput
                   name="parent_phone.phone"
                   form={form}
@@ -175,14 +177,14 @@ const PageSettings = () => {
 
                 {profile?.parent_phone_verification === false && (
                   <button
+                    type="button"
                     onClick={async () => {
-                      const { isExpired } = isOtpExpired();
-                      if (isExpired) {
-                        await getOtp(profile?.parent_phone);
-                      }
-                      // setChangeParentNumber(true);
+                      modal.setDialogContent(
+                        <OtpModal phone={profile?.parent_phone} />,
+                      );
+                      modal.openModal();
                     }}
-                    className="mt-2 inline-block cursor-pointer text-xs font-normal underline"
+                    className="ms-auto inline-block w-fit cursor-pointer text-xs font-normal underline"
                   >
                     قم بتأكيد رقم ولي الأمر
                   </button>
@@ -259,10 +261,6 @@ const PageSettings = () => {
           </form>
         </Form>
       </div>
-
-      {/* {!profile?.parent_phone && changeParentNumber && (
-        <OtpModal phone={profile?.parent_phone} />
-      )} */}
     </div>
   );
 };
