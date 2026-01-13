@@ -6,6 +6,7 @@ import PasswordInput from "@/components/ui/password-input";
 import { axiosInstance } from "@/lib/axios-instance";
 import type { AccountInfoFormData } from "@/lib/schemas/subscribe.schema";
 import { startNewTimer } from "@/utils/otp-helpers";
+import { isAxiosError } from "axios";
 import Link from "next/link";
 import { UseFormReturn } from "react-hook-form";
 import { toast } from "sonner";
@@ -34,7 +35,6 @@ export default function AccountInfoStep({
       const isFormDirty = form.formState.isDirty;
       const isFormValid = Object.keys(form.formState.errors).length === 0;
 
-      console.log(values);
 
       // when user refresh the page or go back to first step without changing any thing and the email is verified , go to next step which in return will skip the verification of the otp step
 
@@ -52,23 +52,24 @@ export default function AccountInfoStep({
         account: { ...values, lang: "ar" },
       });
 
-      console.log(res);
 
       form.setValue("user_id", res.data.data.user_id);
       form.setValue("email_verified", res.data.data.email_verified);
 
       if (!res.data.data.email_verified) {
-        toast.success("تم ارسال OTP لبريدك الإلكتروني");
         startNewTimer();
+        toast.success("تم ارسال OTP لبريدك الإلكتروني");
       } else {
         localStorage.setItem("last_verified_email", values.email);
       }
 
       onNext();
     } catch (error) {
-      toast.error("حدث خطأ أثناء إنشاء الحساب");
-
-      console.log(error);
+      toast.error(
+        isAxiosError(error)
+          ? error?.response?.data?.message
+          : "حدث خطأ أثناء إنشاء الحساب"
+      );
     }
   }
 

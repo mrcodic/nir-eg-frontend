@@ -9,6 +9,7 @@ import { OTP_STORAGE_KEY } from "@/utils/otp-helpers";
 import { isAxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Path } from "react-hook-form";
 import { toast } from "sonner";
 import useStepsForms from "./useStepsForms";
 
@@ -235,7 +236,7 @@ export function useSubscribeForm({
         },
       });
 
-      toast.success("تم الاشتراك بنجاح! 🎉");
+      toast.success("جارى انشاء موقعك الاكتروني بنجاح 🎉");
 
       resetAllForms();
 
@@ -246,13 +247,42 @@ export function useSubscribeForm({
     } catch (error) {
       console.error("Submission error:", error);
       if (
-        isAxiosError(error) &&
-        (error.response?.status === 409 ||
-          (error.response?.status === 422 &&
-            error.response?.data.message ===
-              "The selected user id is invalid."))
+        isAxiosError(error)
+        // && (error.response?.status === 409 ||
+        //   (error.response?.status === 422 &&
+        //     error.response?.data.message ===
+        //       "The selected user id is invalid."))
       ) {
-        toast.error("هذا الحساب مسجل بالفعل");
+        toast.error(error?.response?.data?.message || "حدث خطاء ما.");
+
+        // get step and field error and navigate to them
+        if (error?.response?.data?.errors) {
+          const errorSteps = Object.entries(error?.response?.data?.errors);
+          if (errorSteps?.length > 0) {
+            const [step, fieldName] = errorSteps?.[0]?.[0]?.split(".");
+            const fieldError = errorSteps?.[0]?.[1]?.[0];
+
+            // get step index and navigate to it
+            const stepIndex = steps.findIndex((s) => s.id === step);
+            setCurrentStepIndex(stepIndex);
+
+            const forms = [
+              accountForm,
+              null,
+              businessForm,
+              brandingForm,
+              paymentForm,
+            ];
+            
+            const stepForm = forms?.[stepIndex];
+            
+            // highlight step form field
+            stepForm?.setError(fieldName as Path<typeof stepForm> ,{
+              type: "manual",
+              message: fieldError
+            } );
+          }
+        }
       } else {
         toast.error("حدث خطأ ما. يرجى المحاولة مرة أخرى.");
       }
@@ -268,6 +298,7 @@ export function useSubscribeForm({
     paymentForm,
     resetAllForms,
     router,
+    steps
   ]);
 
   return {

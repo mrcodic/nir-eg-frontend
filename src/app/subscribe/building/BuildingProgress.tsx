@@ -35,6 +35,8 @@ export default function BuildProgress({ tenantId }: { tenantId: string }) {
 
         setData(data);
 
+        console.log(data);
+
         if (data?.percent === 100) {
           clearInterval(timer);
         }
