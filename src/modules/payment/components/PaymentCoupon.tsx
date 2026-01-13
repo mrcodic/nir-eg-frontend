@@ -112,7 +112,7 @@ function PaymentCoupon({
 
       {couponState?.state && (
         <p
-          className={`text-xs ${
+          className={`mt-1 text-xs ${
             couponState.state === "success" ? "text-green-500" : "text-red-500"
           }`}
         >
@@ -120,9 +120,10 @@ function PaymentCoupon({
           {couponState.state === "success" &&
             `حصلت على خصم  ${
               coupon?.promo?.type_discount === 1
-                ? `${coupon?.promo?.value}%`
-                : `${coupon?.promo?.value} جنيه`
+                ? `${coupon?.promo?.value}% `
+                : `${coupon?.promo?.value} جنيه `
             }`}
+          - {`السعر النهائي ${coupon?.final_price} جنيه`}
         </p>
       )}
     </div>
