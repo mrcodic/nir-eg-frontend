@@ -101,7 +101,7 @@ export default function BuildProgress({ tenantId }: { tenantId: string }) {
           )}
 
           {/* Current step */}
-          {!isCompleted && currentStep && (
+          {!error && !isCompleted && currentStep && (
             <div className="mt-6 text-sm sm:text-base font-bold text-gray-dark flex gap-2 items-center">
               <span>{mapStepNameToArabic[currentStep[0]]}</span>
               <span>
