@@ -1,13 +1,16 @@
 "use client";
 
+import { useTenant } from "@/context/TenantProvider";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import CustomImage from "../ui/CustomImage";
 import GuestDropdown from "./GuestDropdown";
 
 const GuestNavBar = () => {
   const pathname = usePathname();
+  const { logo } = useTenant();
 
   return (
     <div
@@ -30,14 +33,16 @@ const GuestNavBar = () => {
         >
           <div className="mobile:gap-[120px] flex items-center gap-12 self-end font-bold">
             <Link href={"/"}>
-              <Image
-                className=""
+              <CustomImage
+                src={logo || "/logo.svg"}
+                fallback="/logo.svg"
                 width={110}
                 height={48}
-                src="/logo.svg"
-                alt="logo icon"
+                unoptimized
+                className="h-12 object-contain"
                 loading="eager"
                 fetchPriority="high"
+                alt="logo"
                 priority
               />
             </Link>

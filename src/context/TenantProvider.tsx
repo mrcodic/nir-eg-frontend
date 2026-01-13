@@ -9,6 +9,7 @@ export interface TenantPublic {
   primary_color: string;
   landing_template: string;
   site_name: string;
+  logo: string;
 }
 
 const TenantContext = createContext<

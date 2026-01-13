@@ -7,6 +7,7 @@ const nextConfig = {
     domains: [
       "dev.nir-edu.com",
       "admin.nir-edu.com",
+      "admin.hq.nir-edu.com",
       "cdn03.vdocipher.com",
       "www.youtube.com",
       "https://cdn03.vdocipher.com",

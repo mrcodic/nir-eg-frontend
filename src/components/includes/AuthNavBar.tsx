@@ -7,14 +7,14 @@ import { useAuthContext } from "@/context/auth-context";
 import { useTenant } from "@/context/TenantProvider";
 import { cn } from "@/lib/utils";
 import NavNotifications from "@/modules/norifications/components/NavNotifications";
-import Image from "next/image";
+import CustomImage from "../ui/CustomImage";
 import LinkStyled from "./LinkStyled";
 import MobileDropDown from "./MobileDropDown";
 import NavUserMenu from "./NavUserMenu";
 
 const AuthNavBar = () => {
   const { profile, grade } = useAuthContext();
-  const { templateNumber } = useTenant();
+  const { templateNumber, logo } = useTenant();
 
   const STUDENTSONLINELINKS = [
     {
@@ -81,11 +81,13 @@ const AuthNavBar = () => {
             }
             className="flex gap-2 self-end"
           >
-            <Image
-              src="/logo.svg"
+            <CustomImage
+              src={logo || "/logo.svg"}
+              fallback="/logo.svg"
               width={110}
               height={48}
               unoptimized
+              className="h-12 object-contain"
               loading="eager"
               fetchPriority="high"
               alt="logo"

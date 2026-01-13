@@ -2,8 +2,7 @@
 
 import NextTopLoader from "nextjs-toploader";
 
-const MyComponent = () => {
-  const primary = process.env.NEXT_PUBLIC_TEMPLATE_COLOR;
+const MyComponent = ({ primary }: { primary: string }) => {
   return (
     <NextTopLoader
       color={primary || "#2E77AE"}

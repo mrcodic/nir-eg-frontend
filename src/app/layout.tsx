@@ -106,6 +106,7 @@ export default async function Layout({ children }) {
     primary_color: tenantSettings.primary_color,
     landing_template: tenantSettings.landing_template,
     site_name: tenantSettings.site_name,
+    logo: tenantSettings.logo,
   };
 
   return (
@@ -117,7 +118,7 @@ export default async function Layout({ children }) {
       >
         <TenantProvider value={publicTenant}>
           <>
-            <NavTopbar />
+            <NavTopbar primary={tenantSettings.primary_color} />
 
             <Providers>
               <NavbarWrapper />
