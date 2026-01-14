@@ -7,7 +7,7 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import UserMessage from "../../modules/community/components/UserMessage";
-import LoadingSpinner from "../Loading";
+import LoadingSpinner from "../LoadingSpinner";
 import { Dialog, DialogContent } from "../ui/dialog";
 import { SimplePagination } from "../ui/SimplePagination";
 

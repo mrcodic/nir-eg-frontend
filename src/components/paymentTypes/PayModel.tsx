@@ -18,6 +18,7 @@ export default async function PayModel({
   const isCenterCode = profile?.body?.type === 5;
 
   if (courseId && !isCenterCode) {
+    // doesnt trigger
     return <CourseForm courseId={courseId} data={data} />;
   } else if ((roomId || courseId) && isCenterCode) {
     return (
@@ -28,6 +29,7 @@ export default async function PayModel({
       />
     );
   } else if (bundleId) {
+    // doesnt trigger
     return <BundleForm bundleId={bundleId} data={data} />;
   } else if (roomId) {
     return <RoomPayForm roomId={roomId} centerId={centerId} data={data} />;

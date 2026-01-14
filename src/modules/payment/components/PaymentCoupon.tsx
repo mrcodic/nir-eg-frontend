@@ -123,7 +123,8 @@ function PaymentCoupon({
                 ? `${coupon?.promo?.value}% `
                 : `${coupon?.promo?.value} جنيه `
             }`}
-          - {`السعر النهائي ${coupon?.final_price} جنيه`}
+          {coupon?.final_price &&
+            ` -  السعر النهائي ${coupon?.final_price} جنيه`}
         </p>
       )}
     </div>

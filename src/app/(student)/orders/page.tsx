@@ -2,7 +2,7 @@
 
 import Empty from "@/components/Empty";
 import InfiniteScroll from "@/components/InfinteScroll";
-import LoadingSpinner from "@/components/Loading";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getClientPrivateData } from "@/helpers/client-fetch";
 import { BooksOrder, CourseOrder } from "@/types";

@@ -1,7 +1,7 @@
 "use client";
 
 import Empty from "@/components/Empty";
-import LoadingSpinner from "@/components/Loading";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import { useCartStore } from "@/context/BooksStoreProvider";
 import Link from "next/link";
 import BookCartCard from "./BookCartCard";
@@ -21,7 +21,7 @@ function CartContent() {
       >
         <Link
           href="/books"
-          className="bg-primary-800 text-white h-10 max-w-[364px] w-full flex justify-center items-center px-6"
+          className="bg-primary-800 flex h-10 w-full max-w-[364px] items-center justify-center px-6 text-white"
         >
           اذهب لمتجر الكتب
         </Link>
@@ -30,10 +30,10 @@ function CartContent() {
 
   return (
     <section>
-      <h1 className="text-32 font-bold text-primary-800">السلة</h1>
+      <h1 className="text-32 text-primary-800 font-bold">السلة</h1>
 
-      <div className="grid grid-cols-12 lg:gap-6 gap-y-16 items-start">
-        <div className="lg:col-span-7 col-span-12 max-lg:max-h-[max(calc(100vh-300px),300px)] overflow-y-auto max-lg:pe-4 divide-y-2 divide-gray-300">
+      <div className="grid grid-cols-12 items-start gap-y-16 lg:gap-6">
+        <div className="col-span-12 divide-y-2 divide-gray-300 overflow-y-auto max-lg:max-h-[max(calc(100vh-300px),300px)] max-lg:pe-4 lg:col-span-7">
           {items.map((item) => (
             <BookCartCard key={item.id} item={item} className="pt-4 pb-4" />
           ))}

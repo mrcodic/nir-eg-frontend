@@ -13,12 +13,12 @@ const LoadingSpinner = ({
   return (
     <div
       className={cn(
-        "min-h-[250px] z-999 h-full w-full flex gap-10 justify-center items-center ",
-        className
+        "z-20 flex h-full min-h-[250px] w-full items-center justify-center gap-10",
+        className,
       )}
     >
       <DotLottieReact
-        className={cn("size-28 mx-auto", spinnerClassName)}
+        className={cn("mx-auto size-28", spinnerClassName)}
         src="/Animations/roundloader.lottie"
         autoplay
         loop

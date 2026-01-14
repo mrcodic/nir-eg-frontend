@@ -15,6 +15,7 @@ import { formatCurrency } from "@/lib/utils";
 import { Bundle } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { redirect, useRouter, useSearchParams } from "next/navigation";
+import { useMemo } from "react";
 
 const ShowBundle = () => {
   const params = useSearchParams();
@@ -22,16 +23,24 @@ const ShowBundle = () => {
   const router = useRouter();
   const modal = useModal();
 
-  const bundleId = params.get("type");
-
-  if (!bundleId) {
-    return redirect("/ErrorPage?message=حدث خطأ اثناء البحث عن الباقة");
-  }
+  const bundleId = params.get("bundleId");
 
   const { data, isLoading, error } = useQuery<{ body: Bundle }>({
     queryKey: [`/bundles/${bundleId}`],
     queryFn: !!profile ? getClientPrivateData : getPublicData,
   });
+
+  const classroomsPrice = useMemo(
+    () =>
+      data?.body.classrooms.reduce((acc, classroom) => {
+        return acc + Number(classroom.price);
+      }, 0),
+    [data],
+  );
+
+  if (!bundleId) {
+    return redirect("/ErrorPage?message=حدث خطأ اثناء البحث عن الباقة");
+  }
 
   if (isLoading) {
     return (
@@ -46,8 +55,6 @@ const ShowBundle = () => {
   }
 
   const bundle = data?.body;
-
-  console.log("bundle : ", bundle);
 
   return (
     <div className="wrapper mt-[140px] mb-22">
@@ -87,6 +94,7 @@ const ShowBundle = () => {
         <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {bundle?.classrooms.map((classroom) => (
             <CourseCard
+              key={classroom.id}
               isBundles={true}
               isNewCourse={true}
               courseDetails={classroom}
@@ -100,7 +108,7 @@ const ShowBundle = () => {
             <StyledText
               className="text-32"
               text={formatCurrency(
-                Number(bundle?.price) - (bundle?.sale?.discount_value || 0),
+                Number(classroomsPrice) - Number(bundle?.price || 0),
               )}
             />
             {"  "}
@@ -121,7 +129,7 @@ const ShowBundle = () => {
                 modal.openModal();
               } else {
                 router.push(
-                  `/login?redirect=/bundles/showBundle?type=${bundleId}`,
+                  `/login?redirect=/bundles/showBundle?bundleId=${bundleId}`,
                 );
               }
             }}

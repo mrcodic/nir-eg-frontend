@@ -1,7 +1,7 @@
 "use client";
 
 import Empty from "@/components/Empty";
-import LoadingSpinner from "@/components/Loading";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import CommentDetails from "@/components/modals/CommentDetails";
 import PaginationComponent from "@/components/Pagination";
 import { getClientPrivateData } from "@/helpers/client-fetch";

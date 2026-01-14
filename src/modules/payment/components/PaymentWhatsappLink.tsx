@@ -7,8 +7,8 @@ function PaymentWhatsappLink({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "flex items-center justify-between gap-y-4 gap-x-6 flex-wrap",
-        className
+        "flex flex-wrap items-center justify-between gap-x-6 gap-y-4",
+        className,
       )}
     >
       <div className="flex items-center gap-4">
@@ -22,8 +22,12 @@ function PaymentWhatsappLink({ className }: { className?: string }) {
           لو مش معاك كود الدفع، كلمنا على واتساب
         </p>
       </div>
-      <Link href={""} className="ms-auto max-w-[172px] w-full">
-        <Button variant="secondary" className="h-11 max-w-[172px] w-full">
+      <Link
+        href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSPHONE}`}
+        className="ms-auto w-full max-w-[172px]"
+        target="_blank"
+      >
+        <Button variant="secondary" className="h-11 w-full max-w-[172px]">
           تواصل معنا
         </Button>
       </Link>

@@ -7,18 +7,16 @@ import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "nextjs-toploader/app";
-import { useState } from "react";
 import { PaymentModel } from "./modals/PaymentModel";
 import RoomHeader from "./RoomHeader";
 import { Button } from "./ui/button";
 import DataWithLabel from "./ui/DataWithLabel";
 import PriceBubbles from "./ui/price-bubble";
 
-const BundlesCom = () => {
+const BundlesWrapper = () => {
   const modal = useModal();
 
   const searchParams = useSearchParams();
-  const [selectedId, setSelectedId] = useState(0);
   const router = useRouter();
 
   const { profile, isLoading } = useAuthContext();
@@ -31,7 +29,7 @@ const BundlesCom = () => {
     api = `/guest/bundels?grade_id=${searchParams.get("grade")}`;
   }
 
-  const { data } = useQuery({
+  const { data, isLoading: isLoadingBundles } = useQuery({
     queryKey: [api],
     queryFn: profile ? getClientPrivateData : getPublicData,
     gcTime: 0,
@@ -40,7 +38,7 @@ const BundlesCom = () => {
 
   const bundlesData = profile ? data?.body?.budles : data?.body;
 
-  if (!bundlesData?.length) return null;
+  if (!bundlesData?.length || isLoadingBundles) return null;
 
   return (
     <div className="wrapper">
@@ -113,17 +111,18 @@ const BundlesCom = () => {
                     <div className="flex w-full flex-wrap gap-x-6 gap-y-4 text-sm font-bold">
                       <Button
                         onClick={() => {
-                          setSelectedId(bundle.id);
                           if (profile) {
                             modal.setDialogContent(
                               <PaymentModel
-                                bundleId={selectedId.toString()}
+                                bundleId={bundle.id.toString()}
                                 price={bundle.price}
                               />,
                             );
                             modal.openModal();
                           } else {
-                            router.push("/register?redirect=/bundles");
+                            router.push(
+                              `/register?redirect=/bundles/showBundle?bundleId=${bundle.id}`,
+                            );
                           }
                         }}
                         className="w-full max-w-[171px]"
@@ -133,7 +132,9 @@ const BundlesCom = () => {
 
                       <Button
                         onClick={() => {
-                          router.push(`/bundles/showBundle?type=${bundle.id}`);
+                          router.push(
+                            `/bundles/showBundle?bundleId=${bundle.id}`,
+                          );
                         }}
                         variant="secondary"
                         className="w-full max-w-[171px]"
@@ -158,4 +159,4 @@ const BundlesCom = () => {
   );
 };
 
-export default BundlesCom;
+export default BundlesWrapper;

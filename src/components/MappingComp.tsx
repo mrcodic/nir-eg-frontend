@@ -5,7 +5,7 @@ import { getClientPrivateData, getPublicData } from "@/helpers/client-fetch";
 import { QueryKey, useQuery } from "@tanstack/react-query";
 import { ComponentProps } from "react";
 import Empty from "./Empty";
-import LoadingSpinner from "./Loading";
+import LoadingSpinner from "./LoadingSpinner";
 
 type Props = {
   queryKey: string | QueryKey;

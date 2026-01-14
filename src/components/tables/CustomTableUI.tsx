@@ -1,5 +1,5 @@
 import Empty from "@/components/Empty";
-import LoadingSpinner from "@/components/Loading";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import {
   Table,
   TableBody,
@@ -56,27 +56,27 @@ export default function CustomTableUI({
   return (
     <div
       id="table"
-      className="overflow-auto relative border border-gray-light rounded-lg bg-cover p-4 bg-white mt-10"
+      className="border-gray-light relative mt-10 overflow-auto rounded-lg border bg-white bg-cover p-4"
     >
       <Table
-        className={cn("max-md:pe-1 border-separate border-spacing-0", {
+        className={cn("border-separate border-spacing-0 max-md:pe-1", {
           "animate-pulse opacity-70": isPlaceholderData,
         })}
       >
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id} className="bg-background ">
+            <TableRow key={headerGroup.id} className="bg-background">
               {headerGroup.headers.map((header) => (
                 <TableHead
                   key={header.id}
                   className={cn(
-                    "text-right border-b first:rounded-tr-lg last:rounded-tl-lg",
-                    header.column.columnDef.meta?.headerClassName
+                    "border-b text-right first:rounded-tr-lg last:rounded-tl-lg",
+                    header.column.columnDef.meta?.headerClassName,
                   )}
                 >
                   {flexRender(
                     header.column.columnDef.header,
-                    header.getContext()
+                    header.getContext(),
                   )}
                 </TableHead>
               ))}
@@ -87,13 +87,13 @@ export default function CustomTableUI({
         <TableBody>
           {isLoading ? (
             <TableRow>
-              <TableCell colSpan={5} className="text-center py-8">
+              <TableCell colSpan={5} className="py-8 text-center">
                 <LoadingSpinner />
               </TableCell>
             </TableRow>
           ) : data.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={5} className="text-center py-8">
+              <TableCell colSpan={5} className="py-8 text-center">
                 <Empty text="لا يوجد درجات بعد" />
               </TableCell>
             </TableRow>
@@ -104,8 +104,8 @@ export default function CustomTableUI({
                   <TableCell
                     key={cell.id}
                     className={cn(
-                      " border-b border-gray-light p-0 py-2",
-                      cell.column.columnDef.meta?.cellClassName
+                      "border-gray-light border-b p-0 py-2",
+                      cell.column.columnDef.meta?.cellClassName,
                     )}
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -119,12 +119,12 @@ export default function CustomTableUI({
 
       {/* Pagination */}
       {data?.length > 0 && (
-        <div className="mt-10 mx-auto flex  justify-between empty:hidden">
+        <div className="mx-auto mt-10 flex justify-between empty:hidden">
           {table.getCanPreviousPage() && (
             <button
               disabled={!table.getCanPreviousPage() || isPlaceholderData}
               onClick={() => table.previousPage()}
-              className="flex h-10 w-24 items-center justify-center gap-1 rounded-lg  hover:bg-primary-800 bg-transparent border border-primary-800 hover:text-white text-primary-800 transition-all cursor-pointer"
+              className="hover:bg-primary-800 border-primary-800 text-primary-800 flex h-10 w-24 cursor-pointer items-center justify-center gap-1 rounded-lg border bg-transparent transition-all hover:text-white"
             >
               <ChevronRight />
               <span className="text-sm font-bold">السابق</span>
@@ -134,7 +134,7 @@ export default function CustomTableUI({
             <button
               disabled={!table.getCanNextPage() || isPlaceholderData}
               onClick={() => table.nextPage()}
-              className="flex h-10 w-24 items-center justify-center gap-2 rounded-lg  ms-auto hover:bg-primary-800 bg-transparent border border-primary-800 hover:text-white text-primary-800 transition-all cursor-pointer"
+              className="hover:bg-primary-800 border-primary-800 text-primary-800 ms-auto flex h-10 w-24 cursor-pointer items-center justify-center gap-2 rounded-lg border bg-transparent transition-all hover:text-white"
             >
               <span className="text-sm font-bold">التالى</span>
               <ChevronLeft />

@@ -60,7 +60,10 @@ export default function GlobalError({
               </Button>
 
               <Button variant="outline" asChild className="w-full sm:w-auto">
-                <Link href="https://wa.me/201500048141" target="_blank">
+                <Link
+                  href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSPHONE}`}
+                  target="_blank"
+                >
                   تواصل معنا
                 </Link>
               </Button>

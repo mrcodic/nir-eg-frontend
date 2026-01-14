@@ -1,7 +1,7 @@
 "use client";
 
 import Empty from "@/components/Empty";
-import LoadingSpinner from "@/components/Loading";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import PaginationComponent from "@/components/Pagination";
 import RoomHeader from "@/components/RoomHeader";
 import { getPublicData } from "@/helpers/client-fetch";

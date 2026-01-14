@@ -70,8 +70,6 @@ function CustomCityStateField({
     [form],
   );
 
-  console.log(watchCity);
-
   const onSelctState = useCallback(
     async (option) => {
       setStateOpen(false);

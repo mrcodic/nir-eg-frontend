@@ -1,6 +1,6 @@
 "use client";
 import TopBanner from "@/components/banners/TopBanner";
-import LoadingSpinner from "@/components/Loading";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import TamperResistantOverlay from "@/modules/video/components/TamperResistantOverlay";
 import { FileWarning } from "lucide-react";
 import Image from "next/image";
@@ -50,7 +50,7 @@ export default function Video(props: VideoProps) {
         <TopBanner
           icon={<img src="/assets/WarningColor.svg" />}
           render={
-            <span className=" text-sm  font-medium">
+            <span className="text-sm font-medium">
               {exceededViews
                 ? "لقد تجاوزت الحد الأقصى لعدد المشاهدات المسموح بها لهذا الدرس"
                 : "يجب ان تقوم باجتياز الاختبار أولا"}
@@ -59,7 +59,7 @@ export default function Video(props: VideoProps) {
           showClose={false}
         />
 
-        <div className="flex items-center justify-center flex-1 h-[520px] bg-gray-100 w-full">
+        <div className="flex h-[520px] w-full flex-1 items-center justify-center bg-gray-100">
           <Image
             src="/assets/Locked.png"
             width={150}
@@ -72,12 +72,12 @@ export default function Video(props: VideoProps) {
   }
 
   return response?.otp ? (
-    <div className="flex-1 h-fit relative overflow-hidden">
+    <div className="relative h-fit flex-1 overflow-hidden">
       <TamperResistantOverlay>
         <iframe
           ref={iframeRef}
           id="vdocipher-iframe"
-          className="w-full relative h-[520px]"
+          className="relative h-[520px] w-full"
           src={`https://player.vdocipher.com/v2/?otp=${response.otp}&playbackInfo=${response.playbackInfo}`}
           style={{ border: 0 }}
           allow="encrypted-media"
@@ -91,7 +91,7 @@ export default function Video(props: VideoProps) {
       )}
     </div>
   ) : otpError ? (
-    <div className="min-h-[520px] bg-background flex items-center justify-center">
+    <div className="bg-background flex min-h-[520px] items-center justify-center">
       <div className="flex items-center gap-2">
         <FileWarning className="stroke-red-500" />
         <p className="text-lg font-bold">حدث خطأ ما</p>

@@ -68,7 +68,6 @@ export const usePayment = ({
 
     if (
       paymentMethodValue === paymentType.visa ||
-      // paymentMethodValue === paymentType.aman ||
       paymentMethodValue === paymentType.wallet ||
       paymentMethodValue === paymentType.fawerypay
     ) {

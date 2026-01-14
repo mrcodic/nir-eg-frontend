@@ -1,7 +1,7 @@
 "use client";
 
 import Empty from "@/components/Empty";
-import LoadingSpinner from "@/components/Loading";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import { StudentSelectCenterModal } from "@/components/modals/StudentSelectCenterModal";
 
 import Room from "@/components/Room";

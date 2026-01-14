@@ -22,6 +22,9 @@ const page = async ({ searchParams }) => {
     });
   }
 
+  // used only for payment with code for now
+  // other payment methods use payment gateway
+
   return (
     <div className="wrapper mt-20 mb-12 pt-22">
       <h2 className="text-28 mb-10 font-bold whitespace-nowrap">شراء الباقة</h2>
@@ -38,8 +41,6 @@ const page = async ({ searchParams }) => {
             centerId={centerId}
           />
         </div>
-
-        {/* <PayComp type={type} data={data} /> */}
       </div>
     </div>
   );

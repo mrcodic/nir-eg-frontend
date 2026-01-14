@@ -1,6 +1,6 @@
 "use client";
 
-import LoaderLottie from "@/components/Loader";
+import LoaderLottie from "@/components/LoaderLottie";
 import { useModal } from "@/context/ModalProvider";
 import { useToast } from "@/hooks/use-toast";
 import BuyPointsItemModal from "@/modules/points-store/components/BuyPointsItemModal";
@@ -56,8 +56,8 @@ const PointsStoreCard = ({ storeItem }) => {
   // }
 
   return (
-    <div className=" flex relative w-full  flex-col  rounded-lg ">
-      <div className="h-[232px] items-center bg-background flex justify-center w-full rounded-lg relative ">
+    <div className="relative flex w-full flex-col rounded-lg">
+      <div className="bg-background relative flex h-[232px] w-full items-center justify-center rounded-lg">
         <Image
           src={storeItem?.image || "/assets/playStation.svg"}
           fill
@@ -66,10 +66,10 @@ const PointsStoreCard = ({ storeItem }) => {
         />
       </div>
 
-      <div className={`relative p-2 border w-full  mt-4 rounded-lg bg-white `}>
+      <div className={`relative mt-4 w-full rounded-lg border bg-white p-2`}>
         <div className="flex flex-col gap-2">
           <div className="flex justify-between">
-            <h3 className=" font-bold text-lg">{storeItem.name || "PS5"}</h3>
+            <h3 className="text-lg font-bold">{storeItem.name || "PS5"}</h3>
           </div>
 
           <div className="flex items-center gap-1">
@@ -80,7 +80,7 @@ const PointsStoreCard = ({ storeItem }) => {
               alt="star icon"
             />
 
-            <span className=" font-bold text-lg inline-block">
+            <span className="inline-block text-lg font-bold">
               {storeItem?.price}
             </span>
             <span className="text-sm">نقطة</span>
@@ -88,12 +88,12 @@ const PointsStoreCard = ({ storeItem }) => {
 
           <hr className="" />
 
-          <div className="mt-4 justify-between flex max-lg:flex-wrap gap-x-6 gap-y-2">
+          <div className="mt-4 flex justify-between gap-x-6 gap-y-2 max-lg:flex-wrap">
             <Button
-              className="w-full grow "
+              className="w-full grow"
               onClick={() => {
                 modal.setDialogContent(
-                  <BuyPointsItemModal storeItem={storeItem} />
+                  <BuyPointsItemModal storeItem={storeItem} />,
                 );
                 modal.openModal();
               }}
@@ -101,9 +101,9 @@ const PointsStoreCard = ({ storeItem }) => {
               شراء
             </Button>
 
-            <Button className="w-full  grow group" variant="outline">
+            <Button className="group w-full grow" variant="outline">
               {loadingFav ? (
-                <LoaderLottie className="size-6 " />
+                <LoaderLottie className="size-6" />
               ) : (
                 <Heart className="size-6 group-hover:fill-white" />
               )}

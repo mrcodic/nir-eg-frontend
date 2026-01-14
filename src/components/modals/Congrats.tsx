@@ -1,14 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogFooter } from "@/components/ui/dialog";
+import { useAuthContext } from "@/context/auth-context";
 
-import { getLocalStorage } from "@/utils/clientFun";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { DialogClose } from "@radix-ui/react-dialog";
-import { Check, LogOut, Phone } from "lucide-react";
 import Link from "next/link";
 import ReactConfetti from "react-confetti";
 
 export function Congrats({ open, setOpen }) {
+  const { profile } = useAuthContext();
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       {open && (
@@ -21,34 +22,34 @@ export function Congrats({ open, setOpen }) {
           recycle={false} // Stops after pieces are gone
         />
       )}
-      <DialogContent className="p-8 max-w-lg bg-white rounded-lg shadow-lg">
+      <DialogContent className="max-w-lg rounded-lg bg-white p-8 shadow-lg">
         <DotLottieReact
-          className=" mx-auto"
+          className="mx-auto"
           src="/Animations/Success.lottie"
           autoplay
           loop
         />
-        <h2 className="text-2xl font-semibold text-green-600 text-center mb-4">
+        <h2 className="mb-4 text-center text-2xl font-semibold text-green-600">
           مبروك! تسجيلك تم بنجاح !
         </h2>
-        <p className="text-lg text-gray-700 text-center mb-6">
+        <p className="mb-6 text-center text-lg text-gray-700">
           إنت دلوقتي معانا في المنصة، تقدر ترجع يوم 9-2-2025 وتشوف كل الفيديوهات
           وتحضر كل الحصص المباشرة.
         </p>
 
-        <h2 className="text-xl font-semibold text-green-600 text-center mb-4">
+        <h2 className="mb-4 text-center text-xl font-semibold text-green-600">
           استعد لتجربة تعليمية مميزة! 🚀{" "}
         </h2>
 
-        <DialogFooter className="flex justify-center items-center  w-full mt-5">
+        <DialogFooter className="mt-5 flex w-full items-center justify-center">
           <DialogClose
             asChild
-            className="flex items-center justify-center! w-full"
+            className="flex w-full items-center justify-center!"
           >
-            <Link href={`/bundles?grade=${getLocalStorage("grade")}`}>
+            <Link href={`/bundles?grade=${profile?.grade || 1}`}>
               <Button
                 type="submit"
-                className="text-gray-25 border-2 bg-white hover:bg-gray-100 w-[200px] mx-auto"
+                className="text-gray-25 mx-auto w-[200px] border-2 bg-white hover:bg-gray-100"
               >
                 تأكيد
               </Button>

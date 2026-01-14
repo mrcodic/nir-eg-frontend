@@ -1,7 +1,7 @@
 "use client";
 
 import Empty from "@/components/Empty";
-import LoadingSpinner from "@/components/Loading";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import ReachModal from "@/components/modals/ReachModal";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
