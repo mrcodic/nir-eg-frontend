@@ -39,10 +39,9 @@ function TaskForm({
   const queryClient = useQueryClient();
   const listRef = useRef<HTMLDivElement[]>([]);
 
-  const form = useFormContext(); // ✅ required by shadcn
+  const form = useFormContext();
   const { getValues } = form;
 
-  // ✅ only what this component really needs
   const {
     data,
     isLoading,

@@ -6,7 +6,6 @@ import { StudentSelectCenterModal } from "@/components/modals/StudentSelectCente
 
 import Room from "@/components/Room";
 import RoomHeader from "@/components/RoomHeader";
-import { useAuthContext } from "@/context/auth-context";
 import { useModal } from "@/context/ModalProvider";
 import { getClientPrivateData } from "@/helpers/client-fetch";
 import ProfileHeaderCard from "@/modules/profile/components/ProfileHeaderCard";
@@ -19,7 +18,6 @@ import Link from "next/link";
 import { useEffect, useRef } from "react";
 
 const ProfilePage = () => {
-  const { grade } = useAuthContext();
   const modal = useModal();
   const modalShown = useRef(false);
 
@@ -82,7 +80,7 @@ const ProfilePage = () => {
                     icon="/assets/bg/illustration-empty-students.svg"
                   />
                   <Link
-                    href={`/bundles?grade=${grade}`}
+                    href={`/bundles`}
                     className="bg-primary-800 w-full max-w-[172px] rounded-lg py-2 text-center text-base font-bold text-white"
                   >
                     اذهب للباقات

@@ -33,7 +33,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import CustomLoader from "../custom/Loader";
-import { Label } from "../ui/label";
 
 export function StudentSelectCenterModal() {
   const router = useRouter();
@@ -93,7 +92,7 @@ export function StudentSelectCenterModal() {
     <div className="">
       <div className="border-b-primary-700 flex items-center gap-3 border-b pb-3">
         <Image
-          src="/assets/LocationColor.svg"
+          src="/assets/icons/LocationColor.svg"
           width={24}
           height={24}
           alt="location icon"
@@ -104,7 +103,7 @@ export function StudentSelectCenterModal() {
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="">
-          <Label className="text-custom-brown mb-1 font-bold">السنتر</Label>
+          {/* <Label className="text-custom-brown mb-1 font-bold">السنتر</Label> */}
           <Popover open={openCombobox} onOpenChange={setOpenCombox}>
             <PopoverTrigger asChild>
               <Button
@@ -115,7 +114,7 @@ export function StudentSelectCenterModal() {
               >
                 <div className="flex items-center gap-2">
                   <Image
-                    src="/assets/Grade.svg"
+                    src="/assets/icons/Grade.svg"
                     width={20}
                     height={20}
                     alt="graduation hat"

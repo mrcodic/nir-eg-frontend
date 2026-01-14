@@ -1,6 +1,6 @@
-import PayModel from "@/components/paymentTypes/PayModel";
 import { getServerData } from "@/helpers/server-fetch";
 import PayLabel from "@/modules/payment/components/PayLabel";
+import PaymentDetailsRenderer from "@/modules/payment/components/PaymentDetailsRenderer";
 
 const page = async ({ searchParams }) => {
   const { courseId, bundleId, roomId, centerId, type } = await searchParams;
@@ -33,7 +33,7 @@ const page = async ({ searchParams }) => {
         <div className="flex-1 font-bold">
           <PayLabel type={type} price={data?.price} />
 
-          <PayModel
+          <PaymentDetailsRenderer
             data={data}
             courseId={courseId}
             bundleId={bundleId}

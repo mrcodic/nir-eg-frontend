@@ -8,6 +8,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import CustomLoader from "../custom/Loader";
 import { Congrats } from "../modals/Congrats";
+
 const PaymentBundlesForm = ({ id, gradeId, label }) => {
   const {
     handleSubmit,
@@ -39,7 +40,7 @@ const PaymentBundlesForm = ({ id, gradeId, label }) => {
         description: "      تم    دفع قيمه الكورس بنجاح",
         icon: "success",
       });
-      router.push(`/bundles?grade=${gradeId}`);
+      router.push(`/bundles`);
     } catch ({ response }) {
       toast({
         description:
@@ -53,21 +54,21 @@ const PaymentBundlesForm = ({ id, gradeId, label }) => {
     <>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="mt-[40px] w-full space-y-6 "
+        className="mt-[40px] w-full space-y-6"
       >
         <div className="flex flex-col">
-          <h2 className="text-[#523412] text-sm">{label || "الكود"}</h2>
+          <h2 className="text-sm text-[#523412]">{label || "الكود"}</h2>
           <div className="flex w-full gap-[24px]">
-            <div className="bg-white flex-1 relative  border-[#523412] border-b p-2 mt-[4px]">
+            <div className="relative mt-[4px] flex-1 border-b border-[#523412] bg-white p-2">
               <input
                 type="text"
                 name="code"
-                className="w-full mt-[8px] text-[#121212] font-medium text-sm border-none focus:outline-hidden placeholder:text-[#121212]"
+                className="mt-[8px] w-full border-none text-sm font-medium text-[#121212] placeholder:text-[#121212] focus:outline-hidden"
                 placeholder={`أدخل ${label || "الكود"}`}
                 {...register("code")}
               />
               {errors.code && (
-                <span className="text-red-700 text-sm absolute -bottom-6 right-0">
+                <span className="absolute right-0 -bottom-6 text-sm text-red-700">
                   {" "}
                   {label || " من فضلك ادخل الكود"}
                 </span>
@@ -75,7 +76,7 @@ const PaymentBundlesForm = ({ id, gradeId, label }) => {
             </div>
             <button
               type="submit"
-              className="bg-primary rounded-[10px] self-end border border-gray-light px-[24px] text-white h-[40px]"
+              className="bg-primary border-gray-light h-[40px] self-end rounded-[10px] border px-[24px] text-white"
               disabled={isSubmitting}
             >
               {!isSubmitting ? "إدخال" : <CustomLoader />}

@@ -1,8 +1,8 @@
-import PaymentRoomForm from "@/components/forms/PaymentRoom";
+import RoomPaymentForm from "@/components/forms/RoomPaymentForm";
+import PriceBubbles from "@/components/ui/price-bubble";
 import PaymentWhatsappLink from "@/modules/payment/components/PaymentWhatsappLink";
-import PriceBubbles from "../ui/price-bubble";
 
-const RoomPayForm = async ({ roomId, centerId, data }) => {
+const RoomPayment = async ({ roomId, centerId, data }) => {
   return (
     <div className="mt-10 flex w-full flex-col gap-8">
       <div className="flex flex-col gap-6 md:flex-row">
@@ -34,7 +34,7 @@ const RoomPayForm = async ({ roomId, centerId, data }) => {
       </div>
 
       <div className="mx-auto w-full max-w-[760px]">
-        <PaymentRoomForm centerId={centerId} roomId={roomId} />
+        <RoomPaymentForm centerId={centerId} roomId={roomId} />
 
         <div className="text-primary-800 relative my-10 text-center text-base font-medium">
           <hr className="border-primary-800 absolute inset-x-0 top-1/2 mx-4 -translate-y-1/2 sm:mx-20" />
@@ -52,4 +52,4 @@ const RoomPayForm = async ({ roomId, centerId, data }) => {
     </div>
   );
 };
-export default RoomPayForm;
+export default RoomPayment;

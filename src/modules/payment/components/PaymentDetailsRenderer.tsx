@@ -1,10 +1,10 @@
+import BundleForm from "@/components/forms/bundleForm";
+import CourseForm from "@/components/forms/CourseForm";
+import PaymentCenterCode from "@/components/forms/PaymentCenterCode";
 import { getServerData } from "@/helpers/server-fetch";
-import BundleForm from "../forms/bundleForm";
-import CourseForm from "../forms/CourseForm";
-import PaymentCenterCode from "../forms/PaymentCenterCode";
-import RoomPayForm from "../forms/RoomPayForm";
+import RoomPayment from "@/modules/payment/components/RoomPayment";
 
-export default async function PayModel({
+export default async function PaymentDetailsRenderer({
   data,
   courseId,
   bundleId,
@@ -32,6 +32,6 @@ export default async function PayModel({
     // doesnt trigger
     return <BundleForm bundleId={bundleId} data={data} />;
   } else if (roomId) {
-    return <RoomPayForm roomId={roomId} centerId={centerId} data={data} />;
+    return <RoomPayment roomId={roomId} centerId={centerId} data={data} />;
   }
 }

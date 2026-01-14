@@ -17,7 +17,7 @@ const schema = z.object({
   center_id: z.string().min(1, "من فضلك ادخل رقم السنتر"),
 });
 
-const PaymentRoomForm = ({ roomId, centerId }) => {
+const RoomPaymentForm = ({ roomId, centerId }) => {
   const {
     handleSubmit,
     formState: { isSubmitting, errors },
@@ -61,8 +61,8 @@ const PaymentRoomForm = ({ roomId, centerId }) => {
     }
   };
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="mt-10 space-y-1 ">
-      <div className="flex flex-col gap-1 rounded-lg border p-4  border-primary-800 bg-background ">
+    <form onSubmit={handleSubmit(onSubmit)} className="mt-10 space-y-1">
+      <div className="border-primary-800 bg-background flex flex-col gap-1 rounded-lg border p-4">
         <Label
           aria-invalid={errors.code ? true : false}
           className="text-gray-dark"
@@ -70,8 +70,8 @@ const PaymentRoomForm = ({ roomId, centerId }) => {
           الكود
         </Label>
 
-        <div className="flex w-full gap-4 sm:gap-6 items-start">
-          <div className=" flex-1  ">
+        <div className="flex w-full items-start gap-4 sm:gap-6">
+          <div className="flex-1">
             <Input
               type="text"
               name="code"
@@ -81,13 +81,13 @@ const PaymentRoomForm = ({ roomId, centerId }) => {
               {...register("code")}
             />
             {errors.code && (
-              <span className="text-red-700 text-sm "> من فضلك ادخل الكود</span>
+              <span className="text-sm text-red-700"> من فضلك ادخل الكود</span>
             )}
           </div>
 
           <Button
             type="submit"
-            className="h-11  sm:max-w-[125px] sm:w-full"
+            className="h-11 sm:w-full sm:max-w-[125px]"
             disabled={isSubmitting}
           >
             {!isSubmitting ? "إدخال" : <CustomLoader />}
@@ -99,4 +99,4 @@ const PaymentRoomForm = ({ roomId, centerId }) => {
     </form>
   );
 };
-export default PaymentRoomForm;
+export default RoomPaymentForm;

@@ -1,10 +1,11 @@
 "use client";
+
+import { PaymentModel } from "@/components/modals/PaymentModel";
+import { Button } from "@/components/ui/button";
 import { paymentTypesObj } from "@/constants";
 import { useModal } from "@/context/ModalProvider";
 import { ChevronRight } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { PaymentModel } from "../../../components/modals/PaymentModel";
-import { Button } from "../../../components/ui/button";
 
 export default function PayLabel({ type, price }) {
   const router = useRouter();
