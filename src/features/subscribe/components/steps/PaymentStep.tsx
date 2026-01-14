@@ -10,7 +10,7 @@ import { IPricingPlan } from "@/types/pricing-api.types";
 import { ApiResponse } from "@/types/type";
 import { useQuery } from "@tanstack/react-query";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { UseFormReturn } from "react-hook-form";
+import { UseFormReturn ,useWatch} from "react-hook-form";
 import NavigationButtons from "../shared/NavigationButtons";
 
 interface PaymentStepProps {
@@ -42,10 +42,14 @@ export default function PaymentStep({
   onPrevious,
   isSubmitting = false,
 }: PaymentStepProps) {
-  const paymentPeriod = form.watch("paymentPeriod");
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
+
+  const paymentPeriod = useWatch({
+    control: form.control,
+    name: "paymentPeriod",
+  });
 
   const { data, isLoading } = useQuery({
     queryKey: [`/plans/${planId}`],

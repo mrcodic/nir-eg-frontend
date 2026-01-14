@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import type { BrandingFormData } from "@/lib/schemas/subscribe.schema";
-import { UseFormReturn } from "react-hook-form";
+import { UseFormReturn , useWatch } from "react-hook-form";
 import { ColorPicker, FileUpload, TemplateSelector } from "../shared";
 import NavigationButtons from "../shared/NavigationButtons";
 
@@ -42,8 +42,15 @@ export default function BrandingStep({
   isLastStep = false,
   isSubmitting = false,
 }: BrandingStepProps) {
-  const websiteName = form.watch("websiteName");
-  const domainType = form.watch("domainType");
+  const websiteName = useWatch({
+    control: form.control,
+    name: "websiteName",
+  });
+  const domainType = useWatch({
+    control: form.control,
+    name: "domainType",
+  });
+
 
   return (
     <Form {...form}>

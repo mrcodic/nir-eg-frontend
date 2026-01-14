@@ -146,6 +146,16 @@ export function useSubscribeForm({
       const nextStepId = steps[currentStepIndex + 1].id;
       if (nextStepId === "verify" && emailVerified) {
         setCurrentStepIndex((prev) => prev + 2);
+        // mark verify as completed
+        setCompletedSteps((prev: StepId[]) => {
+          const completedSet = new Set(prev);
+          if (!completedSet.has("verify")) {
+            completedSet.add("verify");
+          }
+          return steps
+            .map((step) => step.id)
+            .filter((stepId) => completedSet.has(stepId));
+        });
       } else {
         setCurrentStepIndex((prev) => prev + 1);
       }
@@ -201,6 +211,10 @@ export function useSubscribeForm({
     businessForm.reset();
     brandingForm.reset();
     paymentForm.reset();
+    localStorage.removeItem("accountForm");
+    localStorage.removeItem("businessForm");
+    localStorage.removeItem("brandingForm");
+    localStorage.removeItem("paymentForm");
     localStorage.removeItem("completedSteps");
   }, [accountForm, businessForm, brandingForm, paymentForm]);
 

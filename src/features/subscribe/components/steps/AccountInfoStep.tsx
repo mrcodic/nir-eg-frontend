@@ -35,7 +35,6 @@ export default function AccountInfoStep({
       const isFormDirty = form.formState.isDirty;
       const isFormValid = Object.keys(form.formState.errors).length === 0;
 
-
       // when user refresh the page or go back to first step without changing any thing and the email is verified , go to next step which in return will skip the verification of the otp step
 
       if (
@@ -52,6 +51,7 @@ export default function AccountInfoStep({
         account: { ...values, lang: "ar" },
       });
 
+      console.log("account res : ", res);
 
       form.setValue("user_id", res.data.data.user_id);
       form.setValue("email_verified", res.data.data.email_verified);

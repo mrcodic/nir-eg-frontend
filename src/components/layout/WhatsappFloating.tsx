@@ -7,7 +7,6 @@ import whatsapp from "../../../public/assets/animations/whatsapp loop.json";
 import { Button } from "../ui/button";
 
 type Props = {
-  phone: string;
   message?: string;
   delayMs?: number;
   showOncePerSession?: boolean;
@@ -15,13 +14,14 @@ type Props = {
 };
 
 export default function WhatsAppFloating({
-  phone,
   message,
   delayMs = 2500,
   showOncePerSession = true,
   position,
 }: Props) {
   const [open, setOpen] = useState(false);
+
+  const phone = process.env.NEXT_PUBLIC_WHATSAPP_PHONE || "";
 
   const TEXT = {
     supportTeam: "فريق الدعم",

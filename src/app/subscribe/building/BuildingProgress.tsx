@@ -9,7 +9,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import BuildingAnimation from "./BuildingAnimation";
 
-const POLL_INTERVAL = 4000;
+const POLL_INTERVAL = 3000;
 
 const mapStepNameToArabic: Record<StepName, string> = {
   create_db: "إنشاء قاعدة البيانات",
@@ -157,7 +157,7 @@ export default function BuildProgress({ tenantId }: { tenantId: string }) {
               </a>
 
               <a
-                href={`${data?.domains?.admin}`}
+                href={data?.domains?.admin}
                 target="_blank"
                 rel="noopener noreferrer"
               >

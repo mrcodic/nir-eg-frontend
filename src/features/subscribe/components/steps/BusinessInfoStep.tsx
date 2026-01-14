@@ -9,7 +9,7 @@ import {
 } from "@/components/fields";
 import { Form } from "@/components/ui/form";
 import type { BusinessInfoFormData } from "@/lib/schemas/subscribe.schema";
-import { UseFormReturn } from "react-hook-form";
+import { UseFormReturn , useWatch } from "react-hook-form";
 import NavigationButtons from "../shared/NavigationButtons";
 
 interface BusinessInfoStepProps {
@@ -42,7 +42,10 @@ export default function BusinessInfoStep({
   onNext,
   onPrevious,
 }: BusinessInfoStepProps) {
-  const selectedGovernorate = form.watch("governorate");
+  const selectedGovernorate = useWatch({
+    control: form.control,
+    name: "governorate",
+  });
 
   return (
     <Form {...form}>

@@ -21,7 +21,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
-import { useForm, type UseFormReturn } from "react-hook-form";
+import { useForm, type UseFormReturn , useWatch } from "react-hook-form";
 import { toast } from "sonner";
 import { OtpInput } from "../shared";
 import NavigationButtons from "../shared/NavigationButtons";
@@ -50,15 +50,24 @@ export default function EmailVerifyStep({
     },
   });
 
-  const email = accountForm.getValues("email");
-  const user_id = accountForm.getValues("user_id");
+  const email = useWatch({
+    control: accountForm.control,
+    name: "email",
+  });
+  const user_id = useWatch({
+    control: accountForm.control,
+    name: "user_id",
+  });
+  const otpValue = useWatch({
+    control: form.control,
+    name: "otp",
+  });
+
 
   const [timeLeft, setTimeLeft] = useState(() => getRemainingSeconds());
   const [isVerifying, setIsVerifying] = useState(false);
   const [isSending, setIsSending] = useState(false);
 
-  // Prevent duplicate OTP sends on strict-mode / re-renders
-  // const hasSentOtpRef = useRef(false);
 
   const canResend = timeLeft <= 0;
 
@@ -220,7 +229,7 @@ export default function EmailVerifyStep({
           onPrevious={onPrevious}
           isPending={isVerifying}
           pendingText="جاري التحقق..."
-          disabledNext={form.watch("otp")?.length !== 6}
+          disabledNext={otpValue !== 6}
         />
       </form>
     </Form>

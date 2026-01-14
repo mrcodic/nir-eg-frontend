@@ -42,7 +42,6 @@ export default function RootLayout({
         </Providers>
 
         <WhatsAppFloating
-          phone="+201500048141"
           message={"مرحبًا، أحتاج إلى مساعدة"}
           delayMs={2500}
           showOncePerSession={false}
