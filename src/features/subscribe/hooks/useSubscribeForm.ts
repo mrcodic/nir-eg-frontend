@@ -250,7 +250,7 @@ export function useSubscribeForm({
         },
       });
 
-      toast.success("جارى انشاء موقعك الاكتروني بنجاح 🎉");
+      toast.success("جارى انشاء موقعك الاكتروني  🎉");
 
       resetAllForms();
 

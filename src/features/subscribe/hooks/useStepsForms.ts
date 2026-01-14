@@ -76,7 +76,7 @@ const brandingDefaults: BrandingFormData = {
   domainType: "subdomain",
   websiteName: "",
   brandColor: PREDEFINED_COLORS[0],
-  selectedTemplate: "",
+  selectedTemplate: "landing-v1",
   logoFile: null,
   faviconFile: null,
   coverFile: null,
