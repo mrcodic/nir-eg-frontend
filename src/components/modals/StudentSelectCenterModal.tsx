@@ -58,8 +58,6 @@ export function StudentSelectCenterModal() {
     queryFn: getPublicData,
   });
 
-  console.log("centers : ", centers);
-
   const onSubmit = async (v) => {
     try {
       const response = await axios.post(

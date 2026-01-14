@@ -186,9 +186,9 @@ export const registerSchema = z
       .min(8, "يجب أن تكون كلمة السر 8 أحرف على الأقل"),
 
     grade_id: z.string().min(1, "يجب تحديد الصف الدراسي"),
-    state_id: z.number().min(1, "يجب اختيار المحافظة"),
+    state_id: z.coerce.number().min(1, "يجب اختيار المحافظة"),
+    city_id: z.coerce.number().min(1, "حقل المدينة مطلوب"),
     type: z.string().min(1, "يجب تحديد النوع"),
-    city_id: z.coerce.number({ required_error: "حقل المدينة مطلوب" }),
     recaptcha_token: z.string().optional(),
   })
   .refine((data) => data?.password === data?.password_confirmation, {

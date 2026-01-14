@@ -1,5 +1,6 @@
 import { getPublicData } from "@/helpers/client-fetch";
 import { useCallback, useEffect, useState } from "react";
+import { UseFormReturn, useWatch } from "react-hook-form";
 import { ComboboxForm } from "./ComboBoxForm";
 
 const stateOptions = [
@@ -36,42 +37,53 @@ function CustomCityStateField({
   form,
   isSettings,
 }: {
-  form: any;
+  form: UseFormReturn<any>;
   isSettings?: boolean;
 }) {
   const [stateOpen, setStateOpen] = useState(false);
   const [cityOpen, setCityOpen] = useState(false);
+
   const [cities, setCities] = useState([]);
+
   const [stateValue, setStateValue] = useState(null);
   const [cityValue, setCityValue] = useState(null);
 
-  const watchState = form.watch("state_id");
-  const watchCity = form.watch("city_id");
+  const watchState = useWatch({
+    control: form.control,
+    name: "state_id",
+  });
+
+  const watchCity = useWatch({
+    control: form.control,
+    name: "city_id",
+  });
 
   const onSelctCity = useCallback(
-    (framework) => {
+    (option) => {
       setCityOpen(false);
-      const id = String(framework.value);
-      setCityValue({ value: id, label: framework.label });
-      form.setValue("city_id", Number(framework.value), {
+      const id = String(option.value);
+      setCityValue({ value: id, label: option.label });
+      form.setValue("city_id", Number(option.value), {
         shouldValidate: true,
       });
     },
     [form],
   );
 
-  const onSelctState = useCallback(
-    async (framework) => {
-      setStateOpen(false);
-      const id = String(framework.value);
-      setStateValue({ value: id, label: framework.label });
+  console.log(watchCity);
 
-      form.setValue("state_id", Number(framework.value), {
+  const onSelctState = useCallback(
+    async (option) => {
+      setStateOpen(false);
+      const id = String(option.value);
+      setStateValue({ value: id, label: option.label });
+
+      form.setValue("state_id", Number(id), {
         shouldValidate: true,
       });
 
       const response = await getPublicData({
-        queryKey: [`states/${framework.value}/cities`],
+        queryKey: [`states/${id}/cities`],
       });
 
       const mapped = Array.isArray(response)
@@ -86,7 +98,7 @@ function CustomCityStateField({
         onSelctCity(city);
       } else {
         setCityValue(null);
-        form.setValue("city_id", undefined, { shouldValidate: true });
+        form.setValue("city_id", "", { shouldValidate: true });
       }
     },
     [isSettings, watchCity, cityValue, onSelctCity, form],
@@ -106,8 +118,7 @@ function CustomCityStateField({
   return (
     <>
       <ComboboxForm
-        frameworks={stateOptions}
-        name={"state_id"}
+        options={stateOptions}
         open={stateOpen}
         value={stateValue}
         setOpen={setStateOpen}
@@ -118,8 +129,7 @@ function CustomCityStateField({
       />
 
       <ComboboxForm
-        frameworks={cities}
-        name={"city_id"}
+        options={cities}
         open={cityOpen}
         value={cityValue}
         setOpen={setCityOpen}
