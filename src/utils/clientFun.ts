@@ -1,3 +1,5 @@
+import { extractTenantFromHost } from "@/helpers/fetch-utils";
+
 export const getLocalStorage = (key) => {
   if (typeof window !== "undefined") {
     const data = localStorage.getItem(key);
@@ -29,7 +31,7 @@ export function formatDateToArabic(dateString) {
 
   // Get Arabic day name
   const dayName = new Intl.DateTimeFormat("ar-EG", { weekday: "long" }).format(
-    date
+    date,
   );
 
   // Format to YYYY-MM-DD HH:mm:ss
@@ -52,9 +54,10 @@ export function redirectUrl({
   bookId?: string | number;
   booksPage?: boolean;
 }) {
-  const redirectUrl =
-    process.env.NEXT_PUBLIC_REDIRECT_URL || "https://more-english.net";
+  const redirectUrl = extractTenantFromHost()?.host;
+
   let url = "";
+
   if (bundleId) {
     url = `${redirectUrl}/bundles`;
   } else if (courseId) {

@@ -25,7 +25,6 @@ export interface TenantSettings {
 
   domain_type: "subdomain" | "domain";
 
-  // NEW media fields
   logo: string;
   favicon: string;
   cover: string;

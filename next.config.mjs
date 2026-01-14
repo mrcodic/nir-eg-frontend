@@ -19,6 +19,10 @@ const nextConfig = {
       },
       {
         protocol: "https",
+        hostname: "*.nir-edu.com",
+      },
+      {
+        protocol: "https",
         hostname: "cdn03.vdocipher.com",
       },
     ],
