@@ -48,7 +48,7 @@ const ProfilePage = () => {
     <div className="mt-[140px] mb-12">
       <div className="wrapper">
         {profileData?.body?.parent_phone_verification === false && (
-          <ProfileVerifyPhoneCard />
+          <ProfileVerifyPhoneCard phone={profileData?.body?.parent_phone} />
         )}
 
         <ProfileHeaderCard profileData={profileData?.body} />
