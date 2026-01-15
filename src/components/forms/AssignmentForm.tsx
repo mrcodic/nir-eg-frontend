@@ -3,14 +3,13 @@ import FailModal from "@/components/modals/FailModal";
 import { useTaskLogic } from "@/modules/exam/hooks/useTaskLogic";
 import { QuizStatus } from "@/types";
 import { redirect, useParams } from "next/navigation";
+import { memo } from "react";
 import { useFormState } from "react-hook-form";
 import { Sure } from "../modals/Sure";
 import TaskForm from "./TaskForm";
 
 const AssignmentForm = ({ start }: { start: QuizStatus }) => {
   const { assignmentId } = useParams();
-
-  const { errors } = useFormState();
 
   const {
     success,
@@ -25,6 +24,8 @@ const AssignmentForm = ({ start }: { start: QuizStatus }) => {
     retake,
     handleClose,
   } = useTaskLogic();
+
+  const { errors } = useFormState();
 
   if (!assignmentId) {
     redirect("/ErrorPage?message=لم يتم العثور على واجب");
@@ -78,4 +79,4 @@ const AssignmentForm = ({ start }: { start: QuizStatus }) => {
   );
 };
 
-export default AssignmentForm;
+export default memo(AssignmentForm);

@@ -324,6 +324,7 @@ export const quizSchema = z.object({
             text: z.string().optional(),
             attachment: z
               .instanceof(File)
+              .nullable()
               .optional()
               .refine(
                 (value) => (value?.size ? value?.size < 5000000 : true),

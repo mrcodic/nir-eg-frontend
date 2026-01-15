@@ -51,13 +51,6 @@ function TaskForm({
     setCompleted,
   } = useTaskContext();
 
-  // ================= AUTO SUBMIT =================
-  useEffect(() => {
-    if (completed === true) {
-      onSubmit();
-    }
-  }, [completed]);
-
   // ================= CONFIRM =================
   const saveConfirm = useCallback(() => {
     setSure(true);
@@ -164,6 +157,13 @@ function TaskForm({
     taskId,
     toast,
   ]);
+
+  // ================= AUTO SUBMIT =================
+  useEffect(() => {
+    if (completed === true) {
+      onSubmit();
+    }
+  }, [completed, onSubmit]);
 
   // ================= STATES =================
   if (isLoading || !data?.questions?.length) {

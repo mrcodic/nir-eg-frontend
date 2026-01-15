@@ -52,7 +52,7 @@ const AnswerOption = ({
     [answer.id, field, isMultiple, questionId, selectedAnswers, trigger],
   );
 
-  const answerState = getAnswerState(answer);
+  const answerState = useMemo(() => getAnswerState(answer), [answer]);
 
   const borderClass = useMemo(() => {
     if (answerState === "correct-selected")

@@ -9,17 +9,17 @@ type Props = {
   isSubQuestion?: boolean;
 };
 
-const QuestionTitle = ({ title, video, isSubQuestion }: Props) => {
+const QuestionTitle = ({ title, video }: Props) => {
   const [showVideo, setShowVideo] = useState(false);
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex justify-between items-center gap-4">
-        <div className="mt-4 mb-8 text-[15px] md:text-[18px] text-[#121212] flex items-start gap-1 ">
+      <div className="flex items-center justify-between gap-4">
+        <div className="mt-4 mb-8 flex items-start gap-1 text-[15px] text-[#121212] md:text-[18px]">
           {title.trim().startsWith("<") ? (
             <div
               dangerouslySetInnerHTML={{ __html: title }}
-              className="break-all *:break-all "
+              className="break-all *:break-all"
             />
           ) : (
             title
@@ -49,7 +49,7 @@ const QuestionTitle = ({ title, video, isSubQuestion }: Props) => {
               ? video.replace("watch?v=", "embed/")
               : video
           }
-          className=" rounded-lg aspect-video "
+          className="aspect-video rounded-lg"
           style={{
             maxWidth: "360px",
             width: "100%",

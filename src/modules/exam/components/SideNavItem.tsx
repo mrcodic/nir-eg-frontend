@@ -30,7 +30,7 @@ function isFieldAnswered({
     return question.has_multi_correct ? qValue?.length > 1 : qValue?.length > 0;
   }
 
-  return qValue?.text?.length > 0;
+  return qValue?.text?.length > 0 || qValue?.attachment || undefined;
 }
 
 const SideNavItem = function SideNavItem({

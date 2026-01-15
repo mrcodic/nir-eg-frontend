@@ -48,7 +48,7 @@ const WrittenQuestion = ({ question, index, listRef }: Props) => {
         text: e.target.value,
       });
     },
-    [question.id, setValue, value?.attachment]
+    [question.id, setValue, value?.attachment],
   );
 
   const handleFileChange = useCallback(
@@ -66,7 +66,7 @@ const WrittenQuestion = ({ question, index, listRef }: Props) => {
         text: value?.text ?? "",
       });
     },
-    [question.id, setValue, value]
+    [question.id, setValue, value],
   );
 
   return (
@@ -77,7 +77,7 @@ const WrittenQuestion = ({ question, index, listRef }: Props) => {
       }}
       style={{ scrollMarginTop: "100px" }}
       id={`question-${index}`}
-      className="bg-background p-4 rounded-lg"
+      className="bg-background rounded-lg p-4"
     >
       <QuestionHeader index={index} error={fieldError} />
 
@@ -103,14 +103,14 @@ const WrittenQuestion = ({ question, index, listRef }: Props) => {
           name={`questions.${question.id}.text`}
           render={({ field }) => (
             <FormItem>
-              <div className="relative flex w-full items-start border rounded-xl border-gray-300 bg-gray-light">
+              <div className="bg-gray-light relative flex w-full items-start rounded-xl border border-gray-300">
                 <Textarea
                   {...field}
                   dir="rtl"
                   disabled={disabled}
                   placeholder="قم بإدخال إجابتك هنا"
                   className={cn(
-                    "rounded-xl w-full p-2 pr-9 text-sm placeholder-shown:text-end disabled:text-black disabled:opacity-100"
+                    "w-full rounded-xl p-2 pr-9 text-sm placeholder-shown:text-end disabled:text-black disabled:opacity-100",
                   )}
                   value={
                     answered
@@ -118,7 +118,7 @@ const WrittenQuestion = ({ question, index, listRef }: Props) => {
                         question?.essay?.text !== "null"
                         ? question.essay.text
                         : "لم يتم ادخال إجابة"
-                      : value?.text ?? ""
+                      : (value?.text ?? "")
                   }
                   onChange={handleInputChange}
                   style={{
@@ -147,9 +147,9 @@ const WrittenQuestion = ({ question, index, listRef }: Props) => {
                     {!selectedFile && (
                       <label
                         htmlFor={`pickFile-${question.id}`}
-                        className="absolute group p-1 right-1 top-1 cursor-pointer"
+                        className="group absolute top-1 right-1 cursor-pointer p-1"
                       >
-                        <Files className="size-6 group-hover:stroke-blue-500 transition-all" />
+                        <Files className="size-6 transition-all group-hover:stroke-blue-500" />
                       </label>
                     )}
                   </>
@@ -208,9 +208,9 @@ const Overview = ({
   isAnswer: boolean;
 }) => {
   return (
-    <div className="mt-2 flex flex-col gap-2 w-full">
+    <div className="mt-2 flex w-full flex-col gap-2">
       <div className="flex items-center justify-between gap-4 rounded-xl bg-gray-100 p-2">
-        <div className="flex items-center gap-4 w-full">
+        <div className="flex w-full items-center gap-4">
           {isAnswer && file?.mime?.startsWith("image") ? (
             <ImagePreview src={file.url} />
           ) : file?.type?.startsWith("image") ? (
@@ -234,7 +234,7 @@ const Overview = ({
 };
 
 const ImagePreview = ({ src }: { src: string }) => (
-  <div className="relative shrink-0 aspect-square w-[80px]">
+  <div className="relative aspect-square w-20 shrink-0">
     <Image
       src={src}
       fill
