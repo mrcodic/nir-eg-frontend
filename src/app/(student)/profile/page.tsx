@@ -10,12 +10,16 @@ import { useModal } from "@/context/ModalProvider";
 import { getClientPrivateData } from "@/helpers/client-fetch";
 import ProfileHeaderCard from "@/modules/profile/components/ProfileHeaderCard";
 import ProfilePointsTable from "@/modules/profile/components/ProfilePointsTable";
-import ProfileVerifyPhoneCard from "@/modules/profile/components/ProfileVerifyPhoneCard";
 import StudentTasksOverview from "@/modules/profile/components/StudentTasksOverview";
 import { ApiResponse, IUser, LatestRoom } from "@/types";
 import { useQuery } from "@tanstack/react-query";
+import dynamic from "next/dynamic";
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { Suspense, useEffect, useRef } from "react";
+
+const ProfileVerifyPhoneCard = dynamic(
+  () => import("@/modules/profile/components/ProfileVerifyPhoneCard"),
+);
 
 const ProfilePage = () => {
   const modal = useModal();
@@ -45,9 +49,11 @@ const ProfilePage = () => {
   return (
     <div className="mt-[140px] mb-12">
       <div className="wrapper">
-        {profileData?.body?.parent_phone_verification === false && (
-          <ProfileVerifyPhoneCard phone={profileData?.body?.parent_phone} />
-        )}
+        <Suspense fallback={null}>
+          {profileData?.body?.parent_phone_verification === false && (
+            <ProfileVerifyPhoneCard phone={profileData?.body?.parent_phone} />
+          )}
+        </Suspense>
 
         <ProfileHeaderCard profileData={profileData?.body} />
 

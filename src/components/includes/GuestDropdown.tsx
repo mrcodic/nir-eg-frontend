@@ -17,47 +17,48 @@ function GuestDropdown() {
       </DropdownMenuTrigger>
       {/* w-[calc(100vw-32px)] sm:ms-[7.5vw] sm:w-[85vw] md:ms-[calc(10vw+16px)] md:w-[calc(80vw-32px)] */}
       <DropdownMenuContent
-        sideOffset={6}
+        sideOffset={14}
         className={cn(
-          "mobile:hidden bg-primary-50 flex w-full min-w-[200px] flex-col gap-2 p-2 group-data-[template=landing-v3]/template:ms-4 group-data-[template=landing-v3]/template:mt-5 sm:group-data-[template=landing-v3]/template:ms-[calc((100vw/20)+16px)] md:group-data-[template=landing-v3]/template:ms-[calc((100vw/10)+16px)]",
+          "mobile:hidden bg-primary-50 border-none p-2 px-0 group-data-[template=landing-v3]/template:ms-4 group-data-[template=landing-v3]/template:mt-5 group-data-[template=landing-v3]/template:border sm:group-data-[template=landing-v3]/template:ms-[calc((100vw/20)+16px)] md:group-data-[template=landing-v3]/template:ms-[calc((100vw/10)+16px)]",
           // {
           //   "ms-4 mt-5": template == 3,
           // },
         )}
       >
-        <Link
-          href={"/login"}
-          className="border-primary-800 bg-primary-800 mx-auto flex w-full items-center justify-center rounded-[10px] border p-2 text-center font-bold text-white outline-offset-1 outline-red-500"
-        >
-          <DropdownMenuItem className="cursor-pointer">
-            {" "}
-            تسجيل دخول{" "}
-          </DropdownMenuItem>
-        </Link>
-
-        <Link
-          href={"/register"}
-          className="border-primary-800 text-primary-800 mx-auto flex w-full items-center justify-center rounded-[10px] border bg-transparent p-2 text-center text-[18px] font-bold"
-        >
-          <DropdownMenuItem className="cursor-pointer">
-            {" "}
-            إنشاء حساب
-          </DropdownMenuItem>
-        </Link>
-
-        <div className="border-gray-light flex w-full items-center justify-center gap-2 rounded-[10px] border p-2 md:hidden">
-          <Link href="/#grades" className="flex w-full justify-center">
-            <DropdownMenuItem>
-              <h3>الصفوف الدراسية</h3>
-              <img
-                className="h-[32px] w-[32px]"
-                src="/assets/books-colored.svg"
-              />
+        <div className="wrapper flex flex-col gap-2 py-4">
+          <Link
+            href={"/login"}
+            className="border-primary-800 bg-primary-800 mx-auto flex w-full items-center justify-center rounded-[10px] border p-2 text-center font-bold text-white outline-offset-1 outline-red-500"
+          >
+            <DropdownMenuItem className="cursor-pointer">
+              {" "}
+              تسجيل دخول{" "}
             </DropdownMenuItem>
           </Link>
-        </div>
 
-        {/* <WrapperHOC queryKey={["settings/books"]}>
+          <Link
+            href={"/register"}
+            className="border-primary-800 text-primary-800 mx-auto flex w-full items-center justify-center rounded-[10px] border bg-transparent p-2 text-center text-[18px] font-bold"
+          >
+            <DropdownMenuItem className="cursor-pointer">
+              {" "}
+              إنشاء حساب
+            </DropdownMenuItem>
+          </Link>
+
+          <div className="border-gray-light flex w-full items-center justify-center gap-2 rounded-[10px] border p-2 md:hidden">
+            <Link href="/#grades" className="flex w-full justify-center">
+              <DropdownMenuItem>
+                <h3>الصفوف الدراسية</h3>
+                <img
+                  className="h-[32px] w-[32px]"
+                  src="/assets/books-colored.svg"
+                />
+              </DropdownMenuItem>
+            </Link>
+          </div>
+
+          {/* <WrapperHOC queryKey={["settings/books"]}>
           {({ data }: { data: { data: BookLinksSettings } }) => {
             const booksData = data?.data;
             if (!booksData?.links?.length) return null;
@@ -77,6 +78,7 @@ function GuestDropdown() {
             );
           }}
         </WrapperHOC> */}
+        </div>
       </DropdownMenuContent>
     </DropdownMenu>
   );

@@ -57,22 +57,19 @@ export function StudentSelectCenterModal() {
     queryFn: getPublicData,
   });
 
-  const onSubmit = async (v) => {
+  const onSubmit = async (v: any) => {
     try {
-      const response = await axios.post(
-        "/api?url=students/subscribe-center",
-        v,
-      );
+      await axios.post("/api?url=students/subscribe-center", v);
 
       toast({
         description: " تم الاشتراك بنجاح",
         icon: "success",
       });
-      modal.closeModal();
 
       queryClient.invalidateQueries({ queryKey: ["/students/profile"] });
-
       router.push(`/bundles/${v.center_id}`);
+
+      modal.closeModal();
     } catch (error) {
       toast({
         description: " حصل مشكلة  ",
@@ -102,8 +99,7 @@ export function StudentSelectCenterModal() {
       </div>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="">
-          {/* <Label className="text-custom-brown mb-1 font-bold">السنتر</Label> */}
+        <form onSubmit={form.handleSubmit(onSubmit)}>
           <Popover open={openCombobox} onOpenChange={setOpenCombox}>
             <PopoverTrigger asChild>
               <Button

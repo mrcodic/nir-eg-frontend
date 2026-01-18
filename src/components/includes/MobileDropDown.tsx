@@ -27,7 +27,7 @@ function MobileDropDown({
       <DropdownMenuContent
         sideOffset={20}
         className={cn(
-          "mobile:hidden mt-2 w-full group-data-[template=landing-v3]/template:ms-4 group-data-[template=landing-v3]/template:w-[calc(100vw-32px)] group-data-[template=landing-v3]/template:sm:ms-[7.5vw] group-data-[template=landing-v3]/template:sm:w-[85vw] group-data-[template=landing-v3]/template:md:ms-[calc(10vw+16px)] group-data-[template=landing-v3]/template:md:w-[calc(80vw-32px)]",
+          "mobile:hidden bg-background border-none px-0 group-data-[template=landing-v3]/template:ms-4 group-data-[template=landing-v3]/template:mt-2 group-data-[template=landing-v3]/template:w-[calc(100vw-32px)] group-data-[template=landing-v3]/template:border group-data-[template=landing-v3]/template:sm:ms-[7.5vw] group-data-[template=landing-v3]/template:sm:w-[85vw] group-data-[template=landing-v3]/template:md:ms-[calc(10vw+16px)] group-data-[template=landing-v3]/template:md:w-[calc(80vw-32px)]",
           //    {
           //   "ms-4 w-[calc(100vw-32px)] sm:ms-[7.5vw] sm:w-[85vw] md:ms-[calc(10vw+16px)] md:w-[calc(80vw-32px)]":
           //     template == 3,
@@ -36,7 +36,7 @@ function MobileDropDown({
       >
         <div
           className={cn(
-            `bg-background group-data-[template=landing-v3]/template:wrapper relative left-0 flex-col p-4 transition-all group-data-[template!=landing-v3]/template:w-screen`,
+            `wrapper relative left-0 flex-col p-4 transition-all group-data-[template!=landing-v3]/template:w-screen`,
             // {
             //   wrapper: template == 3,
             //   "w-screen": template != 3,
@@ -46,15 +46,15 @@ function MobileDropDown({
           {(profile?.type === 3
             ? STUDENTSOFFLINELINKS
             : STUDENTSONLINELINKS
-          ).map((studentOffline, index) => (
+          ).map((studentOffline, index, arr) => (
             <Link
               key={index}
               href={studentOffline.href}
-              className={`border-gray-light mb-4 flex h-11 items-center justify-center rounded-[10px] border px-3 ${
+              className={`border-gray-light flex h-11 items-center justify-center rounded-[10px] border px-3 ${
                 pathName.substring(0, 6) === studentOffline.href.substring(0, 6)
                   ? "bg-primary text-white"
                   : "bg-transparent text-[#523412]"
-              } `}
+              } ${index < arr.length - 1 ? "mb-4" : ""} `}
             >
               <DropdownMenuItem>{studentOffline.title}</DropdownMenuItem>
             </Link>

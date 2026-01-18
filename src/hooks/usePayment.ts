@@ -5,7 +5,7 @@ import { paymentType, PricingResponse } from "@/types";
 import { redirectUrl } from "@/utils/clientFun";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import usePaymentsTypesFiltered from "./usePaymentsTypesFiltered";
 
 interface UsePaymentProps {
@@ -63,21 +63,21 @@ export const usePayment = ({
     };
   }, []);
 
-  const checkToken = async () => {
-    let response = {};
-
+  const handleNextClick = useCallback(async () => {
     if (
       paymentMethodValue === paymentType.visa ||
       paymentMethodValue === paymentType.wallet ||
       paymentMethodValue === paymentType.fawerypay
     ) {
+      setLoading(true);
+
       try {
         const endpoint =
           paymentMethodValue === paymentType.fawerypay
             ? "/api?url=/payments/fawry/checkout"
             : "/api?url=/payment";
 
-        response = await axios.post(endpoint, {
+        const response = await axios.post(endpoint, {
           model_id: courseId || bundleId,
           model_type: courseId ? "course" : "bundle",
           payment_method: paymentMethodValue,
@@ -86,10 +86,8 @@ export const usePayment = ({
           coupon: coupon?.promo?.code || null,
         });
 
-        console.log(response);
-
         if (response?.data?.payment_url) {
-          router.push(response?.data?.payment_url);
+          router.push(response.data.payment_url);
         } else {
           throw new Error("حصل مشكله اثناء الدفع");
         }
@@ -121,16 +119,18 @@ export const usePayment = ({
         modal.closeModal();
       }, 1000);
     }
-  };
-
-  const handleNextClick = async () => {
-    setLoading(true);
-    await checkToken();
-
-    // setTimeout(() => {
-    //   setLoading(false);
-    // }, 1000);
-  };
+  }, [
+    paymentMethodValue,
+    asModal,
+    courseId,
+    bundleId,
+    coupon?.promo?.code,
+    router,
+    toast,
+    roomId,
+    centerId,
+    modal,
+  ]);
 
   return {
     paymentMethodValue,

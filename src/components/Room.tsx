@@ -32,8 +32,10 @@ const Room = ({
   const { SingleCourse } = useParams();
 
   const lock_after = "lock_after" in room && room?.lock_after;
-
-  console.log(room);
+  const isEmptyRoom =
+    !room?.quizzes?.length &&
+    !room?.lessons?.length &&
+    !room?.attachments?.length;
 
   return (
     <>
@@ -96,7 +98,7 @@ const Room = ({
                             <div
                               aria-label="اشترك الآن فى هذه الحصة"
                               role="button"
-                              className="bg-primary text-primary-foreground hover:bg-primary/80 h-8 rounded-lg px-4 py-2"
+                              className="bg-primary text-primary-foreground hover:bg-primary/80 flex h-8 cursor-pointer items-center rounded-lg px-4 py-2 transition-colors"
                               onClick={(e) => {
                                 e.stopPropagation();
 
@@ -135,8 +137,7 @@ const Room = ({
 
           <AccordionContent>
             <div className="mt-6 space-y-2">
-              {(room?.locked_to_pass ||
-                (lock_after !== null && Number(lock_after) == 0)) && (
+              {!isEmptyRoom && room?.locked_to_pass && (
                 <div className="bg-background border-gray-light flex items-center gap-2 rounded-lg border p-2">
                   <Image
                     src="/assets/warning-fill.svg"
@@ -147,6 +148,21 @@ const Room = ({
                   />
                   <p className="text-lg font-bold">
                     يجب أن تنجح في الامتحان لتتمكن من عرض محتويات الحصة
+                  </p>
+                </div>
+              )}
+
+              {isEmptyRoom && (
+                <div className="bg-background border-gray-light flex items-center gap-2 rounded-lg border p-2">
+                  <Image
+                    src="/assets/warning-fill.svg"
+                    width={32}
+                    height={32}
+                    alt="warning icon"
+                    className="animate-pulse"
+                  />
+                  <p className="text-lg font-bold">
+                    لا يوجد محتوى في هذه الحصة حتى الان
                   </p>
                 </div>
               )}

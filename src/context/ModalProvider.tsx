@@ -64,7 +64,6 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   useEffect(() => {
-    console.log("isOpen : ", isOpen);
     if (!isOpen) {
       const tid = setTimeout(() => {
         setModalContent(undefined);

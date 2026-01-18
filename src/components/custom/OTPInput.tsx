@@ -8,15 +8,17 @@ type OTPInputProps<T extends FieldValues> = {
   length?: number;
   form: UseFormReturn<T>;
   name?: Path<T>;
+  disabled?: boolean;
 };
 
 export default function OTPInput<T extends FieldValues>({
   length = 5,
   form,
   name,
+  disabled,
 }: OTPInputProps<T>) {
   const inputsRef = useRef<(HTMLInputElement | null)[]>(
-    Array.from({ length }, () => null)
+    Array.from({ length }, () => null),
   );
   const [otpValues, setOtpValues] = useState<string[]>(Array(length).fill(""));
   const isPastingRef = useRef(false);
@@ -26,7 +28,7 @@ export default function OTPInput<T extends FieldValues>({
   useEffect(() => {
     form.setValue(
       name || ("code" as Path<T>),
-      otpValues.join("") as PathValue<T, Path<T>>
+      otpValues.join("") as PathValue<T, Path<T>>,
     );
   }, [otpValues, form, name]);
 
@@ -52,7 +54,7 @@ export default function OTPInput<T extends FieldValues>({
 
   const handleKeyDown = (
     index: number,
-    e: React.KeyboardEvent<HTMLInputElement>
+    e: React.KeyboardEvent<HTMLInputElement>,
   ) => {
     if (e.key === "Backspace") {
       if (!otpValues[index] && index > 0) {
@@ -101,20 +103,18 @@ export default function OTPInput<T extends FieldValues>({
 
   const handleOnPaste = (
     e: ClipboardEvent<HTMLInputElement>,
-    index: number
+    index: number,
   ) => {
     e.preventDefault();
     isPastingRef.current = true;
 
-    const pasteData = e.clipboardData
-      .getData("text/plain")
-      .replace(/\D/g, "");
+    const pasteData = e.clipboardData.getData("text/plain").replace(/\D/g, "");
 
     let newOtpValues = [...pasteData].slice(0, length);
 
     if (newOtpValues.length < length) {
       newOtpValues = newOtpValues.concat(
-        Array(length - newOtpValues.length).fill("")
+        Array(length - newOtpValues.length).fill(""),
       );
     }
 
@@ -145,14 +145,14 @@ export default function OTPInput<T extends FieldValues>({
     setTimeout(() => {
       e.currentTarget?.setSelectionRange(
         e.currentTarget.value.length,
-        e.currentTarget.value.length
+        e.currentTarget.value.length,
       );
     }, 0);
   };
 
   return (
     <div
-      className="flex gap-2 lg:gap-6 justify-center"
+      className="flex justify-center gap-2 lg:gap-6"
       dir="ltr"
       style={{ direction: "ltr" }}
     >
@@ -160,11 +160,12 @@ export default function OTPInput<T extends FieldValues>({
         <div
           key={index}
           className={cn(
-            "relative flex caret-black! text-2xl pointer-events-auto size-10 lg:size-12 cursor-pointer items-center justify-center border border-gray-light transition-all has-[input:focus-within]:border-gray-dark rounded-lg",
+            "border-gray-light has-[input:focus-within]:border-gray-dark pointer-events-auto relative flex size-10 items-center justify-center rounded-lg border text-2xl caret-black! transition-all lg:size-12",
             hasError &&
+              !disabled &&
               (otpValues[index] === "" || !isFinite(Number(otpValues[index])))
               ? "border-red-500 has-[input:focus-within]:border-red-500"
-              : ""
+              : "",
           )}
         >
           <input
@@ -176,12 +177,13 @@ export default function OTPInput<T extends FieldValues>({
             pattern="[0-9]*"
             maxLength={1}
             value={otpValues[index]}
-            className="w-full flex justify-center outline-hidden text-center"
+            className="flex w-full cursor-pointer justify-center text-center outline-hidden"
             onChange={(e) => handleChange(index, e.target.value)}
             onKeyDown={(e) => handleKeyDown(index, e)}
             onPaste={(e) => handleOnPaste(e, index)}
             onFocus={handleFocus}
             onClick={handleClick}
+            disabled={disabled}
           />
         </div>
       ))}

@@ -93,7 +93,7 @@ export default function OtpModal({ phone }) {
     <div>
       <div className="flex gap-2">
         <Image
-          src={start ? "/assets/icons/LockColor.svg" : "/assets/icons/Done.svg"}
+          src={start ? "/assets/icons/Done.svg" : "/assets/icons/LockColor.svg"}
           width={32}
           height={32}
           className="size-8"
@@ -112,9 +112,6 @@ export default function OtpModal({ phone }) {
             <span className="inline-block font-bold text-[#121212]" dir="ltr">
               {phone}
             </span>
-            {/* <span className="text-[16px] font-medium mt-[8px] text-gray-dark">
-                عبر تطبيق واتساب
-              </span> */}
           </div>
         </div>
       </div>
@@ -136,7 +133,9 @@ export default function OtpModal({ phone }) {
             أعد الإرسال{" "}
             {resending && <Loader2 className="size-4 animate-spin" />}
           </button>
+
           <FormLabel className="block text-xl"> أدخل رمز التأكيد</FormLabel>
+
           <div className="text-32! flex justify-end" dir="ltr">
             <FormField
               control={form.control}
@@ -144,10 +143,15 @@ export default function OtpModal({ phone }) {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <OTPInput length={6} form={form} name="otp_code" />
+                    <OTPInput
+                      length={6}
+                      form={form}
+                      name="otp_code"
+                      disabled={!start}
+                    />
                   </FormControl>
 
-                  <FormMessage />
+                  {start && <FormMessage />}
                 </FormItem>
               )}
             />
@@ -157,6 +161,7 @@ export default function OtpModal({ phone }) {
             <Button
               className="bg-primary-800 border-gray-light h-8 w-36 rounded-lg border font-bold text-white"
               type="submit"
+              disabled={!start}
             >
               {!form.formState.isSubmitting ? "   تأكيد" : <CustomLoader />}
             </Button>

@@ -1,6 +1,9 @@
+import CustomImage from "@/components/ui/CustomImage";
+import { useModal } from "@/context/ModalProvider";
 import { IUser } from "@/types";
 import { motion } from "framer-motion";
 import { ChevronLeft } from "lucide-react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { QRCodeSVG } from "qrcode.react";
 import GradeCard from "./GradeCard";
@@ -8,7 +11,15 @@ import ProfileCoupon from "./ProfileCoupon";
 import StudentPointsCard from "./StudentPointsCard";
 import StudentRankCard from "./StudentRankCard";
 
+const StudentSelectCenterModal = dynamic(async () =>
+  import("@/components/modals/StudentSelectCenterModal").then(
+    (mod) => mod.StudentSelectCenterModal,
+  ),
+);
+
 function ProfileHeaderCard({ profileData }: { profileData: IUser }) {
+  const modal = useModal();
+
   return (
     <motion.div
       className="bg-background relative rounded-lg p-6"
@@ -16,17 +27,17 @@ function ProfileHeaderCard({ profileData }: { profileData: IUser }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.2, duration: 0.3 }}
     >
-      <div className="flex flex-col md:flex-row  justify-between gap-4 items-center md:items-start">
-        <div className="flex  gap-2">
-          <div className="flex flex-wrap  items-center gap-6">
-            <img
-              className="w-12 h-12 rounded-full"
+      <div className="flex flex-col items-center justify-between gap-4 md:flex-row md:items-start">
+        <div className="flex gap-2">
+          <div className="flex flex-wrap items-center gap-6">
+            <CustomImage
               src={profileData?.avatar || "/assets/avatar-user.svg"}
-              onError={(e) => {
-                e.currentTarget.src = "/assets/avatar-user.svg";
-              }}
+              fallback="/assets/avatar-user.svg"
+              className="h-12 w-12 rounded-full"
+              alt="avatar"
             />
-            <h3 className="text-[#523412] font-bold text-lg md:text-2xl">
+
+            <h3 className="text-lg font-bold text-[#523412] md:text-2xl">
               {(profileData?.first_name.substring(0, 10) || "--") +
                 " " +
                 (profileData?.last_name.substring(0, 10) || "--")}
@@ -44,7 +55,7 @@ function ProfileHeaderCard({ profileData }: { profileData: IUser }) {
                       </div> */}
         </div>
 
-        <div className="flex gap-8  items-center justify-end flex-wrap p-2">
+        <div className="flex flex-wrap items-center justify-end gap-8 p-2">
           <GradeCard
             text={profileData?.grade_name}
             grade={profileData?.grade}
@@ -64,7 +75,7 @@ function ProfileHeaderCard({ profileData }: { profileData: IUser }) {
 
       {/* <div className="h-px bg-gray-light my-6" /> */}
 
-      <div className="flex flex-col md:flex-row w-full pt-6 mt-6 border-t border-gray-light empty:border-0 empty:pt-0 empty:mt-0  gap-4 max-xl:flex-wrap">
+      <div className="border-gray-light mt-6 flex w-full flex-col gap-4 border-t pt-6 empty:mt-0 empty:border-0 empty:pt-0 max-xl:flex-wrap md:flex-row">
         <StudentRankCard />
 
         <StudentPointsCard points={profileData?.points || 0} />
@@ -72,15 +83,27 @@ function ProfileHeaderCard({ profileData }: { profileData: IUser }) {
         <ProfileCoupon />
       </div>
 
-      {profileData?.type === 3 && profileData?.has_center && (
-        <Link
-          href={`/bundles/${profileData?.center_id}`}
-          className="bg-secondary flex justify-center items-center gap-2 py-2.5 font-bold text-white group  rounded-xl absolute -bottom-8 md:-bottom-7 left-1/2 -translate-x-1/2 w-[242px]"
-        >
-          <span>اذهب للسنتر</span>
-          <ChevronLeft className="group-hover:-translate-x-2 transition-all duration-300" />
-        </Link>
-      )}
+      {profileData?.type === 3 &&
+        (profileData?.has_center ? (
+          <Link
+            href={`/bundles/${profileData?.center_id}`}
+            className="bg-secondary group absolute -bottom-8 left-1/2 flex w-[242px] -translate-x-1/2 items-center justify-center gap-2 rounded-xl py-2.5 font-bold text-white md:-bottom-7"
+          >
+            <span>اذهب للسنتر</span>
+            <ChevronLeft className="transition-all duration-300 group-hover:-translate-x-2" />
+          </Link>
+        ) : (
+          <button
+            onClick={() => {
+              modal.setDialogContent(<StudentSelectCenterModal />);
+              modal.openModal();
+            }}
+            className="bg-secondary group absolute -bottom-8 left-1/2 flex w-[242px] -translate-x-1/2 cursor-pointer items-center justify-center gap-2 rounded-xl py-2.5 font-bold text-white md:-bottom-7"
+          >
+            <span>اشترك في سنتر</span>
+            <ChevronLeft className="transition-all duration-300 group-hover:-translate-x-2" />
+          </button>
+        ))}
     </motion.div>
   );
 }
