@@ -1,8 +1,19 @@
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogFooter } from "@/components/ui/dialog";
 import { DialogClose } from "@radix-ui/react-dialog";
+import { memo } from "react";
+import { useFormState } from "react-hook-form";
 
-export function Sure({ open, setOpen, length }) {
+const SureModal = ({ open, setOpen, questionsCount }) => {
+  const { errors } = useFormState();
+
+  const length =
+    (errors?.questions &&
+      (errors?.questions?.message || errors?.questions.root
+        ? questionsCount
+        : Object.keys(errors?.questions).length)) ||
+    0;
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="max-w-lg rounded-lg bg-white shadow-lg">
@@ -54,4 +65,6 @@ export function Sure({ open, setOpen, length }) {
       </DialogContent>
     </Dialog>
   );
-}
+};
+
+export default memo(SureModal);

@@ -4,7 +4,6 @@ import FailModal from "@/components/modals/FailModal";
 import PassedModal from "@/components/modals/passedModal";
 import { useTaskLogic } from "@/modules/exam/hooks/useTaskLogic";
 import { redirect, useParams } from "next/navigation";
-import { Sure } from "../modals/Sure";
 
 import {
   ExamTimerBanner,
@@ -12,8 +11,8 @@ import {
   TargetGradeBanner,
 } from "@/modules/exam/components/ExamBanners";
 import { QuizStatus } from "@/types";
-import { memo, useCallback } from "react";
-import { useFormState } from "react-hook-form";
+import { memo } from "react";
+import SureModal from "../modals/Sure";
 import TaskForm from "./TaskForm";
 
 type Props = {
@@ -27,8 +26,6 @@ const ExamForm = ({ start, setStartExam }: Props) => {
   if (!examId) {
     redirect("/ErrorPage?message=لم يتم العثور على امتحان");
   }
-
-  const { errors } = useFormState();
 
   const {
     success,
@@ -65,10 +62,6 @@ const ExamForm = ({ start, setStartExam }: Props) => {
     },
   });
 
-  const handleRetake = useCallback(async () => {
-    await retake();
-  }, [retake]);
-
   return (
     <>
       {!status && data?.score && <TargetGradeBanner score={data.score} />}
@@ -93,16 +86,10 @@ const ExamForm = ({ start, setStartExam }: Props) => {
       />
 
       {sure && (
-        <Sure
+        <SureModal
           open={sure}
           setOpen={handleClose}
-          length={
-            (errors?.questions &&
-              (errors?.questions?.message || errors?.questions.root
-                ? start?.questions_count
-                : Object.keys(errors?.questions).length)) ||
-            0
-          }
+          questionsCount={start?.questions_count}
         />
       )}
 
@@ -110,7 +97,7 @@ const ExamForm = ({ start, setStartExam }: Props) => {
         <PassedModal
           open={success}
           showAnswers={showAnswers}
-          retake={handleRetake}
+          retake={retake}
           start={start}
           taskId={examId.toString()}
         />
@@ -120,7 +107,7 @@ const ExamForm = ({ start, setStartExam }: Props) => {
         <FailModal
           open={fail}
           showAnswers={showAnswers}
-          retake={handleRetake}
+          retake={retake}
           start={start}
           taskId={examId.toString()}
         />

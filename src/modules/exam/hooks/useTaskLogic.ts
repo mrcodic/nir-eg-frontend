@@ -149,7 +149,8 @@ export const useTaskLogic = (
     } catch (e: any) {
       console.log("retake error:", e);
       toast({
-        description: e.response?.data?.error?.message || "An error occurred",
+        description:
+          e.response?.data?.error?.message || "حدث خطأ, حاول مرة اخرى",
         icon: "error",
       });
     }

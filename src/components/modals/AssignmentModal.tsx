@@ -11,6 +11,7 @@ import { QuizStatus } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { memo } from "react";
 import { Button } from "../ui/button";
 
 interface Props {
@@ -21,13 +22,13 @@ interface Props {
   taskId: string | number;
 }
 
-export default function AssignmentModal({
+const AssignmentModal = ({
   open,
   showAnswers,
   start,
   retake,
   taskId,
-}: Props) {
+}: Props) => {
   const { SingleCourse, room } = useParams();
 
   return (
@@ -35,7 +36,7 @@ export default function AssignmentModal({
       <DialogContent
         key={start?.score_ratio || "no_result"}
         hideClose={true}
-        className="p-8 max-w-xl bg-white rounded-lg shadow-lg"
+        className="max-w-xl rounded-lg bg-white p-8 shadow-lg"
       >
         <DialogTitle className="hidden" />
         <DialogDescription className="hidden" />
@@ -43,7 +44,7 @@ export default function AssignmentModal({
           {start?.review_pending ? (
             <div className="flex items-center gap-2">
               {/* <img src="/assets/CorrectColor.svg" /> */}
-              <p className="text-[#121212] inline-block text-lg font-bold">
+              <p className="inline-block text-lg font-bold text-[#121212]">
                 جارى تصحيح الواجب
               </p>
             </div>
@@ -56,7 +57,7 @@ export default function AssignmentModal({
                 height={56}
               />
 
-              <div className="flex gap-3 mt-2 flex-wrap justify-between items-center ">
+              <div className="mt-2 flex flex-wrap items-center justify-between gap-3">
                 <span className="inline-block text-base font-bold">
                   عمل رائع، حصلت على
                 </span>
@@ -65,27 +66,27 @@ export default function AssignmentModal({
             </>
           )}
 
-          <div className="h-px my-[12px] bg-gray-light" />
+          <div className="bg-gray-light my-3 h-px" />
 
           {start?.review_pending ? (
-            <span className="text-[#121212] inline-block font-medium">
+            <span className="inline-block font-medium text-[#121212]">
               ستتمكن من عرض اجاباتك بعد تصحيح الواجب
             </span>
           ) : (
-            <span className="text-[#121212] inline-block font-medium">
+            <span className="inline-block font-medium text-[#121212]">
               {start?.show_answer && start?.retake
                 ? "يمكنك عرض اجاباتاك او محاولة حل الواجب مرة اخرى"
                 : start?.show_answer
-                ? "يمكنك عرض اجاباتاك"
-                : start?.retake
-                ? "يمكنك محاولة حل الواجب مرة اخرى"
-                : start?.score_ratio && "تم حل الواجب بنجاح"}
+                  ? "يمكنك عرض اجاباتاك"
+                  : start?.retake
+                    ? "يمكنك محاولة حل الواجب مرة اخرى"
+                    : start?.score_ratio && "تم حل الواجب بنجاح"}
             </span>
           )}
 
-          <div className=" flex justify-center items-center w-full mx-auto mt-8">
+          <div className="mx-auto mt-8 flex w-full items-center justify-center">
             <div
-              className={cn("grid md:grid-cols-2 justify-center gap-6", {
+              className={cn("grid justify-center gap-6 md:grid-cols-2", {
                 "md:grid-cols-1":
                   start?.review_pending ||
                   (!start?.show_answer && !start?.retake),
@@ -96,16 +97,16 @@ export default function AssignmentModal({
                   {start?.show_answer && (
                     <Button
                       onClick={showAnswers}
-                      className="h-11  w-full font-bold"
+                      className="h-11 w-full font-bold"
                     >
                       عرض الإجابات
                     </Button>
                   )}
                   {start?.retake && (
                     <Button
-                      onClick={retake}
+                      onClick={async () => await retake()}
                       variant="secondary"
-                      className="h-11  w-full font-bold"
+                      className="h-11 w-full font-bold"
                     >
                       إعادة الامتحان
                     </Button>
@@ -117,7 +118,7 @@ export default function AssignmentModal({
                 href={`/bundles/${SingleCourse}/${room}`}
                 className="inline-block w-full"
               >
-                <Button variant="outline" className="h-11  w-full font-bold">
+                <Button variant="outline" className="h-11 w-full font-bold">
                   الرجوع للحصه
                 </Button>
               </Link>
@@ -131,4 +132,6 @@ export default function AssignmentModal({
       </DialogContent>
     </Dialog>
   );
-}
+};
+
+export default memo(AssignmentModal);

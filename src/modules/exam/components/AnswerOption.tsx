@@ -1,10 +1,8 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { FormControl, FormItem, FormLabel } from "@/components/ui/form";
-import { useTaskContext } from "@/context/TaskProvider";
 import { cn, getAnswerState } from "@/lib/utils";
 import { Circle } from "lucide-react";
 import { memo, useCallback, useMemo } from "react";
-import { Path } from "react-hook-form";
 
 type Props = {
   answer: any;
@@ -21,7 +19,7 @@ const AnswerOption = ({
   field,
   isMultiple,
 }: Props) => {
-  const { trigger } = useTaskContext();
+  // const { trigger } = useTaskContext();
 
   const answerId = `answer-${questionId}-${answer.id}`;
 
@@ -35,7 +33,7 @@ const AnswerOption = ({
     (checked: boolean) => {
       if (!isMultiple) {
         field.onChange([String(answer.id)]);
-        trigger(`questions.${questionId}` as Path<{ questions: {} }>);
+        // trigger(`questions.${questionId}` as Path<{ questions: {} }>);
         return;
       }
 
@@ -47,9 +45,9 @@ const AnswerOption = ({
         );
       }
 
-      trigger(`questions.${questionId}` as Path<{ questions: {} }>);
+      // trigger(`questions.${questionId}` as Path<{ questions: {} }>);
     },
-    [answer.id, field, isMultiple, questionId, selectedAnswers, trigger],
+    [answer.id, field, isMultiple, selectedAnswers],
   );
 
   const answerState = useMemo(() => getAnswerState(answer), [answer]);

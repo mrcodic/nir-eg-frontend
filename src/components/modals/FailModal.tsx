@@ -11,6 +11,7 @@ import { QuizStatus } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { memo } from "react";
 import { Button } from "../ui/button";
 
 interface Props {
@@ -21,13 +22,7 @@ interface Props {
   taskId: string | number;
 }
 
-export default function Fail({
-  open,
-  showAnswers,
-  start,
-  retake,
-  taskId,
-}: Props) {
+const FailModal = ({ open, showAnswers, start, retake, taskId }: Props) => {
   const { SingleCourse, room } = useParams();
 
   return (
@@ -82,7 +77,7 @@ export default function Fail({
             )}
             {start?.retake && (
               <Button
-                onClick={() => retake()}
+                onClick={async () => await retake()}
                 variant="outline"
                 className="h-11 w-full font-bold"
               >
@@ -107,4 +102,6 @@ export default function Fail({
       </DialogContent>
     </Dialog>
   );
-}
+};
+
+export default memo(FailModal);
