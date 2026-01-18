@@ -25,18 +25,25 @@ function MobileDropDown({
       </DropdownMenuTrigger>
 
       <DropdownMenuContent
-        sideOffset={20}
+        sideOffset={18}
         className={cn(
-          "mobile:hidden bg-background border-none px-0 group-data-[template=landing-v3]/template:ms-4 group-data-[template=landing-v3]/template:mt-2 group-data-[template=landing-v3]/template:w-[calc(100vw-32px)] group-data-[template=landing-v3]/template:border group-data-[template=landing-v3]/template:sm:ms-[7.5vw] group-data-[template=landing-v3]/template:sm:w-[85vw] group-data-[template=landing-v3]/template:md:ms-[calc(10vw+16px)] group-data-[template=landing-v3]/template:md:w-[calc(80vw-32px)]",
+          "mobile:hidden bg-background border-none px-0 group-data-[template=landing-v3]/template:bg-transparent group-data-[template=landing-v3]/template:px-4 sm:group-data-[template=landing-v3]/template:px-5",
           //    {
           //   "ms-4 w-[calc(100vw-32px)] sm:ms-[7.5vw] sm:w-[85vw] md:ms-[calc(10vw+16px)] md:w-[calc(80vw-32px)]":
           //     template == 3,
           // }
         )}
+        // className={cn(
+        //   "mobile:hidden bg-background border-none px-0 group-data-[template=landing-v3]/template:ms-4 group-data-[template=landing-v3]/template:mt-2 group-data-[template=landing-v3]/template:w-[calc(100vw-32px)] group-data-[template=landing-v3]/template:border group-data-[template=landing-v3]/template:sm:ms-[7.5vw] group-data-[template=landing-v3]/template:sm:w-[85vw] group-data-[template=landing-v3]/template:md:ms-[calc(10vw+16px)] group-data-[template=landing-v3]/template:md:w-[calc(80vw-32px)]",
+        //   //    {
+        //   //   "ms-4 w-[calc(100vw-32px)] sm:ms-[7.5vw] sm:w-[85vw] md:ms-[calc(10vw+16px)] md:w-[calc(80vw-32px)]":
+        //   //     template == 3,
+        //   // }
+        // )}
       >
         <div
           className={cn(
-            `wrapper relative left-0 flex-col p-4 transition-all group-data-[template!=landing-v3]/template:w-screen`,
+            `wrapper bg-background relative left-0 flex-col p-4 transition-all group-data-[template!=landing-v3]/template:w-screen group-data-[template=landing-v3]/template:mt-2 group-data-[template=landing-v3]/template:rounded-lg`,
             // {
             //   wrapper: template == 3,
             //   "w-screen": template != 3,

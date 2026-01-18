@@ -69,7 +69,7 @@ const CustomSelect = ({
                       <div className="flex min-h-16 items-center justify-center">
                         <Loader2 className="size-4 animate-spin" />
                       </div>
-                    ) : (
+                    ) : options?.length ? (
                       options.map((option) => (
                         <SelectItem
                           key={option.value}
@@ -79,6 +79,10 @@ const CustomSelect = ({
                           {option.label}
                         </SelectItem>
                       ))
+                    ) : (
+                      <div className="ps-2 text-sm text-black">
+                        لا يوجد خيارات
+                      </div>
                     )}
                   </SelectContent>
                 </Select>

@@ -17,15 +17,17 @@ function GuestDropdown() {
       </DropdownMenuTrigger>
       {/* w-[calc(100vw-32px)] sm:ms-[7.5vw] sm:w-[85vw] md:ms-[calc(10vw+16px)] md:w-[calc(80vw-32px)] */}
       <DropdownMenuContent
-        sideOffset={14}
+        sideOffset={18}
+        // className={cn(
+        //   "mobile:hidden bg-primary-50 group-data-[template=landing-v3]/template:wrapper border-none p-2 px-0 group-data-[template=landing-v3]/template:ms-4 group-data-[template=landing-v3]/template:mt-5 group-data-[template=landing-v3]/template:border sm:group-data-[template=landing-v3]/template:ms-[calc((100vw/20)+16px)] md:group-data-[template=landing-v3]/template:ms-[calc((100vw/10)+16px)]",
         className={cn(
-          "mobile:hidden bg-primary-50 border-none p-2 px-0 group-data-[template=landing-v3]/template:ms-4 group-data-[template=landing-v3]/template:mt-5 group-data-[template=landing-v3]/template:border sm:group-data-[template=landing-v3]/template:ms-[calc((100vw/20)+16px)] md:group-data-[template=landing-v3]/template:ms-[calc((100vw/10)+16px)]",
+          "mobile:hidden bg-primary-50 rounded-t-none border-none group-data-[template=landing-v3]/template:mt-2 group-data-[template=landing-v3]/template:bg-transparent group-data-[template=landing-v3]/template:px-4 sm:group-data-[template=landing-v3]/template:px-5",
           // {
           //   "ms-4 mt-5": template == 3,
           // },
         )}
       >
-        <div className="wrapper flex flex-col gap-2 py-4">
+        <div className="wrapper group-data-[template=landing-v3]/template:bg-background flex flex-col gap-2 py-4 group-data-[template=landing-v3]/template:rounded-lg">
           <Link
             href={"/login"}
             className="border-primary-800 bg-primary-800 mx-auto flex w-full items-center justify-center rounded-[10px] border p-2 text-center font-bold text-white outline-offset-1 outline-red-500"

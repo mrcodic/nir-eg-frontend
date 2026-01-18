@@ -16,11 +16,11 @@ export default function Error({
 
   return (
     <AuthLayout img={"/assets/error.png"}>
-      <div className="form-layout flex items-center justify-center">
-        <div className="card flex flex-col items-center justify-center space-y-10 bg-white/70 p-6">
-          {!isProd && <p>{error?.message}</p>}
+      <div className="form-layout wrapper flex items-center justify-center">
+        <div className="card flex flex-col items-center justify-center space-y-10 bg-white/70">
+          {!isProd && <p className="break-all">{error?.message}</p>}
 
-          <div className="flex flex-col items-center justify-center space-y-6 px-4 text-center dark:bg-gray-900">
+          <div className="flex flex-col items-center justify-center space-y-6 text-center sm:px-4 dark:bg-gray-900">
             <h1 className="text-6xl font-bold text-red-800">500</h1>
             <h2 className="text-primary-800 mt-4 text-2xl font-semibold dark:text-gray-200">
               حدث خطأ غير متوقع
@@ -33,14 +33,14 @@ export default function Error({
             <div className="flex w-full flex-wrap gap-4">
               <Button
                 onClick={() => router.push("/")}
-                className="text-gray-25 mx-auto w-[200px] border-2 bg-white hover:bg-gray-100"
+                className="text-gray-25 mx-auto w-[150px] border-2 bg-white hover:bg-gray-100 sm:w-[200px]"
               >
                 العودة للرئيسية
               </Button>
 
               <Button
                 onClick={() => reset()}
-                className="text-gray-25 w-[200px] border-2 bg-[#523412] text-white"
+                className="text-gray-25 mx-auto w-[150px] border-2 bg-[#523412] text-white sm:w-[200px]"
               >
                 حاول مرة أخرى
               </Button>
