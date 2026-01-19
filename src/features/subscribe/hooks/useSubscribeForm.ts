@@ -254,7 +254,6 @@ export function useSubscribeForm({
 
       resetAllForms();
 
-      // alert("تم الاشتراك بنجاح! 🎉");
       router.push(
         "/subscribe/building?tenant_id=" + res?.data.data?.tenant?.id
       );
