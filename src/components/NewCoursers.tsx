@@ -1,7 +1,6 @@
 "use client";
 
 import { useAuthContext } from "@/context/auth-context";
-import { mapGradeToText } from "@/utils/clientFun";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import CourseCard from "./CourseCard";
@@ -15,7 +14,7 @@ const NewCourses = () => {
   const { token, grade } = useAuthContext();
   const searchParams = useSearchParams();
 
-  const coursesGrade = searchParams.get("grade") || grade;
+  const coursesGrade = searchParams.get("grade") || grade?.id;
 
   let api = token
     ? `/students/classrooms`
@@ -25,11 +24,7 @@ const NewCourses = () => {
     <div className="wrapper">
       <RoomHeader
         className=""
-        title={
-          coursesGrade
-            ? `كورسات ${mapGradeToText(coursesGrade)}`
-            : "كورسات جديدة"
-        }
+        title={grade?.name ? `كورسات ${grade?.name}` : "كورسات جديدة"}
         icon="/assets/book-gif.gif"
       />
 
@@ -48,7 +43,7 @@ const NewCourses = () => {
             const end = start + pageSize;
             const currentCourses = filteredCourses.slice(start, end);
 
-            // console.log(allCourses);
+            console.log("allCourses : ", data);
 
             return (
               <div className="cards-grid min-h-[455px] rounded-lg">

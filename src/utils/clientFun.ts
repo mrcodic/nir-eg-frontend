@@ -101,19 +101,6 @@ export function secondsToHms(seconds: number) {
   return `${pad(h)}:${pad(m)}:${pad(s)}`;
 }
 
-export const mapGradeToText = (grade: string | number) => {
-  switch (Number(grade)) {
-    case 1:
-      return "الصف الأول الثانوي";
-    case 2:
-      return "الصف الثاني الثانوي";
-    case 3:
-      return "الصف الثالث الثانوي";
-    default:
-      return "الصف الثانوي";
-  }
-};
-
 export const mapTypeToText = (type) => {
   switch (type) {
     case 3:

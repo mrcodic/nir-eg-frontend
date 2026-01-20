@@ -110,7 +110,7 @@ const CourseDetails = ({ details, profile }: Props) => {
                           details?.is_subscriped ||
                           details?.subscription_type === "حصة"
                         }
-                        verify={details?.parent_phone_verification}
+                        verify={profile?.parent_phone_verification}
                         // subType={details?.subscription_type || null}
                       />
                     );

@@ -2,10 +2,9 @@ import { CountryCode, isValidPhoneNumber } from "libphonenumber-js";
 import { z } from "zod";
 
 const onlyLettersRegex = /^[\p{L}\s]+$/u;
-const egyptianPhoneRegex = /^(010|011|012|015)[0-9]{8}$/;
+const EGYPT_MOBILE_REGEX = /^01[0125][0-9]{8}$/;
 
 // zod helpers
-
 const phoneEgValidator = ({
   country_iso,
   phone,
@@ -14,14 +13,28 @@ const phoneEgValidator = ({
 }: {
   country_iso: string;
   phone: string;
-  ctx: any;
+  ctx: z.RefinementCtx;
   path: string[];
 }) => {
-  if (country_iso === "EG" && !phone.startsWith("01")) {
+  if (country_iso !== "EG") return;
+
+  // length check (extra safety)
+  if (phone.length !== 11) {
     ctx.addIssue({
       code: z.ZodIssueCode.custom,
-      message: "رقم الهاتف المصري يجب أن يبدأ ب 01",
-      path: path,
+      message: "رقم الهاتف المصري يجب أن يتكون من 11 رقم",
+      path,
+    });
+    return;
+  }
+
+  // regex check
+  if (!EGYPT_MOBILE_REGEX.test(phone)) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message:
+        "رقم الهاتف المصري غير صالح، يجب أن يبدأ بـ 010 , 011 , 012 , 015",
+      path,
     });
   }
 };
@@ -74,7 +87,7 @@ const phoneSchemaBase = z.object({
   country_iso: z.string().optional(),
   phone: z
     .string()
-    .min(1, "رقم الهاتف مطلوب")
+    .min(1, "رقم هاتف الطالب مطلوب")
     .refine((val) => val && !val.startsWith("+"), "لا تدخل كود الدولة هنا"),
 });
 

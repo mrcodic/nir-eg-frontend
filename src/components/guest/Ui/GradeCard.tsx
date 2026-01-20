@@ -13,7 +13,7 @@ const GradeCard = ({ grade }: { grade: Grade }) => {
     // max-w-[368px]
     <MotionLink
       whileHover="isHovered"
-      href={`/bundles?grade=${grade.id}`}
+      href={`/bundles?grade=${grade?.id}`}
       className="group relative flex aspect-square w-full max-w-[500px] overflow-hidden rounded-lg max-md:mx-auto max-md:w-full"
     >
       <Image
@@ -32,7 +32,7 @@ const GradeCard = ({ grade }: { grade: Grade }) => {
           variants={{ isHovered: { opacity: 0 } }}
           className="text-[16px] font-bold text-white"
         >
-          {grade.name}
+          {grade?.name}
         </motion.h2>
 
         <motion.div
@@ -42,8 +42,8 @@ const GradeCard = ({ grade }: { grade: Grade }) => {
           }}
           className="mt-auto"
         >
-          <h2 className="text-base font-bold text-white">{grade.name}</h2>
-          <p className="text-sm font-bold text-white">محتويات {grade.name}</p>
+          <h2 className="text-base font-bold text-white">{grade?.name}</h2>
+          <p className="text-sm font-bold text-white">محتويات {grade?.name}</p>
         </motion.div>
 
         <Button className="me-auto">اشترى الان</Button>

@@ -13,7 +13,7 @@ interface AuthContextType {
   isLoading: boolean;
   setToken: (token: string) => void;
   profile: IUser | null;
-  grade: number | undefined;
+  grade: { id: number; name: string } | undefined;
 }
 
 const AuthContext = createContext<AuthContextType>(null);
@@ -33,11 +33,9 @@ export const AuthContextProvider = ({ children }) => {
 
   const { data: profileData, isLoading } = useQuery({
     queryFn: getClientPrivateData as () => Promise<{ body: IUser }>,
-    queryKey: ["students/profile"],
+    queryKey: ["/students/profile"],
     enabled: !!token,
   });
-
-  const grade = profileData?.body?.grade;
 
   const logout = async () => {
     setToken(null);
@@ -57,7 +55,10 @@ export const AuthContextProvider = ({ children }) => {
         setToken,
         profile: profileData?.body,
         isLoading,
-        grade,
+        grade: profileData?.body?.grade && {
+          id: profileData?.body?.grade,
+          name: profileData?.body?.grade_name,
+        },
       }}
     >
       {children}

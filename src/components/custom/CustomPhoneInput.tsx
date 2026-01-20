@@ -50,6 +50,8 @@ const CustomPhoneInput = ({
 
   //   const countries: Country[] = countriesData?.data || [];
 
+  console.log(form.getValues());
+
   return (
     <FormField
       control={form.control}

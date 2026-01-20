@@ -27,9 +27,11 @@ export default function RootLayout({ children }) {
       modal.setDialogContent(<PayFail />);
       modal.openModal();
     }
-    const newParams = new URLSearchParams(searchParams.toString());
-    newParams.delete("payment");
-    router.replace(`?${newParams.toString()}`, { scroll: false });
+    if (payment == "failed" || payment == "success") {
+      const newParams = new URLSearchParams(searchParams.toString());
+      newParams.delete("payment");
+      router.replace(`?${newParams.toString()}`, { scroll: false });
+    }
   }, [modal, payment, router, searchParams]);
 
   return <CustomProvider>{children}</CustomProvider>;

@@ -60,12 +60,17 @@ export default function CustomCountryFlagField({
             onValueChange={(value) => {
               const country = countriesByCode.get(value);
 
-              field.onChange(value);
-
               if (country) {
                 form.setValue(countryISOFieldName, country.alpha2, {
                   shouldValidate: true,
                 });
+                form.setValue(
+                  countryFieldName,
+                  country.countryCallingCodes?.[0],
+                  {
+                    shouldValidate: true,
+                  },
+                );
               }
 
               onCountryChange?.(value, country?.alpha2);

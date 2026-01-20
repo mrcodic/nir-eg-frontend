@@ -24,6 +24,7 @@ export function handleServerFetchError(
   }
 
   if (status === 403) {
+    console.log("unauth redirect");
     redirect("/unauthorized");
   }
 

@@ -17,7 +17,7 @@ export default function StudentCenterField({
   const [openCombobox, setOpenCombox] = useState(false);
 
   const { data: centers } = useQuery({
-    queryKey: [`/guest/centers/${grade}`],
+    queryKey: [`/guest/centers/${grade?.id}`],
     queryFn: getPublicData,
   });
 
@@ -45,11 +45,20 @@ export default function StudentCenterField({
     <div className="mt-6">
       <ComboboxForm
         label="السنتر"
-        frameworks={mappedCenters}
+        options={mappedCenters}
         value={value}
         onSelect={(v) => {
-          setValue(v!);
-          onSelect(v!);
+          console.log("selected center : ", v);
+          setValue(
+            typeof v === "string" || typeof v === "number"
+              ? String(v)
+              : String(v.value),
+          );
+          onSelect?.(
+            typeof v === "string" || typeof v === "number"
+              ? String(v)
+              : String(v.value),
+          );
         }}
         open={openCombobox}
         setOpen={setOpenCombox}

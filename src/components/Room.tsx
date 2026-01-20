@@ -35,7 +35,8 @@ const Room = ({
   const isEmptyRoom =
     !room?.quizzes?.length &&
     !room?.lessons?.length &&
-    !room?.attachments?.length;
+    !room?.attachments?.length &&
+    !room?.assignments?.length;
 
   return (
     <>

@@ -26,7 +26,7 @@ const BundlesWrapper = () => {
   if (profile) {
     api = "/students/bundles";
   } else {
-    api = `/guest/bundels?grade_id=${searchParams.get("grade")}`;
+    api = `/guest/bundels?grade_id=${searchParams.get("grade") || 1}`;
   }
 
   const { data, isLoading: isLoadingBundles } = useQuery({

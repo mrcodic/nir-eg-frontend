@@ -26,10 +26,10 @@ const ProtectedRoute = ({
   const router = useRouter();
 
   useEffect(() => {
-    if (!data && !isLoading) {
+    if (!data && !isLoading && subscribed) {
       router.push("/ErrorPage");
     }
-  }, [data, isLoading]);
+  }, [data, isLoading, router, subscribed]);
 
   if (isLoading) {
     return (
@@ -39,13 +39,6 @@ const ProtectedRoute = ({
       </div>
     );
   } else {
-    if (!data) {
-      <div className="h-screen">
-        {" "}
-        <Empty text={" لا يوجد بيانات "} />{" "}
-      </div>;
-    }
-
     if (!subscribed)
       return (
         <div className="h-screen">
@@ -53,6 +46,14 @@ const ProtectedRoute = ({
           <Empty text={text || " انت غير مشترك في هذا الكورس  "} />{" "}
         </div>
       );
+
+    if (!data) {
+      <div className="h-screen">
+        {" "}
+        <Empty text={" لا يوجد بيانات "} />{" "}
+      </div>;
+    }
+
     if (!verify) return <ReachModal open={true} setOpen={() => {}} />;
   }
 

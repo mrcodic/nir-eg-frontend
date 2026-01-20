@@ -62,7 +62,7 @@ const AuthPage = () => {
       await saveCookie(response?.access_token);
 
       Cookies.remove("guest_token");
-      queryClient.invalidateQueries({ queryKey: ["students/profile"] });
+      queryClient.invalidateQueries({ queryKey: ["/students/profile"] });
 
       setToken(response?.access_token);
 

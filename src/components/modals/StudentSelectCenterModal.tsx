@@ -53,7 +53,7 @@ export function StudentSelectCenterModal() {
   });
 
   const { data: centers } = useQuery({
-    queryKey: [`/guest/centers/${grade}`],
+    queryKey: [`/guest/centers/${grade?.id}`],
     queryFn: getPublicData,
   });
 

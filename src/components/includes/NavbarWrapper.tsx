@@ -4,7 +4,7 @@ import GuestNavBar from "./GuestNavBar";
 
 const NavbarWrapper = async () => {
   const data = await getServerData({
-    queryKey: ["students/profile"],
+    queryKey: ["/students/profile"],
     isAuth: true,
   });
 

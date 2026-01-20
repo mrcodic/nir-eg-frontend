@@ -4,7 +4,6 @@ import { useAuthContext } from "@/context/auth-context";
 import { useModal } from "@/context/ModalProvider";
 import { cn } from "@/lib/utils";
 import { CourseType } from "@/types";
-import { mapGradeToText } from "@/utils/clientFun";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -14,6 +13,39 @@ import { PaymentModel } from "./modals/PaymentModel";
 import { Button } from "./ui/button";
 import DataWithLabel from "./ui/DataWithLabel";
 import PriceBubbles from "./ui/price-bubble";
+
+/* ----------------------------------------
+ * Animation Variants (shared parent → child)
+ * ---------------------------------------- */
+const cardVariants = {
+  hidden: {
+    opacity: 0,
+    y: 20,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.3,
+      staggerChildren: 0.08,
+    },
+  },
+};
+
+const cardContentVariants = {
+  hidden: {
+    opacity: 0,
+    y: -20,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.3,
+      delay: 0.3,
+    },
+  },
+};
 
 const CourseCard = ({
   courseDetails,
@@ -31,12 +63,22 @@ const CourseCard = ({
   const isOnline = profile?.type === 4;
 
   return (
-    <div className="group relative flex h-full w-full flex-col items-center rounded-lg">
+    <motion.div
+      className="group relative flex h-full w-full flex-col items-center rounded-lg"
+      variants={cardVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-100px" }}
+    >
       {courseDetails?.has_promocode && isOnline && (
-        <SaleBubble className="absolute -top-2 -right-2 z-10" text={"كوبون"} />
+        <SaleBubble className="absolute -top-2 -right-2 z-10" text="كوبون" />
       )}
 
-      <div className="bg-background relative flex h-[232px] w-full justify-center overflow-hidden rounded-lg">
+      {/* ---------- Image Section ---------- */}
+      <motion.div
+        variants={cardVariants}
+        className="bg-background relative flex h-[232px] w-full justify-center overflow-hidden rounded-lg"
+      >
         <Image
           src={courseDetails?.thumbnail || "/assets/grade-placeholder.png"}
           className="object-contain transition-all group-hover:scale-110 group-hover:opacity-80"
@@ -52,18 +94,12 @@ const CourseCard = ({
             currencyClassName="text-sm"
           />
         </div>
-      </div>
+      </motion.div>
 
+      {/* ---------- Content Section ---------- */}
       <motion.div
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.3 }}
-        variants={{
-          hidden: { opacity: 0, y: 20 },
-          visible: { opacity: 1, y: 0 },
-        }}
-        className={`border-gray-light relative mt-4 w-full grow rounded-lg border bg-white p-2`}
+        variants={cardContentVariants}
+        className="border-gray-light relative mt-4 w-full grow rounded-lg border bg-white p-2"
       >
         <div className="flex h-full flex-col gap-2">
           <div className="border-gray-light flex flex-col gap-4 border-b pb-2">
@@ -71,13 +107,12 @@ const CourseCard = ({
               <h3 className="text-lg font-bold">{courseDetails.title}</h3>
 
               <span className="text-gray-dark ms-auto inline-block text-xs font-medium">
-                {mapGradeToText(courseDetails?.grade?.id)}
+                {courseDetails?.grade?.title}
               </span>
             </div>
 
             <div className="flex items-center gap-2">
               <Image
-                className=""
                 width={24}
                 height={24}
                 alt="calendar icon"
@@ -98,11 +133,8 @@ const CourseCard = ({
             {courseDetails.description}
           </p>
 
-          <div
-            className={cn("mt-auto grid grid-cols-2 gap-4 pt-4", {
-              // "mt-0": isNewCourse && courseDetails?.subscription_type !== "حصة",
-            })}
-          >
+          {/* ---------- Actions ---------- */}
+          <div className={cn("mt-auto grid grid-cols-2 gap-4 pt-4")}>
             {isNewCourse &&
               courseDetails?.subscription_type !== "حصة" &&
               !isBundles && (
@@ -117,7 +149,6 @@ const CourseCard = ({
                           hasCoupon={courseDetails?.has_promocode}
                         />,
                       );
-
                       modal.openModal();
                     } else {
                       router.push(
@@ -151,9 +182,8 @@ const CourseCard = ({
           </div>
         </div>
       </motion.div>
-
-      {/* {true && <Congrats open={true} setOpen={setOpen} />} */}
-    </div>
+    </motion.div>
   );
 };
+
 export default CourseCard;

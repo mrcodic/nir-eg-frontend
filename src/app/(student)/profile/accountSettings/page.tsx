@@ -10,7 +10,7 @@ import UploadWithCrop from "@/components/UploadImage";
 import { useToast } from "@/hooks/use-toast";
 import { editProfileSchema } from "@/lib/schemas";
 import { getPhoneInfoFromCode } from "@/lib/utils";
-import { mapGradeToText, mapTypeToText } from "@/utils/clientFun";
+import { mapTypeToText } from "@/utils/clientFun";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
@@ -216,7 +216,7 @@ const PageSettings = () => {
                   name="address"
                   disabled
                   label="المرحله"
-                  defaultValue={mapGradeToText(profile?.grade)}
+                  defaultValue={profile?.grade_name}
                 />
                 <CustomInput
                   control={form.control}

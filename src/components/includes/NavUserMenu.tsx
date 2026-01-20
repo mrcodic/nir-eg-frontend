@@ -24,6 +24,8 @@ function NavUserMenu({ profile }) {
         <CustomImage
           src={profile?.avatar}
           className="border-primary-100 rounded-full border"
+          alt="user avatar"
+          size={44}
         />
       </DropdownMenuTrigger>
 
@@ -34,6 +36,7 @@ function NavUserMenu({ profile }) {
             src={profile?.avatar}
             size={56}
             className="rounded-full"
+            alt="user avatar"
           />
 
           <h3 className="text-base font-bold text-[#121212]">

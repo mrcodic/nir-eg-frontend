@@ -23,7 +23,7 @@ const AuthNavBar = () => {
     },
     {
       title: "الباقات",
-      href: `/bundles?grade=${grade}`,
+      href: `/bundles?grade=${grade?.id}`,
     },
 
     {
@@ -77,7 +77,7 @@ const AuthNavBar = () => {
             href={
               profile?.has_center
                 ? `/bundles/${profile?.center_id}`
-                : `/bundles?grade=${grade}`
+                : `/bundles?grade=${grade?.id}`
             }
             className="flex gap-2 self-end"
           >

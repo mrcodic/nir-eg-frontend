@@ -1,49 +1,26 @@
-import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
-import { useParams } from "next/navigation";
 
-export default function PayFail({
-  open,
-  setOpen,
-  score,
-  showAnswers,
-  start,
-  retake,
-}) {
-  const { SingleCourse, room } = useParams();
-
+export default function PayFail() {
   return (
-    <>
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="p-8 flex justify-center items-center  bg-white rounded-lg shadow-lg">
-          <div className=" ">
-            <div className="">
-              <DotLottieReact
-                className="w-[112px] h-[112px] mx-auto"
-                src="/Animations/Fail.json"
-                autoplay
-                loop
-              />
-              {/* <DotLottieReact
-                  className="w-[112px] h-[112px] mx-auto"
-                  src="/Animations/fail.json"
-                  autoplay
-                  loop
-                /> */}
+    <div className=" ">
+      <div className="">
+        <DotLottieReact
+          className="mx-auto h-[112px] w-[112px]"
+          src="/Animations/Fail.json"
+          autoplay
+          loop
+        />
 
-              <div className="mb-[12px]">
-                <div className="flex gap-[12px] mt-[32px]">
-                  <img src="/assets/Close2.svg" />
-                  <span className="text-[#121212] inline-block text-[18px] font-bold">
-                    حصل مشكلة في عملية الدفع
-                  </span>
-                </div>
-              </div>
-            </div>
+        <div className="mb-[12px]">
+          <div className="mt-[32px] flex gap-[12px]">
+            <img src="/assets/Close2.svg" />
+            <span className="inline-block text-[18px] font-bold text-[#121212]">
+              حصل مشكلة في عملية الدفع
+            </span>
           </div>
-        </DialogContent>
-      </Dialog>
-    </>
+        </div>
+      </div>
+    </div>
   );
 }
 

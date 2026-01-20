@@ -48,18 +48,6 @@ export async function fetchServer<T>({
     return res.json() as Promise<T>;
   } catch (error) {
     return handleServerFetchError(error, endpoint as string);
-    // if (error?.response?.data?.code === 403 || error?.status === 403) {
-    //   console.log("unauth redirect");
-    //   redirect("/unauthorized");
-    // } else if (error?.status == 401 || error?.response?.data?.code == 410) {
-    //   console.log("login redirect");
-    //   redirect("/api/delete-session");
-    // } else if (error instanceof CustomError) {
-    //   console.log("custom error redirect");
-    //   throw error;
-    // } else {
-    //   throw new CustomError(`Failed to fetch data from ${endpoint}`, 500);
-    // }
   }
 }
 
