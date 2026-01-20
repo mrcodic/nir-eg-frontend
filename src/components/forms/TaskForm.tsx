@@ -40,7 +40,7 @@ function TaskForm({
   const listRef = useRef<HTMLDivElement[]>([]);
 
   const form = useFormContext();
-  const { getValues } = form;
+  const { getValues, trigger } = form;
 
   const {
     data,
@@ -247,6 +247,7 @@ function TaskForm({
             type="button"
             disabled={isSubmitting}
             onClick={async () => {
+              await trigger();
               const confirmed = await saveConfirm();
               if (confirmed) onSubmit();
             }}
