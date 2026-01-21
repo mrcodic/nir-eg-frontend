@@ -22,7 +22,7 @@ const SingleCourse = async ({ params }) => {
     redirect("/profile");
   }
 
-  console.log("🚀 ~ data singleCourse: ", bundleRooms);
+  // console.log("🚀 ~ data singleCourse: ", bundleRooms);
 
   return (
     <ProtectedRoute

@@ -140,14 +140,14 @@ export default function OtpModal({ phone }) {
             <FormField
               control={form.control}
               name="otp_code"
-              render={({ field }) => (
+              render={() => (
                 <FormItem>
                   <FormControl>
                     <OTPInput
                       length={6}
                       form={form}
                       name="otp_code"
-                      disabled={!start}
+                      disabled={!start || form.formState.isSubmitting}
                     />
                   </FormControl>
 

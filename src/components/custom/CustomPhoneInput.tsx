@@ -8,6 +8,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
+import { memo } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { Input } from "../ui/input";
 import CustomCountryFlagField from "./CustomCountryFlagField";
@@ -116,4 +117,4 @@ const CustomPhoneInput = ({
   );
 };
 
-export default CustomPhoneInput;
+export default memo(CustomPhoneInput);

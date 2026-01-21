@@ -3,6 +3,7 @@ import PayFail from "@/components/modals/PayFail";
 import { PaySuccess } from "@/components/modals/PaySuccess";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
+import ReactConfetti from "react-confetti";
 import { CustomProvider } from "rsuite";
 import "rsuite/dist/rsuite-no-reset.min.css";
 import { useModal } from "../../context/ModalProvider";
@@ -17,11 +18,16 @@ export default function RootLayout({ children }) {
 
   useEffect(() => {
     if (payment == "success") {
-      const grade = localStorage.getItem("grade");
-      if (!grade) {
-        console.log("grade doesnt exist in localstorage");
-      }
-      modal.setDialogContent(<PaySuccess grade={grade} />);
+      modal.setDialogContent(<PaySuccess />);
+      modal.addSideElement(
+        <ReactConfetti
+          width={500}
+          height={700}
+          className="fixed inset-0 z-100000! w-full"
+          gravity={0.3}
+          recycle={false}
+        />,
+      );
       modal.openModal();
     } else if (payment == "failed") {
       modal.setDialogContent(<PayFail />);

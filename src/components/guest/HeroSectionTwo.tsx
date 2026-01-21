@@ -2,19 +2,6 @@ import { TenantLandingResponse } from "@/types/tenant.types";
 import Image from "next/image";
 import { Button } from "../ui/button";
 
-const features = [
-  { icon: "/assets/videos-fill.svg", text: "فيديوهات شرح لكل المنهج" },
-  { icon: "/assets/exam-fill.svg", text: "امتحانات دورية و كويزات كل حصة" },
-  {
-    icon: "/assets/stars-fill.svg",
-    text: "احصل على النقاط و ارفع ترتيبك بين زملائك",
-  },
-  {
-    icon: "/assets/files-fill.svg",
-    text: "تقارير دورية لأولياء الأمور خلال واتساب",
-  },
-];
-
 function HeroSectionTwo({
   main,
   features,

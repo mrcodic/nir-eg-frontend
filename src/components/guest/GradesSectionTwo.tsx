@@ -3,28 +3,11 @@ import { Grade } from "@/types";
 import Link from "next/link";
 import SectionTitle from "./Ui/SectionTitle";
 
-const grades = [
-  {
-    id: 1,
-    title: "الصف الثالث الثانوي",
-  },
-  {
-    id: 2,
-    title: "الصف الثاني الثانوي",
-  },
-  {
-    id: 3,
-    title: "الصف الأول الثانوي",
-  },
-];
-
 const GradesSectionTwo = async () => {
   const grades = await getServerData<{ data: Grade[] }>({
     queryKey: ["grades"],
     isAuth: false,
   });
-
-  console.log(grades);
 
   if (!grades?.data?.length) return null;
 
@@ -37,7 +20,7 @@ const GradesSectionTwo = async () => {
           <Link
             href={`/bundles?grade=${grade.id}`}
             key={grade.id}
-            className="group cursor-pointer overflow-hidden"
+            className="group w-full cursor-pointer overflow-hidden max-md:max-w-96"
           >
             {/* Image Placeholder */}
             <div className="h-64 w-full rounded-xl bg-gray-300 transition-all hover:bg-gray-400"></div>

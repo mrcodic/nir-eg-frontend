@@ -52,40 +52,34 @@ const StorePage = async () => {
   });
 
   return (
-    <div className="wrapper mt-[150px] ">
+    <div className="wrapper mt-[150px]">
       <div className="bg-background rounded-lg p-4">
         <StudentPointsCard points={profileData?.body.points} showLink={false} />
       </div>
 
       <Tabs
         defaultValue="all"
-        className="w-full space-y-8 mt-16 md:mt-22"
+        className="mt-16 w-full space-y-8 md:mt-22"
         dir="rtl"
       >
-        <TabsList className="flex justify-center  w-full ">
-          <div className="flex font-bold max-sm:flex-col justify-center w-full gap-2 md:gap-6 ">
+        <TabsList className="flex w-full justify-center">
+          <div className="flex w-full justify-center gap-2 font-bold max-sm:flex-col md:gap-6">
             {tabs.map((tab, index) => {
               return (
                 <TabsTrigger
                   key={index}
                   value={tab.value}
-                  className={`group min-w-24 rounded-lg data-[state=active]:bg-primary-800 cursor-pointer data-[state=active]:text-white bg-white text-[#523412] flex items-center gap-2 border border-primary-800 px-px py-1 md:p-2 `}
+                  className={`group data-[state=active]:bg-primary-800 border-primary-800 flex min-w-24 cursor-pointer items-center gap-2 rounded-lg border bg-white px-px py-1 text-[#523412] data-[state=active]:text-white md:p-2`}
                 >
                   <span
-                    className="
-              size-6
-              bg-primary
-              transition-colors duration-300
-              group-data-[state=active]:bg-white
-
-            "
+                    className="bg-primary size-6 transition-colors duration-300 group-data-[state=active]:bg-white"
                     style={{
                       WebkitMask: `url(${tab.icon}) no-repeat center / contain`,
                       mask: `url(${tab.icon}) no-repeat center / contain`,
                     }}
                   />
 
-                  <h5 className="text-sm text-primary-800 group-data-[state=active]:text-white transition-all duration-300 ease-in-out font-bold">
+                  <h5 className="text-primary-800 text-sm font-bold transition-all duration-300 ease-in-out group-data-[state=active]:text-white">
                     {tab.title}
                   </h5>
                 </TabsTrigger>
@@ -96,11 +90,11 @@ const StorePage = async () => {
 
         <Suspense
           fallback={
-            <div className=" gap-5 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 ">
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
               {Array.from({ length: 2 }).map((_, index) => (
                 <div key={index} className="flex flex-col gap-4">
                   <Skeleton className="min-h-[232px]! w-full rounded-lg" />
-                  <Skeleton className=" min-h-[156px]! w-full rounded-lg" />
+                  <Skeleton className="min-h-[156px]! w-full rounded-lg" />
                 </div>
               ))}
             </div>
@@ -115,7 +109,7 @@ const StorePage = async () => {
                   emptyProps={tabs.find((tab) => tab.value === key)?.emptyProps}
                   render={(data) => {
                     return (
-                      <div className=" gap-5 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 ">
+                      <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
                         {data?.body.gifts.map((gift, i) => {
                           return <PointsStoreCard key={i} storeItem={gift} />;
                         })}

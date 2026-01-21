@@ -120,8 +120,7 @@ const SingleVideo = () => {
     [data?.body?.lessons, lessonId],
   );
 
-  // console.log("selected lessonId : ", lessonId);
-  console.log("all lessons : ", data?.body, isLoading);
+  // console.log("all lessons : ", data?.body, isLoading);
 
   if (
     data?.body?.is_subscriped &&
@@ -192,7 +191,7 @@ const SingleVideo = () => {
               </div>
 
               {(profile?.type === 4 || profile?.type === 5) &&
-                !(data?.body?.locked_to_pass || lockedByViewLimit) && (
+                !(!!data?.body?.locked_to_pass || !!lockedByViewLimit) && (
                   <Community
                     key={lessonId}
                     currentTime={currentTime}

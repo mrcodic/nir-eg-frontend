@@ -31,7 +31,7 @@ const GuestNavBar = () => {
             // }
           )}
         >
-          <div className="mobile:gap-[120px] flex items-center gap-12 self-end font-bold">
+          <div className="mobile:gap-20 flex items-center gap-12 self-end font-bold">
             <Link href={"/"}>
               <CustomImage
                 src={logo || "/logo.svg"}

@@ -98,28 +98,3 @@ const CustomSelect = ({
 };
 
 export default memo(CustomSelect);
-
-{
-  /* <FormField
-control={control}
-name={name}
-render={({ field }) => (
-  <FormItem>
-    <FormLabel>Role</FormLabel>
-    <FormControl>
-      <Select onValueChange={field.onChange} defaultValue={field.value}>
-        <SelectTrigger>
-          <SelectValue placeholder="Select a role" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="admin">Admin</SelectItem>
-          <SelectItem value="editor">Editor</SelectItem>
-          <SelectItem value="viewer">Viewer</SelectItem>
-        </SelectContent>
-      </Select>
-    </FormControl>
-    <FormMessage />
-  </FormItem>
-)}
-/> */
-}

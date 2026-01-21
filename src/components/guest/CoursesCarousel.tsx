@@ -45,7 +45,7 @@ const courses = [
 function CoursesCarousel() {
   return (
     <section className="">
-      <SectionTitle title="كورسات عام 2025/2026" />
+      <SectionTitle title="كورسات عام 2026/2027" />
 
       <div className="mt-8 max-md:px-2" dir="rtl">
         <Carousel

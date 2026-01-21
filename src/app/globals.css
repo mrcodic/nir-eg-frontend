@@ -86,22 +86,6 @@
   --color-gray-dark: hsla(206, 7%, 28%, 1);
   --color-black: hsla(0, 0%, 7%, 1);
 
-  /* --color-primary-50: hsla(196, 81%, 94%, 1);
-  --color-primary-100: hsla(201, 56%, 84%, 1);
-  --color-primary-800: hsla(206, 58%, 43%, 1); */
-
-  /* --color-background: hsla(var(--primary), 0.2);
-
-  --color-primary-foreground: oklch(0.985 0 0);
-  --color-primary: hsla(var(--primary), 1);
-  --color-primary-overlay: var(--overlay-primary);
-
-  --background-color-overlay-primary: var(--overlay-primary);
-
-  --color-primary-50: hsla(var(--primary), 0.5);
-  --color-primary-100: hsla(var(--primary), 0.8);
-  --color-primary-800: hsla(var(--primary), 1); */
-
   /* TEMPLATE COLORS */
 
   /* Base color */
@@ -502,4 +486,8 @@
 
 .filepond--credits {
   margin-top: 8px !important;
+}
+
+.filepond--action-remove-item > svg {
+  @apply text-black;
 }

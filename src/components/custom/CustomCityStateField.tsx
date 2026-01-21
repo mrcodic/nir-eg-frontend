@@ -1,5 +1,5 @@
 import { getPublicData } from "@/helpers/client-fetch";
-import { useCallback, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { UseFormReturn, useWatch } from "react-hook-form";
 import { ComboboxForm } from "./ComboBoxForm";
 
@@ -140,4 +140,4 @@ function CustomCityStateField({
   );
 }
 
-export default CustomCityStateField;
+export default memo(CustomCityStateField);

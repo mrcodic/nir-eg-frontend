@@ -11,7 +11,7 @@ import { useEffect } from "react";
 
 const BundlesPage = () => {
   const router = useRouter();
-  const { token, profile, isLoading } = useAuthContext();
+  const { profile, isLoading } = useAuthContext();
   const isMounted = useMounted();
 
   useEffect(() => {
@@ -35,7 +35,7 @@ const BundlesPage = () => {
   return (
     <div className="mt-[120px] mb-12 grow space-y-[50px] group-data-[template=landing-v3]/template:mt-[140px] md:space-y-[100px]">
       <BundlesWrapper />
-      {token && <SubbedCourses />}
+      {!!profile && <SubbedCourses />}
       <NewCourses />
     </div>
   );

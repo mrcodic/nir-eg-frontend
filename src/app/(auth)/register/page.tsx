@@ -125,6 +125,7 @@ const RegisterPage = () => {
               countryFieldName="phones.country"
               countryISOFieldName="phones.country_iso"
             />
+
             <CustomPhoneInput
               name="phones.parent__phone"
               form={form}

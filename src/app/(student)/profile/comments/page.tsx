@@ -85,14 +85,14 @@ const Comments = () => {
       // clear search params
       router.replace(`/profile/comments?reply_id=${searchReplyId}`);
     }
-  }, [searchParams]);
+  }, [router, searchParams]);
 
   const selectedComment = comments?.data?.find(
     (comment) => comment.lesson_id === selectedCommentLesson,
   );
 
-  console.log("commentsss : ", comments?.data);
-  console.log("selectedComment : ", selectedComment);
+  // console.log("commentsss : ", comments?.data);
+  // console.log("selectedComment : ", selectedComment);
 
   return (
     <div className="mx-auto mt-[120px] mb-[48px] w-[85%]">

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 import { Control } from "react-hook-form";
 import { FormControl, FormField, FormLabel, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
@@ -38,13 +38,13 @@ const CustomInput = ({
       control={control}
       name={name}
       render={({ field }) => (
-        <div className={`w-full flex  flex-col relative ${className}`}>
+        <div className={`relative flex w-full flex-col ${className}`}>
           {/* Styled Input Container */}
-          <div className=" relative">
+          <div className="relative">
             {/* <div className="p-2 flex items-center gap-2 border-b border-gray-light text-gray-dark"> */}
             <FormLabel
               htmlFor={name}
-              className="flex text-gray-dark mb-2 gap-4  font-medium  cursor-text  "
+              className="text-gray-dark mb-2 flex cursor-text gap-4 font-medium"
             >
               {iconSrc && <img src={iconSrc} alt="icon" className="size-5" />}
 
@@ -69,13 +69,13 @@ const CustomInput = ({
                 onClick={() => setChangeHidePassword(!changeHidePassword)}
                 src={changeHidePassword ? "/assets/eye.svg" : "/assets/eye.svg"}
                 alt="icon"
-                className="size-5 cursor-pointer absolute bottom-3 left-3 "
+                className="absolute bottom-3 left-3 size-5 cursor-pointer"
               />
             )}
           </div>
 
           {info && (
-            <label className="text-sm inline-block mt-2 font-normal text-primary-800">
+            <label className="text-primary-800 mt-2 inline-block text-sm font-normal">
               {info}
             </label>
           )}
@@ -87,4 +87,4 @@ const CustomInput = ({
   );
 };
 
-export default CustomInput;
+export default memo(CustomInput);

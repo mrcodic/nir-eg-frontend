@@ -177,7 +177,7 @@ export default function OTPInput<T extends FieldValues>({
             pattern="[0-9]*"
             maxLength={1}
             value={otpValues[index]}
-            className="flex w-full cursor-pointer justify-center text-center outline-hidden"
+            className="flex w-full cursor-pointer justify-center text-center outline-hidden disabled:cursor-not-allowed"
             onChange={(e) => handleChange(index, e.target.value)}
             onKeyDown={(e) => handleKeyDown(index, e)}
             onPaste={(e) => handleOnPaste(e, index)}

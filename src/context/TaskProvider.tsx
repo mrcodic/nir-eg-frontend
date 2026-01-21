@@ -156,8 +156,6 @@ export const TaskProvider = ({ children, taskType = "exam" }) => {
     ],
   );
 
-  console.log(start);
-
   return (
     <TaskContext.Provider value={value}>
       <FormProvider {...form}>{children}</FormProvider>

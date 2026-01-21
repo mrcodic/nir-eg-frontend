@@ -2,19 +2,6 @@ import { TenantLandingResponse } from "@/types/tenant.types";
 import Image from "next/image";
 import { Button } from "../ui/button";
 
-const features = [
-  { icon: "/assets/videos-fill.svg", text: "فيديوهات شرح لكل المنهج" },
-  { icon: "/assets/exam-fill.svg", text: "امتحانات دورية و كويزات كل حصة" },
-  {
-    icon: "/assets/stars-fill.svg",
-    text: "احصل على النقاط و ارفع ترتيبك بين زملائك",
-  },
-  {
-    icon: "/assets/files-fill.svg",
-    text: "تقارير دورية لأولياء الأمور خلال واتساب",
-  },
-];
-
 function HeroSectionThree({
   content,
 }: {
@@ -40,7 +27,7 @@ function HeroSectionThree({
           </div>
         </div>
 
-        <div className="mobile:max-w-[466px] bg-gray-light aspect-square w-full overflow-hidden rounded-2xl">
+        <div className="mobile:max-w-[466px] bg-gray-light relative aspect-square w-full overflow-hidden rounded-2xl">
           {content?.image && (
             <Image
               src={content?.image}
@@ -48,6 +35,7 @@ function HeroSectionThree({
               alt="hero image"
               fetchPriority="high"
               loading="eager"
+              className="object-cover"
             />
           )}
         </div>

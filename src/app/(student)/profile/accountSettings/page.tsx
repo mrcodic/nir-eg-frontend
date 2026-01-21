@@ -119,6 +119,7 @@ const PageSettings = () => {
         });
 
         queryClient.invalidateQueries({ queryKey: ["/students/profile"] });
+        setIsChangePassword(false);
         router.refresh();
       }
     } catch (err) {
@@ -229,10 +230,10 @@ const PageSettings = () => {
 
               <div className="flex-1">
                 <div className="flex w-full items-center justify-between">
-                  <h4 className="text-gray-dark mt-[32px] mb-[16px] text-[12px] font-bold">
+                  <h4 className="text-gray-dark mt-8 mb-4 text-[12px] font-bold">
                     كلمة السر
                   </h4>
-                  <span className="text-gray-dark mt-[20px] inline-block text-[12px] font-medium">
+                  <span className="text-gray-dark mt-5 inline-block text-[12px] font-medium">
                     آخر تحديث: {profile?.updated_at}
                   </span>
                 </div>
@@ -240,7 +241,7 @@ const PageSettings = () => {
                 <button
                   type="button"
                   onClick={() => setIsChangePassword((t) => !t)}
-                  className="mt-[8px] cursor-pointer text-sm font-medium text-[#523412] underline"
+                  className="mt-2 cursor-pointer text-sm font-medium text-[#523412] underline"
                 >
                   {changePassword ? "إلغاء تغيير كلمة السر" : "تغيير كلمة السر"}
                 </button>

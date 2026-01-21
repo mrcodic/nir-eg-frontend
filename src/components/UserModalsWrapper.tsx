@@ -16,7 +16,6 @@ function UserModalsWrapper() {
 
   useEffect(() => {
     if (profile && !isOpened.current) {
-      console.log("showing modals");
       handleFeaturesDisplay({
         onClose: () => {
           if (profile?.type === 4) {
