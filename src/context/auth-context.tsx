@@ -5,7 +5,7 @@ import { IUser } from "@/types";
 import { deleteCookie } from "@/utils/api";
 import { useQuery } from "@tanstack/react-query";
 import Cookies from "js-cookie";
-import { createContext, useContext, useState } from "react";
+import { createContext, useCallback, useContext, useState } from "react";
 
 interface AuthContextType {
   token: string;
@@ -37,13 +37,13 @@ export const AuthContextProvider = ({ children }) => {
     enabled: !!token,
   });
 
-  const logout = async () => {
+  const logout = useCallback(async () => {
     setToken(null);
     localStorage.removeItem("timer");
     Cookies.remove("guest_token");
     Cookies.remove("nir_token");
     await deleteCookie("nir_token");
-  };
+  }, []);
 
   console.log("profile -> ", profileData?.body);
 

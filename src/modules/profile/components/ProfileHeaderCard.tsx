@@ -6,8 +6,8 @@ import { ChevronLeft } from "lucide-react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { QRCodeSVG } from "qrcode.react";
-import GradeCard from "./GradeCard";
 import ProfileCoupon from "./ProfileCoupon";
+import ProfileGradeCard from "./ProfileGradeCard";
 import StudentPointsCard from "./StudentPointsCard";
 import StudentRankCard from "./StudentRankCard";
 
@@ -56,10 +56,9 @@ function ProfileHeaderCard({ profileData }: { profileData: IUser }) {
         </div>
 
         <div className="flex flex-wrap items-center justify-end gap-8 p-2">
-          <GradeCard
-            text={profileData?.grade_name}
-            grade={profileData?.grade}
-          />
+          {profileData?.grade_name && (
+            <ProfileGradeCard text={profileData?.grade_name} />
+          )}
 
           {profileData?.id && profileData?.type === 3 && (
             <QRCodeSVG
