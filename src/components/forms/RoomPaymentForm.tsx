@@ -6,7 +6,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import CustomLoader from "../custom/Loader";
+import SmallSpinner from "../custom/SmallSpinner";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
@@ -90,7 +90,7 @@ const RoomPaymentForm = ({ roomId, centerId }) => {
             className="h-11 sm:w-full sm:max-w-[125px]"
             disabled={isSubmitting}
           >
-            {!isSubmitting ? "إدخال" : <CustomLoader />}
+            {!isSubmitting ? "إدخال" : <SmallSpinner />}
           </Button>
         </div>
       </div>

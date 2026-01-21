@@ -6,7 +6,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import CustomLoader from "../custom/Loader";
+import SmallSpinner from "../custom/SmallSpinner";
 import { Congrats } from "../modals/Congrats";
 
 const PaymentBundlesForm = ({ id, gradeId, label }) => {
@@ -79,7 +79,7 @@ const PaymentBundlesForm = ({ id, gradeId, label }) => {
               className="bg-primary border-gray-light h-[40px] self-end rounded-[10px] border px-[24px] text-white"
               disabled={isSubmitting}
             >
-              {!isSubmitting ? "إدخال" : <CustomLoader />}
+              {!isSubmitting ? "إدخال" : <SmallSpinner />}
             </button>
           </div>
         </div>
@@ -88,7 +88,7 @@ const PaymentBundlesForm = ({ id, gradeId, label }) => {
             className="bg-[#523412] text-white rounded-[10px] py-2 font-bold w-[265px] flex justify-center mt-[56px] border border-gray-light"
             disabled={form.formState.isSubmitting}
           >
-            {!form.formState.isSubmitting ? "   تأكيد" : <CustomLoader />}
+            {!form.formState.isSubmitting ? "   تأكيد" : <SmallSpinner />}
           </button> */}
       </form>
       <Congrats open={open} setOpen={setOpen} />

@@ -12,7 +12,7 @@ import Link from "next/link";
 import { useRouter } from "nextjs-toploader/app";
 import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 import { useForm } from "react-hook-form";
-import CustomLoader from "../custom/Loader";
+import SmallSpinner from "../custom/SmallSpinner";
 
 const NewPasswordForm = () => {
   const form = useForm({
@@ -55,24 +55,24 @@ const NewPasswordForm = () => {
   return (
     <div className="">
       <div className="flex gap-2">
-        <img src="/assets/LockColor.svg" className="w-[32px] h-[32px]" />
+        <img src="/assets/LockColor.svg" className="h-[32px] w-[32px]" />
         <div>
-          <h3 className="text-[#121212] text-[20px] font-bold">
+          <h3 className="text-[20px] font-bold text-[#121212]">
             إعادة تعيين كلمة السر
           </h3>
-          <p className="text-[16px] font-medium mt-[4px] text-gray-dark">
+          <p className="text-gray-dark mt-[4px] text-[16px] font-medium">
             أدخل كلمة السر الجديدة و قم بتأكيدها لتتمكن من الدخول لحسابك
           </p>
         </div>
       </div>
 
-      <div className="h-px w-full mt-[16px] bg-gray-light" />
-      <div className="h-px w-full mt-[2px] bg-[#523412]" />
+      <div className="bg-gray-light mt-[16px] h-px w-full" />
+      <div className="mt-[2px] h-px w-full bg-[#523412]" />
 
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="mt-[40px] w-full space-y-6 "
+          className="mt-[40px] w-full space-y-6"
         >
           <CustomInput
             name="password"
@@ -90,12 +90,12 @@ const NewPasswordForm = () => {
           />
 
           <div className="mt-[56px] flex gap-2">
-            <span className="text-sm font-medium inline-block">
+            <span className="inline-block text-sm font-medium">
               ليس لديك حساب؟
             </span>
             <Link
               href={"/register"}
-              className="  text-sm font-bold text-[#523412] underline"
+              className="text-sm font-bold text-[#523412] underline"
             >
               إنشاء حساب
             </Link>
@@ -110,10 +110,10 @@ const NewPasswordForm = () => {
 
           <button
             type="submit"
-            className="bg-[#523412] text-white rounded-[10px] py-2 font-bold w-[265px] flex justify-center mt-[56px] border border-gray-light"
+            className="border-gray-light mt-[56px] flex w-[265px] justify-center rounded-[10px] border bg-[#523412] py-2 font-bold text-white"
             disabled={form.formState.isSubmitting}
           >
-            {!form.formState.isSubmitting ? "   تأكيد" : <CustomLoader />}
+            {!form.formState.isSubmitting ? "   تأكيد" : <SmallSpinner />}
           </button>
         </form>
       </Form>

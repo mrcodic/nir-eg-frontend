@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 
 import CustomInput from "@/components/custom/customInput";
 import CustomPhoneInput from "@/components/custom/CustomPhoneInput";
-import CustomLoader from "@/components/custom/Loader";
+import SmallSpinner from "@/components/custom/SmallSpinner";
 import { Verify } from "@/components/modals/Verify";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
@@ -160,7 +160,7 @@ const AuthPage = () => {
                 {!form.formState.isSubmitting ? (
                   " تسجيل دخول"
                 ) : (
-                  <CustomLoader />
+                  <SmallSpinner />
                 )}
               </Button>
             </div>

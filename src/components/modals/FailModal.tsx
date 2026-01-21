@@ -12,7 +12,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { memo } from "react";
-import CustomLoader from "../custom/Loader";
+import SmallSpinner from "../custom/SmallSpinner";
 import { Button } from "../ui/button";
 
 interface Props {
@@ -91,7 +91,7 @@ const FailModal = ({
                 className="h-11 w-full font-bold"
                 disabled={isLoadingRetake}
               >
-                {isLoadingRetake ? <CustomLoader /> : "إعادة الامتحان"}
+                {isLoadingRetake ? <SmallSpinner /> : "إعادة الامتحان"}
               </Button>
             )}
 

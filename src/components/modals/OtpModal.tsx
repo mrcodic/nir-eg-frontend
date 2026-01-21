@@ -24,8 +24,8 @@ import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
-import CustomLoader from "../custom/Loader";
 import OTPInput from "../custom/OTPInput";
+import SmallSpinner from "../custom/SmallSpinner";
 import CountDownTimerUI from "../ui/CountDownTimerUI";
 import { DialogClose, DialogFooter } from "../ui/dialog";
 
@@ -163,7 +163,7 @@ export default function OtpModal({ phone }) {
               type="submit"
               disabled={!start}
             >
-              {!form.formState.isSubmitting ? "   تأكيد" : <CustomLoader />}
+              {!form.formState.isSubmitting ? "   تأكيد" : <SmallSpinner />}
             </Button>
 
             <DialogClose

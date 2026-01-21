@@ -3,7 +3,7 @@
 import CustomCityStateField from "@/components/custom/CustomCityStateField";
 import CustomInput from "@/components/custom/customInput";
 import CustomPhoneInput from "@/components/custom/CustomPhoneInput";
-import CustomLoader from "@/components/custom/Loader";
+import SmallSpinner from "@/components/custom/SmallSpinner";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import UploadWithCrop from "@/components/UploadImage";
@@ -249,7 +249,7 @@ const PageSettings = () => {
               </div>
 
               <Button type="submit" className="mt-10 w-full max-w-[172px]">
-                {isLoading ? <CustomLoader /> : "حفظ التغيرات"}
+                {isLoading ? <SmallSpinner /> : "حفظ التغيرات"}
               </Button>
 
               {Object.values(form.formState.errors).length > 0 && (

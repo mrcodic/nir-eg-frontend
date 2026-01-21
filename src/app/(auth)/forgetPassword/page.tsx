@@ -1,7 +1,7 @@
 "use client";
 
 import CustomPhoneInput from "@/components/custom/CustomPhoneInput";
-import CustomLoader from "@/components/custom/Loader";
+import SmallSpinner from "@/components/custom/SmallSpinner";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { OTP_SEND_TIME_KEY } from "@/constants";
@@ -133,7 +133,7 @@ const ForgetPasswordPage = () => {
               className="ms-auto w-full max-w-40"
               disabled={form.formState.isSubmitting}
             >
-              {!form.formState.isSubmitting ? "تأكيد" : <CustomLoader />}
+              {!form.formState.isSubmitting ? "تأكيد" : <SmallSpinner />}
             </Button>
           </div>
         </form>

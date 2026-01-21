@@ -6,7 +6,7 @@ import { Form } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import CustomCityStateField from "@/components/custom/CustomCityStateField";
-import CustomLoader from "@/components/custom/Loader";
+import SmallSpinner from "@/components/custom/SmallSpinner";
 import { useToast } from "@/hooks/use-toast";
 import { registerSchema } from "@/lib/schemas";
 import axios from "axios";
@@ -193,7 +193,7 @@ const RegisterPage = () => {
               className="ms-auto w-full max-w-40"
               disabled={form.formState.isSubmitting}
             >
-              {!form.formState.isSubmitting ? "إنشاء حساب" : <CustomLoader />}
+              {!form.formState.isSubmitting ? "إنشاء حساب" : <SmallSpinner />}
             </Button>
           </div>
         </form>

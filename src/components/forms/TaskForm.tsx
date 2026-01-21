@@ -12,7 +12,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { memo, useCallback, useEffect, useRef } from "react";
 import { useFormContext } from "react-hook-form";
-import CustomLoader from "../custom/Loader";
+import SmallSpinner from "../custom/SmallSpinner";
 import { Button } from "../ui/button";
 
 type Props = {
@@ -171,7 +171,7 @@ function TaskForm({
   if (isLoading || !data?.questions?.length) {
     return (
       <div className="flex min-h-40 items-center justify-center">
-        <CustomLoader />
+        <SmallSpinner />
       </div>
     );
   }
@@ -254,7 +254,7 @@ function TaskForm({
               if (confirmed) onSubmit();
             }}
           >
-            {isSubmitting ? <CustomLoader /> : "حفظ الاجابات"}
+            {isSubmitting ? <SmallSpinner /> : "حفظ الاجابات"}
           </Button>
         )}
       </form>

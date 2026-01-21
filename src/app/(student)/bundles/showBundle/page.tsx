@@ -1,7 +1,7 @@
 "use client";
 import BundleCard from "@/components/BundleCard";
 import CourseCard from "@/components/CourseCard";
-import CustomLoader from "@/components/custom/Loader";
+import SmallSpinner from "@/components/custom/SmallSpinner";
 import { PaymentModel } from "@/components/modals/PaymentModel";
 import RoomHeader from "@/components/RoomHeader";
 import { Button } from "@/components/ui/button";
@@ -45,7 +45,7 @@ const ShowBundle = () => {
   if (isLoading) {
     return (
       <div className="wrapper mt-[140px] flex min-h-[min(calc(100vh-140px),768px)] items-center justify-center">
-        <CustomLoader />
+        <SmallSpinner />
       </div>
     );
   }

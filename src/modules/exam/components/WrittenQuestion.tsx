@@ -81,18 +81,10 @@ const WrittenQuestion = ({ question, index, listRef }: Props) => {
     >
       <QuestionHeader index={index} error={fieldError} />
 
-      {answered && (
-        <div className="space-y-2 text-end">
-          {isCorrect ? (
-            <p className="text-xs text-green-600">
-              لقد قمت بالإجابة على هذا السؤال بنجاح
-            </p>
-          ) : (
-            <p className="text-xs text-red-600">
-              لم تقم بالإجابة على هذا السؤال بنجاح
-            </p>
-          )}
-        </div>
+      {!!answered && !!isCorrect && (
+        <p className="text-end text-xs text-green-600">
+          لقد قمت بالإجابة على هذا السؤال بنجاح
+        </p>
       )}
 
       <div className="space-y-2">

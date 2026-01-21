@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import CustomLoader from "../custom/Loader";
+import SmallSpinner from "../custom/SmallSpinner";
 import Empty from "../Empty";
 import { Congrats } from "../modals/Congrats";
 
@@ -201,7 +201,7 @@ const PaymentCenterCode = ({ courseId, data, roomId }) => {
                 className="bg-primary border-gray-light h-10 self-end rounded-[10px] border px-6 text-white"
                 disabled={isSubmitting}
               >
-                {!isSubmitting ? "إدخال" : <CustomLoader />}
+                {!isSubmitting ? "إدخال" : <SmallSpinner />}
               </button>
             </div>
           </div>

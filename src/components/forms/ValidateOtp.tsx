@@ -21,8 +21,8 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import CustomLoader from "../custom/Loader";
 import OTPInput from "../custom/OTPInput";
+import SmallSpinner from "../custom/SmallSpinner";
 import { Button } from "../ui/button";
 import CountDownTimerUI from "../ui/CountDownTimerUI";
 
@@ -177,7 +177,7 @@ const ValidateOtp = ({ setResetForm }) => {
               className="ms-auto w-full max-w-40"
               disabled={form.formState.isSubmitting}
             >
-              {!form.formState.isSubmitting ? "   تأكيد" : <CustomLoader />}
+              {!form.formState.isSubmitting ? "   تأكيد" : <SmallSpinner />}
             </Button>
           </div>
         </form>

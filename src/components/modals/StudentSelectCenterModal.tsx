@@ -32,7 +32,7 @@ import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
-import CustomLoader from "../custom/Loader";
+import SmallSpinner from "../custom/SmallSpinner";
 
 export function StudentSelectCenterModal() {
   const router = useRouter();
@@ -169,7 +169,7 @@ export function StudentSelectCenterModal() {
               className="bg-primary-800 border-gray-light h-8 w-36 rounded-lg border font-bold text-white"
               type="submit"
             >
-              {!form.formState.isSubmitting ? "   تأكيد" : <CustomLoader />}
+              {!form.formState.isSubmitting ? "   تأكيد" : <SmallSpinner />}
             </Button>
 
             <DialogClose
