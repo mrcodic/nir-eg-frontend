@@ -61,6 +61,8 @@ function TaskForm({
 
   // ================= SUBMIT =================
   const onSubmit = useCallback(async () => {
+    if (!data?.questions?.length) return;
+
     setIsSubmitting(true);
 
     try {

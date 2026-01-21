@@ -32,48 +32,43 @@ const UserMessage = ({
   return (
     <div
       ref={ref}
-      className={`flex flex-col  
-        rounded-lg
-        items-center 
-        gap-4
-        ${!isAdmin ? "  " : ""}
-        `}
+      className={`flex flex-col items-center gap-4 rounded-lg ${!isAdmin ? " " : ""} `}
       id={isReply ? `reply-${comment.reply_id}` : `comment-${comment.id}`}
       // gap-4 ${hasRightBorder ? "border-r border-r-primary-700" : ""}`}
     >
       <div
-        className={`flex flex-col shrink-0 p-2 py-2  w-full gap-2 ${
+        className={`flex w-full shrink-0 flex-col gap-2 p-2 py-2 ${
           isAdmin
-            ? "bg-background  border border-gray-light   rounded-lg"
-            : "bg-white border border-[#cccc] rounded-lg"
-        }  `}
+            ? "bg-background border-gray-light rounded-lg border"
+            : "rounded-lg border border-[#cccc] bg-white"
+        } `}
       >
-        <div className="flex w-full px-2  gap-2 shrink-0">
+        <div className="flex w-full shrink-0 gap-2 px-2">
           <Image
             unoptimized
             width={48}
             height={48}
             src={avatar || "/assets/avatar-user.svg"}
             alt="avatar"
-            className="shrink-0 sm:size-12 size-10"
+            className="size-10 shrink-0 sm:size-12"
             onError={(e) => {
               e.currentTarget.src = "/assets/avatar-user.svg";
             }}
           />
 
-          <div className="flex   flex-col w-full">
-            <p className="text-sm text-gray-dark inline-block font-bold">
+          <div className="flex w-full flex-col">
+            <p className="text-gray-dark inline-block text-sm font-bold">
               {comment.user.name}
             </p>
 
-            <div className="justify-between w-full items-center flex flex-wrap gap-x-2">
+            <div className="flex w-full flex-wrap items-center justify-between gap-x-2">
               {!isReply && comment.user.type !== "admin" && (
-                <span className="text-[12px] text-gray-dark inline-block font-medium">
+                <span className="text-gray-dark inline-block text-[12px] font-medium">
                   {secondsToHms(comment.at_second)}
                 </span>
               )}
 
-              <span className="text-[12px] text-gray-dark inline-block font-medium ms-auto">
+              <span className="text-gray-dark ms-auto inline-block text-[12px] font-medium">
                 {convertDate(comment.created_at)}
               </span>
             </div>
@@ -81,12 +76,12 @@ const UserMessage = ({
         </div>
 
         {/* <div className="w-full h-px bg-[#EFEFEF]"></div> */}
-        <p className="text-[15px] mr-16 text-gray-dark font-medium wrap-break-word whitespace-pre-line">
+        <p className="text-gray-dark mr-16 text-[15px] font-medium wrap-break-word whitespace-pre-line">
           {comment.body}
         </p>
 
         {comment?.images?.length > 0 && (
-          <div className="flex mr-12  flex-col gap-2">
+          <div className="mr-12 flex flex-col gap-2">
             {comment?.images?.map((image, index) => {
               return (
                 <Link target="_blank" key={index} href={image.url}>
@@ -104,26 +99,17 @@ const UserMessage = ({
         )}
 
         {comment?.documents?.length > 0 && (
-          <div className="flex mr-12  flex-col gap-2">
+          <div className="mr-12 flex flex-col gap-2">
             {comment?.documents?.map((document, index) => {
               return (
                 <Link
                   key={index}
                   target="_blank"
-                  className="w-full  border border-[#F8DEC5] py-2 
-                                bg-[#FFFFFF] 
-                                 text-[12px]
-                                 font-medium
-                                rounded-lg 
-                                gap-2
-                                p-2
-                                flex 
-                                items-center 
-                                "
+                  className="flex w-full items-center gap-2 rounded-lg border border-[#F8DEC5] bg-[#FFFFFF] p-2 py-2 text-[12px] font-medium"
                   href={document?.url}
                 >
                   <Image
-                    src="/assets/image4.svg"
+                    src="/assets/pdf-icon.svg"
                     width={32}
                     height={32}
                     alt="document"
@@ -136,7 +122,7 @@ const UserMessage = ({
         )}
 
         {comment?.recordings?.length > 0 && (
-          <div className="flex mr-12 flex-col gap-2 max-w-[calc(100%-48px)] overflow-x-auto">
+          <div className="mr-12 flex max-w-[calc(100%-48px)] flex-col gap-2 overflow-x-auto">
             {comment?.recordings?.map((recording, index) => {
               return <audio key={index} controls src={recording.url}></audio>;
             })}
@@ -144,7 +130,7 @@ const UserMessage = ({
         )}
 
         {comment?.replies?.length > 0 && (
-          <div className="flex flex-col gap-2 pr-4 mr-8  border-r border-[#cccc] ">
+          <div className="mr-8 flex flex-col gap-2 border-r border-[#cccc] pr-4">
             {comment?.replies?.map((reply, index) => (
               <UserMessage
                 avatar={
@@ -165,7 +151,7 @@ const UserMessage = ({
             <Button
               onClick={() => setShowReply(true)}
               variant="outline"
-              className="text-xs sm:text-sm h-8 rounded-xl font-medium"
+              className="h-8 rounded-xl text-xs font-medium sm:text-sm"
             >
               إضافة رد
             </Button>
@@ -173,8 +159,8 @@ const UserMessage = ({
         )}
 
         {showReply && !isReply && (
-          <div className="border flex items-start gap-4 border-gray-light rounded-lg p-2 mt-4 max-sm:flex-wrap relative">
-            <div className="absolute size-5 top-0 right-0  bg-primary-800 flex items-center justify-center rounded-full  ">
+          <div className="border-gray-light relative mt-4 flex items-start gap-4 rounded-lg border p-2 max-sm:flex-wrap">
+            <div className="bg-primary-800 absolute top-0 right-0 flex size-5 items-center justify-center rounded-full">
               <button
                 onClick={() => setShowReply(false)}
                 className="top-0 right-0"

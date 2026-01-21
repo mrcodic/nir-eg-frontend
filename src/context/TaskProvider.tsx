@@ -92,11 +92,7 @@ export const TaskProvider = ({ children, taskType = "exam" }) => {
   const [completed, setCompleted] = useState(false);
 
   // ===== fetch start =====
-  const {
-    data: start,
-    isLoading,
-    error,
-  } = useQuery<QuizStatus>({
+  const { data: start, isLoading } = useQuery<QuizStatus>({
     queryKey: [`/students/quiz/start/${taskId}`],
     queryFn: async () => {
       const res = await getClientPrivateData({
@@ -160,7 +156,7 @@ export const TaskProvider = ({ children, taskType = "exam" }) => {
     ],
   );
 
-  console.log(error);
+  console.log(start);
 
   return (
     <TaskContext.Provider value={value}>

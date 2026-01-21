@@ -20,7 +20,6 @@ function ExamSideInfo({
   defaultTitle = "امتحان",
   onComplete,
 }: Props) {
-  console.log("asdasd", data);
   return (
     <div className="bg-background flex flex-col items-start justify-center rounded-lg p-4 md:min-w-[280px]">
       <h2 className="border-gray-light w-full border-b pb-2 text-right text-[20px] font-bold break-all">
@@ -47,7 +46,7 @@ function ExamSideInfo({
       {start?.score_ratio && (!data || (data && data?.solution)) && (
         <div className="mt-4 flex w-full flex-wrap items-center justify-center gap-1">
           <span className="inline-block text-lg font-bold text-black">
-            جاوبت على
+            حصلت على
           </span>
           <div className="relative font-bold text-nowrap">
             {" "}
@@ -60,7 +59,7 @@ function ExamSideInfo({
               className="textStroke absolute -top-[2px] z-0 flex items-center text-xl"
             >
               {" "}
-              {start?.score_ratio + " "}اسئلة
+              {start?.score_ratio + " "}درجة
             </h3>
             <h3
               className={cn("relative z-10 flex items-center text-xl", {
@@ -68,7 +67,7 @@ function ExamSideInfo({
                 "text-[#1EAD7B]": start.result,
               })}
             >
-              {start?.score_ratio + " "}اسئلة
+              {start?.score_ratio + " "}درجة
             </h3>
           </div>
         </div>

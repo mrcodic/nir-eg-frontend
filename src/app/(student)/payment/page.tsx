@@ -18,7 +18,9 @@ const page = async ({ searchParams }) => {
     });
   } else if (roomId) {
     data = await getServerData({
-      queryKey: [`/students/get-lessons/${roomId}`],
+      queryKey: [
+        `/students/get-lessons/${roomId}?classroom_id=${courseId || centerId}`,
+      ],
     });
   }
 

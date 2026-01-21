@@ -11,7 +11,7 @@ type VdoInstance = {
   api: {
     addEventListener: (
       evt: string,
-      cb: (e: VdoStatusChange) => void
+      cb: (e: VdoStatusChange) => void,
     ) => () => void | void;
     removeEventListener?: (evt: string, cb: (e: any) => void) => void;
 
@@ -52,18 +52,26 @@ async function waitForVdoAPI(timeoutMs = 12_000): Promise<boolean> {
 async function logView(
   videoId: string,
   roomId: string | number,
-  classroomId: string | number
+  classroomId: string | number,
 ) {
   try {
     await axios.post(
       "/api?url=video/confirm-view",
       { video_id: videoId, room_id: roomId, classroom_id: classroomId },
-      { withCredentials: true }
+      { withCredentials: true },
     );
   } catch {}
 }
 
-export function useVideoPlayer(props: {
+export function useVideoPlayer({
+  response,
+  videoId,
+  roomId,
+  classroomId,
+  lessonId,
+  setCurrentTime,
+  videoCompleted,
+}: {
   response: { otp?: string; playbackInfo?: string } | null;
   videoId: string;
   roomId: string | number;
@@ -72,15 +80,6 @@ export function useVideoPlayer(props: {
   setCurrentTime: (t: number) => void;
   videoCompleted: boolean;
 }) {
-  const {
-    response,
-    videoId,
-    roomId,
-    classroomId,
-    lessonId,
-    setCurrentTime,
-    videoCompleted,
-  } = props;
   const queryClient = useQueryClient();
 
   const completedRef = useRef(false);
@@ -148,11 +147,13 @@ export function useVideoPlayer(props: {
                 room_id: roomId,
                 lesson_id: lessonId,
                 classroom_id: classroomId,
-              }
+              },
             );
 
             queryClient.invalidateQueries({
-              queryKey: [`/students/get-lessons/${roomId}`],
+              queryKey: [
+                `/students/get-lessons/${roomId}?classroom_id=${classroomId}`,
+              ],
             });
           } catch (err) {
             // swallow – preserve UX
@@ -181,7 +182,7 @@ export function useVideoPlayer(props: {
       v.addEventListener("ended", onEnded);
 
       cleanups.push(() =>
-        v.removeEventListener("loadedmetadata", onLoadedMeta)
+        v.removeEventListener("loadedmetadata", onLoadedMeta),
       );
       cleanups.push(() => v.removeEventListener("timeupdate", onTimeUpdate));
       cleanups.push(() => v.removeEventListener("seeking", onSeeking));
@@ -201,12 +202,12 @@ export function useVideoPlayer(props: {
 
       const maybeUnsub = inst.api.addEventListener(
         "statusChange",
-        statusHandler
+        statusHandler,
       );
       if (typeof maybeUnsub === "function") cleanups.push(maybeUnsub);
       else if (inst.api.removeEventListener) {
         cleanups.push(() =>
-          inst.api.removeEventListener?.("statusChange", statusHandler)
+          inst.api.removeEventListener?.("statusChange", statusHandler),
         );
       }
     })();

@@ -12,6 +12,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { memo } from "react";
+import CustomLoader from "../custom/Loader";
 import { Button } from "../ui/button";
 
 interface Props {
@@ -20,9 +21,17 @@ interface Props {
   start: QuizStatus;
   retake: () => void;
   taskId: string | number;
+  isLoadingRetake: boolean;
 }
 
-const FailModal = ({ open, showAnswers, start, retake, taskId }: Props) => {
+const FailModal = ({
+  open,
+  showAnswers,
+  start,
+  retake,
+  taskId,
+  isLoadingRetake,
+}: Props) => {
   const { SingleCourse, room } = useParams();
 
   return (
@@ -45,8 +54,8 @@ const FailModal = ({ open, showAnswers, start, retake, taskId }: Props) => {
 
           <div className="border-gray-light mt-6 space-y-2 border-b pb-2">
             <p className="inline-block">
-              - رسبت في الامتحان و جاوبت على{" "}
-              <span className="font-bold">{start?.score_ratio}</span> سؤال
+              - رسبت في الامتحان و حصلت على{" "}
+              <span className="font-bold">{start?.score_ratio}</span> درجة
             </p>
 
             {start?.show_answer && start?.retake && (
@@ -80,8 +89,9 @@ const FailModal = ({ open, showAnswers, start, retake, taskId }: Props) => {
                 onClick={async () => await retake()}
                 variant="outline"
                 className="h-11 w-full font-bold"
+                disabled={isLoadingRetake}
               >
-                إعادة الامتحان
+                {isLoadingRetake ? <CustomLoader /> : "إعادة الامتحان"}
               </Button>
             )}
 

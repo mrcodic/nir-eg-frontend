@@ -40,6 +40,7 @@ const ExamForm = ({ start, setStartExam }: Props) => {
     retake,
     handleClose,
     data,
+    isLoadingRetake,
   } = useTaskLogic({
     shouldStartQuiz: (start) => {
       const nowTime = Date.now();
@@ -100,6 +101,7 @@ const ExamForm = ({ start, setStartExam }: Props) => {
           retake={retake}
           start={start}
           taskId={examId.toString()}
+          isLoadingRetake={isLoadingRetake}
         />
       )}
 
@@ -110,6 +112,7 @@ const ExamForm = ({ start, setStartExam }: Props) => {
           retake={retake}
           start={start}
           taskId={examId.toString()}
+          isLoadingRetake={isLoadingRetake}
         />
       )}
     </>

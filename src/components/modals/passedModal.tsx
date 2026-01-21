@@ -12,6 +12,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { memo } from "react";
+import CustomLoader from "../custom/Loader";
 import { Button } from "../ui/button";
 
 interface Props {
@@ -20,9 +21,17 @@ interface Props {
   start: QuizStatus;
   retake: () => void;
   taskId: string | number;
+  isLoadingRetake: boolean;
 }
 
-const PassedModal = ({ open, showAnswers, start, retake, taskId }: Props) => {
+const PassedModal = ({
+  open,
+  showAnswers,
+  start,
+  retake,
+  taskId,
+  isLoadingRetake,
+}: Props) => {
   const { SingleCourse, room } = useParams();
 
   return (
@@ -59,14 +68,19 @@ const PassedModal = ({ open, showAnswers, start, retake, taskId }: Props) => {
                   جارى تصحيح الامتحان
                 </p>
                 <p className="mt-6 text-[18px] font-medium">
-                  - ستتمكن من عرض اجاباتك بعد تصحيح الامتحان
+                  - ستتمكن من رؤية درجتك بعد الانتهاء من تصحيح الامتحان
                 </p>
+                {start?.show_answer && (
+                  <p className="mt-6 text-[18px] font-medium">
+                    - ستتمكن من عرض اجاباتك بعد تصحيح الامتحان
+                  </p>
+                )}
               </div>
             ) : (
               <div className="mt-6 space-y-2">
                 <p className="inline-block">
-                  - نجحت في الامتحان و جاوبت على{" "}
-                  <span className="font-bold">{start?.score_ratio}</span> سؤال
+                  - نجحت في الامتحان و حصلت على{" "}
+                  <span className="font-bold">{start?.score_ratio}</span> درجة
                 </p>
 
                 {start?.retake && (
@@ -106,8 +120,9 @@ const PassedModal = ({ open, showAnswers, start, retake, taskId }: Props) => {
                     onClick={async () => await retake()}
                     variant="outline"
                     className="h-11 w-full font-bold"
+                    disabled={isLoadingRetake}
                   >
-                    إعادة الامتحان
+                    {isLoadingRetake ? <CustomLoader /> : "إعادة الامتحان"}
                   </Button>
                 )}
               </>

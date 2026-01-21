@@ -30,7 +30,7 @@ const SingleVideo = () => {
 
   const { data, isLoading } = useQuery({
     queryFn: getClientPrivateData as () => Promise<ApiResponse<IRoomDetails>>,
-    queryKey: [`/students/get-lessons/${room}`],
+    queryKey: [`/students/get-lessons/${room}?classroom_id=${classroomId}`],
   });
 
   const videoCompleted = useMemo(() => {

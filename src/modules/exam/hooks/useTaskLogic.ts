@@ -25,6 +25,7 @@ export const useTaskLogic = (
   const [sure, setSure] = useState(false);
   const [resolver, setResolver] = useState<((v: boolean) => void) | null>(null);
   const [status, setStatus] = useState(false);
+  const [isLoadingRetake, setIsLoadingRetake] = useState(false);
 
   // ================= RETAKE LOGIC =================
   const retakeExamLogic = useCallback(async () => {
@@ -144,6 +145,7 @@ export const useTaskLogic = (
   // ================= RETAKE =================
   const retake = useCallback(async () => {
     try {
+      setIsLoadingRetake(true);
       await axios.post(`/api?url=students/quiz/retake/${taskId}`, {});
       await retakeExamLogic();
     } catch (e: any) {
@@ -153,6 +155,8 @@ export const useTaskLogic = (
           e.response?.data?.error?.message || "حدث خطأ, حاول مرة اخرى",
         icon: "error",
       });
+    } finally {
+      setIsLoadingRetake(false);
     }
   }, [taskId, retakeExamLogic, toast]);
 
@@ -180,5 +184,6 @@ export const useTaskLogic = (
     showAnswers,
     retake,
     handleClose,
+    isLoadingRetake,
   };
 };

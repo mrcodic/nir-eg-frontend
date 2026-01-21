@@ -31,7 +31,7 @@ function CommentsFilter({
   });
 
   const { data: lessons, isLoading: lessonsLoading } = useQuery({
-    queryKey: [`/students/get-lessons/${roomId}`],
+    queryKey: [`/students/get-lessons/${roomId}?classroom_id=${courseId}`],
     queryFn: getClientPrivateData,
     enabled: !!roomId && roomId !== "all",
   });

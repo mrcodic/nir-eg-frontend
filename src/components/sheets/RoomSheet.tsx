@@ -7,10 +7,10 @@ import { FaSpinner } from "react-icons/fa";
 import RoomSideContent from "../RoomSideContent";
 
 export default function RoomSheet({ open, setOpen }) {
-  const { room } = useParams();
+  const { room, SingleCourse } = useParams();
 
   const { data, isLoading } = useQuery<ApiResponse<IRoomDetails>>({
-    queryKey: [`students/get-lessons/${room}`],
+    queryKey: [`students/get-lessons/${room}?classroom_id=${SingleCourse}`],
     queryFn: getClientPrivateData,
   });
 

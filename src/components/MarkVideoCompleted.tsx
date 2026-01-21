@@ -42,7 +42,9 @@ function MarkVideoCompleted({
       // invalidate lesson data to refresh completed status
 
       queryClient.invalidateQueries({
-        queryKey: [`/students/get-lessons/${roomId}`],
+        queryKey: [
+          `/students/get-lessons/${roomId}?classroom_id=${classroomId}`,
+        ],
       });
     } catch (err) {
       toast({
