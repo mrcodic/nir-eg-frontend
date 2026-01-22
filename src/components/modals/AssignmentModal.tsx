@@ -12,14 +12,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { memo } from "react";
+import SmallSpinner from "../custom/SmallSpinner";
 import { Button } from "../ui/button";
 
 interface Props {
   open: boolean;
   showAnswers: () => void;
   start: QuizStatus;
-  retake: () => void;
+  retake: () => Promise<void>;
   taskId: string | number;
+  isLoadingRetake: boolean;
 }
 
 const AssignmentModal = ({
@@ -28,6 +30,7 @@ const AssignmentModal = ({
   start,
   retake,
   taskId,
+  isLoadingRetake,
 }: Props) => {
   const { SingleCourse, room } = useParams();
 
@@ -70,7 +73,7 @@ const AssignmentModal = ({
 
           {start?.review_pending ? (
             <span className="inline-block font-medium text-[#121212]">
-              ستتمكن من عرض اجاباتك بعد تصحيح الواجب
+              جارى تصحيح الواجب الخاص بك
             </span>
           ) : (
             <span className="inline-block font-medium text-[#121212]">
@@ -107,8 +110,13 @@ const AssignmentModal = ({
                       onClick={async () => await retake()}
                       variant="secondary"
                       className="h-11 w-full font-bold"
+                      disabled={isLoadingRetake}
                     >
-                      إعادة الامتحان
+                      {isLoadingRetake ? (
+                        <SmallSpinner className="text-white" />
+                      ) : (
+                        "إعادة الامتحان"
+                      )}
                     </Button>
                   )}
                 </>

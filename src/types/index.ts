@@ -465,6 +465,7 @@ export interface InnerPagination {
 export interface ICourseDetails {
   classroom: string;
   classroom_duration: number;
+  classroom_expired_after: number;
   classroom_exams: any[];
   classroom_price: string;
 

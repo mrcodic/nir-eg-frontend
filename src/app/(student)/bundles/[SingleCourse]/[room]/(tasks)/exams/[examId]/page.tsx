@@ -31,7 +31,7 @@ const ExamPage = () => {
     >
       <div
         className={cn(
-          "wrapper group- mt-28 mb-[186px] flex h-[calc(100%-80px)] flex-col items-center gap-8 py-4 group-data-[template=landing-v3]/template:mt-32 md:items-start md:gap-10 lg:flex-row lg:gap-8",
+          "wrapper mt-28 mb-[186px] flex h-[calc(100%-80px)] flex-col items-center gap-8 py-4 group-data-[template=landing-v3]/template:mt-32 md:items-start lg:flex-row",
           // {
           //   "mt-32": template == 3,
           // },
@@ -56,7 +56,7 @@ const ExamPage = () => {
           <ExamSideNav />
         </div>
 
-        <div className="w-full min-w-[50%] flex-1">
+        <div className="flex-1 self-stretch">
           <ExamForm start={start} setStartExam={setStartExam} />
         </div>
 

@@ -101,10 +101,7 @@ export default function OTPInput<T extends FieldValues>({
     }
   };
 
-  const handleOnPaste = (
-    e: ClipboardEvent<HTMLInputElement>,
-    index: number,
-  ) => {
+  const handleOnPaste = (e: ClipboardEvent<HTMLInputElement>) => {
     e.preventDefault();
     isPastingRef.current = true;
 
@@ -180,7 +177,7 @@ export default function OTPInput<T extends FieldValues>({
             className="flex w-full cursor-pointer justify-center text-center outline-hidden disabled:cursor-not-allowed"
             onChange={(e) => handleChange(index, e.target.value)}
             onKeyDown={(e) => handleKeyDown(index, e)}
-            onPaste={(e) => handleOnPaste(e, index)}
+            onPaste={(e) => handleOnPaste(e)}
             onFocus={handleFocus}
             onClick={handleClick}
             disabled={disabled}

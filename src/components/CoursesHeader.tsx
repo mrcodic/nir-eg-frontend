@@ -1,40 +1,38 @@
 "use client";
 
-import { getClientPrivateData } from "@/helpers/client-fetch";
+import { useAuthContext } from "@/context/auth-context";
 import { cn } from "@/lib/utils";
-import { ICourseDetails, IUser } from "@/types";
-import { useQuery } from "@tanstack/react-query";
+import { ICourseDetails } from "@/types";
 import Image from "next/image";
+import { useMemo } from "react";
 import PriceBadge from "../modules/payment/components/PriceBadge";
 import CourseInfoBadge from "./CourseInfoBadge";
 import SupportBadge from "./SupportBadge";
 import DataWithLabel from "./ui/DataWithLabel";
 
 const CoursesHeader = ({ details }: { details: ICourseDetails }) => {
-  const COURSEDETAILS = [
-    {
-      icon: "/assets/time.svg",
-      label: " الكورس متاح لمده:",
-      // title: convertMinutes(Number(body?.classroom_price)),
-      title: details?.is_subscriped
-        ? details?.classroom_expired_after
-        : details?.classroom_duration,
-      specification: "ايام",
-    },
+  const { profile } = useAuthContext();
 
-    {
-      icon: "/assets/calendar.svg",
-      label: "تاريخ آخر تحديث:",
-      title: details?.last_updated,
-    },
-  ];
+  const COURSEDETAILS = useMemo(
+    () => [
+      {
+        icon: "/assets/time.svg",
+        label: " الكورس متاح لمده:",
+        // title: convertMinutes(Number(body?.classroom_price)),
+        title: details?.is_subscriped
+          ? details?.classroom_expired_after
+          : details?.classroom_duration,
+        specification: "ايام",
+      },
 
-  const { data } = useQuery({
-    queryFn: getClientPrivateData as () => Promise<{ body: IUser }>,
-    queryKey: ["/students/profile"],
-  });
-
-  // console.log("🚀 ~ CoursesHeader ~ body:", body);
+      {
+        icon: "/assets/calendar.svg",
+        label: "تاريخ آخر تحديث:",
+        title: details?.last_updated,
+      },
+    ],
+    [details],
+  );
 
   const subType = details?.subscription_type;
 
@@ -52,7 +50,7 @@ const CoursesHeader = ({ details }: { details: ICourseDetails }) => {
           src="/assets/bg/bg.png"
           alt=""
           fill
-          className="top-[10px] -z-1 object-contain object-bottom-left"
+          className="top-2.5 -z-1 object-contain object-bottom-left"
           priority
         />
       </div>
@@ -85,7 +83,7 @@ const CoursesHeader = ({ details }: { details: ICourseDetails }) => {
             </div>
 
             {details?.is_subscriped &&
-              (data?.body?.type == 4 || data?.body?.type == 5) && (
+              (profile?.type == 4 || profile?.type == 5) && (
                 <SupportBadge gradeId={details?.grade_id} />
               )}
           </div>

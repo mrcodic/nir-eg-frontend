@@ -1,5 +1,5 @@
 import { TenantLandingResponse } from "@/types/tenant.types";
-import SectionTitle from "./Ui/SectionTitle";
+import SectionTitle from "./SectionTitle";
 
 const features = [
   {

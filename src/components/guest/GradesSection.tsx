@@ -2,7 +2,7 @@ import { getServerData } from "@/helpers/server-fetch";
 import { Grade } from "@/types";
 import Image from "next/image";
 import StyledText from "../ui/StyledText";
-import GradeCard from "./Ui/GradeCard";
+import GradeCard from "./GradeCard";
 
 const GradesSection = async () => {
   const grades = await getServerData<{ data: Grade[] }>({

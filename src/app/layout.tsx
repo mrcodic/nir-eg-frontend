@@ -11,6 +11,7 @@ import { hexToHsl } from "@/helpers/tenant.helpers";
 import { getTenantSettingsServer } from "@/services/tenantServices";
 import { Metadata } from "next";
 import { Almarai } from "next/font/google";
+import { Suspense } from "react";
 import "./globals.css";
 
 const almarai = Almarai({
@@ -87,7 +88,7 @@ export default async function Layout({ children }) {
     throw new Error("Tenant settings not found");
   }
 
-  console.log("tenantSettings", tenantSettings);
+  // console.log("tenantSettings", tenantSettings);
 
   const hslFromHex = hexToHsl(tenantSettings.primary_color);
 
@@ -127,7 +128,9 @@ export default async function Layout({ children }) {
                 {children}
               </main>
 
-              <Footer />
+              <Suspense fallback={<footer className="bg-background h-80" />}>
+                <Footer />
+              </Suspense>
               <UserModalsWrapper />
             </Providers>
           </>

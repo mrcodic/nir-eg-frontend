@@ -11,15 +11,16 @@ import { QuizStatus } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { memo } from "react";
+import { memo, Suspense } from "react";
 import SmallSpinner from "../custom/SmallSpinner";
 import { Button } from "../ui/button";
+import { Skeleton } from "../ui/skeleton";
 
 interface Props {
   open: boolean;
   showAnswers: () => void;
   start: QuizStatus;
-  retake: () => void;
+  retake: () => Promise<void>;
   taskId: string | number;
   isLoadingRetake: boolean;
 }
@@ -33,7 +34,7 @@ const PassedModal = ({
   isLoadingRetake,
 }: Props) => {
   const { SingleCourse, room } = useParams();
-
+  console.log("start : ", start);
   return (
     <Dialog open={open}>
       <DialogContent
@@ -102,7 +103,9 @@ const PassedModal = ({
 
           <div
             className={cn("mt-6 grid w-full grid-cols-2 justify-center gap-6", {
-              "grid-cols-1": start?.review_pending,
+              "grid-cols-1":
+                start?.review_pending ||
+                (!start?.show_answer && !start?.retake),
             })}
           >
             {!start?.review_pending && (
@@ -138,7 +141,9 @@ const PassedModal = ({
             </Link>
 
             {start?.show_answer && !start?.review_pending && (
-              <ExamPDFGenerator taskId={Number(taskId)} />
+              <Suspense fallback={<Skeleton className="h-11 w-full" />}>
+                <ExamPDFGenerator taskId={Number(taskId)} />
+              </Suspense>
             )}
           </div>
         </div>

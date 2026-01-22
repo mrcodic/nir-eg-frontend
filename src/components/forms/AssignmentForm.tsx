@@ -22,6 +22,7 @@ const AssignmentForm = ({ start }: { start: QuizStatus }) => {
     showAnswers,
     retake,
     handleClose,
+    isLoadingRetake,
   } = useTaskLogic();
 
   if (!assignmentId) {
@@ -54,6 +55,7 @@ const AssignmentForm = ({ start }: { start: QuizStatus }) => {
           retake={retake}
           start={start}
           taskId={assignmentId?.toString()}
+          isLoadingRetake={isLoadingRetake}
         />
       )}
 
@@ -64,6 +66,7 @@ const AssignmentForm = ({ start }: { start: QuizStatus }) => {
           retake={retake}
           start={start}
           taskId={assignmentId?.toString()}
+          isLoadingRetake={isLoadingRetake}
         />
       )}
     </>

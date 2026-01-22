@@ -90,7 +90,12 @@ const RoomSideContent = ({
           <div className="bg-gray-light my-4 h-px w-full" />
           <h3 className="text-gray-dark text-sm font-bold">الامتحانات</h3>
           {data.quizzes.map((quiz) => (
-            <QuizCard key={quiz.id} quiz={quiz} room={room as string} />
+            <QuizCard
+              key={quiz.id}
+              quiz={quiz}
+              href={`/bundles/${SingleCourse}/${room}/exams/${quiz.id}`}
+              locked={locked}
+            />
           ))}
         </>
       )}
@@ -197,10 +202,12 @@ const LessonCard = memo(function LessonCard({
 
 const QuizCard = memo(function QuizCard({
   quiz,
-  room,
+  href,
+  locked,
 }: {
   quiz: any;
-  room: string;
+  href: string;
+  locked: boolean;
 }) {
   return (
     <div className="border-gray-light mt-4 flex items-center justify-between rounded-lg border bg-white px-2 py-2 shadow-sm">
@@ -212,12 +219,15 @@ const QuizCard = memo(function QuizCard({
         alt="exam fill"
       />
       <h3 className="grow truncate text-sm font-bold">{quiz.title}</h3>
-      <Link
-        href={`${room}/exams/${quiz.id}`}
-        className="bg-primary-800 flex size-9 items-center justify-center rounded-lg"
+
+      <LinkLocked
+        locked={locked}
+        className="bg-primary-800 flex size-9 shrink-0 items-center justify-center rounded-lg"
       >
-        <ChevronLeft className="size-5 stroke-white" />
-      </Link>
+        <Link href={href}>
+          <ChevronLeft className="size-5 stroke-white" />
+        </Link>
+      </LinkLocked>
     </div>
   );
 });

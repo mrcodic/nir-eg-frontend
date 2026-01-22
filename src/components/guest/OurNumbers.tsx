@@ -3,7 +3,7 @@
 import { TenantLandingResponse } from "@/types/tenant.types";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import SectionTitle from "./Ui/SectionTitle";
+import SectionTitle from "./SectionTitle";
 
 const numbers = [
   {

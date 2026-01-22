@@ -18,7 +18,9 @@ const columns = [
     ),
     cell: (info) => (
       <div className="flex max-w-[200px] items-center gap-2 truncate p-2 text-[16px] font-medium md:max-w-[300px]">
-        <p className="truncate text-[#D9B45C] underline">{info.getValue()}</p>
+        <p className="text-secondary truncate ps-4 underline">
+          {info.getValue()}
+        </p>
       </div>
     ),
   }),

@@ -41,7 +41,9 @@ export default function CustomImage({
       alt={alt}
       onError={handleError}
       className={className}
-      {...(props?.fill ? {} : { width: size, height: size })}
+      {...(props?.fill
+        ? {}
+        : { width: props?.width || size, height: props?.height || size })}
       {...props}
     />
   );

@@ -1,7 +1,7 @@
 import { getServerData } from "@/helpers/server-fetch";
 import { Grade } from "@/types";
 import Link from "next/link";
-import SectionTitle from "./Ui/SectionTitle";
+import SectionTitle from "./SectionTitle";
 
 const GradesSectionTwo = async () => {
   const grades = await getServerData<{ data: Grade[] }>({

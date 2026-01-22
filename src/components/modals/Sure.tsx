@@ -1,5 +1,10 @@
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogFooter } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { memo } from "react";
 import { useFormState } from "react-hook-form";
@@ -17,22 +22,22 @@ const SureModal = ({ open, setOpen, questionsCount }) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="max-w-lg rounded-lg bg-white shadow-lg">
-        <div className="">
-          <p className="text-[18px] font-bold text-[#121212]">
-            هل أنت متأكد من أنك تريد حفظ الإجابات؟
-          </p>
+        <DialogTitle className="text-[18px] font-bold text-[#121212]">
+          هل أنت متأكد من أنك تريد حفظ الإجابات؟
+        </DialogTitle>
+        <div>
           <p className="mt-8 inline-block font-medium text-[#121212]">
             لن تتمكن من تغيير الإجابات مرة أخرى
           </p>
 
           {length > 0 && (
-            <span className="ms-1 inline-block font-medium text-red-500">
-              لم تقم بالإجابة على {length} سؤال{" "}
-            </span>
+            <p className="ms-1 inline-block font-medium text-red-500">
+              - لم تقم بالإجابة على {length} سؤال{" "}
+            </p>
           )}
         </div>
 
-        <DialogFooter className="mt-5 flex w-full items-center justify-start gap-6">
+        <DialogFooter className="mt-5 flex w-full flex-col items-center justify-start gap-6">
           <DialogClose
             asChild
             className="flex w-full items-center justify-center"

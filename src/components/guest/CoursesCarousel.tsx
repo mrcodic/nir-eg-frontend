@@ -5,65 +5,61 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { getServerData } from "@/helpers/server-fetch";
 import { ChevronLeft } from "lucide-react";
+import Image from "next/image";
 import PriceBubbles from "../ui/price-bubble";
-import SectionTitle from "./Ui/SectionTitle";
+import SectionTitle from "./SectionTitle";
 
-const courses = [
-  {
-    id: 1,
-    title: "كورس المراجعة",
-    grade: "الصف الثالث الثانوي",
-    price: "200",
-  },
-  {
-    id: 2,
-    title: "كورس المراجعة",
-    grade: "الصف الثالث الثانوي",
-    price: "200",
-  },
-  {
-    id: 3,
-    title: "كورس المراجعة",
-    grade: "الصف الثالث الثانوي",
-    price: "200",
-  },
-  {
-    id: 4,
-    title: "كورس المراجعة",
-    grade: "الصف الثالث الثانوي",
-    price: "200",
-  },
-  {
-    id: 5,
-    title: "كورس المراجعة",
-    grade: "الصف الثالث الثانوي",
-    price: "200",
-  },
-];
+interface ILandingCourse {
+  id: number;
+  title: string;
+  description: string;
+  price: "0";
+  grade_id: number;
+  grade_name: string;
+  image: string;
+}
 
-function CoursesCarousel() {
+async function CoursesCarousel() {
+  const coursesResponse = await getServerData<{
+    data: { count: number; items: ILandingCourse[] };
+  }>({
+    queryKey: ["courses/home"],
+    isAuth: false,
+  });
+  const currentYear = new Date().getFullYear();
+
+  if (!coursesResponse?.data?.count) return null;
+
   return (
     <section className="">
-      <SectionTitle title="كورسات عام 2026/2027" />
+      <SectionTitle title={`كورسات عام ${currentYear}/${currentYear + 1}`} />
 
       <div className="mt-8 max-md:px-2" dir="rtl">
         <Carousel
           opts={{
-            align: "start",
+            align: "center",
             direction: "rtl",
           }}
           className="w-full"
         >
           <CarouselContent className="-ml-4">
-            {courses.map((course) => (
+            {coursesResponse?.data?.items?.map((course) => (
               <CarouselItem
                 key={course.id}
-                className="pl-4 md:basis-1/2 lg:basis-1/3"
+                className="basis-full pl-4 max-md:max-w-96 md:basis-1/2 xl:basis-1/3"
               >
                 <div className="group cursor-pointer">
                   {/* Image Placeholder */}
-                  <div className="mb-4 h-56 w-full rounded-xl bg-gray-200 transition-colors hover:bg-gray-300"></div>
+                  <div className="relative mb-4 h-56 w-full overflow-hidden rounded-xl bg-gray-200 transition-colors hover:bg-gray-300">
+                    <Image
+                      src={course?.image}
+                      alt="course image"
+                      fill
+                      className="object-cover transition-all group-hover:scale-105"
+                    />
+                  </div>
 
                   {/* Content Card */}
                   <div className="border-primary-800 group-hover:bg-primary-800 rounded-xl border bg-white p-4 shadow-sm transition-all hover:shadow-md">
@@ -77,7 +73,7 @@ function CoursesCarousel() {
 
                     <div className="mt-6 flex flex-wrap items-center justify-between gap-6">
                       <p className="text-base font-bold text-black transition-all group-hover:text-white md:text-xl">
-                        {course.grade}
+                        {course.grade_name}
                       </p>
                       {/* Price Badge */}
                       <PriceBubbles price={course.price} className="ms-auto" />

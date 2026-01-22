@@ -12,6 +12,7 @@ export default function RoomSheet({ open, setOpen }) {
   const { data, isLoading } = useQuery<ApiResponse<IRoomDetails>>({
     queryKey: [`students/get-lessons/${room}?classroom_id=${SingleCourse}`],
     queryFn: getClientPrivateData,
+    enabled: !!open,
   });
 
   return (

@@ -196,7 +196,7 @@ function TaskForm({
           e.preventDefault();
           onSubmit();
         }}
-        className={cn("max-md:mt-6", {
+        className={cn("max-lg:mt-6", {
           "pointer-events-none opacity-80": isSubmitting,
           // "mt-6": !status,
         })}

@@ -26,7 +26,7 @@ const AssignmentPage = () => {
     >
       <div
         className={cn(
-          "mx-auto mt-[110px] mb-[186px] flex h-[calc(100%-80px)] w-[85%] flex-col items-center py-4 md:flex-row md:items-start md:gap-10 lg:gap-[122px]",
+          "wrapper mt-[110px] mb-[186px] flex h-[calc(100%-80px)] flex-col items-center gap-8 py-4 lg:flex-row lg:items-start",
           {
             "pointer-events-none opacity-70": isSubmitting,
           },
@@ -50,11 +50,11 @@ const AssignmentPage = () => {
           <ExamSideNav />
         </div>
 
-        <div className="min-w-[50%] flex-1">
+        <div className="flex-1 self-stretch">
           <AssignmentForm start={start} />
         </div>
 
-        <RoomSheet open={showRoom} setOpen={setShowRoom} />
+        {showRoom && <RoomSheet open={showRoom} setOpen={setShowRoom} />}
 
         <SubmitLoader isSubmitting={isSubmitting} />
       </div>

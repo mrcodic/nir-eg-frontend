@@ -20,7 +20,6 @@ import useOtp from "@/hooks/useOtp";
 import { otpSchema } from "@/lib/schemas";
 import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
@@ -130,8 +129,7 @@ export default function OtpModal({ phone }) {
             className="text-secondary mt-4 flex cursor-pointer items-center gap-1 text-base font-bold underline disabled:cursor-not-allowed disabled:opacity-60"
             disabled={start}
           >
-            أعد الإرسال{" "}
-            {resending && <Loader2 className="size-4 animate-spin" />}
+            أعد الإرسال {resending && <SmallSpinner className="size-4" />}
           </button>
 
           <FormLabel className="block text-xl"> أدخل رمز التأكيد</FormLabel>

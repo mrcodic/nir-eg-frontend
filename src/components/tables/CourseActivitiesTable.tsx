@@ -23,7 +23,7 @@ const columns = [
       const row = info.row.original;
 
       return (
-        <div className="flex w-full max-w-[200px] min-w-[200px] flex-wrap items-center gap-2 truncate p-2 text-[16px] font-medium md:max-w-[300px]">
+        <div className="flex w-full max-w-[200px] min-w-[200px] flex-wrap items-center gap-2 truncate p-2 ps-4 text-[16px] font-medium md:max-w-[300px]">
           <p className="truncate">{info.getValue()}</p>
           <Link
             href={`/bundles/${row?.classroom_id}/${row?.room_id}/${
@@ -38,21 +38,19 @@ const columns = [
     },
   }),
   columnHelper.accessor("type", {
-    header: () => (
-      <div className="w-[156px] px-2 text-[18px] font-bold">النوع</div>
-    ),
+    header: () => <div className="w-34 px-2 text-[18px] font-bold">النوع</div>,
     cell: (info) => (
-      <div className="w-[156px] p-2 text-start text-[16px] font-medium">
+      <div className="w-34 p-2 text-start text-[16px] font-medium">
         {info.getValue()}
       </div>
     ),
   }),
   columnHelper.accessor("created_at", {
     header: () => (
-      <div className="w-52 px-2 text-[18px] font-bold">التاريخ</div>
+      <div className="w-34 px-2 text-[18px] font-bold">التاريخ</div>
     ),
     cell: (info) => (
-      <div className="w-52 p-2 text-start text-[16px] font-medium">
+      <div className="w-34 p-2 text-start text-[16px] font-medium">
         {info.getValue()}
       </div>
     ),
