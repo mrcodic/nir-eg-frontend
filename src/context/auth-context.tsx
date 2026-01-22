@@ -34,7 +34,6 @@ export const AuthContextProvider = ({ children }) => {
   const { data: profileData, isLoading } = useQuery({
     queryFn: getClientPrivateData as () => Promise<{ body: IUser }>,
     queryKey: ["/students/profile"],
-    enabled: !!token,
   });
 
   const logout = useCallback(async () => {

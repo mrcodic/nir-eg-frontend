@@ -29,11 +29,6 @@ export function formatDateToArabic(dateString) {
   if (window === undefined) return dateString;
   const date = new Date(dateString);
 
-  // Get Arabic day name
-  const dayName = new Intl.DateTimeFormat("ar-EG", { weekday: "long" }).format(
-    date,
-  );
-
   // Format to YYYY-MM-DD HH:mm:ss
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based
@@ -112,4 +107,27 @@ export const mapTypeToText = (type) => {
     default:
       return "الطالب";
   }
+};
+
+export const getRemainingTimeArabic = (expiresAt: string | Date) => {
+  const now = new Date();
+  const expiry = new Date(expiresAt);
+
+  const diffMs = expiry.getTime() - now.getTime();
+  if (diffMs <= 0) return "انتهى الوقت";
+
+  const totalMinutes = Math.floor(diffMs / (1000 * 60));
+  const days = Math.floor(totalMinutes / (60 * 24));
+  const hours = Math.floor((totalMinutes % (60 * 24)) / 60);
+  const minutes = totalMinutes % 60;
+
+  if (days > 0) {
+    return `باقي ${days} يوم${days > 1 ? "ًا" : ""}`;
+  }
+
+  if (hours > 0) {
+    return `باقي ${hours} ساعة${hours > 1 ? "" : ""}`;
+  }
+
+  return `باقي ${minutes} دقيقة`;
 };

@@ -1,64 +1,95 @@
 import { cn } from "@/lib/utils";
 import ExamPDFGenerator from "@/modules/exam/components/ExamPDFGenerator";
+import { IActivity } from "@/types";
+import Image from "next/image";
 import Link from "next/link";
-import ScoreBadge from "./ui/ScoreBadge";
-import ScorePercent from "./ui/ScorePercent";
 
-function GradesTableAction({ row, rowValue }: { row: any; rowValue: number }) {
-  const type = row.type;
-  const isExam = type === "امتحان";
+function GradesTableAction({
+  row,
+  rowValue,
+}: {
+  row: IActivity;
+  rowValue: number;
+}) {
+  const isExam = row?.type !== "واجب";
+  const haveAnswer = !!(row?.score_ratio || row?.score !== null);
+  const isExpired = row?.classroom_expired || row?.classroom === "--";
 
   return (
-    <div className="flex w-full items-center justify-start gap-4 p-2">
-      <div className="flex w-[136px] shrink-0 items-center justify-center gap-2 rounded-lg p-1 font-bold">
-        {isExam ? (
-          !!row?.score_ratio ? (
-            <>
-              <ScorePercent
-                score={rowValue}
-                passed={row.passed}
-                type={row.type}
-              />
-              <ScoreBadge passed={row.passed} type={row.type} />
-            </>
-          ) : (
-            <ScoreBadge
-              passed={row.passed}
-              type={row.type}
-              text="جارى التصحيح"
-              className="bg-yellow-50 text-yellow-500"
+    <div className="flex h-14 w-full items-center justify-start gap-4 p-2">
+      {isExpired && !haveAnswer ? (
+        <p className="mx-auto text-center font-bold text-blue-600">
+          انتهى الكورس بدون تصحيح
+        </p>
+      ) : (
+        <div className="flex h-10 w-[136px] shrink-0 items-center gap-2 rounded-lg border border-gray-200 p-1 font-bold">
+          {isExam && !row?.score_ratio ? null : (
+            <Image
+              src={
+                row.passed ? "/assets/CorrectColor.svg" : "/assets/Close2.svg"
+              }
+              width={20}
+              height={20}
+              alt={row.passed ? "ناجح" : "راسب"}
             />
-          )
-        ) : (
-          <ScoreBadge passed={row.passed} type={row.type} />
-        )}
-      </div>
+          )}
 
-      {row?.classroom_expired || row?.classroom === "--" ? (
-        <ExamPDFGenerator
-          taskId={row?.quiz_id}
-          className="bg-secondary mx-auto flex h-9 items-center justify-center rounded-[10px] p-1 text-sm font-bold text-white lg:h-10"
-        />
+          {isExam ? (
+            !!row?.score_ratio ? (
+              <h3
+                className={cn(
+                  "flex items-center text-lg font-bold",
+                  row.passed ? "text-[#1EAD7B]" : "text-[#B75050]",
+                )}
+              >
+                {row.score_ratio ? (
+                  <span>{row.score_ratio}</span>
+                ) : (
+                  <>
+                    <span>%</span>
+                    <span>{rowValue}</span>
+                  </>
+                )}
+              </h3>
+            ) : (
+              <span className={cn("text-[16px] font-bold text-yellow-800")}>
+                جارى التصحيح
+              </span>
+            )
+          ) : (
+            <span className="text-[16px] font-bold text-[#1EAD7B]">
+              {rowValue}
+            </span>
+          )}
+        </div>
+      )}
+
+      {isExpired ? (
+        !haveAnswer ? null : (
+          <ExamPDFGenerator
+            taskId={row?.quiz_id}
+            className="bg-colorPrimary flex h-9 items-center justify-center rounded-[10px] p-1 text-sm font-bold text-white lg:h-10"
+          />
+        )
       ) : (
         <Link
           href={
-            row?.classroom_expired
+            isExpired
               ? ""
-              : `/bundles/${row.classroom_id}/${row.room_id}/${
-                  row.type === "امتحان" ? "exams" : "assignment"
-                }/${row.quiz_id}`
+              : row.type === "امتحان"
+                ? `/bundles/${row.classroom_id}/general-exams/${row.quiz_id}`
+                : `/bundles/${row.classroom_id}/${row.room_id}/${
+                    row.type === "كويز" ? "exams" : "assignment"
+                  }/${row.quiz_id}`
           }
           className={cn(
-            "bg-primary mx-auto flex h-9 w-[120px] items-center justify-center rounded-[10px] p-1 text-sm font-bold text-white lg:h-10 lg:w-[155px]",
+            "flex h-9 w-[120px] items-center justify-center rounded-[10px] bg-[#012D5A] p-1 text-sm font-bold text-white lg:h-10 lg:w-[155px]",
             {
-              "pointer-events-none cursor-not-allowed bg-red-600":
-                row?.classroom_expired,
+              "pointer-events-none cursor-not-allowed bg-red-600": isExpired,
             },
           )}
         >
-          {row?.classroom_expired
-            ? "تم انتهاء الكورس"
-            : ` عرض ${row.type === "امتحان" ? "الامتحان" : "الواجب"}`}
+          {isExpired ? "تم انتهاء الكورس" : ` عرض ال${row?.type}`}
         </Link>
       )}
     </div>

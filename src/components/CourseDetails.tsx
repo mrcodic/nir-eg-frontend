@@ -1,15 +1,18 @@
 "use client";
 
-import Exam from "@/components/Exam";
+import ExamCard from "@/components/ExamCard";
 import RoomHeader from "@/components/RoomHeader";
 import CourseActivitiesTable from "@/components/tables/CourseActivitiesTable";
 import RankTable from "@/components/tables/RankTable";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { getPublicData } from "@/helpers/client-fetch";
-import { ICourseDetails, IUser } from "@/types";
+import { getClientPrivateData, getPublicData } from "@/helpers/client-fetch";
+import { ApiResponse, ICourseDetails, IExamCard, IUser } from "@/types";
+import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
+import { useCallback, useMemo } from "react";
 import Empty from "./Empty";
 import InfiniteScroll from "./InfinteScroll";
+import LoadingSpinner from "./LoadingSpinner";
 import Room from "./Room";
 
 type Props = {
@@ -17,19 +20,19 @@ type Props = {
   profile: IUser;
 };
 
-const Tabs3 = [
+const CourseTabs = [
   {
     id: 1,
     title: "الحصص",
     iconSrc: "/assets/classrooms-fill.svg",
     value: "lessons",
   },
-  // {
-  //   id: 2,
-  //   title: "الامتحانات",
-  //   iconSrc: "/assets/ExamsColor.svg",
-  //   value: "exams",
-  // },
+  {
+    id: 2,
+    title: "الامتحانات",
+    iconSrc: "/assets/ExamsColor.svg",
+    value: "exams",
+  },
   {
     id: 3,
     title: "الانشطة",
@@ -47,16 +50,48 @@ const Tabs3 = [
 const CourseDetails = ({ details, profile }: Props) => {
   const { SingleCourse } = useParams();
 
-  const fetchData = async (page = 1) => {
-    const res = await getPublicData({
-      queryKey: [
-        `/students/get-rooms/${SingleCourse}?page=${page}&per_page=10`,
-      ],
-      isAuth: !!profile,
-    });
+  const {
+    data: courseExams,
+    isLoading: isLoadingExams,
+    error: examError,
+  } = useQuery({
+    queryKey: [`/students/get-exams/${SingleCourse}`],
+    queryFn: getClientPrivateData as () => Promise<
+      ApiResponse<{
+        incoming_exams: IExamCard[];
+        past_exams: IExamCard[];
+      }>
+    >,
+    enabled: !!profile,
+    retry: 1,
+  });
 
-    return res?.body?.rooms;
-  };
+  const fetchMoreData = useCallback(
+    async (page = 1) => {
+      const res = await getPublicData({
+        queryKey: [
+          `/students/get-rooms/${SingleCourse}?page=${page}&per_page=10`,
+        ],
+        isAuth: !!profile,
+      });
+
+      return res?.body?.rooms;
+    },
+    [SingleCourse, profile],
+  );
+
+  const hasExams =
+    !!courseExams?.body?.incoming_exams?.length ||
+    !!courseExams?.body?.past_exams?.length;
+
+  const visibleTabs = useMemo(
+    () =>
+      CourseTabs.filter((tab) => {
+        if (tab.value === "exams") return hasExams || profile?.type === 4;
+        return true;
+      }),
+    [hasExams, profile?.type],
+  );
 
   return (
     <Tabs
@@ -67,7 +102,7 @@ const CourseDetails = ({ details, profile }: Props) => {
       {details?.is_subscriped && (
         <TabsList className="mt-10 flex w-full justify-center">
           <div className="flex w-full justify-center gap-2 font-bold max-sm:flex-col md:gap-6">
-            {Tabs3.map((tab, index) => (
+            {visibleTabs.map((tab, index) => (
               <TabsTrigger
                 key={index}
                 value={tab.value}
@@ -95,7 +130,7 @@ const CourseDetails = ({ details, profile }: Props) => {
 
         {details?.rooms?.length ? (
           <InfiniteScroll
-            fetchData={fetchData}
+            fetchData={fetchMoreData}
             initialData={details?.rooms}
             pagination={details?.pagination}
             render={(data) => {
@@ -110,8 +145,7 @@ const CourseDetails = ({ details, profile }: Props) => {
                           details?.is_subscriped ||
                           details?.subscription_type === "حصة"
                         }
-                        verify={profile?.parent_phone_verification || true}
-                        // subType={details?.subscription_type || null}
+                        verify={profile?.parent_phone_verification}
                       />
                     );
                   })}
@@ -124,17 +158,44 @@ const CourseDetails = ({ details, profile }: Props) => {
         )}
       </TabsContent>
 
-      <TabsContent value="exams">
-        <RoomHeader
-          title="الامتحانات القادمة"
-          icon="/assets/english-icon.svg"
-        />
+      <TabsContent value="exams" className="mx-auto w-[85%]">
+        {isLoadingExams ? (
+          <LoadingSpinner />
+        ) : examError ? (
+          <Empty isError text="حدث خطاء اثناء عرض الامتحانات" />
+        ) : !hasExams ? (
+          <Empty text="لا يوجد امتحانات بعد" />
+        ) : (
+          <div className="mt-8">
+            {!!courseExams?.body?.incoming_exams?.length && (
+              <div>
+                <RoomHeader
+                  title="الامتحانات القادمة"
+                  icon="/assets/english-icon.svg"
+                />
+                <div className="flex flex-col gap-6">
+                  {courseExams.body.incoming_exams.map((exam, index) => (
+                    <ExamCard exam={exam} key={index} />
+                  ))}
+                </div>
+              </div>
+            )}
 
-        <div className="flex flex-col gap-6">
-          {details?.classroom_exams?.map((exam, index) => (
-            <Exam exam={exam} key={index} />
-          ))}
-        </div>
+            {!!courseExams?.body?.past_exams?.length && (
+              <div className="mt-10">
+                <RoomHeader
+                  title="الامتحانات السابقة"
+                  icon="/assets/english-icon.svg"
+                />
+                <div className="flex flex-col gap-6">
+                  {courseExams.body.past_exams.map((exam, index) => (
+                    <ExamCard isPreviousExam exam={exam} key={index} />
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
       </TabsContent>
 
       <TabsContent value="activities">

@@ -15,12 +15,15 @@ import { memo } from "react";
 import SureModal from "../modals/Sure";
 import TaskForm from "./TaskForm";
 
+export type ExamType = "general" | "exam";
+
 type Props = {
   start: QuizStatus;
   setStartExam: (startExam: boolean) => void;
+  examType?: ExamType;
 };
 
-const ExamForm = ({ start, setStartExam }: Props) => {
+const ExamForm = ({ start, setStartExam, examType = "exam" }: Props) => {
   const { examId } = useParams();
 
   if (!examId) {
@@ -102,6 +105,7 @@ const ExamForm = ({ start, setStartExam }: Props) => {
           start={start}
           taskId={examId.toString()}
           isLoadingRetake={isLoadingRetake}
+          examType={examType}
         />
       )}
 
@@ -113,6 +117,7 @@ const ExamForm = ({ start, setStartExam }: Props) => {
           start={start}
           taskId={examId.toString()}
           isLoadingRetake={isLoadingRetake}
+          examType={examType}
         />
       )}
     </>

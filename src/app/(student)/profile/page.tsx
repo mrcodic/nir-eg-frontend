@@ -6,12 +6,13 @@ import { StudentSelectCenterModal } from "@/components/modals/StudentSelectCente
 
 import Room from "@/components/Room";
 import RoomHeader from "@/components/RoomHeader";
+import { useAuthContext } from "@/context/auth-context";
 import { useModal } from "@/context/ModalProvider";
 import { getClientPrivateData } from "@/helpers/client-fetch";
 import ProfileHeaderCard from "@/modules/profile/components/ProfileHeaderCard";
 import ProfilePointsTable from "@/modules/profile/components/ProfilePointsTable";
 import StudentTasksOverview from "@/modules/profile/components/StudentTasksOverview";
-import { ApiResponse, IUser, LatestRoom } from "@/types";
+import { ApiResponse, LatestRoom } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import dynamic from "next/dynamic";
 import Link from "next/link";
@@ -22,6 +23,8 @@ const ProfileVerifyPhoneCard = dynamic(
 );
 
 const ProfilePage = () => {
+  const { profile } = useAuthContext();
+
   const modal = useModal();
   const modalShown = useRef(false);
 
@@ -32,30 +35,25 @@ const ProfilePage = () => {
     queryFn: getClientPrivateData,
   });
 
-  const { data: profileData } = useQuery({
-    queryKey: ["/students/profile"],
-    queryFn: getClientPrivateData as () => Promise<{ body: IUser }>,
-  });
-
   useEffect(() => {
     if (modalShown.current) return;
-    if (profileData?.body?.type === 3 && !profileData?.body?.has_center) {
+    if (profile?.type === 3 && !profile?.has_center) {
       modal.setDialogContent(<StudentSelectCenterModal />);
       modal.openModal();
       modalShown.current = true;
     }
-  }, [profileData, modal]);
+  }, [profile, modal]);
 
   return (
     <div className="mt-[140px] mb-12">
       <div className="wrapper">
         <Suspense fallback={null}>
-          {profileData?.body?.parent_phone_verification === false && (
-            <ProfileVerifyPhoneCard phone={profileData?.body?.parent_phone} />
+          {profile?.parent_phone_verification === false && (
+            <ProfileVerifyPhoneCard phone={profile?.parent_phone} />
           )}
         </Suspense>
 
-        <ProfileHeaderCard profileData={profileData?.body} />
+        <ProfileHeaderCard profileData={profile} />
 
         <StudentTasksOverview />
 
@@ -79,7 +77,7 @@ const ProfilePage = () => {
                     );
                   })}
                 </div>
-              ) : profileData?.body?.type === 4 ? (
+              ) : profile?.type === 4 ? (
                 <div className="flex flex-col items-center justify-center">
                   <Empty
                     text="لم تشترك في أي باقة بعد"

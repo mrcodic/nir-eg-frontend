@@ -17,8 +17,7 @@ const CoursesHeader = ({ details }: { details: ICourseDetails }) => {
     () => [
       {
         icon: "/assets/time.svg",
-        label: " الكورس متاح لمده:",
-        // title: convertMinutes(Number(body?.classroom_price)),
+        label: "الكورس متاح لمده:",
         title: details?.is_subscriped
           ? details?.classroom_expired_after
           : details?.classroom_duration,

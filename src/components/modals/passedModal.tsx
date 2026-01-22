@@ -13,6 +13,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { memo, Suspense } from "react";
 import SmallSpinner from "../custom/SmallSpinner";
+import { ExamType } from "../forms/ExamForm";
 import { Button } from "../ui/button";
 import { Skeleton } from "../ui/skeleton";
 
@@ -23,6 +24,7 @@ interface Props {
   retake: () => Promise<void>;
   taskId: string | number;
   isLoadingRetake: boolean;
+  examType?: ExamType;
 }
 
 const PassedModal = ({
@@ -32,6 +34,7 @@ const PassedModal = ({
   retake,
   taskId,
   isLoadingRetake,
+  examType,
 }: Props) => {
   const { SingleCourse, room } = useParams();
   console.log("start : ", start);
@@ -132,11 +135,15 @@ const PassedModal = ({
             )}
 
             <Link
-              href={`/bundles/${SingleCourse}/${room}`}
+              href={
+                examType === "general"
+                  ? `/bundles/${SingleCourse}`
+                  : `/bundles/${SingleCourse}/${room}`
+              }
               className="inline-block w-full"
             >
               <Button variant="outline" className="h-11 w-full font-bold">
-                الرجوع للحصه
+                الرجوع {examType === "general" ? "للكورس" : "للحصة"}
               </Button>
             </Link>
 

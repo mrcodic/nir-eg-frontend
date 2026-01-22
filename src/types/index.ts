@@ -1,5 +1,3 @@
-import { Control } from "react-hook-form";
-
 export interface IUser {
   avatar: string;
   city: string;
@@ -22,16 +20,6 @@ export interface IUser {
   type: number;
   updated_at: string;
   points: number;
-}
-
-declare interface CustomInputProps {
-  control: Control<any>;
-  name: string;
-  placeholder: string;
-  className?: string;
-  info?: string;
-  type?: string;
-  iconSrc?: string; // Icon support
 }
 
 export interface QuizStatus {
@@ -152,6 +140,46 @@ export interface QuizItem {
   timer?: string | number | null;
   user_id?: number | null;
   [key: string]: unknown;
+}
+
+export interface IExamCard {
+  id: number;
+  title: string;
+  price: number | null;
+  lock_after_days: number;
+  starts_at: string;
+  expires_at: string;
+  is_within_window: boolean;
+  missed: boolean;
+  locked: boolean;
+  created_at: string;
+  retake: boolean;
+  show_answer: boolean;
+  completed: boolean;
+  score: number | null;
+  passed: boolean | null;
+  score_percentage: number | null;
+  score_ratio: string;
+  score_text_ar: string;
+  duration: string;
+  message: string | null;
+}
+
+export interface IActivity {
+  classroom: string;
+  classroom_active: boolean;
+  classroom_expired: boolean;
+  classroom_expires_at: string;
+  classroom_id: number;
+  created_at: string;
+  passed: boolean;
+  quiz_id: number;
+  room_id: number;
+  score: number;
+  score_ratio: string;
+  title: string;
+  type: "امتحان" | string;
+  type_label?: string;
 }
 
 export enum paymentType {

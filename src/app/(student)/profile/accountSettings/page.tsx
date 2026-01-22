@@ -157,6 +157,7 @@ const PageSettings = () => {
                     label="الاسم الأول"
                   />
                 </div>
+
                 <div className="flex-1">
                   <CustomInput
                     name="last_name"

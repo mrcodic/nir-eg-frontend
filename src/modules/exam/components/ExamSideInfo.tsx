@@ -6,7 +6,7 @@ import { memo } from "react";
 type Props = {
   start: any;
   data: any;
-  setShowRoom: any;
+  setShowRoom?: any;
   defaultTitle?: string;
   startTimer?: boolean;
   onComplete?: (data: any) => void;
@@ -73,15 +73,17 @@ function ExamSideInfo({
         </div>
       )}
 
-      <Button
-        onClick={() => {
-          setShowRoom(true);
-        }}
-        variant="outline"
-        className="border-primary-800 text-primary-800 hover:bg-primary-800 mt-4 h-11 w-full text-base font-bold"
-      >
-        <span>عرض الحصة</span>
-      </Button>
+      {setShowRoom && (
+        <Button
+          onClick={() => {
+            setShowRoom(true);
+          }}
+          variant="outline"
+          className="border-primary-800 text-primary-800 hover:bg-primary-800 mt-4 h-11 w-full text-base font-bold"
+        >
+          <span>عرض الحصة</span>
+        </Button>
+      )}
 
       {startTimer && (
         <div className="border-secondary text-40 relative mt-4 flex w-full flex-col gap-4 rounded-lg border bg-white p-4 text-center font-bold text-black">
