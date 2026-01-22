@@ -342,21 +342,6 @@ export interface Sale {
   duration: number;
 }
 
-// export interface IRoom {
-//   id?: number;
-//   title?: string;
-//   description?: string | null;
-//   created_at?: string;
-//   price?: string | null;
-//   assignments?: Assignment[] | null;
-//   attachments?: Attachment[] | null;
-//   lessons?: Lesson[] | null;
-//   quizzes?: QuizItem[] | null;
-//   lock_after?: string | null;
-//   locked_to_pass?: boolean;
-//   [key: string]: unknown;
-// }
-
 export interface LatestRoom {
   classroom?: string;
   id: number;

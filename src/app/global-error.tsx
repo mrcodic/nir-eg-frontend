@@ -1,6 +1,5 @@
 "use client";
 
-import "rsuite/dist/rsuite-no-reset.min.css";
 import "./globals.css";
 
 import { Almarai } from "next/font/google";

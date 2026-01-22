@@ -5,9 +5,9 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
-import ExamPDFGenerator from "@/modules/exam/components/ExamPDFGenerator";
 import TaskModelScore from "@/modules/exam/components/TaskModelScore";
 import { QuizStatus } from "@/types";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -16,6 +16,13 @@ import SmallSpinner from "../custom/SmallSpinner";
 import { ExamType } from "../forms/ExamForm";
 import { Button } from "../ui/button";
 import { Skeleton } from "../ui/skeleton";
+
+const ExamPDFGenerator = dynamic(
+  () => import("@/modules/exam/components/ExamPDFGenerator"),
+  {
+    ssr: false,
+  },
+);
 
 interface Props {
   open: boolean;
@@ -105,11 +112,14 @@ const PassedModal = ({
           <hr className="border-gray-light my-3 h-px" />
 
           <div
-            className={cn("mt-6 grid w-full grid-cols-2 justify-center gap-6", {
-              "grid-cols-1":
-                start?.review_pending ||
-                (!start?.show_answer && !start?.retake),
-            })}
+            className={cn(
+              "mt-6 grid w-full justify-center gap-6 md:grid-cols-2",
+              {
+                "md:grid-cols-1":
+                  start?.review_pending ||
+                  (!start?.show_answer && !start?.retake),
+              },
+            )}
           >
             {!start?.review_pending && (
               <>

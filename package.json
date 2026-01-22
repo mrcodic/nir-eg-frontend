@@ -85,7 +85,6 @@
     "react-voice-visualizer": "^2.0.8",
     "react-wavy-audio": "^1.0.3",
     "recharts": "^3.2.1",
-    "rsuite": "^5.76.3",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
     "uuid": "^11.1.0",

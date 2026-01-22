@@ -1,3 +1,4 @@
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import {
   Bar,
   BarChart,
@@ -8,13 +9,12 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import useMediaQuery from "rsuite/useMediaQuery";
 
 const CustomTooltip = ({ active, payload }) => {
   if (active && payload && payload.length) {
     const data = payload[0].payload;
     return (
-      <div className="bg-white p-3 border border-gray-200 rounded-lg shadow-lg">
+      <div className="rounded-lg border border-gray-200 bg-white p-3 shadow-lg">
         <p className="font-semibold">Exam {data?.title}</p>
         <p className="text-sm">Score: {data?.percentage}%</p>
         <p
@@ -33,9 +33,9 @@ const CustomTooltip = ({ active, payload }) => {
 const ExamsPointsChart = ({
   exams,
 }: {
-  exams: { percent: number; passed: boolean; title: string }[];
+  exams: { percent?: number; score?: number; passed: boolean; title: string }[];
 }) => {
-  const [isDesktop] = useMediaQuery("md");
+  const [isDesktop] = useMediaQuery("(min-width: 768px)");
 
   const examData = exams.map((exam, index) => {
     return {
@@ -47,16 +47,16 @@ const ExamsPointsChart = ({
   });
 
   return (
-    <div className="w-full lg:col-span-8 lg:col-start-5 col-span-12">
-      <h2 className="text-[18px] font-bold mb-6">إحصائيات درجات الامتحان</h2>
+    <div className="col-span-12 w-full lg:col-span-8 lg:col-start-5">
+      <h2 className="mb-6 text-[18px] font-bold">إحصائيات درجات الامتحان</h2>
 
-      <div className="flex items-center gap-4 mb-4">
+      <div className="mb-4 flex items-center gap-4">
         <div className="flex items-center gap-2">
-          <div className="w-4 h-4 bg-[#B75050] rounded"></div>
+          <div className="h-4 w-4 rounded bg-[#B75050]"></div>
           <span className="text-sm">راسب</span>
         </div>
         <div className="flex items-center gap-2">
-          <div className="w-4 h-4 bg-[#1EAD7B] rounded"></div>
+          <div className="h-4 w-4 rounded bg-[#1EAD7B]"></div>
           <span className="text-sm">ناجح</span>
         </div>
       </div>
@@ -99,7 +99,7 @@ const ExamsPointsChart = ({
             width={!isDesktop ? 30 : 50}
           />
           <Tooltip
-            content={<CustomTooltip />}
+            content={CustomTooltip}
             cursor={{ fill: "rgba(0, 0, 0, 0.05)" }}
           />
           <Bar

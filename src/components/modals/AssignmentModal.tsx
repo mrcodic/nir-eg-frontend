@@ -5,15 +5,23 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
-import ExamPDFGenerator from "@/modules/exam/components/ExamPDFGenerator";
 import TaskModelScore from "@/modules/exam/components/TaskModelScore";
 import { QuizStatus } from "@/types";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { memo } from "react";
+import { memo, Suspense } from "react";
 import SmallSpinner from "../custom/SmallSpinner";
 import { Button } from "../ui/button";
+import { Skeleton } from "../ui/skeleton";
+
+const ExamPDFGenerator = dynamic(
+  () => import("@/modules/exam/components/ExamPDFGenerator"),
+  {
+    ssr: false,
+  },
+);
 
 interface Props {
   open: boolean;
@@ -132,7 +140,9 @@ const AssignmentModal = ({
               </Link>
 
               {start?.show_answer && !start?.review_pending && (
-                <ExamPDFGenerator taskId={taskId} />
+                <Suspense fallback={<Skeleton className="h-11 w-full" />}>
+                  <ExamPDFGenerator taskId={Number(taskId)} />
+                </Suspense>
               )}
             </div>
           </div>

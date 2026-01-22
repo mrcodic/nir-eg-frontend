@@ -13,7 +13,8 @@ import { AccordionContent } from "@radix-ui/react-accordion";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { memo, useMemo, useState } from "react";
-import { useMediaQuery } from "rsuite/esm/useMediaQuery/useMediaQuery";
+
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import FilterControls from "./FilterControls";
 import MessageInput from "./MessageInput";
 import UserMessage from "./UserMessage";

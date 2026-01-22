@@ -7,7 +7,7 @@ import Image from "next/image";
 import { useMemo } from "react";
 import PriceBadge from "../modules/payment/components/PriceBadge";
 import CourseInfoBadge from "./CourseInfoBadge";
-import SupportBadge from "./SupportBadge";
+import GroupJoinBadge from "./GroupJoinBadge";
 import DataWithLabel from "./ui/DataWithLabel";
 
 const CoursesHeader = ({ details }: { details: ICourseDetails }) => {
@@ -83,7 +83,7 @@ const CoursesHeader = ({ details }: { details: ICourseDetails }) => {
 
             {details?.is_subscriped &&
               (profile?.type == 4 || profile?.type == 5) && (
-                <SupportBadge gradeId={details?.grade_id} />
+                <GroupJoinBadge gradeId={details?.grade_id} />
               )}
           </div>
 

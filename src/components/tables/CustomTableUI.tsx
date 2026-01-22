@@ -24,8 +24,8 @@ type Props = {
   setPagination: (pagination: any) => void;
   pagination: any;
   pageCount: number;
-  isLoading: boolean;
-  isPlaceholderData: boolean;
+  isLoading?: boolean;
+  isPlaceholderData?: boolean;
 };
 
 export default function CustomTableUI({

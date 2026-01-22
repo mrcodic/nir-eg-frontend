@@ -1,11 +1,10 @@
 "use client";
+
 import PayFail from "@/components/modals/PayFail";
 import { PaySuccess } from "@/components/modals/PaySuccess";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import ReactConfetti from "react-confetti";
-import { CustomProvider } from "rsuite";
-import "rsuite/dist/rsuite-no-reset.min.css";
 import { useModal } from "../../context/ModalProvider";
 import "../globals.css";
 
@@ -40,5 +39,5 @@ export default function RootLayout({ children }) {
     }
   }, [modal, payment, router, searchParams]);
 
-  return <CustomProvider>{children}</CustomProvider>;
+  return <div>{children}</div>;
 }

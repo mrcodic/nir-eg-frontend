@@ -7,9 +7,13 @@ import ExamPDF from "./ExamPdf";
 
 const ExamPDFGenerator = ({
   taskId,
+  text,
+
   className,
 }: {
   taskId: number | string;
+  text?: string;
+
   className?: string;
 }) => {
   const [loading, setLoading] = useState(false);
@@ -88,7 +92,7 @@ const ExamPDFGenerator = ({
           جارى التهيئة
         </span>
       ) : (
-        "تنزيل نموذج الإجابة PDF"
+        text || "تنزيل نموذج الإجابة PDF"
       )}
     </Button>
   );
