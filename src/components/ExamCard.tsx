@@ -117,10 +117,10 @@ const ExamCard = ({ exam }: Props) => {
           (ctaHref ? (
             <Link
               href={ctaHref}
-              className="bg-colorPrimary border-secondary flex h-11 shrink-0 items-center gap-2 rounded-lg border px-2 py-2 text-black"
+              className="bg-primary border-secondary flex h-11 shrink-0 items-center gap-2 rounded-lg border px-2 py-2 text-white"
             >
               <span>{ctaLabel}</span>
-              <img src="/assets/LeftArrowColor.svg" />
+              <img src="/assets/LeftArrowColor.svg" className="size-5" />
             </Link>
           ) : (
             <div className="flex h-11 shrink-0 items-center gap-2 rounded-lg border border-black px-3 font-bold text-black">
