@@ -9,7 +9,7 @@ import { getClientPrivateData, getPublicData } from "@/helpers/client-fetch";
 import { ApiResponse, ICourseDetails, IExamCard, IUser } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import Empty from "./Empty";
 import InfiniteScroll from "./InfinteScroll";
 import LoadingSpinner from "./LoadingSpinner";
@@ -49,6 +49,7 @@ const CourseTabs = [
 
 const CourseDetails = ({ details, profile }: Props) => {
   const { SingleCourse } = useParams();
+  const [selectedTab, setSelectedTab] = useState("lessons");
 
   const {
     data: courseExams,
@@ -62,7 +63,7 @@ const CourseDetails = ({ details, profile }: Props) => {
         past_exams: IExamCard[];
       }>
     >,
-    enabled: !!profile,
+    enabled: !!profile && selectedTab === "exams",
     retry: 1,
   });
 
@@ -93,11 +94,15 @@ const CourseDetails = ({ details, profile }: Props) => {
     [hasExams, profile?.type],
   );
 
+  console.log(courseExams);
+
   return (
     <Tabs
       defaultValue="lessons"
       className={`wrapper mt-10 mb-12 flex flex-col gap-10 md:mb-[100px]`}
       dir="rtl"
+      value={selectedTab}
+      onValueChange={setSelectedTab}
     >
       {details?.is_subscriped && (
         <TabsList className="mt-10 flex w-full justify-center">

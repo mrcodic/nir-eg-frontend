@@ -84,7 +84,7 @@ const ExamCard = ({ exam }: Props) => {
           <div className="flex flex-wrap items-center justify-between gap-1">
             {exam.duration && (
               <div className="flex gap-2">
-                <img className="h-6 w-6" src="/assets/Time.svg" />
+                <img className="h-6 w-6" src="/assets/time.svg" />
                 <span className="text-sm font-medium">
                   مدة الامتحان:
                   <strong className="ms-1">{exam.duration} دقيقة</strong>
@@ -94,7 +94,7 @@ const ExamCard = ({ exam }: Props) => {
 
             {exam.created_at && (
               <div className="flex gap-2">
-                <img className="h-6 w-6" src="/assets/Calendar.svg" />
+                <img className="h-6 w-6" src="/assets/calendar.svg" />
                 <span className="text-[14px] font-medium">
                   تاريخ الامتحان:
                   <strong className="ms-1">
@@ -117,13 +117,13 @@ const ExamCard = ({ exam }: Props) => {
           (ctaHref ? (
             <Link
               href={ctaHref}
-              className="bg-colorPrimary border-secondary flex h-11 shrink-0 items-center gap-2 rounded-lg border px-2 py-2 text-white"
+              className="bg-colorPrimary border-secondary flex h-11 shrink-0 items-center gap-2 rounded-lg border px-2 py-2 text-black"
             >
               <span>{ctaLabel}</span>
               <img src="/assets/LeftArrowColor.svg" />
             </Link>
           ) : (
-            <div className="flex h-11 shrink-0 items-center gap-2 rounded-lg border border-black px-3 font-bold">
+            <div className="flex h-11 shrink-0 items-center gap-2 rounded-lg border border-black px-3 font-bold text-black">
               {ctaLabel}
             </div>
           ))}
