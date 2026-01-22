@@ -29,8 +29,38 @@ export default function GlobalError({
 }) {
   const isTenantError = isTenantNotFoundError(error);
 
+  const title = isTenantError
+    ? "الموقع غير موجود | NIR EDU"
+    : "حدث خطأ غير متوقع | NIR EDU";
+
+  const description = isTenantError
+    ? "الموقع التعليمي الذي تحاول الوصول إليه غير موجود أو لم يتم إنشاؤه بعد. يمكنك إنشاء موقعك التعليمي الآن عبر NIR EDU."
+    : "حدث خطأ غير متوقع أثناء تحميل الموقع. يرجى المحاولة مرة أخرى لاحقًا.";
+
   return (
     <html lang="ar" dir="rtl">
+      <head>
+        {/* Primary */}
+        <title>{title}</title>
+        <meta name="description" content={description} />
+
+        {/* Robots */}
+        <meta name="robots" content="noindex, nofollow" />
+
+        {/* Open Graph */}
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:type" content="website" />
+        <meta property="og:locale" content="ar_EG" />
+        <meta property="og:site_name" content="NIR EDU" />
+        <meta property="og:url" content="https://nir-edu.com/" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+      </head>
+
       <body
         className={cn(
           almarai.className,
@@ -60,7 +90,7 @@ export default function GlobalError({
               {isTenantError ? (
                 <>
                   يبدو أن الرابط الذي تحاول الوصول إليه غير مرتبط بأي موقع
-                  تعليمي حاليًا، أو أن اسم النطاق غير صحيح.
+                  تعليمي حاليًا.
                   <br />
                   يمكنك إنشاء موقعك التعليمي الخاص أو الانضمام إلينا بسهولة.
                 </>
