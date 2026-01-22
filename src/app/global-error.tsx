@@ -14,6 +14,12 @@ const almarai = Almarai({
   weight: ["400", "700"],
 });
 
+const isTenantNotFoundError = (error: Error) => {
+  return (
+    error.name === "TenantNotFoundError" || error.message === "TENANT_NOT_FOUND"
+  );
+};
+
 export default function GlobalError({
   error,
   reset,
@@ -21,6 +27,8 @@ export default function GlobalError({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  const isTenantError = isTenantNotFoundError(error);
+
   return (
     <html lang="ar" dir="rtl">
       <body
@@ -31,12 +39,11 @@ export default function GlobalError({
       >
         <main className="wrapper grid min-h-screen place-items-center">
           <div className="w-full max-w-md space-y-6 text-center">
-            {/* Logo placeholder */}
+            {/* Logo */}
             <div className="relative mx-auto size-38">
-              {/* Replace src with your real logo */}
               <Image
                 src="/logo.svg"
-                alt="Company Logo"
+                alt="NIR EDU"
                 fill
                 className="object-contain"
                 priority
@@ -44,19 +51,41 @@ export default function GlobalError({
             </div>
 
             {/* Title */}
-            <h1 className="text-2xl font-bold">حدث خطأ غير متوقع</h1>
+            <h1 className="text-2xl font-bold">
+              {isTenantError ? "الموقع غير موجود" : "حدث خطأ غير متوقع"}
+            </h1>
 
             {/* Description */}
             <p className="text-muted-foreground text-sm leading-relaxed">
-              نعتذر، حدثت مشكلة أثناء تحميل الصفحة. يمكنك المحاولة مرة أخرى أو
-              التواصل معنا إذا استمرت المشكلة.
+              {isTenantError ? (
+                <>
+                  يبدو أن الرابط الذي تحاول الوصول إليه غير مرتبط بأي موقع
+                  تعليمي حاليًا، أو أن اسم النطاق غير صحيح.
+                  <br />
+                  يمكنك إنشاء موقعك التعليمي الخاص أو الانضمام إلينا بسهولة.
+                </>
+              ) : (
+                <>
+                  نعتذر، حدثت مشكلة أثناء تحميل الصفحة.
+                  <br />
+                  يمكنك المحاولة مرة أخرى أو التواصل معنا إذا استمرت المشكلة.
+                </>
+              )}
             </p>
 
             {/* Actions */}
             <div className="flex flex-col justify-center gap-3 sm:flex-row">
-              <Button onClick={reset} className="w-full sm:w-auto">
-                حاول مرة أخرى
-              </Button>
+              {isTenantError ? (
+                <Button asChild className="w-full sm:w-auto">
+                  <Link href="https://nir-edu.com/" target="_blank">
+                    إنشاء موقع تعليمي الآن
+                  </Link>
+                </Button>
+              ) : (
+                <Button onClick={reset} className="w-full sm:w-auto">
+                  حاول مرة أخرى
+                </Button>
+              )}
 
               <Button variant="outline" asChild className="w-full sm:w-auto">
                 <Link
@@ -68,10 +97,10 @@ export default function GlobalError({
               </Button>
             </div>
 
-            {/* Optional debug info (hidden in prod) */}
+            {/* Dev Debug */}
             {process.env.NODE_ENV === "development" && (
               <pre className="bg-muted mt-6 overflow-auto rounded-lg p-4 text-left text-xs">
-                {error.message}
+                {error.name}: {error.message}
               </pre>
             )}
           </div>

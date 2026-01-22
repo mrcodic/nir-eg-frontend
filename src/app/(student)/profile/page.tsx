@@ -4,7 +4,7 @@ import Empty from "@/components/Empty";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { StudentSelectCenterModal } from "@/components/modals/StudentSelectCenterModal";
 
-import Room from "@/components/Room";
+import RoomAccordion from "@/components/RoomAccordion";
 import RoomHeader from "@/components/RoomHeader";
 import { useAuthContext } from "@/context/auth-context";
 import { useModal } from "@/context/ModalProvider";
@@ -67,11 +67,11 @@ const ProfilePage = () => {
                 <div className="flex flex-col gap-4">
                   {rooms?.body?.map((room) => {
                     return (
-                      <Room
+                      <RoomAccordion
                         key={room?.id}
                         isProfile={true}
                         room={room?.latest_room}
-                        verify={true}
+                        verify={profile?.parent_phone_verification}
                         subscribe={room?.is_subscriped}
                       />
                     );

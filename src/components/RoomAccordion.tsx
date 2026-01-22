@@ -17,7 +17,7 @@ import RoomDropDownQuiz from "./RoomDropDownItem";
 import RoomFileDownloadLink from "./RoomFileDownloadLink";
 import RoomProgressBadge from "./RoomProgressBadge";
 
-const Room = ({
+const RoomAccordion = ({
   isProfile,
   room,
   subscribe,
@@ -177,7 +177,7 @@ const Room = ({
                       room={room}
                       SingleCourse={SingleCourse}
                       subscribe={subscribe || room?.is_subscriped}
-                      verify={verify || room?.parent_phone_verification}
+                      verify={verify}
                       locked={lock_after == 0}
                       linkText="فتح الامتحان"
                       type="exam"
@@ -238,4 +238,4 @@ const Room = ({
   );
 };
 
-export default Room;
+export default RoomAccordion;

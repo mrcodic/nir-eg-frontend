@@ -9,7 +9,7 @@ import { Form } from "@/components/ui/form";
 import UploadWithCrop from "@/components/UploadImage";
 import { useToast } from "@/hooks/use-toast";
 import { editProfileSchema } from "@/lib/schemas";
-import { getPhoneInfoFromCode } from "@/lib/utils";
+import { cn, getPhoneInfoFromCode } from "@/lib/utils";
 import { mapTypeToText } from "@/utils/clientFun";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
@@ -120,6 +120,7 @@ const PageSettings = () => {
 
         queryClient.invalidateQueries({ queryKey: ["/students/profile"] });
         setIsChangePassword(false);
+        form.reset();
         router.refresh();
       }
     } catch (err) {
@@ -133,12 +134,22 @@ const PageSettings = () => {
     }
   };
 
+  const isDirty = form.formState.dirtyFields;
+
+  console.log(isDirty);
+
   return (
     <div className="wrapper mt-[168px] mb-12">
       <div className="border-gray-light mx-auto w-full rounded-lg border p-4 md:max-w-[792px]">
         <h1 className="text-xl font-bold">إعدادات الحساب</h1>
+
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="mt-10 w-full">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className={cn("mt-10 w-full", {
+              "pointer-events-none animate-pulse": isLoading,
+            })}
+          >
             <div className="flex gap-6">
               <UploadWithCrop
                 defaultAvatar={profile?.avatar}
@@ -194,7 +205,7 @@ const PageSettings = () => {
               </div>
 
               <div className="mt-6 flex w-full flex-col items-center gap-6 md:flex-row">
-                <CustomCityStateField form={form} isSettings />
+                <CustomCityStateField form={form} />
               </div>
 
               {profile?.type === 3 && (

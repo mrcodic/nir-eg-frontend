@@ -1,5 +1,8 @@
+"use client";
+
 import { getPublicData } from "@/helpers/client-fetch";
-import { memo, useCallback, useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { memo, useCallback, useMemo, useState } from "react";
 import { UseFormReturn, useWatch } from "react-hook-form";
 import { ComboboxForm } from "./ComboBoxForm";
 
@@ -33,20 +36,11 @@ const stateOptions = [
   { value: "27", label: "سوهاج" },
 ];
 
-function CustomCityStateField({
-  form,
-  isSettings,
-}: {
-  form: UseFormReturn<any>;
-  isSettings?: boolean;
-}) {
+type Option = { value: string; label: string };
+
+function CustomCityStateField({ form }: { form: UseFormReturn<any> }) {
   const [stateOpen, setStateOpen] = useState(false);
   const [cityOpen, setCityOpen] = useState(false);
-
-  const [cities, setCities] = useState([]);
-
-  const [stateValue, setStateValue] = useState(null);
-  const [cityValue, setCityValue] = useState(null);
 
   const watchState = useWatch({
     control: form.control,
@@ -58,82 +52,79 @@ function CustomCityStateField({
     name: "city_id",
   });
 
-  const onSelctCity = useCallback(
-    (option) => {
-      setCityOpen(false);
-      const id = String(option.value);
-      setCityValue({ value: id, label: option.label });
-      form.setValue("city_id", Number(option.value), {
+  const stateId = watchState ? String(watchState) : null;
+
+  const { data: cities = [], isLoading } = useQuery({
+    queryKey: stateId ? [`states/${stateId}/cities`] : [],
+    queryFn: getPublicData,
+    enabled: !!stateId,
+    staleTime: 1000 * 60 * 5,
+    select: (response) =>
+      Array.isArray(response)
+        ? response.map((c) => ({
+            value: String(c.id),
+            label: c.name,
+          }))
+        : [],
+  });
+
+  const selectedState = useMemo(
+    () => stateOptions.find((s) => String(s.value) === String(watchState)),
+    [watchState],
+  );
+
+  const selectedCity = useMemo(() => {
+    return cities.find((c) => String(c.value) === String(watchCity));
+  }, [cities, watchCity]);
+
+  const onSelctState = useCallback(
+    (option: Option) => {
+      setStateOpen(false);
+
+      form.setValue("state_id", Number(option.value), {
         shouldValidate: true,
+        shouldDirty: true,
       });
+
+      // reset city when state changes
+      form.setValue("city_id", "", { shouldValidate: true });
     },
     [form],
   );
 
-  const onSelctState = useCallback(
-    async (option) => {
-      setStateOpen(false);
-      const id = String(option.value);
-      setStateValue({ value: id, label: option.label });
+  const onSelctCity = useCallback(
+    (option: Option) => {
+      setCityOpen(false);
 
-      form.setValue("state_id", Number(id), {
+      form.setValue("city_id", Number(option.value), {
         shouldValidate: true,
+        shouldDirty: true,
       });
-
-      const response = await getPublicData({
-        queryKey: [`states/${id}/cities`],
-      });
-
-      const mapped = Array.isArray(response)
-        ? response.map((c) => ({ value: String(c.id), label: c.name }))
-        : [];
-      setCities(mapped);
-
-      // for initial render to populate user data
-      if (isSettings && watchCity && !cityValue) {
-        const city = mapped.find((c) => String(c.value) == String(watchCity));
-
-        onSelctCity(city);
-      } else {
-        setCityValue(null);
-        form.setValue("city_id", "", { shouldValidate: true });
-      }
     },
-    [isSettings, watchCity, cityValue, onSelctCity, form],
+    [form],
   );
-
-  // for initial render to populate user data
-  useEffect(() => {
-    if (!isSettings || stateValue) return;
-    if (watchState) {
-      const state = stateOptions.find(
-        (c) => String(c.value) == String(watchState),
-      );
-      onSelctState(state);
-    }
-  }, [watchState, isSettings, onSelctState, stateValue]);
 
   return (
     <>
       <ComboboxForm
         options={stateOptions}
         open={stateOpen}
-        value={stateValue}
+        value={selectedState ?? null}
         setOpen={setStateOpen}
         onSelect={onSelctState}
         label="المحافظة"
-        placeholder={"بحث عن محافظة "}
+        placeholder="بحث عن محافظة"
         error={form.formState.errors.state_id?.message}
       />
 
       <ComboboxForm
         options={cities}
         open={cityOpen}
-        value={cityValue}
+        value={selectedCity ?? null}
         setOpen={setCityOpen}
         onSelect={onSelctCity}
         label="المدينة"
-        placeholder="بحث عن مدينة "
+        placeholder={isLoading ? "جاري تحميل المدن..." : "بحث عن مدينة"}
         error={form.formState.errors.city_id?.message}
       />
     </>

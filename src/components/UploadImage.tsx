@@ -53,7 +53,7 @@ export default function UploadWithCrop({
 
   useEffect(() => {
     setValue("avatar", selectedFile);
-  }, [selectedFile]);
+  }, [selectedFile, setValue]);
 
   return (
     <div className="relative flex w-full flex-col gap-5 max-sm:items-center sm:flex-row">
@@ -87,7 +87,7 @@ export default function UploadWithCrop({
       <div className="flex items-end gap-4 max-sm:justify-center sm:ms-auto">
         <label
           htmlFor="file"
-          className="bg-primary-800 hover:bg-primary-800/90 flex h-11 shrink-0 cursor-pointer gap-4 self-end rounded-lg p-2"
+          className="bg-primary-800 hover:bg-primary-800/90 flex h-11 shrink-0 cursor-pointer items-center gap-4 self-end rounded-lg p-2"
         >
           <span className="font-bold text-white">
             {selectedFile ? "تعديل الصورة" : "إضافة صورة"}
@@ -101,7 +101,7 @@ export default function UploadWithCrop({
             variant="destructive"
             className="h-11 text-base font-bold"
           >
-            مسح الصورة
+            ازالة الصورة
           </Button>
         )}
       </div>

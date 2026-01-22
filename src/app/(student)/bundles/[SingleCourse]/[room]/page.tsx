@@ -135,7 +135,7 @@ const SingleVideo = () => {
     <>
       <ProtectedRoute
         subscribed={data?.body?.is_subscriped}
-        verify={data?.body?.parent_phone_verification}
+        verify={profile?.parent_phone_verification}
         data={data}
         isLoading={isLoading}
       >

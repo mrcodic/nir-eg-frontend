@@ -13,7 +13,7 @@ import { useCallback, useMemo } from "react";
 import Empty from "./Empty";
 import InfiniteScroll from "./InfinteScroll";
 import LoadingSpinner from "./LoadingSpinner";
-import Room from "./Room";
+import RoomAccordion from "./RoomAccordion";
 
 type Props = {
   details: ICourseDetails;
@@ -138,7 +138,7 @@ const CourseDetails = ({ details, profile }: Props) => {
                 <div className="flex flex-col gap-4">
                   {data?.map((room, index) => {
                     return (
-                      <Room
+                      <RoomAccordion
                         key={index}
                         room={room}
                         subscribe={

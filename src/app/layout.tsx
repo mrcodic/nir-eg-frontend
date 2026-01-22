@@ -84,7 +84,9 @@ export default async function Layout({ children }) {
   const tenantSettings = await getTenantSettingsServer();
 
   if (!tenantSettings) {
-    throw new Error("Tenant settings not found");
+    const error = new Error("TENANT_NOT_FOUND");
+    error.name = "TenantNotFoundError";
+    throw error;
   }
 
   // console.log("tenantSettings", tenantSettings);

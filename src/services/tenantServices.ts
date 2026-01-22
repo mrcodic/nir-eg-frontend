@@ -1,5 +1,6 @@
 import { getServerData } from "@/helpers/server-fetch";
 import { extractTenantFromHostServer } from "@/helpers/server-utils";
+import CustomError from "@/lib/customError";
 import { TenantLandingResponse, TenantSettings } from "@/types/tenant.types";
 import { cache } from "react";
 
@@ -15,6 +16,13 @@ export const getTenantSettingsServer = cache(async () => {
     return response?.body as TenantSettings;
   } catch (error) {
     console.log(error);
+    if (error instanceof CustomError) {
+      if (error.status === 404) {
+        const error = new Error("TENANT_NOT_FOUND");
+        error.name = "TenantNotFoundError";
+        throw error;
+      }
+    }
     throw error;
   }
 });
