@@ -487,6 +487,7 @@ export interface ICourseDetails {
 
   grade_id: number;
   grade_name: string;
+  grade_group_link?: string;
 
   has_promocode: boolean;
   is_subscriped: boolean;

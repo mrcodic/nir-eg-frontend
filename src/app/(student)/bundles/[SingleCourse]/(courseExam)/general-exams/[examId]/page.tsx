@@ -73,7 +73,7 @@ const ExamPage = () => {
             style={{
               boxShadow: "0px 2px 10px 4px rgba(157,130,66,0.20)",
             }}
-            className="my-[16px] flex items-center gap-4 rounded-lg bg-[#FBF6F0] p-2"
+            className="my-4 flex items-center gap-4 rounded-lg bg-[#FBF6F0] p-2"
           >
             <img src="/assets/TimeClock.svg" />
             <div className="flex flex-col gap-2 text-[16px] text-[#121212]">
