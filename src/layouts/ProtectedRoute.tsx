@@ -43,7 +43,7 @@ const ProtectedRoute = ({
       return (
         <div className="h-screen">
           {" "}
-          <Empty text={text || " انت غير مشترك في هذا الكورس  "} />{" "}
+          <Empty isError text={text || " انت غير مشترك في هذا الكورس  "} />{" "}
         </div>
       );
 

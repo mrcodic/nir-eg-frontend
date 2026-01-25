@@ -1,6 +1,7 @@
 "use client";
 
 import { getClientPrivateData } from "@/helpers/client-fetch";
+import CustomError from "@/lib/customError";
 import { quizSchema } from "@/lib/schemas";
 import { QuizStatus } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -55,6 +56,8 @@ interface TaskContextType {
   // task info
   taskType: string;
   taskId: string;
+
+  isTaskClosed: boolean;
 }
 
 const TaskContext = createContext<TaskContextType | null>(null);
@@ -92,7 +95,7 @@ export const TaskProvider = ({ children, taskType = "exam" }) => {
   const [completed, setCompleted] = useState(false);
 
   // ===== fetch start =====
-  const { data: start, isLoading } = useQuery<QuizStatus>({
+  const { data: start, isLoading ,error} = useQuery<QuizStatus>({
     queryKey: [`/students/quiz/start/${taskId}`],
     queryFn: async () => {
       const res = await getClientPrivateData({
@@ -110,6 +113,7 @@ export const TaskProvider = ({ children, taskType = "exam" }) => {
   useEffect(() => {
     document.documentElement.scroll({ top: 0 });
   }, []);
+
 
   // ✅ memoized context value (NO form)
   const value = useMemo<TaskContextType>(
@@ -137,6 +141,8 @@ export const TaskProvider = ({ children, taskType = "exam" }) => {
 
       taskType,
       taskId,
+
+      isTaskClosed: error instanceof CustomError && error?.status === 406,
     }),
     [
       control,
@@ -153,6 +159,7 @@ export const TaskProvider = ({ children, taskType = "exam" }) => {
       onComplete,
       taskType,
       taskId,
+      error
     ],
   );
 
