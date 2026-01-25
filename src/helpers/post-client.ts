@@ -4,7 +4,11 @@ import { buildApiUrl, extractTenantFromHost } from "./fetch-utils";
 
 export async function mutateClient<T = any>(
   endpoint: string,
-  { body, auth = false }: { body: unknown; auth?: boolean },
+  {
+    body,
+    auth = false,
+    headers,
+  }: { body: unknown; auth?: boolean; headers?: Record<string, string> },
 ): Promise<T> {
   try {
     const token = auth ? Cookies.get("nir_token") : undefined;
@@ -15,6 +19,7 @@ export async function mutateClient<T = any>(
       headers: {
         "X-Tenant-Domain": host,
         ...(auth && token ? { Authorization: `Bearer ${token}` } : {}),
+        ...headers,
       },
       withCredentials: true,
     });

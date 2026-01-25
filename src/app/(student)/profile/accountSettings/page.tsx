@@ -13,7 +13,6 @@ import { cn, getPhoneInfoFromCode } from "@/lib/utils";
 import { mapTypeToText } from "@/utils/clientFun";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -22,8 +21,8 @@ import StudentCenterField from "@/components/custom/StudentCenterField";
 import OtpModal from "@/components/modals/OtpModal";
 import { useAuthContext } from "@/context/auth-context";
 import { useModal } from "@/context/ModalProvider";
+import { mutateClient } from "@/helpers/post-client";
 import ChangePasswordSettings from "@/modules/profile/components/ChangePasswordSettings";
-import Cookies from "js-cookie";
 
 const PageSettings = () => {
   const router = useRouter();
@@ -67,7 +66,6 @@ const PageSettings = () => {
 
   const onSubmit = async (values) => {
     try {
-      const tokenCookie = Cookies.get("nir_token");
       // check if change password is active and now password fields are entered
       if (changePassword) {
         if (
@@ -95,24 +93,20 @@ const PageSettings = () => {
         rest.center_id = center_id;
       }
 
-      const response = await axios.post(
-        "/api?url=/students/profile/edit&type=formData",
-        {
+      const response = await mutateClient("/students/profile/edit", {
+        body: {
           ...rest,
           parent_phone: parent_phone.phone,
           country: parent_phone.country,
           country_iso: parent_phone.country_iso,
         },
-        {
-          headers: {
-            "content-type": "multipart/form-data",
-
-            Authorization: `Bearer ${tokenCookie}`,
-          },
+        auth: true,
+        headers: {
+          "content-type": "multipart/form-data",
         },
-      );
+      });
 
-      if (response?.data?.code === 200) {
+      if (response?.code === 200) {
         toast({
           description: "تم حفظ التغييرات بنجاح",
           icon: "success",
