@@ -65,7 +65,7 @@ function ExpiredOrInvalid({
         {token ? (
           <button
             onClick={handleSendNewLink}
-            className="w-full md:w-[189px] bg-colorPrimary h-10 text-lg font-bold text-white rounded-lg border flex items-center justify-center gap-1 border-[#D9B45C] py-0 disabled:opacity-80"
+            className="w-full md:w-[189px] bg-secondary h-10 text-lg font-bold text-white rounded-lg border flex items-center justify-center gap-1 border-[#D9B45C] py-0 disabled:opacity-80"
             disabled={isLoading}
           >
             {isLoading && <Loader2Icon className="animate-spin size-4" />}
@@ -74,7 +74,7 @@ function ExpiredOrInvalid({
         ) : (
           <Link
             href="/"
-            className="w-full flex items-center justify-center md:w-[189px] bg-colorPrimary h-10 text-lg font-bold text-white rounded-lg border border-[#D9B45C] py-0"
+            className="w-full flex items-center justify-center md:w-[189px] bg-secondary h-10 text-lg font-bold text-white rounded-lg border border-[#D9B45C] py-0"
           >
             الرجوع للرئيسية
           </Link>

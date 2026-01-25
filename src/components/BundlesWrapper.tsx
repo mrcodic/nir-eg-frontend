@@ -3,6 +3,7 @@
 import { useAuthContext } from "@/context/auth-context";
 import { useModal } from "@/context/ModalProvider";
 import { getClientPrivateData, getPublicData } from "@/helpers/client-fetch";
+import { Bundle, Grade } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
@@ -29,7 +30,12 @@ const BundlesWrapper = () => {
     api = `/guest/bundels?grade_id=${searchParams.get("grade") || 1}`;
   }
 
-  const { data, isLoading: isLoadingBundles } = useQuery({
+  const { data, isLoading: isLoadingBundles } = useQuery<{
+    body: {
+      budles: Bundle[];
+      grade:Grade
+    } | Bundle[];
+  }>({
     queryKey: [api],
     queryFn: profile ? getClientPrivateData : getPublicData,
     gcTime: 0,
@@ -39,6 +45,7 @@ const BundlesWrapper = () => {
   const bundlesData = profile ? data?.body?.budles : data?.body;
 
   if (!bundlesData?.length || isLoadingBundles) return null;
+
 
   return (
     <div className="wrapper">

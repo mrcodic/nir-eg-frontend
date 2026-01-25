@@ -87,6 +87,7 @@ const ExamForm = ({ start, setStartExam, examType = "exam" }: Props) => {
           setStartExam(false);
           localStorage.removeItem(`timer${examId}`);
         }}
+        examType={examType}
       />
 
       {sure && (

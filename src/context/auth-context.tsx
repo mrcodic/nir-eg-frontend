@@ -34,6 +34,7 @@ export const AuthContextProvider = ({ children }) => {
   const { data: profileData, isLoading } = useQuery({
     queryFn: getClientPrivateData as () => Promise<{ body: IUser }>,
     queryKey: ["/students/profile"],
+    staleTime: 1000 * 60 * 60,
   });
 
   const logout = useCallback(async () => {

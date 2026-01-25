@@ -115,7 +115,7 @@ const columns = [
             <ExamPDFGenerator
               taskId={row?.id}
               text="تنزيل نموذج الإجابة"
-              className="bg-colorPrimary flex h-10 items-center justify-center rounded-[10px] p-1 text-xs font-bold text-white sm:text-sm"
+              className="bg-secondary flex h-10 items-center justify-center rounded-[10px] p-1 text-xs font-bold text-white sm:text-sm"
             />
           )}
         </div>
@@ -143,7 +143,6 @@ export default function ParentPortalTable({
     (pagination.pageIndex + 1) * PAGE_SIZE,
   );
 
-  // console.log(currentPageQuizzes);
 
   return (
     <CustomTableUI

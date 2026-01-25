@@ -89,7 +89,7 @@ export const usePayment = ({
         if (response?.data?.payment_url) {
           const normalizedUrl = response.data.payment_url.startsWith("http")
             ? response.data.payment_url
-            : `https://${response.data.payment_url}`;
+            : `http://${response.data.payment_url}`;
           router.push(normalizedUrl);
         } else {
           throw new Error("حصل مشكله اثناء الدفع");

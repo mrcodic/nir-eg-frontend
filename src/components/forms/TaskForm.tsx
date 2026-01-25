@@ -10,10 +10,12 @@ import Question from "@/modules/exam/components/Question";
 import WrittenQuestion from "@/modules/exam/components/WrittenQuestion";
 import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import { useParams } from "next/navigation";
 import { memo, useCallback, useEffect, useRef } from "react";
 import { useFormContext } from "react-hook-form";
 import SmallSpinner from "../custom/SmallSpinner";
 import { Button } from "../ui/button";
+import { ExamType } from "./ExamForm";
 
 type Props = {
   taskId: string | number;
@@ -23,6 +25,7 @@ type Props = {
   setFail: (v: boolean) => void;
   setResolver: (v: any) => void;
   onTaskSubmit?: () => void;
+  examType?: ExamType;
 };
 
 function TaskForm({
@@ -33,8 +36,11 @@ function TaskForm({
   setFail,
   setResolver,
   onTaskSubmit,
+  examType = "exam",
 }: Props) {
   const { toast } = useToast();
+  const { SingleCourse: classroomId, room: roomId } = useParams();
+
 
   const queryClient = useQueryClient();
   const listRef = useRef<HTMLDivElement[]>([]);
@@ -129,6 +135,19 @@ function TaskForm({
         queryKey: [`/students/quiz/start/${taskId}`],
       });
 
+      if(examType === "general"){
+        queryClient.invalidateQueries({
+          queryKey: [`/students/get-exams/${classroomId}`],
+        });
+      }
+
+    if(examType !== "general" && roomId){
+      queryClient.invalidateQueries({
+        queryKey: [
+          `/students/get-lessons/${roomId}?classroom_id=${classroomId}`,
+        ],
+      });}
+
       await new Promise((r) => setTimeout(r, 1000));
 
       if (res.data?.body?.result || res.data?.body?.review_pending) {
@@ -158,6 +177,9 @@ function TaskForm({
     setSuccess,
     taskId,
     toast,
+    examType,
+    classroomId,
+    roomId,
   ]);
 
   // ================= AUTO SUBMIT =================
