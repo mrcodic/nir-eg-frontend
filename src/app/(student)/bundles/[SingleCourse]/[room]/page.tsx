@@ -45,6 +45,8 @@ const SingleVideo = () => {
     serialize: (v) => encodeURIComponent(v),
   });
 
+  const hasVideoId = videoId && videoId !== "" && videoId !== "null" && videoId !== "undefined";
+
   const { data, isLoading } = useQuery({
     queryFn: getClientPrivateData as () => Promise<ApiResponse<IRoomDetails>>,
     queryKey: [`/students/get-lessons/${room}?classroom_id=${classroomId}`],
@@ -119,11 +121,11 @@ const SingleVideo = () => {
   );
 
   useEffect(() => {
-    if (videoId && !otpData) {
+    if (hasVideoId && !otpData) {
       console.log("fetching otp and views");
       fetchOtpAndViews(videoId);
     }
-  }, [fetchOtpAndViews, otpData, videoId]);
+  }, [fetchOtpAndViews, otpData, videoId,hasVideoId]);
 
   // initialize lesson id and video id from video id searchparam
   useEffect(() => {
@@ -164,6 +166,8 @@ const SingleVideo = () => {
   ) {
     redirect(`/bundles/${classroomId}`);
   }
+
+  console.log("lessons : ", data?.body?.lessons);
 
   return (
     <>
@@ -225,7 +229,7 @@ const SingleVideo = () => {
                     lessonId={lessonId || data?.body?.lessons?.[0]?.id}
                     videoCompleted={videoCompleted}
                     exceededViews={lockedByViewLimit}
-                    otpError={otpError}
+                    otpError={!hasVideoId || otpError}
                   />
                 )}
               </div>
