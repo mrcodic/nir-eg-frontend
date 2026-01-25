@@ -42,7 +42,7 @@ const BundlesWrapper = () => {
     enabled: !isLoading && profile?.type !== 5,
   });
 
-  const bundlesData = profile ? data?.body?.budles : data?.body;
+  const bundlesData = profile ? (data?.body as {budles:Bundle[]})?.budles : data?.body as Bundle[];
 
   if (!bundlesData?.length || isLoadingBundles) return null;
 
@@ -114,7 +114,7 @@ const BundlesWrapper = () => {
                 </div>
 
                 <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
-                  {!bundle.is_subscribed && (
+                  {!bundle?.is_subscribed && (
                     <div className="flex w-full flex-wrap gap-x-6 gap-y-4 text-sm font-bold">
                       <Button
                         onClick={() => {
@@ -151,7 +151,7 @@ const BundlesWrapper = () => {
                     </div>
                   )}
 
-                  {bundle.is_subscribed === true && (
+                  {bundle?.is_subscribed === true && (
                     <div className="bg-primary mt-6 flex w-[116px] items-center justify-center rounded-lg border border-[#9D8242] py-1 text-sm font-bold text-white">
                       مشترك
                     </div>

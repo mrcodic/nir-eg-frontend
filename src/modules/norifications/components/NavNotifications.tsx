@@ -37,7 +37,7 @@ function NavNotifications() {
 
   if (isLoading || !notifications || !notifications?.data) return null;
 
-  // console.log("notif : ", notifications);
+  console.log("notif : ", notifications);
 
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>

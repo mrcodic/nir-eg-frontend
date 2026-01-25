@@ -340,6 +340,7 @@ export interface Bundle {
   name: string;
   cover: string;
   price: string;
+  is_subscribed?: boolean;
   classrooms: CourseType[];
   grade: Grade;
   sale: Sale | null;
