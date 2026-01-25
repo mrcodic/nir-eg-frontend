@@ -94,8 +94,6 @@ const CourseDetails = ({ details, profile }: Props) => {
     [hasExams, profile?.type],
   );
 
-  console.log(courseExams);
-
   return (
     <Tabs
       defaultValue="lessons"
@@ -163,7 +161,7 @@ const CourseDetails = ({ details, profile }: Props) => {
         )}
       </TabsContent>
 
-      <TabsContent value="exams" className="mx-auto w-[85%]">
+      <TabsContent value="exams">
         {isLoadingExams ? (
           <LoadingSpinner />
         ) : examError ? (
@@ -171,12 +169,12 @@ const CourseDetails = ({ details, profile }: Props) => {
         ) : !hasExams ? (
           <Empty text="لا يوجد امتحانات بعد" />
         ) : (
-          <div className="mt-8">
+          <div>
             {!!courseExams?.body?.incoming_exams?.length && (
               <div>
                 <RoomHeader
                   title="الامتحانات القادمة"
-                  icon="/assets/english-icon.svg"
+                  icon="/assets/assignment-colored.svg"
                 />
                 <div className="flex flex-col gap-6">
                   {courseExams.body.incoming_exams.map((exam, index) => (

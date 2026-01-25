@@ -1,7 +1,7 @@
 "use client";
 
 import { getClientPrivateData } from "@/helpers/client-fetch";
-import { StudentActivitiesData, StudentActivity } from "@/types";
+import { IActivity, StudentActivitiesData } from "@/types";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { createColumnHelper } from "@tanstack/react-table";
 import Link from "next/link";
@@ -10,7 +10,7 @@ import { useState } from "react";
 import GradesTableAction from "../GradesTableAction";
 import CustomTableUI from "./CustomTableUI";
 
-const columnHelper = createColumnHelper<StudentActivity>();
+const columnHelper = createColumnHelper<IActivity>();
 
 const columns = [
   columnHelper.accessor("title", {

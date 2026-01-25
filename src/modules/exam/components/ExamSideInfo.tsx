@@ -56,7 +56,7 @@ function ExamSideInfo({
                 WebkitTextStrokeWidth: 1,
                 WebkitTextStrokeColor: "#d9b45c",
               }}
-              className="textStroke absolute -top-[2px] z-0 flex items-center text-xl"
+              className="textStroke absolute -top-0.5 z-0 flex items-center text-xl"
             >
               {" "}
               {start?.score_ratio + " "}درجة

@@ -1,21 +1,21 @@
 "use client";
 
-import { MyTimer } from "@/components/CountdownTimer";
 import ExamForm from "@/components/forms/ExamForm";
+import RoomSheet from "@/components/sheets/RoomSheet";
 import { useTaskContext } from "@/context/TaskProvider";
 import ProtectedRoute from "@/layouts/ProtectedRoute";
 import { cn } from "@/lib/utils";
 import ExamSideInfo from "@/modules/exam/components/ExamSideInfo";
 import ExamSideNav from "@/modules/exam/components/ExamSideNav";
 import SubmitLoader from "@/modules/exam/components/SubmitLoader";
-import Image from "next/image";
-import { memo } from "react";
 
 const ExamPage = () => {
   const {
     start,
     isLoading,
     data,
+    showRoom,
+    setShowRoom,
     startExam,
     setStartExam,
     onComplete,
@@ -31,64 +31,32 @@ const ExamPage = () => {
     >
       <div
         className={cn(
-          "mx-auto mt-[110px] mb-[186px] flex h-[calc(100%-80px)] w-[85%] flex-col items-center py-4 md:flex-row md:items-start md:gap-10 lg:gap-[122px]",
-          { "pointer-events-none opacity-70": isSubmitting },
+          "wrapper mt-28 mb-[186px] flex h-[calc(100%-80px)] flex-col items-center gap-8 py-4 group-data-[template=landing-v3]/template:mt-32 md:items-start lg:flex-row",
+          // {
+          //   "mt-32": template == 3,
+          // },
         )}
       >
         <div
           className={cn(
-            "top-[85px] flex flex-col space-y-4 overflow-y-auto max-md:w-full md:sticky md:max-h-[calc(100vh-164px)]",
-            {
-              "top-[170px] mt-[30px]": startExam,
-            },
+            "top-[85px] flex flex-col space-y-4 overflow-y-auto group-data-[template=landing-v3]/template:top-29 max-lg:w-full lg:sticky lg:max-h-[calc(100vh-90px)] group-data-[template=landing-v3]/template:lg:max-h-[calc(100vh-126px)]",
+            // {
+            //   "top-29 lg:max-h-[calc(100vh-126px)]": template == 3,
+            // },
           )}
         >
-          {startExam && (
-            <div className="fixed top-[85px] z-[888] flex h-20 w-full max-w-[244px] items-center justify-center rounded-[10px] bg-no-repeat p-2 max-md:right-0 md:p-4">
-              <Image
-                src={"/assets/Container.svg"}
-                fill
-                className="object-auto min-h-full min-w-full object-center"
-                alt="container image"
-              />
-              {start?.timer && (
-                <div className="relative text-center text-2xl font-bold text-[#B75050]">
-                  <MyTimer
-                    start={startExam}
-                    minutes={start?.timer}
-                    onComplete={onComplete}
-                  />
-                </div>
-              )}
-            </div>
-          )}
-
-          <ExamSideInfo data={data} start={start} />
+          <ExamSideInfo
+            data={data}
+            start={start}
+            setShowRoom={setShowRoom}
+            startTimer={startExam && !!start?.timer}
+            onComplete={onComplete}
+          />
 
           <ExamSideNav />
         </div>
 
-        <div className="w-full min-w-[50%] flex-1">
-          <div
-            style={{
-              boxShadow: "0px 2px 10px 4px rgba(157,130,66,0.20)",
-            }}
-            className="my-4 flex items-center gap-4 rounded-lg bg-[#FBF6F0] p-2"
-          >
-            <img src="/assets/TimeClock.svg" />
-            <div className="flex flex-col gap-2 text-[16px] text-[#121212]">
-              <div className="flex gap-2 text-[14px]">
-                <span className="font-medium text-[#121212]">وقت الامتحان</span>
-                <span className="inline-block font-bold text-[#012D5A]">
-                  {start?.timer}
-                </span>
-                <span className="inline-block font-bold text-[#012D5A]">
-                  دقيقة
-                </span>
-              </div>
-            </div>
-          </div>
-
+        <div className="flex-1 self-stretch">
           <ExamForm
             start={start}
             setStartExam={setStartExam}
@@ -96,10 +64,12 @@ const ExamPage = () => {
           />
         </div>
 
+        {showRoom && <RoomSheet open={showRoom} setOpen={setShowRoom} />}
+
         <SubmitLoader isSubmitting={isSubmitting} />
       </div>
     </ProtectedRoute>
   );
 };
 
-export default memo(ExamPage);
+export default ExamPage;

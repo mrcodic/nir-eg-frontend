@@ -120,6 +120,7 @@ const PageSettings = () => {
 
         queryClient.invalidateQueries({ queryKey: ["/students/profile"] });
         setIsChangePassword(false);
+        setSelectedFile(null);
         form.reset();
         router.refresh();
       }

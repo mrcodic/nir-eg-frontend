@@ -165,23 +165,6 @@ export interface IExamCard {
   message: string | null;
 }
 
-export interface IActivity {
-  classroom: string;
-  classroom_active: boolean;
-  classroom_expired: boolean;
-  classroom_expires_at: string;
-  classroom_id: number;
-  created_at: string;
-  passed: boolean;
-  quiz_id: number;
-  room_id: number;
-  score: number;
-  score_ratio: string;
-  title: string;
-  type: "امتحان" | string;
-  type_label?: string;
-}
-
 export enum paymentType {
   wallet = "WALLET",
   visa = "CARD",
@@ -308,22 +291,22 @@ export interface TopStudent {
   total_correct: number;
 }
 
-export type StudentActivity = {
-  title: string;
-  type: string;
-
+export interface IActivity {
   classroom: string;
-  classroom_id: number;
   classroom_active: boolean;
   classroom_expired: boolean;
-  classroom_expires_at: string | null;
+  classroom_expires_at: string;
+  classroom_id: number;
   created_at: string;
-  score: number | null;
-  passed: boolean | null;
-  score_ratio?: string | null;
-  room_id: number;
+  passed: boolean;
   quiz_id: number;
-};
+  room_id: number;
+  score: number;
+  score_ratio: string;
+  title: string;
+  type: "امتحان" | string;
+  type_label?: string;
+}
 
 export interface StudentActivitiesData {
   classroom_active: boolean;
@@ -331,7 +314,7 @@ export interface StudentActivitiesData {
   expires_at: string;
   pagination: InnerPagination;
   remaining_days: number;
-  students: StudentActivity[];
+  students: IActivity[];
 }
 
 export interface Sale {

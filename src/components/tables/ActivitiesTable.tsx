@@ -2,14 +2,14 @@
 
 import { getClientPrivateData } from "@/helpers/client-fetch";
 import { cn } from "@/lib/utils";
-import { InnerPagination, StudentActivity } from "@/types";
+import { IActivity, InnerPagination } from "@/types";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useState } from "react";
 import GradesTableAction from "../GradesTableAction";
 import CustomTableUI from "./CustomTableUI";
 
-const columnHelper = createColumnHelper<StudentActivity>();
+const columnHelper = createColumnHelper<IActivity>();
 
 const columns = [
   columnHelper.accessor("title", {
@@ -85,7 +85,7 @@ export default function ActivitiesTable() {
 
   const { data, isLoading, isPlaceholderData } = useQuery<{
     body: {
-      students: StudentActivity[];
+      students: IActivity[];
       pagination: InnerPagination;
     };
   }>({
