@@ -172,7 +172,7 @@ const UserMessage = ({
             <Image
               unoptimized
               src={avatar || "/assets/avatar-user.svg"}
-              className="rounded-lg"
+              className="rounded-lg size-11"
               width={44}
               height={44}
               alt="avatar"

@@ -32,10 +32,7 @@ export default function UploadWithCrop({
         alert("Selected image is too large!");
         return;
       }
-      setValue("avatar", file, {
-        shouldValidate: true,
-        shouldDirty: true,
-      });
+
 
       const fileWithPreview = Object.assign(file, {
         preview: URL.createObjectURL(file),
@@ -55,6 +52,7 @@ export default function UploadWithCrop({
   });
 
   useEffect(() => {
+    // console.log("file url : ",URL.createObjectURL(selectedFile));
     setValue("avatar", selectedFile, {
       shouldValidate: true,
       shouldDirty: true,

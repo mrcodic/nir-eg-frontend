@@ -64,9 +64,8 @@ const PageSettings = () => {
     values: defaultData,
   });
 
-  const onSubmit = async (values) => {
+  const onSubmit = async (values: any) => {
     try {
-      // check if change password is active and now password fields are entered
       if (changePassword) {
         if (
           !values.password ||
@@ -77,6 +76,7 @@ const PageSettings = () => {
             description: "يرجى ادخال كلمة المرور الجديدة",
             icon: "error",
           });
+
           form.setError("password", {
             type: "manual",
             message: "يرجى ادخال كلمة المرور الجديدة",
@@ -87,23 +87,37 @@ const PageSettings = () => {
 
       setIsLoading(true);
 
-      const { parent_phone, center_id, ...rest } = values;
+      const formData = new FormData();
 
-      if (center_id && profile?.type === 3) {
-        rest.center_id = center_id;
+      if (values.parent_phone) {
+        formData.append("parent_phone", values.parent_phone.phone);
+        formData.append("country", values.parent_phone.country);
+        formData.append("country_iso", values.parent_phone.country_iso);
       }
 
+      if (values.center_id && profile?.type === 3) {
+        formData.append("center_id", String(values.center_id));
+      }
+
+      const ignoredKeys = new Set(["parent_phone", "center_id"]);
+
+      Object.entries(values).forEach(([key, value]) => {
+        if (ignoredKeys.has(key)) return;
+        if (value === undefined || value === null || value === "") return;
+
+        if (key === "avatar" && value instanceof File) {
+          formData.append("avatar", value);
+          return;
+        }
+
+        if (typeof value !== "object") {
+          formData.append(key, String(value));
+        }
+      });
+
       const response = await mutateClient("/students/profile/edit", {
-        body: {
-          ...rest,
-          parent_phone: parent_phone.phone,
-          country: parent_phone.country,
-          country_iso: parent_phone.country_iso,
-        },
+        body: formData,
         auth: true,
-        headers: {
-          "content-type": "multipart/form-data",
-        },
       });
 
       if (response?.code === 200) {
@@ -112,22 +126,26 @@ const PageSettings = () => {
           icon: "success",
         });
 
-        queryClient.invalidateQueries({ queryKey: ["/students/profile"] });
+        queryClient.invalidateQueries({
+          queryKey: ["/students/profile"],
+        });
+
         setIsChangePassword(false);
         setSelectedFile(null);
         form.reset();
         router.refresh();
       }
-    } catch (err) {
-      console.log(err);
+    } catch (err: any) {
       toast({
-        description: err?.response?.data?.error?.message || "   حدث خطأ ما",
+        description:
+          err?.response?.data?.error?.message || "حدث خطأ ما",
         icon: "error",
       });
     } finally {
       setIsLoading(false);
     }
   };
+
 
   return (
     <div className="wrapper mt-[168px] mb-12">

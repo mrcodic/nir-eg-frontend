@@ -35,7 +35,7 @@ function NavUserMenu({ profile }) {
           <CustomImage
             src={profile?.avatar}
             size={56}
-            className="rounded-full"
+            className="rounded-full size-14"
             alt="user avatar"
           />
 

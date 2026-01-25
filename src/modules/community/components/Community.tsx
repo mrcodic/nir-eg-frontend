@@ -26,9 +26,10 @@ type CommunityProps = {
   lessonId: string | number;
   currentTime: number;
   locked: boolean;
+  isYoutubeVideo: boolean;
 };
 
-const Community = ({ lessonId, currentTime, locked }: CommunityProps) => {
+const Community = ({ lessonId, currentTime, locked, isYoutubeVideo }: CommunityProps) => {
   const [filterMode, setFilterMode] = useState<"all" | "current">("current");
   const [currentPage, setCurrentPage] = useState(1);
   const [isMobile] = useMediaQuery("(max-width: 1024px)");
@@ -69,20 +70,20 @@ const Community = ({ lessonId, currentTime, locked }: CommunityProps) => {
     <div className="mt-6">
       {!locked && (
         <div className="flex flex-col gap-2">
-          <div className="ms-[68px] hidden flex-wrap gap-2 md:flex">
+          {!isYoutubeVideo && <div className="ms-[68px] hidden flex-wrap gap-2 md:flex">
             <p className="text-gray-dark text-xs font-medium">
               سيتم كتابة ملاحظاتك في الدقيقة
             </p>
             <p className="text-xs font-bold text-[#523412]">
               {secondsToHms(currentTime)}
             </p>
-          </div>
+          </div>}
 
           <div className="flex items-start gap-x-6 gap-y-2 max-sm:flex-wrap">
             <Image
               unoptimized
               src={comments?.avatar || "/assets/avatar-user.svg"}
-              className="rounded-lg"
+              className="rounded-lg size-11"
               onError={(e) => {
                 e.currentTarget.src = "/assets/avatar-user.svg";
               }}
@@ -119,11 +120,10 @@ const Community = ({ lessonId, currentTime, locked }: CommunityProps) => {
           <div className="my-3 flex items-center justify-between">
             <h2 className="text-[12px] font-bold">ملاحظات الطلاب</h2>
 
-            {/* Filter Controls */}
-            <FilterControls
+            {!isYoutubeVideo && <FilterControls
               filterMode={filterMode}
               setFilterMode={setFilterMode}
-            />
+            />}
           </div>
 
           <Accordion

@@ -249,6 +249,7 @@ const SingleVideo = () => {
                     currentTime={currentTime}
                     locked={data?.body?.locked_to_pass || lockedByViewLimit}
                     lessonId={lessonId || data?.body?.lessons?.[0]?.id}
+                    isYoutubeVideo={!!videoUrl}
                   />
                 )}
             </div>

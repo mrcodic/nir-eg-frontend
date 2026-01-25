@@ -124,8 +124,7 @@ export function ImageCropper({
         const fileWithPreview: FileWithPreview = Object.assign(croppedFile, {
           preview: croppedImageUrl,
         });
-        fileWithPreview.originalImage =
-          selectedFile?.originalImage || URL.createObjectURL(selectedFile);
+        
 
         setSelectedFile(fileWithPreview);
         setCroppedImage(croppedImageUrl);
