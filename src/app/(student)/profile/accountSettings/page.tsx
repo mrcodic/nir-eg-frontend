@@ -135,10 +135,6 @@ const PageSettings = () => {
     }
   };
 
-  const isDirty = form.formState.dirtyFields;
-
-  console.log(isDirty);
-
   return (
     <div className="wrapper mt-[168px] mb-12">
       <div className="border-gray-light mx-auto w-full rounded-lg border p-4 md:max-w-[792px]">
@@ -262,7 +258,13 @@ const PageSettings = () => {
                 {changePassword && <ChangePasswordSettings form={form} />}
               </div>
 
-              <Button type="submit" className="mt-10 w-full max-w-[172px]">
+              <Button
+                type="submit"
+                disabled={
+                  isLoading || !Object.keys(form.formState.dirtyFields).length
+                }
+                className="mt-10 w-full max-w-[172px]"
+              >
                 {isLoading ? <SmallSpinner /> : "حفظ التغيرات"}
               </Button>
 
