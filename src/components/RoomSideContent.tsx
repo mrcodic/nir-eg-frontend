@@ -15,11 +15,18 @@ import { Button } from "./ui/button";
 
 type RoomSideContentProps = {
   data: IRoomDetails | undefined;
-  onLessonClick?: (videoId?: string, lessonId?: string | number) => void;
+  onLessonClick?: (
+    videoId: string,
+    lessonId: number,
+    videoType: "youtube" | "cipher",
+  ) => void;
   locked: boolean;
   videoId?: string;
+  videoUrl?: string;
   className?: string;
 };
+
+const isProd = process.env.NODE_ENV === "production";
 
 // ------- main component ----------
 
@@ -28,6 +35,7 @@ const RoomSideContent = ({
   onLessonClick,
   locked,
   videoId,
+  videoUrl,
   className,
 }: RoomSideContentProps) => {
   const { SingleCourse, room } = useParams();
@@ -77,10 +85,30 @@ const RoomSideContent = ({
           key={lesson.id}
           lesson={lesson}
           locked={locked}
-          active={videoId === lesson.vedio_id}
+          active={
+            lesson?.video_type === "youtube"
+              ? videoUrl !== lesson?.video_link
+              : videoId !== lesson?.vedio_id
+          }
           roomId={data.room.id}
           classroomId={SingleCourse as string}
-          onClick={() => onLessonClick?.(lesson.vedio_id, lesson.id)}
+          onClick={() =>
+            !!onLessonClick
+              ? onLessonClick?.(
+                  lesson?.video_type === "youtube"
+                    ? lesson?.video_link
+                    : lesson?.vedio_id,
+                  lesson?.id,
+                  lesson?.video_type,
+                )
+              : router.push(
+                  `/bundles/${SingleCourse}/${data.room.id}?${
+                    lesson?.video_type === "youtube"
+                      ? `video_url=${encodeURIComponent(lesson?.video_link)}`
+                      : `video_id=${lesson?.vedio_id}`
+                  }`,
+                )
+          }
         />
       ))}
 
@@ -231,8 +259,6 @@ const QuizCard = memo(function QuizCard({
     </div>
   );
 });
-
-const isProd = process.env.NODE_ENV === "production";
 
 const AttachmentCard = memo(function AttachmentCard({
   attachment,

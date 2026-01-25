@@ -30,7 +30,7 @@ export const generatePointHref = (row: Row): string => {
 
   switch (row.type) {
     case "درس":
-      return `${base}/${row.room_id}?vedio_id=${row.video_id}`;
+      return `${base}/${row.room_id}?video_id=${row.video_id}`;
     case "كورس":
       return base;
     case "حصة":

@@ -10,15 +10,15 @@ export default function Aman() {
 
   return (
     <div>
-      <h3 className="text-[18px] font-bold text-[#121212] mt-[56px]">
+      <h3 className="mt-[56px] text-[18px] font-bold text-[#121212]">
         كود الدفع الخاص بك:
       </h3>
-      <div className="border mt-[16px]  rounded-lg border-primary py-[32px] px-[40px]">
-        <h4 className="text-sm text-[#121212] font-medium">
+      <div className="border-primary mt-[16px] rounded-lg border px-[40px] py-[32px]">
+        <h4 className="text-sm font-medium text-[#121212]">
           الكود المرجعي الخاص بك:
         </h4>
         <div className="flex justify-between">
-          <h3 className="text-[#523412] text-[24px] font-bold mt-[8px]">
+          <h3 className="mt-[8px] text-[24px] font-bold text-[#523412]">
             {data?.body?.kiosk_reference || data?.kiosk_reference}
           </h3>
           <CopyButton
@@ -26,7 +26,7 @@ export default function Aman() {
           />
         </div>
       </div>
-      <p className="text-[#523412] font-bold text-sm my-[16px]">
+      <p className="my-[16px] text-sm font-bold text-[#523412]">
         سيتم فتح الحصة أو الكورس خلال 30 دقيقة من إتمام عملية الدفع
       </p>
       <div className="flex flex-col">
@@ -34,9 +34,9 @@ export default function Aman() {
           style={{
             boxShadow: "0px 2px 10px 4px rgba(157,130,66,0.20)",
           }}
-          className="p-4 flex gap-[16px] bg-background border text-sm font-bold text-[#523412] border-gray-light rounded-lg"
+          className="bg-background border-gray-light flex gap-[16px] rounded-lg border p-4 text-sm font-bold text-[#523412]"
         >
-          <img src="/assets/WarningColor.svg" />
+          <img src="/assets/icons/WarningColor.svg" />
           <div>
             <p>
               يرجى التأكد من ادخال الكود بطريقة صحيحة و الاحتفاظ بإيصال الدفع.
@@ -45,19 +45,19 @@ export default function Aman() {
               هذا الكود صالح ل{" "}
               <span dir="ltr">
                 {formatDateToArabic(
-                  data?.body?.expiration_time || data?.expiration_time
+                  data?.body?.expiration_time || data?.expiration_time,
                 )}
               </span>{" "}
               .
             </p>
           </div>
         </div>
-        <div className="flex mt-[16px] gap-[24px]">
+        <div className="mt-[16px] flex gap-[24px]">
           <div
             style={{
               boxShadow: "0px 2px 10px 4px rgba(157,130,66,0.20)",
             }}
-            className="p-4 flex-1 items-center flex gap-[16px] bg-background border text-sm font-bold text-[#523412] border-gray-light rounded-lg"
+            className="bg-background border-gray-light flex flex-1 items-center gap-[16px] rounded-lg border p-4 text-sm font-bold text-[#523412]"
           >
             <div>
               <p>
@@ -71,7 +71,7 @@ export default function Aman() {
             style={{
               boxShadow: "0px 2px 10px 4px rgba(157,130,66,0.20)",
             }}
-            className="p-4 pb-0 flex-1 justify-between items-center flex gap-[16px] bg-background border text-sm font-bold text-[#523412] border-gray-light rounded-lg"
+            className="bg-background border-gray-light flex flex-1 items-center justify-between gap-[16px] rounded-lg border p-4 pb-0 text-sm font-bold text-[#523412]"
           >
             <div>
               <p>أو ادفع عن طريق تطبيق أمان</p>

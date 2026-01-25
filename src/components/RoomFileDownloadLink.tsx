@@ -44,7 +44,7 @@ function RoomFileDownloadLink({
       setIsDownloading(true);
 
       const res = await fetch(
-        isProd ? attachment.url : `/api/blob-proxy?url=${attachment.url}`
+        isProd ? attachment.url : `/api/blob-proxy?url=${attachment.url}`,
       );
 
       if (!res.ok) throw new Error("Download failed");
@@ -74,9 +74,9 @@ function RoomFileDownloadLink({
   return (
     <div
       key={index}
-      className="p-2 border justify-between rounded-md bg-background border-gray-light flex"
+      className="bg-background border-gray-light flex justify-between rounded-md border p-2"
     >
-      <div className="font-bold flex gap-2 items-center">
+      <div className="flex items-center gap-2 font-bold">
         <Image
           width={28}
           height={28}
@@ -89,13 +89,13 @@ function RoomFileDownloadLink({
 
       {subscribe && verify && (
         <LinkLocked locked={isLocked}>
-          <span
+          <button
             role="button"
             onClick={handleDownload}
-            className="text-sm font-medium cursor-pointer"
+            className="cursor-pointer text-sm font-medium"
           >
             {isDownloading ? "جاري التحميل..." : "تنزيل الملف"}
-          </span>
+          </button>
         </LinkLocked>
       )}
     </div>

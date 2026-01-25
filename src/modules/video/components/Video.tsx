@@ -48,7 +48,7 @@ export default function Video(props: VideoProps) {
     return (
       <div className="flex-1 space-y-8">
         <TopBanner
-          icon={<img src="/assets/WarningColor.svg" />}
+          icon={<img src="/assets/icons/WarningColor.svg" />}
           render={
             <span className="text-sm font-medium">
               {exceededViews

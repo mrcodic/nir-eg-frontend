@@ -27,7 +27,10 @@ export default function ReachModal({ open, setOpen }) {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-w-2xl rounded-lg bg-white p-8 shadow-lg">
           <div className="flex gap-2">
-            <img src="/assets/WarningColor.svg" className="h-[42px] w-[42px]" />
+            <img
+              src="/assets/icons/WarningColor.svg"
+              className="h-[42px] w-[42px]"
+            />
             <div>
               <h3 className="text-[20px] font-bold text-[#121212]">
                 لا يمكنك الوصول لمحتوى الباقة دون تأكيد رقم ولي الأمر{" "}

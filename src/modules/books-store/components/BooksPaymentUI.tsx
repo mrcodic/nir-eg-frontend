@@ -105,7 +105,7 @@ export const BooksPaymentUI: React.FC<PaymentUIProps> = ({
       {paymentMethodValue === paymentType.fawerypay && (
         <span className="mb-2 text-sm font-bold text-red-600">
           <Image
-            src={"/assets/WarningColor.svg"}
+            src={"/assets/icons/WarningColor.svg"}
             width={30}
             height={30}
             alt="warinng"

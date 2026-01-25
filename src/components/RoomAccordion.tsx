@@ -1,6 +1,6 @@
 "use client";
 
-import RoomRevision from "@/components/RoomRevision";
+import LessonRoomCard from "@/components/LessonRoomCard";
 import {
   Accordion,
   AccordionContent,
@@ -187,13 +187,12 @@ const RoomAccordion = ({
 
               {room?.lessons?.map((lesson, index) => {
                 return (
-                  <RoomRevision
+                  <LessonRoomCard
                     key={index}
                     lesson={lesson}
                     subscribe={subscribe || room?.is_subscriped}
                     verify={verify || room?.parent_phone_verification}
                     roomId={room?.id}
-                    latestRoomId={room?.id}
                     locked={room?.locked_to_pass || lock_after == 0}
                   />
                 );

@@ -131,3 +131,41 @@ export const getRemainingTimeArabic = (expiresAt: string | Date) => {
 
   return `باقي ${minutes} دقيقة`;
 };
+
+export function normalizeYouTubeUrl(url: string): string | null {
+  try {
+    const parsed = new URL(url);
+    let videoId: string | null = null;
+
+    // youtu.be/VIDEO_ID
+    if (parsed.hostname === "youtu.be") {
+      videoId = parsed.pathname.slice(1);
+    }
+
+    // youtube.com/watch?v=VIDEO_ID
+    if (parsed.searchParams.has("v")) {
+      videoId = parsed.searchParams.get("v");
+    }
+
+    // youtube.com/embed/VIDEO_ID
+    if (parsed.pathname.startsWith("/embed/")) {
+      videoId = parsed.pathname.split("/embed/")[1];
+    }
+
+    // youtube.com/shorts/VIDEO_ID
+    if (parsed.pathname.startsWith("/shorts/")) {
+      videoId = parsed.pathname.split("/shorts/")[1];
+    }
+
+    // youtube.com/v/VIDEO_ID (legacy)
+    if (parsed.pathname.startsWith("/v/")) {
+      videoId = parsed.pathname.split("/v/")[1];
+    }
+
+    if (!videoId) return null;
+
+    return `https://www.youtube.com/embed/${videoId}`;
+  } catch {
+    return null;
+  }
+}

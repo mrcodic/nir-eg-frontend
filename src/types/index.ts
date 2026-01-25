@@ -399,7 +399,12 @@ interface Lesson {
   duration: string;
   lesson_order: number;
   title: string;
-  vedio_id: string;
+  vedio_id?: string;
+  video_link?: string;
+  video_type: "youtube" | "cipher";
+
+  // detemined if user is allowed to view comments
+  access_comment: 0 | 1;
 }
 
 export interface Attachment {

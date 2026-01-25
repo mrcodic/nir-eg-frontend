@@ -1,6 +1,7 @@
 "use client";
 
 import TopBanner from "@/components/banners/TopBanner";
+import LockedToPassVideoUI from "@/components/LockedToPassVideoUI";
 import RoomSideContent from "@/components/RoomSideContent";
 import { useAuthContext } from "@/context/auth-context";
 import { getClientPrivateData } from "@/helpers/client-fetch";
@@ -9,24 +10,40 @@ import Community from "@/modules/community/components/Community";
 import DisableDevTools from "@/modules/video/components/DisableDivTools";
 import Video from "@/modules/video/components/Video";
 import { ApiResponse, IRoomDetails } from "@/types";
+import { normalizeYouTubeUrl } from "@/utils/clientFun";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { redirect, useParams, useSearchParams } from "next/navigation";
+import { redirect, useParams } from "next/navigation";
+import { useQueryState } from "nuqs";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 const SingleVideo = () => {
   const { SingleCourse: classroomId, room } = useParams();
-  const searchParams = useSearchParams();
 
   const [otpData, setOtpData] = useState(null);
   const [currentTime, setCurrentTime] = useState(0);
   const [lockedByViewLimit, setLockedByViewLimit] = useState(false);
   const [viewCount, setViewCount] = useState(null);
   const [otpError, setOtpError] = useState(false);
-  const [videoId, setVideoId] = useState("");
   const [lessonId, setLessonId] = useState(null);
 
   const { profile } = useAuthContext();
+
+  const [videoId, setVideoId] = useQueryState("video_id", {
+    defaultValue: "",
+    history: "push",
+    shallow: true,
+    clearOnDefault: true,
+  });
+
+  const [videoUrl, setVideoUrl] = useQueryState("video_url", {
+    defaultValue: "",
+    history: "push",
+    shallow: true,
+    clearOnDefault: true,
+    parse: (v) => decodeURIComponent(v),
+    serialize: (v) => encodeURIComponent(v),
+  });
 
   const { data, isLoading } = useQuery({
     queryFn: getClientPrivateData as () => Promise<ApiResponse<IRoomDetails>>,
@@ -38,11 +55,23 @@ const SingleVideo = () => {
       ?.completed;
   }, [data, videoId]);
 
-  const handleLessonSelect = useCallback(
-    (vid, lessId) => {
-      if (vid === videoId && lessId === lessonId) return;
+  const selectedLesson = useMemo(
+    () => data?.body?.lessons?.find((lesson) => lesson.id === lessonId),
+    [data?.body?.lessons, lessonId],
+  );
 
-      setVideoId(vid);
+  const handleLessonSelect = useCallback(
+    (vid: string, lessId: number, type: string) => {
+      if (lessId === lessonId) return;
+
+      if (type === "youtube") {
+        setVideoUrl(vid);
+        setVideoId(null);
+      } else {
+        setVideoId(vid);
+        setVideoUrl(null);
+      }
+
       setLessonId(lessId);
       setViewCount(null);
       setLockedByViewLimit(false);
@@ -50,77 +79,82 @@ const SingleVideo = () => {
       setCurrentTime(0);
       setOtpError(false);
     },
-    [videoId, lessonId],
+    [lessonId, setVideoId, setVideoUrl],
   );
 
-  const fetchOtpAndViews = async (vid) => {
-    try {
-      setOtpError(false);
-      const res = await axios.post("/api?url=video/otp", { video_id: vid });
+  const fetchOtpAndViews = useCallback(
+    async (vid) => {
+      try {
+        setOtpError(false);
+        const res = await axios.post("/api?url=video/otp", {
+          video_id: vid,
+          classroom_id: classroomId,
+          room_id: room,
+        });
 
-      if (res.data?.views_used >= res.data?.total_views) {
-        setLockedByViewLimit(true);
-        return;
+        if (res.data?.views_used >= res.data?.total_views) {
+          setLockedByViewLimit(true);
+          return;
+        }
+
+        setOtpData({
+          otp: res.data?.otp,
+          playbackInfo: res.data?.playbackInfo,
+        });
+
+        setViewCount({
+          used: res.data?.views_used,
+          remaining: res.data?.views_remaining,
+          total_views: res.data?.total_views,
+        });
+      } catch (error) {
+        console.error("❌ OTP fetch failed", error);
+        setOtpError(true);
+        if (error?.response?.status === 403) {
+          setLockedByViewLimit(true);
+        }
       }
-
-      setOtpData({
-        otp: res.data?.otp,
-        playbackInfo: res.data?.playbackInfo,
-      });
-
-      setViewCount({
-        used: res.data?.views_used,
-        remaining: res.data?.views_remaining,
-        total_views: res.data?.total_views,
-      });
-    } catch (error) {
-      console.error("❌ OTP fetch failed", error);
-      setOtpError(true);
-      if (error?.response?.status === 403) {
-        setLockedByViewLimit(true);
-      }
-    }
-  };
+    },
+    [classroomId, room],
+  );
 
   useEffect(() => {
     if (videoId && !otpData) {
       console.log("fetching otp and views");
       fetchOtpAndViews(videoId);
     }
-  }, [otpData, videoId]);
+  }, [fetchOtpAndViews, otpData, videoId]);
 
   // initialize lesson id and video id from video id searchparam
   useEffect(() => {
     if (!data || lessonId) return;
 
-    const initialVideoId = searchParams.get("vedio_id");
-
-    if (
-      initialVideoId &&
-      initialVideoId !== "null" &&
-      initialVideoId !== "undefined"
-    ) {
-      console.log("init from search--------------------");
-      setVideoId(initialVideoId);
-      const lesson = data?.body?.lessons?.find(
-        (les) => les.vedio_id === initialVideoId,
-      );
-      if (lesson) {
-        setLessonId(lesson.id);
-      }
-    } else {
-      console.log("init default--------------------");
-      setVideoId(data?.body?.lessons?.[0]?.vedio_id);
-      setLessonId(data?.body?.lessons?.[0]?.id);
+    if (videoId) {
+      const lesson = data.body.lessons.find((l) => l.vedio_id === videoId);
+      if (lesson) setLessonId(lesson.id);
+      return;
     }
-  }, [data, lessonId, searchParams]);
 
-  const selectedLesson = useMemo(
-    () => data?.body?.lessons?.find((lesson) => lesson.id === lessonId),
-    [data?.body?.lessons, lessonId],
-  );
+    if (videoUrl) {
+      const lesson = data.body.lessons.find((l) => l.video_link === videoUrl);
+      if (lesson) setLessonId(lesson.id);
+      return;
+    }
 
-  // console.log("all lessons : ", data?.body, isLoading);
+    // fallback → first lesson
+    const first = data.body.lessons[0];
+    if (!first) return;
+
+    if (first.video_type === "youtube") {
+      setVideoUrl(first.video_link);
+    } else {
+      setVideoId(first.vedio_id);
+    }
+
+    setLessonId(first.id);
+  }, [data, videoId, videoUrl, lessonId, setVideoUrl, setVideoId]);
+
+  console.log("all lessons : ", data?.body, isLoading);
 
   if (
     data?.body?.is_subscriped &&
@@ -145,17 +179,15 @@ const SingleVideo = () => {
               <RoomSideContent
                 data={data?.body}
                 videoId={videoId}
-                onLessonClick={(videoId, lessonId) => {
-                  if (data?.body?.locked_to_pass) return;
-                  handleLessonSelect(videoId, lessonId);
-                }}
+                videoUrl={videoUrl}
+                onLessonClick={handleLessonSelect}
                 locked={data?.body?.locked_to_pass}
               />
             </div>
 
             <div className="flex flex-1 flex-col lg:w-[calc(70%-1.5rem)]">
               <div className="relative">
-                {viewCount && (
+                {videoId && viewCount && (
                   <TopBanner
                     render={
                       <p className="text-sm">
@@ -168,18 +200,34 @@ const SingleVideo = () => {
                   />
                 )}
 
-                <Video
-                  videoId={videoId}
-                  roomId={Number(room)}
-                  setCurrentTime={setCurrentTime}
-                  classroomId={Number(classroomId)}
-                  response={otpData}
-                  locked={data?.body?.locked_to_pass || lockedByViewLimit}
-                  lessonId={lessonId || data?.body?.lessons?.[0]?.id}
-                  videoCompleted={videoCompleted}
-                  exceededViews={lockedByViewLimit}
-                  otpError={otpError}
-                />
+                {videoUrl ? (
+                  data?.body?.locked_to_pass ? (
+                    <LockedToPassVideoUI
+                      message={"يجب ان تقوم باجتياز الاختبار أولا"}
+                    />
+                  ) : (
+                    <iframe
+                      src={normalizeYouTubeUrl(videoUrl)}
+                      className="h-[520px] w-full"
+                      style={{ border: 0 }}
+                      allow="encrypted-media"
+                      allowFullScreen
+                    />
+                  )
+                ) : (
+                  <Video
+                    videoId={videoId}
+                    roomId={Number(room)}
+                    setCurrentTime={setCurrentTime}
+                    classroomId={Number(classroomId)}
+                    response={otpData}
+                    locked={data?.body?.locked_to_pass || lockedByViewLimit}
+                    lessonId={lessonId || data?.body?.lessons?.[0]?.id}
+                    videoCompleted={videoCompleted}
+                    exceededViews={lockedByViewLimit}
+                    otpError={otpError}
+                  />
+                )}
               </div>
 
               <div className="border-gray-light mt-4 rounded-lg border p-2">

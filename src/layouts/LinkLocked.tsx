@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
@@ -19,14 +18,14 @@ const LinkLocked = ({
   className?: string;
 }) => {
   return (
-    <Button
+    <div
       className={cn(
-        "max-w-32 w-full px-2 flex justify-center items-center  rounded-md   text-white h-9 transition-all",
+        "bg-primary hover:bg-primary/80 flex h-9 w-full max-w-32 items-center justify-center rounded-md px-2 text-white transition-all [&>svg]:size-5",
         {
           "pointer-events-none cursor-not-allowed opacity-50": locked,
           "cursor-pointer": !locked,
         },
-        className
+        className,
       )}
     >
       {locked ? (
@@ -44,7 +43,7 @@ const LinkLocked = ({
       ) : (
         children
       )}
-    </Button>
+    </div>
   );
 };
 

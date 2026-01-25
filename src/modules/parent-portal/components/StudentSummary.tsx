@@ -34,7 +34,7 @@ function StudentSummary({
       {meta?.remaining?.human && (
         <div className="mb-4 flex items-center gap-2 rounded-lg border-2 border-[#D9B45C] bg-[#FBF6F0] p-2">
           <Image
-            src="/assets/WarningColor.svg"
+            src="/assets/icons/WarningColor.svg"
             alt="expires at"
             width={20}
             height={20}

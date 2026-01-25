@@ -61,6 +61,7 @@
     "npm": "^11.0.0",
     "nprogress": "^0.2.0",
     "nprogress-v2": "^1.0.4",
+    "nuqs": "^2.8.6",
     "pako": "^2.1.0",
     "qrcode.react": "^4.2.0",
     "react": "^19.2.3",
