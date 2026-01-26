@@ -206,15 +206,16 @@ export function useSubscribeForm({
   }, [accountForm, businessForm, brandingForm, variant, paymentForm]);
 
   const resetAllForms = useCallback(() => {
-    accountForm.reset({});
-    businessForm.reset({});
-    brandingForm.reset({});
-    paymentForm.reset({});
     localStorage.removeItem("accountForm");
     localStorage.removeItem("businessForm");
     localStorage.removeItem("brandingForm");
     localStorage.removeItem("paymentForm");
     localStorage.removeItem("completedSteps");
+    localStorage.removeItem("last_verified_email");
+    accountForm.reset();
+    businessForm.reset();
+    brandingForm.reset();
+    paymentForm.reset();
   }, [accountForm, businessForm, brandingForm, paymentForm]);
 
   // Final submission
