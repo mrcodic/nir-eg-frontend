@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { Image as ImageIcon, Upload, X } from "lucide-react";
 import { useCallback, useMemo, useState } from "react";
 import { useDropzone, type Accept, type FileRejection } from "react-dropzone";
+import { ImageCropDialog } from "@/components/ImageCropDialog";
 
 interface FileUploadProps {
   label: string;
@@ -28,6 +29,13 @@ export default function FileUpload({
   onChange,
   previewUrl: externalPreviewUrl,
 }: FileUploadProps) {
+  const [cropOpen, setCropOpen] = useState(false);
+  const [tempImage, setTempImage] = useState<string | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(
+    externalPreviewUrl || null,
+  );
+  const [error, setError] = useState<string | null>(null);
+
   // Convert string accept to Accept object
   const acceptConfig = useMemo<Accept>(() => {
     if (!accept) return DEFAULT_ACCEPT;
@@ -37,10 +45,6 @@ export default function FileUpload({
     }
     return accept;
   }, [accept]);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(
-    externalPreviewUrl || null
-  );
-  const [error, setError] = useState<string | null>(null);
 
   const onDrop = useCallback(
     (acceptedFiles: File[], fileRejections: FileRejection[]) => {
@@ -64,19 +68,26 @@ export default function FileUpload({
       // Handle accepted file
       if (acceptedFiles.length > 0) {
         const file = acceptedFiles[0];
-
-        // Revoke previous preview URL
-        if (previewUrl && !externalPreviewUrl) {
-          URL.revokeObjectURL(previewUrl);
-        }
-
-        // Create preview
         const url = URL.createObjectURL(file);
-        setPreviewUrl(url);
-        onChange(file);
+
+        setTempImage(url);
+        setCropOpen(true);
       }
     },
-    [maxSize, onChange, previewUrl, externalPreviewUrl]
+    [maxSize],
+  );
+
+  const handleCroppedImage = useCallback(
+    (file: File) => {
+      if (previewUrl && !externalPreviewUrl) {
+        URL.revokeObjectURL(previewUrl);
+      }
+
+      const url = URL.createObjectURL(file);
+      setPreviewUrl(url);
+      onChange(file);
+    },
+    [previewUrl, externalPreviewUrl, onChange],
   );
 
   const handleRemove = useCallback(
@@ -90,7 +101,7 @@ export default function FileUpload({
       setError(null);
       onChange(null);
     },
-    [previewUrl, externalPreviewUrl, onChange]
+    [previewUrl, externalPreviewUrl, onChange],
   );
 
   const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
@@ -104,6 +115,19 @@ export default function FileUpload({
 
   return (
     <div className="space-y-2">
+      {tempImage && (
+        <ImageCropDialog
+          open={cropOpen}
+          src={tempImage}
+          onClose={() => {
+            setCropOpen(false);
+            URL.revokeObjectURL(tempImage);
+            setTempImage(null);
+          }}
+          onConfirm={handleCroppedImage}
+        />
+      )}
+
       <label className="block text-sm font-medium text-right">{label}</label>
 
       <div
@@ -115,7 +139,7 @@ export default function FileUpload({
             isDragActive
               ? "border-primary-800 bg-primary-100/20"
               : "border-gray-light hover:border-primary-800/50",
-            error && "border-destructive"
+            error && "border-destructive",
           ),
         })}
       >
@@ -142,13 +166,13 @@ export default function FileUpload({
             <Upload
               className={cn(
                 "w-8 h-8 mb-2 transition-colors",
-                isDragActive ? "text-primary-800" : "text-gray-dark"
+                isDragActive ? "text-primary-800" : "text-gray-dark",
               )}
             />
             <p
               className={cn(
                 "text-sm text-center transition-colors",
-                isDragActive ? "text-primary-800" : "text-gray-dark"
+                isDragActive ? "text-primary-800" : "text-gray-dark",
               )}
             >
               {isDragActive ? "اترك الملف هنا..." : "اسحب الصورة واتركها هنا"}
