@@ -1,7 +1,6 @@
 "use client";
 
 import ExamForm from "@/components/forms/ExamForm";
-import RoomSheet from "@/components/sheets/RoomSheet";
 import { useTaskContext } from "@/context/TaskProvider";
 import ProtectedRoute from "@/layouts/ProtectedRoute";
 import { cn } from "@/lib/utils";
@@ -14,8 +13,6 @@ const ExamPage = () => {
     start,
     isLoading,
     data,
-    showRoom,
-    setShowRoom,
     startExam,
     setStartExam,
     onComplete,
@@ -49,7 +46,6 @@ const ExamPage = () => {
           <ExamSideInfo
             data={data}
             start={start}
-            setShowRoom={setShowRoom}
             startTimer={startExam && !!start?.timer}
             onComplete={onComplete}
           />
@@ -64,8 +60,6 @@ const ExamPage = () => {
             examType="general"
           />
         </div>
-
-        {showRoom && <RoomSheet open={showRoom} setOpen={setShowRoom} />}
 
         <SubmitLoader isSubmitting={isSubmitting} />
       </div>
