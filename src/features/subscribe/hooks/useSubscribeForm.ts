@@ -270,7 +270,7 @@ export function useSubscribeForm({
 
         // get step and field error and navigate to them
         if (error?.response?.data?.errors) {
-          const errorSteps = Object.entries(error?.response?.data?.errors);
+        const errorSteps : [string, string[]][] = Object.entries(error?.response?.data?.errors);
           if (errorSteps?.length > 0) {
             const [step, fieldName] = errorSteps?.[0]?.[0]?.split(".");
             const fieldError = errorSteps?.[0]?.[1]?.[0];
@@ -290,7 +290,7 @@ export function useSubscribeForm({
             const stepForm = forms?.[stepIndex];
             
             // highlight step form field
-            stepForm?.setError(fieldName as Path<typeof stepForm> ,{
+            stepForm?.setError(fieldName as any ,{
               type: "manual",
               message: fieldError
             } );

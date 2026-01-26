@@ -1,9 +1,9 @@
 "use client";
 
+import { SelectOption } from "@/types/type";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { useRef } from "react";
 import { SelectItem } from "../ui/select";
-import type { SelectOption } from "./CustomSelect";
 
 interface VirtualizedContentProps {
   options: SelectOption[];

@@ -18,3 +18,8 @@ export interface FooterSocials {
   tiktok: string;
   instagram: string;
 }
+
+export interface SelectOption {
+  id: number | string;
+  name: string;
+}

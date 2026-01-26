@@ -63,51 +63,55 @@ function CustomMultiSelect<T extends FieldValues>({
         return (
           <FormItem>
             <FormLabel>{label}</FormLabel>
-            <Select
-              onValueChange={(value) => {
-                if (!values.includes(value)) {
-                  field.onChange([...values, value]);
-                }
-              }}
-            >
-              <FormControl>
+            <FormControl>
+              <Select
+                // KEY FIX: Force re-render when values change
+                key={values.join(",")}
+                onValueChange={(value) => {
+                  if (!values.includes(value)) {
+                    field.onChange([...values, value]);
+                  }
+                }}
+              >
                 <SelectTrigger className={triggerClassName}>
-                  <SelectValue placeholder={placeholder || `اختر ${label}`} />
+                  <SelectValue placeholder={placeholder} />
                 </SelectTrigger>
-              </FormControl>
-              <SelectContent>
-                {isLoading && (
-                  <span className="text-right animate-pulse py-1.5 pr-8 pl-2 text-sm">
-                    ....جاري التحميل
-                  </span>
-                )}
+                <SelectContent>
+                  {isLoading && (
+                    <SelectItem value="loading" disabled>
+                      ....جاري التحميل
+                    </SelectItem>
+                  )}
+                  {options.map((option) => (
+                    <SelectItem
+                      key={option.id}
+                      value={option.id}
+                      // Disable already selected items
+                      disabled={values.includes(option.id)}
+                    >
+                      {option.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </FormControl>
 
-                {options.map((option) => (
-                  <SelectItem
-                    key={`${queryKey}-${option.id}`}
-                    value={option.id}
-                  >
-                    {option.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
             {/* Selected tags */}
             {values.length > 0 && (
               <div className="flex flex-wrap gap-2 mt-2">
                 {values.map((selectedValue) => {
-                  const option = options.find((o) => o.id == selectedValue);
+                  const option = options.find((o) => o.id === selectedValue);
                   return (
                     <span
                       key={selectedValue}
-                      className="inline-flex items-center gap-1 px-2 py-1 bg-primary-100 text-primary-800 rounded-md text-sm"
+                      className="inline-flex items-center gap-1 px-2 py-1 text-sm bg-primary-100 text-primary-800 rounded-md"
                     >
                       {option?.name}
                       <button
                         type="button"
                         onClick={() => {
                           field.onChange(
-                            values.filter((v) => v != selectedValue)
+                            values.filter((v) => v !== selectedValue),
                           );
                         }}
                         className="hover:text-destructive"
@@ -119,6 +123,7 @@ function CustomMultiSelect<T extends FieldValues>({
                 })}
               </div>
             )}
+
             <FormMessage />
           </FormItem>
         );

@@ -56,7 +56,7 @@ const COMPARE_CONTENT = {
       good: "تحويل الطلاب إلى مجتمع متفاعل يتشارك المعرفة والخبرات",
     },
   },
-} as const;
+};
 
 const ICONS = {
   learning: "/assets/icons/compare-section-icons/graduation-fill.svg",
@@ -66,7 +66,7 @@ const ICONS = {
   ai: "/assets/icons/compare-section-icons/robotic.svg",
   usability: "/assets/icons/compare-section-icons/launch.svg",
   collaboration: "/assets/icons/compare-section-icons/users-fill.svg",
-} as const;
+};
 
 type ItemKey = keyof typeof ICONS;
 
@@ -90,7 +90,7 @@ function useCompareItems() {
         badText: COMPARE_CONTENT.items[key].bad,
         goodText: COMPARE_CONTENT.items[key].good,
       })),
-    []
+    [],
   );
 }
 
@@ -141,7 +141,7 @@ function CompareCard({
         className={cn(
           "mt-4 flex items-start gap-2 rounded-md border px-3 py-2 min-h-16",
           isBad ? "border-[#FAE7E7]" : "border-[#E7F3E1]",
-          "bg-white dark:border-white/10 dark:bg-accent-900"
+          "bg-white dark:border-white/10 dark:bg-accent-900",
         )}
       >
         {isBad ? (

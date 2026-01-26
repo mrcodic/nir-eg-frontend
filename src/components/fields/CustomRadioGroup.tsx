@@ -17,8 +17,10 @@ export interface RadioOption {
   icons?: string[];
 }
 
-interface CustomRadioGroupProps<T extends FieldValues>
-  extends Omit<CustomFieldProps<T>, "placeholder"> {
+interface CustomRadioGroupProps<T extends FieldValues> extends Omit<
+  CustomFieldProps<T>,
+  "placeholder"
+> {
   options: RadioOption[];
   direction?: "horizontal" | "vertical";
   onChangeExtra?: (value: string) => void;

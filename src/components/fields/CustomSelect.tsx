@@ -2,6 +2,7 @@
 
 import { getPublicData } from "@/config/client-fetch";
 import { cn } from "@/lib/utils";
+import { SelectOption } from "@/types/type";
 import { useQuery } from "@tanstack/react-query";
 import dynamic from "next/dynamic";
 import { useState } from "react";
@@ -18,11 +19,6 @@ import GenericField from "./GenericField";
 const VirtualizedContent = dynamic(() => import("./VirtualizedContent"), {
   ssr: false,
 });
-
-export interface SelectOption {
-  id: number | string;
-  name: string;
-}
 
 interface CustomSelectProps<T extends FieldValues> {
   form: UseFormReturn<T>;
@@ -67,7 +63,7 @@ function CustomSelect<T extends FieldValues>({
       {({ field, formState }) => {
         const selectedOption = needVirtualized
           ? finalOptions.find(
-              (option) => String(option.id) === String(field.value)
+              (option) => String(option.id) === String(field.value),
             )
           : null;
 

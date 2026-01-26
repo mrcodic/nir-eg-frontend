@@ -9,7 +9,7 @@ import {
 } from "@/components/fields";
 import { Form } from "@/components/ui/form";
 import type { BusinessInfoFormData } from "@/lib/schemas/subscribe.schema";
-import { UseFormReturn , useWatch } from "react-hook-form";
+import { UseFormReturn, useWatch } from "react-hook-form";
 import NavigationButtons from "../shared/NavigationButtons";
 
 interface BusinessInfoStepProps {
@@ -46,6 +46,8 @@ export default function BusinessInfoStep({
     control: form.control,
     name: "governorate",
   });
+
+  console.log("form values : ", form.getValues());
 
   return (
     <Form {...form}>

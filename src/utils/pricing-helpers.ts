@@ -1,4 +1,4 @@
-import { IPricingPlan, PlanFeatures } from "@/types/pricing-api.types";
+import { IPricingPlan, PlanFeatures } from "../types/pricing-api.types";
 
 export const FEATURE_LABELS: Record<keyof PlanFeatures, string> = {
   max_classrooms: "فصول دراسية",
@@ -38,7 +38,7 @@ const FEATURE_KEYS: Array<keyof PlanFeatures> = [
 
 export const formatFeature = (
   key: keyof PlanFeatures,
-  value: PlanFeatures[keyof PlanFeatures]
+  value: PlanFeatures[keyof PlanFeatures],
 ): string | null => {
   if (typeof value === "boolean") {
     return value ? FEATURE_LABELS[key] : null;
@@ -54,14 +54,14 @@ export const formatFeature = (
 
 export const getPlanFeaturesList = (features: PlanFeatures): string[] => {
   return FEATURE_KEYS.map((key) => formatFeature(key, features[key])).filter(
-    (f): f is string => f !== null
+    (f): f is string => f !== null,
   );
 };
 
 export const isPlanFeatured = (
   plan: IPricingPlan,
   index: number,
-  totalPlans: number
+  totalPlans: number,
 ): boolean => {
   // Only apply featured styling if there are exactly 3 plans
   if (totalPlans !== 3) return false;

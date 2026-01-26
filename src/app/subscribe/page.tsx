@@ -1,5 +1,5 @@
 import { SubscribeForm } from "@/features/subscribe/components";
-import type { FormVariant, PaymentPeriod } from "@/types/subscribe.types";
+import { FormVariant, PaymentPeriod } from "@/types/subscribe.types";
 import { Metadata } from "next";
 
 interface SubscribePageProps {
