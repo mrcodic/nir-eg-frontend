@@ -267,7 +267,9 @@ export const editProfileSchema = z
     parent_phone: phoneSchema,
 
     state_id: z.number().min(1, "يجب اختيار المحافظة"),
-    city_id: z.coerce.number({ required_error: "حقل المدينة مطلوب" }),
+    city_id: z.coerce
+      .number({ required_error: "حقل المدينة مطلوب" })
+      .refine((val) => val > 0, "حقل المدينة مطلوب"),
 
     avatar: z.any(),
 
