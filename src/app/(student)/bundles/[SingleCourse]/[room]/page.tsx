@@ -45,7 +45,8 @@ const SingleVideo = () => {
     serialize: (v) => encodeURIComponent(v),
   });
 
-  const hasVideoId = videoId && videoId !== "" && videoId !== "null" && videoId !== "undefined";
+  const hasVideoId =
+    videoId && videoId !== "" && videoId !== "null" && videoId !== "undefined";
 
   const { data, isLoading } = useQuery({
     queryFn: getClientPrivateData as () => Promise<ApiResponse<IRoomDetails>>,
@@ -125,7 +126,7 @@ const SingleVideo = () => {
       console.log("fetching otp and views");
       fetchOtpAndViews(videoId);
     }
-  }, [fetchOtpAndViews, otpData, videoId,hasVideoId]);
+  }, [fetchOtpAndViews, otpData, videoId, hasVideoId]);
 
   // initialize lesson id and video id from video id searchparam
   useEffect(() => {
@@ -173,7 +174,6 @@ const SingleVideo = () => {
     <>
       <ProtectedRoute
         subscribed={data?.body?.is_subscriped}
-        verify={profile?.parent_phone_verification}
         data={data}
         isLoading={isLoading}
       >

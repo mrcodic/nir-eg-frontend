@@ -30,10 +30,10 @@ const AuthNavBar = () => {
       title: "الدرجات",
       href: "/grades",
     },
-    {
-      title: "متجر النقاط",
-      href: "/store",
-    },
+    // {
+    //   title: "متجر النقاط",
+    //   href: "/store",
+    // },
   ];
 
   const STUDENTSOFFLINELINKS = [
@@ -51,10 +51,10 @@ const AuthNavBar = () => {
       href: "/grades",
     },
 
-    {
-      title: "متجر النقاط",
-      href: "/store",
-    },
+    // {
+    //   title: "متجر النقاط",
+    //   href: "/store",
+    // },
   ];
 
   return (

@@ -13,16 +13,24 @@ import SubmitLoader from "@/modules/exam/components/SubmitLoader";
 const AssignmentPage = () => {
   const { templateNumber } = useTenant();
 
-  const { start, isLoading, data, showRoom, setShowRoom, isSubmitting ,isTaskClosed} =
-    useTaskContext();
+  const {
+    start,
+    isLoading,
+    data,
+    showRoom,
+    setShowRoom,
+    isSubmitting,
+    isTaskClosed,
+  } = useTaskContext();
 
   return (
     <ProtectedRoute
       isLoading={isLoading}
       data={start}
       subscribed={start?.is_subscribed}
-      text={isTaskClosed ? "تم إغلاق الواجب":"لم يعد مسموح بالوصول الى هذه الصفحة"}
-      verify={true}
+      text={
+        isTaskClosed ? "تم إغلاق الواجب" : "لم يعد مسموح بالوصول الى هذه الصفحة"
+      }
     >
       <div
         className={cn(

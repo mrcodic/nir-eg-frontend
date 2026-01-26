@@ -28,9 +28,7 @@ const ExamPage = () => {
       data={start}
       isLoading={isLoading}
       subscribed={start?.is_subscribed}
-      text={isTaskClosed ? "تم إغلاق الامتحان":""}
-      
-      verify={true}
+      text={isTaskClosed ? "تم إغلاق الامتحان" : ""}
     >
       <div
         className={cn(

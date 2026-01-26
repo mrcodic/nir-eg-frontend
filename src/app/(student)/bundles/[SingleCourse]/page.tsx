@@ -26,12 +26,10 @@ const SingleCourse = async ({ params }) => {
 
   return (
     <ProtectedRoute
-      // isLoading={isLoading}
       data={bundleRooms}
       subscribed={
         profileData?.body?.type == 3 ? bundleRooms?.body?.is_subscriped : true
       }
-      verify={true}
     >
       <div className="">
         <CoursesHeader details={bundleRooms?.body} />
