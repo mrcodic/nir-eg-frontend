@@ -40,7 +40,7 @@ function getStoredFormData<T>(key: string, defaultValues: T): T {
 }
 
 // Define default values as constants
-const accountDefaults: AccountInfoFormData = {
+export const accountDefaults: AccountInfoFormData = {
   first_name: "",
   last_name: "",
   email: "",
@@ -88,7 +88,7 @@ function useStepsForms({ period, planId }: Props) {
     [],
     {
       initializeWithValue: false,
-    }
+    },
   );
 
   const paymentDefaults: PaymentFormData = {

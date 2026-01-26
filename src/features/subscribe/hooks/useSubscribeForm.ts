@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import useStepsForms from "./useStepsForms";
+import { accountDefaults } from "./useStepsForms";
 
 // Step configuration
 export const getSteps = (variant: FormVariant): FormStep[] => {
@@ -206,16 +207,17 @@ export function useSubscribeForm({
   }, [accountForm, businessForm, brandingForm, variant, paymentForm]);
 
   const resetAllForms = useCallback(() => {
-    localStorage.removeItem("accountForm");
-    localStorage.removeItem("businessForm");
-    localStorage.removeItem("brandingForm");
-    localStorage.removeItem("paymentForm");
-    localStorage.removeItem("completedSteps");
-    localStorage.removeItem("last_verified_email");
-    accountForm.reset();
+    console.log("Resetting all forms");
+    accountForm.reset(accountDefaults);
     businessForm.reset();
     brandingForm.reset();
     paymentForm.reset();
+    // localStorage.removeItem("accountForm");
+    // localStorage.removeItem("businessForm");
+    // localStorage.removeItem("brandingForm");
+    // localStorage.removeItem("paymentForm");
+    localStorage.removeItem("completedSteps");
+    localStorage.removeItem("last_verified_email");
   }, [accountForm, businessForm, brandingForm, paymentForm]);
 
   // Final submission
@@ -270,6 +272,7 @@ export function useSubscribeForm({
 
         if (error?.response?.data?.message === "المستخدم المحدد غير موجود.") {
           resetAllForms();
+          await new Promise((resolve) => setTimeout(resolve, 1000));
           setCurrentStepIndex(0);
           setCompletedSteps([]);
         }
