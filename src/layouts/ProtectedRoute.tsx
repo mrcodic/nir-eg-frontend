@@ -3,9 +3,9 @@
 import Empty from "@/components/Empty";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import PhoneVerificationAlertModal from "@/components/modals/PhoneVerificationAlertModal";
+import { Button } from "@/components/ui/button";
 import { useAuthContext } from "@/context/auth-context";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 
 type Props = {
   children: React.ReactNode;
@@ -13,6 +13,7 @@ type Props = {
   data: any;
   isLoading?: boolean;
   text?: string;
+  verifyPhone?: boolean;
 };
 
 const ProtectedRoute = ({
@@ -21,17 +22,18 @@ const ProtectedRoute = ({
   data,
   isLoading,
   text,
+  verifyPhone = true,
 }: Props) => {
   const router = useRouter();
   const { profile, isLoading: isLoadingProfile } = useAuthContext();
 
   const phoneVerified = isLoadingProfile || profile?.parent_phone_verification;
 
-  useEffect(() => {
-    if (!data && !isLoading && subscribed) {
-      router.push("/ErrorPage");
-    }
-  }, [data, isLoading, router, subscribed]);
+  // useEffect(() => {
+  //   if (!data && !isLoading && subscribed) {
+  //     router.push("/ErrorPage");
+  //   }
+  // }, [data, isLoading, router, subscribed]);
 
   if (isLoading) {
     return (
@@ -56,12 +58,23 @@ const ProtectedRoute = ({
     );
   }
 
-  if (!phoneVerified)
+  if (verifyPhone && !phoneVerified)
     return (
-      <PhoneVerificationAlertModal
-        initialOpen={true}
-        phone={profile?.parent_phone}
-      />
+      <div className="h-screen">
+        <Empty
+          isError
+          text={"لا يمكن عرض هذا المحتوى بدون تأكيد رقم ولي الأمر"}
+        >
+          <Button className="h-9" onClick={() => router.back()}>
+            رجوع
+          </Button>
+        </Empty>
+
+        <PhoneVerificationAlertModal
+          initialOpen={true}
+          phone={profile?.parent_phone}
+        />
+      </div>
     );
 
   return <>{children}</>;

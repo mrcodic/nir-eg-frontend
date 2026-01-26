@@ -13,14 +13,14 @@ const SingleCourse = async ({ params }) => {
     queryKey: [`/students/profile`],
   });
 
+  if (profileData?.body?.type == 3 && profileData?.body?.has_center === false) {
+    redirect("/profile");
+  }
+
   const bundleRooms = await getServerData<{ body: ICourseDetails }>({
     queryKey: [`/students/get-rooms/${SingleCourse}?page=1&per_page=10`],
     isAuth: !!profileData,
   });
-
-  if (profileData?.body?.type == 3 && profileData?.body?.has_center === false) {
-    redirect("/profile");
-  }
 
   console.log("🚀 ~ data singleCourse: ", bundleRooms);
 
@@ -30,6 +30,7 @@ const SingleCourse = async ({ params }) => {
       subscribed={
         profileData?.body?.type == 3 ? bundleRooms?.body?.is_subscriped : true
       }
+      verifyPhone={false}
     >
       <div className="">
         <CoursesHeader details={bundleRooms?.body} />

@@ -3,15 +3,15 @@
 import { Button } from "@/components/ui/button";
 import { useModal } from "@/context/ModalProvider";
 import Image from "next/image";
-import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Dialog, DialogClose, DialogContent, DialogFooter } from "../ui/dialog";
 import OtpModal from "./OtpModal";
 
 export default function PhoneVerificationAlertModal({ initialOpen, phone }) {
   const [open, setOpen] = useState(initialOpen);
-  const { SingleCourse } = useParams();
+
+  const router = useRouter();
   const modal = useModal();
 
   async function handleOtp() {
@@ -55,7 +55,7 @@ export default function PhoneVerificationAlertModal({ initialOpen, phone }) {
           <span className="inline-block text-xl text-[#523412]">
             {" "}
             إذا قمت بتأكيد رقم هاتف ولي الأمر الآن سنقوم بإرسال رمز التأكيد
-            للرقم المسجل لدينا عبر تطبيق واتساب.{" "}
+            للرقم المسجل لدينا عبر رسائل sms.{" "}
           </span>
           <div className="relative -top-2 -right-5"> </div>
           {/* <p className="mr-4  text-[#523412] inline-block">من الكورس</p> */}
@@ -71,11 +71,12 @@ export default function PhoneVerificationAlertModal({ initialOpen, phone }) {
             </Button>
           </DialogClose>
 
-          <Link href={`/bundles/${SingleCourse}`}>
-            <Button className="border-primary w-[148px] rounded-lg border bg-white p-4 text-sm font-bold text-[#121212] hover:bg-white">
-              رجوع{" "}
-            </Button>
-          </Link>
+          <Button
+            onClick={() => router.back()}
+            className="border-primary w-[148px] rounded-lg border bg-white p-4 text-sm font-bold text-[#121212] hover:bg-white"
+          >
+            رجوع{" "}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

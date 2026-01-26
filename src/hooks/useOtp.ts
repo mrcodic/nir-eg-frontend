@@ -2,6 +2,7 @@
 
 import { OTP_SEND_TIME_KEY } from "@/constants";
 import { mutateClient } from "@/helpers/post-client";
+import { isAxiosError } from "axios";
 import { useCallback, useState } from "react";
 import { useTimer } from "react-timer-hook";
 import { isOtpExpired, setNewOtpSendTime } from "../lib/utils";
@@ -50,8 +51,10 @@ function useOtp() {
       } catch (e) {
         console.log(e);
         toast({
-          status: e.status,
-          description: "الرقم غلط او بعتنالك otp من قبل",
+          description:
+            isAxiosError(e) && e.status === 500
+              ? "حدث خطأ اثناء التحقق من رمز التأكيد"
+              : "الرقم غلط او بعتنالك otp من قبل",
           icon: "error",
         });
       } finally {
