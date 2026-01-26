@@ -15,7 +15,7 @@ const GradesSection = async () => {
   if (!grades?.data?.length) return null;
 
   return (
-    <section id="grades">
+    <section id="grades" className="scroll-m-16">
       <div className="mb-4 flex flex-col items-center justify-center gap-2 text-center">
         <Image
           src="/assets/book-gif.gif"

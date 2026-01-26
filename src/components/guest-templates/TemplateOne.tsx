@@ -1,7 +1,6 @@
 import { TenantLandingResponse } from "@/types/tenant.types";
 import GradesSection from "../guest/GradesSection";
 import HeroSection from "../guest/HeroSection";
-import HonorsLeaderboard from "../guest/HonorsLeaderboard";
 import StartWithUsNow from "../guest/StartWithUsNow";
 import WhyChooseUs from "../guest/WhyChooseUs";
 
@@ -11,7 +10,7 @@ function TemplateOne({ data }: { data: TenantLandingResponse["data"] }) {
       <HeroSection content={data?.main} />
       <WhyChooseUs content={data?.why} />
       <GradesSection />
-      <HonorsLeaderboard />
+      {/* <HonorsLeaderboard /> */}
       <StartWithUsNow content={data?.start} />
     </div>
   );
