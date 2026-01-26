@@ -21,7 +21,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
-import { useForm, type UseFormReturn , useWatch } from "react-hook-form";
+import { useForm, useWatch, type UseFormReturn } from "react-hook-form";
 import { toast } from "sonner";
 import { OtpInput } from "../shared";
 import NavigationButtons from "../shared/NavigationButtons";
@@ -63,11 +63,9 @@ export default function EmailVerifyStep({
     name: "otp",
   });
 
-
   const [timeLeft, setTimeLeft] = useState(() => getRemainingSeconds());
   const [isVerifying, setIsVerifying] = useState(false);
   const [isSending, setIsSending] = useState(false);
-
 
   const canResend = timeLeft <= 0;
 
@@ -99,7 +97,7 @@ export default function EmailVerifyStep({
         code: otp,
       });
     },
-    [email, user_id]
+    [email, user_id],
   );
 
   /* ---------------------------------------------
@@ -152,13 +150,13 @@ export default function EmailVerifyStep({
       } catch (e) {
         console.log("Failed to verify OTP:", e);
         toast.error(
-          "حدث خطأ أثناء التحقق من رمز التأكيد. يرجى المحاولة مرة أخرى."
+          "حدث خطأ أثناء التحقق من رمز التأكيد. يرجى المحاولة مرة أخرى.",
         );
       } finally {
         setIsVerifying(false);
       }
     },
-    [accountForm, email, onNext, verifyOtp]
+    [accountForm, email, onNext, verifyOtp],
   );
 
   return (
@@ -229,7 +227,7 @@ export default function EmailVerifyStep({
           onPrevious={onPrevious}
           isPending={isVerifying}
           pendingText="جاري التحقق..."
-          disabledNext={otpValue !== 6}
+          disabledNext={otpValue?.length !== 6}
         />
       </form>
     </Form>

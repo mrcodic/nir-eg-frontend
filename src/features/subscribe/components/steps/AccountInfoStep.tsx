@@ -68,7 +68,7 @@ export default function AccountInfoStep({
       toast.error(
         isAxiosError(error)
           ? error?.response?.data?.message
-          : "حدث خطأ أثناء إنشاء الحساب"
+          : "حدث خطأ أثناء إنشاء الحساب",
       );
     }
   }
@@ -112,7 +112,7 @@ export default function AccountInfoStep({
           form={form}
           name="phone"
           label="رقم الهاتف"
-          placeholder="قم بإدخال رقم الهاتف"
+          placeholder="قم بإدخال رقم الهاتف المصرى"
           type="tel"
           className="text-right"
         />
@@ -128,7 +128,7 @@ export default function AccountInfoStep({
         />
 
         {/* Language & Timezone - Two columns */}
-        
+
         {/* <CustomSelect
           form={form}
           name="language"
