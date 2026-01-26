@@ -3,6 +3,7 @@
 import { cn } from "@/lib/utils";
 import type { TemplateOption } from "@/types/subscribe.types";
 import { Monitor } from "lucide-react";
+import Image from "next/image";
 
 interface TemplateSelectorProps {
   value: string;
@@ -20,18 +21,18 @@ const templateColors = [
 const templates: TemplateOption[] = [
   {
     id: "landing-v1",
-    name: "landing-v1",
-    previewImage: "/images/templates/template-1.png",
+    name: "قالب 1",
+    previewImage: "/assets/templates/landing-1.png",
   },
   {
     id: "landing-v2",
-    name: "landing-v2",
-    previewImage: "/images/templates/template-2.png",
+    name: "قالب 2",
+    previewImage: "/assets/templates/landing-2.png",
   },
   {
     id: "landing-v3",
-    name: "landing-v3",
-    previewImage: "/images/templates/template-3.png",
+    name: "قالب 3",
+    previewImage: "/assets/templates/landing-3.png",
   },
 ];
 
@@ -58,7 +59,7 @@ export default function TemplateSelector({
                 "relative group rounded-lg overflow-hidden border-2 transition-all duration-200 p-2 aspect-4/5 flex flex-col",
                 isSelected
                   ? "border-primary-800 bg-background ring-2 ring-primary-100"
-                  : "border-gray-light hover:border-primary-800/50"
+                  : "border-gray-light hover:border-primary-800/50",
               )}
             >
               {/* Template Preview - Using gradient fallback */}
@@ -67,26 +68,31 @@ export default function TemplateSelector({
                   "relative flex items-center justify-center grow",
                   `bg-linear-to-br ${
                     templateColors[index % templateColors.length]
-                  }`
+                  }`,
                 )}
               >
-                {/* Placeholder design pattern */}
-                <div className="flex flex-col items-center justify-center  gap-2 text-white/80">
+                <Image
+                  src={template.previewImage}
+                  alt={template.name}
+                  fill
+                  className="object-cover"
+                  loading="lazy"
+                />
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    // open the image in new
+                    window.open(template.previewImage, "_blank");
+                  }}
+                  className="flex flex-col  items-center justify-center  gap-2 text-black/80 hover:bg-black/70 transition-colors duration-200 hover:text-white cursor-pointer relative z-10 bg-gray-200/70 p-4 rounded-lg "
+                >
                   <Monitor className="w-10 h-10" />
                   <span className="text-xs">قالب {index + 1}</span>
-                </div>
-
-                {/* Selection Overlay */}
-                {/* {isSelected && (
-                  <div className="absolute inset-0 bg-primary-800/30 flex items-center justify-center">
-                    <div className="w-10 h-10 rounded-full bg-primary-800 flex items-center justify-center">
-                      <Check className="w-5 h-5 text-white" />
-                    </div>
-                  </div>
-                )} */}
+                </button>
 
                 {/* Hover Effect */}
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-200" />
+                {/* <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-200" /> */}
               </div>
 
               {/* Template Name */}
@@ -96,7 +102,7 @@ export default function TemplateSelector({
                     "text-sm text-center",
                     isSelected
                       ? "text-primary-800 font-medium"
-                      : "text-gray-dark"
+                      : "text-gray-dark",
                   )}
                 >
                   {template.name}
