@@ -56,7 +56,7 @@ export const accountDefaults: AccountInfoFormData = {
   email_verified: false,
 };
 
-const businessDefaults: BusinessInfoFormData = {
+export const businessDefaults: BusinessInfoFormData = {
   teacherType: "individual",
   brandName: "",
   legalName: "",
@@ -72,7 +72,7 @@ const businessDefaults: BusinessInfoFormData = {
   additionalNotes: "",
 };
 
-const brandingDefaults: BrandingFormData = {
+export const brandingDefaults: BrandingFormData = {
   domainType: "subdomain",
   websiteName: "",
   brandColor: PREDEFINED_COLORS[0],

@@ -10,7 +10,10 @@ import { isAxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
-import useStepsForms from "./useStepsForms";
+import useStepsForms, {
+  brandingDefaults,
+  businessDefaults,
+} from "./useStepsForms";
 import { accountDefaults } from "./useStepsForms";
 
 // Step configuration
@@ -208,13 +211,10 @@ export function useSubscribeForm({
 
   const resetAllForms = useCallback(() => {
     accountForm.reset(accountDefaults);
-    businessForm.reset();
-    brandingForm.reset();
+    businessForm.reset(businessDefaults);
+    brandingForm.reset(brandingDefaults);
     paymentForm.reset();
-    // localStorage.removeItem("accountForm");
-    // localStorage.removeItem("businessForm");
-    // localStorage.removeItem("brandingForm");
-    // localStorage.removeItem("paymentForm");
+    localStorage.removeItem("paymentForm");
     localStorage.removeItem("completedSteps");
     localStorage.removeItem("last_verified_email");
   }, [accountForm, businessForm, brandingForm, paymentForm]);
