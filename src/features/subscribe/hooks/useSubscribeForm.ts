@@ -273,10 +273,8 @@ export function useSubscribeForm({
           await new Promise((resolve) => setTimeout(resolve, 1000));
           setCurrentStepIndex(0);
           setCompletedSteps([]);
-        }
-
-        // get step and field error and navigate to them
-        if (error?.response?.data?.errors) {
+        } else if (error?.response?.data?.errors) {
+          // get step and field error and navigate to them
           const errorSteps: [string, string[]][] = Object.entries(
             error?.response?.data?.errors,
           );
