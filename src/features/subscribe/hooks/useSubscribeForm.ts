@@ -9,7 +9,6 @@ import { OTP_STORAGE_KEY } from "@/utils/otp-helpers";
 import { isAxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Path } from "react-hook-form";
 import { toast } from "sonner";
 import useStepsForms from "./useStepsForms";
 
@@ -49,7 +48,7 @@ export function useSubscribeForm({
 
   const currentStep = useMemo(
     () => steps[currentStepIndex],
-    [steps, currentStepIndex]
+    [steps, currentStepIndex],
   );
 
   // Form instances for each step
@@ -66,7 +65,7 @@ export function useSubscribeForm({
     () =>
       accountForm.getValues("email_verified") ||
       completedSteps.includes("verify"),
-    [accountForm, completedSteps]
+    [accountForm, completedSteps],
   );
 
   useEffect(() => {
@@ -101,19 +100,19 @@ export function useSubscribeForm({
 
       // Find the index of the last completed step
       const lastCompletedStepIndex = steps.findIndex(
-        (step) => step.id === lastCompletedStep
+        (step) => step?.id === lastCompletedStep,
       );
 
       // If last completed step is "verify", move to the next step
       if (lastCompletedStep === "verify") {
         const nextStepIndex = lastCompletedStepIndex + 1;
         setCurrentStepIndex(
-          nextStepIndex < steps.length ? nextStepIndex : lastCompletedStepIndex
+          nextStepIndex < steps.length ? nextStepIndex : lastCompletedStepIndex,
         );
       } else {
         // Otherwise, stay on the last completed step
         setCurrentStepIndex(
-          lastCompletedStepIndex !== -1 ? lastCompletedStepIndex : 0
+          lastCompletedStepIndex !== -1 ? lastCompletedStepIndex : 0,
         );
       }
     } catch (_e) {
@@ -130,20 +129,20 @@ export function useSubscribeForm({
       const completedSet = new Set(prev);
 
       // Add current step if not already completed
-      if (!completedSet.has(currentStep.id)) {
-        completedSet.add(currentStep.id);
+      if (!completedSet.has(currentStep?.id)) {
+        completedSet.add(currentStep?.id);
       }
 
       // Return steps in the same order as they appear in the steps array
       return steps
-        .map((step) => step.id)
+        .map((step) => step?.id)
         .filter((stepId) => completedSet.has(stepId));
     });
 
     // Move to next step
     // step over email verification if completed
     if (currentStepIndex < steps.length - 1) {
-      const nextStepId = steps[currentStepIndex + 1].id;
+      const nextStepId = steps[currentStepIndex + 1]?.id;
       if (nextStepId === "verify" && emailVerified) {
         setCurrentStepIndex((prev) => prev + 2);
         // mark verify as completed
@@ -153,7 +152,7 @@ export function useSubscribeForm({
             completedSet.add("verify");
           }
           return steps
-            .map((step) => step.id)
+            .map((step) => step?.id)
             .filter((stepId) => completedSet.has(stepId));
         });
       } else {
@@ -162,7 +161,7 @@ export function useSubscribeForm({
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   }, [
-    currentStep.id,
+    currentStep?.id,
     currentStepIndex,
     emailVerified,
     setCompletedSteps,
@@ -171,7 +170,7 @@ export function useSubscribeForm({
 
   const handlePrevious = useCallback(() => {
     if (currentStepIndex > 0) {
-      const previousStepId = steps[currentStepIndex - 1].id;
+      const previousStepId = steps[currentStepIndex - 1]?.id;
       if (previousStepId === "verify" && emailVerified) {
         setCurrentStepIndex((prev) => prev - 2);
       } else {
@@ -184,7 +183,7 @@ export function useSubscribeForm({
     accountForm.setValue("email_verified", false);
     accountForm.setValue("user_id", undefined);
     setCompletedSteps((prev: StepId[]) =>
-      prev.filter((step) => step !== "verify")
+      prev.filter((step) => step !== "verify"),
     );
     localStorage.removeItem(OTP_STORAGE_KEY);
   }, [accountForm, setCompletedSteps]);
@@ -207,10 +206,10 @@ export function useSubscribeForm({
   }, [accountForm, businessForm, brandingForm, variant, paymentForm]);
 
   const resetAllForms = useCallback(() => {
-    accountForm.reset();
-    businessForm.reset();
-    brandingForm.reset();
-    paymentForm.reset();
+    accountForm.reset({});
+    businessForm.reset({});
+    brandingForm.reset({});
+    paymentForm.reset({});
     localStorage.removeItem("accountForm");
     localStorage.removeItem("businessForm");
     localStorage.removeItem("brandingForm");
@@ -255,7 +254,7 @@ export function useSubscribeForm({
       resetAllForms();
 
       router.push(
-        "/subscribe/building?tenant_id=" + res?.data.data?.tenant?.id
+        "/subscribe/building?tenant_id=" + res?.data.data?.tenant?.id,
       );
     } catch (error) {
       console.error("Submission error:", error);
@@ -268,16 +267,27 @@ export function useSubscribeForm({
       ) {
         toast.error(error?.response?.data?.message || "حدث خطاء ما.");
 
+        if (error?.response?.data?.message === "المستخدم المحدد غير موجود.") {
+          resetAllForms();
+          setCurrentStepIndex(0);
+          setCompletedSteps([]);
+        }
+
         // get step and field error and navigate to them
         if (error?.response?.data?.errors) {
-        const errorSteps : [string, string[]][] = Object.entries(error?.response?.data?.errors);
+          const errorSteps: [string, string[]][] = Object.entries(
+            error?.response?.data?.errors,
+          );
+
           if (errorSteps?.length > 0) {
             const [step, fieldName] = errorSteps?.[0]?.[0]?.split(".");
             const fieldError = errorSteps?.[0]?.[1]?.[0];
 
             // get step index and navigate to it
-            const stepIndex = steps.findIndex((s) => s.id === step);
-            setCurrentStepIndex(stepIndex);
+            const stepIndex = steps.findIndex((s) => s?.id === step);
+            if (stepIndex !== -1) {
+              setCurrentStepIndex(stepIndex);
+            }
 
             const forms = [
               accountForm,
@@ -286,14 +296,14 @@ export function useSubscribeForm({
               brandingForm,
               paymentForm,
             ];
-            
+
             const stepForm = forms?.[stepIndex];
-            
+
             // highlight step form field
-            stepForm?.setError(fieldName as any ,{
+            stepForm?.setError(fieldName as any, {
               type: "manual",
-              message: fieldError
-            } );
+              message: fieldError,
+            });
           }
         }
       } else {
@@ -311,7 +321,8 @@ export function useSubscribeForm({
     paymentForm,
     resetAllForms,
     router,
-    steps
+    setCompletedSteps,
+    steps,
   ]);
 
   return {
