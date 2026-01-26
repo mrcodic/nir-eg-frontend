@@ -207,7 +207,6 @@ export function useSubscribeForm({
   }, [accountForm, businessForm, brandingForm, variant, paymentForm]);
 
   const resetAllForms = useCallback(() => {
-    console.log("Resetting all forms");
     accountForm.reset(accountDefaults);
     businessForm.reset();
     brandingForm.reset();
@@ -222,7 +221,6 @@ export function useSubscribeForm({
 
   // Final submission
   const handleFinalSubmit = useCallback(async () => {
-    console.log("Final submit");
     try {
       await checkFormsForErrors();
     } catch (error) {
@@ -243,7 +241,7 @@ export function useSubscribeForm({
         ...(variant === "paid" && { payment: paymentForm.getValues() }),
       };
 
-      console.log("Submitting form data:", formData);
+      // console.log("Submitting form data:", formData);
 
       const res = await axiosInstance.post("/tenants/onboard", formData, {
         headers: {

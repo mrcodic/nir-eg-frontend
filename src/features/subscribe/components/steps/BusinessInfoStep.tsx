@@ -47,8 +47,6 @@ export default function BusinessInfoStep({
     name: "governorate",
   });
 
-  console.log("form values : ", form.getValues());
-
   return (
     <Form {...form}>
       <form
