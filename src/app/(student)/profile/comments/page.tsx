@@ -95,7 +95,7 @@ const Comments = () => {
   // console.log("selectedComment : ", selectedComment);
 
   return (
-    <div className="mx-auto mt-[120px] mb-[48px] w-[85%]">
+    <div className="wrapper mt-[140px] mb-12">
       <div className="flex flex-col justify-between">
         <h3 className="text-lg font-bold text-[#121212]">
           الاسئلة والاستفسارات

@@ -35,12 +35,12 @@ function NavUserMenu({ profile }) {
           <CustomImage
             src={profile?.avatar}
             size={56}
-            className="rounded-full size-14"
+            className="size-14 rounded-full"
             alt="user avatar"
           />
 
           <h3 className="text-base font-bold text-[#121212]">
-            {profile?.first_name + " " + profile?.last_name}
+            {(profile?.first_name || "--") + " " + (profile?.last_name || "--")}
           </h3>
 
           <div className="bg-gray-light mb-4 h-px w-full" />

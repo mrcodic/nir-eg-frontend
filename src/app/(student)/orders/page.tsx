@@ -3,7 +3,7 @@
 import Empty from "@/components/Empty";
 import InfiniteScroll from "@/components/InfinteScroll";
 import LoadingSpinner from "@/components/LoadingSpinner";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { getClientPrivateData } from "@/helpers/client-fetch";
 import { BooksOrder, CourseOrder } from "@/types";
 import { useSearchParams } from "next/navigation";
@@ -46,7 +46,7 @@ function TransactionsList({ type = "course" }: { type: "course" | "cart" }) {
       .finally(() => {
         setIsLoadingData(false);
       });
-  }, []);
+  }, [endpoint]);
 
   if (isLoadingData) return <LoadingSpinner />;
 
@@ -80,11 +80,11 @@ export default function Page() {
   const orderType = searchParams.get("orderType") || "courses";
 
   return (
-    <div className="mx-auto my-[120px] w-[90%] space-y-6 md:max-w-[80%]">
+    <div className="wrapper my-[140px] space-y-6">
       <h2 className="text-2xl font-bold">الطلبات </h2>
 
       <Tabs defaultValue={orderType} className="space-y-6">
-        <TabsList className="w-full gap-6">
+        {/* <TabsList className="w-full gap-6">
           <TabsTrigger
             value="books"
             className="data-[state=active]:bg-primary-800 border-gray-light h-11 rounded-[10px] border p-2 px-3 font-bold data-[state=active]:text-white"
@@ -97,7 +97,7 @@ export default function Page() {
           >
             طلبات الكورسات
           </TabsTrigger>
-        </TabsList>
+        </TabsList> */}
 
         <TabsContent value="courses">
           <TransactionsList type="course" />

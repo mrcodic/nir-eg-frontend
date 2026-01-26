@@ -18,12 +18,19 @@ const statusIcon = {
   PENDING: <LucideLoaderCircle className="size-4 animate-spin" />,
 };
 
-function PaymentStatusBadge({ status }: { status: paymentStatus }) {
+function PaymentStatusBadge({
+  status,
+  className,
+}: {
+  status: paymentStatus;
+  className?: string;
+}) {
   return (
     <div
       className={cn(
-        "py-1 px-2 h-8 rounded-lg inline-flex gap-2 items-center justify-center text-sm font-bold",
-        statusClassName[status] || statusClassName.default
+        "inline-flex h-8 items-center justify-center gap-2 rounded-lg px-2 py-1 text-sm font-bold",
+        statusClassName[status] || statusClassName.default,
+        className,
       )}
     >
       {statusIcon[status]}

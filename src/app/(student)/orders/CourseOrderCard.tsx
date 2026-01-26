@@ -20,21 +20,24 @@ function CourseOrderCard({ item }: { item: CourseOrder }) {
       </div>
 
       <div className={`border-gray-light flex-1 rounded-lg border p-4`}>
-        <div className="flex w-full flex-wrap items-center justify-between gap-6">
+        <div className="flex w-full flex-wrap items-center justify-between gap-x-6 gap-y-2">
           <h2 className="text-sm font-bold text-[#121212] md:text-xl">
             {item?.model?.name}
             <p className="text-sm text-gray-500">{item?.trasnsaction_id}</p>
           </h2>
 
-          <PaymentStatusBadge status={item.payment_status} />
+          <PaymentStatusBadge
+            status={item.payment_status}
+            className="ms-auto"
+          />
         </div>
 
-        <div className="bg-gray-light my-[12px] h-px w-full" />
+        <div className="bg-gray-light my-3 h-px w-full" />
 
         {item?.model_type === "Bundle" && (
           <div className="border-gray-light flex flex-col gap-1 border-b pb-3">
             <span className="text-gray-dark inline-block text-sm">
-              تحتوي الباقة على التالي:
+              تحتوي الباقة على الكورسات التالية:
             </span>
 
             <span className="inline-block text-base font-bold">
@@ -43,12 +46,12 @@ function CourseOrderCard({ item }: { item: CourseOrder }) {
           </div>
         )}
 
-        <div className="mt-4 flex flex-wrap items-center gap-8">
+        <div className="mt-4 flex flex-wrap items-center gap-x-8 gap-y-2">
           <DataLabel text="السعر"> {item.amount} جنية</DataLabel>
 
           <DataLabel text="التاريخ">
             {" "}
-            <div className="flex gap-[40px]">
+            <div className="flex gap-4">
               <span className="text-[#523412]">
                 {new Date(item?.created_at).toISOString().split("T")[0]}
               </span>

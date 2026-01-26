@@ -76,12 +76,12 @@ function CommentsFilter({
         dir="rtl"
       >
         <SelectTrigger>
-          <SelectValue placeholder="اختر الاسبوع" />
+          <SelectValue placeholder="اختر الحصة" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            <SelectLabel>اختر الأسبوع</SelectLabel>
-            <SelectItem value={"all"}>كل الأسابيع</SelectItem>
+            <SelectLabel>اختر الحصة</SelectLabel>
+            <SelectItem value={"all"}>كل الحصص</SelectItem>
             {roomsLoading ? (
               <p className="text-sm">جاري التحميل ...</p>
             ) : (
@@ -105,12 +105,12 @@ function CommentsFilter({
         dir="rtl"
       >
         <SelectTrigger>
-          <SelectValue placeholder="اختر الحصة" />
+          <SelectValue placeholder="اختر الدرس" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            <SelectLabel>اختر الحصة</SelectLabel>
-            <SelectItem value={"all"}>كل الحصص</SelectItem>
+            <SelectLabel>اختر الدرس</SelectLabel>
+            <SelectItem value={"all"}>كل الدروس</SelectItem>
             {lessonsLoading ? (
               <p className="text-sm">جاري التحميل ...</p>
             ) : (
