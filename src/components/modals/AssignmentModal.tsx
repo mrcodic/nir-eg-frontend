@@ -51,11 +51,11 @@ const AssignmentModal = ({
       >
         <DialogTitle className="hidden" />
         <DialogDescription className="hidden" />
+
         <div className="w-full">
           {start?.review_pending ? (
             <div className="flex items-center gap-2">
-              {/* <img src="/assets/CorrectColor.svg" /> */}
-              <p className="inline-block text-lg font-bold text-[#121212]">
+              <p className="inline-block text-lg font-bold text-black">
                 جارى تصحيح الواجب
               </p>
             </div>
@@ -123,7 +123,7 @@ const AssignmentModal = ({
                       {isLoadingRetake ? (
                         <SmallSpinner className="text-white" />
                       ) : (
-                        "إعادة الامتحان"
+                        "إعادة الواجب"
                       )}
                     </Button>
                   )}
