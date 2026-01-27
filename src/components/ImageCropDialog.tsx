@@ -140,7 +140,7 @@ export function ImageCropDialog({
             onChange={(nextCrop) => setCrop(nextCrop)}
             aspect={aspect}
             keepSelection
-            className="w-full min-h-full flex items-center justify-center"
+            className="w-full  flex items-center justify-center"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
