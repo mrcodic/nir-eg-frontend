@@ -6,6 +6,7 @@ const PROTECTED_ROUTES = new Set([
   "/profile",
   "/store",
   "/payment",
+  "/bundles/",
 ]);
 
 const AUTH_ROUTES = new Set(["/login", "/register"]);
@@ -17,7 +18,7 @@ function isRouteMatch(pathname: string, routes: Set<string>) {
 }
 
 export function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+  const pathname = request.nextUrl.pathname.replace(/\/$/, "");
 
   // Ignore public files
   if (

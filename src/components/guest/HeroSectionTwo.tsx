@@ -1,6 +1,7 @@
 import { TenantLandingResponse } from "@/types/tenant.types";
 import Image from "next/image";
 import { Button } from "../ui/button";
+import Link from "next/link";
 
 function HeroSectionTwo({
   main,
@@ -35,25 +36,29 @@ function HeroSectionTwo({
         </div>
 
         <div className="mt-14 flex flex-wrap items-center gap-6">
-          <Button>
-            <Image
-              src="/assets/launch-white.svg"
-              width={20}
-              height={20}
-              alt="join us icon"
-            />
-            اشترك معنا
-          </Button>
-          <Button variant="outline">
-            <Image
-              src="/assets/sign-out.svg"
-              width={20}
-              height={20}
-              alt="join us icon"
-              className="transition-all group-hover/btn:brightness-0 group-hover/btn:invert"
-            />
-            تسجيل دخول
-          </Button>
+          <Link href="/register">
+            <Button>
+              <Image
+                src="/assets/launch-white.svg"
+                width={20}
+                height={20}
+                alt="join us icon"
+              />
+              اشترك معنا
+            </Button>
+          </Link>
+          <Link href="/login">
+            <Button variant="outline">
+              <Image
+                src="/assets/sign-out.svg"
+                width={20}
+                height={20}
+                alt="join us icon"
+                className="transition-all group-hover/btn:brightness-0 group-hover/btn:invert"
+              />
+              تسجيل دخول
+            </Button>
+          </Link>
         </div>
       </div>
 

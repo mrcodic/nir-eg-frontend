@@ -1,6 +1,7 @@
 import { TenantLandingResponse } from "@/types/tenant.types";
 import Image from "next/image";
 import { Button } from "../ui/button";
+import Link from "next/link";
 
 function HeroSection({
   content,
@@ -13,7 +14,9 @@ function HeroSection({
         <h1 className="text-32 font-bold">{content?.title}</h1>
         <p className="mt-6 text-lg font-bold">{content?.description}</p>
 
-        <Button className="mt-14">اشترك معنا</Button>
+        <Link href="/register">
+          <Button className="mt-14">اشترك معنا</Button>
+        </Link>
       </div>
 
       <div className="bg-gray-light relative h-[450px] w-full max-w-[466px] overflow-hidden lg:h-[600px] lg:max-w-1/2">

@@ -1,6 +1,7 @@
 import { TenantLandingResponse } from "@/types/tenant.types";
 import Image from "next/image";
 import { Button } from "../ui/button";
+import Link from "next/link";
 
 function HeroSectionThree({
   content,
@@ -18,12 +19,14 @@ function HeroSectionThree({
           </p>
 
           <div className="mt-14 flex flex-wrap items-center gap-6">
-            <Button
-              variant="outline"
-              className="hover:text-primary-800 h-auto max-w-full border-white px-12 py-4 text-2xl font-bold text-white hover:border-white hover:bg-white"
-            >
-              اشترك الان!
-            </Button>
+            <Link href="/register">
+              <Button
+                variant="outline"
+                className="hover:text-primary-800 h-auto max-w-full border-white px-12 py-4 text-2xl font-bold text-white hover:border-white hover:bg-white"
+              >
+                اشترك الان!
+              </Button>
+            </Link>
           </div>
         </div>
 
