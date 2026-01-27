@@ -48,7 +48,6 @@ export default function StudentCenterField({
         options={mappedCenters}
         value={value}
         onSelect={(v) => {
-          console.log("selected center : ", v);
           setValue(
             typeof v === "string" || typeof v === "number"
               ? String(v)

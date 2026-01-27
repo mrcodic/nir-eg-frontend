@@ -13,16 +13,12 @@ function DynamicSelect({ queryKey, ...rest }: Props) {
     queryFn: getPublicData,
   });
 
-  console.log("select ", queryKey, data);
-
   const modifiedOptions = useMemo(() => {
     return (data as any)?.data?.map((d: any) => ({
       value: String(d.id),
       label: d.name,
     }));
   }, [data]);
-
-  console.log("modifiedOptions", modifiedOptions);
 
   return (
     <CustomSelect

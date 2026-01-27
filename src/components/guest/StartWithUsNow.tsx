@@ -1,6 +1,7 @@
 import { TenantLandingResponse } from "@/types/tenant.types";
 import Image from "next/image";
 import { Button } from "../ui/button";
+import Link from "next/link";
 
 function StartWithUsNow({
   content,
@@ -32,15 +33,17 @@ function StartWithUsNow({
               خلال الامتحانات و الكويزات
             </p>
           </div>
-          <Button variant="secondary" className="w-fit">
-            اشترك معنا{" "}
-            <Image
-              src="/assets/launch-white.svg"
-              alt="rocket icon"
-              width={24}
-              height={24}
-            />
-          </Button>
+          <Link href="/register">
+            <Button variant="secondary" className="w-fit">
+              اشترك معنا{" "}
+              <Image
+                src="/assets/launch-white.svg"
+                alt="rocket icon"
+                width={24}
+                height={24}
+              />
+            </Button>
+          </Link>
         </div>
 
         <div className="absolute inset-y-0 left-0 h-full w-[200px] lg:w-[400px]">
