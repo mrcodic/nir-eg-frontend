@@ -32,7 +32,12 @@ const fileUploads = [
     maxSize: 2,
     aspect: 1,
   },
-  { name: "coverFile" as const, label: "صورة الهيرو", maxSize: 5 },
+  {
+    name: "coverFile" as const,
+    label: "صورة الغلاف",
+    maxSize: 5,
+    aspect: 1.91,
+  },
 ];
 
 const domainTypeOptions = [

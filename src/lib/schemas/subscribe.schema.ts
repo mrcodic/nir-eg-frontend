@@ -246,7 +246,7 @@ export const brandingSchema = z
     brandColor: z.string().min(1, "يجب اختيار لون الموقع"),
     selectedTemplate: z.string().min(1, "يجب اختيار قالب للموقع"),
 
-    logoFile: imageFileSchema(MAX_LOGO_SIZE, "الشعار").nullable(),
+    logoFile: imageFileSchema(MAX_LOGO_SIZE, "اللوجو").nullable(),
 
     faviconFile: imageFileSchema(MAX_FAVICON_SIZE, "الأيقونة").nullable(),
 
@@ -261,7 +261,7 @@ export const brandingSchema = z
     if (!logoFile) {
       ctx.addIssue({
         path: ["logoFile"],
-        message: "يجب رفع شعار الموقع",
+        message: "يجب رفع اللوجو الخاص بالموقع",
         code: z.ZodIssueCode.custom,
       });
     }
