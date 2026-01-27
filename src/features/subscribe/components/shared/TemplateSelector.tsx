@@ -10,14 +10,6 @@ interface TemplateSelectorProps {
   onChange: (value: string) => void;
 }
 
-// Fallback colors for templates without images
-const templateColors = [
-  "from-blue-400 to-blue-600",
-  "from-purple-400 to-purple-600",
-  "from-teal-400 to-teal-600",
-];
-
-// Default templates - These would come from API in production
 const templates: TemplateOption[] = [
   {
     id: "landing-v1",
@@ -63,14 +55,7 @@ export default function TemplateSelector({
               )}
             >
               {/* Template Preview - Using gradient fallback */}
-              <div
-                className={cn(
-                  "relative flex items-center justify-center grow",
-                  `bg-linear-to-br ${
-                    templateColors[index % templateColors.length]
-                  }`,
-                )}
-              >
+              <div className="relative flex items-center justify-center grow">
                 <Image
                   src={template.previewImage}
                   alt={template.name}
@@ -82,27 +67,21 @@ export default function TemplateSelector({
                 <button
                   type="button"
                   onClick={() => {
-                    // open the image in new
                     window.open(template.previewImage, "_blank");
                   }}
-                  className="flex flex-col  items-center justify-center  gap-2 text-black/80 hover:bg-black/70 transition-colors duration-200 hover:text-white cursor-pointer relative z-10 bg-gray-200/70 p-4 rounded-lg "
+                  className="flex flex-col  items-center justify-center  gap-2 text-black/80 hover:bg-black/70 transition-colors duration-200 hover:text-white cursor-pointer relative z-10 bg-gray-200/80 p-4 rounded-lg "
                 >
                   <Monitor className="w-10 h-10" />
                   <span className="text-xs">قالب {index + 1}</span>
                 </button>
-
-                {/* Hover Effect */}
-                {/* <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-200" /> */}
               </div>
 
               {/* Template Name */}
-              <div className="p-2 ">
+              <div className="p-2 pb-0">
                 <p
                   className={cn(
-                    "text-sm text-center",
-                    isSelected
-                      ? "text-primary-800 font-medium"
-                      : "text-gray-dark",
+                    "text-sm text-center font-bold",
+                    isSelected ? "text-primary-800" : "text-gray-dark",
                   )}
                 >
                   {template.name}

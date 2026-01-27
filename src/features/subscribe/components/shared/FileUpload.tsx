@@ -14,11 +14,13 @@ interface FileUploadProps {
   value?: File | null;
   onChange: (file: File | null) => void;
   previewUrl?: string;
+  aspect?: number;
+  isInvalid?: boolean;
 }
 
 // Default accept configuration
 const DEFAULT_ACCEPT: Accept = {
-  "image/*": [".png", ".jpg", ".jpeg", ".gif", ".webp"],
+  "image/*": [".png", ".jpg", ".jpeg", ".webp", ".svg"],
 };
 
 export default function FileUpload({
@@ -28,6 +30,8 @@ export default function FileUpload({
   value,
   onChange,
   previewUrl: externalPreviewUrl,
+  aspect,
+  isInvalid,
 }: FileUploadProps) {
   const [cropOpen, setCropOpen] = useState(false);
   const [tempImage, setTempImage] = useState<string | null>(null);
@@ -125,10 +129,18 @@ export default function FileUpload({
             setTempImage(null);
           }}
           onConfirm={handleCroppedImage}
+          aspect={aspect}
         />
       )}
 
-      <label className="block text-sm font-medium text-right">{label}</label>
+      <label
+        className={cn(
+          "block text-sm font-medium text-right",
+          isInvalid && "text-destructive",
+        )}
+      >
+        {label}
+      </label>
 
       <div
         {...getRootProps({
@@ -140,6 +152,7 @@ export default function FileUpload({
               ? "border-primary-800 bg-primary-100/20"
               : "border-gray-light hover:border-primary-800/50",
             error && "border-destructive",
+            isInvalid && "border-destructive",
           ),
         })}
       >

@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import type { BrandingFormData } from "@/lib/schemas/subscribe.schema";
-import { UseFormReturn , useWatch } from "react-hook-form";
+import { UseFormReturn, useWatch } from "react-hook-form";
 import { ColorPicker, FileUpload, TemplateSelector } from "../shared";
 import NavigationButtons from "../shared/NavigationButtons";
 
@@ -25,8 +25,13 @@ interface BrandingStepProps {
 
 // File upload configs
 const fileUploads = [
-  { name: "logoFile" as const, label: "صورة اللوجو", maxSize: 2 },
-  { name: "faviconFile" as const, label: "صورة الأيقون", maxSize: 1 },
+  { name: "logoFile" as const, label: "صورة اللوجو", maxSize: 2, aspect: 1 },
+  {
+    name: "faviconFile" as const,
+    label: "صورة الأيقون",
+    maxSize: 2,
+    aspect: 1,
+  },
   { name: "coverFile" as const, label: "صورة الهيرو", maxSize: 5 },
 ];
 
@@ -50,7 +55,6 @@ export default function BrandingStep({
     control: form.control,
     name: "domainType",
   });
-
 
   return (
     <Form {...form}>
@@ -135,7 +139,7 @@ export default function BrandingStep({
               key={upload.name}
               control={form.control}
               name={upload.name}
-              render={({ field }) => (
+              render={({ field, fieldState }) => (
                 <FormItem>
                   <FormControl>
                     <FileUpload
@@ -148,6 +152,8 @@ export default function BrandingStep({
                           ? URL.createObjectURL(field.value)
                           : undefined
                       }
+                      aspect={upload.aspect}
+                      isInvalid={fieldState.error !== undefined}
                     />
                   </FormControl>
                   <FormMessage />

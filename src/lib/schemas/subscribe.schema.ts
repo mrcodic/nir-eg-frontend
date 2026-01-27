@@ -1,5 +1,29 @@
 import { z } from "zod";
 
+const MAX_LOGO_SIZE = 2 * 1024 * 1024; // 2MB
+const MAX_FAVICON_SIZE = 2 * 1024 * 1024; // 2MB
+const MAX_COVER_SIZE = 5 * 1024 * 1024; // 5MB
+
+const IMAGE_MIME_TYPES = [
+  "image/png",
+  "image/jpeg",
+  "image/jpg",
+  "image/webp",
+  "image/svg+xml",
+];
+
+const imageFileSchema = (maxSize: number, label: string) =>
+  z
+    .instanceof(File)
+    .refine((file) => IMAGE_MIME_TYPES.includes(file.type), {
+      message: `${label} يجب أن يكون صورة`,
+    })
+    .refine((file) => file.size <= maxSize, {
+      message: `${label} يجب ألا يتجاوز ${(maxSize / 1024 / 1024).toFixed(
+        0,
+      )} ميجابايت`,
+    });
+
 // ==========================================
 // Step 1: Account Information Schema
 // ==========================================
@@ -29,7 +53,7 @@ export const accountInfoSchema = z
           .string()
           .superRefine((val, ctx) => {
             const cleaned = val.replace(/^\+/, "");
-            
+
             // Check if contains only valid characters
             if (!/^[\+\d]+$/.test(val)) {
               ctx.addIssue({
@@ -42,7 +66,7 @@ export const accountInfoSchema = z
             // Handle international format
             if (val.startsWith("+20") || cleaned.startsWith("0020")) {
               const withoutCountryCode = cleaned.replace(/^0020|^20/, "");
-              
+
               // Check if number exists after country code
               if (!withoutCountryCode) {
                 ctx.addIssue({
@@ -51,7 +75,7 @@ export const accountInfoSchema = z
                 });
                 return;
               }
-              
+
               // Check if starts with 01
               if (!withoutCountryCode.startsWith("01")) {
                 ctx.addIssue({
@@ -60,16 +84,17 @@ export const accountInfoSchema = z
                 });
                 return;
               }
-              
+
               // Check valid carrier prefix
               if (!/^01[0125]/.test(withoutCountryCode)) {
                 ctx.addIssue({
                   code: z.ZodIssueCode.custom,
-                  message: "كود الشبكة غير صالح. استخدم 010 (فودافون)، 011 (اتصالات)، 012 (أورانج)، أو 015 (WE)",
+                  message:
+                    "كود الشبكة غير صالح. استخدم 010 (فودافون)، 011 (اتصالات)، 012 (أورانج)، أو 015 (WE)",
                 });
                 return;
               }
-              
+
               // Check total length (must be 11 digits)
               if (withoutCountryCode.length !== 11) {
                 ctx.addIssue({
@@ -78,11 +103,11 @@ export const accountInfoSchema = z
                 });
                 return;
               }
-              
+
               // Valid international format
               return;
             }
-            
+
             // Handle local format
             // Check if starts with 01
             if (!cleaned.startsWith("01")) {
@@ -92,7 +117,7 @@ export const accountInfoSchema = z
               });
               return;
             }
-            
+
             // Check length first
             if (cleaned.length < 11) {
               ctx.addIssue({
@@ -101,7 +126,7 @@ export const accountInfoSchema = z
               });
               return;
             }
-            
+
             if (cleaned.length > 11) {
               ctx.addIssue({
                 code: z.ZodIssueCode.custom,
@@ -109,16 +134,17 @@ export const accountInfoSchema = z
               });
               return;
             }
-            
+
             // Check valid carrier prefix
             if (!/^01[0125]/.test(cleaned)) {
               ctx.addIssue({
                 code: z.ZodIssueCode.custom,
-                message: "كود الشبكة غير صالح. استخدم 010 (فودافون)، 011 (اتصالات)، 012 (أورانج)، أو 015 (WE)",
+                message:
+                  "كود الشبكة غير صالح. استخدم 010 (فودافون)، 011 (اتصالات)، 012 (أورانج)، أو 015 (WE)",
               });
               return;
             }
-            
+
             // Final pattern validation
             if (!/^01[0125]\d{8}$/.test(cleaned)) {
               ctx.addIssue({
@@ -130,14 +156,14 @@ export const accountInfoSchema = z
           })
           .transform((val) => {
             return val.replace(/^\+/, "");
-          })
+          }),
       ),
     password: z
       .string()
       .min(8, "كلمة المرور يجب أن تكون 8 أحرف على الأقل")
       .regex(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
-        "كلمة المرور يجب أن تحتوي على حرف كبير وصغير ورقم"
+        "كلمة المرور يجب أن تحتوي على حرف كبير وصغير ورقم",
       ),
     confirmPassword: z.string().min(1, "تأكيد كلمة المرور مطلوب"),
     // language: z.string().min(1, "اللغة مطلوبة"),
@@ -219,12 +245,34 @@ export const brandingSchema = z
 
     brandColor: z.string().min(1, "يجب اختيار لون الموقع"),
     selectedTemplate: z.string().min(1, "يجب اختيار قالب للموقع"),
-    logoFile: z.any().optional().nullable(),
-    faviconFile: z.any().optional().nullable(),
-    coverFile: z.any().optional().nullable(),
+
+    logoFile: imageFileSchema(MAX_LOGO_SIZE, "الشعار").nullable(),
+
+    faviconFile: imageFileSchema(MAX_FAVICON_SIZE, "الأيقونة").nullable(),
+
+    coverFile: imageFileSchema(MAX_COVER_SIZE, "صورة الغلاف")
+      .nullable()
+      .optional(),
   })
   .superRefine((data, ctx) => {
-    const { domainType, websiteName } = data;
+    const { domainType, websiteName, logoFile, faviconFile } = data;
+
+    // 🔴 REQUIRED CHECKS (AFTER defaults)
+    if (!logoFile) {
+      ctx.addIssue({
+        path: ["logoFile"],
+        message: "يجب رفع شعار الموقع",
+        code: z.ZodIssueCode.custom,
+      });
+    }
+
+    if (!faviconFile) {
+      ctx.addIssue({
+        path: ["faviconFile"],
+        message: "يجب رفع أيقونة الموقع",
+        code: z.ZodIssueCode.custom,
+      });
+    }
 
     // Regex for subdomain (your original)
     const subDomainRegex = /^[a-zA-Z0-9-]+$/;

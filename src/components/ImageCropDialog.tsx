@@ -17,7 +17,7 @@ import { cropImage } from "@/lib/crop-image";
 interface ImageCropDialogProps {
   open: boolean;
   src: string;
-  aspect?: number; // ✅ optional
+  aspect?: number;
   onClose: () => void;
   onConfirm: (file: File) => void;
 }
@@ -59,15 +59,21 @@ export function ImageCropDialog({
           <DialogTitle>قص الصورة</DialogTitle>
         </DialogHeader>
 
-        <div className="max-h-[500px] overflow-auto">
+        <div className="max-h-[500px] overflow-auto overflow-x-hidden">
           <ReactCrop
             crop={crop}
             onChange={(nextCrop) => setCrop(nextCrop)}
             aspect={aspect} // ✅ CORRECT PLACE
             keepSelection
+            className="w-full"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img ref={imgRef} src={src} alt="Crop" className="max-h-[500px]" />
+            <img
+              ref={imgRef}
+              src={src}
+              alt="Crop"
+              className="w-full object-contain"
+            />
           </ReactCrop>
         </div>
 
