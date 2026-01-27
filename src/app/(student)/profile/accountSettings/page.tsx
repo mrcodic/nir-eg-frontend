@@ -137,15 +137,13 @@ const PageSettings = () => {
       }
     } catch (err: any) {
       toast({
-        description:
-          err?.response?.data?.error?.message || "حدث خطأ ما",
+        description: err?.response?.data?.error?.message || "حدث خطأ ما",
         icon: "error",
       });
     } finally {
       setIsLoading(false);
     }
   };
-
 
   return (
     <div className="wrapper mt-[168px] mb-12">
@@ -226,6 +224,7 @@ const PageSettings = () => {
                       typeof v === "string" ? v : v.value,
                       {
                         shouldValidate: true,
+                        shouldDirty: true,
                       },
                     );
                   }}

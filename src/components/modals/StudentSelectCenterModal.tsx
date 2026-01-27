@@ -72,7 +72,7 @@ export function StudentSelectCenterModal() {
       modal.closeModal();
     } catch (error) {
       toast({
-        description: " حصل مشكلة  ",
+        description: "حصل مشكلة اثناء الاشتراك فى السنتر",
         icon: "error",
       });
     }

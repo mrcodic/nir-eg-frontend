@@ -13,10 +13,13 @@ export default function PayLabel({ type, price }) {
   const search = useSearchParams();
   const courseId = search.get("courseId");
   const bundleId = search.get("bundleId");
+  const centerId = search.get("centerId");
   const roomId = search.get("roomId");
 
   function backtoPayMethod() {
-    router.push("/bundles");
+    router.push(
+      `/bundles${courseId || bundleId || centerId ? `/${courseId || bundleId || centerId}` : ""}`,
+    );
 
     modal.setDialogContent(
       <PaymentModel

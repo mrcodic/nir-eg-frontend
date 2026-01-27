@@ -28,13 +28,14 @@ function useHandleFeaturesDisplay() {
           modal.openModal();
           localStorage.setItem("more-features", stringifiedFeatures);
         } else {
-          onClose && onClose();
+          onClose?.();
         }
       } else {
-        onClose && onClose();
+        onClose?.();
       }
     } catch (e) {
       console.log("features error : ", e);
+      onClose?.();
     }
   };
 

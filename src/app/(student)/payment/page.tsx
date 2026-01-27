@@ -33,7 +33,10 @@ const page = async ({ searchParams }) => {
 
       <div className="flex flex-col justify-center">
         <div className="flex-1 font-bold">
-          <PayLabel type={type} price={data?.price} />
+          <PayLabel
+            type={type}
+            price={data?.price || data?.body?.room?.price}
+          />
 
           <PaymentDetailsRenderer
             data={data}
