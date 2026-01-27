@@ -30,17 +30,92 @@ export function ImageCropDialog({
   onConfirm,
 }: ImageCropDialogProps) {
   const imgRef = useRef<HTMLImageElement | null>(null);
+  const [crop, setCrop] = useState<Crop>();
 
-  const [crop, setCrop] = useState<Crop>({
-    unit: "px",
-    x: 50,
-    y: 50,
-    width: 300,
-    height: 300,
-  });
+  // Initialize crop when image loads
+  const onImageLoad = useCallback(
+    (e: React.SyntheticEvent<HTMLImageElement>) => {
+      const { width, height } = e.currentTarget;
+
+      // Calculate initial crop dimensions that fit within image bounds
+      let cropWidth: number;
+      let cropHeight: number;
+
+      if (aspect) {
+        // With aspect ratio: fit the largest crop area possible
+        if (width / height > aspect) {
+          // Image is wider than aspect ratio
+          cropHeight = Math.min(height * 0.8, height - 20);
+          cropWidth = cropHeight * aspect;
+        } else {
+          // Image is taller than aspect ratio
+          cropWidth = Math.min(width * 0.8, width - 20);
+          cropHeight = cropWidth / aspect;
+        }
+      } else {
+        // Without aspect ratio: 80% of smallest dimension
+        const minDimension = Math.min(width, height);
+        cropWidth = Math.min(minDimension * 0.8, width - 20);
+        cropHeight = Math.min(minDimension * 0.8, height - 20);
+      }
+
+      // Ensure crop doesn't exceed image bounds
+      cropWidth = Math.min(cropWidth, width - 10);
+      cropHeight = Math.min(cropHeight, height - 10);
+
+      // Center the crop
+      const x = (width - cropWidth) / 2;
+      const y = (height - cropHeight) / 2;
+
+      setCrop({
+        unit: "px",
+        x: Math.max(0, x),
+        y: Math.max(0, y),
+        width: cropWidth,
+        height: cropHeight,
+      });
+    },
+    [aspect],
+  );
+
+  // Handle click to move crop area
+  const handleImageClick = useCallback(
+    (e: React.MouseEvent<HTMLImageElement>) => {
+      if (!imgRef.current || !crop) return;
+
+      const img = imgRef.current;
+      const rect = img.getBoundingClientRect();
+
+      // Calculate click position relative to the image
+      const clickX = e.clientX - rect.left;
+      const clickY = e.clientY - rect.top;
+
+      // Convert to image coordinates (accounting for displayed size vs natural size)
+      const scaleX = img.width / rect.width;
+      const scaleY = img.height / rect.height;
+
+      const imageClickX = clickX * scaleX;
+      const imageClickY = clickY * scaleY;
+
+      // Calculate new crop position (center crop on click point)
+      let newX = imageClickX - crop.width / 2;
+      let newY = imageClickY - crop.height / 2;
+
+      // Ensure crop stays within image bounds
+      newX = Math.max(0, Math.min(newX, img.width - crop.width));
+      newY = Math.max(0, Math.min(newY, img.height - crop.height));
+
+      setCrop({
+        ...crop,
+        x: newX,
+        y: newY,
+      });
+    },
+    [crop],
+  );
 
   const handleConfirm = useCallback(async () => {
-    if (!imgRef.current || !crop.width || !crop.height) return;
+    if (!imgRef.current || !crop?.width || !crop?.height) return;
 
     const blob = await cropImage(imgRef.current, crop as PixelCrop);
 
@@ -59,20 +134,23 @@ export function ImageCropDialog({
           <DialogTitle>قص الصورة</DialogTitle>
         </DialogHeader>
 
-        <div className="max-h-[500px] overflow-auto overflow-x-hidden">
+        <div className="relative max-h-[520px] overflow-hidden overflow-y-auto">
           <ReactCrop
             crop={crop}
             onChange={(nextCrop) => setCrop(nextCrop)}
-            aspect={aspect} // ✅ CORRECT PLACE
+            aspect={aspect}
             keepSelection
-            className="w-full"
+            className="w-full min-h-full flex items-center justify-center"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               ref={imgRef}
               src={src}
               alt="Crop"
-              className="w-full object-contain"
+              onLoad={onImageLoad}
+              onClick={handleImageClick}
+              className="w-full max-h-[520px] object-contain select-none cursor-crosshair"
+              draggable={false}
             />
           </ReactCrop>
         </div>
@@ -81,7 +159,9 @@ export function ImageCropDialog({
           <Button variant="outline" onClick={onClose}>
             إلغاء
           </Button>
-          <Button onClick={handleConfirm}>تأكيد</Button>
+          <Button onClick={handleConfirm} disabled={!crop}>
+            تأكيد
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
