@@ -22,7 +22,7 @@ const ProtectedRoute = ({
   data,
   isLoading,
   text,
-  verifyPhone = true,
+  verifyPhone = false,
 }: Props) => {
   const router = useRouter();
   const { profile, isLoading: isLoadingProfile } = useAuthContext();

@@ -81,7 +81,7 @@ const CourseCard = ({
       >
         <Image
           src={courseDetails?.thumbnail || "/assets/grade-placeholder.png"}
-          className="object-contain transition-all group-hover:scale-110 group-hover:opacity-80"
+          className="object-cover transition-all group-hover:scale-110 group-hover:opacity-80"
           fill
           alt="course cover image"
         />

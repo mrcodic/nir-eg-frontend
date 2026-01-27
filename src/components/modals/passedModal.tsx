@@ -94,7 +94,7 @@ const PassedModal = ({
                   <span className="font-bold">{start?.score_ratio}</span> درجة
                 </p>
 
-                {start?.retake && (
+                {start?.retake && start?.show_answer && (
                   <p className="inline-block">
                     - إذا قمت بعرض الإجابات مرة أخرى لن تتمكن من إعادة الامتحان
                   </p>

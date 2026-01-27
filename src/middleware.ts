@@ -6,7 +6,6 @@ const PROTECTED_ROUTES = new Set([
   "/profile",
   "/store",
   "/payment",
-  "/bundles/",
 ]);
 
 const AUTH_ROUTES = new Set(["/login", "/register"]);
@@ -20,7 +19,6 @@ function isRouteMatch(pathname: string, routes: Set<string>) {
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname.replace(/\/$/, "");
 
-  // Ignore public files
   if (
     pathname.startsWith("/_next") ||
     pathname.startsWith("/assets") ||
@@ -33,7 +31,6 @@ export function middleware(request: NextRequest) {
   const isProtected = isRouteMatch(pathname, PROTECTED_ROUTES);
   const isAuthRoute = isRouteMatch(pathname, AUTH_ROUTES);
 
-  // Protected route → not logged in
   if (isProtected && !token) {
     const loginUrl = request.nextUrl.clone();
     loginUrl.pathname = "/login";
@@ -41,7 +38,6 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
-  // Auth route → already logged in
   if (isAuthRoute && token) {
     const homeUrl = request.nextUrl.clone();
     homeUrl.pathname = "/";

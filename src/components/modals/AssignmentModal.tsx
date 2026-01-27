@@ -97,7 +97,7 @@ const AssignmentModal = ({
 
           <div className="mx-auto mt-8 flex w-full items-center justify-center">
             <div
-              className={cn("grid justify-center gap-6 md:grid-cols-2", {
+              className={cn("grid w-full justify-center gap-6 md:grid-cols-2", {
                 "md:grid-cols-1":
                   start?.review_pending ||
                   (!start?.show_answer && !start?.retake),

@@ -51,7 +51,7 @@ const ValidateOtp = ({ setResetForm }) => {
     try {
       await axios.post("/api?url=otp/verify", v);
       toast({
-        description: "تم تأكيد ررقم الهاتف بنجاح",
+        description: "تم تأكيد رقم الهاتف بنجاح",
         icon: "success",
       });
       setStart(true);

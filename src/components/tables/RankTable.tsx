@@ -33,10 +33,10 @@ const columns = [
   }),
   columnHelper.accessor("name", {
     header: () => (
-      <div className="w-[156px] px-2 text-[18px] font-bold">الطالب</div>
+      <div className="w-[200px] px-2 text-[18px] font-bold">الطالب</div>
     ),
     cell: (info) => (
-      <div className="flex w-[156px] items-center justify-center gap-6 p-2 text-center text-[16px] font-medium">
+      <div className="flex w-[200px] items-center justify-start gap-6 p-2 text-center text-[16px] font-medium">
         <Image
           src="/assets/avatar-user.svg"
           width={48}

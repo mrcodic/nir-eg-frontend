@@ -4,7 +4,6 @@ import { getClientPrivateData } from "@/helpers/client-fetch";
 import { IActivity, StudentActivitiesData } from "@/types";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { createColumnHelper } from "@tanstack/react-table";
-import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import GradesTableAction from "../GradesTableAction";
@@ -20,19 +19,9 @@ const columns = [
       </div>
     ),
     cell: (info) => {
-      const row = info.row.original;
-
       return (
         <div className="flex w-full max-w-[200px] min-w-[200px] flex-wrap items-center gap-2 truncate p-2 ps-4 text-[16px] font-medium md:max-w-[300px]">
           <p className="truncate">{info.getValue()}</p>
-          <Link
-            href={`/bundles/${row?.classroom_id}/${row?.room_id}/${
-              row.type === "امتحان" ? "exams" : "assignment"
-            }/${row?.quiz_id}`}
-            className="flex items-center justify-center truncate font-bold text-[#D9B45C] underline"
-          >
-            عرض {row.type === "امتحان" ? "الامتحان" : "الواجب"}
-          </Link>
         </div>
       );
     },
@@ -90,7 +79,7 @@ export default function CourseActivitiesTable() {
   const activities = data?.body?.students || [];
   const pageCount = data?.body?.pagination?.last_page ?? -1;
 
-  console.log("activities : ", activities);
+  console.log(activities);
 
   return (
     <CustomTableUI

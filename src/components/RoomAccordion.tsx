@@ -179,7 +179,7 @@ const RoomAccordion = ({
                       subscribe={subscribe || room?.is_subscriped}
                       verify={verify}
                       locked={lock_after == 0}
-                      linkText="فتح الامتحان"
+                      linkText="فتح الكويز"
                       type="exam"
                     />
                   );

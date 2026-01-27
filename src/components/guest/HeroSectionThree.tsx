@@ -2,6 +2,7 @@ import { TenantLandingResponse } from "@/types/tenant.types";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 function HeroSectionThree({
   content,
@@ -30,7 +31,14 @@ function HeroSectionThree({
           </div>
         </div>
 
-        <div className="mobile:max-w-[466px] bg-gray-light relative aspect-square w-full overflow-hidden rounded-2xl">
+        <div
+          className={cn(
+            "mobile:max-w-[466px] bg-gray-light relative aspect-square w-full overflow-hidden rounded-2xl",
+            {
+              "bg-gray-light": !content?.image,
+            },
+          )}
+        >
           {content?.image && (
             <Image
               src={content?.image}
@@ -38,7 +46,7 @@ function HeroSectionThree({
               alt="hero image"
               fetchPriority="high"
               loading="eager"
-              className="object-cover"
+              className="object-contain"
             />
           )}
         </div>

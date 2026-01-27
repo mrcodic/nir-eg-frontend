@@ -2,6 +2,7 @@ import { TenantLandingResponse } from "@/types/tenant.types";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 function HeroSectionTwo({
   main,
@@ -62,13 +63,20 @@ function HeroSectionTwo({
         </div>
       </div>
 
-      <div className="mobile:max-w-5/12 mobile:h-[600px] bg-gray-light relative h-[400px] w-full overflow-hidden rounded-2xl">
+      <div
+        className={cn(
+          "mobile:max-w-5/12 mobile:h-[600px] relative h-[400px] w-full overflow-hidden rounded-2xl",
+          {
+            "bg-gray-light": !main?.image,
+          },
+        )}
+      >
         {main?.image && (
           <Image
             src={main?.image}
             fill
             alt="hero image"
-            className="object-cover"
+            className="object-contain"
             fetchPriority="high"
             loading="eager"
           />

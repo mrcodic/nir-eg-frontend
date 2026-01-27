@@ -44,6 +44,8 @@ const ProfilePage = () => {
     }
   }, [profile, modal]);
 
+  console.log("profile rooms : ", rooms);
+
   return (
     <div className="mt-[140px] mb-12">
       <div className="wrapper">

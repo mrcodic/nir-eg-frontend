@@ -53,7 +53,7 @@ export default function OtpModal({ phone }) {
       });
 
       toast({
-        description: "تم تأكيد ررقم الهاتف بنجاح",
+        description: "تم تأكيد رقم الهاتف بنجاح",
         icon: "success",
       });
 

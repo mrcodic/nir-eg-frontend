@@ -1,12 +1,11 @@
 import { Bundle } from "@/types";
 import Image from "next/image";
 import DataWithLabel from "./ui/DataWithLabel";
-import PriceBubbles from "./ui/price-bubble";
 
 function BundleCard({ bundle }: { bundle: Bundle }) {
   return (
     <div className="flex gap-6 max-md:flex-col">
-      <div className="relative min-w-46 max-h-58 aspect-square border border-gray-light rounded-lg overflow-hidden ">
+      <div className="border-gray-light relative aspect-square max-h-58 min-w-46 overflow-hidden rounded-lg border">
         <Image
           src={bundle?.cover || "/assets/grade-placeholder.png"}
           fill
@@ -15,22 +14,22 @@ function BundleCard({ bundle }: { bundle: Bundle }) {
         />
       </div>
 
-      <div className="rounded-lg border grow border-gray-light p-4">
+      <div className="border-gray-light grow rounded-lg border p-4">
         <div className="flex items-center justify-between gap-4">
           <h4 className="text-2xl font-bold">{bundle?.name}</h4>
 
-          <PriceBubbles
+          {/* <PriceBubbles
             price={bundle?.price}
             sale={bundle?.sale}
             numberClassName="text-xl"
             currencyClassName="text-base mt-auto"
-          />
+          /> */}
         </div>
 
-        <hr className="bg-gray-light h-px w-full my-3" />
+        <hr className="bg-gray-light my-3 h-px w-full" />
 
         <div className="space-y-2">
-          <h4 className="text-sm font-bold text-gray-dark">
+          <h4 className="text-gray-dark text-sm font-bold">
             تحتوي الباقة على التالي:
           </h4>
           <p className="text-base font-bold">
