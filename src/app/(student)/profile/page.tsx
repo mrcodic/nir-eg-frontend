@@ -14,13 +14,12 @@ import ProfilePointsTable from "@/modules/profile/components/ProfilePointsTable"
 import StudentTasksOverview from "@/modules/profile/components/StudentTasksOverview";
 import { ApiResponse, LatestRoom } from "@/types";
 import { useQuery } from "@tanstack/react-query";
-import dynamic from "next/dynamic";
 import Link from "next/link";
-import { Suspense, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
-const ProfileVerifyPhoneCard = dynamic(
-  () => import("@/modules/profile/components/ProfileVerifyPhoneCard"),
-);
+// const ProfileVerifyPhoneCard = dynamic(
+//   () => import("@/modules/profile/components/ProfileVerifyPhoneCard"),
+// );
 
 const ProfilePage = () => {
   const { profile } = useAuthContext();
@@ -49,11 +48,11 @@ const ProfilePage = () => {
   return (
     <div className="mt-[140px] mb-12">
       <div className="wrapper">
-        <Suspense fallback={null}>
+        {/* <Suspense fallback={null}>
           {profile?.parent_phone_verification === false && (
             <ProfileVerifyPhoneCard phone={profile?.parent_phone} />
           )}
-        </Suspense>
+        </Suspense> */}
 
         <ProfileHeaderCard profileData={profile} />
 

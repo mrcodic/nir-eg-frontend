@@ -61,7 +61,7 @@ const RoomAccordion = ({
 
               <div className="w-full flex-1">
                 <div className="flex w-full flex-wrap items-center justify-between gap-y-2 sm:pl-6">
-                  <h3 className="line-clamp-2 text-[18px] font-bold text-[#121212]">
+                  <h3 className="line-clamp-2 text-start text-lg font-bold text-black">
                     {room?.title}
                   </h3>
 
@@ -72,31 +72,29 @@ const RoomAccordion = ({
                       )}
 
                     {lock_after !== null && Number(lock_after) === 0 && (
-                      <div className="ms-auto flex gap-6 text-sm font-bold">
-                        <div className="ms-auto flex flex-col gap-x-4 gap-y-2 md:flex-row">
-                          <div
-                            aria-label="اشترك الآن فى هذه الحصة"
-                            role="button"
-                            className="bg-primary text-primary-foreground hover:bg-primary/80 flex h-8 cursor-pointer items-center rounded-lg px-4 py-2 transition-colors"
-                            onClick={(e) => {
-                              e.stopPropagation();
+                      <div className="ms-auto flex w-full flex-col gap-x-4 gap-y-2 md:flex-row">
+                        <div
+                          aria-label="اشترك الآن فى هذه الحصة"
+                          role="button"
+                          className="bg-primary text-primary-foreground hover:bg-primary/80 flex h-8 cursor-pointer items-center justify-center rounded-lg px-4 py-2 text-center transition-colors"
+                          onClick={(e) => {
+                            e.stopPropagation();
 
-                              modal.setDialogContent(
-                                <PaymentModel
-                                  roomId={room?.id}
-                                  centerId={SingleCourse?.toString() || room.id}
-                                  price={room?.price}
-                                />,
-                              );
+                            modal.setDialogContent(
+                              <PaymentModel
+                                roomId={room?.id}
+                                centerId={SingleCourse?.toString() || room.id}
+                                price={room?.price}
+                              />,
+                            );
 
-                              modal.openModal();
-                            }}
-                          >
-                            اشترك الآن
-                          </div>
-
-                          <PriceBadge className="h-8" price={room?.price} />
+                            modal.openModal();
+                          }}
+                        >
+                          اشترك الآن
                         </div>
+
+                        <PriceBadge className="h-8" price={room?.price} />
                       </div>
                     )}
                   </div>
@@ -117,7 +115,7 @@ const RoomAccordion = ({
                   </div>
 
                   {room?.lock_after !== null &&
-                    Number(room?.lock_after) > 0 && (
+                    Number(room?.lock_after) !== 0 && (
                       <RoomExpireBadge
                         lock_after={room?.lock_after}
                         className="ms-auto"

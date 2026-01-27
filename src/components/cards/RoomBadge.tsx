@@ -7,7 +7,7 @@ export default function RoomBadge({
   className,
 }: {
   children: React.ReactNode;
-  iconSrc: string;
+  iconSrc?: string;
   className?: string;
 }) {
   return (
@@ -17,7 +17,15 @@ export default function RoomBadge({
         className,
       )}
     >
-      <Image width={16} height={16} className="h-4 w-4" src={iconSrc} alt="" />
+      {iconSrc && (
+        <Image
+          width={16}
+          height={16}
+          className="h-4 w-4"
+          src={iconSrc}
+          alt=""
+        />
+      )}
       {children}
     </div>
   );
