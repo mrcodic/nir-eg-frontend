@@ -148,5 +148,11 @@ export const arabicOrdinalMap: Record<number, string> = {
   100: "المائة",
 };
 
+export const deliveryStatusArabic = {
+  pending: "قيد الانتظار",
+  with_shipping: "قيد التوصيل",
+  received: "تم التوصيل",
+};
+
 export const OTP_SEND_TIME_KEY = "otp_send_time";
 export const COOLDOWN_DURATION = 180;

@@ -9,7 +9,7 @@ import { Form } from "@/components/ui/form";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 import {
   Command,
@@ -78,12 +78,14 @@ export function StudentSelectCenterModal() {
     }
   };
 
-  const mappedCenters = (centers as any)?.data?.map((d) => {
-    return {
-      value: d.id,
-      label: d.title,
-    };
-  });
+  const mappedCenters = useMemo(() => {
+    return (centers as any)?.data?.map((d) => {
+      return {
+        value: d.id,
+        label: d.title,
+      };
+    });
+  }, [centers]);
 
   return (
     <div className="">
@@ -166,6 +168,9 @@ export function StudentSelectCenterModal() {
 
           <DialogFooter className="mt-8 flex w-full flex-row items-center gap-6 max-sm:flex-col sm:justify-center">
             <Button
+              disabled={
+                form.formState.isSubmitting || !form.getValues("center_id")
+              }
               className="bg-primary-800 border-gray-light h-8 w-36 rounded-lg border font-bold text-white"
               type="submit"
             >

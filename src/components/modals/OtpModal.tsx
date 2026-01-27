@@ -30,10 +30,11 @@ import { DialogClose, DialogFooter } from "../ui/dialog";
 
 export default function OtpModal({ phone }) {
   const queryClient = useQueryClient();
-  const router = useRouter();
   const { toast } = useToast();
-  const initialSend = useRef(false);
+  const router = useRouter();
   const modal = useModal();
+
+  const initialSend = useRef(false);
 
   const form = useForm<z.infer<typeof otpSchema>>({
     resolver: zodResolver(otpSchema),

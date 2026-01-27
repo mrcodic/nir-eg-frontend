@@ -25,15 +25,15 @@ export const formatTime = (timestamp: string) => {
 export const getHref = (notification: INotification) => {
   if (notification.type === "comment_replied") {
     return `/profile/comments?comment_id=${notification.payload?.comment_id}&lesson_id=${notification.payload?.lesson_id}&reply_id=${notification.payload?.reply_id}&page=${notification.payload?.page_per_comments}&lesson_page=${notification.payload?.page_lesson}&is_notification=true`;
-   
   }
   if (notification.type === "quiz_graded") {
     return `/bundles/${notification.classroom_id}${
-      notification.quiz_kind === 2 ? `/general-exams/${notification.quiz_id}` :
-
-      `/${notification.room_id}/${
-      notification.quiz_kind === 3 ? "assignment" : "exams"
-    }/${notification.quiz_id}`}`;
+      notification.quiz_kind === 2
+        ? `/general-exams/${notification.quiz_id}`
+        : `/${notification.room_id}/${
+            notification.quiz_kind === 3 ? "assignment" : "exams"
+          }/${notification.quiz_id}`
+    }`;
   }
   return "";
 };
@@ -41,9 +41,6 @@ export const getHref = (notification: INotification) => {
 export const getTitle = (notification: INotification) => {
   if (notification.type === "comment_replied") {
     return `📧 ${notification.payload?.phone_msg}`;
-    // return `📧 قام "${
-    //   notification.payload?.replier_name || "المدرس"
-    // }" بالرد على تعليقك`;
   }
   if (notification.type === "quiz_graded") {
     return `📚 تم تقييم ${mapNotifQuizKind[notification.quiz_kind]} "${

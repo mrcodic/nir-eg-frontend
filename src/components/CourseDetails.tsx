@@ -94,7 +94,7 @@ const CourseDetails = ({ details, profile }: Props) => {
     [hasExams, profile?.type],
   );
 
-  console.log("exams : ", courseExams);
+  // console.log("exams : ", courseExams);
 
   return (
     <Tabs

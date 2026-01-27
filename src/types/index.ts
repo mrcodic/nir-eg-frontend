@@ -165,6 +165,46 @@ export interface IExamCard {
   message: string | null;
 }
 
+export interface CourseOrder {
+  amount: number;
+  created_at: string;
+  expiration_time: string;
+  id: number;
+  kiosk_reference: string | null;
+  model: {
+    cover: string;
+    description: string;
+    id: number;
+    name: string | null;
+    model_type?: string;
+    courses?: string[];
+  };
+  payment_method: string;
+  payment_status: paymentStatus;
+  trasnsaction_id: string;
+  model_type?: string;
+}
+
+export type BooksOrder = {
+  type: "book" | "cart";
+  items: BookItem[];
+  order_number: string;
+  created_at: string;
+  status: paymentStatus;
+  delivery_status: number;
+  total_price: number;
+};
+
+export type BookItem = {
+  book_id: number;
+  book_image: string;
+  book_name: string;
+  book_price: number;
+  id: number;
+  quantity: number;
+  unit_price: number;
+};
+
 export enum paymentType {
   wallet = "WALLET",
   visa = "CARD",
@@ -174,10 +214,11 @@ export enum paymentType {
 }
 
 export enum paymentStatus {
+  done = "PAID",
   paid = "PAID",
   pending = "PENDING",
-  failed = "FAILED",
   unpaid = "UNPAID",
+  failed = "FAILED",
 }
 
 interface CommentUser {
@@ -510,46 +551,6 @@ export type Coupon = {
   // 1 = percentage , 0 = fixed
   type_discount: 1 | 0;
   show_promo: boolean;
-};
-
-export type BookItem = {
-  book_id: number;
-  book_image: string;
-  book_name: string;
-  book_price: number;
-  id: number;
-  quantity: number;
-  unit_price: number;
-};
-
-export interface CourseOrder {
-  amount: number;
-  created_at: string;
-  expiration_time: string;
-  id: number;
-  kiosk_reference: string | null;
-  model: {
-    cover: string;
-    description: string;
-    id: number;
-    name: string | null;
-    model_type?: string;
-    courses?: string[];
-  };
-  payment_method: string;
-  payment_status: paymentStatus;
-  trasnsaction_id: string;
-  model_type?: string;
-}
-
-export type BooksOrder = {
-  type: "book" | "cart";
-  items: BookItem[];
-  order_number: string;
-  created_at: string;
-  status: paymentStatus;
-  delivery_status: number;
-  total_price: number;
 };
 
 export interface ApiResponse<T> {

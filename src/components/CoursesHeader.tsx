@@ -39,20 +39,16 @@ const CoursesHeader = ({ details }: { details: ICourseDetails }) => {
     <div
       className={cn(
         `bg-primary-radial relative mt-20 group-data-[template=landing-v3]/template:mt-0 group-data-[template=landing-v3]/template:pt-28`,
-        //    {
-        //   "mt-0 pt-28": template == 3,
-        // }
       )}
     >
-      <div className="absolute inset-0 z-1">
-        <Image
-          src="/assets/bg/bg.png"
-          alt=""
-          fill
-          className="top-2.5 -z-1 object-contain object-bottom-left"
-          priority
-        />
-      </div>
+      <div
+        className="bg-primary-800 absolute inset-0 z-1"
+        style={{
+          maskImage: `url(/assets/bg/bg.png)`,
+          maskRepeat: "no-repeat",
+          maskSize: "contain",
+        }}
+      />
 
       <div className="relative z-2">
         <div className="wrapper flex h-full flex-col pb-20">

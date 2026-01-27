@@ -157,8 +157,6 @@ const SingleVideo = () => {
     setLessonId(first.id);
   }, [data, videoId, videoUrl, lessonId, setVideoUrl, setVideoId]);
 
-  console.log("all lessons : ", data?.body, isLoading);
-
   if (
     data?.body?.is_subscriped &&
     data?.body &&
@@ -168,7 +166,7 @@ const SingleVideo = () => {
     redirect(`/bundles/${classroomId}`);
   }
 
-  console.log("lessons : ", data?.body?.lessons);
+  // console.log("lessons : ", data?.body?.lessons);
 
   return (
     <>

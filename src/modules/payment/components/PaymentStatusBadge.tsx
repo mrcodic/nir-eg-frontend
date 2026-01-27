@@ -5,6 +5,7 @@ import { Check, LucideLoaderCircle, X } from "lucide-react";
 
 const statusClassName = {
   PAID: "bg-semantics-green-50 text-semantics-green",
+  DONE: "bg-semantics-green-50 text-semantics-green",
   FAILED: "bg-semantics-red-50 text-semantics-red",
   UNPAID: "bg-semantics-red-50 text-semantics-red",
   PENDING: "bg-secondary-50 text-secondary",
@@ -13,9 +14,11 @@ const statusClassName = {
 
 const statusIcon = {
   PAID: <Check className="size-4" />,
-  FAILED: <X className="size-4" />,
+  DONE: <Check className="size-4" />,
   UNPAID: <X className="size-4" />,
   PENDING: <LucideLoaderCircle className="size-4 animate-spin" />,
+  FAILED: <X className="size-4" />,
+  default: <LucideLoaderCircle className="size-4 animate-spin" />,
 };
 
 function PaymentStatusBadge({

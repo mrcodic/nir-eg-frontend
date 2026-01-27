@@ -3,6 +3,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import Link from "next/link";
 import { formatTime, getHref, getTitle } from "../helpers";
+import Image from "next/image";
 
 const Notification = ({
   notification,
@@ -18,7 +19,7 @@ const Notification = ({
 
     await axios.post(
       `/api?url=students/notifications/${notification.id}/read`,
-      {}
+      {},
     );
 
     queryClient.invalidateQueries({
@@ -31,12 +32,12 @@ const Notification = ({
       href={getHref(notification)}
       onClick={markAsRead}
       dir="rtl"
-      className={`bg-[#FFFFFF] w-full hover:bg-[#F5F5F5] transition-all not-last:border-b border-gray-light flex flex-col gap-4 text-sm py-4 p-2  shrink-0 ${
+      className={`border-gray-light flex w-full shrink-0 flex-col gap-4 bg-[#FFFFFF] p-2 py-4 text-sm transition-all not-last:border-b hover:bg-[#F5F5F5] ${
         !notification.is_read ? "bg-[#eee]" : ""
       }`}
     >
       <div className="flex flex-col gap-2">
-        <p className="text-[#121212] text-sm">{getTitle(notification)}</p>
+        <p className="text-sm text-[#121212]">{getTitle(notification)}</p>
         {/* <p className="text-[#121212] text-sm">{getTitle(notification)}</p> */}
 
         {notification?.payload?.reply_excerpt && (
@@ -46,13 +47,19 @@ const Notification = ({
         )}
       </div>
 
-      <div className="flex gap-3 items-center">
-        <img src="/assets/time.svg" alt="Time icon" />
-        <span className="text-[12px] text-gray-dark">
+      <div className="flex items-center gap-3">
+        <Image
+          src="/assets/time.svg"
+          alt="Time icon"
+          className="size-5"
+          width={20}
+          height={20}
+        />
+        <span className="text-gray-dark text-[12px]">
           {formatTime(notification.created_at)}
         </span>
         {!notification.is_read && (
-          <span className="ms-auto size-4 bg-gray-light rounded-full animate-pulse"></span>
+          <span className="bg-primary-100 ms-auto size-4 animate-pulse rounded-full"></span>
         )}
       </div>
     </Link>

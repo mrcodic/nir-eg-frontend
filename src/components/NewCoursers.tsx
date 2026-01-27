@@ -43,7 +43,7 @@ const NewCourses = () => {
             const end = start + pageSize;
             const currentCourses = filteredCourses.slice(start, end);
 
-            console.log("NEW Courses : ", data);
+            // console.log("NEW Courses : ", data);
 
             return (
               <div className="cards-grid min-h-[455px] rounded-lg">

@@ -59,11 +59,11 @@ function TransactionsList({ type = "course" }: { type: "course" | "cart" }) {
         console.log("🚀 ~ orders ~ data : ", type, data);
         return (
           <div dir="rtl" className="flex flex-col gap-12 md:gap-6">
-            {data?.map((item) => {
+            {data?.map((order) => {
               return isCourses ? (
-                <CourseOrderCard item={item} />
+                <CourseOrderCard key={order.id} courseOrder={order} />
               ) : (
-                <BookOrderCard item={item} />
+                <BookOrderCard key={order.id} bookOrder={order} />
               );
             })}
           </div>
