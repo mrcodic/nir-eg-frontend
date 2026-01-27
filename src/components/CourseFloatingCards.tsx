@@ -1,6 +1,5 @@
 import { IUser } from "@/types";
 import PaymentCom from "../modules/payment/components/PaymentCom";
-import CoursePhoneVerifyCard from "./CoursePhoneVerifyCard";
 import CourseProgressCard from "./CourseProgressCard";
 
 function CourseFloatingCards({
@@ -12,10 +11,10 @@ function CourseFloatingCards({
   SingleCourse: any;
   profile: IUser | null;
 }) {
-  if (data?.body?.is_subscriped && !profile?.parent_phone_verification)
-    return <CoursePhoneVerifyCard parentPhone={profile?.parent_phone} />;
+  // if (data?.body?.is_subscriped && !profile?.parent_phone_verification)
+  //   return <CoursePhoneVerifyCard parentPhone={profile?.parent_phone} />;
 
-  if (data?.body?.is_subscriped && profile?.parent_phone_verification)
+  if (data?.body?.is_subscriped && (profile?.parent_phone_verification || true))
     return <CourseProgressCard progress={data?.body?.progress || 0} />;
 
   if (!data?.body?.is_subscriped && data?.body?.subscription_type !== "حصة")

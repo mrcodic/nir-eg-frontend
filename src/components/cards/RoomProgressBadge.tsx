@@ -1,15 +1,8 @@
-import Image from "next/image";
+import RoomBadge from "./RoomBadge";
 
 function RoomProgressBadge({ progress = 0 }: { progress: number }) {
   return (
-    <div className="bg-background flex flex-wrap items-center justify-center gap-2 rounded-lg px-2 py-1 font-bold">
-      <Image
-        width={16}
-        height={16}
-        className="h-4 w-4"
-        src="/assets/launch.svg"
-        alt=""
-      />
+    <RoomBadge iconSrc="/assets/launch.svg">
       <p className="text-sm">
         أنهيت{" "}
         <span className="text-primary-800 font-bold underline">
@@ -17,7 +10,7 @@ function RoomProgressBadge({ progress = 0 }: { progress: number }) {
         </span>{" "}
         من الحصة
       </p>
-    </div>
+    </RoomBadge>
   );
 }
 

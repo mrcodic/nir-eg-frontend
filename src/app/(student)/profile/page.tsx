@@ -75,6 +75,7 @@ const ProfilePage = () => {
                         room={room?.latest_room}
                         verify={profile?.parent_phone_verification}
                         subscribe={room?.is_subscriped}
+                        courseName={room?.classroom}
                       />
                     );
                   })}

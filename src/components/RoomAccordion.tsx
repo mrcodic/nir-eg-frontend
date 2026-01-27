@@ -15,18 +15,21 @@ import PriceBadge from "../modules/payment/components/PriceBadge";
 import { PaymentModel } from "./modals/PaymentModel";
 import RoomDropDownQuiz from "./RoomDropDownItem";
 import RoomFileDownloadLink from "./RoomFileDownloadLink";
-import RoomProgressBadge from "./RoomProgressBadge";
+import RoomProgressBadge from "./cards/RoomProgressBadge";
+import RoomExpireBadge from "./cards/RoomExpireBadge";
 
 const RoomAccordion = ({
   isProfile,
   room,
   subscribe,
   verify,
+  courseName,
 }: {
   isProfile?: any;
   room: RoomData;
   subscribe?: any;
   verify?: any;
+  courseName?: string;
 }) => {
   const modal = useModal();
   const { SingleCourse } = useParams();
@@ -68,60 +71,32 @@ const RoomAccordion = ({
                         <RoomProgressBadge progress={room?.progress || 0} />
                       )}
 
-                    {lock_after !== null && (
+                    {lock_after !== null && Number(lock_after) === 0 && (
                       <div className="ms-auto flex gap-6 text-sm font-bold">
-                        {Number(lock_after) !== 0 ? (
+                        <div className="ms-auto flex flex-col gap-x-4 gap-y-2 md:flex-row">
                           <div
-                            style={{
-                              boxShadow:
-                                "0px 2px 10px 4px rgba(157, 130, 66, 0.20)",
+                            aria-label="اشترك الآن فى هذه الحصة"
+                            role="button"
+                            className="bg-primary text-primary-foreground hover:bg-primary/80 flex h-8 cursor-pointer items-center rounded-lg px-4 py-2 transition-colors"
+                            onClick={(e) => {
+                              e.stopPropagation();
+
+                              modal.setDialogContent(
+                                <PaymentModel
+                                  roomId={room?.id}
+                                  centerId={SingleCourse?.toString() || room.id}
+                                  price={room?.price}
+                                />,
+                              );
+
+                              modal.openModal();
                             }}
-                            className="border-gray-light bg-background hidden items-center gap-1 rounded-[12px] border py-1 pr-px pl-2 text-[10px] font-bold md:flex"
                           >
-                            <Image
-                              src={"/assets/LockColor.svg"}
-                              alt=""
-                              width={24}
-                              height={24}
-                            />
-                            <span> محتويات الحصة متاحة لمدة </span>
-                            {Math.floor(lock_after / 24) > 0 && (
-                              <p className="mr-1">
-                                {" "}
-                                &nbsp; {Math.floor(lock_after / 24)}أيام &nbsp;
-                                {Math.floor(lock_after % 24)} ساعة{" "}
-                              </p>
-                            )}{" "}
-                            {/* <p className="mr-1"> {lock_after % 24} دقيقة </p> */}
+                            اشترك الآن
                           </div>
-                        ) : (
-                          <div className="ms-auto flex flex-col gap-x-4 gap-y-2 md:flex-row">
-                            <div
-                              aria-label="اشترك الآن فى هذه الحصة"
-                              role="button"
-                              className="bg-primary text-primary-foreground hover:bg-primary/80 flex h-8 cursor-pointer items-center rounded-lg px-4 py-2 transition-colors"
-                              onClick={(e) => {
-                                e.stopPropagation();
 
-                                modal.setDialogContent(
-                                  <PaymentModel
-                                    roomId={room?.id}
-                                    centerId={
-                                      SingleCourse?.toString() || room.id
-                                    }
-                                    price={room?.price}
-                                  />,
-                                );
-
-                                modal.openModal();
-                              }}
-                            >
-                              اشترك الآن
-                            </div>
-
-                            <PriceBadge className="h-8" price={room?.price} />
-                          </div>
-                        )}
+                          <PriceBadge className="h-8" price={room?.price} />
+                        </div>
                       </div>
                     )}
                   </div>
@@ -129,9 +104,26 @@ const RoomAccordion = ({
 
                 <div className="bg-gray-light my-3 h-px md:my-4" />
 
-                <h3 className="text-gray-dark text-right text-sm">
-                  {room?.description}
-                </h3>
+                <div className="flex flex-wrap justify-between gap-x-2 gap-y-3">
+                  <div className="flex flex-col items-start gap-2">
+                    {courseName && (
+                      <h3 className="text-foreground line-clamp-1 text-right text-base font-bold">
+                        {courseName}
+                      </h3>
+                    )}
+                    <h3 className="text-gray-dark line-clamp-1 text-right text-sm">
+                      {room?.description}
+                    </h3>
+                  </div>
+
+                  {room?.lock_after !== null &&
+                    Number(room?.lock_after) > 0 && (
+                      <RoomExpireBadge
+                        lock_after={room?.lock_after}
+                        className="ms-auto"
+                      />
+                    )}
+                </div>
               </div>
             </div>
           </AccordionTrigger>
