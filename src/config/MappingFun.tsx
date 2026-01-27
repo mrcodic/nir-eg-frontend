@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/error-boundaries */
 import Empty from "@/components/Empty";
-import { getServerPrivateData } from "@/config/server-fetch";
+import { getServerData } from "@/config/server-fetch";
 import { IGetDataOptions } from "@/types/services.types";
 import get from "lodash/get";
 import { isDynamicServerError } from "next/dist/client/components/hooks-server-context";
@@ -39,9 +39,10 @@ const MappingFun = async ({
     // console.log("🚀 ~ MappingFun ~ queryKey:", queryKey);
 
     if (requireAuth) {
-      fetchedData = await getServerPrivateData({
+      fetchedData = await getServerData({
         queryKey: [queryKey],
         ...endPointOptions,
+        isAuth: true,
       });
       // fetchedData = await getData({ queryKey: [queryKey], ...endPointOptions });
     } else {

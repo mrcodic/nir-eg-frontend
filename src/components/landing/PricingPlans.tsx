@@ -63,7 +63,7 @@ export default function PricingPlans() {
                     "max-w-md mx-auto relative flex-1 rounded-lg h-fit overflow-hidden backdrop-blur transition-transform duration-200 border-none shadow-none max-lg:w-full max-lg:mx-auto lg:min-w-[280px] p-4 min-h-[554px] lg:scale-95",
                     {
                       "z-10 lg:scale-105 ": index === 1,
-                    }
+                    },
                   )}
                 />
               ))}
@@ -74,7 +74,11 @@ export default function PricingPlans() {
         ) : (
           <>
             <LazyOnView className="min-h-8  mb-6 mt-4">
-              <PricingTypeSwtich type={type} setType={setType} />
+              <PricingTypeSwtich
+                type={type}
+                setType={setType}
+                className="mb-6 mt-4"
+              />
             </LazyOnView>
 
             <MotionWrapper
@@ -82,7 +86,7 @@ export default function PricingPlans() {
                 "flex flex-col items-stretch xl:gap-6 lg:gap-4 gap-6 lg:flex-row lg:justify-center",
                 {
                   "lg:items-center": isThreePlans,
-                }
+                },
               )}
               viewport={{ amount: 0.2, once: true }}
               whileInView={{

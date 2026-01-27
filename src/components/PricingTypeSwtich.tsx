@@ -5,12 +5,14 @@ import { Switch } from "./ui/switch";
 function PricingTypeSwtich({
   type,
   setType,
+  className,
 }: {
   type: "monthly" | "yearly";
   setType: (type: "monthly" | "yearly") => void;
+  className?: string;
 }) {
   return (
-    <div className="text-center mb-6 mt-4">
+    <div className={cn("text-center ", className)}>
       <div className=" inline-flex items-center gap-2 rounded-full p-1">
         <div className="relative">
           <button

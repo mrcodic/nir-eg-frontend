@@ -6,7 +6,7 @@ import CustomError from "./CustomError";
 
 const fetcherServer = async <T>(
   { queryKey: [endpoint], next, cache }: IGetDataOptions,
-  authenticated: boolean
+  authenticated: boolean,
 ) => {
   if (!endpoint || typeof endpoint !== "string") {
     return null;
@@ -24,7 +24,7 @@ const fetcherServer = async <T>(
   }
 
   try {
-    const fullUrl = `${process.env.BASE_URL}${endpoint}`;
+    const fullUrl = `${process.env.NEXT_PUBLIC_BASE_URL}${endpoint}`;
     const res = await fetch(fullUrl, {
       headers: {
         Accept: "application/json",
@@ -50,7 +50,7 @@ const fetcherServer = async <T>(
         // console.error(`Failed to fetch data from ${endpoint}`);
         throw new CustomError(
           `Failed to fetch data from ${endpoint}`,
-          res.status || 500
+          res.status || 500,
         );
       }
     }
@@ -66,11 +66,12 @@ const fetcherServer = async <T>(
   }
 };
 
-export const getServerPrivateData = reactCache(
+export const getServerData = reactCache(
   async <T>({
     queryKey: [endpoint],
     next,
     cache,
+    isAuth = true,
   }: IGetDataOptions): Promise<T | null> =>
-    fetcherServer({ queryKey: [endpoint], next, cache }, true)
+    fetcherServer({ queryKey: [endpoint], next, cache }, isAuth),
 );

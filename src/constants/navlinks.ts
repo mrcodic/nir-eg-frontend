@@ -15,6 +15,10 @@ export const navlinks = [
     name: "الاسئلة الشائعة",
     href: "/faq",
   },
+  {
+    name: "الباقات",
+    href: "/bundles",
+  },
 ];
 
 export const footerLinks = [
