@@ -32,7 +32,7 @@ const NewPasswordForm = () => {
 
   const onSubmit = async (v) => {
     try {
-      const response = await axios.post("/api?url=reset-password", v);
+      await axios.post("/api?url=reset-password", v);
 
       toast({
         description: "تم تأكيد حفظ الباسورد الجديد بنجاح",
@@ -89,7 +89,7 @@ const NewPasswordForm = () => {
             type="password"
           />
 
-          <div className="mt-[56px] flex gap-2">
+          <div className="mt-14 flex gap-2">
             <span className="inline-block text-sm font-medium">
               ليس لديك حساب؟
             </span>

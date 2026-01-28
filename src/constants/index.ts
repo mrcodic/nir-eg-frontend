@@ -155,4 +155,4 @@ export const deliveryStatusArabic = {
 };
 
 export const OTP_SEND_TIME_KEY = "otp_send_time";
-export const COOLDOWN_DURATION = 180;
+export const COOLDOWN_DURATION = 60;

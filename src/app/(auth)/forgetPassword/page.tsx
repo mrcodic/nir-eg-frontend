@@ -7,6 +7,7 @@ import { Form } from "@/components/ui/form";
 import { OTP_SEND_TIME_KEY } from "@/constants";
 import { useToast } from "@/hooks/use-toast";
 import AuthHeader from "@/layouts/AuthHeader";
+import { handleOtpError } from "@/lib/handle-otp-error";
 import { forgetPasswordSchema } from "@/lib/schemas";
 import {
   getUserPhoneFromStorage,
@@ -15,7 +16,7 @@ import {
   setNewOtpSendTime,
 } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios, { isAxiosError } from "axios";
+import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "nextjs-toploader/app";
 import { GoogleReCaptcha } from "react-google-recaptcha-v3";
@@ -72,18 +73,8 @@ const ForgetPasswordPage = () => {
         presistUserPhone(v.phone.phone, v.phone.country);
       }
     } catch (err) {
-      console.log(err);
-      if (isAxiosError(err) && err?.response?.status === 404) {
-        toast({
-          description: "لا يوجد طالب او ولى امر مسجل بهذا الرقم",
-          icon: "error",
-        });
-      } else {
-        toast({
-          description: "الرقم غلط او بعتنالك otp من قبل",
-          icon: "error",
-        });
-      }
+      console.log("بخقلثفو", err);
+      handleOtpError(err);
     }
   };
 

@@ -69,9 +69,15 @@ export const isOtpExpired = () => {
   return { otpSendTime, isExpired: otpSendTime.getTime() < Date.now() + 1000 };
 };
 
-export const setNewOtpSendTime = () => {
+export const setNewOtpSendTime = ({
+  customDuration,
+}: {
+  customDuration?: number;
+} = {}) => {
   const newTime = new Date();
-  newTime.setSeconds(newTime.getSeconds() + COOLDOWN_DURATION);
+  newTime.setSeconds(
+    newTime.getSeconds() + (customDuration || COOLDOWN_DURATION),
+  );
 
   localStorage.setItem(OTP_SEND_TIME_KEY, newTime.getTime().toString());
   return newTime;

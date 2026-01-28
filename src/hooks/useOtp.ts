@@ -7,6 +7,7 @@ import { useCallback, useState } from "react";
 import { useTimer } from "react-timer-hook";
 import { isOtpExpired, setNewOtpSendTime } from "../lib/utils";
 import { useToast } from "./use-toast";
+import { handleOtpError } from "@/lib/handle-otp-error";
 
 function useOtp() {
   const { otpSendTime, isExpired } = isOtpExpired();
@@ -50,13 +51,22 @@ function useOtp() {
         }
       } catch (e) {
         console.log(e);
-        toast({
-          description:
-            isAxiosError(e) && e.status === 500
-              ? "حدث خطأ اثناء التحقق من رمز التأكيد"
-              : "الرقم غلط او بعتنالك otp من قبل",
-          icon: "error",
-        });
+        handleOtpError(e);
+
+        // server otp time still active if error is 405
+        if (isAxiosError(e) && e.status === 405) {
+          console.log("server otp time still active");
+
+          const newTimeStamp =
+            new Date().getTime() +
+            (e?.response?.data?.error?.data?.cooldown_remaining_sec ||
+              e?.response?.data?.data?.cooldown_remaining_sec ||
+              60) *
+              1000;
+
+          restart(new Date(newTimeStamp));
+          setStart(true);
+        }
       } finally {
         setResending(false);
       }
