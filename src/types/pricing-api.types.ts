@@ -25,9 +25,12 @@ export interface IPricingPlan {
   price_year: number;
   overage_per_seat: number;
   free_trial: string;
-  features: PlanFeatures;
+  features: Record<string, boolean>;
+  // features: PlanFeatures;
   created_at: string;
   is_main: boolean;
   is_demo: boolean;
+  storage: number | null;
+  bandwidth_gb: number | null;
+  yearly_discount_percent: number | null;
 }
-

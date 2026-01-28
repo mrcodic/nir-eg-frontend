@@ -40,6 +40,10 @@ export default function BuildProgress({ tenantId }: { tenantId: string }) {
         if (data?.percent === 100) {
           clearInterval(timer);
         }
+        if (data?.status === "failed") {
+          clearInterval(timer);
+          setError("حدث خطأ أثناء متابعة حالة الإنشاء");
+        }
       } catch {
         setError("حدث خطأ أثناء متابعة حالة الإنشاء");
         clearInterval(timer);
@@ -59,7 +63,7 @@ export default function BuildProgress({ tenantId }: { tenantId: string }) {
     return data?.steps
       ? (Object.entries(data.steps) as [
           StepName,
-          TenantProgress["steps"][StepName]
+          TenantProgress["steps"][StepName],
         ][])
       : [];
   }, [data]);
@@ -70,7 +74,7 @@ export default function BuildProgress({ tenantId }: { tenantId: string }) {
     if (!stepsArray.length) return null;
 
     const running = stepsArray.find(
-      ([, step]) => step.status !== "done" && !step.skipped
+      ([, step]) => step.status !== "done" && !step.skipped,
     );
     if (running) return running;
 
@@ -90,8 +94,8 @@ export default function BuildProgress({ tenantId }: { tenantId: string }) {
             {isCompleted
               ? "تم انشاء موقعك بنجاح"
               : error
-              ? "حدث خطاء اثناء متابعة حالة الانشاء"
-              : "نحن الآن نعمل على إنشاء موقعك…"}
+                ? "حدث خطاء اثناء متابعة حالة الانشاء"
+                : "نحن الآن نعمل على إنشاء موقعك…"}
           </h1>
 
           {!error && (
@@ -110,8 +114,8 @@ export default function BuildProgress({ tenantId }: { tenantId: string }) {
                 {currentStep[1].status === "done"
                   ? "✅ تم"
                   : currentStep[1].skipped
-                  ? "⏭ تم التخطي"
-                  : "⏳ جارٍ التنفيذ"}
+                    ? "⏭ تم التخطي"
+                    : "⏳ جارٍ التنفيذ"}
               </span>
             </div>
           )}

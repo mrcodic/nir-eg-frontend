@@ -1,9 +1,11 @@
 "use client";
 
+import { NO_PLAN_ERROR } from "@/app/subscribe/error";
 import Empty from "@/components/Empty";
 import PricingPlanCard from "@/components/PricingPlanCard";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getPublicData } from "@/config/client-fetch";
+import CustomError from "@/config/CustomError";
 import { IPricingPlan } from "@/types/pricing-api.types";
 import type { FormVariant, PaymentPeriod } from "@/types/subscribe.types";
 import { ApiResponse } from "@/types/type";
@@ -19,7 +21,7 @@ interface FormSidebarProps {
 function FormSidebar({ variant, planId, period }: FormSidebarProps) {
   const isDemo = variant === "demo";
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: [isDemo ? `/plans?is_demo=true` : `/plans/${planId}`],
     queryFn: getPublicData as () => Promise<
       ApiResponse<IPricingPlan | [IPricingPlan]>
@@ -29,19 +31,21 @@ function FormSidebar({ variant, planId, period }: FormSidebarProps) {
 
   const plan = isDemo ? (data?.data as [IPricingPlan])?.[0] : data?.data;
 
-  console.log(plan, isDemo, data, variant);
+  console.log(data);
 
   if (isLoading)
     return <Skeleton className="w-[min(360px,25vw)] h-full max-h-[768px]" />;
 
-  if (!plan && !isLoading)
-    return (
-      <Empty
-        className="w-[min(360px,25vw)] h-fit"
-        text="حدث خطاء اثناء عرض تفاصيل الخطة"
-        isError
-      />
-    );
+  if (!plan && !isLoading) throw new CustomError(NO_PLAN_ERROR, 404);
+
+  // if (!plan && !isLoading)
+  //   return (
+  //     <Empty
+  //       className="w-[min(360px,25vw)] h-fit"
+  //       text="حدث خطاء اثناء عرض تفاصيل الخطة"
+  //       isError
+  //     />
+  //   );
 
   return (
     <PricingPlanCard

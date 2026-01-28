@@ -68,18 +68,16 @@ export default function TemplateSelector({
               </div>
 
               {/* Template Name */}
-              <div className="">
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    window.open(template.previewImage, "_blank");
-                  }}
-                  className="flex  items-center justify-center   transition-colors duration-200 hover:text-white hover:bg-primary-800 cursor-pointer relative z-10 h-8 bg-white border border-gray-light font-bold p-4 w-full rounded-lg "
-                >
-                  عرض
-                </button>
+              <div
+                role="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  window.open(template.previewImage, "_blank");
+                }}
+                className="flex  items-center justify-center   transition-colors duration-200 hover:text-white hover:bg-primary-800 cursor-pointer relative z-10 h-8 bg-white border border-gray-light font-bold p-4 w-full rounded-lg "
+              >
+                عرض
               </div>
             </button>
           );

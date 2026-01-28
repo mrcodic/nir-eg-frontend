@@ -50,9 +50,14 @@ export function useSubscribeForm({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
 
+  const safeStepIndex = useMemo(() => {
+    if (steps.length === 0) return 0;
+    return Math.min(currentStepIndex, steps.length - 1);
+  }, [currentStepIndex, steps.length]);
+
   const currentStep = useMemo(
-    () => steps[currentStepIndex],
-    [steps, currentStepIndex],
+    () => steps[safeStepIndex],
+    [steps, safeStepIndex],
   );
 
   // Form instances for each step
@@ -75,6 +80,8 @@ export function useSubscribeForm({
   useEffect(() => {
     if (initCurrentStepRef.current) return;
     initCurrentStepRef.current = true;
+
+    console.log("init");
 
     const storedCompletedSteps = localStorage.getItem("completedSteps");
     const accountFormStr = localStorage.getItem("accountForm");
@@ -213,7 +220,7 @@ export function useSubscribeForm({
     accountForm.reset(accountDefaults);
     businessForm.reset(businessDefaults);
     brandingForm.reset(brandingDefaults);
-    paymentForm.reset();
+    paymentForm?.reset?.();
     localStorage.removeItem("paymentForm");
     localStorage.removeItem("completedSteps");
     localStorage.removeItem("last_verified_email");

@@ -81,6 +81,8 @@ export default function PricingPlans() {
 
   const isThreePlans = visiblePlans.length === 3;
 
+  console.log("visiblePlans", visiblePlans);
+
   return (
     <section className="wrapper w-full relative text-center pb-12 space-y-6 min-h-[400px]">
       <div className="mx-auto max-w-7xl">
@@ -131,15 +133,13 @@ export default function PricingPlans() {
               initial={{ opacity: 0, y: 20 }}
             >
               {visiblePlans.map((plan, index) => {
-                const isMainPlan = plan.is_main;
-                const shouldScale = isThreePlans && (isMainPlan || index === 1);
-
                 return (
                   <PricingPlanCard
                     key={plan.id}
                     plan={plan}
                     type={type}
-                    isThreePlans={shouldScale}
+                    isThreePlans={isThreePlans}
+                    isMiddle={isThreePlans && index === 1}
                   />
                 );
               })}

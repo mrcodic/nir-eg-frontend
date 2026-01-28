@@ -66,8 +66,6 @@ export default function ContactUsForm() {
 
       const res = await submitContact(fd);
 
-      console.log("submitContact response ", res);
-
       if (res && res?.ok) {
         setServerMessage({
           message: res?.message ?? "تم الإرسال",

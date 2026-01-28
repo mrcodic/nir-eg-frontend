@@ -5,7 +5,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { IPricingPlan } from "@/types/pricing-api.types";
 import { PaymentPeriod } from "@/types/subscribe.types";
-import { getPlanFeaturesList } from "@/utils/pricing-helpers";
 import { Check, ChevronDown, ChevronUp } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -21,6 +20,7 @@ interface PricingPlanCardProps {
   isOverview?: boolean;
   isDemo?: boolean;
   className?: string;
+  isMiddle?: boolean;
 }
 
 export default function PricingPlanCard({
@@ -30,11 +30,12 @@ export default function PricingPlanCard({
   isOverview = false,
   isDemo = false,
   className,
+  isMiddle = false,
 }: PricingPlanCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const isFeatured = plan?.is_main;
-  const features = getPlanFeaturesList(plan.features);
+  const features = Object.entries(plan.features);
   const price = type === "yearly" ? plan.price_year : plan.price_month;
   const hasMoreFeatures = features.length > FEATURE_LIMIT;
   const displayedFeatures =
@@ -44,17 +45,19 @@ export default function PricingPlanCard({
 
   const toggleExpand = () => setIsExpanded((prev) => !prev);
 
+  console.log(displayedFeatures);
   return (
     <Card
       className={cn(
         isOverview
-          ? `  relative overflow-hidden flex flex-col h-fit justify-center items-center
+          ? `overflow-hidden flex flex-col h-fit justify-center items-center
         lg:w-[min(360px,25vw)] p-4 border-none rounded-lg`
           : "relative flex-1 rounded-lg h-fit overflow-hidden backdrop-blur transition-transform duration-200 border-none shadow-none max-lg:w-full max-w-lg max-lg:mx-auto lg:min-w-[280px] p-4 min-h-[554px]",
         {
           "max-w-md mx-auto": isThreePlans,
-          "z-10 lg:scale-105 max-lg:order-first": isFeatured && isThreePlans,
-          "lg:scale-95": !isFeatured && isThreePlans,
+          "z-10 lg:scale-105 max-lg:order-first":
+            (isMiddle || isFeatured) && isThreePlans,
+          "lg:scale-95": !isFeatured && !isMiddle && isThreePlans,
           "bg-dark-radial": !isDemo && isFeatured,
           "bg-background": !isDemo && !isFeatured,
           "bg-blue-gradient text-white": isDemo && !isFeatured,
@@ -66,7 +69,7 @@ export default function PricingPlanCard({
       {/* Featured Badge */}
       {isFeatured && <MainPlanBadge />}
 
-      <CardContent className="px-0 w-full text-right flex flex-col h-full">
+      <CardContent className="px-0 grow w-full text-right flex flex-col h-full">
         {/* Badge/Icon */}
         {isOverview && (
           <div className="relative mb-6 flex items-center justify-center w-full">
@@ -102,67 +105,67 @@ export default function PricingPlanCard({
           >
             {plan.seats_included} مقعد
           </h3>
-          <p
+          {/* <p
             className={cn("text-lg font-bold text-gray-dark", {
               "text-gray-light": isFeatured,
               "text-white": isDemo,
             })}
           >
             التجربة المجانية: {plan.free_trial} يوم
-          </p>
+          </p> */}
         </div>
 
         {/* Features List */}
-        <div className="relative">
-          <ul className="space-y-4 pb-2">
-            {displayedFeatures.map((feature, idx) => (
-              <li
-                key={idx}
-                className="flex items-center justify-start gap-2 text-sm text-slate-700"
-              >
-                <span>
-                  <Check className="size-5 text-emerald-500" />
-                </span>
-                <span
-                  className={cn("ml-2 text-sm font-bold", {
-                    "text-white": isFeatured || isDemo,
-                  })}
+        {!!displayedFeatures?.length && (
+          <div className="relative">
+            <ul className="space-y-4 pb-2">
+              {displayedFeatures.map((feature, idx) => (
+                <li
+                  key={idx}
+                  className="flex items-center justify-start gap-2 text-sm text-slate-700"
                 >
-                  {feature}
-                </span>
-              </li>
-            ))}
-          </ul>
+                  <span>
+                    <Check className="size-5 text-emerald-500" />
+                  </span>
+                  <span
+                    className={cn("ml-2 text-sm font-bold", {
+                      "text-white": isFeatured || isDemo,
+                    })}
+                  >
+                    {feature}
+                  </span>
+                </li>
+              ))}
+            </ul>
 
-          {/* Expand/Collapse Button */}
-          {hasMoreFeatures && (
-            <button
-              onClick={toggleExpand}
-              className="flex items-center cursor-pointer gap-2 text-sm font-semibold mt-2 mb-4 transition-colors text-secondary hover:opacity-80"
-            >
-              {isExpanded ? (
-                <>
-                  <span>عرض أقل</span>
-                  <ChevronUp className="size-4" />
-                </>
-              ) : (
-                <>
-                  <span>عرض المزيد ({features.length - FEATURE_LIMIT}+)</span>
-                  <ChevronDown className="size-4" />
-                </>
-              )}
-            </button>
-          )}
-        </div>
+            {/* Expand/Collapse Button */}
+            {hasMoreFeatures && (
+              <button
+                onClick={toggleExpand}
+                className="flex items-center cursor-pointer gap-2 text-sm font-semibold mt-2 mb-4 transition-colors text-secondary hover:opacity-80"
+              >
+                {isExpanded ? (
+                  <>
+                    <span>عرض أقل</span>
+                    <ChevronUp className="size-4" />
+                  </>
+                ) : (
+                  <>
+                    <span>عرض المزيد ({features.length - FEATURE_LIMIT}+)</span>
+                    <ChevronDown className="size-4" />
+                  </>
+                )}
+              </button>
+            )}
+          </div>
+        )}
 
         {/* Price & CTA */}
         <div
-          className={cn(
-            "flex flex-col items-start gap-4 mt-auto pt-6 border-t border-gray-light",
-            {
-              "border-accent-800": isFeatured,
-            },
-          )}
+          className={cn("flex flex-col items-start gap-4 mt-auto  ", {
+            "border-accent-800": isFeatured,
+            "border-t border-gray-light pt-6": !!displayedFeatures?.length,
+          })}
         >
           <div
             className={cn("flex items-baseline justify-start w-full gap-1 ", {

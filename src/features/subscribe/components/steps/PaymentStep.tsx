@@ -102,11 +102,16 @@ export default function PaymentStep({
           {paymentPeriod === "yearly" && (
             <p className="text-lg text-green-400 font-bold mt-2 ">
               وفر{" "}
-              {(
-                ((plan?.price_month * 12 - plan?.price_year) /
-                  (plan?.price_month * 12)) *
-                100
-              ).toFixed(0)}
+              {Math.min(
+                Number(
+                  (
+                    ((plan?.price_month * 12 - plan?.price_year) /
+                      (plan?.price_month * 12)) *
+                    100
+                  ).toFixed(0),
+                ),
+                100,
+              )}
               % مع الدفع السنوي!
             </p>
           )}

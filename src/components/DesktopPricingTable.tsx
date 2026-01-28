@@ -2,11 +2,10 @@ import { motion } from "framer-motion";
 import { Check, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { IPricingPlan } from "@/types/pricing-api.types";
-import { getFeatureValue } from "@/lib/pricing-features";
 
 interface DesktopPricingTableProps {
   plans: IPricingPlan[];
-  visibleFeatures: Array<{ key: string; label: string }>;
+  visibleFeatures: string[];
 }
 
 export function DesktopPricingTable({
@@ -22,63 +21,77 @@ export function DesktopPricingTable({
               المميزات
             </th>
 
-            {plans.map((_, index) => (
+            {plans.map((plan, index) => (
               <th
                 key={index}
                 className="py-6 px-4 text-center min-w-[120px] border-l border-gray-200 last:border-l-0"
               >
-                <div className="flex justify-center">
+                <a
+                  href={`#plan-card-${plan.id}`}
+                  className="flex justify-center"
+                >
                   <div className="h-10 w-10 rounded-lg bg-primary-800 text-white flex items-center justify-center font-bold text-lg shadow-md">
                     {index + 1}
                   </div>
-                </div>
+                </a>
               </th>
             ))}
           </tr>
         </thead>
 
         <tbody>
-          {visibleFeatures.map((feature, featureIndex) => (
-            <motion.tr
-              key={feature.key}
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: featureIndex * 0.05 }}
-              className={cn(
-                "border-b border-gray-200 hover:bg-blue-50/30 transition-colors",
-                featureIndex % 2 === 0 ? "bg-white" : "bg-gray-50/50",
-              )}
-            >
+          {!visibleFeatures.length ? (
+            <tr>
               <td
+                colSpan={plans.length + 1}
+                className="py-4 px-8 text-center text-xl font-bold"
+              >
+                لا يوجد مميزات حالياً
+              </td>
+            </tr>
+          ) : (
+            visibleFeatures.map((feature, index) => (
+              <motion.tr
+                key={feature}
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: index * 0.05 }}
                 className={cn(
-                  "py-4 px-8 text-right text-base lg:text-lg font-bold text-gray-800 sticky right-0 bg-inherit z-10",
-                  featureIndex % 2 === 0 ? "bg-white" : "bg-gray-50",
+                  "border-b border-gray-200 hover:bg-blue-50/30 transition-colors",
+                  index % 2 === 0 ? "bg-white" : "bg-gray-50/50",
                 )}
               >
-                {feature.label}
-              </td>
+                <td
+                  className={cn(
+                    "py-4 px-8 text-right text-base lg:text-lg font-bold text-gray-800 sticky right-0 bg-inherit z-10",
+                    index % 2 === 0 ? "bg-white" : "bg-gray-50",
+                  )}
+                >
+                  {feature}
+                </td>
 
-              {plans.map((plan) => {
-                const enabled = getFeatureValue(plan.features, feature.key);
+                {plans.map((plan) => {
+                  const enabled = plan?.features?.[feature] || false;
 
-                return (
-                  <td key={plan.id} className="py-4 px-4 text-center">
-                    <div className="flex justify-center">
-                      {enabled ? (
-                        <div className="w-6 h-6 rounded-full flex items-center justify-center">
-                          <Check className="w-4 h-4 text-green-600 stroke-3" />
-                        </div>
-                      ) : (
-                        <div className="w-6 h-6 rounded-full flex items-center justify-center">
-                          <X className="w-4 h-4 text-red-500 stroke-3" />
-                        </div>
-                      )}
-                    </div>
-                  </td>
-                );
-              })}
-            </motion.tr>
-          ))}
+                  return (
+                    <td key={plan.id} className="py-4 px-4 text-center">
+                      <div className="flex justify-center">
+                        {enabled ? (
+                          <div className="w-6 h-6 rounded-full flex items-center justify-center">
+                            <Check className="w-4 h-4 text-green-600 stroke-3" />
+                          </div>
+                        ) : (
+                          <div className="w-6 h-6 rounded-full flex items-center justify-center">
+                            <X className="w-4 h-4 text-red-500 stroke-3" />
+                          </div>
+                        )}
+                      </div>
+                    </td>
+                  );
+                })}
+              </motion.tr>
+            ))
+          )}
         </tbody>
       </table>
     </div>

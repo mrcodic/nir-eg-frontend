@@ -13,7 +13,7 @@ function BuildingAnimation({
   isError: boolean;
 }) {
   const [animationData, setAnimationData] = useState<AnimationData | null>(
-    null
+    null,
   );
   const [confettiFile, setConfettiFile] = useState<AnimationData | null>(null);
 
@@ -22,12 +22,10 @@ function BuildingAnimation({
 
     const loadAnimation = async () => {
       const animationModule = isCompleted
-        ? await import(
-            "../../../../public/assets/animations/success-animation.json"
-          )
+        ? await import("../../../../public/assets/animations/success-animation.json")
         : isError
-        ? await import("../../../../public/assets/animations/Fail.json")
-        : await import("../../../../public/assets/animations/waiting.json");
+          ? await import("../../../../public/assets/animations/Fail.json")
+          : await import("../../../../public/assets/animations/waiting.json");
 
       if (isMounted) {
         // 👇 THIS IS THE KEY LINE
@@ -35,9 +33,8 @@ function BuildingAnimation({
         setAnimationData(animationModule.default);
 
         if (isCompleted) {
-          const confettiModule = await import(
-            "../../../../public/assets/animations/Celeberation.json"
-          );
+          const confettiModule =
+            await import("../../../../public/assets/animations/Celeberation.json");
           setConfettiFile(confettiModule.default);
         }
       }
@@ -64,7 +61,7 @@ function BuildingAnimation({
           className="fixed  inset-0 w-screen -z-1"
         />
       )}
-      <Lottie animationData={animationData} loop={!isCompleted} />
+      <Lottie animationData={animationData} loop={!isCompleted && !isError} />
     </div>
   );
 }

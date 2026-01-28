@@ -23,7 +23,6 @@ const WhyUsSection = dynamic(() => import("@/components/landing/WhyUsSection"));
 const ContentProtectionSection = dynamic(
   () => import("@/components/landing/ContentProtectionSection"),
 );
-
 const FAQSection = dynamic(() => import("@/components/landing/FAQSection"));
 
 export default function Home() {

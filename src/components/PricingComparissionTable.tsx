@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import { IPricingPlan } from "@/types/pricing-api.types";
 import { Button } from "@/components/ui/button";
-import { FEATURES_IN_ORDER } from "@/lib/pricing-features";
 import { DesktopPricingTable } from "./DesktopPricingTable";
 import { MobilePricingView } from "./MobilePricingView";
-import { useParams, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
+import usePlanFeatures from "@/hooks/usePlanFeatures";
 
 interface PricingComparisonTableProps {
   plans: IPricingPlan[];
@@ -16,13 +16,22 @@ interface PricingComparisonTableProps {
 const DEFAULT_VISIBLE_FEATURES = 5;
 
 export function PricingComparisonTable({ plans }: PricingComparisonTableProps) {
+  const { features } = usePlanFeatures();
   const [showAll, setShowAll] = useState(false);
   const [selectedPlanIndex, setSelectedPlanIndex] = useState(0);
   const searchParams = useSearchParams();
 
+  const sortedPlans = useMemo(() => {
+    if (!plans.length) return plans;
+    return [...plans].sort((a, b) => {
+      if (a.is_main === b.is_main) return 0;
+      return a.is_main ? -1 : 1;
+    });
+  }, [plans]);
+
   const visibleFeatures = showAll
-    ? FEATURES_IN_ORDER
-    : FEATURES_IN_ORDER.slice(0, DEFAULT_VISIBLE_FEATURES);
+    ? features
+    : features.slice(0, DEFAULT_VISIBLE_FEATURES);
 
   // Sync with URL hash to select the correct plan
   useEffect(() => {
@@ -31,12 +40,12 @@ export function PricingComparisonTable({ plans }: PricingComparisonTableProps) {
 
       if (
         !planId ||
-        !plans.length ||
-        !plans.some((p) => p.id === Number(planId))
+        !sortedPlans.length ||
+        !sortedPlans.some((p) => p.id === Number(planId))
       )
         return;
 
-      const planIndex = plans.findIndex((p) => p.id === Number(planId));
+      const planIndex = sortedPlans.findIndex((p) => p.id === Number(planId));
 
       if (planIndex !== -1) {
         setSelectedPlanIndex(planIndex);
@@ -45,24 +54,27 @@ export function PricingComparisonTable({ plans }: PricingComparisonTableProps) {
 
     // Handle initial Search on mount
     handleSearchChange();
-  }, [plans, searchParams]);
+  }, [sortedPlans, searchParams]);
 
   return (
     <div id="plans-table" className="w-full py-12 scroll-m-10">
       <div>
         {/* ================= Desktop View ================= */}
-        <DesktopPricingTable plans={plans} visibleFeatures={visibleFeatures} />
+        <DesktopPricingTable
+          plans={sortedPlans}
+          visibleFeatures={visibleFeatures}
+        />
 
         {/* ================= Mobile View ================= */}
         <MobilePricingView
-          plans={plans}
+          plans={sortedPlans}
           visibleFeatures={visibleFeatures}
           selectedPlanIndex={selectedPlanIndex}
           onSelectPlan={setSelectedPlanIndex}
         />
 
         {/* ================= Show More/Less Button (Both Desktop & Mobile) ================= */}
-        {FEATURES_IN_ORDER.length > DEFAULT_VISIBLE_FEATURES && (
+        {features?.length > DEFAULT_VISIBLE_FEATURES && (
           <div className="mt-12 text-center">
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Button

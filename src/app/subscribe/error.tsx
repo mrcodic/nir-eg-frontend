@@ -1,8 +1,11 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import CustomError from "@/config/CustomError";
 import Image from "next/image";
 import Link from "next/link";
+
+export const NO_PLAN_ERROR = "NO_PLAN_ERROR";
 
 function ErrorPage({
   error,
@@ -11,7 +14,10 @@ function ErrorPage({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
-  console.log(error);
+  const isNoPlanError =
+    error instanceof CustomError ||
+    error.digest === NO_PLAN_ERROR ||
+    error?.message === NO_PLAN_ERROR;
   return (
     <div className="flex items-center justify-center ">
       <main className="wrapper flex flex-col items-center">
@@ -29,6 +35,12 @@ function ErrorPage({
           <h1 className="text-gradient-custom text-32 font-bold">
             حدث خطأ ما!
           </h1>
+          {isNoPlanError && (
+            <p className="font-bold text-2xl">
+              حدث خطاء اثناء عرض تفاصيل الخطة , او الخطة غير موجودة
+            </p>
+          )}
+
           <p className="font-bold text-2xl">
             يمكنك المحاولة مرة أخرى، أو يمكنك التواصل معنا
           </p>

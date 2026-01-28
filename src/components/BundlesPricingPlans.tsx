@@ -109,8 +109,9 @@ export default function BundlesPricingPlans({
             <motion.div
               key={plan.id}
               variants={cardVariants}
+              id={`plan-card-${plan.id}`}
               className={cn(
-                "relative rounded-xl p-4 overflow-hidden bg-background space-y-4",
+                "relative rounded-xl p-4 overflow-hidden bg-background space-y-4 scroll-mt-26",
                 "transition-shadow duration-300 hover:shadow-md",
               )}
             >
@@ -179,11 +180,11 @@ export default function BundlesPricingPlans({
               {/* ================= Features ================= */}
               <div className="space-y-3 border-b border-gray-light pb-3">
                 <FeatureRow
-                  value={`GB ${plan.features.whatsapp_quota}`}
-                  label="استهلاك الواتساب:"
+                  value={`GB ${plan.bandwidth_gb || 0}`}
+                  label="استهلاك الفيديوهات:"
                 />
                 <FeatureRow
-                  value={`GB ${plan.features.storage_gb}`}
+                  value={`GB ${plan.storage || 0}`}
                   label="مساحة التخزين:"
                 />
               </div>
@@ -227,7 +228,10 @@ export default function BundlesPricingPlans({
 
 function FeatureRow({ value, label }: { value: string; label: string }) {
   return (
-    <div className="flex flex-row-reverse items-center justify-end" dir="rtl">
+    <div
+      className="flex gap-1 flex-row-reverse items-center justify-end flex-wrap-reverse"
+      dir="rtl "
+    >
       <span className="text-lg font-bold text-black">{value}</span>
       <span className="text-lg font-bold text-primary-800">{label}</span>
     </div>

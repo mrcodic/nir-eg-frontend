@@ -25,7 +25,6 @@ function page() {
         queryKey={"/settings/contact-us"}
         returnEmptyState={true}
         render={({ data }: { data: FooterData }) => {
-          console.log("data : ", data);
           return (
             <section className="flex flex-col  wrapper ">
               <div className="relative sm:px-20 px-10 text-center mx-auto">

@@ -5,7 +5,7 @@ import CustomError from "./CustomError";
 
 const fetcherClient = async <T>(
   { queryKey: [endpoint], next, cache }: IGetDataOptions,
-  authenticated: boolean
+  authenticated: boolean,
 ) => {
   if (!endpoint || typeof endpoint !== "string") {
     return null;
@@ -21,7 +21,7 @@ const fetcherClient = async <T>(
   }
 
   try {
-    const fullUrl = `${process.env.NEXT_PUBLIC_BASE_URL}${endpoint}`;
+    const fullUrl = `${process.env.NEXT_PUBLIC_BASE_URL}${endpoint.startsWith("/") ? endpoint : `/${endpoint}`}`;
     // console.log("🚀 ~ fetcherClient ~ fullUrl:", fullUrl);
     const res = await fetch(fullUrl, {
       headers: {
@@ -51,7 +51,7 @@ const fetcherClient = async <T>(
 
         throw new CustomError(
           `Failed to fetch data from ${endpoint}`,
-          res.status || 500
+          res.status || 500,
         );
       }
     }
@@ -69,7 +69,7 @@ export const getClientPrivateData = reactCache(
     next,
     cache,
   }: IGetDataOptions): Promise<T | null> =>
-    fetcherClient({ queryKey: [endpoint], next, cache }, true)
+    fetcherClient({ queryKey: [endpoint], next, cache }, true),
 );
 
 // for client and server
@@ -78,7 +78,7 @@ export const getPublicData = reactCache(
     queryKey: [endpoint],
     next,
     cache,
-    authenticated = false,
+    isAuth = false,
   }: IGetDataOptions): Promise<T | null> =>
-    fetcherClient({ queryKey: [endpoint], next, cache }, authenticated)
+    fetcherClient({ queryKey: [endpoint], next, cache }, isAuth),
 );

@@ -15,8 +15,6 @@ async function page() {
     queryKey: ["/settings/about/nir"],
   });
 
-  console.log("about us page content : ", data);
-
   if (!data?.data) {
     throw new Error("About us page content not found");
   }

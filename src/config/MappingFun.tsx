@@ -72,7 +72,7 @@ const MappingFun = async ({
     console.log("🚀 ~ MappingFun ~ error: ", queryKey, e);
 
     if (e instanceof CustomError) {
-      if (e.statusCode === 404) {
+      if (e.status === 404) {
         return returnEmptyState
           ? null
           : errorComponent || <Empty {...emptyProps} />;

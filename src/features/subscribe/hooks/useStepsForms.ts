@@ -14,6 +14,7 @@ import {
 } from "@/lib/schemas/subscribe.schema";
 import { PaymentPeriod, StepId } from "@/types/subscribe.types";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useLocalStorage } from "usehooks-ts";
 
@@ -21,6 +22,16 @@ type Props = {
   period: PaymentPeriod;
   planId?: string;
 };
+
+function canCompleteBrandingStep(values: BrandingFormData) {
+  return (
+    !!values.websiteName &&
+    !!values.selectedTemplate &&
+    !!values.brandColor &&
+    values.logoFile instanceof File &&
+    values.faviconFile instanceof File
+  );
+}
 
 function getStoredFormData<T>(key: string, defaultValues: T): T {
   if (typeof window === "undefined") return defaultValues;
@@ -134,6 +145,19 @@ function useStepsForms({ period, planId }: Props) {
     setValue: brandingForm.setValue,
     exclude: ["logoFile", "faviconFile", "coverFile"],
   });
+
+  useEffect(() => {
+    setCompletedSteps((prev) => {
+      const brandingValues = brandingForm.getValues();
+
+      return prev.filter((step) => {
+        if (step === "branding") {
+          return canCompleteBrandingStep(brandingValues);
+        }
+        return true;
+      });
+    });
+  }, [brandingForm, setCompletedSteps]);
 
   // useFormPersist("paymentForm", {
   //   watch: paymentForm.watch,
