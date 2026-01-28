@@ -31,8 +31,6 @@ function FormSidebar({ variant, planId, period }: FormSidebarProps) {
 
   const plan = isDemo ? (data?.data as [IPricingPlan])?.[0] : data?.data;
 
-  console.log(data);
-
   if (isLoading)
     return <Skeleton className="w-[min(360px,25vw)] h-full max-h-[768px]" />;
 
