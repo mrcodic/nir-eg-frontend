@@ -17,7 +17,7 @@ export function MobilePricingView({
   selectedPlanIndex,
   onSelectPlan,
 }: MobilePricingViewProps) {
-  const selectedPlan = plans[selectedPlanIndex];
+  const selectedPlan = plans[selectedPlanIndex] || plans[0];
 
   return (
     <div className="md:hidden">

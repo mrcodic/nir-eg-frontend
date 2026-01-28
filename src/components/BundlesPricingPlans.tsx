@@ -203,7 +203,14 @@ export default function BundlesPricingPlans({
 
                 <Link
                   href="#plans-table"
-                  className="mt-4 flex h-11 items-center justify-center text-primary-800 font-bold underline"
+                  className="mt-4 md:flex h-11 items-center justify-center text-primary-800 font-bold underline hidden "
+                >
+                  قارن بين المميزات
+                </Link>
+                {/* mobile view */}
+                <Link
+                  href={`/bundles?plan_id=${plan.id}#plans-table`}
+                  className="mt-4 flex md:hidden h-11 items-center justify-center text-primary-800 font-bold underline"
                 >
                   قارن بين المميزات
                 </Link>
