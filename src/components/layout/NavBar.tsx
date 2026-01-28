@@ -47,7 +47,10 @@ function NavBar() {
         </nav>
 
         {/* Desktop CTA */}
-        <Link href="/subscribe?type=demo" className="hidden xl:block">
+        <Link
+          href="/subscribe?type=demo"
+          className="hidden lg:block lg:ms-auto lg:me-6 xl:me-0 xl:ms-0"
+        >
           <Button>احصل على النسخة التجريبية</Button>
         </Link>
 

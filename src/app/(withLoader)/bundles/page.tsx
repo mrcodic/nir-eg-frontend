@@ -1,3 +1,4 @@
+import BundlesContactCard from "@/components/BundlesContactCard";
 import Empty from "@/components/Empty";
 import { PricingComparisonTable } from "@/components/PricingComparissionTable";
 import { PricingPageContent } from "@/components/PricingPageContent";
@@ -21,7 +22,7 @@ async function page() {
     isAuth: false,
   });
 
-  console.log(data);
+  console.log("plans data : ", data);
 
   if (!data?.data?.length) {
     return (
@@ -34,6 +35,8 @@ async function page() {
   return (
     <main className="flex wrapper flex-col my-22" dir="rtl">
       <PricingPageContent plans={data.data} />
+
+      <BundlesContactCard />
 
       <PricingComparisonTable plans={data.data} />
     </main>

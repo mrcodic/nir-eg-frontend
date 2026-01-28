@@ -2,7 +2,6 @@
 
 import { cn } from "@/lib/utils";
 import type { TemplateOption } from "@/types/subscribe.types";
-import { Monitor } from "lucide-react";
 import Image from "next/image";
 
 interface TemplateSelectorProps {
@@ -39,7 +38,7 @@ export default function TemplateSelector({
       </label>
 
       <div className="grid grid-cols-[minmax(100px,350px)] max-sm:justify-center sm:grid-cols-3 gap-4">
-        {templates.map((template, index) => {
+        {templates.map((template) => {
           const isSelected = value === template.id;
 
           return (
@@ -48,14 +47,14 @@ export default function TemplateSelector({
               type="button"
               onClick={() => onChange(template.id)}
               className={cn(
-                "relative group rounded-lg overflow-hidden border-2 transition-all duration-200 p-2 aspect-4/5 flex flex-col",
+                "relative group rounded-lg overflow-hidden border-2 transition-all duration-200 p-2 aspect-4/5 flex flex-col gap-4",
                 isSelected
-                  ? "border-primary-800 bg-background ring-2 ring-primary-100"
-                  : "border-gray-light hover:border-primary-800/50",
+                  ? "border-primary-800 bg-primary-50 ring-2 ring-primary-100"
+                  : "border-gray-light hover:border-primary-800/50 hover:bg-background",
               )}
             >
               {/* Template Preview - Using gradient fallback */}
-              <div className="relative flex items-center justify-center grow">
+              <div className="relative flex items-center justify-center grow rounded-md overflow-hidden">
                 <Image
                   src={template.previewImage}
                   alt={template.name}
@@ -64,28 +63,23 @@ export default function TemplateSelector({
                   loading="lazy"
                 />
 
-                <button
-                  type="button"
-                  onClick={() => {
-                    window.open(template.previewImage, "_blank");
-                  }}
-                  className="flex flex-col  items-center justify-center  gap-2 text-black/80 hover:bg-black/70 transition-colors duration-200 hover:text-white cursor-pointer relative z-10 bg-gray-200/80 p-4 rounded-lg "
-                >
-                  <Monitor className="w-10 h-10" />
-                  <span className="text-xs">قالب {index + 1}</span>
-                </button>
+                {/* overlay */}
+                {/* <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200" /> */}
               </div>
 
               {/* Template Name */}
-              <div className="p-2 pb-0">
-                <p
-                  className={cn(
-                    "text-sm text-center font-bold",
-                    isSelected ? "text-primary-800" : "text-gray-dark",
-                  )}
+              <div className="">
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    window.open(template.previewImage, "_blank");
+                  }}
+                  className="flex  items-center justify-center   transition-colors duration-200 hover:text-white hover:bg-primary-800 cursor-pointer relative z-10 h-8 bg-white border border-gray-light font-bold p-4 w-full rounded-lg "
                 >
-                  {template.name}
-                </p>
+                  عرض
+                </button>
               </div>
             </button>
           );

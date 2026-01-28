@@ -10,7 +10,7 @@ import { IPricingPlan } from "@/types/pricing-api.types";
 import { ApiResponse } from "@/types/type";
 import { useQuery } from "@tanstack/react-query";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { UseFormReturn ,useWatch} from "react-hook-form";
+import { UseFormReturn, useWatch } from "react-hook-form";
 import NavigationButtons from "../shared/NavigationButtons";
 
 interface PaymentStepProps {
@@ -90,14 +90,17 @@ export default function PaymentStep({
         {/* Total Amount Display */}
         <div className="p-4 bg-blue-gradient rounded-lg border border-primary-100">
           <div className="flex justify-between items-center">
-            <span className="text-white">إجمالي المبلغ</span>
-            <span className="text-2xl font-bold text-white">
+            <span className="text-white font-bold">إجمالي المبلغ</span>
+            <span className="text-2xl font-bold text-secondary">
               {totalAmount?.toLocaleString("ar-EG")} جنية
+              <span className="text-base ms-1 text-white">
+                / {paymentPeriod === "monthly" ? "شهر" : "سنة"}
+              </span>
             </span>
           </div>
 
           {paymentPeriod === "yearly" && (
-            <p className="text-base text-green-50 font-bold mt-2">
+            <p className="text-lg text-green-400 font-bold mt-2 ">
               وفر{" "}
               {(
                 ((plan?.price_month * 12 - plan?.price_year) /

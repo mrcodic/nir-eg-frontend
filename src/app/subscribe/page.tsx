@@ -2,6 +2,8 @@ import { SubscribeForm } from "@/features/subscribe/components";
 import { FormVariant, PaymentPeriod } from "@/types/subscribe.types";
 import { Metadata } from "next";
 
+export const dynamic = "force-dynamic";
+
 interface SubscribePageProps {
   searchParams: Promise<{
     type?: string;

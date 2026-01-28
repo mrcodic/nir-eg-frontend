@@ -10,6 +10,7 @@ import { Check, ChevronDown, ChevronUp } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import MainPlanBadge from "./MainPlanBadge";
 
 const FEATURE_LIMIT = 8;
 
@@ -59,15 +60,11 @@ export default function PricingPlanCard({
           "bg-blue-gradient text-white": isDemo && !isFeatured,
           "bg-dark-radial text-white": isDemo && isFeatured,
         },
-        className
+        className,
       )}
     >
       {/* Featured Badge */}
-      {isFeatured && (
-        <div className="pointer-events-none absolute -left-13.5 top-5 -rotate-45 bg-secondary px-12 py-1.5 font-semibold tracking-wide text-white shadow-md text-base">
-          الأكثر شيوعًا
-        </div>
-      )}
+      {isFeatured && <MainPlanBadge />}
 
       <CardContent className="px-0 w-full text-right flex flex-col h-full">
         {/* Badge/Icon */}
@@ -164,7 +161,7 @@ export default function PricingPlanCard({
             "flex flex-col items-start gap-4 mt-auto pt-6 border-t border-gray-light",
             {
               "border-accent-800": isFeatured,
-            }
+            },
           )}
         >
           <div
