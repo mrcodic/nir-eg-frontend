@@ -17,20 +17,21 @@ export function DesktopPricingTable({
       <table className="w-full bg-white" dir="rtl">
         <thead>
           <tr className="bg-background border-b-2 border-gray-300">
-            <th className="py-6 px-8 text-right text-2xl lg:text-28 font-bold text-gray-900 min-w-[380px] sticky right-0 z-20 border-l border-gray-200 bg-background">
+            <th className="py-6 px-8 text-right text-2xl lg:text-28 font-bold text-gray-900 min-w-[380px] sticky right-0 z-20  bg-background">
               المميزات
             </th>
 
             {plans.map((plan, index) => (
               <th
                 key={index}
-                className="py-6 px-4 text-center min-w-[120px] border-l border-gray-200 last:border-l-0"
+                className="py-6 px-0 text-center w-18   last:border-l-0"
               >
                 <a
                   href={`#plan-card-${plan.id}`}
                   className="flex justify-center"
+                  title={plan.name}
                 >
-                  <div className="h-10 w-10 rounded-lg bg-primary-800 text-white flex items-center justify-center font-bold text-lg shadow-md">
+                  <div className="h-10 w-10 rounded-lg bg-primary-800 text-white flex items-center justify-center font-bold text-28 shadow-md">
                     {index + 1}
                   </div>
                 </a>
@@ -74,7 +75,7 @@ export function DesktopPricingTable({
                   const enabled = plan?.features?.[feature] || false;
 
                   return (
-                    <td key={plan.id} className="py-4 px-4 text-center">
+                    <td key={plan.id} className="py-4 px-2 text-center">
                       <div className="flex justify-center">
                         {enabled ? (
                           <div className="w-6 h-6 rounded-full flex items-center justify-center">

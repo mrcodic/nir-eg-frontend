@@ -81,6 +81,8 @@ function BundlesContactCard() {
           alt="phone"
           width={256}
           height={256}
+          quality={100}
+          loading="lazy"
         />
       </motion.div>
     </motion.div>
