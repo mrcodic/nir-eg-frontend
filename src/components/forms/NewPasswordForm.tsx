@@ -55,7 +55,7 @@ const NewPasswordForm = () => {
   return (
     <div className="">
       <div className="flex gap-2">
-        <img src="/assets/LockColor.svg" className="h-[32px] w-[32px]" />
+        <img src="/assets/icons/LockColor.svg" className="h-[32px] w-[32px]" />
         <div>
           <h3 className="text-[20px] font-bold text-[#121212]">
             إعادة تعيين كلمة السر
@@ -78,14 +78,14 @@ const NewPasswordForm = () => {
             name="password"
             control={form.control}
             label="كلمة السر"
-            iconSrc="/assets/Lock.svg"
+            iconSrc="/assets/lock-fill.svg"
             type="password"
           />
           <CustomInput
             name="password_confirmation"
             control={form.control}
             label="تأكيد كلمة السر"
-            iconSrc="/assets/Lock.svg"
+            iconSrc="/assets/lock-fill.svg"
             type="password"
           />
 
