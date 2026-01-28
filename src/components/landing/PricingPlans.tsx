@@ -81,7 +81,7 @@ export default function PricingPlans() {
 
   const isThreePlans = visiblePlans.length === 3;
 
-  console.log("visiblePlans", visiblePlans);
+  // console.log("visiblePlans", visiblePlans);
 
   return (
     <section className="wrapper w-full relative text-center pb-12 space-y-6 min-h-[400px]">

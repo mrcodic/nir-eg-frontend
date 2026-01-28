@@ -45,7 +45,6 @@ export default function PricingPlanCard({
 
   const toggleExpand = () => setIsExpanded((prev) => !prev);
 
-  console.log(displayedFeatures);
   return (
     <Card
       className={cn(
@@ -164,8 +163,8 @@ export default function PricingPlanCard({
         {/* Price & CTA */}
         <div
           className={cn("flex flex-col items-start gap-4 mt-auto  ", {
-            "border-accent-800": isFeatured,
             "border-t border-gray-light pt-6": !!displayedFeatures?.length,
+            "border-accent-800": isFeatured,
           })}
         >
           <div
