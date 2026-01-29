@@ -3,7 +3,7 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "الشروط والأحكام",
-  description: "الشروط والأحكام لاستخدام منصة نَيِّر.",
+  description: " جميع الشروط والأحكام لاستخدام منصة نَيِّر.",
 };
 
 async function page() {
