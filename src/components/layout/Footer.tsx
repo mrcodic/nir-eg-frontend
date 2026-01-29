@@ -11,9 +11,6 @@ async function Footer() {
   try {
     const data: { data: FooterData } | null = await getPublicData({
       queryKey: ["/settings/contact-us"],
-      next: {
-        revalidate: 0,
-      },
     });
 
     footerData = data?.data;

@@ -31,7 +31,6 @@ const fetcherClient = async <T>(
       // credentials: "include",
       next: {
         tags: [endpoint?.includes("?") ? endpoint?.split("?")[0] : endpoint],
-        // revalidate: 0,
         ...next,
       },
       cache: cache || "no-store",

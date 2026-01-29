@@ -2,7 +2,7 @@ import FAQAccordion from "@/components/FAQAccordion";
 import { getPublicData } from "@/config/client-fetch";
 import Lottie from "@/lib/LottiesClient";
 import { FaqSection } from "@/types/landing.types";
-import optimizedLottie from "../../../../public/assets/animations/faq.json";
+import optimizedLottie from "../../../public/assets/animations/faq.json";
 
 export const metadata = {
   title: "سؤال وجواب",
@@ -12,9 +12,6 @@ export const metadata = {
 async function FaqPage() {
   const faqData = await getPublicData<{ data: FaqSection }>({
     queryKey: ["/settings/home/faq"],
-    next: {
-      revalidate: 0,
-    },
   });
 
   return (
