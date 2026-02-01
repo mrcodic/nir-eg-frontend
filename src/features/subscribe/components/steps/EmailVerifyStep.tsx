@@ -83,7 +83,7 @@ export default function EmailVerifyStep({
       toast.success("OTP sent successfully");
     } catch (e) {
       console.log("Failed to send OTP:", e);
-      toast.error("Failed to send OTP");
+      toast.error("حدث خطأ أثناء إرسال رمز التأكيد");
     } finally {
       setIsSending(false);
     }
@@ -149,9 +149,7 @@ export default function EmailVerifyStep({
         onNext();
       } catch (e) {
         console.log("Failed to verify OTP:", e);
-        toast.error(
-          "حدث خطأ أثناء التحقق من رمز التأكيد. يرجى المحاولة مرة أخرى.",
-        );
+        toast.error("ادخلت otp غير صحيح او انتهت صلاحيته!");
       } finally {
         setIsVerifying(false);
       }
