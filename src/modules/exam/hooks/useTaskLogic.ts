@@ -17,7 +17,7 @@ export const useTaskLogic = (
   const { onInitialize, shouldStartQuiz, onRetakeSuccess } = options;
 
   // ✅ only stable values from context
-  const { taskId, start, data, setData, setValue, trigger } = useTaskContext();
+  const { taskId, start, data, setData, reset, trigger } = useTaskContext();
 
   // ===== local UI state =====
   const [success, setSuccess] = useState(false);
@@ -39,7 +39,10 @@ export const useTaskLogic = (
       setFail(false);
 
       // ✅ form reset without subscribing
-      setValue("questions", {});
+      reset({
+        quiz_id: taskId,
+        questions: {},
+      });
       trigger();
 
       onRetakeSuccess?.();
@@ -50,7 +53,7 @@ export const useTaskLogic = (
         icon: "error",
       });
     }
-  }, [taskId, setData, setValue, trigger, onRetakeSuccess, toast]);
+  }, [taskId, setData, reset, trigger, onRetakeSuccess, toast]);
 
   // ================= HANDLE SUCCESS / FAIL =================
   useEffect(() => {
@@ -132,7 +135,10 @@ export const useTaskLogic = (
         setFail(false);
         setStatus(true);
 
-        setValue("questions", {});
+        reset({
+          quiz_id: taskId,
+          questions: {},
+        });
         trigger();
 
         setData({ ...res?.body, solution: true });
@@ -140,7 +146,7 @@ export const useTaskLogic = (
     } catch (e) {
       console.log("showAnswers error:", e);
     }
-  }, [taskId, setData, setValue, trigger]);
+  }, [taskId, setData, reset, trigger]);
 
   // ================= RETAKE =================
   const retake = useCallback(async () => {

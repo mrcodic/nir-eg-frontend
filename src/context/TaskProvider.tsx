@@ -19,6 +19,7 @@ import {
   Control,
   FormProvider,
   UseFormGetValues,
+  UseFormReset,
   UseFormSetValue,
   UseFormTrigger,
   useForm,
@@ -30,6 +31,10 @@ interface TaskContextType {
   getValues: UseFormGetValues<any>;
   setValue: UseFormSetValue<any>;
   trigger: UseFormTrigger<{
+    quiz_id: string;
+    questions: {};
+  }>;
+  reset: UseFormReset<{
     quiz_id: string;
     questions: {};
   }>;
@@ -85,7 +90,7 @@ export const TaskProvider = ({ children, taskType = "exam" }) => {
     },
   });
 
-  const { control, getValues, setValue, trigger } = form;
+  const { control, getValues, setValue, trigger, reset } = form;
 
   // ===== shared state =====
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -95,7 +100,11 @@ export const TaskProvider = ({ children, taskType = "exam" }) => {
   const [completed, setCompleted] = useState(false);
 
   // ===== fetch start =====
-  const { data: start, isLoading ,error} = useQuery<QuizStatus>({
+  const {
+    data: start,
+    isLoading,
+    error,
+  } = useQuery<QuizStatus>({
     queryKey: [`/students/quiz/start/${taskId}`],
     queryFn: async () => {
       const res = await getClientPrivateData({
@@ -114,7 +123,6 @@ export const TaskProvider = ({ children, taskType = "exam" }) => {
     document.documentElement.scroll({ top: 0 });
   }, []);
 
-
   const value = useMemo<TaskContextType>(
     () => ({
       control,
@@ -126,6 +134,7 @@ export const TaskProvider = ({ children, taskType = "exam" }) => {
       isLoading,
       data,
       setData,
+      reset,
 
       showRoom,
       setShowRoom,
@@ -158,7 +167,8 @@ export const TaskProvider = ({ children, taskType = "exam" }) => {
       onComplete,
       taskType,
       taskId,
-      error
+      error,
+      reset,
     ],
   );
 

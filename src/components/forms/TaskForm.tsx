@@ -41,12 +41,11 @@ function TaskForm({
   const { toast } = useToast();
   const { SingleCourse: classroomId, room: roomId } = useParams();
 
-
   const queryClient = useQueryClient();
   const listRef = useRef<HTMLDivElement[]>([]);
 
   const form = useFormContext();
-  const { getValues, trigger } = form;
+  const { getValues, trigger, reset } = form;
 
   const {
     data,
@@ -135,20 +134,27 @@ function TaskForm({
         queryKey: [`/students/quiz/start/${taskId}`],
       });
 
-      if(examType === "general"){
+      if (examType === "general") {
         queryClient.invalidateQueries({
           queryKey: [`/students/get-exams/${classroomId}`],
         });
       }
 
-    if(examType !== "general" && roomId){
-      queryClient.invalidateQueries({
-        queryKey: [
-          `/students/get-lessons/${roomId}?classroom_id=${classroomId}`,
-        ],
-      });}
+      if (examType !== "general" && roomId) {
+        queryClient.invalidateQueries({
+          queryKey: [
+            `/students/get-lessons/${roomId}?classroom_id=${classroomId}`,
+          ],
+        });
+      }
 
       await new Promise((r) => setTimeout(r, 1000));
+
+      reset({
+        quiz_id: taskId,
+        questions: {},
+      });
+      trigger();
 
       if (res.data?.body?.result || res.data?.body?.review_pending) {
         setSuccess(true);
@@ -167,19 +173,21 @@ function TaskForm({
       setIsSubmitting(false);
     }
   }, [
-    data,
-    getValues,
-    onTaskSubmit,
-    queryClient,
-    setCompleted,
-    setFail,
+    data?.questions,
     setIsSubmitting,
-    setSuccess,
+    getValues,
     taskId,
-    toast,
+    queryClient,
     examType,
-    classroomId,
     roomId,
+    reset,
+    trigger,
+    onTaskSubmit,
+    classroomId,
+    setSuccess,
+    setFail,
+    toast,
+    setCompleted,
   ]);
 
   // ================= AUTO SUBMIT =================
@@ -197,19 +205,6 @@ function TaskForm({
       </div>
     );
   }
-
-  // if (!data?.questions?.length) {
-  //   return (
-  //     <div className="flex min-h-40 items-center justify-center">
-  //       <Link
-  //         href="/grades"
-  //         className="bg-primary rounded-lg px-2 py-1 font-bold text-white"
-  //       >
-  //         الذهاب الى الدرجات
-  //       </Link>
-  //     </div>
-  //   );
-  // }
 
   return (
     <Form {...form}>
