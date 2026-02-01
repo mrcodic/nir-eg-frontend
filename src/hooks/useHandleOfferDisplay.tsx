@@ -22,8 +22,6 @@ function useHandleOfferDisplay() {
     }
   }, [modal, isLoading, showCoupon]);
 
-  console.log("coupon data ", data);
-
   return { handleOfferDisplay };
 }
 

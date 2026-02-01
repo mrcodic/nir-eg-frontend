@@ -9,18 +9,16 @@ function ProfileCoupon() {
 
   if (isLoading || !data || error) return null;
 
-  console.log("coupon data ", data);
-
   return (
     <div className="flex max-sm:flex-col md:ms-auto">
-      <div className="bg-[#1EAD7B] relative max-sm:rounded-t-lg sm:rounded-r-lg p-4 flex flex-col items-center sm:ps-8 max-sm:pt-6 justify-center">
-        <div className="absolute sm:right-0 top-0 z-10 max-sm:inset-x-0 sm:inset-y-0 h-full flex sm:flex-col gap-1.5 justify-center ">
+      <div className="relative flex flex-col items-center justify-center bg-[#1EAD7B] p-4 max-sm:rounded-t-lg max-sm:pt-6 sm:rounded-r-lg sm:ps-8">
+        <div className="absolute top-0 z-10 flex h-full justify-center gap-1.5 max-sm:inset-x-0 sm:inset-y-0 sm:right-0 sm:flex-col">
           {Array(3)
             .fill(0)
             .map((_, index) => (
               <div
                 key={index}
-                className="size-6 shrink-0 bg-background rounded-full sm:translate-x-1/2 max-sm:-translate-y-1/2"
+                className="bg-background size-6 shrink-0 rounded-full max-sm:-translate-y-1/2 sm:translate-x-1/2"
               />
             ))}
         </div>
@@ -33,15 +31,15 @@ function ProfileCoupon() {
           alt="percentage"
         />
 
-        <p className="text-white font-bold text-sm text-center">
+        <p className="text-center text-sm font-bold text-white">
           حتى {data?.end_date}
         </p>
       </div>
 
-      <div className="flex max-sm:flex-col gap-4 flex-wrap  sm:justify-between lg:ms-auto items-end  bg-white py-2 px-4 relative max-sm:justify-center max-sm:items-center">
-        <div className="absolute sm:border-r-4 max-sm:border-t-4 border-dashed sm:-right-0.5 sm:inset-y-0 border-black sm:h-full top-0 max-sm:inset-x-0 " />
+      <div className="relative flex flex-wrap items-end gap-4 bg-white px-4 py-2 max-sm:flex-col max-sm:items-center max-sm:justify-center sm:justify-between lg:ms-auto">
+        <div className="absolute top-0 border-dashed border-black max-sm:inset-x-0 max-sm:border-t-4 sm:inset-y-0 sm:-right-0.5 sm:h-full sm:border-r-4" />
 
-        <div className=" rounded-lg p-2 flex items-center gap-4 max-sm:flex-col">
+        <div className="flex items-center gap-4 rounded-lg p-2 max-sm:flex-col">
           <Image
             className="size-16"
             src="/assets/percentage.gif"
@@ -51,17 +49,17 @@ function ProfileCoupon() {
           />
 
           <div>
-            <p className="text-[#232027] font-bold ">
+            <p className="font-bold text-[#232027]">
               احصل على خصم {discountValue}
             </p>
-            <p className="text-gray-dark font-medium text-sm">
+            <p className="text-gray-dark text-sm font-medium">
               {data?.description || `خصم ${discountValue} على الكورس`}
             </p>
           </div>
         </div>
 
-        <div className="flex items-end sm:gap-4 gap-2 sm:ms-auto ">
-          <p className="text-white font-bold bg-[#1EAD7B] py-1 px-2 rounded-lg  text-center animate-promo-rotate-shake w-fit uppercase break-all">
+        <div className="flex items-end gap-2 sm:ms-auto sm:gap-4">
+          <p className="animate-promo-rotate-shake w-fit rounded-lg bg-[#1EAD7B] px-2 py-1 text-center font-bold break-all text-white uppercase">
             {data?.code}
           </p>
 
@@ -81,7 +79,7 @@ function ProfileCoupon() {
                 });
               }
             }}
-            className="bg-primary ms-auto border border-gray-light rounded-lg  text-sm font-bold size-8 "
+            className="bg-primary border-gray-light ms-auto size-8 rounded-lg border text-sm font-bold"
             size="icon"
           >
             <Image
