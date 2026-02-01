@@ -18,6 +18,7 @@ interface VideoProps {
   lessonId: string | number;
   videoCompleted: boolean;
   otpError: boolean;
+  otpLoading: boolean;
 }
 
 export default function Video(props: VideoProps) {
@@ -32,6 +33,7 @@ export default function Video(props: VideoProps) {
     lessonId,
     videoCompleted,
     otpError,
+    otpLoading,
   } = props;
 
   const { iframeRef, hideBtn, setHideBtn } = useVideoPlayer({
@@ -48,7 +50,7 @@ export default function Video(props: VideoProps) {
     return (
       <div className="flex-1 space-y-8">
         <TopBanner
-          icon={<img src="/assets/icons/WarningColor.svg" />}
+          icon={<img src="/assets/icons/WarningColor.svg" alt="warning" />}
           render={
             <span className="text-sm font-medium">
               {exceededViews
@@ -71,7 +73,22 @@ export default function Video(props: VideoProps) {
     );
   }
 
-  return response?.otp ? (
+  if (otpError) {
+    return (
+      <div className="bg-background flex min-h-[520px] items-center justify-center">
+        <div className="flex items-center gap-2">
+          <FileWarning className="stroke-red-500" />
+          <p className="text-lg font-bold">حدث خطأ ما</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (otpLoading || !response?.otp) {
+    return <LoadingSpinner className="min-h-[520px]" />;
+  }
+
+  return (
     <div className="relative h-fit flex-1 overflow-hidden">
       <TamperResistantOverlay>
         <iframe
@@ -90,14 +107,5 @@ export default function Video(props: VideoProps) {
         <VideoQuestionBtn playerRef={iframeRef} setHideBtn={setHideBtn} />
       )}
     </div>
-  ) : otpError ? (
-    <div className="bg-background flex min-h-[520px] items-center justify-center">
-      <div className="flex items-center gap-2">
-        <FileWarning className="stroke-red-500" />
-        <p className="text-lg font-bold">حدث خطأ ما</p>
-      </div>
-    </div>
-  ) : (
-    <LoadingSpinner className="min-h-[520px]" />
   );
 }

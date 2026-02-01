@@ -6,21 +6,23 @@ import useCoupon from "./useCoupon";
 
 function useHandleOfferDisplay() {
   const modal = useModal();
-  const { showCoupon, isLoading } = useCoupon();
+  const { showCoupon, isLoading, data } = useCoupon();
 
   const handleOfferDisplay = useCallback(async () => {
     if (!isLoading && showCoupon) {
       modal.setDialogContent(<OfferModel />);
       modal.addSideElement(
         <DotLottieReact
-          className="w-full z-60  mx-auto fixed inset-0"
+          className="fixed inset-0 z-60 mx-auto w-full"
           src="/Animations/Celeberation.json"
           autoplay
-        />
+        />,
       );
       modal.openModal();
     }
   }, [modal, isLoading, showCoupon]);
+
+  console.log("coupon data ", data);
 
   return { handleOfferDisplay };
 }

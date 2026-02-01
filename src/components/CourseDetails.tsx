@@ -63,7 +63,7 @@ const CourseDetails = ({ details, profile }: Props) => {
         past_exams: IExamCard[];
       }>
     >,
-    enabled: !!profile && selectedTab === "exams",
+    enabled: !!profile && selectedTab === "exams" && profile?.type === 4,
     retry: 1,
   });
 

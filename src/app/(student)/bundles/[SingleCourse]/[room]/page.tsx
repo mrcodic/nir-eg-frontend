@@ -21,10 +21,11 @@ const SingleVideo = () => {
   const { SingleCourse: classroomId, room } = useParams();
 
   const [otpData, setOtpData] = useState(null);
+  const [otpError, setOtpError] = useState(false);
+  const [otpLoading, setOtpLoading] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [lockedByViewLimit, setLockedByViewLimit] = useState(false);
   const [viewCount, setViewCount] = useState(null);
-  const [otpError, setOtpError] = useState(false);
   const [lessonId, setLessonId] = useState(null);
 
   const { profile } = useAuthContext();
@@ -54,8 +55,11 @@ const SingleVideo = () => {
   });
 
   const videoCompleted = useMemo(() => {
-    return data?.body?.lessons?.find((lesson) => lesson?.vedio_id === videoId)
-      ?.completed;
+    return (
+      videoId &&
+      data?.body?.lessons?.find((lesson) => lesson?.vedio_id === videoId)
+        ?.completed
+    );
   }, [data, videoId]);
 
   const selectedLesson = useMemo(
@@ -123,14 +127,15 @@ const SingleVideo = () => {
 
   useEffect(() => {
     if (hasVideoId && !otpData) {
-      console.log("fetching otp and views");
       fetchOtpAndViews(videoId);
     }
   }, [fetchOtpAndViews, otpData, videoId, hasVideoId]);
 
   // initialize lesson id and video id from video id searchparam
   useEffect(() => {
-    if (!data || lessonId) return;
+    if (!data) return;
+
+    if (lessonId && (videoId || videoUrl)) return;
 
     if (videoId) {
       const lesson = data.body.lessons.find((l) => l.vedio_id === videoId);
@@ -222,12 +227,13 @@ const SingleVideo = () => {
                     roomId={Number(room)}
                     setCurrentTime={setCurrentTime}
                     classroomId={Number(classroomId)}
-                    response={otpData}
                     locked={data?.body?.locked_to_pass || lockedByViewLimit}
+                    response={otpData}
+                    otpLoading={otpLoading}
+                    otpError={otpError}
                     lessonId={lessonId || data?.body?.lessons?.[0]?.id}
                     videoCompleted={videoCompleted}
                     exceededViews={lockedByViewLimit}
-                    otpError={!hasVideoId || otpError}
                   />
                 )}
               </div>
