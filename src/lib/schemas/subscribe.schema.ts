@@ -241,7 +241,8 @@ export const brandingSchema = z
     websiteName: z
       .string()
       .min(3, "اسم الموقع يجب أن يكون 3 أحرف على الأقل")
-      .max(50, "اسم الموقع يجب أن يكون أقل من 50 حرف"),
+      .max(50, "اسم الموقع يجب أن يكون أقل من 50 حرف")
+      .transform((v) => v.trim().toLowerCase()),
 
     brandColor: z.string().min(1, "يجب اختيار لون الموقع"),
     selectedTemplate: z.string().min(1, "يجب اختيار قالب للموقع"),
@@ -257,7 +258,6 @@ export const brandingSchema = z
   .superRefine((data, ctx) => {
     const { domainType, websiteName, logoFile, faviconFile } = data;
 
-    // 🔴 REQUIRED CHECKS (AFTER defaults)
     if (!logoFile) {
       ctx.addIssue({
         path: ["logoFile"],
@@ -274,11 +274,9 @@ export const brandingSchema = z
       });
     }
 
-    // Regex for subdomain (your original)
-    const subDomainRegex = /^[a-zA-Z0-9-]+$/;
-
-    // Regex for full domain (example: example.com, my-site.co.uk, etc.)
-    const fullDomainRegex = /^(?!:\/\/)([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/;
+    // websiteName is already trimmed + lowercased ✔
+    const subDomainRegex = /^[a-z0-9]([a-z0-9-]*[a-z0-9])?$/;
+    const fullDomainRegex = /^(?!:\/\/)([a-z0-9-]+\.)+[a-z]{2,}$/i;
 
     if (domainType === "subdomain") {
       if (!subDomainRegex.test(websiteName)) {
@@ -286,7 +284,7 @@ export const brandingSchema = z
           code: z.ZodIssueCode.custom,
           path: ["websiteName"],
           message:
-            "اسم الموقع يجب أن يحتوي على أحرف إنجليزية وأرقام وشرطات فقط",
+            "اسم النطاق الفرعي يجب أن يبدأ وينتهي بحرف أو رقم، ويمكن أن يحتوي في الوسط على شرطة (-) فقط.",
         });
       }
     }
