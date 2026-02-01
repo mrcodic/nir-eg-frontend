@@ -72,7 +72,7 @@ const ProfilePage = () => {
                         key={room?.id}
                         isProfile={true}
                         room={room?.latest_room}
-                        verify={profile?.parent_phone_verification}
+                        verify={true || profile?.parent_phone_verification}
                         subscribe={room?.is_subscriped}
                         courseName={room?.classroom}
                       />
