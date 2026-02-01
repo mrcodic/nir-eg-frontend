@@ -17,11 +17,11 @@ const Empty = ({
     <div
       className={cn(
         "flex flex-col gap-5 justify-center items-center h-full py-8",
-        className
+        className,
       )}
     >
       <Image
-        src={isError ? "/error-ilustration.png" : "/assets/box.svg"}
+        src={isError ? "/assets/error.svg" : "/assets/search-illustration.svg"}
         alt=" "
         width={200}
         height={100}
@@ -30,7 +30,7 @@ const Empty = ({
       <h2
         className={cn(
           "text-2xl font-bold text-center ",
-          isError && "text-red-500"
+          isError && "text-red-500",
         )}
       >
         {text || (isError ? "حدث خطأ ما" : "لا يوجد محتوى بعد")}

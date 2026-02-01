@@ -61,7 +61,7 @@ export default function Home() {
         <WhatMakesUsUniqueSection />
       </LazyOnView>
 
-      <LazyOnView className="min-h-[740px]">
+      <LazyOnView className="min-h-[740px] ">
         <PricingPlans />
       </LazyOnView>
 

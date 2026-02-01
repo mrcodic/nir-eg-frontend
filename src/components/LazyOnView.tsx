@@ -8,19 +8,29 @@ interface LazyOnViewProps {
   children: React.ReactNode;
   offset?: string;
   className?: string;
-  minHeight?: string;
 }
 
 export default function LazyOnView({
   children,
   offset = "300px",
-  className = "",
+  className,
 }: LazyOnViewProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: offset as "0px" });
+
+  const isInView = useInView(ref, {
+    once: true,
+    margin: offset as "0px",
+  });
 
   return (
-    <div ref={ref} className={cn(`w-full min-h-[300px]`, className)}>
+    <div
+      ref={ref}
+      className={cn(
+        "w-full",
+        { "min-h-[300px]": !isInView },
+        !isInView && className,
+      )}
+    >
       {isInView ? children : null}
     </div>
   );

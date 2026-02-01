@@ -35,7 +35,7 @@ function WhyUsSection({ data }: { data: WhyChooseSection }) {
 
             <LottieFromPath
               path={animations[index]}
-              className="size-60 aspect-square max-w-full relative z-2"
+              className="size-60 aspect-square max-w-full relative z-2 h-60 w-60"
             />
 
             {/* Text */}
