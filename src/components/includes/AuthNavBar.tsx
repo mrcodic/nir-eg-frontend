@@ -87,7 +87,7 @@ const AuthNavBar = () => {
               width={110}
               height={48}
               unoptimized
-              className="h-12 w-[110px] object-contain"
+              className="h-12 w-[110px] object-contain object-right"
               loading="eager"
               fetchPriority="high"
               alt="logo"

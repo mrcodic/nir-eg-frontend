@@ -23,8 +23,8 @@ const OfferModel = () => {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center size-full min-h-[400px]">
-        <FaSpinner className="animate-spin text-primary-800 size-10" />
+      <div className="flex size-full min-h-[400px] items-center justify-center">
+        <FaSpinner className="text-primary-800 size-10 animate-spin" />
       </div>
     );
   }
@@ -41,15 +41,15 @@ const OfferModel = () => {
         className="mx-auto"
       />
 
-      <div className="max-w-[343px] mx-auto mt-4">
-        <div className="bg-[#1EAD7B] relative flex items-center gap-6 rounded-t-lg px-4 pb-7 pt-14 ">
-          <div className="absolute top-0 z-10 inset-x-0 w-full flex gap-4 justify-center ">
+      <div className="mx-auto mt-4 max-w-[343px]">
+        <div className="relative flex items-center gap-6 rounded-t-lg bg-[#1EAD7B] px-4 pt-14 pb-7">
+          <div className="absolute inset-x-0 top-0 z-10 flex w-full justify-center gap-4">
             {Array(4)
               .fill(0)
               .map((_, index) => (
                 <div
                   key={index}
-                  className="size-8 bg-white rounded-full -translate-y-1/2"
+                  className="size-8 -translate-y-1/2 rounded-full bg-white"
                 />
               ))}
           </div>
@@ -65,25 +65,25 @@ const OfferModel = () => {
             <p className="text-lg font-medium text-[#FBF6F0]">
               حتى {data?.end_date}
             </p>
-            <p className="text-32 font-bold text-white animate-promo-rotate-shake w-fit uppercase break-all">
+            <p className="text-32 animate-promo-rotate-shake w-fit font-bold break-all text-white uppercase">
               {data?.code}
             </p>
           </div>
         </div>
 
-        <div className="bg-background px-4 py-7 relative">
-          <hr className="border-dashed border-t-[6px] border-black absolute -top-0.5 inset-x-0" />
+        <div className="bg-background relative px-4 py-7">
+          <hr className="absolute inset-x-0 -top-0.5 border-t-[6px] border-dashed border-black" />
 
-          <div className="flex flex-col ">
+          <div className="flex flex-col">
             <p className="text-xl font-bold text-[#121212]">
               احصل على خصم {discountValue}
             </p>
-            <p className="text-[#121212] font-medium">
+            <p className="font-medium text-[#121212]">
               {data?.description || `خصم ${discountValue} على الكورس`}
             </p>
           </div>
 
-          <DialogFooter className="flex flex-row! justify-between gap-5 mt-5 mx-auto">
+          <DialogFooter className="mx-auto mt-5 grid grid-cols-1 justify-center gap-5 sm:grid-cols-2">
             <Button
               onClick={async () => {
                 try {
@@ -99,12 +99,12 @@ const OfferModel = () => {
                   });
                 }
               }}
-              className="bg-primary border border-gray-light rounded-lg w-[148px] text-sm font-bold p-2 text-white"
+              className="bg-primary border-gray-light w-full rounded-lg border p-2 text-sm font-bold text-white sm:w-[148px]"
             >
               نسخ الكود
             </Button>
             <DialogClose asChild>
-              <Button className="border border-primary hover:text-white rounded-lg w-[148px] bg-white text-sm font-bold p-2 text-[#121212]">
+              <Button className="border-primary w-full rounded-lg border bg-white p-2 text-sm font-bold text-[#121212] hover:text-white sm:w-[148px]">
                 إلغاء
               </Button>
             </DialogClose>

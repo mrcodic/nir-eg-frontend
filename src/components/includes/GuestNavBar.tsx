@@ -39,7 +39,7 @@ const GuestNavBar = () => {
                 width={110}
                 height={48}
                 unoptimized
-                className="h-12 object-contain"
+                className="h-12 object-contain object-right"
                 loading="eager"
                 fetchPriority="high"
                 alt="logo"

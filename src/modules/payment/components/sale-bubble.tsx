@@ -14,19 +14,19 @@ function SaleBubble({
   return (
     <div
       className={cn(
-        "flex absolute top-6 -left-6 gap-1 items-center",
-        className
+        "absolute top-6 -left-6 flex w-fit items-center gap-1",
+        className,
       )}
     >
-      <div className="bg-[url(/assets/Sale.svg)] re bg-cover flex items-center justify-center flex-col size-12">
+      <div className="re flex size-12 flex-col items-center justify-center bg-[url(/assets/Sale.svg)] bg-cover">
         <p
           style={{
             textShadow:
               "2px 0 #000,-2px 0 #000,0 2px #000,0 -2px #000,1px 1px #000,-1px -1px #000,1px -1px #000,-1px 1px #000",
           }}
-          className="flex flex-col  font-bold text-white text-center text-[14px]"
+          className="flex flex-col text-center text-[14px] font-bold text-white"
         >
-          <span className="text-xs ">خصم</span>
+          <span className="text-xs">خصم</span>
           <span>
             {text ||
               (discountType === 0

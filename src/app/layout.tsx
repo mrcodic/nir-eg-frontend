@@ -4,6 +4,7 @@ import NavbarWrapper from "@/components/includes/NavbarWrapper";
 import { Toaster } from "@/components/ui/toaster";
 import Providers from "./providers";
 
+import Announcement from "@/components/banners/Announcement";
 import UserModalsWrapper from "@/components/UserModalsWrapper";
 import { TenantProvider } from "@/context/TenantProvider";
 import { hexToHsl } from "@/helpers/tenant.helpers";
@@ -133,6 +134,7 @@ export default async function Layout({ children }) {
                 <Footer />
               </Suspense>
               <UserModalsWrapper />
+              <Announcement />
             </Providers>
           </>
         </TenantProvider>

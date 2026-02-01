@@ -56,7 +56,11 @@ const columns = [
   }),
 ];
 
-export default function CourseActivitiesTable() {
+export default function CourseActivitiesTable({
+  enabled,
+}: {
+  enabled: boolean;
+}) {
   const [pagination, setPagination] = useState({
     pageIndex: 0,
     pageSize: 5,
@@ -73,6 +77,7 @@ export default function CourseActivitiesTable() {
       }`,
     ],
     queryFn: getClientPrivateData,
+    enabled,
     placeholderData: keepPreviousData,
   });
 

@@ -206,7 +206,7 @@ const CourseDetails = ({ details, profile }: Props) => {
       <TabsContent value="activities">
         <RoomHeader title="الأنشطة" icon="/assets/star-colored.svg" />
 
-        <CourseActivitiesTable />
+        <CourseActivitiesTable enabled={selectedTab === "activities"} />
       </TabsContent>
 
       <TabsContent value="rank">
