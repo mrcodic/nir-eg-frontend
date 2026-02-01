@@ -17,54 +17,56 @@ function NavBar() {
   const toggleMenu = () => setIsOpen((prev) => !prev);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-gray-light">
-      <div className="wrapper relative flex h-20 items-center justify-between bg-background z-30">
-        {/* Logo */}
-        <Link href="/">
-          <Image
-            src="/logo.svg"
-            alt="logo"
-            width={110}
-            height={48}
-            loading="eager"
-            priority={true}
-          />
-        </Link>
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-gray-light  ">
+      <div className="wrapper bg-background z-30 relative">
+        <div className="section relative flex h-20 items-center justify-between  ">
+          {/* Logo */}
+          <Link href="/">
+            <Image
+              src="/logo.svg"
+              alt="logo"
+              width={110}
+              height={48}
+              loading="eager"
+              priority={true}
+            />
+          </Link>
 
-        {/* Desktop nav */}
-        <nav className="hidden xl:block">
-          <ul className="flex gap-6 xl:gap-8">
-            {navlinks.map((link) => (
-              <li key={link.name}>
-                <CustomLink
-                  href={link.href}
-                  name={link.name}
-                  className="lg:text-sm xl:text-base whitespace-nowrap"
-                />
-              </li>
-            ))}
-          </ul>
-        </nav>
+          {/* Desktop nav */}
+          <nav className="hidden xl:block">
+            <ul className="flex gap-6 xl:gap-8">
+              {navlinks.map((link) => (
+                <li key={link.name}>
+                  <CustomLink
+                    href={link.href}
+                    name={link.name}
+                    className="lg:text-sm xl:text-base whitespace-nowrap"
+                  />
+                </li>
+              ))}
+            </ul>
+          </nav>
 
-        {/* Desktop CTA */}
-        <Link
-          href="/subscribe?type=demo"
-          className="hidden lg:block lg:ms-auto lg:me-6 xl:me-0 xl:ms-0"
-        >
-          <Button>احصل على النسخة التجريبية</Button>
-        </Link>
-
-        {/* Mobile actions */}
-        <div className="flex items-center gap-2 xl:hidden">
-          <Button
-            size="icon"
-            variant="ghost"
-            className="xl:hidden"
-            aria-label="Toggle menu"
-            onClick={toggleMenu}
+          {/* Desktop CTA */}
+          <Link
+            href="/subscribe?type=demo"
+            className="hidden lg:block lg:ms-auto lg:me-6 xl:me-0 xl:ms-0"
           >
-            {isOpen ? <X className="size-8" /> : <Menu className="size-8" />}
-          </Button>
+            <Button>احصل على النسخة التجريبية</Button>
+          </Link>
+
+          {/* Mobile actions */}
+          <div className="flex items-center gap-2 xl:hidden">
+            <Button
+              size="icon"
+              variant="ghost"
+              className="xl:hidden"
+              aria-label="Toggle menu"
+              onClick={toggleMenu}
+            >
+              {isOpen ? <X className="size-8" /> : <Menu className="size-8" />}
+            </Button>
+          </div>
         </div>
       </div>
 
@@ -107,7 +109,7 @@ function NavBar() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2, ease: "easeOut" }}
-              className="fixed inset-0 z-10 bg-black/40 md:hidden"
+              className="fixed inset-0 z-10 bg-black/40 xl:hidden"
               onClick={closeMenu}
             />
           </>
