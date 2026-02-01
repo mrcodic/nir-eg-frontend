@@ -24,7 +24,7 @@ async function page() {
 
   if (!data?.data?.length) {
     return (
-      <main className="flex wrapper flex-col items-center justify-center min-h-screen my-22">
+      <main className="flex wrapper flex-col items-center justify-center my-22">
         <Empty text="لا توجد باقات متاحة حاليًا" />
       </main>
     );
