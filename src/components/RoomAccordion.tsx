@@ -12,11 +12,11 @@ import { RoomData } from "@/types";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import PriceBadge from "../modules/payment/components/PriceBadge";
+import RoomExpireBadge from "./cards/RoomExpireBadge";
+import RoomProgressBadge from "./cards/RoomProgressBadge";
 import { PaymentModel } from "./modals/PaymentModel";
 import RoomDropDownQuiz from "./RoomDropDownItem";
 import RoomFileDownloadLink from "./RoomFileDownloadLink";
-import RoomProgressBadge from "./cards/RoomProgressBadge";
-import RoomExpireBadge from "./cards/RoomExpireBadge";
 
 const RoomAccordion = ({
   isProfile,
@@ -66,7 +66,8 @@ const RoomAccordion = ({
                   </h3>
 
                   <div className="ms-auto flex flex-col gap-2">
-                    {subscribe &&
+                    {!isProfile &&
+                      subscribe &&
                       (lock_after == null || Number(lock_after) !== 0) && (
                         <RoomProgressBadge progress={room?.progress || 0} />
                       )}

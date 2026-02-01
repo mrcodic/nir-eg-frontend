@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import { memo, useMemo, useState } from "react";
 import DownloadFileBtn from "../DownloadFileBtn";
 
 export interface Announcement {
@@ -25,7 +25,7 @@ export interface Announcement {
   file?: string; // backend later
 }
 
-export default function Announcement() {
+function Announcement() {
   const { profile } = useAuthContext();
   const [dismissed, setDismissed] = useState<number[]>([]);
 
@@ -101,3 +101,5 @@ export default function Announcement() {
     </div>
   );
 }
+
+export default memo(Announcement);
