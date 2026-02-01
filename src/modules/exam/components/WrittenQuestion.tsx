@@ -61,10 +61,14 @@ const WrittenQuestion = ({ question, index, listRef }: Props) => {
         return;
       }
 
-      setValue(`questions.${question.id}`, {
-        attachment: file,
-        text: value?.text ?? "",
-      });
+      setValue(
+        `questions.${question.id}`,
+        {
+          attachment: file,
+          text: value?.text ?? "",
+        },
+        { shouldValidate: true },
+      );
     },
     [question.id, setValue, value],
   );
