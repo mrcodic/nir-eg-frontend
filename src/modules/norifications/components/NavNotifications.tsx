@@ -10,7 +10,7 @@ import { SimplePagination } from "@/components/ui/SimplePagination";
 import { getClientPrivateData } from "@/helpers/client-fetch";
 import { cn } from "@/lib/utils";
 import { NotificationsData } from "@/types";
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+// import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useState } from "react";
