@@ -106,7 +106,7 @@ const ProfilePage = () => {
           )}
         </div>
 
-        <div className="mt-24">
+        <div id="points-table" className="mt-24 scroll-mt-24">
           <RoomHeader icon={"/assets/star-colored.svg"} title={"النقاط"} />
 
           <ProfilePointsTable />

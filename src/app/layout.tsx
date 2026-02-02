@@ -126,7 +126,7 @@ export default async function Layout({ children }) {
             <Providers>
               <NavbarWrapper />
 
-              <main className="flex min-h-screen grow flex-col justify-between">
+              <main className="flex min-h-screen grow flex-col justify-between [&>section]:grow">
                 {children}
               </main>
 

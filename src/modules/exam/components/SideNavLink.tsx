@@ -1,16 +1,15 @@
 import { cn, numberToArabicOrdinal } from "@/lib/utils";
-import Image from "next/image";
+// import Image from "next/image";
 
 function SideNavLink({
   index,
   isAnswer,
-  question,
   fieldAnswered,
 }: {
   index: number;
   isAnswer: boolean;
-  question: any;
   fieldAnswered: boolean | null;
+  // question: any;
 }) {
   const handleClick = (e: React.MouseEvent, hash: string) => {
     e.preventDefault();

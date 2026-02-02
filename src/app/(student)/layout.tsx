@@ -6,7 +6,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import ReactConfetti from "react-confetti";
 import { useModal } from "../../context/ModalProvider";
-import "../globals.css";
 
 export default function RootLayout({ children }) {
   const searchParams = useSearchParams();
@@ -39,5 +38,5 @@ export default function RootLayout({ children }) {
     }
   }, [modal, payment, router, searchParams]);
 
-  return <div>{children}</div>;
+  return children;
 }

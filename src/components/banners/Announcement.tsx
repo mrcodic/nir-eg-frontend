@@ -36,6 +36,7 @@ function Announcement() {
     queryKey: ["/students/announcements"],
     queryFn: getClientPrivateData,
     enabled: !!profile && profile.type !== 3,
+    staleTime: 1000 * 60 * 30,
   });
 
   const announcements = useMemo(() => {

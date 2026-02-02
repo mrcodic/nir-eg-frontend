@@ -54,7 +54,7 @@ const SideNavItem = function SideNavItem({
 
   return (
     <SideNavLink
-      question={question}
+      // question={question}
       index={index}
       isAnswer={isAnswer}
       fieldAnswered={fieldAnswered}

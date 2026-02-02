@@ -134,7 +134,11 @@ const CourseCard = ({
           </p>
 
           {/* ---------- Actions ---------- */}
-          <div className={cn("mt-auto grid grid-cols-2 gap-4 pt-4")}>
+          <div
+            className={cn(
+              "mt-auto grid grid-cols-1 gap-4 pt-4 min-[300px]:grid-cols-2",
+            )}
+          >
             {isNewCourse &&
               courseDetails?.subscription_type !== "حصة" &&
               !isBundles && (
