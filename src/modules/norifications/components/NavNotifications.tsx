@@ -58,19 +58,12 @@ function NavNotifications() {
               maskImage: "url(/assets/icons/notification.svg)",
             }}
           />
-          {/* <Image
-            src="/assets/icons/notification.svg"
-            alt="notification"
-            width={24}
-            height={24}
-            className="size-6"
-          /> */}
         </button>
       </DropdownMenuTrigger>
 
       <DropdownMenuContent
         className={cn(
-          "z-100! w-screen max-w-[min(438px,95vw)] p-2",
+          "z-50 w-screen max-w-[min(438px,95vw)] p-2",
           "border-gray-light rounded-lg border bg-white",
           "flex flex-col overflow-hidden",
           "max-h-[min(80vh,var(--radix-dropdown-menu-content-available-height))]",
@@ -87,13 +80,10 @@ function NavNotifications() {
         </div>
 
         <div
-          className={cn(
-            "border-gray-light mt-2 flex-1 overflow-y-auto border-t pr-1 pb-2",
-            {
-              "animate-pulse opacity-80": isPlaceholderData,
-              "border-t-0": notifications?.data?.length === 0,
-            },
-          )}
+          className={cn("mt-2 mb-2 flex-1 overflow-y-auto rounded-xl", {
+            "animate-pulse opacity-80": isPlaceholderData,
+            "border-t-0": notifications?.data?.length === 0,
+          })}
         >
           {notifications?.data?.length > 0 ? (
             notifications.data.map(

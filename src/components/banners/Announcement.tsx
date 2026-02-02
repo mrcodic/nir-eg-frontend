@@ -45,7 +45,7 @@ function Announcement() {
   if (!data?.status || !announcements.length) return null;
 
   return (
-    <div className="wrapper pointer-events-none fixed top-22 left-1/2 z-50 -translate-x-1/2 px-3">
+    <div className="wrapper pointer-events-none fixed top-22 left-1/2 z-40 -translate-x-1/2 px-3">
       <div className="relative max-h-[calc(100vh-5.5rem)] overflow-visible py-2">
         <AnimatePresence mode="popLayout">
           {announcements.map((announce, index) => (
