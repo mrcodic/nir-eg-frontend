@@ -6,16 +6,23 @@ import RoomSideContent from "@/components/RoomSideContent";
 import { useAuthContext } from "@/context/auth-context";
 import { getClientPrivateData } from "@/helpers/client-fetch";
 import ProtectedRoute from "@/layouts/ProtectedRoute";
-import Community from "@/modules/community/components/Community";
 import DisableDevTools from "@/modules/video/components/DisableDivTools";
 import Video from "@/modules/video/components/Video";
 import { ApiResponse, IRoomDetails } from "@/types";
 import { normalizeYouTubeUrl } from "@/utils/clientFun";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import dynamic from "next/dynamic";
 import { redirect, useParams } from "next/navigation";
 import { useQueryState } from "nuqs";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { Suspense, useCallback, useEffect, useMemo, useState } from "react";
+
+const Community = dynamic(
+  () => import("@/modules/community/components/Community"),
+  {
+    ssr: false,
+  },
+);
 
 const SingleVideo = () => {
   const { SingleCourse: classroomId, room } = useParams();
@@ -84,6 +91,7 @@ const SingleVideo = () => {
       setLockedByViewLimit(false);
       setOtpData(null);
       setCurrentTime(0);
+      setOtpLoading(false);
       setOtpError(false);
     },
     [lessonId, setVideoId, setVideoUrl],
@@ -91,6 +99,7 @@ const SingleVideo = () => {
 
   const fetchOtpAndViews = useCallback(
     async (vid) => {
+      setOtpLoading(true);
       try {
         setOtpError(false);
         const res = await axios.post("/api?url=video/otp", {
@@ -120,6 +129,8 @@ const SingleVideo = () => {
         if (error?.response?.status === 403) {
           setLockedByViewLimit(true);
         }
+      } finally {
+        setOtpLoading(false);
       }
     },
     [classroomId, room],
@@ -171,6 +182,7 @@ const SingleVideo = () => {
     redirect(`/bundles/${classroomId}`);
   }
 
+  const isCenterStudent = profile?.type === 3;
   // console.log("lessons : ", data?.body?.lessons);
 
   return (
@@ -246,15 +258,17 @@ const SingleVideo = () => {
                 </p>
               </div>
 
-              {(profile?.type === 4 || profile?.type === 5) &&
+              {!isCenterStudent &&
                 !(!!data?.body?.locked_to_pass || !!lockedByViewLimit) && (
-                  <Community
-                    key={lessonId}
-                    currentTime={currentTime}
-                    locked={data?.body?.locked_to_pass || lockedByViewLimit}
-                    lessonId={lessonId || data?.body?.lessons?.[0]?.id}
-                    isYoutubeVideo={!!videoUrl}
-                  />
+                  <Suspense fallback={null}>
+                    <Community
+                      key={lessonId}
+                      currentTime={currentTime}
+                      locked={data?.body?.locked_to_pass || lockedByViewLimit}
+                      lessonId={lessonId || data?.body?.lessons?.[0]?.id}
+                      isYoutubeVideo={!!videoUrl}
+                    />
+                  </Suspense>
                 )}
             </div>
           </div>

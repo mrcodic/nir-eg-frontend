@@ -8,9 +8,10 @@ import { getClientPrivateData } from "@/helpers/client-fetch";
 import { cn } from "@/lib/utils";
 import Comment from "@/modules/community/components/Comment";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { redirect, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
 import CommentsFilter from "./CommentsFilter";
+import { useAuthContext } from "@/context/auth-context";
 
 interface LessonComment {
   at_minute: string;
@@ -40,6 +41,8 @@ const Comments = () => {
 
   const [lessonPage, setLessonPage] = useState(null);
   const [selectedCommentLesson, setSelectedCommentLesson] = useState(null);
+
+  const { profile } = useAuthContext();
 
   const {
     data: comments,
@@ -87,10 +90,19 @@ const Comments = () => {
     }
   }, [router, searchParams]);
 
-  const selectedComment = comments?.data?.find(
-    (comment) => comment.lesson_id === selectedCommentLesson,
+  const selectedComment = useMemo(
+    () =>
+      comments?.data?.find(
+        (comment) => comment.lesson_id === selectedCommentLesson,
+      ),
+    [comments?.data, selectedCommentLesson],
   );
 
+  const isCenterStudent = profile?.type === 3;
+
+  if (isCenterStudent) {
+    redirect("/profile");
+  }
   // console.log("commentsss : ", comments?.data);
   // console.log("selectedComment : ", selectedComment);
 
