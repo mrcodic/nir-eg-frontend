@@ -45,37 +45,61 @@ function Announcement() {
   if (!data?.status || !announcements.length) return null;
 
   return (
-    <div className="wrapper fixed top-22 left-1/2 z-50 -translate-x-1/2 px-3">
-      <AnimatePresence initial={false}>
-        <motion.div
-          layout
-          className="flex max-h-[calc(100vh-5.5rem)] flex-col gap-4 overflow-y-auto py-2"
-        >
+    <div className="wrapper pointer-events-none fixed top-22 left-1/2 z-50 -translate-x-1/2 px-3">
+      <div className="relative max-h-[calc(100vh-5.5rem)] overflow-visible py-2">
+        <AnimatePresence mode="popLayout">
           {announcements.map((announce, index) => (
             <motion.div
               key={announce.id}
               layout
               initial={{ opacity: 0, y: -20, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -20, scale: 0.9 }}
+              animate={{
+                opacity: 1,
+                y: index * -4,
+                scale: 1 - index * 0.02,
+              }}
+              exit={{
+                opacity: 0,
+                x: 100,
+                scale: 0.9,
+                transition: {
+                  duration: 0.2,
+                },
+              }}
               transition={{
                 type: "spring",
                 stiffness: 300,
-                damping: 25,
+                damping: 30,
               }}
               style={{
                 zIndex: announcements.length - index,
+                position: index === 0 ? "relative" : "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
               }}
-              className="border-secondary bg-background relative flex flex-wrap items-center justify-between gap-5 rounded-lg border p-4 pe-7 text-sm font-bold text-black shadow-sm"
+              className="border-secondary bg-background pointer-events-auto relative flex flex-wrap items-center justify-between gap-5 rounded-lg border p-4 pe-7 text-sm font-bold text-black shadow-lg"
             >
               {/* Content */}
               <div className="flex flex-wrap items-center gap-6">
-                <Image
-                  src="/assets/announcement.svg"
-                  width={40}
-                  height={40}
-                  alt="announcement"
-                />
+                <motion.div
+                  animate={{
+                    rotate: [0, -10, 10, -10, 10, 0],
+                  }}
+                  transition={{
+                    duration: 1,
+                    repeat: Infinity,
+                    repeatDelay: 2,
+                    ease: "easeInOut",
+                  }}
+                >
+                  <Image
+                    src="/assets/announcement.svg"
+                    width={40}
+                    height={40}
+                    alt="announcement"
+                  />
+                </motion.div>
                 <p className="text-base leading-relaxed">{announce.desc}</p>
               </div>
 
@@ -90,14 +114,14 @@ function Announcement() {
               <button
                 aria-label="Close announcement"
                 onClick={() => setDismissed((prev) => [...prev, announce.id])}
-                className="text-muted-foreground hover:bg-muted hover:text-foreground absolute top-1 left-1 rounded-full p-1 transition"
+                className="text-muted-foreground hover:bg-muted hover:text-foreground absolute top-1 right-1 cursor-pointer rounded-full p-1 transition"
               >
                 <X size={16} />
               </button>
             </motion.div>
           ))}
-        </motion.div>
-      </AnimatePresence>
+        </AnimatePresence>
+      </div>
     </div>
   );
 }
