@@ -38,25 +38,38 @@ function SideNavLink({
         ? "bg-green-500 text-white"
         : "text-green-500  "
       : isAnswer
-      ? "bg-red-600 text-white"
-      : "text-red-600";
+        ? "bg-red-600 text-white"
+        : "text-red-600";
   }
 
   return (
     <button
       className={cn(
-        "w-full rounded-lg text-[16px] p-2 flex items-center gap-4 text-[#121212] text-right   font-bold",
-        btnStyles
+        "flex w-full cursor-pointer items-center gap-4 rounded-lg p-2 text-right text-base font-bold text-[#121212]",
+        btnStyles,
       )}
       onClick={(e) => handleClick(e, `#question-${index}`)}
     >
-      <Image
+      <div
+        className={cn(
+          "size-6 bg-red-500 mask-center mask-no-repeat object-contain transition-all group-hover:bg-white",
+          {
+            "bg-green-500": fieldAnswered,
+            "bg-red-500": !fieldAnswered,
+            "bg-white": isAnswer,
+          },
+        )}
+        style={{
+          maskImage: "url(/assets/question.svg)",
+        }}
+      />
+      {/* <Image
         src="/assets/question.svg"
         width={24}
         height={24}
         alt=""
         className={isAnswer ? "brightness-0 invert" : ""}
-      />
+      /> */}
       <span>{`السؤال ${numberToArabicOrdinal(index + 1)}`}</span>
     </button>
   );
