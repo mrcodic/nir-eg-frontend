@@ -23,6 +23,10 @@ type Row = {
   classroom_id: number;
   room_id: number;
   video_id: string;
+  video_link: string;
+  video_type: "youtube" | "cipher";
+  quiz_id: number;
+  is_classroom_expired: boolean;
 };
 
 export const generatePointHref = (row: Row): string => {
@@ -30,19 +34,22 @@ export const generatePointHref = (row: Row): string => {
 
   switch (row.type) {
     case "درس":
-      return `${base}/${row.room_id}?video_id=${row.video_id}`;
+      return `${base}/${row.room_id}?${row?.video_type === "youtube" ? `video_url=${row.video_link}` : `video_id=${row.video_id}`}`;
     case "كورس":
       return base;
     case "حصة":
       return `${base}/${row.room_id}`;
     case "واجب":
-    case "امتحان":
+      return `${base}/${row.room_id}/assignment/${row.quiz_id}`;
     case "كويز":
-      return `${base}/${row.room_id}/${row.id}`;
+      return `${base}/${row.room_id}/exams/${row.quiz_id}`;
+    case "امتحان":
+      return `${base}/general-exams/${row.quiz_id}`;
     default:
       return base;
   }
 };
+
 const columnHelper = createColumnHelper<Row>();
 
 const columns = [
@@ -53,12 +60,20 @@ const columns = [
     cell: (info) => (
       <div className="flex max-w-[200px] gap-1 truncate p-2 text-[16px] font-medium md:max-w-[250px]">
         <p className="">{info.getValue()}</p>
-        <Link
-          href={generatePointHref(info.row.original)}
-          className="text-primary-800 truncate font-bold underline"
-        >
-          {info.row.original.item_title}
-        </Link>
+
+        {info?.row?.original?.is_classroom_expired ? (
+          <span className="truncate font-bold">
+            {info.row.original.item_title}
+          </span>
+        ) : (
+          <Link
+            title={info.row.original.item_title}
+            href={generatePointHref(info.row.original)}
+            className="text-primary-800 truncate font-bold underline"
+          >
+            {info.row.original.item_title}
+          </Link>
+        )}
       </div>
     ),
   }),
@@ -77,7 +92,10 @@ const columns = [
       <div className="w-[156px] px-2 text-[18px] font-bold">الكورس</div>
     ),
     cell: (info) => (
-      <div className="w-[156px] truncate p-2 text-center text-[16px] font-medium">
+      <div
+        title={info.getValue()}
+        className="w-[156px] truncate p-2 text-center text-[16px] font-medium"
+      >
         {info.getValue()}
       </div>
     ),
@@ -131,6 +149,8 @@ function ProfilePointsTable() {
 
   const points = data?.data || [];
   const pageCount = data?.meta?.last_page ?? -1;
+
+  console.log(data);
 
   return (
     <CustomTableUI

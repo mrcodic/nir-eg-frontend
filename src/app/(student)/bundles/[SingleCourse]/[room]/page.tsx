@@ -42,6 +42,8 @@ const SingleVideo = () => {
     history: "push",
     shallow: true,
     clearOnDefault: true,
+    // convert undefined and null to default value
+    parse: (v) => (v === "undefined" || v === "null" ? "" : v),
   });
 
   const [videoUrl, setVideoUrl] = useQueryState("video_url", {
@@ -49,7 +51,9 @@ const SingleVideo = () => {
     history: "push",
     shallow: true,
     clearOnDefault: true,
-    parse: (v) => decodeURIComponent(v),
+    // convert undefined and null to default value otherwise decodeURIComponent
+    parse: (v) =>
+      v === "undefined" || v === "null" ? "" : decodeURIComponent(v),
     serialize: (v) => encodeURIComponent(v),
   });
 
@@ -148,6 +152,7 @@ const SingleVideo = () => {
 
     if (lessonId && (videoId || videoUrl)) return;
 
+    console.log(videoId, videoUrl, lessonId);
     if (videoId) {
       const lesson = data.body.lessons.find((l) => l.vedio_id === videoId);
       if (lesson) setLessonId(lesson.id);
