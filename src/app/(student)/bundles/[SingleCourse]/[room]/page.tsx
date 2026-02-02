@@ -259,7 +259,8 @@ const SingleVideo = () => {
               </div>
 
               {!isCenterStudent &&
-                !(!!data?.body?.locked_to_pass || !!lockedByViewLimit) && (
+                !(!!data?.body?.locked_to_pass || !!lockedByViewLimit) &&
+                !!selectedLesson?.access_comment && (
                   <Suspense fallback={null}>
                     <Community
                       key={lessonId}

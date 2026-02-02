@@ -108,7 +108,7 @@ const AuthNavBar = () => {
             ))}
           </ul>
 
-          <div className="mobile:gap-6 flex gap-4">
+          <div className="mobile:gap-6 flex items-center gap-4">
             <NavNotifications />
 
             <NavUserMenu profile={profile} />

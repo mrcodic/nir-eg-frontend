@@ -40,18 +40,31 @@ function NavNotifications() {
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
-        <button className="relative flex size-10 items-center justify-center rounded-lg bg-white stroke-black text-black shadow-md focus:outline-hidden">
+        <button className="border-gray-light group hover:bg-primary-800 relative flex size-10 cursor-pointer items-center justify-center rounded-lg border transition-all focus:outline-hidden">
           {notifications?.meta?.unread_count > 0 && (
             <CountBubble count={notifications?.meta?.unread_count} />
           )}
 
-          <DotLottieReact
+          {/* <DotLottieReact
             key={notifications?.meta?.unread_count}
             className="mx-auto size-28"
             src="/Animations/bell-icon.lottie"
             autoplay={notifications?.meta?.unread_count > 0}
             loop
+          /> */}
+          <div
+            className="bg-primary-800 size-6 mask-center mask-no-repeat object-contain transition-all group-hover:bg-white"
+            style={{
+              maskImage: "url(/assets/icons/notification.svg)",
+            }}
           />
+          {/* <Image
+            src="/assets/icons/notification.svg"
+            alt="notification"
+            width={24}
+            height={24}
+            className="size-6"
+          /> */}
         </button>
       </DropdownMenuTrigger>
 
