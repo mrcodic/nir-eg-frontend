@@ -46,19 +46,6 @@ export default function GlobalError({
 
         {/* Robots */}
         <meta name="robots" content="noindex, nofollow" />
-
-        {/* Open Graph */}
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={description} />
-        <meta property="og:type" content="website" />
-        <meta property="og:locale" content="ar_EG" />
-        <meta property="og:site_name" content="NIR EDU" />
-        <meta property="og:url" content="https://nir-edu.com/" />
-
-        {/* Twitter */}
-        <meta name="twitter:card" content="summary" />
-        <meta name="twitter:title" content={title} />
-        <meta name="twitter:description" content={description} />
       </head>
 
       <body

@@ -150,8 +150,6 @@ function ProfilePointsTable() {
   const points = data?.data || [];
   const pageCount = data?.meta?.last_page ?? -1;
 
-  console.log(data);
-
   return (
     <CustomTableUI
       data={points}

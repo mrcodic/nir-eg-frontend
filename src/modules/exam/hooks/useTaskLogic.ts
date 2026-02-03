@@ -80,7 +80,11 @@ export const useTaskLogic = (
   useEffect(() => {
     if (isInit.current) return;
 
+    console.log("initializeQuiz");
+
     const initializeQuiz = async () => {
+      isInit.current = true;
+
       const shouldStart = shouldStartQuiz
         ? shouldStartQuiz(start)
         : start?.score === null && !start?.review_pending;
@@ -106,8 +110,6 @@ export const useTaskLogic = (
           setFail(true);
         }
       }
-
-      isInit.current = true;
     };
 
     initializeQuiz();

@@ -131,7 +131,7 @@ function TaskForm({
       );
 
       queryClient.invalidateQueries({
-        queryKey: [`/students/quiz/start/${taskId}`],
+        queryKey: [`/students/quiz/start`, taskId],
       });
 
       if (examType === "general") {
