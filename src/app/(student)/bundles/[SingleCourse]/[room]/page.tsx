@@ -39,22 +39,24 @@ const SingleVideo = () => {
 
   const [videoId, setVideoId] = useQueryState("video_id", {
     defaultValue: "",
-    history: "push",
+    history: "replace",
     shallow: true,
     clearOnDefault: true,
     // convert undefined and null to default value
     parse: (v) => (v === "undefined" || v === "null" ? "" : v),
+    serialize: (v) => (v === "undefined" || v === "null" ? "" : v),
   });
 
   const [videoUrl, setVideoUrl] = useQueryState("video_url", {
     defaultValue: "",
-    history: "push",
+    history: "replace",
     shallow: true,
     clearOnDefault: true,
     // convert undefined and null to default value otherwise decodeURIComponent
     parse: (v) =>
       v === "undefined" || v === "null" ? "" : decodeURIComponent(v),
-    serialize: (v) => encodeURIComponent(v),
+    serialize: (v) =>
+      v === "undefined" || v === "null" ? "" : encodeURIComponent(v),
   });
 
   const hasVideoId =

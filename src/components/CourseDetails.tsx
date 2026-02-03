@@ -63,7 +63,7 @@ const CourseDetails = ({ details, profile }: Props) => {
         past_exams: IExamCard[];
       }>
     >,
-    enabled: !!profile && selectedTab === "exams",
+    enabled: !!profile,
     retry: 1,
   });
 
@@ -94,7 +94,7 @@ const CourseDetails = ({ details, profile }: Props) => {
     [hasExams, profile?.type],
   );
 
-  // console.log("exams : ", courseExams);
+  console.log("exams : ", courseExams);
 
   return (
     <Tabs
@@ -151,6 +151,7 @@ const CourseDetails = ({ details, profile }: Props) => {
                           details?.subscription_type === "حصة"
                         }
                         verify={true || profile?.parent_phone_verification}
+                        classroomId={SingleCourse.toString()}
                       />
                     );
                   })}

@@ -4,10 +4,15 @@ import { redirect } from "next/navigation";
 import "server-only";
 import { getAuthFailureStrategy } from "./auth-policy";
 
-export function handleServerFetchError(
-  error: unknown,
-  endpoint: string,
-): never | null {
+export async function handleServerFetchError({
+  error,
+  endpoint,
+  host,
+}: {
+  error: unknown;
+  endpoint: string;
+  host: string;
+}): Promise<never | null> {
   const status =
     error instanceof CustomError ? error.status : (error as any)?.status;
 
@@ -16,6 +21,10 @@ export function handleServerFetchError(
   console.log("server -> ", endpoint, status);
 
   if (status === 401) {
+    // await fetch(`https://${host}/api/delete-session`, {
+    //   method: "GET",
+    // });
+
     if (strategy === "silent-null") {
       return null;
     }

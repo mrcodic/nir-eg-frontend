@@ -5,5 +5,6 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (req: NextRequest) => {
   await deleteCookie();
-  return NextResponse.redirect(new URL("/login", req.url));
+
+  return NextResponse.next();
 };

@@ -7,10 +7,10 @@ const mapTypeToIcon = {
   attach: "/assets/files-fill.svg",
 };
 
-function RoomDropDownItem({
+function RoomDropDownQuiz({
   item,
   room,
-  SingleCourse,
+  classroomId,
   subscribe,
   verify,
   locked,
@@ -22,7 +22,7 @@ function RoomDropDownItem({
     title?: string | null;
   };
   room: any;
-  SingleCourse: any;
+  classroomId: any;
   subscribe: any;
   verify: any;
   locked: any;
@@ -30,10 +30,10 @@ function RoomDropDownItem({
   type: "exam" | "ass" | "attach";
 }) {
   return (
-    <div className="p-2 border  justify-between rounded-md bg-background border-gray-light flex">
-      <div className="font-bold flex gap-2 items-center">
+    <div className="bg-background border-gray-light flex justify-between rounded-md border p-2">
+      <div className="flex items-center gap-2 font-bold">
         <img
-          className="w-[28px] h-[28px] text-[#121212] bg-white "
+          className="h-[28px] w-[28px] bg-white text-[#121212]"
           src={mapTypeToIcon[type]}
         />
         <span>{item?.title}</span>
@@ -42,7 +42,7 @@ function RoomDropDownItem({
       {subscribe && verify && (
         <LinkLocked locked={locked}>
           <Link
-            href={`/bundles/${SingleCourse || room?.id}/${
+            href={`/bundles/${classroomId}/${
               room?.latest_room?.id || room?.id
             }/${type === "ass" ? "assignment" : "exams"}/${item.id}`}
             className="w-full text-center"
@@ -55,4 +55,4 @@ function RoomDropDownItem({
   );
 }
 
-export default RoomDropDownItem;
+export default RoomDropDownQuiz;

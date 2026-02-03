@@ -15,7 +15,7 @@ function DownloadFileBtn({
     <Button
       disabled={isDownloading}
       onClick={handleDownload}
-      className="flex items-center gap-2 opacity-60"
+      className="flex items-center gap-2"
     >
       {isDownloading ? (
         <SmallSpinner className="size-4" />

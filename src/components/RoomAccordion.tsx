@@ -10,12 +10,11 @@ import {
 import { useModal } from "@/context/ModalProvider";
 import { RoomData } from "@/types";
 import Image from "next/image";
-import { useParams } from "next/navigation";
 import PriceBadge from "../modules/payment/components/PriceBadge";
 import RoomExpireBadge from "./cards/RoomExpireBadge";
 import RoomProgressBadge from "./cards/RoomProgressBadge";
 import { PaymentModel } from "./modals/PaymentModel";
-import RoomDropDownQuiz from "./RoomDropDownItem";
+import RoomDropDownQuiz from "./RoomDropDownQuiz";
 import RoomFileDownloadLink from "./RoomFileDownloadLink";
 
 const RoomAccordion = ({
@@ -24,17 +23,19 @@ const RoomAccordion = ({
   subscribe,
   verify,
   courseName,
+  classroomId,
 }: {
   isProfile?: any;
   room: RoomData;
   subscribe?: any;
   verify?: any;
   courseName?: string;
+  classroomId: string;
 }) => {
   const modal = useModal();
-  const { SingleCourse } = useParams();
 
   const lock_after = "lock_after" in room && room?.lock_after;
+
   const isEmptyRoom =
     !room?.quizzes?.length &&
     !room?.lessons?.length &&
@@ -47,7 +48,7 @@ const RoomAccordion = ({
         <AccordionItem
           isProfile={isProfile}
           value="item-1"
-          className="data-[state=open]:border-secondary"
+          className="data-[state=open]:border-secondary hover:border-secondary transition-all"
         >
           <AccordionTrigger className="bg-white">
             <div className="me-2 flex w-full gap-2 sm:me-4 sm:gap-4 md:gap-6">
@@ -84,7 +85,7 @@ const RoomAccordion = ({
                             modal.setDialogContent(
                               <PaymentModel
                                 roomId={room?.id}
-                                centerId={SingleCourse?.toString() || room.id}
+                                centerId={classroomId}
                                 price={room?.price}
                               />,
                             );
@@ -166,7 +167,7 @@ const RoomAccordion = ({
                       key={"quiz-" + quiz.id}
                       item={quiz}
                       room={room}
-                      SingleCourse={SingleCourse}
+                      classroomId={classroomId}
                       subscribe={subscribe || room?.is_subscriped}
                       verify={verify}
                       locked={lock_after == 0}
@@ -185,6 +186,7 @@ const RoomAccordion = ({
                     verify={verify || room?.parent_phone_verification}
                     roomId={room?.id}
                     locked={room?.locked_to_pass || lock_after == 0}
+                    classroomId={classroomId}
                   />
                 );
               })}
@@ -211,7 +213,7 @@ const RoomAccordion = ({
                       key={"ass-" + ass.id}
                       item={ass}
                       room={room}
-                      SingleCourse={SingleCourse}
+                      classroomId={classroomId}
                       subscribe={subscribe || room?.is_subscriped}
                       verify={verify || room?.parent_phone_verification}
                       locked={room?.locked_to_pass || lock_after == 0}

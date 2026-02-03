@@ -34,7 +34,8 @@ const ExamStatusBadge = ({ expiresAt }: { expiresAt: string }) => {
 const ExamCard = ({ exam }: Props) => {
   const { SingleCourse } = useParams();
 
-  const isPendingReview = exam.completed && !exam.score_ratio;
+  // const isPendingReview = exam.completed && !exam.score_ratio;
+  const isPendingReview = exam.review_pending;
   const isExpired = new Date(exam.expires_at) < new Date();
 
   let ctaLabel: string | null = null;

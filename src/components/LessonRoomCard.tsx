@@ -3,12 +3,17 @@
 import TooltipLock from "@/components/ToolTip";
 import { convertMinutes } from "@/utils/clientFun";
 import { Lock } from "lucide-react";
-import { useParams } from "next/navigation";
 import { useRouter } from "nextjs-toploader/app";
 import { Button } from "./ui/button";
 
-const LessonRoomCard = ({ lesson, subscribe, verify, roomId, locked }) => {
-  const { SingleCourse } = useParams();
+const LessonRoomCard = ({
+  lesson,
+  subscribe,
+  verify,
+  roomId,
+  locked,
+  classroomId,
+}) => {
   const router = useRouter();
 
   return (
@@ -46,8 +51,9 @@ const LessonRoomCard = ({ lesson, subscribe, verify, roomId, locked }) => {
           className="h-9 w-full max-w-32 cursor-pointer py-1"
           onClick={async () => {
             if (locked) return;
+
             router.push(
-              `/bundles/${SingleCourse}/${roomId}?${
+              `/bundles/${classroomId}/${roomId}?${
                 lesson?.video_type === "youtube"
                   ? `video_url=${encodeURIComponent(lesson?.video_link)}`
                   : `video_id=${lesson?.vedio_id}`

@@ -150,6 +150,7 @@ export interface IExamCard {
   starts_at: string;
   expires_at: string;
   is_within_window: boolean;
+  review_pending: boolean;
   missed: boolean;
   locked: boolean;
   created_at: string;

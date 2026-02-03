@@ -22,7 +22,7 @@ const SingleCourse = async ({ params }) => {
     isAuth: !!profileData,
   });
 
-  // console.log("🚀 ~ data singleCourse: ", bundleRooms);
+  console.log("bundleRooms -> ", bundleRooms);
 
   return (
     <ProtectedRoute

@@ -12,9 +12,8 @@ export function handleClientFetchError(error: any, endpoint: unknown): null {
   console.log(endpoint, status);
 
   if (status === 401) {
-    if (strategy === "silent-null") return null;
-
     Cookies.remove("nir_token");
+    if (strategy === "silent-null") return null;
     safeRedirect("/login");
     return null;
   }

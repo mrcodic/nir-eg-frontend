@@ -15,18 +15,19 @@ export async function fetchServer<T>({
   cache = "default",
   next,
 }: FetchOptions): Promise<T | null> {
+  const { subdomain, host } = await extractTenantFromHostServer();
+
   try {
     if (!endpoint || typeof endpoint !== "string") return null;
-
-    const { subdomain, host } = await extractTenantFromHostServer();
 
     const token = auth ? (await cookies()).get("nir_token")?.value : null;
 
     if (auth && !token) {
-      return handleServerFetchError(
-        new CustomError("Unauthenticated", 401),
+      return handleServerFetchError({
+        error: new CustomError("Unauthenticated", 401),
         endpoint,
-      );
+        host,
+      });
     }
 
     const res = await fetch(buildApiUrl(subdomain, endpoint), {
@@ -47,7 +48,11 @@ export async function fetchServer<T>({
 
     return res.json() as Promise<T>;
   } catch (error) {
-    return handleServerFetchError(error, endpoint as string);
+    return handleServerFetchError({
+      error,
+      endpoint: endpoint as string,
+      host,
+    });
   }
 }
 

@@ -107,15 +107,14 @@ export const TaskProvider = ({ children, taskType = "exam" }) => {
   } = useQuery<QuizStatus>({
     queryKey: [`/students/quiz/start`, taskId],
     queryFn: async () => {
-      console.log("fetch start");
       const res = await getClientPrivateData({
         queryKey: [`/students/quiz/start/${taskId}`],
       });
       return res.body;
     },
     enabled: !!taskId,
-    staleTime: 1000 * 60 * 5,
-    refetchOnMount: false,
+    staleTime: 1000 * 30,
+    // refetchOnMount: false,
   });
 
   const onComplete = useCallback(({ completed }: { completed: boolean }) => {
