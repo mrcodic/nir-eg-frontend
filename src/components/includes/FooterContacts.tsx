@@ -10,7 +10,7 @@ function FooterContacts({ contacts }: { contacts: Contacts }) {
       </p>
 
       {contacts?.email && (
-        <p className="mt-2 flex gap-4 text-sm">
+        <p className="flex gap-4 text-sm">
           <Mail size={20} className="text-primary" />{" "}
           <a
             href={`mailto:${contacts.email}`}
@@ -52,13 +52,12 @@ function FooterContacts({ contacts }: { contacts: Contacts }) {
       )}
 
       {contacts?.location && (
-        <div className="flex gap-4">
+        <div className="mt-1 flex gap-4">
           <span>
-            {" "}
             <MapPin size={20} className="text-primary" />
           </span>
 
-          <p className="mt-1 text-sm">{contacts?.location}</p>
+          <p className="text-sm">{contacts?.location}</p>
         </div>
       )}
     </div>
