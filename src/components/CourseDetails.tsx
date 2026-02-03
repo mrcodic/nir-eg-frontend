@@ -191,7 +191,8 @@ const CourseDetails = ({ details, profile }: Props) => {
               <div className="mt-10">
                 <RoomHeader
                   title="الامتحانات السابقة"
-                  icon="/assets/english-icon.svg"
+                  // icon="/assets/english-icon.svg"
+                  icon="/assets/assignment-colored.svg"
                 />
                 <div className="flex flex-col gap-6">
                   {courseExams.body.past_exams.map((exam, index) => (
