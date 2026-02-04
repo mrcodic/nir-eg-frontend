@@ -1,4 +1,4 @@
-import { MyTimer } from "@/components/CountdownTimer";
+import { CountdownTimer } from "@/components/CountdownTimer";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { memo } from "react";
@@ -88,7 +88,7 @@ function ExamSideInfo({
       {startTimer && (
         <div className="border-secondary text-40 relative mt-4 flex w-full flex-col gap-4 rounded-lg border bg-white p-4 text-center font-bold text-black">
           <p className="text-sm">باقي من وقت الامتحان</p>
-          <MyTimer
+          <CountdownTimer
             start={startTimer}
             minutes={start?.timer}
             onComplete={onComplete}

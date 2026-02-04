@@ -1,40 +1,55 @@
+import { useAuthContext } from "@/context/auth-context";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Countdown from "react-countdown";
 
 const Completionist = () => <span>انتهى الوقت</span>;
 
-export function MyTimer({ minutes, onComplete, start }) {
+export function CountdownTimer({ minutes, onComplete, start }) {
   const { examId } = useParams();
+  const timerInit = useRef(false);
 
-  const [endTime, setEndTime] = useState(() => {
-    const storedTime = localStorage.getItem(`timer${examId}`);
-    // check if the stored time is valid
-    const storedTimeDate = storedTime && new Date(parseInt(storedTime, 10));
+  const { profile } = useAuthContext();
 
-    // timer expired
-    if (storedTimeDate?.getTime() < new Date().getTime()) {
-      return new Date();
-    }
+  const [endTime, setEndTime] = useState<Date | null>(null);
 
-    if (storedTime) {
-      return storedTimeDate;
-    }
+  // iniit timer
+  useEffect(() => {
+    if (typeof window === "undefined" || !profile || timerInit.current) return;
 
-    const newTime = new Date().getTime() + Number(minutes) * 60 * 1000;
-    localStorage.setItem(`timer${examId}`, newTime.toString());
-    return new Date(newTime);
-  });
+    setEndTime(() => {
+      const storedTime = localStorage.getItem(`timer-${examId}-${profile?.id}`);
+      // check if the stored time is valid
+      const storedTimeDate = storedTime && new Date(parseInt(storedTime, 10));
+
+      // timer expired
+      if (storedTimeDate?.getTime() < new Date().getTime()) {
+        return new Date();
+      }
+
+      if (storedTime) {
+        return storedTimeDate;
+      }
+
+      const newTime = new Date().getTime() + Number(minutes) * 60 * 1000;
+      localStorage.setItem(
+        `timer-${examId}-${profile?.id}`,
+        newTime.toString(),
+      );
+      return new Date(newTime);
+    });
+    timerInit.current = true;
+  }, [examId, minutes, profile]);
 
   useEffect(() => {
     // Cleanup storage when the timer expires
     const now = new Date().getTime();
-    if (now > endTime.getTime()) {
-      localStorage.removeItem(`timer${examId}`);
+    if (now > endTime?.getTime()) {
+      localStorage.removeItem(`timer-${examId}-${profile?.id}`);
     }
   }, [endTime]);
 
-  if (!start) return null;
+  if (!start || !endTime) return null;
 
   if (!minutes) return <Completionist />;
 
@@ -42,7 +57,6 @@ export function MyTimer({ minutes, onComplete, start }) {
 
   const renderer = ({ minutes, seconds, completed, hours }) => {
     if (completed) {
-      localStorage.removeItem(`timer${examId}`);
       return <Completionist />;
     } else {
       const timerLessThan2Minutes = minutes < 2 && hours === 0;
@@ -58,6 +72,13 @@ export function MyTimer({ minutes, onComplete, start }) {
   };
 
   return (
-    <Countdown date={endTime} renderer={renderer} onComplete={onComplete} />
+    <Countdown
+      date={endTime}
+      renderer={renderer}
+      onComplete={() => {
+        localStorage.removeItem(`timer-${examId}-${profile?.id}`);
+        onComplete();
+      }}
+    />
   );
 }

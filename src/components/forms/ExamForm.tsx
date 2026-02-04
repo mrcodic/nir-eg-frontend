@@ -14,6 +14,7 @@ import { QuizStatus } from "@/types";
 import { memo } from "react";
 import SureModal from "../modals/Sure";
 import TaskForm from "./TaskForm";
+import { useAuthContext } from "@/context/auth-context";
 
 export type ExamType = "general" | "exam";
 
@@ -25,6 +26,7 @@ type Props = {
 
 const ExamForm = ({ start, setStartExam, examType = "exam" }: Props) => {
   const { examId } = useParams();
+  const { profile } = useAuthContext();
 
   if (!examId) {
     redirect("/ErrorPage?message=لم يتم العثور على امتحان");
@@ -47,7 +49,7 @@ const ExamForm = ({ start, setStartExam, examType = "exam" }: Props) => {
   } = useTaskLogic({
     shouldStartQuiz: (start) => {
       const nowTime = Date.now();
-      const storedTime = localStorage.getItem(`timer${examId}`);
+      const storedTime = localStorage.getItem(`timer-${examId}-${profile?.id}`);
 
       return (
         !start.review_pending &&
@@ -57,11 +59,11 @@ const ExamForm = ({ start, setStartExam, examType = "exam" }: Props) => {
     onInitialize: (shouldStart) => {
       setStartExam(shouldStart);
       if (!shouldStart) {
-        localStorage.removeItem(`timer${examId}`);
+        localStorage.removeItem(`timer-${examId}-${profile?.id}`);
       }
     },
     onRetakeSuccess: () => {
-      localStorage.removeItem(`timer${examId}`);
+      localStorage.removeItem(`timer-${examId}-${profile?.id}`);
       setStartExam(true);
     },
   });
@@ -85,7 +87,7 @@ const ExamForm = ({ start, setStartExam, examType = "exam" }: Props) => {
         setResolver={setResolver}
         onTaskSubmit={() => {
           setStartExam(false);
-          localStorage.removeItem(`timer${examId}`);
+          localStorage.removeItem(`timer-${examId}-${profile?.id}`);
         }}
         examType={examType}
       />
