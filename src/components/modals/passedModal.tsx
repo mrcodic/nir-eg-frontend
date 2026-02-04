@@ -44,7 +44,7 @@ const PassedModal = ({
   examType,
 }: Props) => {
   const { SingleCourse, room } = useParams();
-  console.log("start : ", start);
+
   return (
     <Dialog open={open}>
       <DialogContent

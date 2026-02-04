@@ -110,6 +110,8 @@ export const TaskProvider = ({ children, taskType = "exam" }) => {
       const res = await getClientPrivateData({
         queryKey: [`/students/quiz/start/${taskId}`],
       });
+
+      console.log("start : ", res.body);
       return res.body;
     },
     enabled: !!taskId,

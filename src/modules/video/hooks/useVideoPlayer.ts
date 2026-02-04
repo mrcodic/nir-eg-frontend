@@ -1,6 +1,5 @@
 import { mutateClient } from "@/helpers/post-client";
 import { useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 
 type VdoStatusChange =
@@ -140,14 +139,13 @@ export function useVideoPlayer({
         ) {
           completedRef.current = true;
           try {
-            const res = await axios.post(
-              `/api?url=students/lesson/store_completed`,
-              {
+            await mutateClient(`/students/lesson/store_completed`, {
+              body: {
                 room_id: roomId,
                 lesson_id: lessonId,
                 classroom_id: classroomId,
               },
-            );
+            });
 
             queryClient.invalidateQueries({
               queryKey: [

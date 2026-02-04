@@ -3,10 +3,10 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { mutateClient } from "@/helpers/post-client";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { PricingResponse } from "@/types";
-import axios from "axios";
 import { Loader } from "lucide-react";
 import { useState } from "react";
 
@@ -53,8 +53,7 @@ function PaymentCoupon({
       } else if (courseId) {
         Object.assign(body, { classroom_id: courseId });
       }
-      // TODO: post coupon to server here
-      const res = await axios.post("/api?url=students/promo/price", body);
+      const res = await mutateClient("/students/promo/price", { body });
 
       if (res.status !== 200) {
         setCouponState({ message: "حدث خطأ", state: "error" });
