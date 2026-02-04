@@ -64,7 +64,7 @@ function ProfileRoomsWrapper() {
       ) : profile?.type === 4 ? (
         <div className="flex flex-col items-center justify-center">
           <Empty
-            text="لم تشترك في أي باقة بعد"
+            text="لم تشترك في أي كورس بعد"
             icon="/assets/bg/illustration-empty-students.svg"
           />
           <Link

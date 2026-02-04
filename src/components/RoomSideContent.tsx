@@ -26,10 +26,6 @@ type RoomSideContentProps = {
   className?: string;
 };
 
-const isProd = process.env.NODE_ENV === "production";
-
-// ------- main component ----------
-
 const RoomSideContent = ({
   data,
   onLessonClick,
@@ -122,7 +118,7 @@ const RoomSideContent = ({
               key={quiz.id}
               quiz={quiz}
               href={`/bundles/${SingleCourse}/${room}/exams/${quiz.id}`}
-              locked={locked}
+              locked={false}
             />
           ))}
         </>
