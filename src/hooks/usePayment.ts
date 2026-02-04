@@ -12,7 +12,6 @@ interface UsePaymentProps {
   courseId?: string | number;
   bundleId?: string | number;
   roomId?: string | number;
-  centerId?: string | number;
   isCodeCenter?: boolean;
   asModal?: boolean;
   setOpen?: (open: boolean) => void;
@@ -22,7 +21,6 @@ export const usePayment = ({
   courseId,
   bundleId,
   roomId,
-  centerId,
   isCodeCenter,
   asModal = false,
 }: UsePaymentProps) => {
@@ -43,7 +41,6 @@ export const usePayment = ({
   const { paymentTypes, isLoading: isLoadingFilter } = usePaymentsTypesFiltered(
     {
       asModal,
-      isCodeCenter,
       userType: profile?.type,
     },
   );
@@ -108,14 +105,12 @@ export const usePayment = ({
     }
 
     if (paymentMethodValue === paymentType.code) {
-      if (courseId) {
-        router.push(`/payment?courseId=${courseId}&type=${paymentMethodValue}`);
-      } else if (bundleId) {
-        router.push(`/payment?bundleId=${bundleId}&type=${paymentMethodValue}`);
-      } else if (roomId) {
+      if (courseId || roomId) {
         router.push(
-          `/payment?roomId=${roomId}&centerId=${centerId}&type=${paymentMethodValue}`,
+          `/payment?courseId=${courseId}${roomId ? `&roomId=${roomId}` : ""}`,
         );
+      } else if (bundleId) {
+        router.push(`/payment?bundleId=${bundleId}`);
       }
     }
 
@@ -133,7 +128,6 @@ export const usePayment = ({
     router,
     toast,
     roomId,
-    centerId,
     modal,
   ]);
 

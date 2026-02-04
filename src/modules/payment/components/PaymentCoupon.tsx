@@ -20,14 +20,12 @@ function PaymentCoupon({
   setCoupon,
   courseId,
   bookId,
-  isSingleBook,
   className,
 }: {
   coupon: PricingResponse;
   setCoupon: (coupon: PricingResponse) => void;
   courseId?: string;
   bookId?: string | number;
-  isSingleBook?: boolean;
   className?: string;
 }) {
   const { toast } = useToast();

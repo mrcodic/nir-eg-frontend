@@ -53,7 +53,6 @@ const NewCourses = () => {
                       <CourseCard
                         key={index}
                         isNewCourse={true}
-                        isBundles={false}
                         courseDetails={course}
                       />
                     ))}

@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { Loader } from "lucide-react";
 import { useState } from "react";
 import PaymentWhatsappLink from "./PaymentWhatsappLink";
+import { useAuthContext } from "@/context/auth-context";
 
 const initialState = {
   message: "",
@@ -17,19 +18,22 @@ const initialState = {
 
 function PaymentCode({
   courseId,
-  bookId,
-  isSingleBook,
+  roomId,
   className,
 }: {
   courseId?: string;
-  bookId?: string | number;
-  isSingleBook?: boolean;
+  roomId?: string;
   className?: string;
 }) {
   const { toast } = useToast();
+
+  const { profile } = useAuthContext();
+
   const [value, setValue] = useState("");
   const [loading, setLoading] = useState(false);
   const [couponState, setCouponState] = useState(initialState);
+
+  const isCodeCenter = profile?.type === 5;
 
   const handleCouponSubmit = async () => {
     if (!value) {
@@ -40,17 +44,29 @@ function PaymentCode({
     setCouponState(initialState);
 
     try {
-      const body = {
-        code: value,
-      };
+      let res;
 
-      if (bookId) {
-        Object.assign(body, { book_id: bookId });
-      } else if (courseId) {
-        Object.assign(body, { classroom_id: courseId });
+      // room payment code center
+      if (isCodeCenter) {
+        await mutateClient("/students/subscribe-room", {
+          body: {
+            code: value.trim(),
+            room_id: roomId,
+            center_id: courseId,
+          },
+        });
+      } else {
+        // center payment
+        await mutateClient("/students/subscriptions/claim-coupon", {
+          body: {
+            code: value.trim(),
+            classroom_id: courseId,
+            room_id: roomId,
+          },
+        });
       }
-      // TODO: post coupon to server here
-      const res = await mutateClient("/students/promo/price", { body });
+
+      console.log("modal code payment model");
 
       if (res.status !== 200) {
         setCouponState({ message: "حدث خطأ", state: "error" });

@@ -65,9 +65,13 @@ export const paymentTypesCenter = [
 ];
 
 export const paymentTypesObj = {
-  [paymentType.aman]: {
-    value: paymentType.aman,
-    icons: ["/assets/aman.svg", "/assets/aman1.svg"],
+  // [paymentType.aman]: {
+  //   value: paymentType.aman,
+  //   icons: ["/assets/aman.svg", "/assets/aman1.svg"],
+  // },
+  [paymentType.fawerypay]: {
+    value: paymentType.fawerypay,
+    icons: ["/assets/Fawry.svg"],
   },
   [paymentType.visa]: {
     value: paymentType.visa,
@@ -97,7 +101,7 @@ export const paymentTypesObj = {
     icons: ["/assets/payCode.svg"],
   },
   FREE: {
-    label: " مجانيه",
+    label: "مجانيه",
     value: "FREE",
     icons: ["/assets/heart.svg"],
   },

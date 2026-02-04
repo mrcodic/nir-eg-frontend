@@ -90,7 +90,7 @@ export default async function Layout({ children }) {
     throw error;
   }
 
-  // console.log("tenantSettings", tenantSettings);
+  console.log("tenantSettings", tenantSettings);
 
   const hslFromHex = hexToHsl(tenantSettings.primary_color);
 

@@ -4,21 +4,17 @@ import { PaymentModel } from "@/components/modals/PaymentModel";
 import { Button } from "@/components/ui/button";
 import { paymentTypesObj } from "@/constants";
 import { useModal } from "@/context/ModalProvider";
+import { paymentType } from "@/types";
 import { ChevronRight } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
-export default function PayLabel({ type, price }) {
+export default function PayLabel({ price, courseId, bundleId, roomId }) {
   const router = useRouter();
   const modal = useModal();
-  const search = useSearchParams();
-  const courseId = search.get("courseId");
-  const bundleId = search.get("bundleId");
-  const centerId = search.get("centerId");
-  const roomId = search.get("roomId");
 
   function backtoPayMethod() {
     router.push(
-      `/bundles${courseId || bundleId || centerId ? `/${courseId || bundleId || centerId}` : ""}`,
+      `/bundles${courseId ? `/${courseId}` : bundleId ? `/showBundle?bundleId=${bundleId}` : ""}`,
     );
 
     modal.setDialogContent(
@@ -41,9 +37,9 @@ export default function PayLabel({ type, price }) {
         <div className="flex items-center gap-2">
           <img
             className="h-8 object-contain"
-            src={paymentTypesObj[type].icons[0]}
+            src={paymentTypesObj[paymentType.code].icons[0]}
           />
-          <span> {paymentTypesObj[type].label}</span>
+          <span> {paymentTypesObj[paymentType.code].label}</span>
         </div>
       </div>
 

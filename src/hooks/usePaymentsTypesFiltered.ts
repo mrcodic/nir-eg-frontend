@@ -36,7 +36,7 @@ function usePaymentsTypesFiltered({
 
   // Determine payment types based on mode and user type
   const paymentTypes = useMemo(() => {
-    if (isLoading && (userType === 4 || !isCodeCenter)) return [];
+    if (isLoading && userType === 4) return [];
     if (asModal) {
       if (userType === 4) {
         return filterOnlineTypes(paymentTypesOnline);
@@ -45,14 +45,14 @@ function usePaymentsTypesFiltered({
       }
       return [];
     } else {
-      return isCodeCenter
+      return isCodeCenter || userType === 3
         ? paymentTypesCenter
         : filterOnlineTypes(paymentTypesOnline);
     }
   }, [isLoading, userType, isCodeCenter, asModal, filterOnlineTypes]);
 
   return {
-    paymentFilter: data?.data as PaymentFilter | null,
+    paymentFilter: data?.data as unknown as PaymentFilter | null,
     isLoading,
     paymentTypes,
   };

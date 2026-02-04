@@ -88,13 +88,11 @@ const CourseDetails = ({ details, profile }: Props) => {
   const visibleTabs = useMemo(
     () =>
       CourseTabs.filter((tab) => {
-        if (tab.value === "exams") return hasExams || profile?.type === 4;
+        if (tab.value === "exams") return hasExams;
         return true;
       }),
-    [hasExams, profile?.type],
+    [hasExams],
   );
-
-  console.log("exams : ", courseExams);
 
   return (
     <Tabs

@@ -85,7 +85,7 @@ const RoomAccordion = ({
                             modal.setDialogContent(
                               <PaymentModel
                                 roomId={room?.id}
-                                centerId={classroomId}
+                                courseId={classroomId}
                                 price={room?.price}
                               />,
                             );

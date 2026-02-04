@@ -12,7 +12,6 @@ interface PaymentModalProps {
   courseId?: string;
   bundleId?: string;
   roomId?: string | number;
-  centerId?: string | number;
   price?: number | string;
   sale?: CourseType["sale"];
   hasCoupon?: boolean;
@@ -22,7 +21,6 @@ export const PaymentModel: React.FC<PaymentModalProps> = ({
   courseId,
   bundleId,
   roomId,
-  centerId,
   sale,
   price,
   hasCoupon,
@@ -40,7 +38,6 @@ export const PaymentModel: React.FC<PaymentModalProps> = ({
     courseId,
     bundleId,
     roomId,
-    centerId,
     asModal: true,
   });
 

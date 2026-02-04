@@ -94,7 +94,6 @@ export const BooksPaymentUI: React.FC<PaymentUIProps> = ({
             coupon={coupon}
             setCoupon={setCoupon}
             bookId={isSingleBook && bookId}
-            isSingleBook={isSingleBook}
             className={isSingleBook ? "mt-2 " : ""}
           />
         )} */}
