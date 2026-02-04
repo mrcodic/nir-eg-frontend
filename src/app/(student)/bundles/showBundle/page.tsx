@@ -108,7 +108,10 @@ const ShowBundle = () => {
             <StyledText
               className="text-32"
               text={formatCurrency(
-                Number(classroomsPrice) - Number(bundle?.price || 0),
+                Math.max(
+                  Number(classroomsPrice) - Number(bundle?.price || 0),
+                  0,
+                ),
               )}
             />
             {"  "}
