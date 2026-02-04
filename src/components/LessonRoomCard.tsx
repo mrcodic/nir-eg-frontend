@@ -18,30 +18,34 @@ const LessonRoomCard = ({
 
   return (
     <div className="border-gray-light bg-background flex items-start justify-between rounded-lg border p-2">
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-4 pt-1">
         <img src="/assets/videos-fill.svg" className="size-6" />
         <div>
-          <h3 className="mb-4 text-sm font-bold text-[#121212] md:text-[16px]">
+          <h3 className="text-sm font-bold text-[#121212] md:text-[16px]">
             {lesson?.title}
           </h3>
-          <p className="text-gray-dark mb-4 text-sm font-medium">
-            {lesson?.description}
-          </p>
+          {lesson?.description && (
+            <p className="text-gray-dark mt-4 text-sm font-medium">
+              {lesson?.description || "--"}
+            </p>
+          )}
 
-          <div className="flex items-center gap-2 whitespace-nowrap">
-            <img src="/assets/time.svg" className="size-6" />
-            <div className="flex gap-1 text-[#523412]">
-              <span className="inline-block text-sm font-bold">
-                مدة الفيديو:
-              </span>
+          {lesson.duration && (
+            <div className="mt-4 flex items-center gap-2 whitespace-nowrap">
+              <img src="/assets/time.svg" className="size-6" />
+              <div className="flex gap-1 text-black">
+                <span className="inline-block text-sm font-bold">
+                  مدة الفيديو:
+                </span>
 
-              <span className="text-sm font-medium">
-                {isFinite(Number(lesson.duration))
-                  ? convertMinutes(Number(lesson.duration))
-                  : lesson.duration}
-              </span>
+                <span className="text-sm font-medium">
+                  {isFinite(Number(lesson.duration))
+                    ? convertMinutes(Number(lesson.duration))
+                    : lesson.duration || "--"}
+                </span>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
 
