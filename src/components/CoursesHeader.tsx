@@ -9,6 +9,7 @@ import PriceBadge from "../modules/payment/components/PriceBadge";
 import CourseInfoBadge from "./CourseInfoBadge";
 import GroupJoinBadge from "./GroupJoinBadge";
 import DataWithLabel from "./ui/DataWithLabel";
+import SubbedBadge from "./ui/SubbedBadge";
 
 const CoursesHeader = ({ details }: { details: ICourseDetails }) => {
   const { profile } = useAuthContext();
@@ -92,16 +93,7 @@ const CoursesHeader = ({ details }: { details: ICourseDetails }) => {
             {subType !== "حصة" &&
               (details?.classroom_price || details?.is_subscriped) &&
               (details?.is_subscriped ? (
-                <span className="bg-semantics-green-dark flex h-8 items-center gap-2 rounded-lg ps-2 pe-3 text-lg text-white">
-                  <Image
-                    src="/assets/success.svg"
-                    width={24}
-                    height={24}
-                    className="brightness-0 invert"
-                    alt="success icon"
-                  />
-                  <span>مشترك</span>
-                </span>
+                <SubbedBadge />
               ) : (
                 <PriceBadge price={Number(details?.classroom_price)} />
               ))}

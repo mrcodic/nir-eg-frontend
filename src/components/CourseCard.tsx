@@ -13,6 +13,7 @@ import { PaymentModel } from "./modals/PaymentModel";
 import { Button } from "./ui/button";
 import DataWithLabel from "./ui/DataWithLabel";
 import PriceBubbles from "./ui/price-bubble";
+import SubbedBadge from "./ui/SubbedBadge";
 
 /* ----------------------------------------
  * Animation Variants (shared parent → child)
@@ -49,21 +50,31 @@ const cardContentVariants = {
 
 const CourseCard = ({
   courseDetails,
-  isNewCourse,
-  isBundles,
+  isNewCourse = false,
+  isBundles = false,
+  isSubbed = false,
 }: {
   courseDetails: CourseType;
-  isNewCourse: boolean;
-  isBundles: boolean;
+  isNewCourse?: boolean;
+  isBundles?: boolean;
+  isSubbed?: boolean;
 }) => {
   const router = useRouter();
   const modal = useModal();
 
-  const { token, profile } = useAuthContext();
+  const { profile } = useAuthContext();
   const isOnline = profile?.type === 4;
 
   const isCodeCenterRoomType =
     profile?.type === 5 && courseDetails?.subscription_type === "حصة";
+
+  const isSingleButton =
+    Number(
+      isNewCourse && courseDetails?.subscription_type !== "حصة" && !isBundles,
+    ) +
+      Number(!isNewCourse) +
+      Number(isNewCourse && !!profile) ===
+    1;
 
   return (
     <motion.div
@@ -91,12 +102,16 @@ const CourseCard = ({
 
         {!isCodeCenterRoomType && (
           <div className="absolute top-4 left-4">
-            <PriceBubbles
-              sale={courseDetails?.sale}
-              price={courseDetails?.price}
-              badgeClassName="bg-semantics-green-dark"
-              currencyClassName="text-sm"
-            />
+            {isSubbed ? (
+              <SubbedBadge />
+            ) : (
+              <PriceBubbles
+                sale={courseDetails?.sale}
+                price={courseDetails?.price}
+                badgeClassName="bg-semantics-green-dark"
+                currencyClassName="text-sm"
+              />
+            )}
           </div>
         )}
       </motion.div>
@@ -142,6 +157,9 @@ const CourseCard = ({
           <div
             className={cn(
               "mt-auto grid grid-cols-1 gap-4 pt-4 min-[300px]:grid-cols-2",
+              {
+                "min-[300px]:grid-cols-1": isSingleButton,
+              },
             )}
           >
             {isNewCourse &&
@@ -149,7 +167,7 @@ const CourseCard = ({
               !isBundles && (
                 <Button
                   onClick={() => {
-                    if (token) {
+                    if (!!profile) {
                       modal.setDialogContent(
                         <PaymentModel
                           courseId={courseDetails.id?.toString()}
@@ -178,7 +196,7 @@ const CourseCard = ({
               </Button>
             )}
 
-            {isNewCourse && token && (
+            {isNewCourse && !!profile && (
               <Link
                 href={`/bundles/${courseDetails?.id}`}
                 className="inline-block"

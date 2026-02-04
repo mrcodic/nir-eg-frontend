@@ -52,7 +52,7 @@ function GradesTableAction({
                 )}
               </h3>
             ) : (
-              <span className={cn("text-[16px] font-bold text-yellow-800")}>
+              <span className={cn("text-secondary text-[16px] font-bold")}>
                 جارى التصحيح
               </span>
             )
@@ -83,7 +83,7 @@ function GradesTableAction({
                   }/${row.quiz_id}`
           }
           className={cn(
-            "flex h-9 w-[120px] items-center justify-center rounded-[10px] bg-[#012D5A] p-1 text-sm font-bold text-white lg:h-10 lg:w-[155px]",
+            "bg-primary-800 flex h-9 w-[120px] items-center justify-center rounded-[10px] p-1 text-sm font-bold text-white lg:h-10 lg:w-[155px]",
             {
               "pointer-events-none cursor-not-allowed bg-red-600": isExpired,
             },

@@ -38,8 +38,7 @@ const SubbedCourses = () => {
                 <CourseCard
                   key={index}
                   courseDetails={courseDetails}
-                  isNewCourse={false}
-                  isBundles={false}
+                  isSubbed={true}
                 />
               ))}
               <div className="col-span-full w-full">
