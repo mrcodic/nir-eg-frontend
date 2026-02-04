@@ -1,6 +1,6 @@
+import { mutateClient } from "@/helpers/post-client";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
 
 function useSendComment() {
   const queryClient = useQueryClient();
@@ -36,10 +36,9 @@ function useSendComment() {
         formData.append("recordings[]", data?.audios[i]);
       }
 
-      return await axios.post(
-        `/api?url=lessons/${lessonId}/comments&type=formData`,
-        formData
-      );
+      return await mutateClient(`lessons/${lessonId}/comments`, {
+        body: formData,
+      });
     },
     onSuccess: async (_data, { lessonId }) => {
       queryClient.invalidateQueries({

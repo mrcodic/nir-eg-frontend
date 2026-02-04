@@ -5,13 +5,13 @@ import LockedToPassVideoUI from "@/components/LockedToPassVideoUI";
 import RoomSideContent from "@/components/RoomSideContent";
 import { useAuthContext } from "@/context/auth-context";
 import { getClientPrivateData } from "@/helpers/client-fetch";
+import { mutateClient } from "@/helpers/post-client";
 import ProtectedRoute from "@/layouts/ProtectedRoute";
 import DisableDevTools from "@/modules/video/components/DisableDivTools";
 import Video from "@/modules/video/components/Video";
 import { ApiResponse, IRoomDetails } from "@/types";
 import { normalizeYouTubeUrl } from "@/utils/clientFun";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import dynamic from "next/dynamic";
 import { redirect, useParams } from "next/navigation";
 import { useQueryState } from "nuqs";
@@ -108,10 +108,13 @@ const SingleVideo = () => {
       setOtpLoading(true);
       try {
         setOtpError(false);
-        const res = await axios.post("/api?url=video/otp", {
-          video_id: vid,
-          classroom_id: classroomId,
-          room_id: room,
+
+        const res = await mutateClient("/video/otp", {
+          body: {
+            video_id: vid,
+            classroom_id: classroomId,
+            room_id: room,
+          },
         });
 
         if (res.data?.views_used >= res.data?.total_views) {

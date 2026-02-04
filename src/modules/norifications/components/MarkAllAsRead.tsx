@@ -1,7 +1,7 @@
 "use client";
 
+import { mutateClient } from "@/helpers/post-client";
 import { useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
 import { useState } from "react";
 
 function MarkAllAsRead() {
@@ -12,7 +12,7 @@ function MarkAllAsRead() {
     try {
       setMarkedAll(true);
 
-      await axios.post(`/api?url=students/notifications/read-all`, {});
+      await mutateClient(`students/notifications/read-all`);
 
       queryClient.invalidateQueries({
         predicate: (query) => query.queryKey.includes("notifications"),

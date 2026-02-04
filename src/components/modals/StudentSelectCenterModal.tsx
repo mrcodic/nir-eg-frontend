@@ -6,7 +6,6 @@ import { Check, ChevronsUpDown } from "lucide-react";
 import { useForm } from "react-hook-form";
 
 import { Form } from "@/components/ui/form";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 
 import { useMemo, useState } from "react";
@@ -26,6 +25,7 @@ import {
 } from "@/components/ui/popover";
 import { useAuthContext } from "@/context/auth-context";
 import { useModal } from "@/context/ModalProvider";
+import { mutateClient } from "@/helpers/post-client";
 import { useToast } from "@/hooks/use-toast";
 import { roomIdSChema } from "@/lib/schemas";
 import { cn } from "@/lib/utils";
@@ -59,7 +59,9 @@ export function StudentSelectCenterModal() {
 
   const onSubmit = async (v: any) => {
     try {
-      await axios.post("/api?url=students/subscribe-center", v);
+      await mutateClient("/students/subscribe-center", {
+        body: v,
+      });
 
       toast({
         description: " تم الاشتراك بنجاح",

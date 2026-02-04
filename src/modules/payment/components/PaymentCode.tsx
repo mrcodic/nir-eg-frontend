@@ -3,10 +3,9 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { mutateClient } from "@/helpers/post-client";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
-import { PricingResponse } from "@/types";
-import axios from "axios";
 import { Loader } from "lucide-react";
 import { useState } from "react";
 import PaymentWhatsappLink from "./PaymentWhatsappLink";
@@ -17,15 +16,11 @@ const initialState = {
 };
 
 function PaymentCode({
-  coupon,
-  setCoupon,
   courseId,
   bookId,
   isSingleBook,
   className,
 }: {
-  coupon: PricingResponse;
-  setCoupon: (coupon: PricingResponse) => void;
   courseId?: string;
   bookId?: string | number;
   isSingleBook?: boolean;
@@ -38,7 +33,7 @@ function PaymentCode({
 
   const handleCouponSubmit = async () => {
     if (!value) {
-      setCouponState({ message: "ادخل كود الخصم", state: "error" });
+      setCouponState({ message: "ادخل كود الدفع", state: "error" });
       return;
     }
     setLoading(true);
@@ -55,7 +50,7 @@ function PaymentCode({
         Object.assign(body, { classroom_id: courseId });
       }
       // TODO: post coupon to server here
-      const res = await axios.post("/api?url=students/promo/price", body);
+      const res = await mutateClient("/students/promo/price", { body });
 
       if (res.status !== 200) {
         setCouponState({ message: "حدث خطأ", state: "error" });
@@ -64,10 +59,9 @@ function PaymentCode({
 
       console.log("🚀 ~ res post coupon : ", res);
 
-      setCoupon(res?.data?.data);
-      setCouponState({ message: "تم تطبيق الكوبون بنجاح", state: "success" });
+      setCouponState({ message: "تم الدفع بنجاح", state: "success" });
     } catch (error) {
-      console.log("😂 Error in apply coupon", error);
+      console.log("😂 Error in payment code", error);
 
       toast({
         description: error?.response?.data?.error.message || "حدث خطأ ما",
@@ -77,7 +71,6 @@ function PaymentCode({
         message: error?.response?.data?.error.message || "حدث خطأ ما",
         state: "error",
       });
-      setCoupon(null);
     } finally {
       setLoading(false);
     }
@@ -93,7 +86,7 @@ function PaymentCode({
             onChange={(e) => setValue(e.target.value)}
             className="border-gray-light h-11 w-full grow border ps-2 text-sm focus:outline-hidden"
             aria-invalid={couponState?.state === "error"}
-            placeholder="أدخل الكود"
+            placeholder="أدخل كود الدفع"
             disabled={loading}
           />
           <Button
@@ -115,12 +108,6 @@ function PaymentCode({
             }`}
           >
             {couponState.message}{" "}
-            {couponState.state === "success" &&
-              `حصلت على خصم  ${
-                coupon?.promo?.type_discount === 1
-                  ? `${coupon?.promo?.value}%`
-                  : `${coupon?.promo?.value} جنيه`
-              }`}
           </p>
         )}
       </div>

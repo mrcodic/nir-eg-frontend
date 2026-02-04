@@ -11,6 +11,7 @@ function DownloadFileBtn({
   const { handleDownload, isDownloading } = useFileDownload({
     attachment,
   });
+
   return (
     <Button
       disabled={isDownloading}

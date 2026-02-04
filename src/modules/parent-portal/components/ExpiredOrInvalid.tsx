@@ -1,10 +1,10 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { mutateClient } from "@/helpers/post-client";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
-import axios from "axios";
 import { Loader2Icon } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
@@ -22,8 +22,10 @@ function ExpiredOrInvalid({
   const handleSendNewLink = async () => {
     try {
       setIsLoading(true);
-      const res = await axios.post("/api?url=parent/request-new-link", {
-        token,
+      await mutateClient("/parent/request-new-link", {
+        body: {
+          token,
+        },
       });
 
       toast({
@@ -46,35 +48,35 @@ function ExpiredOrInvalid({
   return (
     <div className={cn("flex flex-col items-center", className)}>
       <DotLottieReact
-        className="sm:w-[467px] sm:h-[344px] w-[267px] h-[244px] mx-auto"
+        className="mx-auto h-[244px] w-[267px] sm:h-[344px] sm:w-[467px]"
         src="/Animations/invalid.json"
         autoplay
         loop
       />
-      <h1 className="text-[32px] font-bold mt-16 text-center">
+      <h1 className="mt-16 text-center text-[32px] font-bold">
         {token ? "هذا الرابط غير متاح حاليًا" : "لا يمكن الحصول على بياناتك"}
       </h1>
 
-      <p className="text-xl font-bold max-w-xl text-center mt-4">
+      <p className="mt-4 max-w-xl text-center text-xl font-bold">
         {token
           ? "الرابط الذي تحاول الوصول إليه لم يعد متاح حاليًا، اضغط هنا ليتم إرسال رسالة نصية SMS تحتوي على الرابط الجديد"
           : ""}
       </p>
 
-      <div className="flex items-center gap-4 flex-wrap justify-center  mt-8">
+      <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
         {token ? (
           <button
             onClick={handleSendNewLink}
-            className="w-full md:w-[189px] bg-secondary h-10 text-lg font-bold text-white rounded-lg border flex items-center justify-center gap-1 border-[#D9B45C] py-0 disabled:opacity-80"
+            className="bg-secondary flex h-10 w-full items-center justify-center gap-1 rounded-lg border border-[#D9B45C] py-0 text-lg font-bold text-white disabled:opacity-80 md:w-[189px]"
             disabled={isLoading}
           >
-            {isLoading && <Loader2Icon className="animate-spin size-4" />}
+            {isLoading && <Loader2Icon className="size-4 animate-spin" />}
             إرسال رسالة نصية
           </button>
         ) : (
           <Link
             href="/"
-            className="w-full flex items-center justify-center md:w-[189px] bg-secondary h-10 text-lg font-bold text-white rounded-lg border border-[#D9B45C] py-0"
+            className="bg-secondary flex h-10 w-full items-center justify-center rounded-lg border border-[#D9B45C] py-0 text-lg font-bold text-white md:w-[189px]"
           >
             الرجوع للرئيسية
           </Link>
@@ -83,7 +85,7 @@ function ExpiredOrInvalid({
           href={`http://t.me/More_english_support?text=محتاج مساعدة لو سمحت`}
           target="_blank"
         >
-          <Button className="w-full bg-[#D9B45C]  h-10 text-lg font-bold text-white rounded-lg border flex items-center justify-center gap-1 py-0 ">
+          <Button className="flex h-10 w-full items-center justify-center gap-1 rounded-lg border bg-[#D9B45C] py-0 text-lg font-bold text-white">
             تواصل مع الدعم الفني
           </Button>
         </Link>

@@ -1,6 +1,6 @@
+import { mutateClient } from "@/helpers/post-client";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
 import { Check } from "lucide-react";
 import { useState } from "react";
 import { FaSpinner } from "react-icons/fa";
@@ -30,14 +30,21 @@ function MarkVideoCompleted({
       // Logic to mark the video as completed
       console.log("Marking video as completed...");
 
-      await axios.post(
-        `/api?url=students/lesson/store_completed&paths=/bundles/[SingleCourse]`,
-        {
+      await mutateClient(`/students/lesson/store_completed`, {
+        body: {
           room_id: Number(roomId),
           lesson_id: Number(lessonId),
           classroom_id: Number(classroomId),
         },
-      );
+      });
+      // await axios.post(
+      //   `/api?url=students/lesson/store_completed&paths=/bundles/[SingleCourse]`,
+      //   {
+      //     room_id: Number(roomId),
+      //     lesson_id: Number(lessonId),
+      //     classroom_id: Number(classroomId),
+      //   },
+      // );
 
       // invalidate lesson data to refresh completed status
 

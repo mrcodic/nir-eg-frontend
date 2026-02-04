@@ -33,17 +33,17 @@ const NewCourses = () => {
           queryKey={api}
           render={(data) => {
             const allCourses = data?.data || [];
-            const filteredCourses = allCourses.filter(
-              (course: any) => !course?.isSubscribed,
-            );
+            // const filteredCourses = allCourses.filter(
+            //   (course: any) => !course?.isSubscribed,
+            // );
 
             const pageSize = 6;
-            const total = filteredCourses.length;
+            const total = allCourses.length;
             const start = (page - 1) * pageSize;
             const end = start + pageSize;
-            const currentCourses = filteredCourses.slice(start, end);
+            const currentCourses = allCourses.slice(start, end);
 
-            // console.log("NEW Courses : ", data);
+            console.log("NEW Courses : ", data);
 
             return (
               <div className="cards-grid min-h-[455px] rounded-lg">

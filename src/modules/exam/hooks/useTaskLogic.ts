@@ -1,7 +1,7 @@
 import { useTaskContext } from "@/context/TaskProvider";
 import { getClientPrivateData } from "@/helpers/client-fetch";
+import { mutateClient } from "@/helpers/post-client";
 import { useToast } from "@/hooks/use-toast";
-import axios from "axios";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 export const useTaskLogic = (
@@ -154,7 +154,7 @@ export const useTaskLogic = (
   const retake = useCallback(async () => {
     try {
       setIsLoadingRetake(true);
-      await axios.post(`/api?url=students/quiz/retake/${taskId}`, {});
+      await mutateClient(`students/quiz/retake/${taskId}`);
       await retakeExamLogic();
     } catch (e: any) {
       console.log("retake error:", e);

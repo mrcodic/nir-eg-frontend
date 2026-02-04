@@ -8,6 +8,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { OTP_SEND_TIME_KEY } from "@/constants";
+import { mutateClient } from "@/helpers/post-client";
 import { useToast } from "@/hooks/use-toast";
 import { useMounted } from "@/hooks/useMounted";
 import useOtp from "@/hooks/useOtp";
@@ -15,7 +16,6 @@ import AuthHeader from "@/layouts/AuthHeader";
 import { otpSchema } from "@/lib/schemas";
 import { getLocalStorage } from "@/utils/clientFun";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -49,7 +49,10 @@ const ValidateOtp = ({ setResetForm }) => {
 
   const onSubmit = async (v) => {
     try {
-      await axios.post("/api?url=otp/verify", v);
+      await mutateClient("/otp/verify", {
+        body: v,
+      });
+
       toast({
         description: "تم تأكيد رقم الهاتف بنجاح",
         icon: "success",

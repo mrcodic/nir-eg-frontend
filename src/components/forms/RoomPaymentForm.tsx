@@ -1,8 +1,8 @@
 "use client";
 
+import { mutateClient } from "@/helpers/post-client";
 import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -37,10 +37,12 @@ const RoomPaymentForm = ({ roomId, centerId }) => {
 
   const onSubmit = async (v) => {
     try {
-      const response = await axios.post("/api?url=students/subscribe-room", {
-        code: v.code.trim(),
-        room_id: roomId,
-        center_id: centerId,
+      const response = await mutateClient("/students/subscribe-room", {
+        body: {
+          code: v.code.trim(),
+          room_id: roomId,
+          center_id: centerId,
+        },
       });
 
       console.log("response : ", response);

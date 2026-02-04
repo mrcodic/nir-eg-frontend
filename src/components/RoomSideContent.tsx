@@ -1,6 +1,6 @@
 "use client";
 
-import { useToast } from "@/hooks/use-toast";
+import useFileDownload from "@/hooks/useFileDownload";
 import LinkLocked from "@/layouts/LinkLocked";
 import { cn } from "@/lib/utils";
 import { IRoomDetails } from "@/types";
@@ -9,7 +9,7 @@ import { ChevronLeft, ChevronRight, Download, Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import { memo, useState } from "react";
+import { memo } from "react";
 import MarkVideoCompleted from "./MarkVideoCompleted";
 import { Button } from "./ui/button";
 
@@ -267,40 +267,9 @@ const AttachmentCard = memo(function AttachmentCard({
   attachment: { name: string; url: string };
   locked: boolean;
 }) {
-  const [downloading, setDownloading] = useState(false);
-  const { toast } = useToast();
-
-  const handleDownload = async () => {
-    if (downloading) return;
-
-    try {
-      setDownloading(true);
-
-      const res = await fetch(
-        isProd ? attachment.url : `/api/blob-proxy?url=${attachment.url}`,
-      );
-      if (!res.ok) throw new Error("Download failed");
-
-      const blob = await res.blob();
-      const objectUrl = URL.createObjectURL(blob);
-
-      const a = document.createElement("a");
-      a.href = objectUrl;
-      a.download = attachment.name;
-      document.body.appendChild(a);
-      a.click();
-
-      a.remove();
-      URL.revokeObjectURL(objectUrl);
-    } catch {
-      toast({
-        icon: "error",
-        description: "حدث خطأ أثناء تحميل الملف",
-      });
-    } finally {
-      setDownloading(false);
-    }
-  };
+  const { handleDownload, isDownloading } = useFileDownload({
+    attachment,
+  });
 
   return (
     <div className="border-gray-light mt-2.5 mb-2 flex items-center justify-between gap-2 rounded-lg border bg-white px-2 py-2 shadow-sm">
@@ -320,10 +289,10 @@ const AttachmentCard = memo(function AttachmentCard({
       >
         <button
           onClick={handleDownload}
-          disabled={downloading}
+          disabled={isDownloading}
           className="disabled:opacity-70"
         >
-          {downloading ? (
+          {isDownloading ? (
             <Loader2 className="size-5 animate-spin stroke-white" />
           ) : (
             <Download className="size-5 stroke-white" />

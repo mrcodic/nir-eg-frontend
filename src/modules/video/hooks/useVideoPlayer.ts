@@ -1,3 +1,4 @@
+import { mutateClient } from "@/helpers/post-client";
 import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
@@ -55,11 +56,9 @@ async function logView(
   classroomId: string | number,
 ) {
   try {
-    await axios.post(
-      "/api?url=video/confirm-view",
-      { video_id: videoId, room_id: roomId, classroom_id: classroomId },
-      { withCredentials: true },
-    );
+    await mutateClient("/video/confirm-view", {
+      body: { video_id: videoId, room_id: roomId, classroom_id: classroomId },
+    });
   } catch {}
 }
 

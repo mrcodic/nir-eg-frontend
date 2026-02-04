@@ -3,11 +3,11 @@
 import CustomInput from "@/components/custom/customInput";
 import { Form } from "@/components/ui/form";
 import { useAuthContext } from "@/context/auth-context";
+import { mutateClient } from "@/helpers/post-client";
 import { useToast } from "@/hooks/use-toast";
 import { newPasswordSchema } from "@/lib/schemas";
 import { getLocalStorage } from "@/utils/clientFun";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "nextjs-toploader/app";
 import { GoogleReCaptcha } from "react-google-recaptcha-v3";
@@ -32,7 +32,9 @@ const NewPasswordForm = () => {
 
   const onSubmit = async (v) => {
     try {
-      await axios.post("/api?url=reset-password", v);
+      await mutateClient("/reset-password", {
+        body: v,
+      });
 
       toast({
         description: "تم تأكيد حفظ الباسورد الجديد بنجاح",

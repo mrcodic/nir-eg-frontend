@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useToast } from "./use-toast";
 
+const isProd = process.env.NODE_ENV === "production";
+
 function useFileDownload({
   attachment,
 }: {
@@ -15,12 +17,12 @@ function useFileDownload({
   const handleDownload = async () => {
     if (isDownloading) return;
 
-    console.log("download  ------- --", attachment);
-
     try {
       setIsDownloading(true);
 
-      const res = await fetch(attachment.url);
+      const res = await fetch(
+        isProd ? attachment.url : `/api/blob-proxy?url=${attachment.url}`,
+      );
 
       if (!res.ok) throw new Error("Download failed");
 

@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import { extractTenantFromHostServer } from "@/helpers/server-utils";
+import { getCookie } from "@/utils/api";
 
 export async function GET(req) {
   const { searchParams } = new URL(req.url);
@@ -10,27 +12,28 @@ export async function GET(req) {
   if (!targetUrl) {
     return NextResponse.json(
       { error: "Missing URL parameter" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
   try {
-    const parsedUrl = new URL(targetUrl);
-    // if (!parsedUrl.hostname.endsWith("more-english.net")) {
-    //   return NextResponse.json({ error: "Invalid domain" }, { status: 403 });
-    // }
+    const { host } = await extractTenantFromHostServer();
+
+    const token = await getCookie();
 
     const response = await fetch(targetUrl, {
       method: "GET",
       headers: {
         "Cache-Control": "no-cache",
+        "X-Tenant-Domain": host,
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
     });
 
     if (!response.ok) {
       return NextResponse.json(
         { error: `Failed to fetch: ${response.statusText}` },
-        { status: response.status }
+        { status: response.status },
       );
     }
 
@@ -50,7 +53,7 @@ export async function GET(req) {
     console.error("💥 Blob Proxy server error:", error);
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

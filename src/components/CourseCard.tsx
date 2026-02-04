@@ -62,6 +62,9 @@ const CourseCard = ({
   const { token, profile } = useAuthContext();
   const isOnline = profile?.type === 4;
 
+  const isCodeCenterRoomType =
+    profile?.type === 5 && courseDetails?.subscription_type === "حصة";
+
   return (
     <motion.div
       className="group relative flex h-full w-full flex-col items-center rounded-lg"
@@ -70,7 +73,7 @@ const CourseCard = ({
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
     >
-      {courseDetails?.has_promocode && isOnline && (
+      {courseDetails?.has_promocode && isOnline && !isCodeCenterRoomType && (
         <SaleBubble className="absolute -top-2 -right-2 z-10" text="كوبون" />
       )}
 
@@ -86,14 +89,16 @@ const CourseCard = ({
           alt="course cover image"
         />
 
-        <div className="absolute top-4 left-4">
-          <PriceBubbles
-            sale={courseDetails?.sale}
-            price={courseDetails?.price}
-            badgeClassName="bg-semantics-green-dark"
-            currencyClassName="text-sm"
-          />
-        </div>
+        {!isCodeCenterRoomType && (
+          <div className="absolute top-4 left-4">
+            <PriceBubbles
+              sale={courseDetails?.sale}
+              price={courseDetails?.price}
+              badgeClassName="bg-semantics-green-dark"
+              currencyClassName="text-sm"
+            />
+          </div>
+        )}
       </motion.div>
 
       {/* ---------- Content Section ---------- */}

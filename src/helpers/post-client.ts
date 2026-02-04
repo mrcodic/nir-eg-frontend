@@ -8,17 +8,17 @@ export async function mutateClient<T = any>(
     body,
     auth = false,
     headers,
-  }: { body: unknown; auth?: boolean; headers?: Record<string, string> },
+  }: { body?: unknown; auth?: boolean; headers?: Record<string, string> } = {},
 ): Promise<T> {
   try {
-    const token = auth ? Cookies.get("nir_token") : undefined;
+    const token = Cookies.get("nir_token");
 
     const { subdomain, host } = extractTenantFromHost();
 
     const res = await axios.post(buildApiUrl(subdomain, endpoint), body, {
       headers: {
         "X-Tenant-Domain": host,
-        ...(auth && token ? { Authorization: `Bearer ${token}` } : {}),
+        ...(auth || token ? { Authorization: `Bearer ${token}` } : {}),
         ...headers,
       },
       withCredentials: true,

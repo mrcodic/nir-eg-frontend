@@ -15,11 +15,11 @@ import {
 } from "@/components/ui/form";
 import { OTP_SEND_TIME_KEY } from "@/constants";
 import { useModal } from "@/context/ModalProvider";
+import { mutateClient } from "@/helpers/post-client";
 import { useToast } from "@/hooks/use-toast";
 import useOtp from "@/hooks/useOtp";
 import { otpSchema } from "@/lib/schemas";
 import { useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
@@ -48,9 +48,11 @@ export default function OtpModal({ phone }) {
 
   async function onSubmit(data: z.infer<typeof otpSchema>) {
     try {
-      await axios.post("/api?url=otp/verify", {
-        ...data,
-        phone,
+      await mutateClient("/otp/verify", {
+        body: {
+          ...data,
+          phone,
+        },
       });
 
       toast({

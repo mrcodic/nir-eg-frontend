@@ -1,13 +1,14 @@
 "use client";
-import { useToast } from "@/hooks/use-toast";
+
+import { mutateClient } from "@/helpers/post-client";
 import { paymentType } from "@/types";
 import { redirectUrl } from "@/utils/clientFun";
-import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import SmallSpinner from "../custom/SmallSpinner";
 import { Congrats } from "../modals/Congrats";
+
 const WalletPay = ({ id, gradeId, label }) => {
   const searchParam = useSearchParams();
   const courseId = searchParam.get("courseId");
@@ -19,25 +20,25 @@ const WalletPay = ({ id, gradeId, label }) => {
     register,
   } = useForm({
     mode: "all",
-
-    // resolver: zodResolver(unlockSchema),
     defaultValues: {
       phone: "",
     },
   });
 
   const [open, setOpen] = useState(false);
-  const { toast } = useToast();
   const router = useRouter();
+
   const onSubmit = async (v) => {
     try {
-      const response = await axios.post("/api?url=/payment", {
-        model_id: courseId || bundleId,
-        model_type: courseId ? "course" : "bundle",
-        payment_method: paymentType.wallet,
-        success_url: redirectUrl({ bundleId, courseId })[0],
-        failure_url: redirectUrl({ bundleId, courseId })[1],
-        phone: v.phone,
+      const response = await mutateClient("/payment", {
+        body: {
+          model_id: courseId || bundleId,
+          model_type: courseId ? "course" : "bundle",
+          payment_method: paymentType.wallet,
+          success_url: redirectUrl({ bundleId, courseId })[0],
+          failure_url: redirectUrl({ bundleId, courseId })[1],
+          phone: v.phone,
+        },
       });
 
       return router.push(response.data?.payment_url);

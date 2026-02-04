@@ -1,10 +1,10 @@
 import { paymentTypesBooks } from "@/constants";
 import { useCartStore } from "@/context/BooksStoreProvider";
 import { useModal } from "@/context/ModalProvider";
+import { mutateClient } from "@/helpers/post-client";
 import { useToast } from "@/hooks/use-toast";
 import { paymentType, PricingResponse } from "@/types";
 import { redirectUrl } from "@/utils/clientFun";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
@@ -83,20 +83,22 @@ export const useBookPayment = ({
 
     try {
       // const endpoint = "/api?url=/payments/fawry/checkout";
-      const endpoint = "/api?url=/cart/pay";
+      const endpoint = "/cart/pay";
 
       const [success_url, failure_url] = redirectUrl(
-        isSingleBook ? { bookId } : { booksPage: true }
+        isSingleBook ? { bookId } : { booksPage: true },
       );
 
-      response = await axios.post(endpoint, {
-        ...(isSingleBook ? { book_id: bookId } : { cart_id: cartId }),
-        payment_method: paymentMethodValue,
-        // model_id: bookId || cartId,
-        // model_type: cartId ? "cart" : "book",
-        success_url,
-        failure_url,
-        // coupon: coupon?.promo?.code || null,
+      response = await mutateClient(endpoint, {
+        body: {
+          ...(isSingleBook ? { book_id: bookId } : { cart_id: cartId }),
+          payment_method: paymentMethodValue,
+          success_url,
+          failure_url,
+          // model_type: cartId ? "cart" : "book",
+          // model_id: bookId || cartId,
+          // coupon: coupon?.promo?.code || null,
+        },
       });
 
       console.log("🛒 ~ cart checkout response", response);

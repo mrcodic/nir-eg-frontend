@@ -2,6 +2,7 @@
 
 import { Form } from "@/components/ui/form";
 import { useTaskContext } from "@/context/TaskProvider";
+import { mutateClient } from "@/helpers/post-client";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import ExamPDFGenerator from "@/modules/exam/components/ExamPDFGenerator";
@@ -9,7 +10,6 @@ import ParagraphQuestion from "@/modules/exam/components/ParagraphQuestion";
 import Question from "@/modules/exam/components/Question";
 import WrittenQuestion from "@/modules/exam/components/WrittenQuestion";
 import { useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
 import { useParams } from "next/navigation";
 import { memo, useCallback, useEffect, useRef } from "react";
 import { useFormContext } from "react-hook-form";
@@ -124,11 +124,10 @@ function TaskForm({
         }
       });
 
-      const res = await axios.post(
-        "/api?url=/students/quiz/answer&type=formData",
-        formData,
-        { headers: { "Content-Type": "multipart/form-data" } },
-      );
+      const res = await mutateClient("/students/quiz/answer", {
+        body: formData,
+        headers: { "Content-Type": "multipart/form-data" },
+      });
 
       queryClient.invalidateQueries({
         queryKey: [`/students/quiz/start`, taskId],

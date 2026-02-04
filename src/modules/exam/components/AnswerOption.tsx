@@ -55,8 +55,9 @@ const AnswerOption = ({
   const borderClass = useMemo(() => {
     if (answerState === "correct-selected")
       return "border-green-500 bg-green-50";
-    if (answerState === "correct-unselected") return "border-green-500";
-    if (answerState === "incorrect-selected") return "border-red-500";
+    if (answerState === "correct-unselected")
+      return "border-green-500 bg-green-50";
+    if (answerState === "incorrect-selected") return "border-red-600 bg-red-50";
     return "border-gray-light";
   }, [answerState]);
 
@@ -64,7 +65,7 @@ const AnswerOption = ({
     if (answerState === "correct-selected")
       return "bg-green-500 border-green-500";
     if (answerState === "incorrect-selected")
-      return "bg-red-500 border-red-500";
+      return "bg-red-600 border-red-600";
     return "";
   }, [answerState]);
 
@@ -96,7 +97,7 @@ const AnswerOption = ({
         <FormLabel
           htmlFor={answerId}
           className={cn("font-normal text-black!", {
-            "text-red-500": answerState === "incorrect-selected",
+            "text-red-600": answerState === "incorrect-selected",
             "text-green-500": answerState === "correct-selected",
           })}
         >

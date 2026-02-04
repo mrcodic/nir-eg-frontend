@@ -9,7 +9,6 @@ import CustomCityStateField from "@/components/custom/CustomCityStateField";
 import SmallSpinner from "@/components/custom/SmallSpinner";
 import { useToast } from "@/hooks/use-toast";
 import { registerSchema } from "@/lib/schemas";
-import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "nextjs-toploader/app";
 import { GoogleReCaptcha } from "react-google-recaptcha-v3";
@@ -17,6 +16,7 @@ import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 import CustomPhoneInput from "@/components/custom/CustomPhoneInput";
 import DynamicSelect from "@/components/custom/DynamicSelect";
 import { Button } from "@/components/ui/button";
+import { mutateClient } from "@/helpers/post-client";
 import AuthHeader from "@/layouts/AuthHeader";
 import { presistUserPhone } from "@/lib/utils";
 import { useForm } from "react-hook-form";
@@ -54,9 +54,12 @@ const RegisterPage = () => {
   const onSubmit = async (v) => {
     try {
       const { phones, ...rest } = v;
-      const response = await axios.post("/api?url=auth/register", {
-        ...rest,
-        ...phones,
+
+      const response = await mutateClient("/auth/register", {
+        body: {
+          ...rest,
+          ...phones,
+        },
       });
 
       presistUserPhone(phones.phone, phones.country);

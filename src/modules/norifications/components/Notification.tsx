@@ -1,9 +1,9 @@
+import { mutateClient } from "@/helpers/post-client";
 import { INotification } from "@/types";
 import { useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
+import Image from "next/image";
 import Link from "next/link";
 import { formatTime, getHref, getTitle } from "../helpers";
-import Image from "next/image";
 
 const Notification = ({
   notification,
@@ -17,10 +17,7 @@ const Notification = ({
   const markAsRead = async () => {
     closeMenu();
 
-    await axios.post(
-      `/api?url=students/notifications/${notification.id}/read`,
-      {},
-    );
+    await mutateClient(`/students/notifications/${notification.id}/read`);
 
     queryClient.invalidateQueries({
       predicate: (query) => query.queryKey.includes("notifications"),

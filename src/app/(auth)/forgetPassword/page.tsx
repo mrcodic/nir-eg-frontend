@@ -5,6 +5,7 @@ import SmallSpinner from "@/components/custom/SmallSpinner";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { OTP_SEND_TIME_KEY } from "@/constants";
+import { mutateClient } from "@/helpers/post-client";
 import { useToast } from "@/hooks/use-toast";
 import AuthHeader from "@/layouts/AuthHeader";
 import { handleOtpError } from "@/lib/handle-otp-error";
@@ -16,7 +17,6 @@ import {
   setNewOtpSendTime,
 } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "nextjs-toploader/app";
 import { GoogleReCaptcha } from "react-google-recaptcha-v3";
@@ -41,12 +41,14 @@ const ForgetPasswordPage = () => {
   const onSubmit = async (v) => {
     try {
       const { phone, recaptcha_token } = v;
-      const response = await axios.post("/api?url=forgot-password", {
-        ...phone,
-        recaptcha_token,
+      const response = await mutateClient("/forgot-password", {
+        body: {
+          ...phone,
+          recaptcha_token,
+        },
       });
 
-      if (response.status == 200) {
+      if (response.status == 200 || !!response.status) {
         console.log(response?.data);
 
         const { otpSendTime, isExpired } = isOtpExpired();

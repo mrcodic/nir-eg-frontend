@@ -1,9 +1,9 @@
 import { useAuthContext } from "@/context/auth-context";
 import { useModal } from "@/context/ModalProvider";
+import { mutateClient } from "@/helpers/post-client";
 import { useToast } from "@/hooks/use-toast";
 import { paymentType, PricingResponse } from "@/types";
 import { redirectUrl } from "@/utils/clientFun";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import usePaymentsTypesFiltered from "./usePaymentsTypesFiltered";
@@ -74,16 +74,18 @@ export const usePayment = ({
       try {
         const endpoint =
           paymentMethodValue === paymentType.fawerypay
-            ? "/api?url=/payments/fawry/checkout"
-            : "/api?url=/payment";
+            ? "/payments/fawry/checkout"
+            : "/payment";
 
-        const response = await axios.post(endpoint, {
-          model_id: courseId || bundleId,
-          model_type: courseId ? "course" : "bundle",
-          payment_method: paymentMethodValue,
-          success_url: redirectUrl({ bundleId, courseId })[0],
-          failure_url: redirectUrl({ bundleId, courseId })[1],
-          coupon: coupon?.promo?.code || null,
+        const response = await mutateClient(endpoint, {
+          body: {
+            model_id: courseId || bundleId,
+            model_type: courseId ? "course" : "bundle",
+            payment_method: paymentMethodValue,
+            success_url: redirectUrl({ bundleId, courseId })[0],
+            failure_url: redirectUrl({ bundleId, courseId })[1],
+            coupon: coupon?.promo?.code || null,
+          },
         });
 
         if (response?.data?.payment_url) {

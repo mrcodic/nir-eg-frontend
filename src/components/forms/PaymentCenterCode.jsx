@@ -1,7 +1,7 @@
 "use client";
+import { mutateClient } from "@/helpers/post-client";
 import { useToast } from "@/hooks/use-toast";
 import PaymentWhatsappLink from "@/modules/payment/components/PaymentWhatsappLink";
-import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -31,12 +31,14 @@ const PaymentCenterCode = ({ courseId, data, roomId }) => {
 
   const onSubmit = async (v) => {
     try {
-      const response = await axios.post(
-        "/api?url=students/subscriptions/claim-coupon",
+      const response = await mutateClient(
+        "/students/subscriptions/claim-coupon",
         {
-          code: v.code.trim(),
-          classroom_id: courseId,
-          room_id: roomId,
+          body: {
+            code: v.code.trim(),
+            classroom_id: courseId,
+            room_id: roomId,
+          },
         },
       );
 

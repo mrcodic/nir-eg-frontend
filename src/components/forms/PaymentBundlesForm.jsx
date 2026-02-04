@@ -2,7 +2,6 @@
 import { useToast } from "@/hooks/use-toast";
 import { unlockSchema } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -29,10 +28,12 @@ const PaymentBundlesForm = ({ id, gradeId, label }) => {
   const { toast } = useToast();
   const onSubmit = async (v) => {
     try {
-      const response = await axios.post("/api?url=students/subscripe-bundle", {
-        code: v.code.trim(),
-        bundle_id: id,
-        grade_id: gradeId,
+      await mutateClient("/students/subscripe-bundle", {
+        body: {
+          code: v.code.trim(),
+          bundle_id: id,
+          grade_id: gradeId,
+        },
       });
       // setOpen(true);
 

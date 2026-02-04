@@ -1,7 +1,6 @@
-import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
-import { useQueryClient } from "@tanstack/react-query";
+import { mutateClient } from "@/helpers/post-client";
 import { useToast } from "@/hooks/use-toast";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 function useSendReply() {
   const queryClient = useQueryClient();
@@ -35,13 +34,9 @@ function useSendReply() {
         formData.append("recordings[]", data?.audios[i]);
       }
 
-      return await axios.post(
-        `/api?url=/comments/${commentId}/reply&type=formData`,
-        formData,
-        {
-          withCredentials: true,
-        }
-      );
+      return await mutateClient(`/comments/${commentId}/reply`, {
+        body: formData,
+      });
     },
     onSuccess: async (_data, { lessonId }) => {
       queryClient.invalidateQueries({
