@@ -44,7 +44,7 @@ export function CountdownTimer({ minutes, onComplete, start }) {
   useEffect(() => {
     // Cleanup storage when the timer expires
     const now = new Date().getTime();
-    if (now > endTime?.getTime()) {
+    if (endTime && now > endTime?.getTime()) {
       localStorage.removeItem(`timer-${examId}-${profile?.id}`);
     }
   }, [endTime]);

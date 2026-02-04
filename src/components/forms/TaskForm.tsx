@@ -155,7 +155,7 @@ function TaskForm({
       });
       trigger();
 
-      if (res.data?.body?.result || res.data?.body?.review_pending) {
+      if (res?.body?.result || res?.body?.review_pending) {
         setSuccess(true);
       } else {
         setFail(true);
