@@ -209,16 +209,18 @@ const LessonCard = memo(function LessonCard({
           <span className="text-xs font-medium">
             {isFinite(Number(lesson.duration))
               ? convertMinutes(Number(lesson.duration))
-              : lesson.duration}
+              : lesson.duration || "--"}
           </span>
         </div>
 
-        <MarkVideoCompleted
-          isCompleted={lesson.completed}
-          roomId={roomId}
-          classroomId={classroomId}
-          lessonId={lesson.id}
-        />
+        {!locked && (
+          <MarkVideoCompleted
+            isCompleted={lesson.completed}
+            roomId={roomId}
+            classroomId={classroomId}
+            lessonId={lesson.id}
+          />
+        )}
       </div>
     </div>
   );
