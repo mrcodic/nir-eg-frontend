@@ -165,16 +165,22 @@ export default function PricingPlanCard({
               "border-accent-800": isFeatured,
             })}
           >
-            <span className="text-3xl text-secondary font-bold">
-              {priceFormatter.format(price)}
-            </span>
-            <span
-              className={cn("text-lg text-gray-dark", {
-                "text-white": isFeatured || isDemo,
-              })}
-            >
-              {type === "yearly" ? "جنيه /سنة" : "جنيه /شهر"}
-            </span>
+            {price > 0 ? (
+              <>
+                <span className="text-3xl text-secondary font-bold">
+                  {priceFormatter.format(price)}
+                </span>
+                <span
+                  className={cn("text-lg text-gray-dark", {
+                    "text-white": isFeatured || isDemo,
+                  })}
+                >
+                  {type === "yearly" ? "جنيه /سنة" : "جنيه /شهر"}
+                </span>
+              </>
+            ) : (
+              <span className="text-3xl text-secondary font-bold">مجاني</span>
+            )}
           </div>
 
           {!isOverview && (
