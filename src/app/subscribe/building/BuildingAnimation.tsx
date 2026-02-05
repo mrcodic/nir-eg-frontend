@@ -22,7 +22,7 @@ function BuildingAnimation({
 
     const loadAnimation = async () => {
       const animationModule = isCompleted
-        ? await import("../../../../public/assets/animations/success-animation.json")
+        ? await import("../../../../public/assets/animations/rocket.json")
         : isError
           ? await import("../../../../public/assets/animations/Fail.json")
           : await import("../../../../public/assets/animations/waiting.json");
@@ -61,7 +61,7 @@ function BuildingAnimation({
           className="fixed  inset-0 w-screen -z-1"
         />
       )}
-      <Lottie animationData={animationData} loop={!isCompleted && !isError} />
+      <Lottie animationData={animationData} loop={!isError} />
     </div>
   );
 }

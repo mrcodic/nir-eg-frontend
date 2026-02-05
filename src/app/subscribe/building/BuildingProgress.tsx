@@ -8,6 +8,7 @@ import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import BuildingAnimation from "./BuildingAnimation";
+import CompletedBuildingUI from "./CompletedBuildingUI";
 
 const POLL_INTERVAL = 3000;
 
@@ -98,11 +99,9 @@ export default function BuildProgress({ tenantId }: { tenantId: string }) {
                 : "نحن الآن نعمل على إنشاء موقعك…"}
           </h1>
 
-          {!error && (
+          {!error && !isCompleted && (
             <p className="mt-2 text-base sm:text-xl font-bold">
-              {isCompleted
-                ? "يمكنك الان زيارة موقعك او لوحة التحكم الخاصة بك"
-                : "نحن الآن نعمل على إنشاء موقعك…"}
+              نحن الآن نعمل على إنشاء موقعك…
             </p>
           )}
 
@@ -148,31 +147,9 @@ export default function BuildProgress({ tenantId }: { tenantId: string }) {
           )}
 
           {/* Actions after completion */}
-          {!error && data?.percent === 100 && (
-            <div className="mt-8 flex gap-4">
-              <a
-                href={data?.domains?.public}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Button className="font-bold" variant="animated-gradient">
-                  زيارة الموقع
-                </Button>
-              </a>
+          {!error && isCompleted && <CompletedBuildingUI data={data} />}
 
-              <a
-                href={data?.domains?.admin}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Button className="font-bold" variant="animated-gradient">
-                  لوحة التحكم
-                </Button>
-              </a>
-            </div>
-          )}
-
-          {!error && !isInitialLoading && (
+          {!error && !isInitialLoading && !isCompleted && (
             <div className="w-full mt-4 space-y-3">
               <Progress value={data?.percent ?? 0} />
               <p className="font-semibold sm:text-base text-sm">

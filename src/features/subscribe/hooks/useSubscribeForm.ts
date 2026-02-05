@@ -259,6 +259,8 @@ export function useSubscribeForm({
 
       toast.success("جارى انشاء موقعك الاكتروني  🎉");
 
+      localStorage.setItem("last_tenant_email", accountForm.getValues("email"));
+
       resetAllForms();
 
       router.push(
