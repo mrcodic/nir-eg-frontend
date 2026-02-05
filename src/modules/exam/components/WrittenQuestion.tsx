@@ -33,13 +33,15 @@ const WrittenQuestion = ({ question, index, listRef }: Props) => {
     name: `questions.${question.id}`,
   });
 
-  const fieldError =
-    errors?.questions?.[question.id] || (!value?.text && !value?.attachment);
-
   const answered = question?.essay?.graded;
   const disabled = isSubmitting || answered;
   const isCorrect = question?.essay?.is_correct;
   const selectedFile = value?.attachment;
+
+  const fieldError =
+    errors?.questions?.[question.id] ||
+    (!answered && !value?.text && !value?.attachment) ||
+    (answered && !question?.essay?.text && !question?.essay?.attachments?.[0]);
 
   const handleInputChange = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
