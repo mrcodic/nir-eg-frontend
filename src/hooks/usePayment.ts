@@ -85,10 +85,10 @@ export const usePayment = ({
           },
         });
 
-        if (response?.data?.payment_url) {
-          const normalizedUrl = response.data.payment_url.startsWith("http")
-            ? response.data.payment_url
-            : `http://${response.data.payment_url}`;
+        if (response?.payment_url) {
+          const normalizedUrl = response?.payment_url.startsWith("http")
+            ? response?.payment_url
+            : `http://${response?.payment_url}`;
           router.push(normalizedUrl);
         } else {
           throw new Error("حصل مشكله اثناء الدفع");

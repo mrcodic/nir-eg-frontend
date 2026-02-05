@@ -117,20 +117,20 @@ const SingleVideo = () => {
           },
         });
 
-        if (res.data?.views_used >= res.data?.total_views) {
+        if (res?.views_used >= res?.total_views) {
           setLockedByViewLimit(true);
           return;
         }
 
         setOtpData({
-          otp: res.data?.otp,
-          playbackInfo: res.data?.playbackInfo,
+          otp: res?.otp,
+          playbackInfo: res?.playbackInfo,
         });
 
         setViewCount({
-          used: res.data?.views_used,
-          remaining: res.data?.views_remaining,
-          total_views: res.data?.total_views,
+          used: res?.views_used,
+          remaining: res?.views_remaining,
+          total_views: res?.total_views,
         });
       } catch (error) {
         console.error("❌ OTP fetch failed", error);

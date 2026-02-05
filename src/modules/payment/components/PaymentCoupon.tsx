@@ -60,7 +60,7 @@ function PaymentCoupon({
 
       console.log("🚀 ~ res post coupon : ", res);
 
-      setCoupon(res?.data?.data);
+      setCoupon(res?.data);
       setCouponState({ message: "تم تطبيق الكوبون بنجاح", state: "success" });
     } catch (error) {
       console.log("😂 Error in apply coupon", error);

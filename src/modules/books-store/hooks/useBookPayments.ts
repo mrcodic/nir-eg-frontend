@@ -77,7 +77,7 @@ export const useBookPayment = ({
   // }, []);
 
   const handleCheckout = async () => {
-    let response = {};
+    let response;
 
     setLoading(true);
 
@@ -103,8 +103,8 @@ export const useBookPayment = ({
 
       console.log("🛒 ~ cart checkout response", response);
 
-      if (response?.data?.payment_url) {
-        router.push(response?.data?.payment_url);
+      if (response?.payment_url) {
+        router.push(response?.payment_url);
       } else {
         throw new Error("حصل مشكله اثناء الدفع");
       }

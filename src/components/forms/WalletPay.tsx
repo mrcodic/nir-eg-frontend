@@ -41,7 +41,7 @@ const WalletPay = ({ id, gradeId, label }) => {
         },
       });
 
-      return router.push(response.data?.payment_url);
+      return router.push(response?.payment_url);
     } catch (e) {
       console.log(e);
     }
