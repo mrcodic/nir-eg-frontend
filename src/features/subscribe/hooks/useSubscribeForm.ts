@@ -244,7 +244,10 @@ export function useSubscribeForm({
         // account: accountForm.getValues(),
         user_id: accountForm.getValues("user_id"),
         business: businessForm.getValues(),
-        branding: brandingForm.getValues(),
+        branding: {
+          ...brandingForm.getValues(),
+          domainType: "subdomain",
+        },
         ...(variant === "paid" && { payment: paymentForm.getValues() }),
       };
 

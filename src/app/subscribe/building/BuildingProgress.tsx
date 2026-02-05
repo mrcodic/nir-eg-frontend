@@ -124,15 +124,25 @@ export default function BuildProgress({ tenantId }: { tenantId: string }) {
               <p className="mt-4 text-red-500 font-extrabold text-lg">
                 {error}
               </p>
-              {/* "+201500048141" */}
-              <Link href="https://wa.me/201500048141">
-                <Button
-                  className="w-full rounded-lg px-4 py-3 text-lg h-11"
-                  variant="animated-gradient"
-                >
-                  تواصل مع فريق الدعم
-                </Button>
-              </Link>
+              <div className="flex items-center flex-wrap gap-x-4 gap-y-2 justify-center">
+                <Link href={"/"}>
+                  <Button
+                    className="w-full rounded-lg px-4 py-3 text-lg h-11"
+                    variant="outline-gray"
+                  >
+                    العودة للرئيسية
+                  </Button>
+                </Link>
+                {/* "+201500048141" */}
+                <Link href="https://wa.me/201500048141" target="_blank">
+                  <Button
+                    className="w-full rounded-lg px-4 py-3 text-lg h-11"
+                    variant="animated-gradient"
+                  >
+                    تواصل مع فريق الدعم
+                  </Button>
+                </Link>
+              </div>
             </div>
           )}
 
