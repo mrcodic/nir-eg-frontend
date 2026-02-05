@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import { File, Files, Trash } from "lucide-react";
 import Image from "next/image";
 import { ChangeEvent, memo, useCallback } from "react";
-import { useFormState, useWatch } from "react-hook-form";
+import { useFormContext, useFormState, useWatch } from "react-hook-form";
 import QuestionHeader from "./QuestionHeader";
 import QuestionTitle from "./QuestionTitle";
 
@@ -20,6 +20,7 @@ type Props = {
 
 const WrittenQuestion = ({ question, index, listRef }: Props) => {
   const { control, setValue, isSubmitting } = useTaskContext();
+  const { setError } = useFormContext();
 
   // ✅ subscribe ONLY to this field
   const value = useWatch({
@@ -40,8 +41,8 @@ const WrittenQuestion = ({ question, index, listRef }: Props) => {
 
   const fieldError =
     errors?.questions?.[question.id] ||
-    (!answered && !value?.text && !value?.attachment) ||
     (answered && !question?.essay?.text && !question?.essay?.attachments?.[0]);
+  // (!answered && !value?.text && !value?.attachment) ||
 
   const handleInputChange = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -59,7 +60,10 @@ const WrittenQuestion = ({ question, index, listRef }: Props) => {
       if (!file) return;
 
       if (file.size > 5 * 1024 * 1024) {
-        setValue(`questions.${question.id}`, value);
+        setError(`questions.${question.id}`, {
+          type: "manual",
+          message: "الملف كبير جدا",
+        });
         return;
       }
 
@@ -72,7 +76,7 @@ const WrittenQuestion = ({ question, index, listRef }: Props) => {
         { shouldValidate: true },
       );
     },
-    [question.id, setValue, value],
+    [question.id, setValue, value, setError],
   );
 
   return (
@@ -164,10 +168,16 @@ const WrittenQuestion = ({ question, index, listRef }: Props) => {
                 <Overview
                   file={selectedFile || question?.essay?.attachments?.[0]}
                   onClick={() =>
-                    setValue(`questions.${question.id}`, {
-                      attachment: null,
-                      text: value?.text ?? "",
-                    })
+                    setValue(
+                      `questions.${question.id}`,
+                      {
+                        attachment: null,
+                        text: value?.text ?? "",
+                      },
+                      {
+                        shouldValidate: true,
+                      },
+                    )
                   }
                   isAnswer={answered}
                 />

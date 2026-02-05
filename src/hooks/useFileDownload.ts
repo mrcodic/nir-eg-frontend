@@ -20,9 +20,10 @@ function useFileDownload({
     try {
       setIsDownloading(true);
 
-      const res = await fetch(
-        isProd ? attachment.url : `/api/blob-proxy?url=${attachment.url}`,
-      );
+      // const res = await fetch(
+      //   isProd ? attachment.url : `/api/blob-proxy?url=${attachment.url}`,
+      // );
+      const res = await fetch(`/api/blob-proxy?url=${attachment.url}`);
 
       if (!res.ok) throw new Error("Download failed");
 
