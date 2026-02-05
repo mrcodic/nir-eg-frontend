@@ -55,15 +55,15 @@ export default function Home() {
         </Suspense>
       </LazyOnView>
 
-      <SmartAssistantSection />
+      <LazyOnView className="min-h-[740px]">
+        <PricingPlans />
+      </LazyOnView>
 
       <LazyOnView className="min-h-[1440px]">
         <WhatMakesUsUniqueSection />
       </LazyOnView>
 
-      <LazyOnView className="min-h-[740px] ">
-        <PricingPlans />
-      </LazyOnView>
+      <SmartAssistantSection />
 
       <LazyOnView className="min-h-[340px]">
         <Suspense

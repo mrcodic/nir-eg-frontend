@@ -8,6 +8,7 @@ import { DesktopPricingTable } from "./DesktopPricingTable";
 import { MobilePricingView } from "./MobilePricingView";
 import { useSearchParams } from "next/navigation";
 import usePlanFeatures from "@/hooks/usePlanFeatures";
+import { useScrollToHash } from "@/hooks/useScrollToHash";
 
 interface PricingComparisonTableProps {
   plans: IPricingPlan[];
@@ -16,16 +17,17 @@ interface PricingComparisonTableProps {
 const DEFAULT_VISIBLE_FEATURES = 5;
 
 export function PricingComparisonTable({ plans }: PricingComparisonTableProps) {
-  const { features } = usePlanFeatures();
+  const { features, isLoading } = usePlanFeatures();
   const [showAll, setShowAll] = useState(false);
   const [selectedPlanIndex, setSelectedPlanIndex] = useState(0);
   const searchParams = useSearchParams();
 
+  useScrollToHash();
+
   const sortedPlans = useMemo(() => {
-    if (!plans.length) return plans;
+    if (!plans.length) return [];
     return [...plans].sort((a, b) => {
-      if (a.is_main === b.is_main) return 0;
-      return a.is_main ? -1 : 1;
+      return a.seats_included - b.seats_included;
     });
   }, [plans]);
 
@@ -63,6 +65,7 @@ export function PricingComparisonTable({ plans }: PricingComparisonTableProps) {
         <DesktopPricingTable
           plans={sortedPlans}
           visibleFeatures={visibleFeatures}
+          isLoading={isLoading}
         />
 
         {/* ================= Mobile View ================= */}
@@ -71,6 +74,7 @@ export function PricingComparisonTable({ plans }: PricingComparisonTableProps) {
           visibleFeatures={visibleFeatures}
           selectedPlanIndex={selectedPlanIndex}
           onSelectPlan={setSelectedPlanIndex}
+          isLoading={isLoading}
         />
 
         {/* ================= Show More/Less Button (Both Desktop & Mobile) ================= */}

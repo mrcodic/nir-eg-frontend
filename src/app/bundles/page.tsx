@@ -31,7 +31,7 @@ async function page() {
   }
 
   return (
-    <main className="flex wrapper flex-col my-22" dir="rtl">
+    <main className="flex wrapper flex-col sm:my-22 my-16" dir="rtl">
       <PricingPageContent plans={data.data} />
 
       <BundlesContactCard />

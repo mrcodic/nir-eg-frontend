@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
 import MainPlanBadge from "./MainPlanBadge";
+import { priceFormatter } from "@/utils/formatters";
 
 export type PaymentPeriod = "monthly" | "yearly";
 
@@ -60,8 +61,6 @@ const badgeVariants: Variants = {
   },
 };
 
-const priceFormatter = new Intl.NumberFormat("ar-EG");
-
 export default function BundlesPricingPlans({
   plans,
   type,
@@ -77,15 +76,14 @@ export default function BundlesPricingPlans({
   /* ================= Sort main plan first ================= */
 
   const sortedPlans = useMemo(() => {
-    if (!plans.length) return plans;
+    if (!plans.length) return [];
     return [...plans].sort((a, b) => {
-      if (a.is_main === b.is_main) return 0;
-      return a.is_main ? -1 : 1;
+      return a.seats_included - b.seats_included;
     });
   }, [plans]);
 
   return (
-    <div className="w-full mt-10">
+    <div className="w-full mt-10 max-[420px]:mt-14">
       <motion.div
         ref={containerRef}
         variants={containerVariants}
@@ -138,7 +136,7 @@ export default function BundlesPricingPlans({
                     alt="students"
                   />
                   <span className="text-xl font-bold text-black">
-                    {plan.seats_included} طالب
+                    حتى {plan.seats_included} طالب نشط
                   </span>
                 </div>
               </div>

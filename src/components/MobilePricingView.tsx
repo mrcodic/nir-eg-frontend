@@ -1,16 +1,17 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { IPricingPlan } from "@/types/pricing-api.types";
+import Spinner from "./ui/Spinner";
 
 interface MobilePricingViewProps {
   plans: IPricingPlan[];
   visibleFeatures: string[];
   selectedPlanIndex: number;
   onSelectPlan: (index: number) => void;
+  isLoading: boolean;
 }
 
 export function MobilePricingView({
@@ -18,21 +19,16 @@ export function MobilePricingView({
   visibleFeatures,
   selectedPlanIndex,
   onSelectPlan,
+  isLoading,
 }: MobilePricingViewProps) {
   const selectedPlan = plans[selectedPlanIndex] || plans[0];
 
-  const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
-
-  useEffect(() => {
-    const el = tabRefs.current[selectedPlanIndex];
-    if (!el) return;
-
-    el.scrollIntoView({
-      behavior: "smooth",
-      inline: "center",
-      block: "nearest",
-    });
-  }, [selectedPlanIndex]);
+  if (isLoading)
+    return (
+      <div className="md:hidden flex items-center justify-center">
+        <Spinner spinnerClassName="size-10" />
+      </div>
+    );
 
   return (
     <div className="md:hidden">
@@ -45,9 +41,6 @@ export function MobilePricingView({
           {plans.map((plan, index) => (
             <motion.button
               key={plan.id}
-              ref={(el) => {
-                tabRefs.current[index] = el;
-              }}
               onClick={() => onSelectPlan(index)}
               whileTap={{ scale: 0.95 }}
               className={cn(

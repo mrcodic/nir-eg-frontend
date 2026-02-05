@@ -182,3 +182,16 @@
   background-clip: text;
   color: transparent;
 }
+
+[data-radix-dialog-overlay] {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Optional: Custom close button positioning for fullscreen */
+.dialog-fullscreen [data-radix-dialog-close] {
+  top: 1rem;
+  right: 1rem;
+  background: white;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}

@@ -167,7 +167,7 @@ export const accountInfoSchema = z
       ),
     confirmPassword: z.string().min(1, "تأكيد كلمة المرور مطلوب"),
     // language: z.string().min(1, "اللغة مطلوبة"),
-    timezone: z.string().min(1, "المنطقة الزمنية مطلوبة"),
+    // timezone: z.string().min(1, "المنطقة الزمنية مطلوبة"),
     acceptTerms: z.boolean().refine((val) => val === true, {
       message: "يجب الموافقة على الشروط والأحكام",
     }),
@@ -199,24 +199,31 @@ export const emailVerifySchema = z.object({
 // Step 3: Business Details Schema
 // ==========================================
 export const businessInfoSchema = z.object({
-  teacherType: z.enum(["individual", "center"], {
-    message: "نوع المدرس مطلوب",
-  }),
+  // teacherType: z.enum(["individual", "center"], {
+  //   message: "نوع المدرس مطلوب",
+  // }),
   brandName: z
     .string()
-    .min(2, "اسم العلامة التجارية يجب أن يكون حرفين على الأقل")
-    .max(100, "اسم العلامة التجارية يجب أن يكون أقل من 100 حرف"),
-  legalName: z
-    .string()
-    .min(2, "الاسم القانوني يجب أن يكون حرفين على الأقل")
-    .max(100, "الاسم القانوني يجب أن يكون أقل من 100 حرف"),
+    .optional()
+    .refine(
+      (val) => (!val ? true : val.length >= 2),
+      "اسم العلامة التجارية يجب أن يكون حرفين على الأقل",
+    )
+    .refine(
+      (val) => (!val ? true : val.length <= 100),
+      "اسم العلامة التجارية يجب أن يكون أقل من 100 حرف",
+    ),
+  // legalName: z
+  //   .string()
+  //   .min(2, "الاسم القانوني يجب أن يكون حرفين على الأقل")
+  //   .max(100, "الاسم القانوني يجب أن يكون أقل من 100 حرف"),
   subjects: z
     .array(z.string())
     .min(1, "يجب اختيار مادة دراسية واحدة على الأقل"),
   gradeLevels: z.array(z.string()).min(1, "يجب اختيار صف دراسي واحد على الأقل"),
-  teachingMethod: z.enum(["online", "offline", "mixed"], {
-    message: "طريقة التدريس مطلوبة",
-  }),
+  // teachingMethod: z.enum(["online", "offline", "mixed"], {
+  //   message: "طريقة التدريس مطلوبة",
+  // }),
   expectedStudents: z
     .number()
     .min(1, "عدد الطلاب يجب أن يكون 1 على الأقل")
@@ -224,7 +231,7 @@ export const businessInfoSchema = z.object({
   country: z.string().min(1, "الدولة مطلوبة"),
   governorate: z.string().min(1, "المحافظة مطلوبة"),
   city: z.string().optional(),
-  address: z.string().min(5, "العنوان يجب أن يكون 5 أحرف على الأقل"),
+  // address: z.string().min(5, "العنوان يجب أن يكون 5 أحرف على الأقل"),
   howDidYouHear: z.string().optional(),
   additionalNotes: z.string().optional(),
 });
@@ -234,9 +241,9 @@ export const businessInfoSchema = z.object({
 // ==========================================
 export const brandingSchema = z
   .object({
-    domainType: z.enum(["custom", "subdomain"], {
-      message: "يجب اختيار نوع النطاق",
-    }),
+    // domainType: z.enum(["custom", "subdomain"], {
+    //   message: "يجب اختيار نوع النطاق",
+    // }),
 
     websiteName: z
       .string()
@@ -256,7 +263,7 @@ export const brandingSchema = z
       .optional(),
   })
   .superRefine((data, ctx) => {
-    const { domainType, websiteName, logoFile, faviconFile } = data;
+    const { websiteName, logoFile, faviconFile } = data;
 
     if (!logoFile) {
       ctx.addIssue({
@@ -274,30 +281,29 @@ export const brandingSchema = z
       });
     }
 
-    // websiteName is already trimmed + lowercased ✔
+    // Regex for subdomain (your original)
     const subDomainRegex = /^[a-z0-9]([a-z0-9-]*[a-z0-9])?$/;
-    const fullDomainRegex = /^(?!:\/\/)([a-z0-9-]+\.)+[a-z]{2,}$/i;
 
-    if (domainType === "subdomain") {
-      if (!subDomainRegex.test(websiteName)) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          path: ["websiteName"],
-          message:
-            "اسم النطاق الفرعي يجب أن يبدأ وينتهي بحرف أو رقم، ويمكن أن يحتوي في الوسط على شرطة (-) فقط.",
-        });
-      }
-    }
+    if (!subDomainRegex.test(websiteName))
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["websiteName"],
+        message:
+          "اسم النطاق الفرعي يجب أن يبدأ وينتهي بحرف أو رقم، ويمكن أن يحتوي في الوسط على شرطة (-) فقط.",
+      });
 
-    if (domainType === "custom") {
-      if (!fullDomainRegex.test(websiteName)) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          path: ["websiteName"],
-          message: "يجب إدخال دومين كامل وصحيح مثل: example.com",
-        });
-      }
-    }
+    // Regex for full domain (example: example.com, my-site.co.uk, etc.)
+    // const fullDomainRegex = /^(?!:\/\/)([a-z0-9-]+\.)+[a-z]{2,}$/i;
+
+    // if (domainType === "custom") {
+    //   if (!fullDomainRegex.test(websiteName)) {
+    //     ctx.addIssue({
+    //       code: z.ZodIssueCode.custom,
+    //       path: ["websiteName"],
+    //       message: "يجب إدخال دومين كامل وصحيح مثل: example.com",
+    //     });
+    //   }
+    // }
   });
 
 // ==========================================

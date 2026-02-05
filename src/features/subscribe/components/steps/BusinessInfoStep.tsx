@@ -1,16 +1,12 @@
 "use client";
 
-import {
-  CustomInput,
-  CustomMultiSelect,
-  CustomRadioGroup,
-  CustomSelect,
-  CustomTextarea,
-} from "@/components/fields";
+import { CustomInput, CustomSelect, CustomTextarea } from "@/components/fields";
 import { Form } from "@/components/ui/form";
 import type { BusinessInfoFormData } from "@/lib/schemas/subscribe.schema";
 import { UseFormReturn, useWatch } from "react-hook-form";
 import NavigationButtons from "../shared/NavigationButtons";
+import CustomComboboxMultiSelect from "@/components/fields/CustomComboboxMultiSelect";
+import CustomCombobox from "@/components/fields/CustomCombobox";
 
 interface BusinessInfoStepProps {
   form: UseFormReturn<BusinessInfoFormData>;
@@ -18,16 +14,16 @@ interface BusinessInfoStepProps {
   onPrevious: () => void;
 }
 
-const teacherTypeOptions = [
-  { value: "individual", label: "فردي" },
-  { value: "center", label: "سنتر" },
-];
+// const teacherTypeOptions = [
+//   { value: "individual", label: "فردي" },
+//   { value: "center", label: "سنتر" },
+// ];
 
-const teachingMethodOptions = [
-  { value: "mixed", label: "مختلط" },
-  { value: "offline", label: "أوفلاين" },
-  { value: "online", label: "أونلاين" },
-];
+// const teachingMethodOptions = [
+//   { value: "mixed", label: "مختلط" },
+//   { value: "offline", label: "أوفلاين" },
+//   { value: "online", label: "أونلاين" },
+// ];
 
 const howDidYouHearOptions = [
   { id: "social-media", name: "وسائل التواصل الاجتماعي" },
@@ -56,23 +52,23 @@ export default function BusinessInfoStep({
         dir="rtl"
       >
         {/* Teacher Type */}
-        <CustomRadioGroup
+        {/* <CustomRadioGroup
           form={form}
           name="teacherType"
           label="نوع المدرس"
           options={teacherTypeOptions}
-        />
+        /> */}
 
         <CustomInput
           form={form}
           name="brandName"
-          label="اسم العلامة التجارية"
+          label="اسم العلامة التجارية (اختياري)"
         />
 
-        <CustomInput form={form} name="legalName" label="الاسم القانوني" />
+        {/* <CustomInput form={form} name="legalName" label="الاسم القانوني" /> */}
 
         {/* Subjects & Grade Levels */}
-        <CustomMultiSelect
+        <CustomComboboxMultiSelect
           form={form}
           name="subjects"
           label="المواد الدراسية"
@@ -81,7 +77,7 @@ export default function BusinessInfoStep({
           triggerClassName="w-full"
         />
 
-        <CustomMultiSelect
+        <CustomComboboxMultiSelect
           form={form}
           name="gradeLevels"
           label="الصفوف الدراسية"
@@ -91,12 +87,12 @@ export default function BusinessInfoStep({
         />
 
         {/* Teaching Method */}
-        <CustomRadioGroup
+        {/* <CustomRadioGroup
           form={form}
           name="teachingMethod"
           label="طريقة التدريس"
           options={teachingMethodOptions}
-        />
+        /> */}
 
         {/* Expected Students */}
         <CustomInput
@@ -120,7 +116,7 @@ export default function BusinessInfoStep({
               disabled
             />
 
-            <CustomSelect
+            <CustomCombobox
               form={form}
               name="governorate"
               label="المحافظة"
@@ -131,7 +127,7 @@ export default function BusinessInfoStep({
               }}
             />
 
-            <CustomSelect
+            <CustomCombobox
               form={form}
               name="city"
               label="المدينة"
@@ -141,14 +137,14 @@ export default function BusinessInfoStep({
             />
           </div>
 
-          <div className="mt-4">
+          {/* <div className="mt-4">
             <CustomInput
               form={form}
               name="address"
               label="العنوان"
               placeholder="أدخل العنوان بالتفصيل"
             />
-          </div>
+          </div> */}
         </div>
 
         {/* How did you hear */}
