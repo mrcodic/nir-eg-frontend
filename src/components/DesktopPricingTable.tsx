@@ -2,49 +2,76 @@ import { motion } from "framer-motion";
 import { Check, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { IPricingPlan } from "@/types/pricing-api.types";
+import Spinner from "./ui/Spinner";
+import { Skeleton } from "./ui/skeleton";
 
 interface DesktopPricingTableProps {
   plans: IPricingPlan[];
   visibleFeatures: string[];
+  isLoading: boolean;
 }
 
 export function DesktopPricingTable({
   plans,
   visibleFeatures,
+  isLoading,
 }: DesktopPricingTableProps) {
   return (
     <div className="hidden md:block overflow-x-auto rounded-t-xl">
       <table className="w-full bg-white" dir="rtl">
         <thead>
-          <tr className="bg-background border-b-2 border-gray-300">
-            <th className="py-6 px-8 text-right text-2xl lg:text-28 font-bold text-gray-900 min-w-[380px] sticky right-0 z-20  bg-background">
+          <tr className="border-b-2 bg-background border-gray-300 min-w-full">
+            <th className="py-3 px-8 text-right text-2xl lg:text-28 font-bold text-gray-900 min-w-[280px]  sticky right-0 z-20  bg-background">
               المميزات
             </th>
 
-            {plans.map((plan, index) => (
-              <th
-                key={index}
-                className="py-6 px-0 text-center w-18   last:border-l-0"
-              >
-                <a
-                  href={`#plan-card-${plan.id}`}
-                  className="flex justify-center"
-                  title={plan.name}
-                >
-                  <div className="h-10 w-10 rounded-lg bg-primary-800 text-white flex items-center justify-center font-bold text-28 shadow-md">
-                    {index + 1}
-                  </div>
-                </a>
-              </th>
-            ))}
+            {isLoading
+              ? Array.from({ length: 4 }, (_, index) => (
+                  <th
+                    key={index}
+                    className="py-2 px-1 text-center min-w-25   last:border-l-0"
+                  >
+                    <Skeleton className="h-12 w-full bg-gray-200" />
+                  </th>
+                ))
+              : plans?.map((plan, index) => (
+                  <th
+                    key={index}
+                    className="py-2 px-1 text-center min-w-25   last:border-l-0"
+                  >
+                    <a
+                      href={`#plan-card-${plan.id}`}
+                      className="flex justify-center w-full group"
+                      title={plan.name}
+                    >
+                      <div className="h-12 w-full px-2 rounded-lg bg-primary-800 text-white flex flex-col items-center justify-center font-bold text-xs shadow-md group-hover:text-primary-800 group-hover:bg-white transition-all">
+                        <span>{plan.name}</span>
+                        <span className="text-10">
+                          (حتى {plan.seats_included} طالب)
+                        </span>
+                      </div>
+                    </a>
+                  </th>
+                ))}
           </tr>
         </thead>
 
         <tbody>
-          {!visibleFeatures.length ? (
+          {isLoading ? (
+            Array.from({ length: 4 }, (_, index) => (
+              <tr key={index}>
+                <td
+                  colSpan={plans.length ? plans.length + 1 : 10}
+                  className="pt-1"
+                >
+                  <Skeleton className="h-14 w-full" />
+                </td>
+              </tr>
+            ))
+          ) : !visibleFeatures.length ? (
             <tr>
               <td
-                colSpan={plans.length + 1}
+                colSpan={plans.length ? plans.length + 1 : 10}
                 className="py-4 px-8 text-center text-xl font-bold"
               >
                 لا يوجد مميزات حالياً

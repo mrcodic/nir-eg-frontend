@@ -5,11 +5,11 @@ import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { IPricingPlan } from "@/types/pricing-api.types";
 import { PaymentPeriod } from "@/types/subscribe.types";
-import { Check, ChevronDown, ChevronUp } from "lucide-react";
+import { Check, ChevronDown } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
 import MainPlanBadge from "./MainPlanBadge";
+import { priceFormatter } from "@/utils/formatters";
 
 const FEATURE_LIMIT = 8;
 
@@ -32,18 +32,11 @@ export default function PricingPlanCard({
   className,
   isMiddle = false,
 }: PricingPlanCardProps) {
-  const [isExpanded, setIsExpanded] = useState(false);
-
   const isFeatured = plan?.is_main;
   const features = Object.entries(plan.features);
   const price = type === "yearly" ? plan.price_year : plan.price_month;
   const hasMoreFeatures = features.length > FEATURE_LIMIT;
-  const displayedFeatures =
-    hasMoreFeatures && !isExpanded
-      ? features.slice(0, FEATURE_LIMIT)
-      : features;
-
-  const toggleExpand = () => setIsExpanded((prev) => !prev);
+  const displayedFeatures = features.slice(0, FEATURE_LIMIT);
 
   return (
     <Card
@@ -98,12 +91,19 @@ export default function PricingPlanCard({
             "border-accent-800": isFeatured,
           })}
         >
-          <h3
+          <h2
             className={cn("text-3xl font-bold mb-2", {
               "text-white": isFeatured,
             })}
           >
-            {plan.seats_included} مقعد
+            {plan?.name}
+          </h2>
+          <h3
+            className={cn("text-lg font-bold mb-2", {
+              "text-white": isFeatured,
+            })}
+          >
+            حتى {plan.seats_included} طالب نشط
           </h3>
           {/* <p
             className={cn("text-lg font-bold text-gray-dark", {
@@ -138,24 +138,16 @@ export default function PricingPlanCard({
               ))}
             </ul>
 
-            {/* Expand/Collapse Button */}
             {hasMoreFeatures && (
-              <button
-                onClick={toggleExpand}
+              <Link
+                href="/bundles#plans-table"
                 className="flex items-center cursor-pointer gap-2 text-sm font-semibold mt-2 mb-4 transition-colors text-secondary hover:opacity-80"
+                scroll={false}
+                target="_blank"
               >
-                {isExpanded ? (
-                  <>
-                    <span>عرض أقل</span>
-                    <ChevronUp className="size-4" />
-                  </>
-                ) : (
-                  <>
-                    <span>عرض المزيد ({features.length - FEATURE_LIMIT}+)</span>
-                    <ChevronDown className="size-4" />
-                  </>
-                )}
-              </button>
+                <span>عرض المزيد ({features.length - FEATURE_LIMIT}+)</span>
+                <ChevronDown className="size-4" />
+              </Link>
             )}
           </div>
         )}
@@ -173,7 +165,9 @@ export default function PricingPlanCard({
               "border-accent-800": isFeatured,
             })}
           >
-            <span className="text-3xl text-secondary font-bold">{price}</span>
+            <span className="text-3xl text-secondary font-bold">
+              {priceFormatter.format(price)}
+            </span>
             <span
               className={cn("text-lg text-gray-dark", {
                 "text-white": isFeatured || isDemo,

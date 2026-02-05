@@ -20,7 +20,12 @@ export default function LazyOnView({
   const isInView = useInView(ref, { once: true, margin: offset as "0px" });
 
   return (
-    <div ref={ref} className={cn(`w-full min-h-[300px]`, className)}>
+    <div
+      ref={ref}
+      className={cn(`w-full min-h-[300px] empty:min-h-0`, className, {
+        "min-h-0": !children,
+      })}
+    >
       {isInView ? children : null}
     </div>
   );

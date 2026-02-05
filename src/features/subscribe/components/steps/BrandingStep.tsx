@@ -1,6 +1,6 @@
 "use client";
 
-import { CustomRadioGroup } from "@/components/fields";
+// import { CustomRadioGroup } from "@/components/fields";
 import {
   Form,
   FormControl,
@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import type { BrandingFormData } from "@/lib/schemas/subscribe.schema";
-import { UseFormReturn, useWatch } from "react-hook-form";
+import { UseFormReturn } from "react-hook-form";
 import { ColorPicker, FileUpload, TemplateSelector } from "../shared";
 import NavigationButtons from "../shared/NavigationButtons";
 
@@ -40,10 +40,10 @@ const fileUploads = [
   },
 ];
 
-const domainTypeOptions = [
-  { value: "custom", label: "دومين مخصص" },
-  { value: "subdomain", label: "دومين فرعي" },
-];
+// const domainTypeOptions = [
+//   { value: "custom", label: "دومين مخصص" },
+//   { value: "subdomain", label: "دومين فرعي" },
+// ];
 
 export default function BrandingStep({
   form,
@@ -52,24 +52,20 @@ export default function BrandingStep({
   isLastStep = false,
   isSubmitting = false,
 }: BrandingStepProps) {
-  const websiteName = useWatch({
-    control: form.control,
-    name: "websiteName",
-  });
-  const domainType = useWatch({
-    control: form.control,
-    name: "domainType",
-  });
+  // const domainType = useWatch({
+  //   control: form.control,
+  //   name: "domainType",
+  // });
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onNext)} className="space-y-6">
-        <CustomRadioGroup
+        {/* <CustomRadioGroup
           form={form}
           name="domainType"
           label="نوع النطاق"
           options={domainTypeOptions}
-        />
+        /> */}
 
         {/* Website Name - Custom with suffix */}
         <FormField
@@ -80,20 +76,20 @@ export default function BrandingStep({
               <FormLabel>اسم الموقع</FormLabel>
               <FormControl>
                 <div className="relative flex mt-2 items-center gap-4">
-                  {domainType === "subdomain" && (
-                    <span className=" border h-11 flex items-center border-gray-light text-gray-dark text-sm px-2 py-1 whitespace-nowrap rounded-lg bg-background">
-                      nir-edu.com.
-                    </span>
-                  )}
+                  {/* {domainType === "subdomain" && ( */}
+                  <span className=" border h-11 flex items-center border-gray-light text-gray-dark text-sm px-2 py-1 whitespace-nowrap rounded-lg bg-background">
+                    nir-edu.com.
+                  </span>
+                  {/* )} */}
                   <Input placeholder="أدخل اسم الموقع" {...field} />
                 </div>
               </FormControl>
-              {websiteName && (
+              {field.value && (
                 <p className="text-sm text-gray-dark mt-1">
                   رابط موقعك سيكون:{" "}
                   <span className="text-primary-800 font-medium" dir="ltr">
-                    {websiteName}
-                    {domainType === "custom" ? "" : ".nir-edu.com"}
+                    {field.value}.nir-edu.com
+                    {/* {domainType === "custom" ? "" : ".nir-edu.com"} */}
                   </span>
                 </p>
               )}

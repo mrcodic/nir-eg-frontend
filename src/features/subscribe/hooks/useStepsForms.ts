@@ -58,7 +58,7 @@ export const accountDefaults: AccountInfoFormData = {
   phone: "",
   password: "",
   confirmPassword: "",
-  timezone: "Africa/Cairo",
+  // timezone: "Africa/Cairo",
   acceptTerms: false,
   acceptPrivacy: false,
   acceptSms: false,
@@ -68,23 +68,23 @@ export const accountDefaults: AccountInfoFormData = {
 };
 
 export const businessDefaults: BusinessInfoFormData = {
-  teacherType: "individual",
+  // teacherType: "individual",
   brandName: "",
-  legalName: "",
+  // legalName: "",
   subjects: [],
   gradeLevels: [],
-  teachingMethod: "mixed",
+  // teachingMethod: "mixed",
   expectedStudents: 20,
   country: "مصر",
   governorate: "",
   city: "",
-  address: "",
+  // address: "",
   howDidYouHear: "",
   additionalNotes: "",
 };
 
 export const brandingDefaults: BrandingFormData = {
-  domainType: "subdomain",
+  // domainType: "subdomain",
   websiteName: "",
   brandColor: PREDEFINED_COLORS[0],
   selectedTemplate: "landing-v1",

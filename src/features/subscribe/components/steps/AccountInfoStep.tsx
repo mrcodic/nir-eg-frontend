@@ -1,6 +1,6 @@
 "use client";
 
-import { CustomCheckbox, CustomInput, CustomSelect } from "@/components/fields";
+import { CustomCheckbox, CustomInput } from "@/components/fields";
 import { Form } from "@/components/ui/form";
 import PasswordInput from "@/components/ui/password-input";
 import { axiosInstance } from "@/lib/axios-instance";
@@ -18,12 +18,12 @@ interface AccountInfoStepProps {
   resetEmailVerificationForm: () => void;
 }
 
-const timezones = [
-  { id: "Africa/Cairo", name: "Africa/Cairo" },
-  { id: "Asia/Riyadh", name: "Asia/Riyadh" },
-  { id: "Asia/Dubai", name: "Asia/Dubai" },
-  { id: "Europe/London", name: "Europe/London" },
-];
+// const timezones = [
+//   { id: "Africa/Cairo", name: "Africa/Cairo" },
+//   { id: "Asia/Riyadh", name: "Asia/Riyadh" },
+//   { id: "Asia/Dubai", name: "Asia/Dubai" },
+//   { id: "Europe/London", name: "Europe/London" },
+// ];
 
 export default function AccountInfoStep({
   form,
@@ -34,7 +34,6 @@ export default function AccountInfoStep({
     try {
       const isFormDirty = form.formState.isDirty;
       const isFormValid = Object.keys(form.formState.errors).length === 0;
-
       // when user refresh the page or go back to first step without changing any thing and the email is verified , go to next step which in return will skip the verification of the otp step
 
       if (
@@ -138,14 +137,14 @@ export default function AccountInfoStep({
           triggerClassName="w-full"
         /> */}
 
-        <CustomSelect
+        {/* <CustomSelect
           form={form}
           name="timezone"
           label="المنطقة الزمنية"
           placeholder="اختر المنطقة الزمنية"
           options={timezones}
           triggerClassName="w-full"
-        />
+        /> */}
 
         {/* Checkboxes */}
         <div className="space-y-3 pt-4 ">

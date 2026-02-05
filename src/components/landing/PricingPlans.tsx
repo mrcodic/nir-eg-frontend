@@ -90,7 +90,7 @@ export default function PricingPlans() {
 
         {isLoading ? (
           <div className="flex flex-col items-center">
-            <Skeleton className="h-8 mb-6 mt-4 w-36" />
+            <Skeleton className="h-8 mb-6 mt-4 w-36 max-[420px]:mb-12" />
             <div className="flex w-full mt-6 flex-col items-stretch lg:items-center xl:gap-6 lg:gap-4 gap-6 lg:flex-row lg:justify-center">
               {Array.from({ length: 3 }).map((_, index) => (
                 <Skeleton
@@ -113,7 +113,7 @@ export default function PricingPlans() {
               <PricingTypeSwtich
                 type={type}
                 setType={setType}
-                className="mb-6 mt-4"
+                className="mb-6 mt-4 max-[420px]:mb-12"
               />
             </LazyOnView>
 
