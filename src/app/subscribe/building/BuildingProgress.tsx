@@ -83,8 +83,8 @@ export default function BuildProgress({ tenantId }: { tenantId: string }) {
   }, [stepsArray]);
 
   return (
-    <div className="flex items-center justify-center mb-20 mt-10">
-      <main className="wrapper">
+    <div className="flex items-center justify-center mb-20 mt-10 wrapper">
+      <main className="section">
         <div className="flex flex-col items-center text-center">
           {/* Animation */}
           <BuildingAnimation isCompleted={isCompleted} isError={!!error} />

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { phoneSchema } from "./utils.schema";
 
 export const contactSchema = z.object({
   name: z.string().min(1, "الاسم مطلوب"),
@@ -8,12 +9,7 @@ export const contactSchema = z.object({
   }),
 
   // Optional fields
-  phone: z
-    .string()
-    .optional()
-    .refine((v) => !v || /^[+0-9\-\s]{6,20}$/.test(v), {
-      message: "رقم الهاتف غير صالح",
-    }),
+  phone: phoneSchema,
 
   institution: z.string().min(1, "المؤسسة / الجهة مطلوبة"),
   message: z.string().min(1, "الرسالة مطلوبة"),
