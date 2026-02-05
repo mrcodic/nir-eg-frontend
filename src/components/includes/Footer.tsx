@@ -13,6 +13,8 @@ const Footer = async () => {
 
   const footerSettings = footerResponse?.data;
 
+  console.log(footerResponse);
+
   return (
     <footer className="bg-background py-10 text-center font-semibold text-black">
       <div className="wrapper grid grid-cols-12 justify-between gap-y-6 md:text-right">
@@ -40,7 +42,7 @@ const Footer = async () => {
         {/* Social Media Section */}
 
         <SocialLinks
-          className="mobile:col-span-2 mobile:col-start-11 col-span-12 flex flex-nowrap items-start justify-end"
+          className="mobile:col-span-2 mobile:col-start-11 mobile:justify-end col-span-12 flex flex-nowrap items-start justify-center"
           links={footerSettings?.social}
         />
       </div>
@@ -57,7 +59,7 @@ const Footer = async () => {
           </a>
         </div>
 
-        <div className="ms-auto flex flex-wrap justify-center gap-x-6 gap-y-4 text-sm">
+        <div className="mobile:ms-auto max-mobile:w-full flex flex-wrap justify-center gap-x-6 gap-y-4 text-sm">
           <Link href={"/terms"} className="flex items-center gap-4 underline">
             الشروط و الأحكام
           </Link>

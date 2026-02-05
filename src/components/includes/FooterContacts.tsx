@@ -16,7 +16,7 @@ function FooterContacts({ contacts }: { contacts: Contacts }) {
             href={`mailto:${contacts.email}`}
             className="underline hover:text-black/80"
           >
-            info@more-english.com
+            {contacts.email}
           </a>
         </p>
       )}
@@ -27,7 +27,7 @@ function FooterContacts({ contacts }: { contacts: Contacts }) {
             <Phone size={20} className="text-primary" />{" "}
           </div>
           <a
-            href="tel:+201008673565"
+            href={`tel:${contacts.phone_1}`}
             className="underline hover:text-black/80"
             dir="ltr"
           >
@@ -42,7 +42,7 @@ function FooterContacts({ contacts }: { contacts: Contacts }) {
             <Phone size={20} className="text-primary" />{" "}
           </div>
           <a
-            href="tel:+201008673565"
+            href={`tel:${contacts.phone_2}`}
             className="underline hover:text-black/80"
             dir="ltr"
           >
