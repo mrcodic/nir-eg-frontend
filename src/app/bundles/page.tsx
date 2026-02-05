@@ -7,6 +7,8 @@ import { IPricingPlan } from "@/types/pricing-api.types";
 import { ApiResponse } from "@/types/type";
 import { Metadata } from "next";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "باقات نير",
   description: "باقات نير",
@@ -15,10 +17,6 @@ export const metadata: Metadata = {
 async function page() {
   const data = await getServerData<ApiResponse<IPricingPlan[]>>({
     queryKey: ["/plans"],
-    next: {
-      tags: ["/plans"],
-      revalidate: 60,
-    },
     isAuth: false,
   });
 

@@ -9,9 +9,6 @@ export const metadata: Metadata = {
 async function page() {
   const data: { data: { content: string } } | null = await getPublicData({
     queryKey: ["/settings/legal/privacy"],
-    next: {
-      revalidate: 0,
-    },
   });
 
   return (
