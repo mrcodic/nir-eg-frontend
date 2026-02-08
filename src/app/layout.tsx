@@ -46,7 +46,7 @@ export default function RootLayout({
           delayMs={2500}
           showOncePerSession={false}
         />
-        <Toaster />
+        <Toaster position="top-right" />
       </body>
     </html>
   );

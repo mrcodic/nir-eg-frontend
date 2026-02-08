@@ -65,14 +65,11 @@ export function ImageCropDialog({
       cropWidth = Math.min(cropWidth, width - 10);
       cropHeight = Math.min(cropHeight, height - 10);
 
-      // Center the crop
-      const x = (width - cropWidth) / 2;
-      const y = (height - cropHeight) / 2;
-
+      // Position crop at top-left
       setCrop({
         unit: "px",
-        x: Math.max(0, x),
-        y: Math.max(0, y),
+        x: 0,
+        y: 0,
         width: cropWidth,
         height: cropHeight,
       });
@@ -143,13 +140,13 @@ export function ImageCropDialog({
           <DialogTitle>قص الصورة</DialogTitle>
         </DialogHeader>
 
-        <div className="relative max-h-[520px] overflow-hidden overflow-y-auto">
+        <div className="relative max-h-[520px] overflow-hidden overflow-y-auto rounded-lg ">
           <ReactCrop
             crop={crop}
             onChange={(nextCrop) => setCrop(nextCrop)}
             aspect={aspect}
             keepSelection
-            className="w-full  flex items-center justify-center"
+            className="w-full  flex items-center justify-center rounded-lg overflow-hidden"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
