@@ -1,3 +1,4 @@
+import CopyButton from "@/components/CopyButton";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { TenantProgress } from "@/types/building.types";
@@ -10,6 +11,7 @@ function CompletedBuildingUI({ data }: { data: TenantProgress }) {
       ? localStorage.getItem("last_tenant_email") || ""
       : "",
   );
+
   return (
     <div className="flex flex-col text-start mt-6">
       <h2 className="font-bold ">
@@ -19,8 +21,9 @@ function CompletedBuildingUI({ data }: { data: TenantProgress }) {
 
       <DataValue
         title="رابط لوحة التحكم:"
-        value={data?.domains?.admin!}
+        value={data?.domains?.admin}
         className="mt-4"
+        copyable
       />
       <DataValue
         title="البريد الإلكتروني:"
@@ -28,7 +31,7 @@ function CompletedBuildingUI({ data }: { data: TenantProgress }) {
         className="mt-4"
       />
 
-      <div className="flex items-center gap-x-6 gap-y-1 flex-wrap mt-4">
+      {/* <div className="flex items-center gap-x-6 gap-y-1 flex-wrap mt-4">
         <DataValue
           title="كلمة السر:"
           value={"*************"}
@@ -38,19 +41,22 @@ function CompletedBuildingUI({ data }: { data: TenantProgress }) {
         <span className="text-sm font-bold text-gray-dark">
           كلمة السر التي قمت باستخدامها عند التسجيل
         </span>
-      </div>
+      </div> */}
 
       <div className="w-full flex items-center justify-between gap-x-2 gap-y-1 mt-6">
         <p className="font-bold">
           أو يمكنك الذهاب للصفحة الرئيسية الخاصة بمنصتك من خلال الرابط التالي:
         </p>
         {data?.domains?.public && (
-          <Link
-            href={data?.domains?.public!}
-            className="text-primary-800 underline font-bold"
-          >
-            {data?.domains?.public}
-          </Link>
+          <div className="flex items-center gap-2">
+            <Link
+              href={`${data?.domains?.public}`}
+              className="text-primary-800 underline font-bold"
+            >
+              {data?.domains?.public}
+            </Link>
+            <CopyButton value={data?.domains?.public} />
+          </div>
         )}
       </div>
 
@@ -69,6 +75,7 @@ function CompletedBuildingUI({ data }: { data: TenantProgress }) {
             لوحة التحكم
           </Button>
         </a>
+
         <a
           href={data?.domains?.public}
           target="_blank"
@@ -93,20 +100,23 @@ const DataValue = ({
   value,
   valueClassName,
   className,
+  copyable = false,
 }: {
   title: string;
-  value: string;
+  value: string | undefined;
   valueClassName?: string;
   className?: string;
+  copyable?: boolean;
 }) => {
   return (
     <div className={cn("flex items-center gap-1", className)}>
       <span className="font-bold">{title}</span>
       <span
-        className={cn("font-bold text-primary-800 underline ", valueClassName)}
+        className={cn("font-bold text-primary-800 underline", valueClassName)}
       >
         {value}
       </span>
+      {copyable && value && <CopyButton value={value} />}
     </div>
   );
 };
