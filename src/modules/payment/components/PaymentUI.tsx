@@ -9,6 +9,7 @@ import Image from "next/image";
 import React from "react";
 import PaymentCoupon from "./PaymentCoupon";
 import PriceBadge from "./PriceBadge";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface PaymentUIProps {
   paymentMethodValue: paymentType | null;
@@ -100,7 +101,16 @@ export const PaymentUI: React.FC<PaymentUIProps> = ({
       )}
 
       {isLoadingMethods ? (
-        <LoadingSpinner className="h-auto min-h-[200px]" />
+        // <LoadingSpinner className="h-auto min-h-[200px]" />
+        <div className="space-y-5">
+          <Skeleton className="bg-background h-12.5 rounded-xl" />
+          <Skeleton className="bg-background h-12.5 rounded-xl" />
+          {paymentMethodValue !== paymentType.code && (
+            <>
+              <Skeleton className="bg-background h-12.5 rounded-xl" />
+            </>
+          )}
+        </div>
       ) : hasPaymentMethods ? (
         <RadioGroup
           value={paymentMethodValue}
