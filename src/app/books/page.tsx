@@ -4,11 +4,7 @@ import BooksStores from "@/modules/books-store/components/BooksStores";
 import PaymentNotifStatus from "@/modules/books-store/components/PaymentNotifStatus";
 import { BookLinksSettings } from "@/types/books.types";
 
-async function page({
-  searchParams,
-}: {
-  searchParams: Promise<{ bookId: string }>;
-}) {
+async function page() {
   const booksSettings = await getPublicData<{ data: BookLinksSettings }>({
     queryKey: ["settings/books"],
   });
