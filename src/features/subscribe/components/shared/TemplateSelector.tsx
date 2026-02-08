@@ -100,14 +100,14 @@ export default function TemplateSelector({
         open={!!previewTemplate}
         onOpenChange={(open) => !open && setPreviewTemplate(null)}
       >
-        <DialogContent className="max-w-[calc(100vw-2rem)]! w-full h-[calc(100vh-2rem)] p-6! pt-8! overflow-y-auto">
+        <DialogContent className="max-w-[calc(100vw-2rem)]! w-full p-0 overflow-hidden ">
           <DialogHeader className="sr-only">
             <DialogTitle>{previewTemplate?.name}</DialogTitle>
             <DialogDescription>معاينة القالب</DialogDescription>
           </DialogHeader>
 
           {previewTemplate && (
-            <div className="w-full">
+            <div className="w-full h-[calc(100vh-4rem)] overflow-y-auto ">
               <Image
                 src={previewTemplate.previewImage}
                 alt={previewTemplate.name}

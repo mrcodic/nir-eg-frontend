@@ -1,11 +1,22 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import { Image as ImageIcon, Upload, X } from "lucide-react";
+import { HelpCircle, Image as ImageIcon, Upload, X } from "lucide-react";
+import Image from "next/image";
 import { useCallback, useMemo, useState } from "react";
 import { useDropzone, type Accept, type FileRejection } from "react-dropzone";
 import { ImageCropDialog } from "@/components/ImageCropDialog";
+
+interface FileUploadHint {
+  exampleImage?: string;
+  description: string;
+}
 
 interface FileUploadProps {
   label: string;
@@ -16,6 +27,9 @@ interface FileUploadProps {
   previewUrl?: string;
   aspect?: number;
   isInvalid?: boolean;
+  dimensions?: string; // e.g., "100x100 px"
+  hint?: FileUploadHint;
+  examplePreview?: React.ReactNode;
 }
 
 // Default accept configuration
@@ -32,6 +46,9 @@ export default function FileUpload({
   previewUrl: externalPreviewUrl,
   aspect,
   isInvalid,
+  dimensions,
+  hint,
+  examplePreview,
 }: FileUploadProps) {
   const [cropOpen, setCropOpen] = useState(false);
   const [tempImage, setTempImage] = useState<string | null>(null);
@@ -133,14 +150,50 @@ export default function FileUpload({
         />
       )}
 
-      <label
-        className={cn(
-          "block text-sm font-medium text-right",
-          isInvalid && "text-destructive",
+      <div className="flex items-center justify-between gap-2">
+        <label
+          className={cn("text-sm font-medium", isInvalid && "text-destructive")}
+        >
+          {label}{" "}
+          {dimensions && (
+            <span className="text-xs text-gray-dark">({dimensions})</span>
+          )}
+        </label>
+        {hint && (
+          <Popover>
+            <PopoverTrigger asChild>
+              <button
+                type="button"
+                className="text-gray-dark hover:text-primary-800 transition-colors flex items-center gap-1 text-sm font-bold cursor-pointer"
+                aria-label="عرض مثال"
+              >
+                مثال للتوضيح
+                <HelpCircle className="w-4 h-4" />
+              </button>
+            </PopoverTrigger>
+            <PopoverContent className="w-64 p-3" align="start">
+              <div className="space-y-2">
+                {hint.exampleImage && (
+                  <div className="relative w-full aspect-video rounded-md overflow-hidden bg-gray-100">
+                    <Image
+                      src={hint.exampleImage}
+                      alt="مثال على الصورة"
+                      fill
+                      className="object-contain"
+                    />
+                  </div>
+                )}
+
+                {hint?.description && (
+                  <p className="text-xs text-gray-dark text-right">
+                    {hint.description}
+                  </p>
+                )}
+              </div>
+            </PopoverContent>
+          </Popover>
         )}
-      >
-        {label}
-      </label>
+      </div>
 
       <div
         {...getRootProps({
@@ -216,6 +269,8 @@ export default function FileUpload({
           {value.name} ({(value.size / 1024 / 1024).toFixed(2)} MB)
         </p>
       )}
+
+      {examplePreview}
     </div>
   );
 }
