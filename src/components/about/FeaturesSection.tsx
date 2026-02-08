@@ -95,7 +95,7 @@ export default function FeaturesSection({
               as="article"
               className={cn(
                 "rounded-lg max-md:max-w-[360px] w-full aspect-square bg-background border border-transparent group hover:border-primary-800 transition-colors p-4 lg:p-6 relative overflow-hidden",
-                feature.className
+                feature.className,
               )}
               variants={itemVariants}
             >
@@ -112,7 +112,7 @@ export default function FeaturesSection({
                 alt={feature.title}
                 width={160}
                 height={160}
-                className="absolute bottom-0 left-0 md:-translate-x-1/3 z-1 md:translate-y-1/3 md:blur-xl md:group-hover:blur-none group-hover:translate-0 transition-all sm:size-40 size-28 max-sm:opacity-40"
+                className="absolute bottom-0 left-0 lg:-translate-x-1/3 z-1 lg:translate-y-1/3 lg:blur-xl lg:group-hover:blur-none group-hover:translate-0 transition-all sm:size-40 size-28 "
               />
             </MotionWrapper>
           ))}
