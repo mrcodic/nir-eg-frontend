@@ -18,6 +18,7 @@ interface ImageCropDialogProps {
   open: boolean;
   src: string;
   aspect?: number;
+  originalFileName?: string;
   onClose: () => void;
   onConfirm: (file: File) => void;
 }
@@ -26,6 +27,7 @@ export function ImageCropDialog({
   open,
   src,
   aspect,
+  originalFileName,
   onClose,
   onConfirm,
 }: ImageCropDialogProps) {
@@ -119,13 +121,20 @@ export function ImageCropDialog({
 
     const blob = await cropImage(imgRef.current, crop as PixelCrop);
 
-    const file = new File([blob], "cropped.jpg", {
+    // Preserve original filename, fallback to "cropped" if not provided
+    const fileName = originalFileName || "cropped.jpg";
+    // Keep the original name but ensure the extension matches the blob type
+    const extension = blob.type.split("/")[1] || "jpg";
+    const nameWithoutExt = fileName.replace(/\.[^/.]+$/, "");
+    const finalName = `${nameWithoutExt}.${extension}`;
+
+    const file = new File([blob], finalName, {
       type: blob.type,
     });
 
     onConfirm(file);
     onClose();
-  }, [crop, onConfirm, onClose]);
+  }, [crop, onConfirm, onClose, originalFileName]);
 
   return (
     <Dialog open={open} onOpenChange={onClose}>

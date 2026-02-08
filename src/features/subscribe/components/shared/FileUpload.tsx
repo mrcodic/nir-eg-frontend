@@ -51,7 +51,10 @@ export default function FileUpload({
   examplePreview,
 }: FileUploadProps) {
   const [cropOpen, setCropOpen] = useState(false);
-  const [tempImage, setTempImage] = useState<string | null>(null);
+  const [tempFile, setTempFile] = useState<{
+    url: string;
+    name: string;
+  } | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(
     externalPreviewUrl || null,
   );
@@ -91,7 +94,7 @@ export default function FileUpload({
         const file = acceptedFiles[0];
         const url = URL.createObjectURL(file);
 
-        setTempImage(url);
+        setTempFile({ url, name: file.name });
         setCropOpen(true);
       }
     },
@@ -136,14 +139,15 @@ export default function FileUpload({
 
   return (
     <div className="space-y-2">
-      {tempImage && (
+      {tempFile && (
         <ImageCropDialog
           open={cropOpen}
-          src={tempImage}
+          src={tempFile.url}
+          originalFileName={tempFile.name}
           onClose={() => {
             setCropOpen(false);
-            URL.revokeObjectURL(tempImage);
-            setTempImage(null);
+            URL.revokeObjectURL(tempFile.url);
+            setTempFile(null);
           }}
           onConfirm={handleCroppedImage}
           aspect={aspect}
