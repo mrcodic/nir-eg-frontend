@@ -94,7 +94,10 @@ function NavBar() {
                   />
                 ))}
 
-                <Link href="/subscribe?type=demo" className="w-full mt-4">
+                <Link
+                  href="/subscribe?type=demo"
+                  className="w-full mt-4 lg:hidden"
+                >
                   <Button className="w-full" onClick={closeMenu}>
                     احصل على النسخة التجريبية
                   </Button>
