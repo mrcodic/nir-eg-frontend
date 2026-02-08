@@ -77,7 +77,7 @@ export function CountdownTimer({ minutes, onComplete, start }) {
       renderer={renderer}
       onComplete={() => {
         localStorage.removeItem(`timer-${examId}-${profile?.id}`);
-        onComplete();
+        onComplete?.();
       }}
     />
   );

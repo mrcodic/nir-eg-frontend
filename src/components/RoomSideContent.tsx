@@ -180,10 +180,11 @@ const LessonCard = memo(function LessonCard({
         onClick?.();
       }}
       className={cn(
-        "mt-4 mb-3 cursor-pointer rounded-lg border px-2 py-2",
+        "relative mt-4 mb-3 cursor-pointer rounded-lg border px-2 py-2",
         active
           ? "border-primary-800 bg-background"
           : "border-[#1EAD7B] bg-white",
+        locked && "border-gray-light cursor-not-allowed",
       )}
     >
       <div className="flex items-center gap-4 text-sm font-bold">
@@ -219,6 +220,16 @@ const LessonCard = memo(function LessonCard({
             roomId={roomId}
             classroomId={classroomId}
             lessonId={lesson.id}
+          />
+        )}
+
+        {locked && (
+          <Image
+            src="/assets/Locked.png"
+            width={48}
+            height={48}
+            className="absolute bottom-1 left-1 size-12 bg-white/50 object-contain"
+            alt="lock image"
           />
         )}
       </div>

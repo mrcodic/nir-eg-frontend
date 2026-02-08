@@ -234,9 +234,7 @@ const SingleVideo = () => {
                 <Suspense fallback={<div className="h-[520px] w-full" />}>
                   {videoUrl ? (
                     data?.body?.locked_to_pass ? (
-                      <LockedToPassVideoUI
-                        message={"يجب ان تقوم باجتياز الاختبار أولا"}
-                      />
+                      <LockedToPassVideoUI />
                     ) : (
                       <iframe
                         src={normalizeYouTubeUrl(videoUrl)}
