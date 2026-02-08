@@ -49,7 +49,7 @@ function StudentTasksOverview() {
 
   return (
     <div className="mt-24">
-      <RoomHeader icon={"/assets/ExamsColor.svg"} title={"الدرجات"} />
+      <RoomHeader icon={"/assets/assignment-colored.svg"} title={"الدرجات"} />
 
       <div className="grid grid-cols-12 gap-x-4 gap-y-8">
         <ExamChartsAside

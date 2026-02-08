@@ -53,7 +53,7 @@ const RoomAccordion = ({
           <AccordionTrigger className="bg-white">
             <div className="me-2 flex w-full gap-2 sm:me-4 sm:gap-4 md:gap-6">
               <Image
-                className="size-[104px] rounded-lg"
+                className="size-20 rounded-lg sm:size-[104px]"
                 src="/assets/grade-placeholder.png"
                 alt=""
                 width={104}
@@ -62,7 +62,7 @@ const RoomAccordion = ({
 
               <div className="w-full flex-1">
                 <div className="flex w-full flex-wrap items-center justify-between gap-y-2 sm:pl-6">
-                  <h3 className="line-clamp-2 text-start text-lg font-bold text-black">
+                  <h3 className="line-clamp-2 text-start text-base font-bold text-black sm:text-lg">
                     {room?.title}
                   </h3>
 
@@ -139,8 +139,8 @@ const RoomAccordion = ({
                     alt="warning icon"
                     className="animate-pulse"
                   />
-                  <p className="text-lg font-bold">
-                    يجب أن تنجح في الامتحان لتتمكن من عرض محتويات الحصة
+                  <p className="text-sm font-bold sm:text-lg">
+                    يجب أن تنجح في الكويز لتتمكن من عرض محتويات الحصة
                   </p>
                 </div>
               )}
@@ -154,7 +154,7 @@ const RoomAccordion = ({
                     alt="warning icon"
                     className="animate-pulse"
                   />
-                  <p className="text-lg font-bold">
+                  <p className="text-sm font-bold sm:text-lg">
                     لا يوجد محتوى في هذه الحصة حتى الان
                   </p>
                 </div>

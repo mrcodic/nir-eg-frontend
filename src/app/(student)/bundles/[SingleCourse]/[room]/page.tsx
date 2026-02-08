@@ -195,6 +195,7 @@ const SingleVideo = () => {
   }
 
   const isCenterStudent = profile?.type === 3;
+
   // console.log("lessons : ", data?.body?.lessons);
 
   return (

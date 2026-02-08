@@ -52,7 +52,11 @@ function GradesTableAction({
                 )}
               </h3>
             ) : (
-              <span className={cn("text-secondary text-[16px] font-bold")}>
+              <span
+                className={cn(
+                  "text-secondary w-full text-center text-[16px] font-bold",
+                )}
+              >
                 جارى التصحيح
               </span>
             )

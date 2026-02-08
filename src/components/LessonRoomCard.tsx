@@ -52,7 +52,7 @@ const LessonRoomCard = ({
       {subscribe && verify && (
         <Button
           disabled={locked}
-          className="h-9 w-full max-w-32 cursor-pointer py-1"
+          className="h-9 w-full max-w-28 cursor-pointer py-1 max-sm:text-sm sm:max-w-32"
           onClick={async () => {
             if (locked) return;
 
@@ -63,30 +63,20 @@ const LessonRoomCard = ({
                   : `video_id=${lesson?.vedio_id}`
               }`,
             );
-
-            // if (SingleCourse) {
-            //   router.push(
-            //     `/bundles/${SingleCourse}/${roomId}?vedio_id=${lesson?.vedio_id}`,
-            //   );
-            // } else {
-            //   router.push(
-            //     `/bundles/${roomId}/${latestRoomId}?vedio_id=${lesson?.video_id}`,
-            //   );
-            // }
           }}
         >
           {!locked ? (
             <>
-              <span className="hidden md:block">شاهد الفيديو</span>
-              <img
+              <span>شاهد الفيديو</span>
+              {/* <img
                 src="/assets/LeftArrowColor.svg"
                 alt=""
                 className="size-6 md:hidden"
-              />
+              /> */}
             </>
           ) : (
             <TooltipLock text="عليك اجتياز الاختبار أولا">
-              <Lock className="size-6!" />
+              <Lock className="size-5!" />
             </TooltipLock>
           )}
         </Button>
