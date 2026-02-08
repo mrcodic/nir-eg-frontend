@@ -1,4 +1,5 @@
 "use client";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -27,19 +28,13 @@ function MobileDropDown({
       <DropdownMenuContent
         sideOffset={18}
         className={cn(
-          "mobile:hidden bg-background border-none px-0 group-data-[template=landing-v3]/template:bg-transparent group-data-[template=landing-v3]/template:px-4 sm:group-data-[template=landing-v3]/template:px-5",
+          "mobile:hidden bg-background border-transparent px-0 group-data-[template=landing-v3]/template:bg-transparent group-data-[template=landing-v3]/template:px-4 sm:group-data-[template=landing-v3]/template:px-5",
+          "border-b-gray-light border-b",
           //    {
           //   "ms-4 w-[calc(100vw-32px)] sm:ms-[7.5vw] sm:w-[85vw] md:ms-[calc(10vw+16px)] md:w-[calc(80vw-32px)]":
           //     template == 3,
           // }
         )}
-        // className={cn(
-        //   "mobile:hidden bg-background border-none px-0 group-data-[template=landing-v3]/template:ms-4 group-data-[template=landing-v3]/template:mt-2 group-data-[template=landing-v3]/template:w-[calc(100vw-32px)] group-data-[template=landing-v3]/template:border group-data-[template=landing-v3]/template:sm:ms-[7.5vw] group-data-[template=landing-v3]/template:sm:w-[85vw] group-data-[template=landing-v3]/template:md:ms-[calc(10vw+16px)] group-data-[template=landing-v3]/template:md:w-[calc(80vw-32px)]",
-        //   //    {
-        //   //   "ms-4 w-[calc(100vw-32px)] sm:ms-[7.5vw] sm:w-[85vw] md:ms-[calc(10vw+16px)] md:w-[calc(80vw-32px)]":
-        //   //     template == 3,
-        //   // }
-        // )}
       >
         <div
           className={cn(

@@ -1,3 +1,5 @@
+"use client";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -5,23 +7,27 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
+import { MenuIcon } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 function GuestDropdown() {
+  const pathName = usePathname();
+
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <button className="mobile:hidden flex size-10 cursor-pointer items-center justify-center rounded-lg bg-white shadow-md">
-          <img src="/assets/burgerIcon.svg" className=" " />
-        </button>
+      <DropdownMenuTrigger className="mobile:hidden flex size-10 items-center justify-center rounded-lg bg-white px-1 shadow-md">
+        <MenuIcon size={24} />
       </DropdownMenuTrigger>
+
       {/* w-[calc(100vw-32px)] sm:ms-[7.5vw] sm:w-[85vw] md:ms-[calc(10vw+16px)] md:w-[calc(80vw-32px)] */}
       <DropdownMenuContent
         sideOffset={18}
         // className={cn(
         //   "mobile:hidden bg-primary-50 group-data-[template=landing-v3]/template:wrapper border-none p-2 px-0 group-data-[template=landing-v3]/template:ms-4 group-data-[template=landing-v3]/template:mt-5 group-data-[template=landing-v3]/template:border sm:group-data-[template=landing-v3]/template:ms-[calc((100vw/20)+16px)] md:group-data-[template=landing-v3]/template:ms-[calc((100vw/10)+16px)]",
         className={cn(
-          "mobile:hidden bg-primary-50 rounded-t-none border-none group-data-[template=landing-v3]/template:mt-2 group-data-[template=landing-v3]/template:bg-transparent group-data-[template=landing-v3]/template:px-4 sm:group-data-[template=landing-v3]/template:px-5",
+          "mobile:hidden bg-primary-50 rounded-t-none border-transparent group-data-[template=landing-v3]/template:mt-2 group-data-[template=landing-v3]/template:bg-transparent group-data-[template=landing-v3]/template:px-4 sm:group-data-[template=landing-v3]/template:px-5",
+          "border-b-gray-light border-b",
           // {
           //   "ms-4 mt-5": template == 3,
           // },
@@ -30,20 +36,28 @@ function GuestDropdown() {
         <div className="wrapper group-data-[template=landing-v3]/template:bg-background flex flex-col gap-2 py-4 group-data-[template=landing-v3]/template:rounded-lg">
           <Link
             href={"/login"}
-            className="border-primary-800 bg-primary-800 mx-auto flex w-full items-center justify-center rounded-[10px] border p-2 text-center font-bold text-white outline-offset-1 outline-red-500"
+            className={cn(
+              "border-primary-800 text-primary-800 mx-auto flex w-full items-center justify-center rounded-[10px] border bg-transparent p-2 text-center font-bold outline-offset-1 outline-red-500",
+              {
+                "bg-primary-800 text-white": pathName.startsWith("/login"),
+              },
+            )}
           >
             <DropdownMenuItem className="cursor-pointer">
-              {" "}
-              تسجيل دخول{" "}
+              تسجيل دخول
             </DropdownMenuItem>
           </Link>
 
           <Link
             href={"/register"}
-            className="border-primary-800 text-primary-800 mx-auto flex w-full items-center justify-center rounded-[10px] border bg-transparent p-2 text-center text-[18px] font-bold"
+            className={cn(
+              "border-primary-800 text-primary-800 mx-auto flex w-full items-center justify-center rounded-[10px] border bg-transparent p-2 text-center text-[18px] font-bold",
+              {
+                "bg-primary-800 text-white": pathName.startsWith("/register"),
+              },
+            )}
           >
             <DropdownMenuItem className="cursor-pointer">
-              {" "}
               إنشاء حساب
             </DropdownMenuItem>
           </Link>
