@@ -8,7 +8,6 @@ import { getClientPrivateData } from "@/helpers/client-fetch";
 import { mutateClient } from "@/helpers/post-client";
 import ProtectedRoute from "@/layouts/ProtectedRoute";
 import DisableDevTools from "@/modules/video/components/DisableDivTools";
-import Video from "@/modules/video/components/Video";
 import { ApiResponse, IRoomDetails } from "@/types";
 import { normalizeYouTubeUrl } from "@/utils/clientFun";
 import { useQuery } from "@tanstack/react-query";
@@ -23,6 +22,9 @@ const Community = dynamic(
     ssr: false,
   },
 );
+const Video = dynamic(() => import("@/modules/video/components/Video"), {
+  ssr: false,
+});
 
 const SingleVideo = () => {
   const { SingleCourse: classroomId, room } = useParams();
@@ -229,35 +231,37 @@ const SingleVideo = () => {
                   />
                 )}
 
-                {videoUrl ? (
-                  data?.body?.locked_to_pass ? (
-                    <LockedToPassVideoUI
-                      message={"يجب ان تقوم باجتياز الاختبار أولا"}
-                    />
+                <Suspense fallback={<div className="h-[520px] w-full" />}>
+                  {videoUrl ? (
+                    data?.body?.locked_to_pass ? (
+                      <LockedToPassVideoUI
+                        message={"يجب ان تقوم باجتياز الاختبار أولا"}
+                      />
+                    ) : (
+                      <iframe
+                        src={normalizeYouTubeUrl(videoUrl)}
+                        className="h-[520px] w-full"
+                        style={{ border: 0 }}
+                        allow="encrypted-media"
+                        allowFullScreen
+                      />
+                    )
                   ) : (
-                    <iframe
-                      src={normalizeYouTubeUrl(videoUrl)}
-                      className="h-[520px] w-full"
-                      style={{ border: 0 }}
-                      allow="encrypted-media"
-                      allowFullScreen
+                    <Video
+                      videoId={videoId}
+                      roomId={Number(room)}
+                      setCurrentTime={setCurrentTime}
+                      classroomId={Number(classroomId)}
+                      locked={data?.body?.locked_to_pass || lockedByViewLimit}
+                      response={otpData}
+                      otpLoading={otpLoading}
+                      otpError={otpError}
+                      lessonId={lessonId || data?.body?.lessons?.[0]?.id}
+                      videoCompleted={videoCompleted}
+                      exceededViews={lockedByViewLimit}
                     />
-                  )
-                ) : (
-                  <Video
-                    videoId={videoId}
-                    roomId={Number(room)}
-                    setCurrentTime={setCurrentTime}
-                    classroomId={Number(classroomId)}
-                    locked={data?.body?.locked_to_pass || lockedByViewLimit}
-                    response={otpData}
-                    otpLoading={otpLoading}
-                    otpError={otpError}
-                    lessonId={lessonId || data?.body?.lessons?.[0]?.id}
-                    videoCompleted={videoCompleted}
-                    exceededViews={lockedByViewLimit}
-                  />
-                )}
+                  )}
+                </Suspense>
               </div>
 
               <div className="border-gray-light mt-4 rounded-lg border p-2">
@@ -268,10 +272,10 @@ const SingleVideo = () => {
                 </p>
               </div>
 
-              {!isCenterStudent &&
-                !(!!data?.body?.locked_to_pass || !!lockedByViewLimit) &&
-                !!selectedLesson?.access_comment && (
-                  <Suspense fallback={null}>
+              <Suspense fallback={null}>
+                {!isCenterStudent &&
+                  !(!!data?.body?.locked_to_pass || !!lockedByViewLimit) &&
+                  !!selectedLesson?.access_comment && (
                     <Community
                       key={lessonId}
                       currentTime={currentTime}
@@ -279,8 +283,8 @@ const SingleVideo = () => {
                       lessonId={lessonId || data?.body?.lessons?.[0]?.id}
                       isYoutubeVideo={!!videoUrl}
                     />
-                  </Suspense>
-                )}
+                  )}
+              </Suspense>
             </div>
           </div>
         </div>
