@@ -2,7 +2,7 @@
 
 import { useAuthContext } from "@/context/auth-context";
 import { useModal } from "@/context/ModalProvider";
-import { getClientPrivateData, getPublicData } from "@/helpers/client-fetch";
+import { getClientPrivateData, getClientData } from "@/helpers/client-fetch";
 import { Bundle, Grade } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
@@ -31,21 +31,24 @@ const BundlesWrapper = () => {
   }
 
   const { data, isLoading: isLoadingBundles } = useQuery<{
-    body: {
-      budles: Bundle[];
-      grade:Grade
-    } | Bundle[];
+    body:
+      | {
+          budles: Bundle[];
+          grade: Grade;
+        }
+      | Bundle[];
   }>({
     queryKey: [api],
-    queryFn: profile ? getClientPrivateData : getPublicData,
+    queryFn: profile ? getClientPrivateData : getClientData,
     gcTime: 0,
     enabled: !isLoading && profile?.type !== 5,
   });
 
-  const bundlesData = profile ? (data?.body as {budles:Bundle[]})?.budles : data?.body as Bundle[];
+  const bundlesData = profile
+    ? (data?.body as { budles: Bundle[] })?.budles
+    : (data?.body as Bundle[]);
 
   if (!bundlesData?.length || isLoadingBundles) return null;
-
 
   return (
     <div className="wrapper">

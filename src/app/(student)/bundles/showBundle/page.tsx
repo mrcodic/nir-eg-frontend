@@ -10,7 +10,7 @@ import RemainingDuration from "@/components/ui/RemainingDuration";
 import StyledText from "@/components/ui/StyledText";
 import { useAuthContext } from "@/context/auth-context";
 import { useModal } from "@/context/ModalProvider";
-import { getClientPrivateData, getPublicData } from "@/helpers/client-fetch";
+import { getClientPrivateData, getClientData } from "@/helpers/client-fetch";
 import { formatCurrency } from "@/lib/utils";
 import { Bundle } from "@/types";
 import { useQuery } from "@tanstack/react-query";
@@ -27,7 +27,7 @@ const ShowBundle = () => {
 
   const { data, isLoading, error } = useQuery<{ body: Bundle }>({
     queryKey: [`/bundles/${bundleId}`],
-    queryFn: !!profile ? getClientPrivateData : getPublicData,
+    queryFn: !!profile ? getClientPrivateData : getClientData,
   });
 
   const classroomsPrice = useMemo(

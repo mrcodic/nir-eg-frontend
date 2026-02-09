@@ -107,12 +107,6 @@ export const paymentTypesObj = {
   },
 };
 
-export const telegramLiks = {
-  1: process.env.NEXT_PUBLIC_telegramGradeOne,
-  2: process.env.NEXT_PUBLIC_telegramGradeTwo,
-  3: process.env.NEXT_PUBLIC_telegramGradeThree,
-};
-
 export const paymentStatusArabic = {
   [paymentStatus.pending]: "قيد الانتظار",
   [paymentStatus.failed]: "لم يتم تنفيذ العملية",

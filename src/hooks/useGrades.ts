@@ -1,10 +1,10 @@
-import { getPublicData } from "@/helpers/client-fetch";
+import { getClientData } from "@/helpers/client-fetch";
 import { useQuery } from "@tanstack/react-query";
 
 const useGrades = () => {
   return useQuery({
     queryKey: ["grades"],
-    queryFn: getPublicData,
+    queryFn: getClientData,
   });
 };
 

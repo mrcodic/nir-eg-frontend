@@ -5,7 +5,7 @@ import RoomHeader from "@/components/RoomHeader";
 import CourseActivitiesTable from "@/components/tables/CourseActivitiesTable";
 import RankTable from "@/components/tables/RankTable";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { getClientPrivateData, getPublicData } from "@/helpers/client-fetch";
+import { getClientPrivateData, getClientData } from "@/helpers/client-fetch";
 import { ApiResponse, ICourseDetails, IExamCard, IUser } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
@@ -69,7 +69,7 @@ const CourseDetails = ({ details, profile }: Props) => {
 
   const fetchMoreData = useCallback(
     async (page = 1) => {
-      const res = await getPublicData({
+      const res = await getClientData({
         queryKey: [
           `/students/get-rooms/${SingleCourse}?page=${page}&per_page=10`,
         ],

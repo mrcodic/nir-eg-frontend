@@ -2,9 +2,9 @@
 import "server-only";
 
 import CustomError from "@/lib/customError";
-import { IGetDataOptions } from "@/types/helpers.types";
+import { FetchOptions, IGetDataOptions } from "@/types/helpers.types";
 import { cookies } from "next/headers";
-import { buildApiUrl, FetchOptions } from "./fetch-utils";
+import { buildApiUrl } from "./fetch-utils";
 import reactCache from "./reactCache";
 import { handleServerFetchError } from "./server-error-handler";
 import { extractTenantFromHostServer } from "./server-utils";
@@ -12,6 +12,7 @@ import { extractTenantFromHostServer } from "./server-utils";
 export async function fetchServer<T>({
   queryKey: [endpoint],
   auth = false,
+  optionalAuth = false,
   cache = "default",
   next,
 }: FetchOptions): Promise<T | null> {
@@ -20,7 +21,8 @@ export async function fetchServer<T>({
   try {
     if (!endpoint || typeof endpoint !== "string") return null;
 
-    const token = auth ? (await cookies()).get("nir_token")?.value : null;
+    const token =
+      auth || optionalAuth ? (await cookies()).get("nir_token")?.value : null;
 
     if (auth && !token) {
       return handleServerFetchError({
@@ -34,7 +36,7 @@ export async function fetchServer<T>({
       headers: {
         Accept: "application/json",
         "X-Tenant-Domain": host,
-        ...(auth ? { Authorization: `Bearer ${token}` } : {}),
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
       credentials: "include",
       cache,
@@ -48,6 +50,7 @@ export async function fetchServer<T>({
 
     return res.json() as Promise<T>;
   } catch (error) {
+    // console.log("💥 server-fetch error ", error);
     return handleServerFetchError({
       error,
       endpoint: endpoint as string,
@@ -62,6 +65,13 @@ export const getServerData = reactCache(
     next,
     cache,
     isAuth = true,
+    optionalAuth = false,
   }: IGetDataOptions): Promise<T | null> =>
-    fetchServer({ queryKey: [endpoint], next, cache, auth: isAuth }),
+    fetchServer({
+      queryKey: [endpoint],
+      next,
+      cache,
+      auth: isAuth,
+      optionalAuth,
+    }),
 );

@@ -18,8 +18,9 @@ const LessonRoomCard = ({
 
   return (
     <div className="border-gray-light bg-background flex items-start justify-between rounded-lg border p-2">
-      <div className="flex items-center gap-4 pt-1">
+      <div className="flex gap-4 pt-1">
         <img src="/assets/videos-fill.svg" className="size-6" />
+
         <div>
           <h3 className="text-sm font-bold text-[#121212] md:text-[16px]">
             {lesson?.title}

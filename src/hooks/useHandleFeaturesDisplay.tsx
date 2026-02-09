@@ -1,6 +1,6 @@
 import { NewFeaturesModal } from "@/components/modals/NewFeaturesModal";
 import { useModal } from "@/context/ModalProvider";
-import { getPublicData } from "@/helpers/client-fetch";
+import { getClientData } from "@/helpers/client-fetch";
 
 function useHandleFeaturesDisplay() {
   const modal = useModal();
@@ -11,7 +11,7 @@ function useHandleFeaturesDisplay() {
     onClose?: () => void;
   }) => {
     try {
-      const features = await getPublicData({
+      const features = await getClientData({
         queryKey: ["settings/newFeatures"],
       });
 

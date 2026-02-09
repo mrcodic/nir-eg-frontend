@@ -10,6 +10,7 @@ export interface TenantPublic {
   landing_template: string;
   site_name: string;
   logo: string;
+  center_enabled: boolean;
 }
 
 const TenantContext = createContext<

@@ -1,18 +1,14 @@
 "use client";
 
-import { IGetDataOptions } from "@/types/helpers.types";
+import { FetchOptions, IGetDataOptions } from "@/types/helpers.types";
 import Cookies from "js-cookie";
 import { handleClientFetchError } from "./client-error-handler";
-import {
-  buildApiUrl,
-  extractTenantFromHost,
-  FetchOptions,
-  parseError,
-} from "./fetch-utils";
+import { buildApiUrl, extractTenantFromHost, parseError } from "./fetch-utils";
 
 export async function fetchClient<T>({
   queryKey: [endpoint],
   auth = false,
+  optionalAuth = false,
   cache = "default",
   next,
 }: FetchOptions): Promise<T | null> {
@@ -20,7 +16,7 @@ export async function fetchClient<T>({
 
   const { subdomain, host } = extractTenantFromHost();
 
-  const token = auth ? Cookies.get("nir_token") : null;
+  const token = auth || optionalAuth ? Cookies.get("nir_token") : null;
 
   if (auth && !token) {
     return handleClientFetchError({ status: 401 }, endpoint);
@@ -31,7 +27,7 @@ export async function fetchClient<T>({
       headers: {
         Accept: "application/json",
         "X-Tenant-Domain": host,
-        ...(auth ? { Authorization: `Bearer ${token}` } : {}),
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
       credentials: "include",
       cache,
@@ -60,11 +56,18 @@ export const getClientPrivateData = async <T = any>({
 }: IGetDataOptions): Promise<T | null> =>
   fetchClient({ queryKey: [endpoint], next, cache, auth: true });
 
-// for client and server
-export const getPublicData = async <T = any>({
+// For public data that may be enhanced with authentication
+export const getClientData = async <T = any>({
   queryKey: [endpoint],
   next,
   cache,
   isAuth = false,
+  optionalAuth = false,
 }: IGetDataOptions): Promise<T | null> =>
-  fetchClient({ queryKey: [endpoint], next, cache, auth: isAuth });
+  fetchClient({
+    queryKey: [endpoint],
+    next,
+    cache,
+    auth: isAuth,
+    optionalAuth,
+  });

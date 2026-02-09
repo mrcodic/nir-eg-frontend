@@ -11,6 +11,9 @@ import CustomImage from "../ui/CustomImage";
 import LinkStyled from "./LinkStyled";
 import MobileDropDown from "./MobileDropDown";
 import NavUserMenu from "./NavUserMenu";
+import { BookLinksSettings } from "@/types/books.types";
+import WrapperHOC from "./WrapperHOC";
+import NavCartButton from "@/modules/books-store/components/NavCartButton";
 
 const AuthNavBar = () => {
   const { profile, grade } = useAuthContext();
@@ -106,9 +109,32 @@ const AuthNavBar = () => {
                 title={studentLink.title}
               />
             ))}
+
+            <WrapperHOC queryKey={["settings/books"]}>
+              {({ data }: { data: { data: BookLinksSettings } }) => {
+                const booksData = data?.data;
+                if (!booksData?.links?.length && booksData?.hide_books)
+                  return null;
+
+                return (
+                  <LinkStyled
+                    key={"books"}
+                    href={"/books"}
+                    title={"متجر الكتب"}
+                  />
+                );
+              }}
+            </WrapperHOC>
           </ul>
 
           <div className="mobile:gap-6 flex items-center gap-4">
+            <WrapperHOC queryKey={["settings/books"]}>
+              {({ data }: { data: { data: BookLinksSettings } }) => {
+                if (data?.data?.hide_books) return;
+                return <NavCartButton />;
+              }}
+            </WrapperHOC>
+
             <NavNotifications />
 
             <NavUserMenu profile={profile} />

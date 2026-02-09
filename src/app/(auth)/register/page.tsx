@@ -20,10 +20,12 @@ import { mutateClient } from "@/helpers/post-client";
 import AuthHeader from "@/layouts/AuthHeader";
 import { presistUserPhone } from "@/lib/utils";
 import { useForm } from "react-hook-form";
+import { useTenant } from "@/context/TenantProvider";
 
 const RegisterPage = () => {
   const router = useRouter();
   const { toast } = useToast();
+  const { center_enabled } = useTenant();
 
   const form = useForm({
     mode: "all",
@@ -42,7 +44,7 @@ const RegisterPage = () => {
       password: "",
       password_confirmation: "",
       grade_id: "",
-      type: "",
+      type: "4",
       // city: "",
       state_id: "",
       city_id: "",
@@ -152,9 +154,9 @@ const RegisterPage = () => {
               control={form.control}
               label="نوع الحضور"
               options={[
-                { value: "3", label: "طالب سنتر" },
                 { value: "4", label: "طالب اونلاين" },
-                { value: "5", label: "اكواد سنتر" },
+                // { value: "5", label: "اكواد سنتر" },
+                { ...(center_enabled && { value: "3", label: "طالب سنتر" }) },
               ]}
             />
             <CustomInput

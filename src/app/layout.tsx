@@ -19,10 +19,10 @@ const almarai = Almarai({
   weight: ["400", "700"],
 });
 
+const isProd = process.env.NODE_ENV === "production";
+
 export async function generateMetadata(): Promise<Metadata> {
   const tenant = await getTenantSettingsServer();
-
-  const isProd = process.env.NODE_ENV === "production";
 
   const siteUrl =
     tenant.domain_type === "domain"
@@ -31,7 +31,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
   const metadataBase = new URL(siteUrl);
 
-  const title = tenant.brand_name;
+  const title = tenant.site_name;
   const description =
     tenant.notes?.trim() ||
     "منصة تعليمية متكاملة لتطوير مهاراتك بأسلوب حديث وفعّال.";
@@ -110,6 +110,7 @@ export default async function Layout({ children }) {
     landing_template: tenantSettings.landing_template,
     site_name: tenantSettings.site_name,
     logo: tenantSettings.logo,
+    center_enabled: tenantSettings?.center_system,
   };
 
   return (

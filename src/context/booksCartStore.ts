@@ -1,4 +1,4 @@
-import { getPublicData } from "@/helpers/client-fetch";
+import { getClientData } from "@/helpers/client-fetch";
 import { toast } from "@/hooks/use-toast";
 import cartServices from "@/services/cartServices";
 import { Book, BookLinksSettings } from "@/types/books.types";
@@ -29,7 +29,6 @@ export interface CartState {
 
   // Sync actions
   initializeCart: () => Promise<void>;
-  syncWithServer: (items: CartItem[]) => void;
   resetCartState: () => void;
 
   // Getters
@@ -62,15 +61,11 @@ export const createCartStore = (initState?: Partial<CartState>) => {
 
           console.log("🛒 ~ initializeCart");
 
-          const userToken = Cookies.get("nir_token");
-
-          console.log("user token", userToken);
-
-          const booksSettings = await getPublicData<{
+          const booksSettings = await getClientData<{
             data: BookLinksSettings;
           }>({
             queryKey: ["settings/books"],
-            isAuth: !!userToken,
+            optionalAuth: true,
           });
 
           if (booksSettings?.data?.hide_books === 1) {
@@ -141,12 +136,6 @@ export const createCartStore = (initState?: Partial<CartState>) => {
             });
           }
         },
-
-        // Sync state with server data (for real-time updates)
-        syncWithServer: (items) =>
-          set((state) => {
-            state.items = items;
-          }),
 
         addToCart: async (book) => {
           // Optimistic update

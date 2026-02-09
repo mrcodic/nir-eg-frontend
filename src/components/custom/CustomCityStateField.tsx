@@ -1,6 +1,6 @@
 "use client";
 
-import { getPublicData } from "@/helpers/client-fetch";
+import { getClientData } from "@/helpers/client-fetch";
 import { useQuery } from "@tanstack/react-query";
 import { memo, useCallback, useMemo, useState } from "react";
 import { UseFormReturn, useWatch } from "react-hook-form";
@@ -56,7 +56,7 @@ function CustomCityStateField({ form }: { form: UseFormReturn<any> }) {
 
   const { data: cities = [], isLoading } = useQuery({
     queryKey: stateId ? [`states/${stateId}/cities`] : [],
-    queryFn: getPublicData,
+    queryFn: getClientData,
     enabled: !!stateId,
     staleTime: 1000 * 60 * 5,
     select: (response) =>

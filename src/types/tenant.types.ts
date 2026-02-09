@@ -9,10 +9,10 @@ export interface TenantSettings {
   status: number;
 
   plan_id: number | null;
-  trial_ends_at: string;
+  trial_ends_at: string | null;
 
-  brand_name: string;
-  legal_name: string;
+  brand_name: string | null;
+  legal_name: string | null;
   site_name: string;
 
   landing_template: Templates;
@@ -27,7 +27,10 @@ export interface TenantSettings {
 
   logo: string;
   favicon: string;
-  cover: string;
+  cover: string | null;
+
+  /** API uses kebab-case */
+  center_system: boolean;
 
   created_at: string;
   updated_at: string;

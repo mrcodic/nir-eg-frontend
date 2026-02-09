@@ -1,6 +1,6 @@
 "use client";
 
-import { getClientPrivateData, getPublicData } from "@/helpers/client-fetch";
+import { getClientPrivateData, getClientData } from "@/helpers/client-fetch";
 import { useQuery } from "@tanstack/react-query";
 
 type ChildrenArgs = {
@@ -23,7 +23,7 @@ export default function WrapperHOC({
 }: WrapperHOCProps) {
   const { data, isLoading, error, refetch } = useQuery({
     queryKey,
-    queryFn: isAuth ? getClientPrivateData : getPublicData,
+    queryFn: isAuth ? getClientPrivateData : getClientData,
   });
 
   return <>{children({ data, isLoading, error, refetch })}</>;

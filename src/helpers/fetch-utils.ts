@@ -1,12 +1,5 @@
 import CustomError from "@/lib/customError";
 
-export interface FetchOptions {
-  queryKey: readonly unknown[];
-  cache?: RequestCache;
-  next?: NextFetchRequestConfig;
-  auth?: boolean;
-}
-
 export function extractTenantFromHost() {
   const host = window.location.host;
 

@@ -1,4 +1,4 @@
-import { getPublicData } from "@/helpers/client-fetch";
+import { getClientData } from "@/helpers/client-fetch";
 
 import { useEffect, useMemo, useRef, useState } from "react";
 
@@ -18,7 +18,7 @@ export default function StudentCenterField({
 
   const { data: centers } = useQuery({
     queryKey: [`/guest/centers/${grade?.id}`],
-    queryFn: getPublicData,
+    queryFn: getClientData,
   });
 
   const mappedCenters: { value: string; label: string }[] = useMemo(() => {

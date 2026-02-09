@@ -235,7 +235,7 @@ export const getClientPrivateData = async ({ queryKey, next, cache }) =>
   fetchClient({ queryKey, next, cache, auth: true });
 
 // For public requests
-export const getPublicData = async ({
+export const getClientData = async ({
   queryKey,
   next,
   cache,

@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuthContext } from "@/context/auth-context";
-import { getClientPrivateData, getPublicData } from "@/helpers/client-fetch";
+import { getClientPrivateData, getClientData } from "@/helpers/client-fetch";
 import { QueryKey, useQuery } from "@tanstack/react-query";
 import { ComponentProps } from "react";
 import Empty from "./Empty";
@@ -30,7 +30,7 @@ const MappingComp = ({
     queryKey: Array.isArray(queryKey)
       ? [...queryKey, token ? "authenticated" : "guest"]
       : [queryKey, token ? "authenticated" : "guest"],
-    queryFn: token ? getClientPrivateData : getPublicData,
+    queryFn: token ? getClientPrivateData : getClientData,
     enabled: enable,
   });
 

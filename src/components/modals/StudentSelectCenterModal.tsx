@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { DialogClose, DialogFooter } from "@/components/ui/dialog";
 
-import { getPublicData } from "@/helpers/client-fetch";
+import { getClientData } from "@/helpers/client-fetch";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { useForm } from "react-hook-form";
 
@@ -54,7 +54,7 @@ export function StudentSelectCenterModal() {
 
   const { data: centers } = useQuery({
     queryKey: [`/guest/centers/${grade?.id}`],
-    queryFn: getPublicData,
+    queryFn: getClientData,
   });
 
   const onSubmit = async (v: any) => {

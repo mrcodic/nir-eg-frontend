@@ -1,28 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { DialogFooter } from "@/components/ui/dialog";
-import { telegramLiks } from "@/constants";
 import { useAuthContext } from "@/context/auth-context";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { DialogClose } from "@radix-ui/react-dialog";
 import Image from "next/image";
-import Link from "next/link";
-
-function resolveTelegramHref(grade: string) {
-  const byIndex =
-    Array.isArray(telegramLiks) && telegramLiks[Number(grade)]
-      ? telegramLiks[Number(grade)]
-      : undefined;
-  const byKey =
-    !Array.isArray(telegramLiks) && telegramLiks?.[grade]
-      ? telegramLiks[grade]
-      : undefined;
-
-  return byIndex || byKey || "/";
-}
 
 export function PaySuccess() {
   const { profile } = useAuthContext();
-  const tgHref = resolveTelegramHref(String(profile?.grade));
 
   return (
     <div className="">
@@ -35,6 +19,7 @@ export function PaySuccess() {
       <h2 className="mb-4 text-center text-2xl font-semibold text-green-600">
         تم عملية الدفع بنجاح
       </h2>
+
       {profile?.type == 4 && (
         <div className="flex gap-2 rounded-lg border border-[#F8DEC5] p-2">
           <Image
@@ -62,9 +47,10 @@ export function PaySuccess() {
             تأكيد
           </Button>
         </DialogClose>
-        {profile?.type == 4 && (
+
+        {/* {profile?.type == 4 && (
           <Link
-            href={tgHref}
+            href={""}
             className="text-gray-25 bg-gray-light relative z-100000 mx-auto flex w-[200px] items-center justify-center rounded-2xl border-2 py-3! text-center font-bold text-white"
           >
             <Image
@@ -76,7 +62,7 @@ export function PaySuccess() {
             />
             <span>الدعم العلمي</span>
           </Link>
-        )}
+        )} */}
       </DialogFooter>
     </div>
   );

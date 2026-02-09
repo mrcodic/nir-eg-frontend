@@ -13,8 +13,6 @@ const Footer = async () => {
 
   const footerSettings = footerResponse?.data;
 
-  console.log(footerResponse);
-
   return (
     <footer className="bg-background py-10 text-center font-semibold text-black">
       <div className="wrapper grid grid-cols-12 justify-between gap-y-6 md:text-right">

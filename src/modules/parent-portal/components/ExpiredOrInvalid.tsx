@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { mutateClient } from "@/helpers/post-client";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
@@ -81,14 +80,15 @@ function ExpiredOrInvalid({
             الرجوع للرئيسية
           </Link>
         )}
-        <Link
+
+        {/* <Link
           href={`http://t.me/More_english_support?text=محتاج مساعدة لو سمحت`}
           target="_blank"
         >
           <Button className="flex h-10 w-full items-center justify-center gap-1 rounded-lg border bg-[#D9B45C] py-0 text-lg font-bold text-white">
             تواصل مع الدعم الفني
           </Button>
-        </Link>
+        </Link> */}
       </div>
     </div>
   );
