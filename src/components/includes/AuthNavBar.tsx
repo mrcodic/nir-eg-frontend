@@ -19,6 +19,8 @@ const AuthNavBar = () => {
   const { profile, grade } = useAuthContext();
   const { templateNumber, logo, features } = useTenant();
 
+  const hasGradesEnabled = features?.student_gradebook;
+
   const STUDENTSONLINELINKS = [
     {
       title: "ملف الطالب",
@@ -29,10 +31,14 @@ const AuthNavBar = () => {
       href: `/bundles?grade=${grade?.id}`,
     },
 
-    {
-      title: "الدرجات",
-      href: "/grades",
-    },
+    ...(hasGradesEnabled
+      ? [
+          {
+            title: "الدرجات",
+            href: "/grades",
+          },
+        ]
+      : []),
     // {
     //   title: "متجر النقاط",
     //   href: "/store",
@@ -49,10 +55,14 @@ const AuthNavBar = () => {
       href: profile?.has_center ? `/bundles/${profile?.center_id}` : "",
     },
 
-    {
-      title: "الدرجات",
-      href: "/grades",
-    },
+    ...(hasGradesEnabled
+      ? [
+          {
+            title: "الدرجات",
+            href: "/grades",
+          },
+        ]
+      : []),
 
     // {
     //   title: "متجر النقاط",

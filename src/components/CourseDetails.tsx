@@ -14,6 +14,7 @@ import Empty from "./Empty";
 import InfiniteScroll from "./InfinteScroll";
 import LoadingSpinner from "./LoadingSpinner";
 import RoomAccordion from "./RoomAccordion";
+import { useTenant } from "@/context/TenantProvider";
 
 type Props = {
   details: ICourseDetails;
@@ -51,6 +52,8 @@ const CourseDetails = ({ details, profile }: Props) => {
   const { SingleCourse } = useParams();
   const [selectedTab, setSelectedTab] = useState("lessons");
 
+  const { features } = useTenant();
+
   const {
     data: courseExams,
     isLoading: isLoadingExams,
@@ -84,14 +87,19 @@ const CourseDetails = ({ details, profile }: Props) => {
   const hasExams =
     !!courseExams?.body?.incoming_exams?.length ||
     !!courseExams?.body?.past_exams?.length;
+  const hasGradesEnabled = features?.student_gradebook;
+  const hasPointsEnabled = features?.points_system;
 
   const visibleTabs = useMemo(
     () =>
       CourseTabs.filter((tab) => {
         if (tab.value === "exams") return hasExams;
+        if (tab.value === "activities") return hasGradesEnabled;
+        if (tab.value === "rank") return hasPointsEnabled;
+
         return true;
       }),
-    [hasExams],
+    [hasExams, hasGradesEnabled, hasPointsEnabled],
   );
 
   return (

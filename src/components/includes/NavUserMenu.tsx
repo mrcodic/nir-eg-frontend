@@ -13,10 +13,14 @@ import { useRouter } from "next/navigation";
 import { QRCodeCanvas } from "qrcode.react";
 import LogoutCustomModal from "../modals/LogoutCustomModal";
 import CustomImage from "../ui/CustomImage";
+import { useTenant } from "@/context/TenantProvider";
 
 function NavUserMenu({ profile }) {
   const router = useRouter();
   const modal = useModal();
+  const { features } = useTenant();
+
+  const hasCommunityEnabled = features?.community_system;
 
   return (
     <DropdownMenu dir="rtl" modal={false}>
@@ -87,13 +91,14 @@ function NavUserMenu({ profile }) {
           icon="/assets/bundles.svg"
           text="الطلبات"
         />
-        {(profile?.type === 4 || profile?.type === 5) && (
-          <MenuItem
-            onClick={() => router.push("/profile/comments")}
-            icon="/assets/query.svg"
-            text="الأسئلة والاستفسارات"
-          />
-        )}
+        {hasCommunityEnabled &&
+          (profile?.type === 4 || profile?.type === 5) && (
+            <MenuItem
+              onClick={() => router.push("/profile/comments")}
+              icon="/assets/query.svg"
+              text="الأسئلة والاستفسارات"
+            />
+          )}
         <MenuItem
           onClick={() => {
             modal.setDialogContent(<LogoutCustomModal />);

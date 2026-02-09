@@ -12,6 +12,7 @@ import { redirect, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import CommentsFilter from "./CommentsFilter";
 import { useAuthContext } from "@/context/auth-context";
+import { useTenant } from "@/context/TenantProvider";
 
 interface LessonComment {
   at_minute: string;
@@ -43,6 +44,7 @@ const Comments = () => {
   const [selectedCommentLesson, setSelectedCommentLesson] = useState(null);
 
   const { profile } = useAuthContext();
+  const { features } = useTenant();
 
   const {
     data: comments,
@@ -99,8 +101,9 @@ const Comments = () => {
   );
 
   const isCenterStudent = profile?.type === 3;
+  const hasCommunityEnabled = features?.community_system;
 
-  if (isCenterStudent) {
+  if (isCenterStudent || !hasCommunityEnabled) {
     redirect("/profile");
   }
   // console.log("commentsss : ", comments?.data);
