@@ -4,11 +4,22 @@ import { useModal } from "@/context/ModalProvider";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import ReactConfetti from "react-confetti";
 import PayFail from "./modals/PayFail";
 import { PaySuccess } from "./modals/PaySuccess";
 
-function PaymentStatusHandler() {
+type Props = {
+  successTitle?: string;
+  successDescription?: string;
+  failTitle?: string;
+  failDescription?: string;
+};
+
+function PaymentStatusHandler({
+  successTitle,
+  successDescription,
+  failTitle,
+  failDescription,
+}: Props) {
   const modal = useModal();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -17,19 +28,14 @@ function PaymentStatusHandler() {
 
   useEffect(() => {
     if (payment == "success") {
-      modal.setDialogContent(<PaySuccess />);
-      modal.addSideElement(
-        <ReactConfetti
-          width={500}
-          height={700}
-          className="fixed inset-0 z-100! w-full"
-          gravity={0.3}
-          recycle={false}
-        />,
+      modal.setDialogContent(
+        <PaySuccess title={successTitle} description={successDescription} />,
       );
       modal.openModal();
     } else if (payment == "failed") {
-      modal.setDialogContent(<PayFail />);
+      modal.setDialogContent(
+        <PayFail title={failTitle} description={failDescription} />,
+      );
       modal.openModal();
     }
 
@@ -39,7 +45,17 @@ function PaymentStatusHandler() {
       const newUrl = `${pathname}?${newParams.toString()}`;
       router.replace(newUrl, { scroll: false });
     }
-  }, [modal, pathname, payment, router, searchParams]);
+  }, [
+    failDescription,
+    failTitle,
+    modal,
+    pathname,
+    payment,
+    router,
+    searchParams,
+    successDescription,
+    successTitle,
+  ]);
 
   return null;
 }

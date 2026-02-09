@@ -2,7 +2,13 @@ import Image from "next/image";
 import { Button } from "../ui/button";
 import { DialogClose } from "../ui/dialog";
 
-export default function PayFail() {
+export default function PayFail({
+  title,
+  description,
+}: {
+  title?: string;
+  description?: string;
+}) {
   return (
     <div className=" ">
       <div className="flex flex-col items-center">
@@ -15,12 +21,15 @@ export default function PayFail() {
         />
 
         <div className="flex flex-col items-center text-center">
-          <p className="mb-6 inline-block text-lg font-bold text-[#121212]">
-            حدث خطأ ما أثناء عملية الدفع
+          <p className="mb-2 text-lg font-bold text-[#121212]">
+            {title || "حدث خطأ ما أثناء عملية الدفع"}
           </p>
+          {description && (
+            <p className="text-base font-bold text-[#121212]">{description}</p>
+          )}
 
           <DialogClose asChild>
-            <Button>اغلاق</Button>
+            <Button className="mt-6">اغلاق</Button>
           </DialogClose>
         </div>
       </div>
