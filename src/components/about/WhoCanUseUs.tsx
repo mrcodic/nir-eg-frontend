@@ -46,7 +46,7 @@ export default function WhoCanUseUs() {
   return (
     <section dir="rtl">
       <div className="section  space-y-8">
-        <h2 className="text-lg text-center mx-auto md:text-[28px] font-bold max-w-[564px]">
+        <h2 className="text-lg text-center mx-auto md:text-28 font-bold max-w-[564px]">
           من يمكنه استخدام{" "}
           <span className="text-primary-800 drop-shadow-text "> نَيِّر </span>؟
         </h2>

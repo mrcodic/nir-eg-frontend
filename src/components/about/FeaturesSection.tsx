@@ -72,7 +72,7 @@ export default function FeaturesSection({
       <div className="section space-y-8">
         {/* Heading */}
         <MotionWrapper
-          className="text-lg md:text-[28px] font-bold max-w-[564px]"
+          className="text-lg md:text-28 font-bold max-w-[564px]"
           initial={{ opacity: 0, x: 20 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
