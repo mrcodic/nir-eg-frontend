@@ -25,7 +25,7 @@ function ProfileCoupon() {
 
         <Image
           className="size-8"
-          src="/assets/percentage.gif"
+          src="/assets/gifs/percentage.gif"
           width={32}
           height={32}
           alt="percentage"
@@ -42,7 +42,7 @@ function ProfileCoupon() {
         <div className="flex items-center gap-4 rounded-lg p-2 max-sm:flex-col">
           <Image
             className="size-16"
-            src="/assets/percentage.gif"
+            src="/assets/gifs/percentage.gif"
             width={64}
             height={64}
             alt="percentage"

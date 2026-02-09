@@ -18,9 +18,9 @@ export function NewFeaturesModal({
 }) {
   return (
     <div>
-      <DialogHeader className="justify-center items-center">
+      <DialogHeader className="items-center justify-center">
         <Image
-          src="/assets/feature.gif"
+          src="/assets/gifs/feature.gif"
           width={128}
           height={128}
           className="aspect-square"
@@ -35,20 +35,20 @@ export function NewFeaturesModal({
             height={24}
             alt="star"
           />
-          <h2 className=" font-bold text-gray-dark text-lg">
+          <h2 className="text-gray-dark text-lg font-bold">
             مميزات جديدة:{" "}
-            <span className="text-gray-600 text-sm">
+            <span className="text-sm text-gray-600">
               ( هتلاقيها في الفيديو )
             </span>
           </h2>
         </div>
 
-        <div className="flex gap-6 items-center flex-wrap pt-2 border-t border-gray-light">
+        <div className="border-gray-light flex flex-wrap items-center gap-6 border-t pt-2">
           {features?.items.map((item, index) => (
-            <div key={index} className="flex gap-2 items-center">
+            <div key={index} className="flex items-center gap-2">
               <CustomNum num={index + 1} />
 
-              <h2 className="text-[#121212] font-bold text-xl">
+              <h2 className="text-xl font-bold text-[#121212]">
                 {item.description}
               </h2>
             </div>
@@ -60,7 +60,7 @@ export function NewFeaturesModal({
                 ? features?.url.replace("/watch?v=", "/embed/")
                 : features?.url
             }
-            className="w-full aspect-video "
+            className="aspect-video w-full"
             title="new features"
             allowFullScreen
           />

@@ -62,7 +62,7 @@ const AssignmentModal = ({
           ) : (
             <>
               <Image
-                src="/assets/confetti.gif"
+                src="/assets/gifs/confetti.gif"
                 alt="confetti"
                 width={56}
                 height={56}

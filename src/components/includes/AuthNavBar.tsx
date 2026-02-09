@@ -17,7 +17,7 @@ import NavCartButton from "@/modules/books-store/components/NavCartButton";
 
 const AuthNavBar = () => {
   const { profile, grade } = useAuthContext();
-  const { templateNumber, logo } = useTenant();
+  const { templateNumber, logo, features } = useTenant();
 
   const STUDENTSONLINELINKS = [
     {
@@ -110,30 +110,34 @@ const AuthNavBar = () => {
               />
             ))}
 
-            <WrapperHOC queryKey={["settings/books"]}>
-              {({ data }: { data: { data: BookLinksSettings } }) => {
-                const booksData = data?.data;
-                if (!booksData?.links?.length && booksData?.hide_books)
-                  return null;
+            {features?.book_store && (
+              <WrapperHOC queryKey={["settings/books"]}>
+                {({ data }: { data: { data: BookLinksSettings } }) => {
+                  const booksData = data?.data;
+                  if (!booksData?.links?.length && booksData?.hide_books)
+                    return null;
 
-                return (
-                  <LinkStyled
-                    key={"books"}
-                    href={"/books"}
-                    title={"متجر الكتب"}
-                  />
-                );
-              }}
-            </WrapperHOC>
+                  return (
+                    <LinkStyled
+                      key={"books"}
+                      href={"/books"}
+                      title={"متجر الكتب"}
+                    />
+                  );
+                }}
+              </WrapperHOC>
+            )}
           </ul>
 
           <div className="mobile:gap-6 flex items-center gap-4">
-            <WrapperHOC queryKey={["settings/books"]}>
-              {({ data }: { data: { data: BookLinksSettings } }) => {
-                if (data?.data?.hide_books) return;
-                return <NavCartButton />;
-              }}
-            </WrapperHOC>
+            {features?.book_store && (
+              <WrapperHOC queryKey={["settings/books"]}>
+                {({ data }: { data: { data: BookLinksSettings } }) => {
+                  if (data?.data?.hide_books) return;
+                  return <NavCartButton />;
+                }}
+              </WrapperHOC>
+            )}
 
             <NavNotifications />
 

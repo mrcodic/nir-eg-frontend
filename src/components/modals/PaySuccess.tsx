@@ -3,66 +3,53 @@ import { DialogFooter } from "@/components/ui/dialog";
 import { useAuthContext } from "@/context/auth-context";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { DialogClose } from "@radix-ui/react-dialog";
-import Image from "next/image";
+import Link from "next/link";
 
-export function PaySuccess() {
+export function PaySuccess({
+  title,
+  description,
+}: {
+  title?: string;
+  description?: string;
+}) {
   const { profile } = useAuthContext();
 
   return (
-    <div className="">
+    <div className="text-center">
       <DotLottieReact
         className="mx-auto"
         src="/Animations/Success.lottie"
         autoplay
         loop
       />
-      <h2 className="mb-4 text-center text-2xl font-semibold text-green-600">
-        تم عملية الدفع بنجاح
+      <h2 className="mb-2 text-center text-2xl font-semibold text-green-600">
+        {title || "اكتملت عملية الدفع بنجاح."}
       </h2>
-
-      {profile?.type == 4 && (
-        <div className="flex gap-2 rounded-lg border border-[#F8DEC5] p-2">
-          <Image
-            width={32}
-            height={32}
-            src="/assets/tele1.svg"
-            alt="tele"
-            className="size-8"
-          />
-          <p className="text-center text-[16px] font-bold md:text-[20px]">
-            انضم الآن لجروب الدعم العلمي على تليجرام
-          </p>
-        </div>
+      {description && (
+        <p className="mb-2 text-center text-xl font-semibold">{description}</p>
       )}
 
-      <DialogFooter className="mt-5 flex w-full items-center justify-center">
-        <DialogClose
-          asChild
-          className="flex w-full items-center justify-center!"
-        >
-          <Button
-            type="submit"
-            className="text-gray-25 bg-primary-800 hover:bg-primary-800 mx-auto w-[200px] rounded-2xl border-2 py-6! text-center font-bold text-white"
-          >
-            تأكيد
+      <DialogFooter className="mt-5 flex w-full flex-wrap items-center justify-center gap-x-4 gap-y-2 sm:justify-center sm:space-x-0">
+        <DialogClose asChild className="">
+          <Button className="h-11 w-full max-w-[184px] rounded-xl text-base font-bold">
+            اغلاق
           </Button>
         </DialogClose>
 
-        {/* {profile?.type == 4 && (
+        {profile?.type == 4 && !!profile?.group_link && (
           <Link
-            href={""}
-            className="text-gray-25 bg-gray-light relative z-100000 mx-auto flex w-[200px] items-center justify-center rounded-2xl border-2 py-3! text-center font-bold text-white"
+            href={profile?.group_link}
+            className="w-full max-w-[184px]"
+            target="_blank"
           >
-            <Image
-              width={24}
-              height={24}
-              src="/assets/tele1.svg"
-              alt="tele"
-              className="size-6"
-            />
-            <span>الدعم العلمي</span>
+            <Button
+              variant="secondary"
+              className="h-11 w-full max-w-[184px] rounded-xl text-base font-bold"
+            >
+              انضم للجروب
+            </Button>
           </Link>
-        )} */}
+        )}
       </DialogFooter>
     </div>
   );

@@ -1,19 +1,25 @@
+import PaymentStatusHandler from "@/components/PaymentStatusHandler";
 import { getServerData } from "@/helpers/server-fetch";
 import BooksStoreItems from "@/modules/books-store/components/BooksStoreItems";
 import BooksStores from "@/modules/books-store/components/BooksStores";
-import PaymentNotifStatus from "@/modules/books-store/components/PaymentNotifStatus";
+import { getTenantSettingsServer } from "@/services/tenantServices";
 import { BookLinksSettings } from "@/types/books.types";
+import { redirect } from "next/navigation";
 
 async function page() {
+  const tenantSettings = await getTenantSettingsServer();
+
+  if (!tenantSettings?.features?.book_store) {
+    return redirect("/");
+  }
+
   const booksSettings = await getServerData<{ data: BookLinksSettings }>({
     queryKey: ["settings/books"],
   });
 
-  console.log(booksSettings);
-
   return (
     <div className="section--style">
-      <PaymentNotifStatus currentPath={`/books`} />
+      <PaymentStatusHandler />
 
       {!booksSettings?.data?.hide_books && <BooksStoreItems />}
 

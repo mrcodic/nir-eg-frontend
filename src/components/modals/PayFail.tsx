@@ -1,23 +1,27 @@
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import Image from "next/image";
+import { Button } from "../ui/button";
+import { DialogClose } from "../ui/dialog";
 
 export default function PayFail() {
   return (
     <div className=" ">
-      <div className="">
-        <DotLottieReact
-          className="mx-auto h-[112px] w-[112px]"
-          src="/Animations/Fail.json"
-          autoplay
-          loop
+      <div className="flex flex-col items-center">
+        <Image
+          src="/assets/gifs/fail.gif"
+          width={56}
+          height={56}
+          alt="fail"
+          className="size-14 object-contain"
         />
 
-        <div className="mb-[12px]">
-          <div className="mt-[32px] flex gap-[12px]">
-            <img src="/assets/Close2.svg" />
-            <span className="inline-block text-[18px] font-bold text-[#121212]">
-              حصل مشكلة في عملية الدفع
-            </span>
-          </div>
+        <div className="flex flex-col items-center text-center">
+          <p className="mb-6 inline-block text-lg font-bold text-[#121212]">
+            حدث خطأ ما أثناء عملية الدفع
+          </p>
+
+          <DialogClose asChild>
+            <Button>اغلاق</Button>
+          </DialogClose>
         </div>
       </div>
     </div>

@@ -25,7 +25,7 @@ const NewCourses = () => {
       <RoomHeader
         className=""
         title={grade?.name ? `كورسات ${grade?.name}` : "كورسات جديدة"}
-        icon="/assets/book-gif.gif"
+        icon="/assets/gifs/book-gif.gif"
       />
 
       <div className="relative mt-6">

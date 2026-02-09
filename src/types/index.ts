@@ -7,6 +7,7 @@ export interface IUser {
   first_name: string;
   grade: number;
   grade_name: string;
+  group_link: string;
   id: number;
   last_name: string;
   parent_phone: string;
@@ -321,6 +322,7 @@ export interface Grade {
   id: number;
   name?: string;
   title?: string;
+  group_link?: string;
 }
 
 export interface TopStudent {

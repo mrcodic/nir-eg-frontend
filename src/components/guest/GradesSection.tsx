@@ -18,7 +18,7 @@ const GradesSection = async () => {
     <section id="grades" className="scroll-m-16">
       <div className="mb-4 flex flex-col items-center justify-center gap-2 text-center">
         <Image
-          src="/assets/book-gif.gif"
+          src="/assets/gifs/book-gif.gif"
           width={64}
           height={64}
           alt="book gif"

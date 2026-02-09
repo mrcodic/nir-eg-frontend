@@ -22,13 +22,18 @@ const students = [
 function HonorsLeaderboard() {
   return (
     <section className="flex flex-col gap-8">
-      <div className="flex justify-center items-center">
-        <Image src="/assets/rank.gif" width={64} height={64} alt="rank medal" />
+      <div className="flex items-center justify-center">
+        <Image
+          src="/assets/gifs/rank.gif"
+          width={64}
+          height={64}
+          alt="rank medal"
+        />
 
         <StyledText text="لوحة شرف 2025" className="text-32" />
       </div>
 
-      <div className="grid max-lg:justify-items-center lg:grid-cols-2 xl:grid-cols-3 gap-12">
+      <div className="grid gap-12 max-lg:justify-items-center lg:grid-cols-2 xl:grid-cols-3">
         {students.map((student, index) => (
           <StudentCard key={index} student={student} rank={index + 1} />
         ))}
@@ -50,32 +55,36 @@ const StudentCard = ({
   return (
     <Card
       className={cn(
-        "relative lg:py-6 lg:px-8 px-6 py-4 rounded-lg max-lg:w-full lg:max-w-[564px] border-primary-100 hover:border-secondary hover:bg-background transition-all",
+        "border-primary-100 hover:border-secondary hover:bg-background relative rounded-lg px-6 py-4 transition-all max-lg:w-full lg:max-w-[564px] lg:px-8 lg:py-6",
         {
-          "col-span-full lg:mx-auto lg:min-w-[564px] shrink-0": isRankOne,
-        }
+          "col-span-full shrink-0 lg:mx-auto lg:min-w-[564px]": isRankOne,
+        },
       )}
     >
       <CardContent
-        className={cn("flex justify-between p-0 gap-6", {
-          "flex-col items-center w-full": !isRankOne,
-          "max-lg:flex-col max-lg:items-center max-lg:w-full": isRankOne,
+        className={cn("flex justify-between gap-6 p-0", {
+          "w-full flex-col items-center": !isRankOne,
+          "max-lg:w-full max-lg:flex-col max-lg:items-center": isRankOne,
         })}
       >
         <div
           className={cn("flex items-center gap-4", {
-            "border-b border-secondary pb-2 justify-center w-full": !isRankOne,
-            "max-lg:border-b max-lg:border-secondary max-lg:pb-2 max-lg:justify-center max-lg:w-full":
+            "border-secondary w-full justify-center border-b pb-2": !isRankOne,
+            "max-lg:border-secondary max-lg:w-full max-lg:justify-center max-lg:border-b max-lg:pb-2":
               isRankOne,
           })}
         >
-          <h4 className="font-bold md:text-2xl text-lg">{student.name}</h4>
+          <h4 className="text-lg font-bold md:text-2xl">{student.name}</h4>
           <Image
-            src={isRankOne ? "/assets/rank.gif" : "/assets/confetti-solid.gif"}
+            src={
+              isRankOne
+                ? "/assets/gifs/rank.gif"
+                : "/assets/gifs/confetti-solid.gif"
+            }
             width={48}
             height={48}
             alt="rank medal"
-            className="md:size-12 size-8"
+            className="size-8 md:size-12"
           />
         </div>
 
@@ -86,8 +95,8 @@ const StudentCard = ({
         />
       </CardContent>
 
-      <div className="absolute lg:-top-8 lg:-left-8 -left-2 -top-6 lg:size-16 size-12 rounded-full border border-secondary bg-primary-radial flex items-center justify-center">
-        <span className="font-bold text-2xl lg:text-4xl text-white ">
+      <div className="border-secondary bg-primary-radial absolute -top-6 -left-2 flex size-12 items-center justify-center rounded-full border lg:-top-8 lg:-left-8 lg:size-16">
+        <span className="text-2xl font-bold text-white lg:text-4xl">
           {rank}
         </span>
       </div>

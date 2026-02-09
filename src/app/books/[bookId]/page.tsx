@@ -1,6 +1,6 @@
 import BooksStoreItems from "@/modules/books-store/components/BooksStoreItems";
-import PaymentNotifStatus from "@/modules/books-store/components/PaymentNotifStatus";
 
+import PaymentStatusHandler from "@/components/PaymentStatusHandler";
 import { getClientData } from "@/helpers/client-fetch";
 import { Book } from "@/types/books.types";
 import BookDetailsCard from "./BookDetailsCard";
@@ -15,10 +15,9 @@ async function page({ params }: { params: Promise<{ bookId: string }> }) {
 
   return (
     <div className="section--style">
-      <h1 className="text-[28px] font-bold">{book?.data?.name}</h1>
+      <h1 className="text-28 font-bold">{book?.data?.name}</h1>
 
-      {/* <PaymentResultClient /> */}
-      <PaymentNotifStatus currentPath={`/books/${bookId}`} />
+      <PaymentStatusHandler />
 
       <BookDetailsCard book={book?.data} />
 

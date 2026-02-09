@@ -34,7 +34,7 @@ const OfferModel = () => {
   return (
     <div>
       <Image
-        src={data?.icon_url || "/assets/sale-gif.gif"}
+        src={data?.icon_url || "/assets/gifs/sale-gif.gif"}
         alt="offer"
         width={160}
         height={160}
@@ -55,7 +55,7 @@ const OfferModel = () => {
           </div>
 
           <Image
-            src="/assets/percentage.gif"
+            src="/assets/gifs/percentage.gif"
             alt="percentage"
             width={72}
             height={72}

@@ -3,34 +3,6 @@ import Image from "next/image";
 import { Card, CardContent, CardHeader } from "../ui/card";
 import UnderlineStyle from "../UnderlineStyle";
 
-const ourFeatures = [
-  {
-    title: "شرح مُبسط",
-    description: "فيديوهات شرح لكل مواضيع المنهج",
-    icon: "/assets/bow.gif",
-  },
-  {
-    title: "امتحانات و كويزات",
-    description: "امتحانات دورية و كويز كل حصة",
-    icon: "/assets/confetti.gif",
-  },
-  {
-    title: "تقارير لولي الأمر",
-    description: "تقارير دورية لولي الأمر خلال التطبيق أو واتساب",
-    icon: "/assets/report.gif",
-  },
-  {
-    title: "المتجر و الهدايا",
-    description: "اجمع النقاط و استبدلها بهدايا مميزة من المتجر",
-    icon: "/assets/gift.gif",
-  },
-  {
-    title: "النقاط و الترتيب",
-    description: "احصل على النقاط و ارفع ترتيبك بين زملائك",
-    icon: "/assets/stars.gif",
-  },
-];
-
 function WhyChooseUs({
   content,
 }: {

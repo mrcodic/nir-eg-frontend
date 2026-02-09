@@ -46,7 +46,12 @@ const FailModal = ({
         <DialogTitle className="hidden" />
         <DialogDescription className="hidden" />
         <div className="w-full">
-          <Image src="/assets/fail.gif" alt="Fail" width={56} height={56} />
+          <Image
+            src="/assets/gifs/fail.gif"
+            alt="Fail"
+            width={56}
+            height={56}
+          />
 
           <div className="mt-2 flex flex-wrap items-center justify-between gap-3">
             <span className="inline-block text-base font-bold">
