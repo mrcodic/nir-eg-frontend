@@ -1,6 +1,7 @@
 "use client";
 
 import { mapTemplateToNumber } from "@/helpers/tenant.helpers";
+import { TenantFeatures } from "@/types/tenant.types";
 import { createContext, useContext } from "react";
 
 export interface TenantPublic {
@@ -10,7 +11,7 @@ export interface TenantPublic {
   landing_template: string;
   site_name: string;
   logo: string;
-  center_enabled: boolean;
+  features: TenantFeatures;
 }
 
 const TenantContext = createContext<

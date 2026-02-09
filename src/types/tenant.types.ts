@@ -1,7 +1,18 @@
 export type Templates = "landing-v1" | "landing-v2" | "landing-v3";
 
+export interface TenantFeatures {
+  center_system: boolean;
+  payment_methods_coupons: boolean;
+  community_system: boolean;
+  student_gradebook: boolean;
+  points_system: boolean;
+  book_store: boolean;
+  promo_code: boolean;
+  ai_chatbot: boolean;
+}
+
 export interface TenantSettings {
-  id: string; // UUID
+  id: string;
   owner_user_id: number;
 
   name: string;
@@ -29,8 +40,7 @@ export interface TenantSettings {
   favicon: string;
   cover: string | null;
 
-  /** API uses kebab-case */
-  center_system: boolean;
+  features: TenantFeatures;
 
   created_at: string;
   updated_at: string;

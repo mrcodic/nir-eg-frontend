@@ -25,7 +25,7 @@ import { useTenant } from "@/context/TenantProvider";
 const RegisterPage = () => {
   const router = useRouter();
   const { toast } = useToast();
-  const { center_enabled } = useTenant();
+  const { features } = useTenant();
 
   const form = useForm({
     mode: "all",
@@ -156,7 +156,12 @@ const RegisterPage = () => {
               options={[
                 { value: "4", label: "طالب اونلاين" },
                 // { value: "5", label: "اكواد سنتر" },
-                { ...(center_enabled && { value: "3", label: "طالب سنتر" }) },
+                {
+                  ...(features?.center_system && {
+                    value: "3",
+                    label: "طالب سنتر",
+                  }),
+                },
               ]}
             />
             <CustomInput

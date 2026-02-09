@@ -110,7 +110,7 @@ export default async function Layout({ children }) {
     landing_template: tenantSettings.landing_template,
     site_name: tenantSettings.site_name,
     logo: tenantSettings.logo,
-    center_enabled: tenantSettings?.center_system,
+    features: tenantSettings?.features,
   };
 
   return (
