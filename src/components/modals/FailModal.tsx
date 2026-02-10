@@ -45,6 +45,7 @@ const FailModal = ({
       >
         <DialogTitle className="hidden" />
         <DialogDescription className="hidden" />
+
         <div className="w-full">
           <Image
             src="/assets/gifs/fail.gif"

@@ -106,6 +106,8 @@ const CourseDetails = ({ details, profile }: Props) => {
     [hasExams, hasGradesEnabled, hasPointsEnabled],
   );
 
+  console.log("course exams : ", courseExams);
+
   return (
     <Tabs
       defaultValue="lessons"

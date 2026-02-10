@@ -76,25 +76,27 @@ function GradesTableAction({
           />
         )
       ) : (
-        <Link
-          href={
-            isExpired
-              ? ""
-              : row.type === "امتحان"
-                ? `/bundles/${row.classroom_id}/general-exams/${row.quiz_id}`
-                : `/bundles/${row.classroom_id}/${row.room_id}/${
-                    row.type === "كويز" ? "exams" : "assignment"
-                  }/${row.quiz_id}`
-          }
-          className={cn(
-            "bg-primary-800 flex h-9 w-[120px] items-center justify-center rounded-[10px] p-1 text-sm font-bold text-white lg:h-10 lg:w-[155px]",
-            {
-              "pointer-events-none cursor-not-allowed bg-red-600": isExpired,
-            },
-          )}
-        >
-          {isExpired ? "تم انتهاء الكورس" : ` عرض ال${row?.type}`}
-        </Link>
+        haveAnswer && (
+          <Link
+            href={
+              isExpired
+                ? ""
+                : row.type === "امتحان"
+                  ? `/bundles/${row.classroom_id}/general-exams/${row.quiz_id}`
+                  : `/bundles/${row.classroom_id}/${row.room_id}/${
+                      row.type === "كويز" ? "exams" : "assignment"
+                    }/${row.quiz_id}`
+            }
+            className={cn(
+              "bg-primary-800 flex h-9 w-[120px] items-center justify-center rounded-[10px] p-1 text-sm font-bold text-white lg:h-10 lg:w-[155px]",
+              {
+                "pointer-events-none cursor-not-allowed bg-red-600": isExpired,
+              },
+            )}
+          >
+            {isExpired ? "تم انتهاء الكورس" : ` عرض ال${row?.type}`}
+          </Link>
+        )
       )}
     </div>
   );
