@@ -144,6 +144,15 @@ export default function BundlesPricingPlans({
                     حتى {plan.seats_included} طالب نشط
                   </span>
                 </div>
+
+                <p className="text-sm font-bold text-gray-dark">
+                  سعر الطالب الاضافى{" "}
+                  <span className="text-secondary font-bold text-base">
+                    {priceFormatter.format(plan.additional_student_price)}
+                    {" جنيه "}
+                  </span>
+                  فى الشهر
+                </p>
               </div>
 
               {/* ================= Pricing ================= */}

@@ -30,7 +30,7 @@ interface BrandingStepProps {
 const fileUploads = [
   {
     name: "logoFile" as const,
-    label: "صورة اللوجو",
+    label: "صورة اللوجو (اختيارى)",
     maxSize: 2,
     dimensions: "512x512 px",
     hint: {
@@ -54,7 +54,7 @@ const fileUploads = [
   },
   {
     name: "faviconFile" as const,
-    label: "صورة الأيقون",
+    label: "صورة الأيقون (اختيارى)",
     maxSize: 2,
     dimensions: "32x32 px",
     hint: {
@@ -84,45 +84,13 @@ const fileUploads = [
   },
   {
     name: "coverFile" as const,
-    label: "صورة الغلاف (اختيارى)",
+    label: "صورة الهيرو (اختيارى)",
     maxSize: 5,
-    aspect: 1.91,
-    dimensions: "1200x630 px",
+    // aspect: 1.91,
+    dimensions: "512x512 px",
     hint: {
-      // exampleImage: "/images/hints/cover-example.png",
-      description: "صورة الغلاف تظهر عند مشاركة رابط موقعك على وسائل التواصل",
-    },
-    examplePreview: ({ file }: { file: File | undefined | null }) => {
-      if (!file) return null;
-      return (
-        <div className="mt-2 bg-gray-100 rounded-lg p-3 max-w-sm border border-gray-200">
-          {/* Social Media Card Preview */}
-          <div className="rounded-lg overflow-hidden bg-white shadow-sm border border-gray-200">
-            {/* Cover Image */}
-            <div className="relative w-full aspect-[1.91/1]">
-              <Image
-                src={URL.createObjectURL(file)}
-                alt="Cover Preview"
-                fill
-                className="object-cover"
-              />
-            </div>
-            {/* Card Content */}
-            <div className="p-3 space-y-1">
-              <p className="text-xs text-gray-500 truncate">nir-edu.com</p>
-              <p className="text-sm font-medium text-gray-900 truncate">
-                اسم موقعك
-              </p>
-              <p className="text-xs text-gray-600 line-clamp-2">
-                وصف موقعك يظهر هنا عند المشاركة
-              </p>
-            </div>
-          </div>
-          <p className="text-10 text-gray-500 mt-2 text-center">
-            معاينة المشاركة على وسائل التواصل
-          </p>
-        </div>
-      );
+      exampleImage: "/assets/hints/hero-example.png",
+      description: "صوره الهيرو التى تظهر فى الصفحة الرئيسية الخاصة بموقعك",
     },
   },
 ];
@@ -242,7 +210,6 @@ export default function BrandingStep({
                           ? URL.createObjectURL(field.value)
                           : undefined
                       }
-                      aspect={upload.aspect}
                       isInvalid={fieldState.error !== undefined}
                       dimensions={upload.dimensions}
                       hint={upload.hint}

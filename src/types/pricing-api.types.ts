@@ -21,6 +21,7 @@ export interface IPricingPlan {
   code: string;
   name: string;
   seats_included: number;
+  additional_student_price: number;
   price_month: number;
   price_year: number;
   overage_per_seat: number;

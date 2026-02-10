@@ -26,7 +26,7 @@ export default function LazyOnView({
     <div
       ref={ref}
       className={cn(
-        "w-full empty:hidden",
+        "w-full ",
         { "min-h-[300px]": !isInView },
         !isInView && className,
         { "min-h-0": !children },

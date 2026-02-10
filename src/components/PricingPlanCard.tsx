@@ -10,6 +10,7 @@ import Image from "next/image";
 import Link from "next/link";
 import MainPlanBadge from "./MainPlanBadge";
 import { priceFormatter } from "@/utils/formatters";
+import { useMemo, useState } from "react";
 
 const FEATURE_LIMIT = 8;
 
@@ -32,11 +33,17 @@ export default function PricingPlanCard({
   className,
   isMiddle = false,
 }: PricingPlanCardProps) {
+  const [showAll, setShowAll] = useState(false);
+
   const isFeatured = plan?.is_main;
   const features = Object.entries(plan.features);
   const price = type === "yearly" ? plan.price_year : plan.price_month;
   const hasMoreFeatures = features.length > FEATURE_LIMIT;
-  const displayedFeatures = features.slice(0, FEATURE_LIMIT);
+
+  const displayedFeatures = useMemo(
+    () => (showAll ? features : features.slice(0, FEATURE_LIMIT)),
+    [showAll, features],
+  );
 
   return (
     <Card
@@ -105,6 +112,19 @@ export default function PricingPlanCard({
           >
             حتى {plan.seats_included} طالب نشط
           </h3>
+
+          <p
+            className={cn("text-sm font-bold text-gray-dark", {
+              "text-gray-light": isFeatured,
+            })}
+          >
+            سعر الطالب الاضافى{" "}
+            <span className="text-secondary font-bold text-base">
+              {priceFormatter.format(plan.additional_student_price)}
+              {" جنيه "}
+            </span>
+            فى الشهر
+          </p>
           {/* <p
             className={cn("text-lg font-bold text-gray-dark", {
               "text-gray-light": isFeatured,
@@ -138,17 +158,34 @@ export default function PricingPlanCard({
               ))}
             </ul>
 
-            {hasMoreFeatures && (
-              <Link
-                href="/bundles#plans-table"
-                className="flex items-center cursor-pointer gap-2 text-sm font-semibold mt-2 mb-4 transition-colors text-secondary hover:opacity-80"
-                scroll={false}
-                target="_blank"
-              >
-                <span>عرض المزيد ({features.length - FEATURE_LIMIT}+)</span>
-                <ChevronDown className="size-4" />
-              </Link>
-            )}
+            {hasMoreFeatures &&
+              (isOverview ? (
+                <button
+                  className="flex items-center cursor-pointer gap-2 text-sm font-semibold mt-2 mb-4 transition-colors text-secondary hover:opacity-80"
+                  onClick={() => {
+                    setShowAll((t) => !t);
+                  }}
+                >
+                  {showAll ? (
+                    <span>عرض اقل</span>
+                  ) : (
+                    <span>عرض المزيد ({features.length - FEATURE_LIMIT}+)</span>
+                  )}
+                  <ChevronDown
+                    className={cn("size-4", { "rotate-180": showAll })}
+                  />
+                </button>
+              ) : (
+                <Link
+                  href="/bundles#plans-table"
+                  className="flex items-center cursor-pointer gap-2 text-sm font-semibold mt-2 mb-4 transition-colors text-secondary hover:opacity-80"
+                  scroll={false}
+                  target="_blank"
+                >
+                  <span>عرض المزيد ({features.length - FEATURE_LIMIT}+)</span>
+                  <ChevronDown className="size-4" />
+                </Link>
+              ))}
           </div>
         )}
 

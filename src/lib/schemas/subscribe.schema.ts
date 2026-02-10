@@ -139,32 +139,34 @@ export const brandingSchema = z
     brandColor: z.string().min(1, "يجب اختيار لون الموقع"),
     selectedTemplate: z.string().min(1, "يجب اختيار قالب للموقع"),
 
-    logoFile: imageFileSchema(MAX_LOGO_SIZE, "اللوجو").nullable(),
+    logoFile: imageFileSchema(MAX_LOGO_SIZE, "اللوجو").nullable().optional(),
 
-    faviconFile: imageFileSchema(MAX_FAVICON_SIZE, "الأيقونة").nullable(),
+    faviconFile: imageFileSchema(MAX_FAVICON_SIZE, "الأيقونة")
+      .nullable()
+      .optional(),
 
     coverFile: imageFileSchema(MAX_COVER_SIZE, "صورة الغلاف")
       .nullable()
       .optional(),
   })
   .superRefine((data, ctx) => {
-    const { websiteName, logoFile, faviconFile } = data;
+    const { websiteName } = data;
 
-    if (!logoFile) {
-      ctx.addIssue({
-        path: ["logoFile"],
-        message: "يجب رفع اللوجو الخاص بالموقع",
-        code: z.ZodIssueCode.custom,
-      });
-    }
+    // if (!logoFile) {
+    //   ctx.addIssue({
+    //     path: ["logoFile"],
+    //     message: "يجب رفع اللوجو الخاص بالموقع",
+    //     code: z.ZodIssueCode.custom,
+    //   });
+    // }
 
-    if (!faviconFile) {
-      ctx.addIssue({
-        path: ["faviconFile"],
-        message: "يجب رفع أيقونة الموقع",
-        code: z.ZodIssueCode.custom,
-      });
-    }
+    // if (!faviconFile) {
+    //   ctx.addIssue({
+    //     path: ["faviconFile"],
+    //     message: "يجب رفع أيقونة الموقع",
+    //     code: z.ZodIssueCode.custom,
+    //   });
+    // }
 
     // Regex for subdomain (your original)
     const subDomainRegex = /^[a-z0-9]([a-z0-9-]*[a-z0-9])?$/;
