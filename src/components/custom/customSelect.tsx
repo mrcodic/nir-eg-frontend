@@ -52,7 +52,7 @@ const CustomSelect = ({
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
-                  <SelectTrigger className="border-gray-light flex w-full gap-2">
+                  <SelectTrigger className="border-gray-light flex w-full cursor-pointer gap-2 transition-all hover:bg-neutral-100">
                     {iconSrc && (
                       <Image
                         className="ml-2"

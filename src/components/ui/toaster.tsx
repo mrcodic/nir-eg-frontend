@@ -48,11 +48,11 @@ export function Toaster() {
             key={id}
             {...props}
             data-toast=""
-            className="fixed w-[400px] top-20 right-4 z-99999999! "
+            className="fixed top-20 right-0.5 z-99999999! w-[400px] max-w-[100vw] sm:right-4"
           >
-            <div className="flex items-center h-[5px]! gap-2 ">
+            <div className="flex h-[5px]! items-center gap-2">
               {/* {title && <ToastTitle>{title}</ToastTitle>} */}
-              <div className="size-7 rounded-lg flex justify-center items-center">
+              <div className="flex size-7 items-center justify-center rounded-lg">
                 <Image src={path} alt="" width={24} height={24} />
               </div>
 

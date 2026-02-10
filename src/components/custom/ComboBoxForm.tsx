@@ -82,7 +82,7 @@ export function ComboboxForm({
           </Button>
         </PopoverTrigger>
 
-        <PopoverContent className="z-99 w-[330px] p-0 xl:w-[600px]">
+        <PopoverContent className="z-99 w-(--radix-popover-trigger-width) p-0">
           <Command>
             <CommandInput
               placeholder={placeholder || `اختر ${label}`}

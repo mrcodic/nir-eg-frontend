@@ -14,10 +14,12 @@ function DynamicSelect({ queryKey, ...rest }: Props) {
   });
 
   const modifiedOptions = useMemo(() => {
-    return (data as any)?.data?.map((d: any) => ({
-      value: String(d.id),
-      label: d.name,
-    }));
+    return (data as any)?.data
+      ?.map((d: any) => ({
+        value: String(d.id),
+        label: d.name,
+      }))
+      .sort((a, b) => a.value - b.value);
   }, [data]);
 
   return (
