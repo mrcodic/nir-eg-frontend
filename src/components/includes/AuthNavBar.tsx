@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import { useMemo } from "react";
 
 import { useAuthContext } from "@/context/auth-context";
-
 import { useTenant } from "@/context/TenantProvider";
 import { cn } from "@/lib/utils";
 import NavNotifications from "@/modules/norifications/components/NavNotifications";
@@ -11,64 +11,57 @@ import CustomImage from "../ui/CustomImage";
 import LinkStyled from "./LinkStyled";
 import MobileDropDown from "./MobileDropDown";
 import NavUserMenu from "./NavUserMenu";
-import { BookLinksSettings } from "@/types/books.types";
-import WrapperHOC from "./WrapperHOC";
 import NavCartButton from "@/modules/books-store/components/NavCartButton";
+import { useBooksSettings } from "@/hooks/useBooksSettings";
 
 const AuthNavBar = () => {
   const { profile, grade } = useAuthContext();
   const { templateNumber, logo, features } = useTenant();
+  const { shouldShowBooks, shouldShowCart } = useBooksSettings();
 
   const hasGradesEnabled = features?.student_gradebook;
+  const isOnlineStudent = profile?.type !== 3;
+  const isOfflineStudent = profile?.type === 3;
 
-  const STUDENTSONLINELINKS = [
-    {
-      title: "ملف الطالب",
-      href: "/profile",
-    },
-    {
-      title: "الباقات",
-      href: `/bundles?grade=${grade?.id}`,
-    },
+  const studentLinks = useMemo(() => {
+    const links = [
+      {
+        title: "ملف الطالب",
+        href: "/profile",
+        show: true,
+      },
+      {
+        title: "الباقات",
+        href: `/bundles?grade=${grade?.id}`,
+        show: isOnlineStudent,
+      },
+      {
+        title: "الحصص",
+        href: profile?.has_center ? `/bundles/${profile?.center_id}` : "",
+        show: isOfflineStudent && profile?.has_center,
+      },
+      {
+        title: "الدرجات",
+        href: "/grades",
+        show: hasGradesEnabled,
+      },
+      {
+        title: "متجر الكتب",
+        href: "/books",
+        show: features?.book_store && shouldShowBooks,
+      },
+    ];
 
-    ...(hasGradesEnabled
-      ? [
-          {
-            title: "الدرجات",
-            href: "/grades",
-          },
-        ]
-      : []),
-    // {
-    //   title: "متجر النقاط",
-    //   href: "/store",
-    // },
-  ];
-
-  const STUDENTSOFFLINELINKS = [
-    {
-      title: "ملف الطالب",
-      href: "/profile",
-    },
-    {
-      title: "الحصص",
-      href: profile?.has_center ? `/bundles/${profile?.center_id}` : "",
-    },
-
-    ...(hasGradesEnabled
-      ? [
-          {
-            title: "الدرجات",
-            href: "/grades",
-          },
-        ]
-      : []),
-
-    // {
-    //   title: "متجر النقاط",
-    //   href: "/store",
-    // },
-  ];
+    return links.filter((link) => link.show && link.href);
+  }, [
+    profile,
+    grade,
+    isOnlineStudent,
+    isOfflineStudent,
+    hasGradesEnabled,
+    features?.book_store,
+    shouldShowBooks,
+  ]);
 
   return (
     <div
@@ -109,55 +102,19 @@ const AuthNavBar = () => {
           </Link>
 
           <ul className="mobile:flex mx-auto hidden list-none items-center gap-6 text-[16px] font-bold text-[#FFFFFF]">
-            {(profile?.type === 3
-              ? STUDENTSOFFLINELINKS
-              : STUDENTSONLINELINKS
-            ).map((studentLink, i) => (
-              <LinkStyled
-                key={i}
-                href={studentLink.href}
-                title={studentLink.title}
-              />
+            {studentLinks.map((link, i) => (
+              <LinkStyled key={i} href={link.href} title={link.title} />
             ))}
-
-            {features?.book_store && (
-              <WrapperHOC queryKey={["settings/books"]}>
-                {({ data }: { data: { data: BookLinksSettings } }) => {
-                  const booksData = data?.data;
-                  if (!booksData?.links?.length && booksData?.hide_books)
-                    return null;
-
-                  return (
-                    <LinkStyled
-                      key={"books"}
-                      href={"/books"}
-                      title={"متجر الكتب"}
-                    />
-                  );
-                }}
-              </WrapperHOC>
-            )}
           </ul>
 
           <div className="mobile:gap-6 flex items-center gap-4">
-            {features?.book_store && (
-              <WrapperHOC queryKey={["settings/books"]}>
-                {({ data }: { data: { data: BookLinksSettings } }) => {
-                  if (data?.data?.hide_books) return;
-                  return <NavCartButton />;
-                }}
-              </WrapperHOC>
-            )}
+            {features?.book_store && shouldShowCart && <NavCartButton />}
 
             <NavNotifications />
 
             <NavUserMenu profile={profile} />
 
-            <MobileDropDown
-              profile={profile}
-              STUDENTSONLINELINKS={STUDENTSONLINELINKS}
-              STUDENTSOFFLINELINKS={STUDENTSOFFLINELINKS}
-            />
+            <MobileDropDown studentLinks={studentLinks} />
           </div>
         </div>
       </div>

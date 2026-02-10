@@ -37,13 +37,13 @@ function NavCartButton() {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <button className="fixed bottom-4 left-4 z-[100] flex size-16 cursor-pointer items-center justify-center rounded-lg bg-[#FBF6F0] shadow-md">
+        <button className="bg-background fixed bottom-4 left-4 z-[100] flex size-16 cursor-pointer items-center justify-center rounded-lg shadow-md">
           <CountBubble
             count={displayCount}
             className="size-5 pt-px text-xs font-bold"
           />
           <Image
-            src="/assets/cart.svg"
+            src="/assets/icons/cart.svg"
             width={48}
             height={48}
             alt="cart button"

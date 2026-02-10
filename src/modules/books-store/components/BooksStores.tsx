@@ -10,13 +10,13 @@ export default function BooksStores({
   links: BookLinksSettings["links"];
 }) {
   return (
-    <section className="min-h-[300px] mt-12 py-8">
-      <RoomHeader title="متاجر الكتب" icon="/assets/BookColor.svg" />
+    <section className="mt-12 min-h-[300px] py-8">
+      <RoomHeader title="متاجر الكتب" icon="/assets/books-colored.svg" />
 
       {links.length ? (
         <BooksList links={links} />
       ) : (
-        <Empty text="لا توجد روابط متاحة." />
+        <Empty text="لا توجد متاجر متاحة." />
       )}
     </section>
   );
@@ -37,7 +37,7 @@ function BooksList({ links }: { links: LinkItem[] }) {
 function BooksListItem({ href }: { href: string }) {
   return (
     <li
-      className={`group bg-background transition-all   group-hover:border-(--grade-color)  hover:-translate-y-1  justify-between flex flex-col gap-1 p-4 border border-[#F8DEC5] rounded-lg`}
+      className={`group bg-background flex flex-col justify-between gap-1 rounded-lg border border-[#F8DEC5] p-4 transition-all group-hover:border-(--grade-color) hover:-translate-y-1`}
     >
       <Image
         src={"/assets/BookColor.svg"}
@@ -49,7 +49,7 @@ function BooksListItem({ href }: { href: string }) {
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-2 cursor-pointer"
+        className="inline-flex cursor-pointer items-center gap-2"
         prefetch={false}
       >
         <span className="font-medium underline-offset-4 group-hover:underline">
@@ -60,7 +60,7 @@ function BooksListItem({ href }: { href: string }) {
         </span>
       </Link>
 
-      <p className="mt-2 break-all text-sm text-muted-foreground line-clamp-3">
+      <p className="text-muted-foreground mt-2 line-clamp-3 text-sm break-all">
         {href}
       </p>
     </li>

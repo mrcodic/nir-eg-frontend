@@ -42,7 +42,7 @@ function BooksStoreItems({
 
   return (
     <section className={className}>
-      <RoomHeader icon={"/assets/BookColor.svg"} title={title || "الكتب"} />
+      <RoomHeader icon={"/assets/books-colored.svg"} title={title || "الكتب"} />
 
       {data?.data?.length ? (
         <BooksGrid

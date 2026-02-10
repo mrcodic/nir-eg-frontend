@@ -12,11 +12,7 @@ import {
 import { cn } from "@/lib/utils";
 import { MenuIcon } from "lucide-react";
 
-function MobileDropDown({
-  profile,
-  STUDENTSONLINELINKS,
-  STUDENTSOFFLINELINKS,
-}) {
+function MobileDropDown({ studentLinks }) {
   const pathName = usePathname();
 
   return (
@@ -45,20 +41,17 @@ function MobileDropDown({
             // },
           )}
         >
-          {(profile?.type === 3
-            ? STUDENTSOFFLINELINKS
-            : STUDENTSONLINELINKS
-          ).map((studentOffline, index, arr) => (
+          {studentLinks.map((studentLink, index, arr) => (
             <Link
               key={index}
-              href={studentOffline.href}
+              href={studentLink.href}
               className={`border-gray-light flex h-11 items-center justify-center rounded-[10px] border px-3 ${
-                pathName.substring(0, 6) === studentOffline.href.substring(0, 6)
+                pathName.substring(0, 6) === studentLink.href.substring(0, 6)
                   ? "bg-primary text-white"
-                  : "bg-transparent text-[#523412]"
+                  : "bg-transparent text-black"
               } ${index < arr.length - 1 ? "mb-4" : ""} `}
             >
-              <DropdownMenuItem>{studentOffline.title}</DropdownMenuItem>
+              <DropdownMenuItem>{studentLink.title}</DropdownMenuItem>
             </Link>
           ))}
         </div>
