@@ -31,7 +31,7 @@ export function MobilePricingView({
     );
 
   return (
-    <div className="md:hidden">
+    <div className="md:hidden overflow-x-hidden">
       {/* ================= Tabs ================= */}
       {plans.length > 1 && (
         <div
