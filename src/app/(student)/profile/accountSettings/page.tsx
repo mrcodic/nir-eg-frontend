@@ -18,9 +18,7 @@ import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import StudentCenterField from "@/components/custom/StudentCenterField";
-import OtpModal from "@/components/modals/OtpModal";
 import { useAuthContext } from "@/context/auth-context";
-import { useModal } from "@/context/ModalProvider";
 import { mutateClient } from "@/helpers/post-client";
 import ChangePasswordSettings from "@/modules/profile/components/ChangePasswordSettings";
 
@@ -28,7 +26,6 @@ const PageSettings = () => {
   const router = useRouter();
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const modal = useModal();
 
   const [changePassword, setIsChangePassword] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -195,7 +192,7 @@ const PageSettings = () => {
                   className="mt-6"
                 />
 
-                {profile?.parent_phone_verification === false && (
+                {/* {profile?.parent_phone_verification === false && (
                   <button
                     type="button"
                     onClick={async () => {
@@ -208,7 +205,7 @@ const PageSettings = () => {
                   >
                     قم بتأكيد رقم ولي الأمر
                   </button>
-                )}
+                )} */}
               </div>
 
               <div className="mt-6 flex w-full flex-col items-center gap-6 md:flex-row">
@@ -276,7 +273,11 @@ const PageSettings = () => {
                 }
                 className="mt-10 w-full max-w-[172px]"
               >
-                {isLoading ? <SmallSpinner /> : "حفظ التغيرات"}
+                {isLoading ? (
+                  <SmallSpinner className="text-white" />
+                ) : (
+                  "حفظ التغيرات"
+                )}
               </Button>
 
               {Object.values(form.formState.errors).length > 0 && (

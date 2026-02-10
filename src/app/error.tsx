@@ -33,14 +33,15 @@ export default function Error({
             <div className="flex w-full flex-wrap gap-4">
               <Button
                 onClick={() => router.push("/")}
-                className="text-gray-25 mx-auto w-[150px] border-2 bg-white hover:bg-gray-100 sm:w-[200px]"
+                variant="outline-gray"
+                className="mx-auto w-[150px] border-2 sm:w-[200px]"
               >
                 العودة للرئيسية
               </Button>
 
               <Button
                 onClick={() => reset()}
-                className="text-gray-25 mx-auto w-[150px] border-2 bg-[#523412] text-white sm:w-[200px]"
+                className="mx-auto w-[150px] border-2 sm:w-[200px]"
               >
                 حاول مرة أخرى
               </Button>

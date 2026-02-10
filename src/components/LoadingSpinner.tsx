@@ -19,7 +19,7 @@ const LoadingSpinner = ({
     >
       <DotLottieReact
         className={cn("mx-auto size-28", spinnerClassName)}
-        src="/Animations/roundloader.lottie"
+        src="/Animations/roundloader-blue.lottie"
         autoplay
         loop
       />

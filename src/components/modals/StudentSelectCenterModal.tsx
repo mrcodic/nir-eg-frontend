@@ -176,7 +176,11 @@ export function StudentSelectCenterModal() {
               className="bg-primary-800 border-gray-light h-8 w-36 rounded-lg border font-bold text-white"
               type="submit"
             >
-              {!form.formState.isSubmitting ? "   تأكيد" : <SmallSpinner />}
+              {!form.formState.isSubmitting ? (
+                "   تأكيد"
+              ) : (
+                <SmallSpinner className="text-white" />
+              )}
             </Button>
 
             <DialogClose

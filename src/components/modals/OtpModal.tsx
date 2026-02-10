@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -22,7 +22,7 @@ import { otpSchema } from "@/lib/schemas";
 import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import OTPInput from "../custom/OTPInput";
 import SmallSpinner from "../custom/SmallSpinner";
 import CountDownTimerUI from "../ui/CountDownTimerUI";
@@ -35,6 +35,7 @@ export default function OtpModal({ phone }) {
   const modal = useModal();
 
   const initialSend = useRef(false);
+  const isAutoSubmitting = useRef(false);
 
   const form = useForm<z.infer<typeof otpSchema>>({
     resolver: zodResolver(otpSchema),
@@ -44,38 +45,58 @@ export default function OtpModal({ phone }) {
     },
   });
 
+  const otpValue = useWatch({
+    control: form.control,
+    name: "otp_code",
+  });
+
   const { sendOtp, start, minutes, seconds, resending, isExpired } = useOtp();
 
-  async function onSubmit(data: z.infer<typeof otpSchema>) {
-    try {
-      await mutateClient("/otp/verify", {
-        body: {
-          ...data,
-          phone,
-        },
-      });
+  const onSubmit = useCallback(
+    async (data: z.infer<typeof otpSchema>) => {
+      try {
+        await mutateClient("/otp/verify", {
+          body: {
+            ...data,
+            phone,
+          },
+        });
 
-      toast({
-        description: "تم تأكيد رقم الهاتف بنجاح",
-        icon: "success",
-      });
+        toast({
+          description: "تم تأكيد رقم الهاتف بنجاح",
+          icon: "success",
+        });
 
-      queryClient.invalidateQueries({
-        queryKey: ["/students/profile"],
-      });
+        queryClient.invalidateQueries({
+          queryKey: ["/students/profile"],
+        });
 
-      localStorage.removeItem(OTP_SEND_TIME_KEY);
-      router.refresh();
-    } catch (e) {
-      console.log(e);
-      toast({
-        description: " رمز التأكيد غلط او وقته خلص",
-        icon: "error",
-      });
-    } finally {
-      modal.closeModal();
+        localStorage.removeItem(OTP_SEND_TIME_KEY);
+        router.refresh();
+      } catch (e) {
+        console.log(e);
+        toast({
+          description: " رمز التأكيد غلط او وقته خلص",
+          icon: "error",
+        });
+      } finally {
+        modal.closeModal();
+      }
+    },
+    [phone, queryClient, toast, router, modal],
+  );
+
+  // Auto-submit when OTP is complete
+  useEffect(() => {
+    if (otpValue.length === 6) {
+      if (!isAutoSubmitting.current) {
+        isAutoSubmitting.current = true;
+        form.handleSubmit(onSubmit)();
+      }
+    } else {
+      isAutoSubmitting.current = false;
     }
-  }
+  }, [otpValue, start, form, onSubmit]);
 
   useEffect(() => {
     if (!isExpired && !initialSend.current) {
@@ -162,9 +183,13 @@ export default function OtpModal({ phone }) {
             <Button
               className="bg-primary-800 border-gray-light h-8 w-36 rounded-lg border font-bold text-white"
               type="submit"
-              disabled={!start}
+              disabled={!start || form.formState.isSubmitting}
             >
-              {!form.formState.isSubmitting ? "   تأكيد" : <SmallSpinner />}
+              {!form.formState.isSubmitting ? (
+                "   تأكيد"
+              ) : (
+                <SmallSpinner className="text-white" />
+              )}
             </Button>
 
             <DialogClose

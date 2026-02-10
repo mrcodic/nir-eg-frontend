@@ -204,7 +204,11 @@ const RegisterPage = () => {
               className="ms-auto w-full max-w-40"
               disabled={form.formState.isSubmitting}
             >
-              {!form.formState.isSubmitting ? "إنشاء حساب" : <SmallSpinner />}
+              {!form.formState.isSubmitting ? (
+                "إنشاء حساب"
+              ) : (
+                <SmallSpinner className="text-white" />
+              )}
             </Button>
           </div>
         </form>

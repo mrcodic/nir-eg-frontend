@@ -126,7 +126,11 @@ const ForgetPasswordPage = () => {
               className="ms-auto w-full max-w-40"
               disabled={form.formState.isSubmitting}
             >
-              {!form.formState.isSubmitting ? "تأكيد" : <SmallSpinner />}
+              {!form.formState.isSubmitting ? (
+                "تأكيد"
+              ) : (
+                <SmallSpinner className="text-white" />
+              )}
             </Button>
           </div>
         </form>

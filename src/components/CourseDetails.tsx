@@ -2,19 +2,23 @@
 
 import ExamCard from "@/components/ExamCard";
 import RoomHeader from "@/components/RoomHeader";
-import CourseActivitiesTable from "@/components/tables/CourseActivitiesTable";
-import RankTable from "@/components/tables/RankTable";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getClientPrivateData, getClientData } from "@/helpers/client-fetch";
 import { ApiResponse, ICourseDetails, IExamCard, IUser } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
-import { useCallback, useMemo, useState } from "react";
+import { Suspense, useCallback, useMemo, useState } from "react";
 import Empty from "./Empty";
 import InfiniteScroll from "./InfinteScroll";
 import LoadingSpinner from "./LoadingSpinner";
 import RoomAccordion from "./RoomAccordion";
 import { useTenant } from "@/context/TenantProvider";
+import dynamic from "next/dynamic";
+
+const CourseActivitiesTable = dynamic(
+  () => import("@/components/tables/CourseActivitiesTable"),
+);
+const RankTable = dynamic(() => import("@/components/tables/RankTable"));
 
 type Props = {
   details: ICourseDetails;
@@ -211,17 +215,25 @@ const CourseDetails = ({ details, profile }: Props) => {
         )}
       </TabsContent>
 
-      <TabsContent value="activities">
-        <RoomHeader title="الأنشطة" icon="/assets/star-colored.svg" />
+      <Suspense fallback={<LoadingSpinner />}>
+        {hasGradesEnabled && (
+          <TabsContent value="activities">
+            <RoomHeader title="الأنشطة" icon="/assets/star-colored.svg" />
 
-        <CourseActivitiesTable enabled={selectedTab === "activities"} />
-      </TabsContent>
+            <CourseActivitiesTable enabled={selectedTab === "activities"} />
+          </TabsContent>
+        )}
+      </Suspense>
 
-      <TabsContent value="rank">
-        <RoomHeader title="ترتيب الطلاب" icon="/assets/rank-colored.svg" />
+      <Suspense fallback={<LoadingSpinner />}>
+        {hasPointsEnabled && (
+          <TabsContent value="rank">
+            <RoomHeader title="ترتيب الطلاب" icon="/assets/rank-colored.svg" />
 
-        <RankTable />
-      </TabsContent>
+            <RankTable />
+          </TabsContent>
+        )}
+      </Suspense>
     </Tabs>
   );
 };

@@ -6,6 +6,7 @@ import CourseCard from "./CourseCard";
 import Empty from "./Empty";
 import PaginationComponent from "./Pagination";
 import RoomHeader from "./RoomHeader";
+import { Skeleton } from "./ui/skeleton";
 
 const SubbedCourses = () => {
   const [page, setPage] = useState(1);
@@ -52,6 +53,13 @@ const SubbedCourses = () => {
             </div>
           );
         }}
+        customLoading={
+          <div className="cards-grid mt-6">
+            <Skeleton className="mx-auto h-[430px] w-full max-w-[500px] rounded-lg" />
+            <Skeleton className="mx-auto h-[430px] w-full max-w-[500px] rounded-lg" />
+            <Skeleton className="mx-auto h-[430px] w-full max-w-[500px] rounded-lg" />
+          </div>
+        }
       />
     </div>
   );

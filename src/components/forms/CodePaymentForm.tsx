@@ -130,7 +130,11 @@ function CodePaymentForm({
                     className="h-11 sm:w-full sm:max-w-[125px]"
                     disabled={isSubmitting}
                   >
-                    {!isSubmitting ? "إدخال" : <SmallSpinner />}
+                    {!isSubmitting ? (
+                      "إدخال"
+                    ) : (
+                      <SmallSpinner className="text-white" />
+                    )}
                   </Button>
                 </div>
               </FormItem>

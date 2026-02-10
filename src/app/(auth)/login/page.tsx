@@ -160,7 +160,7 @@ const AuthPage = () => {
                 {!form.formState.isSubmitting ? (
                   " تسجيل دخول"
                 ) : (
-                  <SmallSpinner />
+                  <SmallSpinner className="text-white" />
                 )}
               </Button>
             </div>

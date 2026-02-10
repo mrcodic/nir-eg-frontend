@@ -200,7 +200,7 @@ function TaskForm({
   if (isLoading || !data?.questions?.length) {
     return (
       <div className="flex min-h-40 items-center justify-center">
-        <SmallSpinner />
+        <SmallSpinner className="text-primary-800" />
       </div>
     );
   }
@@ -270,7 +270,11 @@ function TaskForm({
               if (confirmed) onSubmit();
             }}
           >
-            {isSubmitting ? <SmallSpinner /> : "حفظ الاجابات"}
+            {isSubmitting ? (
+              <SmallSpinner className="text-white" />
+            ) : (
+              "حفظ الاجابات"
+            )}
           </Button>
         )}
       </form>

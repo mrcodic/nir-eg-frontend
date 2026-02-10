@@ -112,10 +112,14 @@ const NewPasswordForm = () => {
 
           <button
             type="submit"
-            className="border-gray-light mt-[56px] flex w-[265px] justify-center rounded-[10px] border bg-[#523412] py-2 font-bold text-white"
+            className="border-gray-light bg-primary-800 mt-14 flex w-[265px] justify-center rounded-[10px] border py-2 font-bold text-white"
             disabled={form.formState.isSubmitting}
           >
-            {!form.formState.isSubmitting ? "   تأكيد" : <SmallSpinner />}
+            {!form.formState.isSubmitting ? (
+              "   تأكيد"
+            ) : (
+              <SmallSpinner className="text-white" />
+            )}
           </button>
         </form>
       </Form>

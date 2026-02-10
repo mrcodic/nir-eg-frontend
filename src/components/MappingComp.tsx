@@ -14,6 +14,7 @@ type Props = {
   showEmpty?: boolean;
   emptyProps?: ComponentProps<typeof Empty>;
   errorProps?: ComponentProps<typeof Empty>;
+  customLoading?: React.ReactNode;
 };
 
 // Outer component with Suspense boundary
@@ -24,6 +25,7 @@ const MappingComp = ({
   showEmpty = false,
   emptyProps,
   errorProps,
+  customLoading,
 }: Props) => {
   const { token, isLoading: authLoading } = useAuthContext();
   const { data, error, isLoading } = useQuery({
@@ -37,7 +39,7 @@ const MappingComp = ({
   // const authLoading = typeof token === "undefined";
 
   if (authLoading || isLoading) {
-    return <LoadingSpinner />;
+    return customLoading || <LoadingSpinner />;
   }
 
   if (error) {

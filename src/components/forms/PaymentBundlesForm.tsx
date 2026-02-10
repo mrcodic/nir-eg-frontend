@@ -81,7 +81,11 @@ const PaymentBundlesForm = ({ id, gradeId, label }) => {
               className="bg-primary border-gray-light h-[40px] self-end rounded-[10px] border px-[24px] text-white"
               disabled={isSubmitting}
             >
-              {!isSubmitting ? "إدخال" : <SmallSpinner />}
+              {!isSubmitting ? (
+                "إدخال"
+              ) : (
+                <SmallSpinner className="text-white" />
+              )}
             </button>
           </div>
         </div>

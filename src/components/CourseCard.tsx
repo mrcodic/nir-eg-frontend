@@ -78,7 +78,7 @@ const CourseCard = ({
 
   return (
     <motion.div
-      className="group relative flex h-full w-full flex-col items-center rounded-lg"
+      className="group relative mx-auto flex h-full w-full max-w-[500px] flex-col items-center rounded-lg"
       variants={cardVariants}
       initial="hidden"
       whileInView="visible"

@@ -19,7 +19,7 @@ function DownloadFileBtn({
       className="flex items-center gap-2"
     >
       {isDownloading ? (
-        <SmallSpinner className="size-4" />
+        <SmallSpinner className="size-4 text-white" />
       ) : (
         <Download size={16} />
       )}

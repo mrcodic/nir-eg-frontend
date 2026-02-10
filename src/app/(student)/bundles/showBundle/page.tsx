@@ -1,7 +1,7 @@
 "use client";
 import BundleCard from "@/components/BundleCard";
 import CourseCard from "@/components/CourseCard";
-import SmallSpinner from "@/components/custom/SmallSpinner";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import { PaymentModel } from "@/components/modals/PaymentModel";
 import RoomHeader from "@/components/RoomHeader";
 import { Button } from "@/components/ui/button";
@@ -10,7 +10,7 @@ import RemainingDuration from "@/components/ui/RemainingDuration";
 import StyledText from "@/components/ui/StyledText";
 import { useAuthContext } from "@/context/auth-context";
 import { useModal } from "@/context/ModalProvider";
-import { getClientPrivateData, getClientData } from "@/helpers/client-fetch";
+import { getClientData, getClientPrivateData } from "@/helpers/client-fetch";
 import { formatCurrency } from "@/lib/utils";
 import { Bundle } from "@/types";
 import { useQuery } from "@tanstack/react-query";
@@ -45,7 +45,7 @@ const ShowBundle = () => {
   if (isLoading) {
     return (
       <div className="wrapper mt-[140px] flex min-h-[min(calc(100vh-140px),768px)] items-center justify-center">
-        <SmallSpinner />
+        <LoadingSpinner />
       </div>
     );
   }
