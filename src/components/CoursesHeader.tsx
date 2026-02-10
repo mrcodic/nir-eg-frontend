@@ -79,7 +79,7 @@ const CoursesHeader = ({ details }: { details: ICourseDetails }) => {
             </div>
 
             {details?.is_subscriped &&
-              (profile?.type == 4 || profile?.type == 5) &&
+              profile?.type != 3 &&
               details?.grade_group_link && (
                 <GroupJoinBadge groupLink={details?.grade_group_link} />
               )}

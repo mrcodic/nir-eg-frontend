@@ -9,6 +9,7 @@ import { QRCodeSVG } from "qrcode.react";
 import ProfileCoupon from "./ProfileCoupon";
 import ProfileGradeCard from "./ProfileGradeCard";
 import StudentPointsCard from "./StudentPointsCard";
+import { useTenant } from "@/context/TenantProvider";
 
 const StudentSelectCenterModal = dynamic(async () =>
   import("@/components/modals/StudentSelectCenterModal").then(
@@ -18,6 +19,9 @@ const StudentSelectCenterModal = dynamic(async () =>
 
 function ProfileHeaderCard({ profileData }: { profileData: IUser }) {
   const modal = useModal();
+  const { features } = useTenant();
+
+  const hasPointsEnabled = features.points_system;
 
   return (
     <motion.div
@@ -76,7 +80,9 @@ function ProfileHeaderCard({ profileData }: { profileData: IUser }) {
       <div className="border-gray-light mt-6 flex w-full flex-col gap-4 border-t pt-6 empty:mt-0 empty:border-0 empty:pt-0 max-xl:flex-wrap md:flex-row">
         {/* <StudentRankCard /> */}
 
-        <StudentPointsCard points={profileData?.points || 0} />
+        {hasPointsEnabled && (
+          <StudentPointsCard points={profileData?.points || 0} />
+        )}
 
         <ProfileCoupon />
       </div>

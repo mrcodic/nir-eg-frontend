@@ -1,15 +1,21 @@
 "use client";
 
+import LoadingSpinner from "@/components/LoadingSpinner";
 import { StudentSelectCenterModal } from "@/components/modals/StudentSelectCenterModal";
 
 import RoomHeader from "@/components/RoomHeader";
 import { useAuthContext } from "@/context/auth-context";
 import { useModal } from "@/context/ModalProvider";
+import { useTenant } from "@/context/TenantProvider";
 import ProfileHeaderCard from "@/modules/profile/components/ProfileHeaderCard";
-import ProfilePointsTable from "@/modules/profile/components/ProfilePointsTable";
 import ProfileRoomsWrapper from "@/modules/profile/components/ProfileRoomsWrapper";
 import StudentTasksOverview from "@/modules/profile/components/StudentTasksOverview";
-import { useEffect, useRef } from "react";
+import dynamic from "next/dynamic";
+import { Suspense, useEffect, useRef } from "react";
+
+const ProfilePointsTable = dynamic(
+  () => import("@/modules/profile/components/ProfilePointsTable"),
+);
 
 // const ProfileVerifyPhoneCard = dynamic(
 //   () => import("@/modules/profile/components/ProfileVerifyPhoneCard"),
@@ -17,6 +23,7 @@ import { useEffect, useRef } from "react";
 
 const ProfilePage = () => {
   const { profile } = useAuthContext();
+  const { features } = useTenant();
 
   const modal = useModal();
   const modalShown = useRef(false);
@@ -29,6 +36,8 @@ const ProfilePage = () => {
       modalShown.current = true;
     }
   }, [profile, modal]);
+
+  const hasPointsEnabled = features?.points_system;
 
   // console.log("profile rooms : ", rooms);
 
@@ -52,11 +61,15 @@ const ProfilePage = () => {
           <ProfileRoomsWrapper />
         </div>
 
-        <div id="points-table" className="mt-24 scroll-mt-24">
-          <RoomHeader icon={"/assets/star-colored.svg"} title={"النقاط"} />
+        <Suspense fallback={<LoadingSpinner />}>
+          {hasPointsEnabled && (
+            <div id="points-table" className="mt-24 scroll-mt-24">
+              <RoomHeader icon={"/assets/star-colored.svg"} title={"النقاط"} />
 
-          <ProfilePointsTable />
-        </div>
+              <ProfilePointsTable />
+            </div>
+          )}
+        </Suspense>
       </div>
     </div>
   );
