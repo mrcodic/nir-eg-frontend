@@ -35,7 +35,7 @@ export default function Home() {
     <main className="flex w-full flex-col gap-22 mb-22">
       <HeroSection />
 
-      <LazyOnView className="min-h-[445px]">
+      <LazyOnView className="min-h-[445px]" offset="500px">
         <Suspense
           fallback={
             <div className="wrapper space-y-6 section">

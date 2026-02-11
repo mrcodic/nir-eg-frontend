@@ -1,6 +1,6 @@
 "use client";
 
-import LottieFromPath from "@/lib/lottie-wrapper";
+import LottieFromPath from "@/lib/lottie-lazy-wrapper";
 import { WhyChooseSection } from "@/types/landing.types";
 import MotionWrapper from "../MotionWrapper";
 

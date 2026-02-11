@@ -1,8 +1,9 @@
-import LottieFromPath from "@/lib/lottie-wrapper";
 import Image from "next/image";
 import MotionWrapper from "../MotionWrapper";
 import HeroButtons from "./HeroButtons";
 import HeroText from "./HeroText";
+import animationData from "../../../public/assets/animations/optimized-hero-nir.json";
+import LottiePlayer from "@/lib/LottieAnimation";
 
 function HeroSection() {
   return (
@@ -76,7 +77,7 @@ function HeroSection() {
           }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <LottieFromPath path={"/assets/animations/optimized-hero-nir.json"} />
+          <LottiePlayer animationData={animationData} />
         </MotionWrapper>
       </MotionWrapper>
     </section>
