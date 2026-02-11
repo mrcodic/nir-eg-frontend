@@ -11,9 +11,26 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { MenuIcon } from "lucide-react";
+import { useModal } from "@/context/ModalProvider";
+import { useCallback } from "react";
+import { StudentSelectCenterModal } from "../modals/StudentSelectCenterModal";
+import { useAuthContext } from "@/context/auth-context";
 
 function MobileDropDown({ studentLinks }) {
+  const { profile } = useAuthContext();
   const pathName = usePathname();
+  const modal = useModal();
+
+  const handleCenterSelect = useCallback(
+    (isCenterDetails: boolean) => {
+      if (!isCenterDetails) return;
+      if (isCenterDetails && profile?.has_center === false) {
+        modal.setDialogContent(<StudentSelectCenterModal />);
+        modal.openModal();
+      }
+    },
+    [modal, profile?.has_center],
+  );
 
   return (
     <DropdownMenu>
@@ -45,6 +62,7 @@ function MobileDropDown({ studentLinks }) {
             <Link
               key={index}
               href={studentLink.href}
+              onClick={() => handleCenterSelect(studentLink.title === "الحصص")}
               className={`border-gray-light flex h-11 items-center justify-center rounded-[10px] border px-3 ${
                 pathName.substring(0, 6) === studentLink.href.substring(0, 6)
                   ? "bg-primary text-white"

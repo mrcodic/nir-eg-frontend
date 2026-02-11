@@ -176,7 +176,7 @@ export function StudentSelectCenterModal() {
             <p className="text-[12px] text-red-500">من فضلك اختر السنتر</p>
           )}
 
-          <DialogFooter className="mt-8 flex w-full flex-row items-center gap-6 max-sm:flex-col sm:justify-center">
+          <DialogFooter className="mt-8 flex w-full flex-row flex-wrap items-center justify-center gap-x-6 gap-y-2 sm:justify-center">
             <Button
               disabled={
                 form.formState.isSubmitting || !form.getValues("center_id")

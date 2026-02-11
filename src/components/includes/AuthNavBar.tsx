@@ -21,7 +21,7 @@ const AuthNavBar = () => {
 
   const hasGradesEnabled = features?.student_gradebook;
   const isOnlineStudent = profile?.type !== 3;
-  const isOfflineStudent = profile?.type === 3;
+  // const isOfflineStudent = profile?.type === 3;
 
   const studentLinks = useMemo(() => {
     const links = [
@@ -38,7 +38,7 @@ const AuthNavBar = () => {
       {
         title: "الحصص",
         href: profile?.has_center ? `/bundles/${profile?.center_id}` : "",
-        show: isOfflineStudent && profile?.has_center,
+        show: true,
       },
       {
         title: "الدرجات",
@@ -52,12 +52,13 @@ const AuthNavBar = () => {
       },
     ];
 
-    return links.filter((link) => link.show && link.href);
+    return links.filter(
+      (link) => link.show && (link.href || link.title === "الحصص"),
+    );
   }, [
     profile,
     grade,
     isOnlineStudent,
-    isOfflineStudent,
     hasGradesEnabled,
     features?.book_store,
     shouldShowBooks,

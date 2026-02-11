@@ -21,9 +21,9 @@ function LinkStyled({ href, title }: { href: string; title: string }) {
   const activeOrHover = isActive || isHover || isFocus;
 
   const handleCenterSelect = useCallback(
-    (isBundlesPage: boolean) => {
-      if (!isBundlesPage) return;
-      if (isBundlesPage && profile?.has_center === false) {
+    (isCenterDetails: boolean) => {
+      if (!isCenterDetails) return;
+      if (isCenterDetails && profile?.has_center === false) {
         modal.setDialogContent(<StudentSelectCenterModal />);
         modal.openModal();
       }
