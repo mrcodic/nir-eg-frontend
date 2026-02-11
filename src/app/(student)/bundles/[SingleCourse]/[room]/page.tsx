@@ -59,7 +59,6 @@ const SingleVideo = () => {
   const lockedByViewLimit = otpData?.locakedByViewLimit;
 
   // console.log("lessons : ", data?.body?.lessons);
-  console.log("otpData : ", otpData);
 
   return (
     <>

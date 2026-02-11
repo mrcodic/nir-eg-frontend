@@ -83,8 +83,8 @@ const RoomSideContent = ({
           locked={locked}
           active={
             lesson?.video_type === "youtube"
-              ? videoUrl !== lesson?.video_link
-              : videoId !== lesson?.vedio_id
+              ? videoUrl === lesson?.video_link
+              : videoId === lesson?.vedio_id
           }
           roomId={data.room.id}
           classroomId={SingleCourse as string}
@@ -175,15 +175,17 @@ const LessonCard = memo(function LessonCard({
 }) {
   return (
     <div
+      aria-disabled={locked || active}
+      role="button"
       onClick={() => {
-        if (locked) return;
+        if (locked || active) return;
         onClick?.();
       }}
       className={cn(
-        "relative mt-4 mb-3 cursor-pointer rounded-lg border px-2 py-2",
+        "relative mt-4 mb-3 cursor-pointer rounded-lg border px-2 py-2 aria-disabled:cursor-default",
         active
           ? "border-primary-800 bg-background"
-          : "border-[#1EAD7B] bg-white",
+          : "border-semantics-green bg-white",
         locked && "border-gray-light cursor-not-allowed",
       )}
     >
