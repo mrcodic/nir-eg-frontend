@@ -10,7 +10,6 @@ import { SimplePagination } from "@/components/ui/SimplePagination";
 import { getClientPrivateData } from "@/helpers/client-fetch";
 import { cn } from "@/lib/utils";
 import { NotificationsData } from "@/types";
-// import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useState } from "react";
@@ -40,7 +39,7 @@ function NavNotifications() {
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
-        <button className="border-gray-light group hover:bg-primary-800 relative flex size-10 cursor-pointer items-center justify-center rounded-lg border transition-all focus:outline-hidden">
+        <button className="border-primary-100 group hover:bg-primary-800 relative flex size-10 cursor-pointer items-center justify-center rounded-lg border transition-all focus:outline-hidden">
           {notifications?.meta?.unread_count > 0 && (
             <CountBubble count={notifications?.meta?.unread_count} />
           )}

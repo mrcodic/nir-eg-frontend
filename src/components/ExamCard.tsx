@@ -72,6 +72,7 @@ const ExamCard = ({ exam }: Props) => {
         <img
           className="size-14 self-start sm:size-[72px]"
           src="/assets/ExamsColor.svg"
+          alt="exam icon"
         />
 
         <div className="grow max-sm:pt-8">
@@ -85,7 +86,7 @@ const ExamCard = ({ exam }: Props) => {
           <div className="flex flex-wrap items-center justify-between gap-1">
             {exam.duration && (
               <div className="flex gap-2">
-                <img className="h-6 w-6" src="/assets/time.svg" />
+                <img className="h-6 w-6" src="/assets/time.svg" alt="time" />
                 <span className="text-sm font-medium">
                   مدة الامتحان:
                   <strong className="ms-1">{exam.duration} دقيقة</strong>
@@ -95,7 +96,11 @@ const ExamCard = ({ exam }: Props) => {
 
             {exam.created_at && (
               <div className="flex gap-2">
-                <img className="h-6 w-6" src="/assets/calendar.svg" />
+                <img
+                  className="h-6 w-6"
+                  src="/assets/calendar.svg"
+                  alt="calendar"
+                />
                 <span className="text-[14px] font-medium">
                   تاريخ الامتحان:
                   <strong className="ms-1">
@@ -121,7 +126,11 @@ const ExamCard = ({ exam }: Props) => {
               className="bg-primary border-secondary flex h-11 shrink-0 items-center gap-2 rounded-lg border px-2 py-2 text-white"
             >
               <span>{ctaLabel}</span>
-              <img src="/assets/LeftArrowColor.svg" className="size-5" />
+              <img
+                src="/assets/LeftArrowColor.svg"
+                className="size-5"
+                alt="arrow"
+              />
             </Link>
           ) : (
             <div className="flex h-11 shrink-0 items-center gap-2 rounded-lg border border-black px-3 font-bold text-black">
