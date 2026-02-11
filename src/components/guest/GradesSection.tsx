@@ -10,8 +10,6 @@ const GradesSection = async () => {
     isAuth: false,
   });
 
-  console.log("grades : ", grades);
-
   if (!grades?.data?.length) return null;
 
   return (

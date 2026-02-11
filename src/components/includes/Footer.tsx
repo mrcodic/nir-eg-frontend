@@ -20,7 +20,7 @@ const Footer = async () => {
         <div className="mobile:col-span-4 col-span-12 flex flex-col items-start gap-4">
           <Link href={""} className="gap-2">
             <CustomImage
-              src={footerSettings?.image}
+              src={footerSettings?.image || "/logo.svg"}
               fallback="/logo.svg"
               className="h-12 w-[110px] object-contain object-right"
               width={110}

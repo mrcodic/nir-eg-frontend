@@ -119,7 +119,7 @@ export const TaskProvider = ({ children, taskType = "exam" }) => {
     // refetchOnMount: false,
   });
 
-  const onComplete = useCallback(({ completed }: { completed: boolean }) => {
+  const onComplete = useCallback(({ completed } = { completed: false }) => {
     if (completed) setCompleted(true);
   }, []);
 

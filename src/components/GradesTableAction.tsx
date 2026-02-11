@@ -62,7 +62,7 @@ function GradesTableAction({
             )
           ) : (
             <span className="text-[16px] font-bold text-[#1EAD7B]">
-              {rowValue}
+              {rowValue || "جارى التصحيح"}
             </span>
           )}
         </div>
