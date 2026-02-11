@@ -12,6 +12,8 @@ import { useQuery } from "@tanstack/react-query";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { UseFormReturn, useWatch } from "react-hook-form";
 import NavigationButtons from "../shared/NavigationButtons";
+import { useMemo } from "react";
+import { priceFormatter } from "@/utils/formatters";
 
 interface PaymentStepProps {
   form: UseFormReturn<PaymentFormData>;
@@ -58,6 +60,22 @@ export default function PaymentStep({
 
   const plan = data?.data;
 
+  const yearlyDiscount = useMemo(
+    () =>
+      plan &&
+      Math.min(
+        Number(
+          (
+            ((plan?.price_month * 12 - plan?.price_year) /
+              (plan?.price_month * 12)) *
+            100
+          ).toFixed(0),
+        ),
+        100,
+      ),
+    [plan],
+  );
+
   if (isLoading) return <Spinner />;
 
   if (!plan) return <Empty text="حدث خطأ اثناء عرض بيانات الدفع" isError />;
@@ -90,30 +108,52 @@ export default function PaymentStep({
         {/* Total Amount Display */}
         <div className="p-4 bg-blue-gradient rounded-lg border border-primary-100">
           <div className="flex justify-between items-center">
-            <span className="text-white font-bold">إجمالي المبلغ</span>
-            <span className="text-2xl font-bold text-secondary">
+            <span className="text-white font-bold sm:text-base text-sm">
+              إجمالي المبلغ
+            </span>
+            <span className="sm:text-2xl text-xl font-bold text-secondary">
               {totalAmount?.toLocaleString("ar-EG")} جنية
-              <span className="text-base ms-1 text-white">
+              <span className="sm:text-base text-sm ms-1 text-white">
                 / {paymentPeriod === "monthly" ? "شهر" : "سنة"}
               </span>
             </span>
           </div>
 
-          {paymentPeriod === "yearly" && (
-            <p className="text-lg text-green-400 font-bold mt-2 ">
-              وفر{" "}
-              {Math.min(
-                Number(
-                  (
-                    ((plan?.price_month * 12 - plan?.price_year) /
-                      (plan?.price_month * 12)) *
-                    100
-                  ).toFixed(0),
-                ),
-                100,
-              )}
-              % مع الدفع السنوي!
-            </p>
+          {paymentPeriod === "yearly" ? (
+            <div className="flex justify-between items-center gap-2 flex-wrap">
+              <p className="sm:text-lg text-xs text-green-400 font-bold mt-2 ">
+                وفر {yearlyDiscount}% مع الدفع السنوي!{" "}
+                <span className="text-white line-through ms-2">
+                  {priceFormatter.format(
+                    plan?.price_month * 12 - plan?.price_year,
+                  )}{" "}
+                  جنية
+                </span>
+              </p>
+              <p className="sm:text-lg text-xs text-green-400 font-bold mt-2 ">
+                <span className="sm:text-sm text-xs font-bold text-white">
+                  {priceFormatter.format(plan?.price_year / 12)} جنية
+                  <span className="sm:text-10 text-[8px] ms-1 text-white">
+                    / شهر
+                  </span>
+                </span>
+              </p>
+            </div>
+          ) : (
+            <div className="flex justify-between items-center gap-2 flex-wrap">
+              <p className="sm:text-lg text-xs text-green-400 font-bold mt-2 ">
+                وفر {yearlyDiscount}% مع الدفع السنوي!{" "}
+              </p>
+
+              <p className="sm:text-lg text-xs text-green-400 font-bold mt-2 ">
+                <span className="sm:text-sm text-xs font-bold text-white">
+                  {priceFormatter.format(plan?.price_month * 12)} جنية
+                  <span className="sm:text-10 text-[8px] ms-1 text-white">
+                    / سنه
+                  </span>
+                </span>
+              </p>
+            </div>
           )}
         </div>
 
