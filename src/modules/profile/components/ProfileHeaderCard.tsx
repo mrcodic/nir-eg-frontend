@@ -58,7 +58,7 @@ function ProfileHeaderCard({ profileData }: { profileData: IUser }) {
                       </div> */}
         </div>
 
-        <div className="flex flex-wrap items-center justify-end gap-8 p-2">
+        <div className="flex flex-col items-center justify-end gap-x-4 gap-y-8 p-2 sm:flex-row">
           {profileData?.grade_name && (
             <ProfileGradeCard text={profileData?.grade_name} />
           )}
@@ -66,10 +66,10 @@ function ProfileHeaderCard({ profileData }: { profileData: IUser }) {
           {profileData?.id && profileData?.type === 3 && (
             <QRCodeSVG
               value={String(profileData?.id)}
-              size={100}
+              size={56}
               bgColor="#ffffff"
               fgColor="#000000"
-              className="max-md:mx-auto"
+              className="shrink-0 max-sm:mx-auto max-sm:size-24"
             />
           )}
         </div>

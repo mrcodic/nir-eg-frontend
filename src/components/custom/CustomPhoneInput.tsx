@@ -106,7 +106,7 @@ const CustomPhoneInput = ({
             </div>
 
             {info && (
-              <p className="text-primary-800 mt-1 mr-2 text-sm">{info}</p>
+              <p className="text-primary-800 mt-1 mr-2 text-xs">{info}</p>
             )}
           </div>
 

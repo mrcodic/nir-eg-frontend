@@ -104,7 +104,11 @@ export function StudentSelectCenterModal() {
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <Popover open={openCombobox} onOpenChange={setOpenCombox}>
+          <Popover
+            open={openCombobox}
+            onOpenChange={setOpenCombox}
+            modal={true}
+          >
             <PopoverTrigger asChild>
               <Button
                 variant="ghost"
@@ -131,7 +135,11 @@ export function StudentSelectCenterModal() {
               </Button>
             </PopoverTrigger>
 
-            <PopoverContent className="max-h-[400px] w-(--radix-popover-trigger-width) p-0">
+            <PopoverContent
+              className="max-h-[400px] w-(--radix-popover-trigger-width) p-0"
+              usePortal
+              onOpenAutoFocus={(e) => e.preventDefault()}
+            >
               <Command>
                 <CommandInput placeholder="بحث عن السنتر" className="h-9" />
                 <CommandList>

@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { DialogContentProps } from "@radix-ui/react-dialog";
+import { Loader2 } from "lucide-react";
 import {
   createContext,
   Dispatch,
@@ -21,7 +22,6 @@ import {
   useMemo,
   useState,
 } from "react";
-import { FaSpinner } from "react-icons/fa";
 
 type ModalContextType = {
   isOpen: boolean;
@@ -111,13 +111,21 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
                 e.preventDefault();
               }
 
+              if (
+                e.target instanceof Element &&
+                (e.target.closest("[data-radix-popover-content]") ||
+                  e.target.closest("[data-popover-content]"))
+              ) {
+                e.preventDefault();
+              }
+
               dialogContentProps?.onPointerDownOutside?.(e);
             }}
           >
             <Suspense
               fallback={
                 <div className="flex size-full min-h-[400px] items-center justify-center">
-                  <FaSpinner className="text-primary-800 size-10 animate-spin" />
+                  <Loader2 className="text-primary-800 size-10 animate-spin" />
                 </div>
               }
             >

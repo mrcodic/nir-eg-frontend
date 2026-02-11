@@ -12,7 +12,7 @@ function ProfileGradeCard({ text }: { text: string }) {
       />
 
       <div className="relative w-full px-1 text-nowrap">
-        <h3 className="relative z-10 flex items-center justify-center truncate text-base font-bold sm:text-xl">
+        <h3 className="relative z-10 flex items-center justify-center truncate text-base font-bold md:text-xl">
           {text}
         </h3>
       </div>

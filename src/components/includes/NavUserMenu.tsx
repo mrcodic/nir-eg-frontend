@@ -110,10 +110,10 @@ function NavUserMenu({ profile }) {
           className="border-gray-light mt-2 rounded-none border-t pt-4"
         />
         {profile?.id && profile?.type === 3 && (
-          <div className="flex flex-col items-center gap-4 p-5">
+          <div className="ms-4 mt-2 flex flex-col items-start">
             <QRCodeCanvas
               value={String(profile?.id)}
-              size={150}
+              size={96}
               bgColor="#ffffff"
               fgColor="#000000"
             />
