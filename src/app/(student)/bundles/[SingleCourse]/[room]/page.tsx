@@ -7,7 +7,7 @@ import { useAuthContext } from "@/context/auth-context";
 import useLessonRoomLogic from "@/hooks/useLessonRoomLogic";
 import ProtectedRoute from "@/layouts/ProtectedRoute";
 import DisableDevTools from "@/modules/video/components/DisableDivTools";
-import { normalizeYouTubeUrl } from "@/utils/clientFun";
+import YoutubeVideoPlayer from "@/modules/video/components/YoutubeVideoPlayer";
 import dynamic from "next/dynamic";
 import { redirect, useParams } from "next/navigation";
 import { Suspense } from "react";
@@ -55,7 +55,6 @@ const SingleVideo = () => {
   }
 
   const isCenterStudent = profile?.type === 3;
-
   const viewCount = otpData?.viewsStats;
   const lockedByViewLimit = otpData?.locakedByViewLimit;
 
@@ -101,13 +100,7 @@ const SingleVideo = () => {
                     lessonData?.body?.locked_to_pass ? (
                       <LockedToPassVideoUI />
                     ) : (
-                      <iframe
-                        src={normalizeYouTubeUrl(videoUrl)}
-                        className="h-[520px] w-full"
-                        style={{ border: 0 }}
-                        allow="encrypted-media"
-                        allowFullScreen
-                      />
+                      <YoutubeVideoPlayer videoUrl={videoUrl} />
                     )
                   ) : (
                     <Video
