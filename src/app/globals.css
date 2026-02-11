@@ -428,6 +428,24 @@
   }
 }
 
+@utility text-gradient-custom {
+  background-image: linear-gradient(90deg, #389ad6 30%, #0d2237 70%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility text-dark-radial {
+  background: radial-gradient(
+    79.17% 79.17% at 20.83% 69.6%,
+    #20364e 0%,
+    #0d2237 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
 @layer base {
   strong,
   b {
@@ -440,54 +458,4 @@
 }
 .form-link {
   @apply mx-1 cursor-pointer text-[#d3a740] underline;
-}
-
-/* filepond */
-.filepond--root {
-  --filepond-font-family: "Tajawal", sans-serif;
-  --filepond-font-size: 14px;
-}
-
-.filepond--panel-root {
-  border-radius: 12px;
-}
-
-.filepond--drop-label {
-  color: #555;
-}
-
-.filepond--label-action {
-  text-decoration: underline;
-  color: #0ea5e9;
-}
-
-.filepond--panel-root {
-  background-color: #fbf6f0 !important;
-  border: 2px dashed #f8dec5 !important;
-  overflow: hidden !important;
-}
-.filepond--file {
-  background-color: #ffffff !important;
-  color: #121212 !important;
-  outline: none !important;
-  border: 2px dashed #f8dec5 !important;
-  overflow: hidden !important;
-}
-.filepond--file-action-button {
-  background: url("/assets/Delete.svg") no-repeat center center !important;
-  width: 24px !important;
-  height: 24px !important;
-}
-.filepond--file-action-button {
-  cursor: pointer !important;
-  border-radius: 6px !important;
-  border: 1px solid #f8dec5 !important;
-}
-
-.filepond--credits {
-  margin-top: 8px !important;
-}
-
-.filepond--action-remove-item > svg {
-  @apply text-black;
 }
