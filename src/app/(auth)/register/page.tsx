@@ -21,6 +21,7 @@ import AuthHeader from "@/layouts/AuthHeader";
 import { presistUserPhone } from "@/lib/utils";
 import { useForm } from "react-hook-form";
 import { useTenant } from "@/context/TenantProvider";
+import { isAxiosError } from "axios";
 
 const RegisterPage = () => {
   const router = useRouter();
@@ -75,11 +76,41 @@ const RegisterPage = () => {
         router.push("/login");
       }
     } catch (err) {
-      toast({
-        status: err.status,
-        description: err?.response?.data?.error?.errors?.phone[0],
-        icon: "error",
-      });
+      console.log(err, err?.response?.data?.errors);
+
+      if (isAxiosError(err)) {
+        if (err?.status === 422 && err?.response?.data?.errors) {
+          const firstKey = Object.keys(err?.response?.data?.errors)?.[0];
+
+          form.setError(
+            firstKey === "phone" ? "phones.phone" : (firstKey as any),
+            {
+              message: err?.response?.data?.errors?.[firstKey]?.[0],
+            },
+          );
+
+          toast({
+            description:
+              err?.response?.data?.errors?.[firstKey]?.[0] || "حدث خطأ ما",
+            icon: "error",
+          });
+        } else {
+          toast({
+            status: err.status,
+            description:
+              err?.response?.data?.message ||
+              err?.response?.data?.error?.message ||
+              "حدث خطأ ما",
+            icon: "error",
+          });
+        }
+      } else {
+        toast({
+          status: err.status,
+          description: "حدث خطأ ما",
+          icon: "error",
+        });
+      }
     }
   };
 
