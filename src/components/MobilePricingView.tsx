@@ -5,23 +5,47 @@ import { Check, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { IPricingPlan } from "@/types/pricing-api.types";
 import Spinner from "./ui/Spinner";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 interface MobilePricingViewProps {
   plans: IPricingPlan[];
   visibleFeatures: string[];
-  selectedPlanIndex: number;
-  onSelectPlan: (index: number) => void;
   isLoading: boolean;
 }
 
 export function MobilePricingView({
   plans,
   visibleFeatures,
-  selectedPlanIndex,
-  onSelectPlan,
   isLoading,
 }: MobilePricingViewProps) {
+  const [selectedPlanIndex, setSelectedPlanIndex] = useState(0);
+  const searchParams = useSearchParams();
+
   const selectedPlan = plans[selectedPlanIndex] || plans[0];
+
+  // Sync with URL hash to select the correct plan
+  useEffect(() => {
+    const handleSearchChange = () => {
+      const planId = searchParams.get("plan_id");
+
+      if (
+        !planId ||
+        !plans.length ||
+        !plans.some((p) => p.id === Number(planId))
+      )
+        return;
+
+      const planIndex = plans.findIndex((p) => p.id === Number(planId));
+
+      if (planIndex !== -1) {
+        setSelectedPlanIndex(planIndex);
+      }
+    };
+
+    // Handle initial Search on mount
+    handleSearchChange();
+  }, [plans, searchParams]);
 
   if (isLoading)
     return (
@@ -40,8 +64,17 @@ export function MobilePricingView({
         >
           {plans.map((plan, index) => (
             <motion.button
-              key={plan.id}
-              onClick={() => onSelectPlan(index)}
+              key={
+                selectedPlanIndex === index
+                  ? `selected-index-${index}`
+                  : plan.id
+              }
+              ref={(el) => {
+                if (index === selectedPlanIndex && el) {
+                  el.scrollIntoView({ behavior: "smooth", block: "nearest" });
+                }
+              }}
+              onClick={() => setSelectedPlanIndex(index)}
               whileTap={{ scale: 0.95 }}
               className={cn(
                 "flex items-center gap-2 px-6 py-3 rounded-lg font-bold text-sm whitespace-nowrap transition-all duration-200 shrink-0 border-2",

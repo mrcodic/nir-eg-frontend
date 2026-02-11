@@ -19,8 +19,6 @@ const DEFAULT_VISIBLE_FEATURES = 5;
 export function PricingComparisonTable({ plans }: PricingComparisonTableProps) {
   const { features, isLoading } = usePlanFeatures();
   const [showAllFeatures, setShowAllFeatures] = useState(false);
-  const [selectedPlanIndex, setSelectedPlanIndex] = useState(0);
-  const searchParams = useSearchParams();
 
   useScrollToHash();
 
@@ -31,32 +29,11 @@ export function PricingComparisonTable({ plans }: PricingComparisonTableProps) {
     });
   }, [plans]);
 
-  const visibleFeatures = showAllFeatures
-    ? features
-    : features.slice(0, DEFAULT_VISIBLE_FEATURES);
-
-  // Sync with URL hash to select the correct plan
-  useEffect(() => {
-    const handleSearchChange = () => {
-      const planId = searchParams.get("plan_id");
-
-      if (
-        !planId ||
-        !sortedPlans.length ||
-        !sortedPlans.some((p) => p.id === Number(planId))
-      )
-        return;
-
-      const planIndex = sortedPlans.findIndex((p) => p.id === Number(planId));
-
-      if (planIndex !== -1) {
-        setSelectedPlanIndex(planIndex);
-      }
-    };
-
-    // Handle initial Search on mount
-    handleSearchChange();
-  }, [sortedPlans, searchParams]);
+  const visibleFeatures = useMemo(
+    () =>
+      showAllFeatures ? features : features.slice(0, DEFAULT_VISIBLE_FEATURES),
+    [features, showAllFeatures],
+  );
 
   return (
     <div id="plans-table" className="w-full py-12 scroll-m-10">
@@ -72,8 +49,6 @@ export function PricingComparisonTable({ plans }: PricingComparisonTableProps) {
         <MobilePricingView
           plans={sortedPlans}
           visibleFeatures={visibleFeatures}
-          selectedPlanIndex={selectedPlanIndex}
-          onSelectPlan={setSelectedPlanIndex}
           isLoading={isLoading}
         />
 
