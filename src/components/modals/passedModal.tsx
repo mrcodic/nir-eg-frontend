@@ -5,7 +5,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
-import TaskModelScore from "@/modules/exam/components/TaskModelScore";
+import StudentScoreResult from "@/modules/exam/components/StudentScoreResult";
 import { QuizStatus } from "@/types";
 import dynamic from "next/dynamic";
 import Image from "next/image";
@@ -67,7 +67,11 @@ const PassedModal = ({
                 <span className="inline-block text-base font-bold">
                   عمل رائع، حصلت على
                 </span>
-                <TaskModelScore score={start?.score} pass={start?.result} />
+                <StudentScoreResult
+                  score={start?.score}
+                  pass={start?.result}
+                  pending={start?.review_pending}
+                />
               </div>
             </div>
           )}

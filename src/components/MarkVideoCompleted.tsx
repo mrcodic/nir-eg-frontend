@@ -68,7 +68,7 @@ function MarkVideoCompleted({
       <button
         onClick={handleMarkCompleted}
         disabled={isLoading}
-        className="border-gray-light text-gray-dark hover:bg-gray-dark hover:text-gray-light ms-auto flex cursor-pointer items-center gap-1 rounded-lg border px-2 py-1 text-xs font-bold transition-all disabled:opacity-60"
+        className="border-gray-light text-gray-dark hover:bg-primary-800 hover:border-primary-100 ms-auto flex cursor-pointer items-center gap-1 rounded-lg border px-2 py-1 text-xs font-bold transition-all hover:text-white disabled:opacity-60"
       >
         انتهيت من الدرس؟{" "}
         {isLoading ? (

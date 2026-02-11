@@ -1,21 +1,23 @@
 import ScoreBadge from "@/components/ui/ScoreBadge";
 import ScorePercent from "@/components/ui/ScorePercent";
 
-function TaskModelScore({
+function StudentScoreResult({
   score,
   pass = true,
+  pending,
 }: {
   score: number;
   pass?: boolean;
+  pending?: boolean;
 }) {
   return (
-    <div className="relative font-bold flex gap-2  text-nowrap text-lg sm:text-xl">
+    <div className="relative flex min-w-[116px] gap-2 text-lg font-bold text-nowrap sm:text-xl">
       <ScorePercent score={score} passed={pass} type="" />
-      <ScoreBadge passed={pass} type="" />
+      <ScoreBadge passed={pass} type="" pending={pending || score === null} />
     </div>
   );
 }
-// function TaskModelScore({
+// function StudentScoreResult({
 //   score,
 //   pass = true,
 // }: {
@@ -50,4 +52,4 @@ function TaskModelScore({
 //   );
 // }
 
-export default TaskModelScore;
+export default StudentScoreResult;

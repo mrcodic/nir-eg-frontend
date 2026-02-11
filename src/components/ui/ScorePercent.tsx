@@ -9,11 +9,12 @@ const ScorePercent = ({
   passed: boolean;
   type: string;
 }) => {
+  if (score === null) return null;
   return (
     <h3
       className={cn(
-        "flex items-center font-bold text-xl",
-        passed ? "text-semantics-green" : "text-semantics-red"
+        "flex items-center text-xl font-bold",
+        passed ? "text-semantics-green" : "text-semantics-red",
       )}
     >
       {score}%

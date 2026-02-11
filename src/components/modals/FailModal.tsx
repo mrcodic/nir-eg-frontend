@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import ExamPDFGenerator from "@/modules/exam/components/ExamPDFGenerator";
-import TaskModelScore from "@/modules/exam/components/TaskModelScore";
+import StudentScoreResult from "@/modules/exam/components/StudentScoreResult";
 import { QuizStatus } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
@@ -58,7 +58,11 @@ const FailModal = ({
             <span className="inline-block text-base font-bold">
               لا بأس، حصلت على
             </span>
-            <TaskModelScore score={start?.score} pass={start?.result} />
+            <StudentScoreResult
+              score={start?.score}
+              pass={start?.result}
+              pending={start?.review_pending}
+            />
           </div>
 
           <div className="border-gray-light mt-6 space-y-2 border-b pb-2">

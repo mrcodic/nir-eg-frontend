@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import ExamPDFGenerator from "@/modules/exam/components/ExamPDFGenerator";
+import StudentScoreResult from "@/modules/exam/components/StudentScoreResult";
 import { IActivity } from "@/types";
-import Image from "next/image";
 import Link from "next/link";
 
 function GradesTableAction({
@@ -22,50 +22,55 @@ function GradesTableAction({
           انتهى الكورس بدون تصحيح
         </p>
       ) : (
-        <div className="flex h-10 w-[136px] shrink-0 items-center gap-2 rounded-lg border border-gray-200 p-1 font-bold">
-          {isExam && !row?.score_ratio ? null : (
-            <Image
-              src={
-                row.passed ? "/assets/CorrectColor.svg" : "/assets/Close2.svg"
-              }
-              width={20}
-              height={20}
-              alt={row.passed ? "ناجح" : "راسب"}
-            />
-          )}
+        // <div className="flex h-10 w-[136px] shrink-0 items-center gap-2 rounded-lg border border-gray-200 p-1 font-bold">
+        //   {isExam && !row?.score_ratio ? null : (
+        //     <Image
+        //       src={
+        //         row.passed ? "/assets/CorrectColor.svg" : "/assets/Close2.svg"
+        //       }
+        //       width={20}
+        //       height={20}
+        //       alt={row.passed ? "ناجح" : "راسب"}
+        //     />
+        //   )}
 
-          {isExam ? (
-            !!row?.score_ratio ? (
-              <h3
-                className={cn(
-                  "flex items-center text-lg font-bold",
-                  row.passed ? "text-[#1EAD7B]" : "text-[#B75050]",
-                )}
-              >
-                {row.score_ratio ? (
-                  <span>{row.score_ratio}</span>
-                ) : (
-                  <>
-                    <span>%</span>
-                    <span>{rowValue}</span>
-                  </>
-                )}
-              </h3>
-            ) : (
-              <span
-                className={cn(
-                  "text-secondary w-full text-center text-[16px] font-bold",
-                )}
-              >
-                جارى التصحيح
-              </span>
-            )
-          ) : (
-            <span className="text-[16px] font-bold text-[#1EAD7B]">
-              {rowValue || "جارى التصحيح"}
-            </span>
-          )}
-        </div>
+        //   {isExam ? (
+        //     !!row?.score_ratio ? (
+        //       <h3
+        //         className={cn(
+        //           "flex items-center text-lg font-bold",
+        //           row.passed ? "text-[#1EAD7B]" : "text-[#B75050]",
+        //         )}
+        //       >
+        //         {row.score_ratio ? (
+        //           <span>{row.score_ratio}</span>
+        //         ) : (
+        //           <>
+        //             <span>%</span>
+        //             <span>{rowValue}</span>
+        //           </>
+        //         )}
+        //       </h3>
+        //     ) : (
+        //       <span
+        //         className={cn(
+        //           "text-secondary w-full text-center text-[16px] font-bold",
+        //         )}
+        //       >
+        //         جارى التصحيح
+        //       </span>
+        //     )
+        //   ) : (
+        //     <span className="text-[16px] font-bold text-[#1EAD7B]">
+        //       {rowValue || "جارى التصحيح"}
+        //     </span>
+        //   )}
+        // </div>
+        <StudentScoreResult
+          score={rowValue}
+          pass={!isExam || row?.passed}
+          pending={!row?.score_ratio}
+        />
       )}
 
       {isExpired ? (
