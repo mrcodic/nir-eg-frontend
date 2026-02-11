@@ -13,6 +13,7 @@ import { Metadata } from "next";
 import { Almarai } from "next/font/google";
 import { Suspense } from "react";
 import "./globals.css";
+import Script from "next/script";
 
 const almarai = Almarai({
   subsets: ["arabic"],
@@ -141,6 +142,11 @@ export default async function Layout({ children }) {
         </TenantProvider>
 
         <Toaster />
+
+        <Script
+          src="https://player.vdocipher.com/v2/api.js"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );

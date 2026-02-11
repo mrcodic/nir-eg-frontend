@@ -1,3 +1,5 @@
+"use client";
+
 import { normalizeYouTubeUrl } from "@/utils/clientFun";
 import { useState } from "react";
 
