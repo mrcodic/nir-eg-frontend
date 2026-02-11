@@ -1,14 +1,15 @@
 "use client";
 
-import { useMemo, useRef } from "react";
-import { motion, useInView, type Variants } from "framer-motion";
-import { IPricingPlan } from "@/types/pricing-api.types";
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { useHash } from "@/hooks/useHash";
+import { cn } from "@/lib/utils";
+import { IPricingPlan } from "@/types/pricing-api.types";
+import { priceFormatter } from "@/utils/formatters";
+import { motion, useInView, type Variants } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { useMemo, useRef } from "react";
 import MainPlanBadge from "./MainPlanBadge";
-import { priceFormatter } from "@/utils/formatters";
 
 export type PaymentPeriod = "monthly" | "yearly";
 
@@ -65,13 +66,14 @@ export default function BundlesPricingPlans({
   plans,
   type,
 }: PricingPlansProps) {
-  /* ================= InView ================= */
-
   const containerRef = useRef<HTMLDivElement | null>(null);
   const isInView = useInView(containerRef, {
     once: true,
     margin: "-80px",
   });
+
+  // get selected plan from the url hash then highlight it then remove the highlight after a timeout
+  const hash = useHash();
 
   /* ================= Sort main plan first ================= */
 
@@ -81,6 +83,12 @@ export default function BundlesPricingPlans({
       return a.seats_included - b.seats_included;
     });
   }, [plans]);
+
+  const highlightedPlan = useMemo(() => {
+    if (!hash) return null;
+    const planId = hash.replace("#plan-card-", "");
+    return plans.find((p) => p.id === Number(planId));
+  }, [hash, plans]);
 
   return (
     <div className="w-full mt-10 max-[420px]:mt-14">
@@ -116,6 +124,9 @@ export default function BundlesPricingPlans({
               className={cn(
                 "relative rounded-xl p-4 overflow-hidden bg-background space-y-4 scroll-mt-26",
                 "transition-shadow duration-300 hover:shadow-md",
+                {
+                  "ring-2 ring-secondary": highlightedPlan?.id === plan.id,
+                },
               )}
             >
               {plan.is_main && (

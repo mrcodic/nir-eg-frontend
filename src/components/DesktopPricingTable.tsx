@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import { Check, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { IPricingPlan } from "@/types/pricing-api.types";
-import Spinner from "./ui/Spinner";
 import { Skeleton } from "./ui/skeleton";
 
 interface DesktopPricingTableProps {

@@ -18,7 +18,7 @@ const DEFAULT_VISIBLE_FEATURES = 5;
 
 export function PricingComparisonTable({ plans }: PricingComparisonTableProps) {
   const { features, isLoading } = usePlanFeatures();
-  const [showAll, setShowAll] = useState(false);
+  const [showAllFeatures, setShowAllFeatures] = useState(false);
   const [selectedPlanIndex, setSelectedPlanIndex] = useState(0);
   const searchParams = useSearchParams();
 
@@ -31,7 +31,7 @@ export function PricingComparisonTable({ plans }: PricingComparisonTableProps) {
     });
   }, [plans]);
 
-  const visibleFeatures = showAll
+  const visibleFeatures = showAllFeatures
     ? features
     : features.slice(0, DEFAULT_VISIBLE_FEATURES);
 
@@ -83,10 +83,10 @@ export function PricingComparisonTable({ plans }: PricingComparisonTableProps) {
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Button
                 variant="outline"
-                onClick={() => setShowAll((prev) => !prev)}
+                onClick={() => setShowAllFeatures((prev) => !prev)}
                 className="font-bold px-10 py-6 text-base border-primary-800 text-primary-800 hover:bg-primary-800 hover:text-white transition-all"
               >
-                {showAll ? "عرض أقل" : "عرض المزيد"}
+                {showAllFeatures ? "عرض أقل" : "عرض المزيد"}
               </Button>
             </motion.div>
           </div>
