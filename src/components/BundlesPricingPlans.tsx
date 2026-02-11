@@ -166,6 +166,7 @@ export default function BundlesPricingPlans({
                           {priceFormatter.format(Math.round(pricePerMonth))}{" "}
                           جنيه / شهر
                         </div>
+
                         <div className="flex items-baseline gap-2 mb-1">
                           <span className="text-3xl font-bold text-secondary">
                             {priceFormatter.format(price)} جنيه
@@ -174,20 +175,6 @@ export default function BundlesPricingPlans({
                             / سنة
                           </span>
                         </div>
-                        {yearlyDiscount > 0 && (
-                          <div className="flex justify-between gap-2 items-center font-bold">
-                            <span className="text-xs  ">
-                              وفر{" "}
-                              <span className="text-green-600 underline">
-                                {yearlyDiscount}٪
-                              </span>{" "}
-                              مع الاشتراك السنوي
-                            </span>
-                            <span className="line-through text-sm">
-                              {priceFormatter.format(yearlySavings)} جنيه
-                            </span>
-                          </div>
-                        )}
                       </>
                     ) : (
                       // Monthly plan: show savings with yearly above, monthly price below
@@ -201,6 +188,7 @@ export default function BundlesPricingPlans({
                             سنويًا مع الخطة السنوية
                           </div>
                         )}
+
                         <div className="flex items-baseline gap-2 mb-1">
                           <span className="text-3xl font-bold text-secondary">
                             {priceFormatter.format(price)} جنيه
@@ -209,21 +197,24 @@ export default function BundlesPricingPlans({
                             / شهر
                           </span>
                         </div>
-                        {yearlyDiscount > 0 && (
-                          <div className="flex justify-between gap-2 items-center font-bold">
-                            <span className="text-xs  ">
-                              وفر{" "}
-                              <span className="text-green-600 underline">
-                                {yearlyDiscount}٪
-                              </span>{" "}
-                              مع الاشتراك السنوي
-                            </span>
-                            <span className="line-through text-sm">
-                              {priceFormatter.format(yearlySavings)} جنيه
-                            </span>
-                          </div>
-                        )}
                       </>
+                    )}
+
+                    {yearlyDiscount > 0 && (
+                      <div className="flex justify-between gap-2 items-center font-bold h-5">
+                        <span className="text-xs  ">
+                          وفر{" "}
+                          <span className="text-green-600 underline">
+                            {yearlyDiscount}٪
+                          </span>{" "}
+                          مع الاشتراك السنوي
+                        </span>
+                        {isYearly && (
+                          <span className="line-through text-sm">
+                            {priceFormatter.format(yearlySavings)} جنيه
+                          </span>
+                        )}
+                      </div>
                     )}
                   </>
                 ) : (
