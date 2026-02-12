@@ -21,6 +21,7 @@ import StudentCenterField from "@/components/custom/StudentCenterField";
 import { useAuthContext } from "@/context/auth-context";
 import { mutateClient } from "@/helpers/post-client";
 import ChangePasswordSettings from "@/modules/profile/components/ChangePasswordSettings";
+import { ChevronDown } from "lucide-react";
 
 const PageSettings = () => {
   const router = useRouter();
@@ -245,23 +246,26 @@ const PageSettings = () => {
                 />
               </div>
 
-              <div className="flex-1">
+              <div className="mt-4 flex-1">
                 <div className="flex w-full items-center justify-between">
-                  <h4 className="text-gray-dark mt-8 mb-4 text-[12px] font-bold">
-                    كلمة السر
-                  </h4>
+                  <button
+                    type="button"
+                    onClick={() => setIsChangePassword((t) => !t)}
+                    className="text-primary-800 mt-2 flex cursor-pointer items-center gap-2 text-sm font-bold underline"
+                  >
+                    {changePassword
+                      ? "إلغاء تغيير كلمة المرور"
+                      : "تغيير كلمة المرور"}
+                    <ChevronDown
+                      className={cn("rotate-90 transition-transform", {
+                        "rotate-180": changePassword,
+                      })}
+                    />
+                  </button>
                   <span className="text-gray-dark mt-5 inline-block text-[12px] font-medium">
                     آخر تحديث: {profile?.updated_at}
                   </span>
                 </div>
-
-                <button
-                  type="button"
-                  onClick={() => setIsChangePassword((t) => !t)}
-                  className="mt-2 cursor-pointer text-sm font-medium text-[#523412] underline"
-                >
-                  {changePassword ? "إلغاء تغيير كلمة السر" : "تغيير كلمة السر"}
-                </button>
 
                 {changePassword && <ChangePasswordSettings form={form} />}
               </div>

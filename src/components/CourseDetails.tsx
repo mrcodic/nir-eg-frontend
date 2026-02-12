@@ -55,7 +55,6 @@ const CourseTabs = [
 const CourseDetails = ({ details, profile }: Props) => {
   const { SingleCourse } = useParams();
   const [selectedTab, setSelectedTab] = useState("lessons");
-
   const { features } = useTenant();
 
   const {
@@ -106,7 +105,7 @@ const CourseDetails = ({ details, profile }: Props) => {
     [hasExams, hasGradesEnabled, hasPointsEnabled],
   );
 
-  console.log("course exams : ", courseExams);
+  // console.log("course exams : ", courseExams);
 
   return (
     <Tabs

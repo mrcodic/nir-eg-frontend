@@ -37,9 +37,6 @@ export default function CustomCountryFlagField({
     name: countryFieldName,
   });
 
-  /**
-   * Build lookup map once (O(1) access)
-   */
   const countriesByCode = useMemo(
     () => new Map(arabCountries.map((c) => [c.countryCallingCodes?.[0], c])),
     [],

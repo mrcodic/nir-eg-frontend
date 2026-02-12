@@ -33,7 +33,6 @@ export default function UploadWithCrop({
         return;
       }
 
-
       const fileWithPreview = Object.assign(file, {
         preview: URL.createObjectURL(file),
         originalImage: URL.createObjectURL(file),
@@ -102,7 +101,7 @@ export default function UploadWithCrop({
           <Button
             type="button"
             onClick={() => setSelectedFile(null)}
-            variant="destructive"
+            variant="outline-gray"
             className="h-11 text-base font-bold"
           >
             ازالة الصورة
