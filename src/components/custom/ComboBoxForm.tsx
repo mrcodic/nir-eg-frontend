@@ -62,7 +62,8 @@ export function ComboboxForm({
             variant="ghost"
             role="combobox"
             aria-expanded={open}
-            className="border-gray-light flex w-full flex-col items-start justify-between rounded-lg border px-3"
+            aria-invalid={!!error}
+            className="border-gray-light flex w-full flex-col items-start justify-between rounded-lg border px-3 aria-invalid:border-red-500"
           >
             <div className="flex h-10 w-full items-center justify-between gap-4">
               {(value &&
@@ -73,12 +74,6 @@ export function ComboboxForm({
                 `اختر ${label}`}
               <ChevronsUpDown className="opacity-50" />
             </div>
-
-            {error && (
-              <p className="text-sm text-red-500">
-                {typeof error === "string" ? error : error?.message?.toString()}
-              </p>
-            )}
           </Button>
         </PopoverTrigger>
 
@@ -120,6 +115,12 @@ export function ComboboxForm({
           </Command>
         </PopoverContent>
       </Popover>
+
+      {error && (
+        <p className="text-xs text-red-500">
+          {typeof error === "string" ? error : error?.message?.toString()}
+        </p>
+      )}
     </div>
   );
 }

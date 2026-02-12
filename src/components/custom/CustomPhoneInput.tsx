@@ -40,24 +40,11 @@ const CustomPhoneInput = ({
   disabled,
   onCountryChange,
 }: CustomPhoneInputProps) => {
-  //   const [selectedCountry, setSelectedCountry] = useState<Country | null>(
-  //     arabCountries[1]
-  //   );
-
-  //   const { data: countriesData, isLoading } = useQuery({
-  //     queryKey: [`/dial-codes/list`],
-  //     queryFn: getClientPrivateData,
-  //   });
-
-  //   const countries: Country[] = countriesData?.data || [];
-
-  console.log(form.getValues());
-
   return (
     <FormField
       control={form.control}
       name={name}
-      render={({ field }) => (
+      render={({ field, fieldState }) => (
         <FormItem
           className={cn("relative w-full", label ? "mt-4" : "", className)}
         >
@@ -80,6 +67,7 @@ const CustomPhoneInput = ({
                 countryISOFieldName={countryISOFieldName}
                 onCountryChange={onCountryChange}
                 disabled={disabled}
+                error={!!fieldState?.error?.message}
               />
 
               {/* Icon */}

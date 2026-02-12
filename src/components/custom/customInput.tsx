@@ -44,7 +44,7 @@ const CustomInput = ({
             {/* <div className="p-2 flex items-center gap-2 border-b border-gray-light text-gray-dark"> */}
             <FormLabel
               htmlFor={name}
-              className="text-gray-dark mb-2 flex cursor-text gap-4 font-medium"
+              className="mb-2 flex cursor-text gap-4 text-sm font-medium"
             >
               {iconSrc && <img src={iconSrc} alt="icon" className="size-5" />}
 

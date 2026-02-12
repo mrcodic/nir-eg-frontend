@@ -19,6 +19,7 @@ interface Props {
   countryISOFieldName: string;
   onCountryChange?: (code: string, iso?: string) => void;
   disabled?: boolean;
+  error?: boolean;
 }
 
 export default function CustomCountryFlagField({
@@ -27,6 +28,7 @@ export default function CustomCountryFlagField({
   countryISOFieldName,
   onCountryChange,
   disabled,
+  error,
 }: Props) {
   const [open, setOpen] = useState(false);
 
@@ -80,7 +82,8 @@ export default function CustomCountryFlagField({
             <SelectTrigger
               title="اختر الدولة"
               dir="rtl"
-              className="border-gray-light h-11 w-[85px] rounded-lg border bg-[#F5F5F5] px-1 py-1 text-sm font-medium text-[#121212] [&>div]:mx-auto [&>div]:truncate"
+              aria-invalid={error}
+              className="border-gray-light h-11 w-[85px] rounded-lg border px-1 py-1 text-sm font-medium text-[#121212] aria-invalid:border-red-500 [&>div]:mx-auto [&>div]:truncate"
             >
               <SelectValue placeholder="اختر الدولة">
                 {selectedCountry ? (
