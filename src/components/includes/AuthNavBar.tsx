@@ -38,7 +38,7 @@ const AuthNavBar = () => {
       {
         title: "الحصص",
         href: profile?.has_center ? `/bundles/${profile?.center_id}` : "",
-        show: true,
+        show: !isOnlineStudent,
       },
       {
         title: "الدرجات",
