@@ -76,6 +76,7 @@ const SingleVideo = () => {
                 videoUrl={videoUrl}
                 onLessonClick={handleLessonSelect}
                 locked={lessonData?.body?.locked_to_pass}
+                isLoading={isLoadingLesson}
               />
             </div>
 

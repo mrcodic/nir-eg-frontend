@@ -12,6 +12,13 @@ import { useParams, useRouter } from "next/navigation";
 import { memo } from "react";
 import MarkVideoCompleted from "./MarkVideoCompleted";
 import { Button } from "./ui/button";
+import { FaSpinner } from "react-icons/fa";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 type RoomSideContentProps = {
   data: IRoomDetails | undefined;
@@ -21,6 +28,7 @@ type RoomSideContentProps = {
     videoType: "youtube" | "cipher",
   ) => void;
   locked: boolean;
+  isLoading: boolean;
   videoId?: string;
   videoUrl?: string;
   className?: string;
@@ -33,9 +41,18 @@ const RoomSideContent = ({
   videoId,
   videoUrl,
   className,
+  isLoading,
 }: RoomSideContentProps) => {
   const { SingleCourse, room } = useParams();
   const router = useRouter();
+
+  if (isLoading) {
+    return (
+      <div className="flex h-full items-center justify-center">
+        <FaSpinner className="animate-spin" />
+      </div>
+    );
+  }
 
   if (!data) return null;
 
@@ -43,7 +60,6 @@ const RoomSideContent = ({
     <div
       className={cn(
         "border-gray-light sticky top-22 h-fit max-h-[max(calc(100vh-90px),600px)] w-full overflow-y-auto rounded-lg border p-4 group-data-[template=landing-v3]/template:top-29",
-        // { "top-29": template === 3 },
         className,
       )}
     >
@@ -75,85 +91,152 @@ const RoomSideContent = ({
         <span>العودة للكورس</span>
       </Button>
 
-      {/* Lessons */}
-      {data.lessons.map((lesson) => (
-        <LessonCard
-          key={lesson.id}
-          lesson={lesson}
-          locked={locked}
-          active={
-            lesson?.video_type === "youtube"
-              ? videoUrl === lesson?.video_link
-              : videoId === lesson?.vedio_id
-          }
-          roomId={data.room.id}
-          classroomId={SingleCourse as string}
-          onClick={() =>
-            !!onLessonClick
-              ? onLessonClick?.(
+      {/* Accordion Sections */}
+      <Accordion
+        type="multiple"
+        defaultValue={["lessons", "quizzes", "assignments", "attachments"]}
+        className="mt-6 w-full space-y-4"
+      >
+        {/* Lessons Section */}
+        <AccordionItem
+          value="lessons"
+          className={cn(
+            "rounded-none border-transparent p-0 pb-2",
+            "border-b-gray-light!",
+          )}
+        >
+          <AccordionTrigger className="text-gray-dark hover:text-gray-darker py-1 text-sm font-bold hover:no-underline">
+            <div className="flex items-center gap-2">
+              <span>الدروس</span>
+              <span className="text-primary-800 text-xs">
+                ({data.lessons.length})
+              </span>
+            </div>
+          </AccordionTrigger>
+          <AccordionContent className="space-y-2 pt-2 pb-2">
+            {data.lessons.map((lesson) => (
+              <LessonCard
+                key={lesson.id}
+                lesson={lesson}
+                locked={locked}
+                active={
                   lesson?.video_type === "youtube"
-                    ? lesson?.video_link
-                    : lesson?.vedio_id,
-                  lesson?.id,
-                  lesson?.video_type,
-                )
-              : router.push(
-                  `/bundles/${SingleCourse}/${data.room.id}?${
-                    lesson?.video_type === "youtube"
-                      ? `video_url=${encodeURIComponent(lesson?.video_link)}`
-                      : `video_id=${lesson?.vedio_id}`
-                  }`,
-                )
-          }
-        />
-      ))}
+                    ? videoUrl === lesson?.video_link
+                    : videoId === lesson?.vedio_id
+                }
+                roomId={data.room.id}
+                classroomId={SingleCourse as string}
+                onClick={() =>
+                  !!onLessonClick
+                    ? onLessonClick?.(
+                        lesson?.video_type === "youtube"
+                          ? lesson?.video_link
+                          : lesson?.vedio_id,
+                        lesson?.id,
+                        lesson?.video_type,
+                      )
+                    : router.push(
+                        `/bundles/${SingleCourse}/${data.room.id}?${
+                          lesson?.video_type === "youtube"
+                            ? `video_url=${encodeURIComponent(lesson?.video_link)}`
+                            : `video_id=${lesson?.vedio_id}`
+                        }`,
+                      )
+                }
+              />
+            ))}
+          </AccordionContent>
+        </AccordionItem>
 
-      {/* Quizzes */}
-      {!!data.quizzes?.length && (
-        <>
-          <div className="bg-gray-light my-4 h-px w-full" />
-          <h3 className="text-gray-dark text-sm font-bold">الامتحانات</h3>
-          {data.quizzes.map((quiz) => (
-            <QuizCard
-              key={quiz.id}
-              quiz={quiz}
-              href={`/bundles/${SingleCourse}/${room}/exams/${quiz.id}`}
-              locked={false}
-            />
-          ))}
-        </>
-      )}
+        {/* Quizzes Section */}
+        {!!data.quizzes?.length && (
+          <AccordionItem
+            value="quizzes"
+            className={cn(
+              "rounded-none border-transparent p-0 pb-2",
+              "border-b-gray-light!",
+            )}
+          >
+            <AccordionTrigger className="text-gray-dark hover:text-gray-darker text-sm font-bold hover:no-underline">
+              <div className="flex items-center gap-2">
+                <span>الكويزات</span>
+                <span className="text-primary-800 text-xs">
+                  ({data.quizzes.length})
+                </span>
+              </div>
+            </AccordionTrigger>
+            <AccordionContent className="space-y-2 pt-2 pb-2">
+              {data.quizzes.map((quiz) => (
+                <QuizCard
+                  key={quiz.id}
+                  quiz={quiz}
+                  href={`/bundles/${SingleCourse}/${room}/exams/${quiz.id}`}
+                  locked={false}
+                />
+              ))}
+            </AccordionContent>
+          </AccordionItem>
+        )}
 
-      {/* Attachments */}
-      {!!data.room.attachments?.length && (
-        <>
-          <div className="bg-gray-light my-4 h-px w-full" />
-          <h3 className="text-gray-dark text-sm font-bold">الملفات</h3>
-          {data.room.attachments.map((attachment) => (
-            <AttachmentCard
-              key={attachment.name}
-              attachment={attachment}
-              locked={locked}
-            />
-          ))}
-        </>
-      )}
+        {/* Assignments Section */}
+        {!!data.assignments?.length && (
+          <AccordionItem
+            value="assignments"
+            className={cn(
+              "rounded-none border-transparent p-0 pb-2",
+              "border-b-gray-light!",
+            )}
+          >
+            <AccordionTrigger className="text-gray-dark hover:text-gray-darker text-sm font-bold hover:no-underline">
+              <div className="flex items-center gap-2">
+                <span>الواجبات</span>
+                <span className="text-primary-800 text-xs">
+                  ({data.assignments.length})
+                </span>
+              </div>
+            </AccordionTrigger>
+            <AccordionContent className="space-y-2 pt-2 pb-2">
+              {data.assignments.map((ass) => (
+                <AssignmentCard
+                  key={ass.id}
+                  assignment={ass}
+                  locked={locked}
+                  href={`/bundles/${SingleCourse}/${room}/assignment/${ass.id}`}
+                />
+              ))}
+            </AccordionContent>
+          </AccordionItem>
+        )}
 
-      {/* Assignments */}
-      {!!data.assignments?.length && (
-        <>
-          <div className="bg-gray-light my-4 h-px w-full" />
-          <h3 className="text-gray-dark text-sm font-bold">الواجبات</h3>
-          {data.assignments.map((ass) => (
-            <AssignmentCard
-              key={ass.id}
-              assignment={ass}
-              locked={locked}
-              href={`/bundles/${SingleCourse}/${room}/assignment/${ass.id}`}
-            />
-          ))}
-        </>
-      )}
+        {/* Attachments Section */}
+        {!!data.room.attachments?.length && (
+          <AccordionItem
+            value="attachments"
+            className={cn(
+              "rounded-none border-transparent p-0 pb-2",
+              "border-b-gray-light!",
+            )}
+          >
+            <AccordionTrigger className="text-gray-dark hover:text-gray-darker text-sm font-bold hover:no-underline">
+              <div className="flex items-center gap-2">
+                <span>الملفات</span>
+                <span className="text-primary-800 text-xs">
+                  ({data.room.attachments.length})
+                </span>
+              </div>
+            </AccordionTrigger>
+            <AccordionContent className="space-y-2 pt-2 pb-2">
+              {data.room.attachments.map((attachment) => (
+                <AttachmentCard
+                  key={attachment.name}
+                  attachment={attachment}
+                  locked={locked}
+                />
+              ))}
+            </AccordionContent>
+          </AccordionItem>
+        )}
+      </Accordion>
     </div>
   );
 };
@@ -182,7 +265,7 @@ const LessonCard = memo(function LessonCard({
         onClick?.();
       }}
       className={cn(
-        "relative mt-4 mb-3 cursor-pointer rounded-lg border px-2 py-2 aria-disabled:cursor-default",
+        "relative mt-4 cursor-pointer rounded-lg border px-2 py-2 aria-disabled:cursor-default",
         active
           ? "border-primary-800 bg-background"
           : "border-semantics-green bg-white",
