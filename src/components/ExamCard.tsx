@@ -37,30 +37,22 @@ const ExamCard = ({ exam }: Props) => {
   // const isPendingReview = exam.completed && !exam.score_ratio;
   const isPendingReview = exam.review_pending;
   const isExpired = new Date(exam.expires_at) < new Date();
+  const isCompleted = exam.completed || exam?.score_ratio;
 
   let ctaLabel: string | null = null;
   let ctaHref: string | null = null;
 
   if (isPendingReview) {
     ctaLabel = "جاري التصحيح";
-  } else if (
-    isExpired &&
-    exam.completed &&
-    exam.score_ratio &&
-    exam.show_answer
-  ) {
+  } else if (isExpired && isCompleted && exam.show_answer) {
     ctaLabel = "عرض الاجابات";
     ctaHref = `/bundles/${SingleCourse}/general-exams/${exam.id}`;
-  } else if (isExpired && !exam.completed) {
+  } else if (isExpired && !isCompleted) {
     ctaLabel = "لم تقم بحل الامتحان";
-  } else if (
-    !isExpired &&
-    (!exam.completed || exam.retake) &&
-    !isPendingReview
-  ) {
-    ctaLabel = exam.completed ? "اعادة الامتحان" : "الذهاب للامتحان";
+  } else if (!isExpired && (!isCompleted || exam.retake) && !isPendingReview) {
+    ctaLabel = isCompleted ? "اعادة الامتحان" : "الذهاب للامتحان";
     ctaHref = `/bundles/${SingleCourse}/general-exams/${exam.id}`;
-  } else if (exam?.completed && !exam?.retake && exam?.score_ratio) {
+  } else if (isCompleted && !exam?.retake) {
     ctaLabel = "قمت بحل الامتحان";
   }
 
