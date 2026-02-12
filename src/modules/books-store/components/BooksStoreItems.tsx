@@ -27,7 +27,7 @@ function BooksStoreItems({
   const { data, error, isLoading, isPlaceholderData } = useQuery({
     queryKey: [`books-items`, page],
     queryFn: () =>
-      getClientData<IPagination<Book>>({
+      getClientData<IPagination<Book[]>>({
         queryKey: [`books?per_page=${perPage}&page=` + page],
         optionalAuth: true,
       }),

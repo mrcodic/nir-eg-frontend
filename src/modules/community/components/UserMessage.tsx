@@ -7,6 +7,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import MessageInput from "./MessageInput";
+import CustomImage from "@/components/ui/CustomImage";
+import { cn } from "@/lib/utils";
 
 type UserMessageProps = {
   comment: any;
@@ -15,6 +17,7 @@ type UserMessageProps = {
   isReply?: boolean;
   currentTime: number;
   ref?: React.RefObject<HTMLDivElement>;
+  isYoutubeVideo?: boolean;
 };
 
 const UserMessage = ({
@@ -24,6 +27,7 @@ const UserMessage = ({
   isReply,
   currentTime,
   ref,
+  isYoutubeVideo,
 }: UserMessageProps) => {
   // const hasRightBorder = comment?.replies?.length > 0;
   const [showReply, setShowReply] = useState(false);
@@ -44,25 +48,33 @@ const UserMessage = ({
         } `}
       >
         <div className="flex w-full shrink-0 gap-2 px-2">
-          <Image
-            unoptimized
+          <CustomImage
             width={48}
             height={48}
             src={avatar || "/assets/avatar-user.svg"}
+            fallback="/assets/avatar-user.svg"
             alt="avatar"
             className="size-10 shrink-0 sm:size-12"
-            onError={(e) => {
-              e.currentTarget.src = "/assets/avatar-user.svg";
-            }}
           />
 
-          <div className="flex w-full flex-col">
+          <div
+            className={cn("flex w-full flex-col", {
+              "flex-row flex-wrap items-center justify-between": isYoutubeVideo,
+            })}
+          >
             <p className="text-gray-dark inline-block text-sm font-bold">
               {comment.user.name}
             </p>
 
-            <div className="flex w-full flex-wrap items-center justify-between gap-x-2">
-              {!isReply && comment.user.type !== "admin" && (
+            <div
+              className={cn(
+                "flex w-full flex-wrap items-center justify-between gap-x-2",
+                {
+                  "w-fit": isYoutubeVideo,
+                },
+              )}
+            >
+              {!isReply && comment.user.type !== "admin" && !isYoutubeVideo && (
                 <span className="text-gray-dark inline-block text-[12px] font-medium">
                   {secondsToHms(comment.at_second)}
                 </span>
@@ -141,6 +153,7 @@ const UserMessage = ({
                 comment={reply}
                 lessonId={lessonId}
                 currentTime={currentTime}
+                isYoutubeVideo={isYoutubeVideo}
               />
             ))}
           </div>
@@ -172,7 +185,7 @@ const UserMessage = ({
             <Image
               unoptimized
               src={avatar || "/assets/avatar-user.svg"}
-              className="rounded-lg size-11"
+              className="size-11 rounded-lg"
               width={44}
               height={44}
               alt="avatar"

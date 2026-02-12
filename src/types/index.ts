@@ -300,7 +300,7 @@ export interface INotification {
 }
 
 export interface IPagination<T> {
-  data: T[];
+  data: T;
   meta: {
     current_page: number;
     last_page: number;

@@ -10,6 +10,7 @@ import UserMessage from "../../modules/community/components/UserMessage";
 import LoadingSpinner from "../LoadingSpinner";
 import { Dialog, DialogContent } from "../ui/dialog";
 import { SimplePagination } from "../ui/SimplePagination";
+import { Comment, IPagination } from "@/types";
 
 interface CommentDetailsProps {
   open: boolean;
@@ -32,7 +33,9 @@ const CommentDetails = ({
   const [showDetailsCard, setShowDetailsCard] = useState(true);
   const [lessonPage, setLessonPage] = useState(searchLessonPage || 1);
 
-  const { data, isLoading, isPlaceholderData } = useQuery({
+  const { data, isLoading, isPlaceholderData } = useQuery<
+    IPagination<Comment[]>
+  >({
     queryKey: [
       `/comments/lesson/${comment.lesson_id}?page=${lessonPage}`,
       "lesson-comments",
@@ -51,7 +54,7 @@ const CommentDetails = ({
 
     replyElement.scrollIntoView({ behavior: "smooth" });
     router.replace(`/profile/comments`);
-  }, [searchParams, isLoading]);
+  }, [searchParams, isLoading, router]);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>

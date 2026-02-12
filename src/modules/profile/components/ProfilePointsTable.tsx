@@ -143,7 +143,7 @@ function ProfilePointsTable() {
     queryKey: [
       `/students/studentFile?per_page=5&page=${pagination.pageIndex + 1}`,
     ],
-    queryFn: getClientPrivateData as () => Promise<IPagination<Row>>,
+    queryFn: getClientPrivateData as () => Promise<IPagination<Row[]>>,
     placeholderData: keepPreviousData,
   });
 
