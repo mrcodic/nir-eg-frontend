@@ -11,6 +11,8 @@ function BundleCard({ bundle }: { bundle: Bundle }) {
           fill
           alt="bundle image"
           className="object-contain"
+          fetchPriority="high"
+          loading="eager"
         />
       </div>
 

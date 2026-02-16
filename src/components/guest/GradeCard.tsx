@@ -21,6 +21,8 @@ const GradeCard = ({ grade }: { grade: Grade }) => {
         fill
         className="-z-1"
         alt="grade type image"
+        fetchPriority="high"
+        loading="eager"
       />
 
       <motion.div

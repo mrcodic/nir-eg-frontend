@@ -16,6 +16,8 @@ function CourseOrderCard({ courseOrder }: { courseOrder: CourseOrder }) {
           fallback={"/assets/grade-placeholder.png"}
           alt="course cover"
           fill
+          fetchPriority="high"
+          loading="eager"
         />
       </div>
 

@@ -72,6 +72,8 @@ const BundlesWrapper = () => {
                   src={bundle?.cover || "/assets/grade-placeholder.png"}
                   fill
                   alt="bundle cover image"
+                  fetchPriority="high"
+                  loading="eager"
                 />
               </div>
 

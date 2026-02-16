@@ -15,8 +15,8 @@ const CustomTooltip = ({ active, payload }) => {
     const data = payload[0].payload;
     return (
       <div className="rounded-lg border border-gray-200 bg-white p-3 shadow-lg">
-        <p className="font-semibold">Exam {data?.title}</p>
-        <p className="text-sm">Score: {data?.percentage}%</p>
+        <p className="font-semibold">امتحان {data?.title}</p>
+        <p className="text-sm">الدرجة: {data?.percentage}%</p>
         <p
           className={`text-sm font-medium ${
             data?.passed ? "text-[#1EAD7B]" : "text-[#B75050]"

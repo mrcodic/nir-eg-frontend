@@ -98,6 +98,8 @@ const CourseCard = ({
           className="object-cover transition-all group-hover:scale-110 group-hover:opacity-80"
           fill
           alt="course cover image"
+          fetchPriority="high"
+          loading="eager"
         />
 
         {!isCodeCenterRoomType && (
