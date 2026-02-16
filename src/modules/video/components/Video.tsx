@@ -85,7 +85,7 @@ export default function Video(props: VideoProps) {
   }
 
   if (otpLoading || !response?.otp) {
-    return <LoadingSpinner className="min-h-[520px]" />;
+    return <LoadingSpinner className="bg-primary-50 h-fit min-h-[520px]" />;
   }
 
   return (

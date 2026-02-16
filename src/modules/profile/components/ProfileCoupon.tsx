@@ -1,11 +1,24 @@
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import useCoupon from "@/hooks/useCoupon";
+import { CheckCheck, Copy } from "lucide-react";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 function ProfileCoupon() {
   const { toast } = useToast();
   const { data, isLoading, error, discountValue } = useCoupon();
+  const [isCopied, setIsCopied] = useState(false);
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (isCopied) {
+      timer = setTimeout(() => {
+        setIsCopied(false);
+      }, 2000);
+    }
+    return () => clearTimeout(timer);
+  }, [isCopied]);
 
   if (isLoading || !data || error) return null;
 
@@ -67,6 +80,7 @@ function ProfileCoupon() {
             onClick={async () => {
               try {
                 await navigator.clipboard.writeText(data?.code);
+                setIsCopied(true);
                 toast({
                   description: "تم النسخ",
                   icon: "success",
@@ -82,13 +96,7 @@ function ProfileCoupon() {
             className="bg-primary border-gray-light ms-auto size-8 rounded-lg border text-sm font-bold"
             size="icon"
           >
-            <Image
-              src="/assets/copy.svg"
-              width={20}
-              height={20}
-              alt="copy"
-              className="brightness-0 invert"
-            />
+            {isCopied ? <CheckCheck /> : <Copy />}
           </Button>
         </div>
       </div>
