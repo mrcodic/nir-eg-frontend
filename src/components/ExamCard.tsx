@@ -42,8 +42,6 @@ const ExamCard = ({ exam }: Props) => {
   let ctaLabel: string | null = null;
   let ctaHref: string | null = null;
 
-  console.log(!isExpired && (!isCompleted || exam.retake));
-
   if (isPendingReview) {
     ctaLabel = "جاري التصحيح";
   } else if (isExpired && isCompleted && exam.show_answer) {

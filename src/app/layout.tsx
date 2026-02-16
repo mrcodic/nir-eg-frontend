@@ -14,6 +14,9 @@ import { Almarai } from "next/font/google";
 import { Suspense } from "react";
 import "./globals.css";
 import Script from "next/script";
+import CustomGlobalError from "./CustomGlobalError";
+import CustomError from "@/lib/customError";
+import SuspendedTenant from "./SuspendedTenant";
 
 const almarai = Almarai({
   subsets: ["arabic"],
@@ -83,13 +86,27 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Layout({ children }) {
-  const tenantSettings = await getTenantSettingsServer();
+  let tenantSettings;
 
-  if (!tenantSettings) {
-    const error = new Error("TENANT_NOT_FOUND");
+  try {
+    tenantSettings = await getTenantSettingsServer();
+  } catch (e) {
+    console.log("tenant settings error", e);
+    const error = new CustomError("TENANT_NOT_FOUND", e?.status || 500);
     error.name = "TenantNotFoundError";
-    throw error;
+
+    if (e?.status === 403) {
+      return <SuspendedTenant />;
+    } else {
+      return <CustomGlobalError error={error} />;
+    }
   }
+
+  // if (!tenantSettings) {
+  //   const error = new Error("TENANT_NOT_FOUND");
+  //   error.name = "TenantNotFoundError";
+  //   throw error;
+  // }
 
   console.log("tenantSettings", tenantSettings);
 
