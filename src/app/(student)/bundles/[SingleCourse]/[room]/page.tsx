@@ -104,6 +104,7 @@ const SingleVideo = () => {
                     )
                   ) : (
                     <Video
+                      key={videoId}
                       videoId={videoId}
                       roomId={Number(room)}
                       setCurrentTime={setCurrentTime}

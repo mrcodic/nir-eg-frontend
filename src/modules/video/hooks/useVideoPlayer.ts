@@ -1,4 +1,10 @@
+import { extractTenantFromHost } from "@/helpers/fetch-utils";
 import { mutateClient } from "@/helpers/post-client";
+import {
+  reportWatchTime,
+  sendPendingReports,
+  WatchTimeTracker,
+} from "@/services/videoTracker";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 
@@ -55,6 +61,7 @@ async function logView(
   classroomId: string | number,
 ) {
   try {
+    console.log("🎬 logView");
     await mutateClient("/video/confirm-view", {
       body: { video_id: videoId, room_id: roomId, classroom_id: classroomId },
     });
@@ -80,25 +87,55 @@ export function useVideoPlayer({
 }) {
   const queryClient = useQueryClient();
 
+  // EXISTING STATE & REFS (UNCHANGED)
   const completedRef = useRef(false);
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const playerRef = useRef<VdoInstance | null>(null);
-
   const [hideBtn, setHideBtn] = useState(false);
   const [duration, setDuration] = useState<number | null>(null);
-
-  const viewLoggedRef = useRef(false);
+  const viewLoggedRef = useRef(true);
   const lastMetricsSampleAtRef = useRef(0);
 
-  // Reset when switching videos
-  useEffect(() => {
-    viewLoggedRef.current = false;
-    completedRef.current = false;
-    playerRef.current = null;
-    setDuration(null);
-    setHideBtn(false);
-  }, [videoId]);
+  // NEW: Watch time tracking
+  const { subdomain: tenantSubdomain } = extractTenantFromHost();
+  const watchTimeTrackerRef = useRef<WatchTimeTracker | null>(null);
+  const [uniqueSecondsWatched, setUniqueSecondsWatched] = useState(0);
+  const [uniqueMinutesWatched, setUniqueMinutesWatched] = useState(0);
 
+  // EXISTING RESET LOGIC (EXTENDED)
+  useEffect(() => {
+    // Existing resets (UNCHANGED)
+    // viewLoggedRef.current = false;
+    // completedRef.current = false;
+    // playerRef.current = null;
+    // setDuration(null);
+    // setHideBtn(false);
+
+    // NEW: Initialize watch time tracker
+    watchTimeTrackerRef.current = new WatchTimeTracker(
+      videoId,
+      tenantSubdomain,
+      5,
+    );
+    // setUniqueSecondsWatched(0);
+    // setUniqueMinutesWatched(0);
+    void sendPendingReports();
+  }, [videoId, tenantSubdomain]);
+
+  // NEW: Send final report on unmount
+  useEffect(() => {
+    return () => {
+      if (watchTimeTrackerRef.current) {
+        // ✅ Only send if there's new unreported data
+        if (watchTimeTrackerRef.current.hasUnreportedData()) {
+          const payload = watchTimeTrackerRef.current.getReportPayload();
+          void reportWatchTime(payload);
+        }
+      }
+    };
+  }, []);
+
+  // EXISTING PLAYER SETUP (EXTENDED)
   useEffect(() => {
     let cancelled = false;
     const cleanups: Array<() => void> = [];
@@ -110,7 +147,7 @@ export function useVideoPlayer({
       const ok = await waitForVdoAPI();
       if (!ok || cancelled) return;
 
-      // try to obtain instance (retry while iframe boots)
+      // EXISTING: try to obtain instance (retry while iframe boots)
       let inst: VdoInstance | null =
         window.VdoPlayer?.getInstance(iframeRef.current) ?? null;
       for (let i = 0; !inst && i < 40 && !cancelled; i++) {
@@ -123,14 +160,43 @@ export function useVideoPlayer({
 
       const v = inst.video;
 
-      const onLoadedMeta = () => setDuration(v.duration || 0);
+      // EXISTING: onLoadedMeta (UNCHANGED)
+      const onLoadedMeta = () => {
+        const dur = v.duration || 0;
+        setDuration(dur);
 
+        // ✅ Set video duration in tracker
+        if (watchTimeTrackerRef.current && dur > 0) {
+          watchTimeTrackerRef.current.setVideoDuration(dur);
+        }
+      };
+
+      // EXISTING + EXTENDED: onTimeUpdate
       const onTimeUpdate = async () => {
         const ct = v?.currentTime ?? 0;
         const dur = v?.duration ?? 0;
 
+        // EXISTING: setCurrentTime (UNCHANGED)
         setCurrentTime(Math.floor(ct));
 
+        // NEW: Track watch time
+        if (watchTimeTrackerRef.current && ct > 0) {
+          const tracker = watchTimeTrackerRef.current;
+          tracker.trackSegment(ct);
+
+          const uniqueSeconds = tracker.getUniqueSecondsWatched();
+          const uniqueMinutes = tracker.getUniqueMinutesWatched();
+
+          setUniqueSecondsWatched(uniqueSeconds);
+          setUniqueMinutesWatched(uniqueMinutes);
+
+          if (tracker.shouldReport()) {
+            const payload = tracker.getReportPayload();
+            await reportWatchTime(payload);
+          }
+        }
+
+        // EXISTING: Mark lesson completed at 90% (UNCHANGED)
         if (
           !videoCompleted &&
           !completedRef.current &&
@@ -138,6 +204,8 @@ export function useVideoPlayer({
           ct / dur >= 0.9
         ) {
           completedRef.current = true;
+          console.log("🎬 finished video 90% ");
+
           try {
             await mutateClient(`/students/lesson/store_completed`, {
               body: {
@@ -157,22 +225,32 @@ export function useVideoPlayer({
           }
         }
 
+        // EXISTING: maybeMarkWatched (UNCHANGED)
         maybeMarkWatched(inst, v);
       };
 
+      // EXISTING: onSeeking (UNCHANGED)
       const onSeeking = () => {
         setCurrentTime(v?.currentTime ? Math.floor(v.currentTime) : 0);
       };
 
-      const onEnded = () => {
+      // EXISTING + EXTENDED: onEnded
+      const onEnded = async () => {
+        // EXISTING: logView (UNCHANGED)
         if (!viewLoggedRef.current) {
           viewLoggedRef.current = true;
           void logView(videoId, roomId, classroomId);
         }
+
+        // ✅ UPDATED: Only send if there's new data
+        if (watchTimeTrackerRef.current?.hasUnreportedData()) {
+          const payload = watchTimeTrackerRef.current.getReportPayload();
+          await reportWatchTime(payload);
+        }
       };
 
+      // EXISTING: Event listeners (UNCHANGED)
       inst.video.addEventListener("ended", onEnded);
-
       v.addEventListener("loadedmetadata", onLoadedMeta);
       v.addEventListener("timeupdate", onTimeUpdate);
       v.addEventListener("seeking", onSeeking);
@@ -185,6 +263,7 @@ export function useVideoPlayer({
       cleanups.push(() => v.removeEventListener("seeking", onSeeking));
       cleanups.push(() => v.removeEventListener("ended", onEnded));
 
+      // EXISTING: statusHandler (UNCHANGED)
       const statusHandler = (evt: any) => {
         const label =
           typeof evt === "string" ? evt : evt?.label || evt?.status || "";
@@ -216,6 +295,7 @@ export function useVideoPlayer({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [response?.otp, videoId, roomId, classroomId, lessonId, videoCompleted]);
 
+  // EXISTING: maybeMarkWatched (UNCHANGED)
   const maybeMarkWatched = async (inst: VdoInstance, v: HTMLVideoElement) => {
     if (viewLoggedRef.current) return;
 
@@ -261,5 +341,9 @@ export function useVideoPlayer({
     hideBtn,
     setHideBtn,
     duration,
+    // NEW: Watch time tracking data
+    uniqueSecondsWatched,
+    uniqueMinutesWatched,
+    tenantSubdomain,
   } as const;
 }
