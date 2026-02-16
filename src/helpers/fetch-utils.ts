@@ -1,6 +1,7 @@
 import CustomError from "@/lib/customError";
 
 export function extractTenantFromHost() {
+  if (typeof window === "undefined") return { subdomain: "", host: "" };
   const host = window.location.host;
 
   // remove port

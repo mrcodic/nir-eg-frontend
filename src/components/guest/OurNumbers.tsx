@@ -5,24 +5,6 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import SectionTitle from "./SectionTitle";
 
-const numbers = [
-  {
-    icon: "/assets/subscribe-3d.png",
-    count: "1000",
-    title: "اشتراك",
-  },
-  {
-    icon: "/assets/graduation.png",
-    count: "1000",
-    title: "طالب",
-  },
-  {
-    icon: "/assets/course.png",
-    count: "1000",
-    title: "حصة",
-  },
-];
-
 type OurNumbersTwoProps = {
   variant?: "default" | "floating";
   numbers: TenantLandingResponse["data"]["numbers"];

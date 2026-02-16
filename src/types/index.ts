@@ -350,6 +350,7 @@ export interface IActivity {
   title: string;
   type: "امتحان" | string;
   type_label?: string;
+  review_pending: boolean;
 }
 
 export interface StudentActivitiesData {

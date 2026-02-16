@@ -37,10 +37,12 @@ const ExamCard = ({ exam }: Props) => {
   // const isPendingReview = exam.completed && !exam.score_ratio;
   const isPendingReview = exam.review_pending;
   const isExpired = new Date(exam.expires_at) < new Date();
-  const isCompleted = exam.completed || exam?.score_ratio;
+  const isCompleted = exam.completed && exam?.score_ratio;
 
   let ctaLabel: string | null = null;
   let ctaHref: string | null = null;
+
+  console.log(!isExpired && (!isCompleted || exam.retake));
 
   if (isPendingReview) {
     ctaLabel = "جاري التصحيح";
@@ -49,7 +51,7 @@ const ExamCard = ({ exam }: Props) => {
     ctaHref = `/bundles/${SingleCourse}/general-exams/${exam.id}`;
   } else if (isExpired && !isCompleted) {
     ctaLabel = "لم تقم بحل الامتحان";
-  } else if (!isExpired && (!isCompleted || exam.retake) && !isPendingReview) {
+  } else if (!isExpired && (!isCompleted || exam.retake)) {
     ctaLabel = isCompleted ? "اعادة الامتحان" : "الذهاب للامتحان";
     ctaHref = `/bundles/${SingleCourse}/general-exams/${exam.id}`;
   } else if (isCompleted && !exam?.retake) {

@@ -7,7 +7,7 @@ function ProfileGradeCard({ text }: { text: string }) {
         width={40}
         height={40}
         className="size-8 sm:size-10"
-        src="/assets/graduation.svg"
+        src="/assets/graduation.webp"
         alt="student grade icon"
       />
 

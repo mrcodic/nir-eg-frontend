@@ -164,7 +164,10 @@ function TaskForm({
       onTaskSubmit?.();
     } catch (e: any) {
       toast({
-        description: e.response?.data?.error?.message || "An error occurred",
+        description:
+          e.response?.data?.error?.message ||
+          e.response?.data?.message ||
+          "حدث خطأ, حاول مرة اخرى",
         icon: "error",
       });
     } finally {
