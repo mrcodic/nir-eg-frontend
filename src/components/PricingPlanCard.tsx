@@ -115,7 +115,7 @@ export default function PricingPlanCard({
 
           <p
             className={cn("text-sm font-bold text-gray-dark", {
-              "text-gray-light": isFeatured,
+              "text-gray-light": isFeatured || isDemo,
             })}
           >
             سعر الطالب الاضافى{" "}
