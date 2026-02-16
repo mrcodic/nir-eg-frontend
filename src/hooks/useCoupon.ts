@@ -1,16 +1,20 @@
 import { useAuthContext } from "@/context/auth-context";
+import { useTenant } from "@/context/TenantProvider";
 import { getClientPrivateData } from "@/helpers/client-fetch";
 import { Coupon } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 
 function useCoupon() {
   const { profile } = useAuthContext();
+  const { features } = useTenant();
+
   const isOnline = profile?.type == 4;
+  const hasCouponEnabled = features.promo_code;
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["/students/profile/promo_code"],
     queryFn: getClientPrivateData as () => Promise<{ data: Coupon }>,
-    enabled: profile && isOnline,
+    enabled: profile && isOnline && hasCouponEnabled,
   });
 
   const discountValue =
