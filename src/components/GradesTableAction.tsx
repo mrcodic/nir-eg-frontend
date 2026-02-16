@@ -22,13 +22,18 @@ function GradesTableAction({
         <p className="mx-auto text-center font-bold text-blue-600">
           انتهى الكورس بدون تصحيح
         </p>
+      ) : isReviewPending || haveAnswer ? (
+        <StudentScoreResult
+          score={rowValue}
+          pass={!isExam || row?.passed}
+          pending={isReviewPending}
+        />
       ) : (
-        (isReviewPending || haveAnswer) && (
-          <StudentScoreResult
-            score={rowValue}
-            pass={!isExam || row?.passed}
-            pending={isReviewPending}
-          />
+        !isReviewPending &&
+        !haveAnswer && (
+          <p className="text-secondary bg-secondary-50 w-[116px] rounded-xl py-1 text-center font-bold">
+            لم يتم الحل بعد
+          </p>
         )
       )}
 
