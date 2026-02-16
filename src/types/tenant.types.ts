@@ -9,6 +9,7 @@ export interface TenantFeatures {
   book_store: boolean;
   promo_code: boolean;
   ai_chatbot: boolean;
+  quizzes: boolean;
 }
 
 export interface TenantSettings {

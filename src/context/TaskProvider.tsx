@@ -6,7 +6,7 @@ import { quizSchema } from "@/lib/schemas";
 import { QuizStatus } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "next/navigation";
+import { redirect, useParams } from "next/navigation";
 import {
   createContext,
   useCallback,
@@ -24,6 +24,7 @@ import {
   UseFormTrigger,
   useForm,
 } from "react-hook-form";
+import { useTenant } from "./TenantProvider";
 
 interface TaskContextType {
   // ✅ RHF (stable only)
@@ -77,6 +78,8 @@ export const useTaskContext = () => {
 
 export const TaskProvider = ({ children, taskType = "exam" }) => {
   const params = useParams();
+  const { features } = useTenant();
+
   const taskId = (
     taskType === "exam" ? params.examId : params.assignmentId
   ) as string;
@@ -175,6 +178,10 @@ export const TaskProvider = ({ children, taskType = "exam" }) => {
       reset,
     ],
   );
+
+  if (features?.quizzes == false) {
+    redirect("/profile");
+  }
 
   return (
     <TaskContext.Provider value={value}>

@@ -88,8 +88,9 @@ const CourseDetails = ({ details, profile }: Props) => {
   );
 
   const hasExams =
-    !!courseExams?.body?.incoming_exams?.length ||
-    !!courseExams?.body?.past_exams?.length;
+    features?.quizzes &&
+    (!!courseExams?.body?.incoming_exams?.length ||
+      !!courseExams?.body?.past_exams?.length);
   const hasGradesEnabled = features?.student_gradebook;
   const hasPointsEnabled = features?.points_system;
 
@@ -163,6 +164,7 @@ const CourseDetails = ({ details, profile }: Props) => {
                         }
                         verify={true || profile?.parent_phone_verification}
                         classroomId={SingleCourse.toString()}
+                        tasksEnabled={features?.quizzes}
                       />
                     );
                   })}

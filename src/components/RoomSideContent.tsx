@@ -19,6 +19,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { useTenant } from "@/context/TenantProvider";
 
 type RoomSideContentProps = {
   data: IRoomDetails | undefined;
@@ -44,7 +45,10 @@ const RoomSideContent = ({
   isLoading,
 }: RoomSideContentProps) => {
   const { SingleCourse, room } = useParams();
+  const { features } = useTenant();
   const router = useRouter();
+
+  const hasTasksEnabled = features?.quizzes;
 
   if (isLoading) {
     return (
@@ -149,7 +153,7 @@ const RoomSideContent = ({
         </AccordionItem>
 
         {/* Quizzes Section */}
-        {!!data.quizzes?.length && (
+        {hasTasksEnabled && !!data.quizzes?.length && (
           <AccordionItem
             value="quizzes"
             className={cn(
@@ -179,7 +183,7 @@ const RoomSideContent = ({
         )}
 
         {/* Assignments Section */}
-        {!!data.assignments?.length && (
+        {hasTasksEnabled && !!data.assignments?.length && (
           <AccordionItem
             value="assignments"
             className={cn(

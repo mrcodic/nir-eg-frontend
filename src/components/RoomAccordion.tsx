@@ -24,6 +24,7 @@ const RoomAccordion = ({
   verify,
   courseName,
   classroomId,
+  tasksEnabled = true,
 }: {
   isProfile?: any;
   room: RoomData;
@@ -31,6 +32,7 @@ const RoomAccordion = ({
   verify?: any;
   courseName?: string;
   classroomId: string;
+  tasksEnabled?: boolean;
 }) => {
   const modal = useModal();
 
@@ -160,7 +162,8 @@ const RoomAccordion = ({
                 </div>
               )}
 
-              {room?.quizzes &&
+              {tasksEnabled &&
+                room?.quizzes &&
                 (room?.quizzes).map((quiz) => {
                   return (
                     <RoomDropDownQuiz
@@ -206,7 +209,8 @@ const RoomAccordion = ({
                   );
                 })}
 
-              {room?.assignments &&
+              {tasksEnabled &&
+                room?.assignments &&
                 (room?.assignments).map((ass) => {
                   return (
                     <RoomDropDownQuiz

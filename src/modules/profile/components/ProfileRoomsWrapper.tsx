@@ -10,12 +10,14 @@ import { getClientPrivateData } from "@/helpers/client-fetch";
 import { useQuery } from "@tanstack/react-query";
 import { useAuthContext } from "@/context/auth-context";
 import { Button } from "@/components/ui/button";
+import { useTenant } from "@/context/TenantProvider";
 
 const VISIBLE_ROOMS_COUNT = 3;
 
 function ProfileRoomsWrapper() {
   const { profile } = useAuthContext();
   const [showAll, setShowAll] = useState(false);
+  const { features } = useTenant();
 
   const { data: rooms, isLoading: isLoadingRooms } = useQuery<
     ApiResponse<LatestRoom[]>
@@ -48,6 +50,7 @@ function ProfileRoomsWrapper() {
               subscribe={room.is_subscriped}
               courseName={room.classroom}
               classroomId={String(room?.id)}
+              tasksEnabled={features?.quizzes}
             />
           ))}
 

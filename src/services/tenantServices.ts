@@ -17,9 +17,9 @@ export const getTenantSettingsServer = cache(async () => {
   } catch (error) {
     if (error instanceof CustomError) {
       if (error.status === 404) {
-        const error = new Error("TENANT_NOT_FOUND");
-        error.name = "TenantNotFoundError";
-        throw error;
+        const err = new Error("TENANT_NOT_FOUND");
+        err.name = "TenantNotFoundError";
+        throw err;
       }
     }
     throw error;
