@@ -69,7 +69,7 @@ const SingleVideo = () => {
       >
         <div className="wrapper mt-[110px]">
           <div className="flex flex-col-reverse gap-6 py-8 lg:flex-row">
-            <div className="flex w-full lg:w-[30%]">
+            <div className="flex w-full lg:w-[35%]">
               <RoomSideContent
                 data={lessonData?.body}
                 videoId={videoId}

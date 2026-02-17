@@ -11,10 +11,6 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 
-type VdoStatusChange =
-  | string
-  | { code?: number; label?: string; status?: string };
-
 // ✅ ENHANCED: VdoCipher API types
 type VdoQuality = {
   id: number;
@@ -122,7 +118,7 @@ export function useVideoPlayer({
   const playerRef = useRef<VdoInstance | null>(null);
   const [hideBtn, setHideBtn] = useState(false);
   const [duration, setDuration] = useState<number | null>(null);
-  const viewLoggedRef = useRef(true);
+  const viewLoggedRef = useRef(false);
   const lastMetricsSampleAtRef = useRef(0);
 
   // Watch time tracking

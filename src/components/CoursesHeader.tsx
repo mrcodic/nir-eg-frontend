@@ -3,7 +3,6 @@
 import { useAuthContext } from "@/context/auth-context";
 import { cn } from "@/lib/utils";
 import { ICourseDetails } from "@/types";
-import Image from "next/image";
 import { useMemo } from "react";
 import PriceBadge from "../modules/payment/components/PriceBadge";
 import CourseInfoBadge from "./CourseInfoBadge";
@@ -118,11 +117,13 @@ const CoursesHeader = ({ details }: { details: ICourseDetails }) => {
                   labelClassName="text-xs text-gray-light"
                   dataClassName="text-sm text-white"
                   icon={
-                    <Image
-                      src={detail.icon}
-                      width={20}
-                      height={20}
-                      alt="calendar icon"
+                    <div
+                      style={{
+                        maskImage: `url(${detail.icon})`,
+                        maskRepeat: "no-repeat",
+                        maskSize: "contain",
+                      }}
+                      className="bg-primary-800 size-5"
                     />
                   }
                 />
