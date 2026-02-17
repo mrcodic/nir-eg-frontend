@@ -22,7 +22,12 @@ async function page() {
               dangerouslySetInnerHTML={{ __html: data?.data?.content }}
             />
           ) : (
-            <pre className="break-all whitespace-pre-wrap">
+            <pre
+              className="break-all whitespace-pre-wrap"
+              style={{
+                unicodeBidi: "plaintext",
+              }}
+            >
               {data?.data?.content || "لا يوجد شروط و أحكام"}
             </pre>
           )}
