@@ -159,6 +159,7 @@ function ProfilePointsTable() {
       pageCount={pageCount}
       isLoading={isLoading}
       isPlaceholderData={isPlaceholderData}
+      errorMessage={"لا يوجد نقاط بعد"}
     />
   );
 }

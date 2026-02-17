@@ -53,7 +53,9 @@ function PaymentCoupon({
       }
       const res = await mutateClient("/students/promo/price", { body });
 
-      if (res.status !== 200) {
+      console.log(res);
+
+      if (!res.status) {
         setCouponState({ message: "حدث خطأ", state: "error" });
         return;
       }

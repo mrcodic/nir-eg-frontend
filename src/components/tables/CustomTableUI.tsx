@@ -26,6 +26,7 @@ type Props = {
   pageCount: number;
   isLoading?: boolean;
   isPlaceholderData?: boolean;
+  errorMessage?: string;
 };
 
 export default function CustomTableUI({
@@ -36,6 +37,7 @@ export default function CustomTableUI({
   pageCount,
   isLoading,
   isPlaceholderData,
+  errorMessage,
 }: Props) {
   const table = useReactTable({
     data,
@@ -50,7 +52,7 @@ export default function CustomTableUI({
   });
 
   if (!data.length && pagination.page === 1) {
-    return <Empty text="لا يوجد درجات بعد" />;
+    return <Empty text={errorMessage || "لا يوجد درجات بعد"} />;
   }
 
   return (
@@ -94,7 +96,7 @@ export default function CustomTableUI({
           ) : data.length === 0 ? (
             <TableRow>
               <TableCell colSpan={5} className="py-8 text-center">
-                <Empty text="لا يوجد درجات بعد" />
+                <Empty text={errorMessage || "لا يوجد درجات بعد"} />
               </TableCell>
             </TableRow>
           ) : (

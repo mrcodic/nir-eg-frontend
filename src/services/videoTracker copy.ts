@@ -1,34 +1,7 @@
 // services/videoTracker.ts
 
-/**
- * Parse bitrate from label string (e.g., "403 kbps" -> 403)
- */
-function parseBitrateFromLabel(label: string | undefined): number | null {
-  if (!label) return null;
-
-  const kbpsMatch = label.match(/(\d+(?:\.\d+)?)\s*kbps/i);
-  if (kbpsMatch) {
-    return parseFloat(kbpsMatch[1]);
-  }
-
-  const mbpsMatch = label.match(/(\d+(?:\.\d+)?)\s*mbps/i);
-  if (mbpsMatch) {
-    return parseFloat(mbpsMatch[1]) * 1000;
-  }
-
-  return null;
-}
-
-interface QualityInfo {
-  bitrate: number;
-  label: string;
-  height?: number;
-  width?: number;
-}
-
 class WatchTimeTracker {
   private watchedSegments = new Set<number>();
-  private segmentBitrates = new Map<number, number>();
   private segmentSize: number;
   private videoId: string;
   private tenantSubdomain: string;
@@ -36,10 +9,6 @@ class WatchTimeTracker {
   private reportInterval = 10000;
   private videoDuration: number | null = null;
   private lastReportedSeconds = 0;
-
-  private currentBitrate: number = 2500;
-  private currentQuality: QualityInfo | null = null;
-  private isAdaptive: boolean = true;
 
   constructor(videoId: string, tenantSubdomain: string, segmentSize = 5) {
     this.videoId = videoId;
@@ -49,33 +18,6 @@ class WatchTimeTracker {
 
   setVideoDuration(duration: number): void {
     this.videoDuration = duration;
-  }
-
-  // ✅ Simplified: Just validate and set
-  setBitrate(bitrate: number, quality?: QualityInfo): void {
-    // Validate bitrate
-    if (bitrate && !isNaN(bitrate) && bitrate > 0) {
-      this.currentBitrate = bitrate;
-      console.log(
-        `🎬 Bitrate set: ${bitrate} kbps${quality?.label ? ` (${quality.label})` : ""}`,
-      );
-    } else {
-      console.warn(
-        `⚠️ Invalid bitrate: ${bitrate}, keeping current ${this.currentBitrate} kbps`,
-      );
-      return; // Don't update if invalid
-    }
-
-    if (quality) {
-      this.currentQuality = {
-        ...quality,
-        bitrate: this.currentBitrate,
-      };
-    }
-  }
-
-  setAdaptive(adaptive: boolean): void {
-    this.isAdaptive = adaptive;
   }
 
   private getMaxSegmentIndex(): number | null {
@@ -93,59 +35,22 @@ class WatchTimeTracker {
     const cappedSegmentIndex =
       maxSegment !== null ? Math.min(segmentIndex, maxSegment) : segmentIndex;
 
-    // ✅ Store bitrate only if not already stored AND if valid
-    if (!this.segmentBitrates.has(cappedSegmentIndex)) {
-      // Use current bitrate (which is always valid, defaults to 2500)
-      this.segmentBitrates.set(cappedSegmentIndex, this.currentBitrate);
-    }
-
     this.watchedSegments.add(cappedSegmentIndex);
   }
 
   getUniqueSecondsWatched(): number {
     const calculatedSeconds = this.watchedSegments.size * this.segmentSize;
+
     if (this.videoDuration) {
       return Math.min(calculatedSeconds, this.videoDuration);
     }
+
     return calculatedSeconds;
   }
 
+  // ✅ ADDED BACK: This was missing!
   getUniqueMinutesWatched(): number {
     return Math.floor(this.getUniqueSecondsWatched() / 60);
-  }
-
-  getEstimatedBandwidthMB(): number {
-    let totalKilobits = 0;
-
-    for (const segmentIndex of this.watchedSegments) {
-      const bitrate =
-        this.segmentBitrates.get(segmentIndex) || this.currentBitrate;
-      totalKilobits += bitrate * this.segmentSize;
-    }
-
-    const megabytes = totalKilobits / 8 / 1024;
-    return Math.round(megabytes * 100) / 100;
-  }
-
-  getAverageBitrate(): number {
-    if (this.segmentBitrates.size === 0) return this.currentBitrate;
-
-    const sum = Array.from(this.segmentBitrates.values()).reduce(
-      (a, b) => a + b,
-      0,
-    );
-    return Math.round(sum / this.segmentBitrates.size);
-  }
-
-  getQualityDistribution(): { [bitrate: string]: number } {
-    const distribution: { [bitrate: string]: number } = {};
-
-    for (const bitrate of this.segmentBitrates.values()) {
-      const key = `${bitrate}kbps`;
-      distribution[key] = (distribution[key] || 0) + this.segmentSize;
-    }
-
-    return distribution;
   }
 
   shouldReport(): boolean {
@@ -158,6 +63,7 @@ class WatchTimeTracker {
         return true;
       }
     }
+
     return false;
   }
 
@@ -169,12 +75,8 @@ class WatchTimeTracker {
   getReportPayload() {
     const currentSeconds = this.getUniqueSecondsWatched();
     const secondsGained = currentSeconds - this.lastReportedSeconds;
-    const bandwidthMB = this.getEstimatedBandwidthMB();
-    const avgBitrate = this.getAverageBitrate();
 
-    console.log(
-      `📊 Report: +${secondsGained}s | Bandwidth: ${bandwidthMB} MB | Avg bitrate: ${avgBitrate} kbps`,
-    );
+    console.log(`📊 Sending +${secondsGained}s to backend`);
 
     this.lastReportedSeconds = currentSeconds;
 
@@ -182,11 +84,6 @@ class WatchTimeTracker {
       video_id: this.videoId,
       tenant_subdomain: this.tenantSubdomain,
       seconds_to_add: secondsGained,
-      estimated_bandwidth_mb: bandwidthMB,
-      average_bitrate_kbps: avgBitrate,
-      current_quality: this.currentQuality?.label || null,
-      is_adaptive: this.isAdaptive,
-      quality_distribution: this.getQualityDistribution(),
       timestamp: new Date().toISOString(),
     };
   }
@@ -222,15 +119,11 @@ async function sendPendingReports() {
         // await mutateClient("/video/track-watch-time", { body: payload });
         console.log("✅ Pending report sent:", payload);
         localStorage.removeItem(key);
-      } catch {}
+      } catch {
+        // Keep in localStorage to retry later
+      }
     }
   } catch {}
 }
 
-export {
-  reportWatchTime,
-  WatchTimeTracker,
-  sendPendingReports,
-  parseBitrateFromLabel,
-};
-export type { QualityInfo };
+export { reportWatchTime, WatchTimeTracker, sendPendingReports };
