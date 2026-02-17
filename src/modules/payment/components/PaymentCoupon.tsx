@@ -68,11 +68,17 @@ function PaymentCoupon({
       console.log("😂 Error in apply coupon", error);
 
       toast({
-        description: error?.response?.data?.error.message || "حدث خطأ ما",
+        description:
+          error?.response?.data?.error?.message ||
+          error?.response?.data?.message ||
+          "حدث خطأ ما",
         icon: "error",
       });
       setCouponState({
-        message: error?.response?.data?.error.message || "حدث خطأ ما",
+        message:
+          error?.response?.data?.error?.message ||
+          error?.response?.data?.message ||
+          "حدث خطأ ما",
         state: "error",
       });
       setCoupon(null);

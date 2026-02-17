@@ -46,6 +46,8 @@ export const PaymentUI: React.FC<PaymentUIProps> = ({
 
   const hasPaymentMethods = paymentTypes.length > 0;
 
+  console.log(coupon);
+
   return (
     <>
       {loading && (
