@@ -11,12 +11,23 @@ async function page() {
     queryKey: ["/settings/legal/terms"],
   });
 
+  console.log(data);
+
   return (
     <main className="flex w-full flex-col gap-22 md:my-22 my-16 wrapper">
       <div className="section">
         <h1 className="text-3xl font-bold mb-10">الشروط و الأحكام</h1>
         <div className="space-y-6">
-          <div>{data?.data?.content || "لا يوجد شروط و أحكام"}</div>
+          {data?.data?.content?.startsWith("<") ? (
+            <div
+              className="break-all"
+              dangerouslySetInnerHTML={{ __html: data?.data?.content }}
+            />
+          ) : (
+            <pre className="break-all whitespace-pre-wrap">
+              {data?.data?.content || "لا يوجد شروط و أحكام"}
+            </pre>
+          )}
         </div>
       </div>
     </main>

@@ -16,7 +16,16 @@ async function page() {
       <div className="section">
         <h1 className="text-3xl font-bold mb-10">سياسة الخصوصية</h1>
         <div className="space-y-6">
-          <div>{data?.data?.content || "لا يوجد سياسة خصوصية"}</div>
+          {data?.data?.content?.startsWith("<") ? (
+            <div
+              className="break-all"
+              dangerouslySetInnerHTML={{ __html: data?.data?.content }}
+            />
+          ) : (
+            <pre className="break-all whitespace-pre-wrap">
+              {data?.data?.content || "لا يوجد شروط و أحكام"}
+            </pre>
+          )}
         </div>
       </div>
     </main>
