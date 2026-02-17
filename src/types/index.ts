@@ -261,6 +261,7 @@ export interface Comment {
   recordings: File[];
   replies: Reply[];
   user: CommentUser;
+  video_type: "cipher" | "youtube";
 }
 
 export interface CommentsData {

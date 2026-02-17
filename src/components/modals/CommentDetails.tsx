@@ -123,6 +123,7 @@ const CommentDetails = ({
                 comment={comment}
                 currentTime={comment.at_second}
                 lessonId={comment.lesson_id}
+                isYoutubeVideo={comment?.video_type === "youtube"}
               />
             ))
           ) : (

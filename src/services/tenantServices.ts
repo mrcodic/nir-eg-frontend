@@ -8,6 +8,10 @@ export const getTenantSettingsServer = cache(async () => {
   try {
     const tenant = await extractTenantFromHostServer();
 
+    if (!tenant.subdomain) {
+      throw new CustomError("TENANT_NOT_FOUND", 404);
+    }
+
     const response = await getServerData({
       queryKey: [`/central/tenants/${tenant.subdomain}`],
       isAuth: false,
@@ -17,7 +21,7 @@ export const getTenantSettingsServer = cache(async () => {
   } catch (error) {
     if (error instanceof CustomError) {
       if (error.status === 404) {
-        const err = new Error("TENANT_NOT_FOUND");
+        const err = new CustomError("TENANT_NOT_FOUND", 404);
         err.name = "TenantNotFoundError";
         throw err;
       }

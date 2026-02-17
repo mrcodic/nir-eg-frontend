@@ -1,20 +1,13 @@
 // services/videoTracker.ts
 
-/**
- * Parse bitrate from label string (e.g., "403 kbps" -> 403)
- */
 function parseBitrateFromLabel(label: string | undefined): number | null {
   if (!label) return null;
 
   const kbpsMatch = label.match(/(\d+(?:\.\d+)?)\s*kbps/i);
-  if (kbpsMatch) {
-    return parseFloat(kbpsMatch[1]);
-  }
+  if (kbpsMatch) return parseFloat(kbpsMatch[1]);
 
   const mbpsMatch = label.match(/(\d+(?:\.\d+)?)\s*mbps/i);
-  if (mbpsMatch) {
-    return parseFloat(mbpsMatch[1]) * 1000;
-  }
+  if (mbpsMatch) return parseFloat(mbpsMatch[1]) * 1000;
 
   return null;
 }
@@ -27,8 +20,13 @@ interface QualityInfo {
 }
 
 class WatchTimeTracker {
+  // ✅ CHANGED: Track unique (segment + bitrate) combinations
+  // Key: `${segmentIndex}-${bitrate}`, allows same segment at different qualities
+  private watchedSegmentQualities = new Set<string>();
+
+  // ✅ KEPT: Still track unique segments for watch TIME (not bandwidth)
   private watchedSegments = new Set<number>();
-  private segmentBitrates = new Map<number, number>();
+
   private segmentSize: number;
   private videoId: string;
   private tenantSubdomain: string;
@@ -36,6 +34,7 @@ class WatchTimeTracker {
   private reportInterval = 10000;
   private videoDuration: number | null = null;
   private lastReportedSeconds = 0;
+  private lastReportedBandwidth = 0; // ✅ NEW: Track reported bandwidth
 
   private currentBitrate: number = 2500;
   private currentQuality: QualityInfo | null = null;
@@ -51,9 +50,7 @@ class WatchTimeTracker {
     this.videoDuration = duration;
   }
 
-  // ✅ Simplified: Just validate and set
   setBitrate(bitrate: number, quality?: QualityInfo): void {
-    // Validate bitrate
     if (bitrate && !isNaN(bitrate) && bitrate > 0) {
       this.currentBitrate = bitrate;
       console.log(
@@ -63,14 +60,11 @@ class WatchTimeTracker {
       console.warn(
         `⚠️ Invalid bitrate: ${bitrate}, keeping current ${this.currentBitrate} kbps`,
       );
-      return; // Don't update if invalid
+      return;
     }
 
     if (quality) {
-      this.currentQuality = {
-        ...quality,
-        bitrate: this.currentBitrate,
-      };
+      this.currentQuality = { ...quality, bitrate: this.currentBitrate };
     }
   }
 
@@ -93,15 +87,24 @@ class WatchTimeTracker {
     const cappedSegmentIndex =
       maxSegment !== null ? Math.min(segmentIndex, maxSegment) : segmentIndex;
 
-    // ✅ Store bitrate only if not already stored AND if valid
-    if (!this.segmentBitrates.has(cappedSegmentIndex)) {
-      // Use current bitrate (which is always valid, defaults to 2500)
-      this.segmentBitrates.set(cappedSegmentIndex, this.currentBitrate);
-    }
-
+    // ✅ Track unique watch TIME (capped, no duplicates)
     this.watchedSegments.add(cappedSegmentIndex);
+
+    // ✅ Track unique (segment + bitrate) for BANDWIDTH
+    // Same segment at different quality = re-download = more bandwidth
+    const segmentQualityKey = `${cappedSegmentIndex}-${this.currentBitrate}`;
+    const isNewCombination =
+      !this.watchedSegmentQualities.has(segmentQualityKey);
+
+    if (isNewCombination) {
+      this.watchedSegmentQualities.add(segmentQualityKey);
+      console.log(
+        `📥 New download: Segment ${cappedSegmentIndex} @ ${this.currentBitrate} kbps`,
+      );
+    }
   }
 
+  // ✅ Watch time: Only unique segments (time-based, capped at video duration)
   getUniqueSecondsWatched(): number {
     const calculatedSeconds = this.watchedSegments.size * this.segmentSize;
     if (this.videoDuration) {
@@ -114,13 +117,18 @@ class WatchTimeTracker {
     return Math.floor(this.getUniqueSecondsWatched() / 60);
   }
 
+  // ✅ UPDATED: Bandwidth counts ALL (segment + quality) combinations
+  // No duration cap here! Same segment at 2 qualities = 2x download
   getEstimatedBandwidthMB(): number {
     let totalKilobits = 0;
 
-    for (const segmentIndex of this.watchedSegments) {
-      const bitrate =
-        this.segmentBitrates.get(segmentIndex) || this.currentBitrate;
-      totalKilobits += bitrate * this.segmentSize;
+    for (const key of this.watchedSegmentQualities) {
+      // key format: "segmentIndex-bitrate"
+      const bitrate = parseInt(key.split("-")[1]);
+
+      if (bitrate && !isNaN(bitrate) && bitrate > 0) {
+        totalKilobits += bitrate * this.segmentSize;
+      }
     }
 
     const megabytes = totalKilobits / 8 / 1024;
@@ -128,32 +136,54 @@ class WatchTimeTracker {
   }
 
   getAverageBitrate(): number {
-    if (this.segmentBitrates.size === 0) return this.currentBitrate;
+    if (this.watchedSegmentQualities.size === 0) return this.currentBitrate;
 
-    const sum = Array.from(this.segmentBitrates.values()).reduce(
-      (a, b) => a + b,
-      0,
-    );
-    return Math.round(sum / this.segmentBitrates.size);
+    let sum = 0;
+    let count = 0;
+
+    for (const key of this.watchedSegmentQualities) {
+      const bitrate = parseInt(key.split("-")[1]);
+      if (bitrate && !isNaN(bitrate) && bitrate > 0) {
+        sum += bitrate;
+        count++;
+      }
+    }
+
+    return count > 0 ? Math.round(sum / count) : this.currentBitrate;
   }
 
+  // ✅ NEW: Show quality distribution (seconds per bitrate)
   getQualityDistribution(): { [bitrate: string]: number } {
     const distribution: { [bitrate: string]: number } = {};
 
-    for (const bitrate of this.segmentBitrates.values()) {
-      const key = `${bitrate}kbps`;
-      distribution[key] = (distribution[key] || 0) + this.segmentSize;
+    for (const key of this.watchedSegmentQualities) {
+      const bitrate = parseInt(key.split("-")[1]);
+      if (bitrate && !isNaN(bitrate) && bitrate > 0) {
+        const qualityKey = `${bitrate}kbps`;
+        distribution[qualityKey] =
+          (distribution[qualityKey] || 0) + this.segmentSize;
+      }
     }
 
     return distribution;
   }
 
+  // ✅ NEW: Get total downloads (including re-downloads at different quality)
+  getTotalDownloads(): number {
+    return this.watchedSegmentQualities.size;
+  }
+
   shouldReport(): boolean {
     const now = Date.now();
     const currentSeconds = this.getUniqueSecondsWatched();
+    const currentBandwidth = this.getEstimatedBandwidthMB();
 
     if (now - this.lastReportTime >= this.reportInterval) {
-      if (currentSeconds > this.lastReportedSeconds) {
+      // ✅ Report if new watch time OR new bandwidth (quality change)
+      if (
+        currentSeconds > this.lastReportedSeconds ||
+        currentBandwidth > this.lastReportedBandwidth
+      ) {
         this.lastReportTime = now;
         return true;
       }
@@ -163,26 +193,34 @@ class WatchTimeTracker {
 
   hasUnreportedData(): boolean {
     const currentSeconds = this.getUniqueSecondsWatched();
-    return currentSeconds > this.lastReportedSeconds;
+    const currentBandwidth = this.getEstimatedBandwidthMB();
+    return (
+      currentSeconds > this.lastReportedSeconds ||
+      currentBandwidth > this.lastReportedBandwidth
+    );
   }
 
   getReportPayload() {
     const currentSeconds = this.getUniqueSecondsWatched();
     const secondsGained = currentSeconds - this.lastReportedSeconds;
     const bandwidthMB = this.getEstimatedBandwidthMB();
+    const bandwidthGainedMB =
+      Math.round((bandwidthMB - this.lastReportedBandwidth) * 100) / 100;
     const avgBitrate = this.getAverageBitrate();
 
     console.log(
-      `📊 Report: +${secondsGained}s | Bandwidth: ${bandwidthMB} MB | Avg bitrate: ${avgBitrate} kbps`,
+      `📊 Report: +${secondsGained}s | +${bandwidthGainedMB} MB | Avg: ${avgBitrate} kbps | Downloads: ${this.getTotalDownloads()}`,
     );
 
     this.lastReportedSeconds = currentSeconds;
+    this.lastReportedBandwidth = bandwidthMB;
 
     return {
       video_id: this.videoId,
       tenant_subdomain: this.tenantSubdomain,
       seconds_to_add: secondsGained,
-      estimated_bandwidth_mb: bandwidthMB,
+      bandwidth_mb_to_add: bandwidthGainedMB, // ✅ Delta bandwidth
+      total_bandwidth_mb: bandwidthMB, // ✅ Total so far
       average_bitrate_kbps: avgBitrate,
       current_quality: this.currentQuality?.label || null,
       is_adaptive: this.isAdaptive,
@@ -228,9 +266,9 @@ async function sendPendingReports() {
 }
 
 export {
-  reportWatchTime,
-  WatchTimeTracker,
-  sendPendingReports,
   parseBitrateFromLabel,
+  reportWatchTime,
+  sendPendingReports,
+  WatchTimeTracker,
 };
 export type { QualityInfo };
