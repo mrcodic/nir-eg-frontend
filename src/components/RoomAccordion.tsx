@@ -187,7 +187,7 @@ const RoomAccordion = ({
                     lesson={lesson}
                     subscribe={subscribe || room?.is_subscriped}
                     verify={verify || room?.parent_phone_verification}
-                    roomId={room?.id}
+                    roomId={room?.latest_room?.id || room?.id}
                     locked={room?.locked_to_pass || lock_after == 0}
                     classroomId={classroomId}
                   />

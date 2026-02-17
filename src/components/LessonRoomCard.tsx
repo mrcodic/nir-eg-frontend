@@ -61,7 +61,7 @@ const LessonRoomCard = ({
               `/bundles/${classroomId}/${roomId}?${
                 lesson?.video_type === "youtube"
                   ? `video_url=${encodeURIComponent(lesson?.video_link)}`
-                  : `video_id=${lesson?.vedio_id}`
+                  : `video_id=${lesson?.vedio_id || lesson?.video_id}`
               }`,
             );
           }}
