@@ -21,7 +21,7 @@ function CartDetailsSideSheet({ bookOrder }: { bookOrder: BooksOrder }) {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <button className="flex size-8 items-center justify-center rounded-[10px] bg-[#012D5A] ring-2 ring-[#D9B45C] transition-all hover:ring-offset-1">
+        <button className="bg-primary-800 flex size-8 items-center justify-center rounded-[10px] ring-2 ring-[#D9B45C] transition-all hover:ring-offset-1">
           <ChevronLeft size={18} color="white" />
         </button>
       </SheetTrigger>

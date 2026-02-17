@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 
 const variants = {
   "out-of-stock": "bg-[#B75050]",
-  "grade-1": "bg-[#012D5A]",
+  "grade-1": "bg-primary-800",
   "grade-2": "bg-[#6C2932]",
   "grade-3": "bg-[#023E3E]",
 };
@@ -28,13 +28,13 @@ const BookCardBadge = ({
   return (
     <div
       className={cn(
-        "flex items-center justify-center z-2  absolute h-8 px-2 py-1 rounded-lg",
-        variants[variant] || "bg-[#012D5A]",
+        "absolute z-2 flex h-8 items-center justify-center rounded-lg px-2 py-1",
+        variants[variant] || "bg-primary-800",
         sides[side],
-        className
+        className,
       )}
     >
-      <p className="text-sm text-white font-bold">{text} </p>
+      <p className="text-sm font-bold text-white">{text} </p>
     </div>
   );
 };

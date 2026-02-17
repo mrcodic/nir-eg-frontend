@@ -29,7 +29,7 @@ function BookQuantity({
       debounce((id: string) => {
         incrementQuantity(id);
       }, 300),
-    [incrementQuantity]
+    [incrementQuantity],
   );
 
   const debouncedDecrement = useMemo(
@@ -37,7 +37,7 @@ function BookQuantity({
       debounce((id: string) => {
         decrementQuantity(id);
       }, 300),
-    [decrementQuantity]
+    [decrementQuantity],
   );
 
   useCallback(() => {
@@ -50,29 +50,29 @@ function BookQuantity({
   if (!quantity) return null;
 
   return (
-    <div className={cn("flex gap-8 items-center w-fit", className)}>
+    <div className={cn("flex w-fit items-center gap-8", className)}>
       <Button
         className={cn(
-          "size-11 border border-[#012D5A] bg-[#F6EADE] hover:bg-[#F6EADE]",
-          buttonClassName
+          "border-primary-800 size-11 border bg-[#F6EADE] hover:bg-[#F6EADE]",
+          buttonClassName,
         )}
         onClick={() => debouncedDecrement(book.id)}
       >
-        <Minus className="stroke-[#121212] size-5" />
+        <Minus className="size-5 stroke-[#121212]" />
       </Button>
 
-      <span className={cn("font-bold text-[28px]", textClassName)}>
+      <span className={cn("text-[28px] font-bold", textClassName)}>
         {quantity}
       </span>
 
       <Button
         className={cn(
-          "size-11 border border-[#012D5A] bg-[#F6EADE] hover:bg-[#F6EADE]",
-          buttonClassName
+          "border-primary-800 size-11 border bg-[#F6EADE] hover:bg-[#F6EADE]",
+          buttonClassName,
         )}
         onClick={() => debouncedIncrement(book.id)}
       >
-        <Plus className="stroke-[#121212] size-5" />
+        <Plus className="size-5 stroke-[#121212]" />
       </Button>
     </div>
   );
