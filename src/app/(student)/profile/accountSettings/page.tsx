@@ -93,9 +93,9 @@ const PageSettings = () => {
         formData.append("country_iso", values.parent_phone.country_iso);
       }
 
-      if (values.center_id && profile?.type === 3) {
-        formData.append("center_id", String(values.center_id));
-      }
+      // if (values.center_id && profile?.type === 3) {
+      //   formData.append("center_id", String(values.center_id));
+      // }
 
       const ignoredKeys = new Set(["parent_phone", "center_id"]);
 
@@ -226,6 +226,7 @@ const PageSettings = () => {
                       },
                     );
                   }}
+                  disabled
                 />
               )}
 

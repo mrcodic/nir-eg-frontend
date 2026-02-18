@@ -8,8 +8,10 @@ import { ComboboxForm } from "./ComboBoxForm";
 
 export default function StudentCenterField({
   onSelect,
+  disabled,
 }: {
   onSelect: (v: string | { value: string; label: string }) => void;
+  disabled?: boolean;
 }) {
   const initCenter = useRef(false);
   const { grade, profile } = useAuthContext();
@@ -61,6 +63,7 @@ export default function StudentCenterField({
         }}
         open={openCombobox}
         setOpen={setOpenCombox}
+        disabled={disabled}
       />
     </div>
   );

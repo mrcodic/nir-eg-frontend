@@ -28,6 +28,7 @@ type Props = {
   onSelect: (option: { value: string | number; label: string }) => void;
   error?: string | FieldError | Merge<FieldError, FieldErrorsImpl<any>>;
   labelClassName?: string;
+  disabled?: boolean;
 };
 
 export function ComboboxForm({
@@ -40,15 +41,22 @@ export function ComboboxForm({
   onSelect,
   error,
   labelClassName,
+  disabled,
 }: Props) {
   return (
-    <div className="flex w-full flex-col gap-2">
+    <div
+      className={cn(
+        "flex w-full flex-col gap-2",
+        disabled && "cursor-not-allowed",
+      )}
+    >
       {label && (
         <p
           className={cn(
             "text-sm",
             {
               "text-red-500": error,
+              "opacity-50": disabled,
             },
             labelClassName,
           )}
@@ -63,6 +71,7 @@ export function ComboboxForm({
             role="combobox"
             aria-expanded={open}
             aria-invalid={!!error}
+            disabled={disabled}
             className="border-gray-light flex w-full flex-col items-start justify-between rounded-lg border px-3 aria-invalid:border-red-500"
           >
             <div className="flex h-10 w-full items-center justify-between gap-4">
@@ -85,7 +94,7 @@ export function ComboboxForm({
             />
             <CommandList>
               <CommandEmpty>لا يوجد</CommandEmpty>
-              <CommandGroup>
+              <CommandGroup className={disabled ? "hidden" : ""}>
                 {options?.map((framework) => (
                   <CommandItem
                     key={framework.value}
