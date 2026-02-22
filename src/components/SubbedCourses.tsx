@@ -7,6 +7,7 @@ import Empty from "./Empty";
 import PaginationComponent from "./Pagination";
 import RoomHeader from "./RoomHeader";
 import { Skeleton } from "./ui/skeleton";
+import { CourseType } from "@/types";
 
 const SubbedCourses = () => {
   const [page, setPage] = useState(1);
@@ -22,7 +23,7 @@ const SubbedCourses = () => {
 
       <MappingComp
         queryKey="/students/courses/enrolled"
-        render={(data) => {
+        render={(data: { data: CourseType[] }) => {
           if (data?.data?.length === 0)
             return <Empty text="لم تشترك في اي كورس" />;
 

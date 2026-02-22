@@ -26,7 +26,7 @@ const StudentTasksOverview = dynamic(
 // );
 
 const ProfilePage = () => {
-  const { profile } = useAuthContext();
+  const { profile, isLoading } = useAuthContext();
   const { features } = useTenant();
 
   const modal = useModal();
@@ -55,7 +55,7 @@ const ProfilePage = () => {
           )}
         </Suspense> */}
 
-        <ProfileHeaderCard profileData={profile} />
+        <ProfileHeaderCard profileData={profile} isLoadingProfile={isLoading} />
 
         <Suspense fallback={<LoadingSpinner />}>
           {hasQuizzesEnabled && <StudentTasksOverview />}

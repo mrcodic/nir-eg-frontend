@@ -7,6 +7,38 @@ import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 
+const parseApiDate = (value?: string) => {
+  if (!value) return null;
+
+  // "2026 Jan 22"
+  if (/^\d{4}\s[A-Za-z]{3}\s\d{2}$/.test(value)) {
+    const d = new Date(`${value} 00:00:00 UTC`);
+    return Number.isNaN(d.getTime()) ? null : d;
+  }
+
+  // "2026-01-25 09:42:40"
+  if (/^\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}$/.test(value)) {
+    const d = new Date(value.replace(" ", "T") + "Z");
+    return Number.isNaN(d.getTime()) ? null : d;
+  }
+
+  // ISO or fallback
+  const d = new Date(value);
+  return Number.isNaN(d.getTime()) ? null : d;
+};
+
+const formatArabicDate = (value?: string) => {
+  const date = parseApiDate(value);
+  if (!date) return "";
+
+  return new Intl.DateTimeFormat("ar-EG", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  }).format(date);
+};
+
 type Props = {
   exam: IExamCard;
   isPreviousExam?: boolean;
@@ -96,12 +128,7 @@ const ExamCard = ({ exam }: Props) => {
                 <span className="text-[14px] font-medium">
                   تاريخ الامتحان:
                   <strong className="ms-1">
-                    {new Intl.DateTimeFormat("ar-EG", {
-                      weekday: "long",
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    }).format(new Date(exam.created_at))}
+                    {formatArabicDate(exam.created_at)}
                   </strong>
                 </span>
               </div>

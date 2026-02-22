@@ -2,19 +2,28 @@
 
 import { useAuthContext } from "@/context/auth-context";
 import { getClientPrivateData, getClientData } from "@/helpers/client-fetch";
-import { QueryKey, useQuery } from "@tanstack/react-query";
+import {
+  QueryKey,
+  UndefinedInitialDataOptions,
+  useQuery,
+} from "@tanstack/react-query";
 import { ComponentProps } from "react";
 import Empty from "./Empty";
 import LoadingSpinner from "./LoadingSpinner";
 
 type Props = {
   queryKey: string | QueryKey;
-  render: (data: any) => React.ReactNode;
+  render: (data: any, isPlaceholderData?: boolean) => React.ReactNode;
   enable?: boolean;
   showEmpty?: boolean;
   emptyProps?: ComponentProps<typeof Empty>;
   errorProps?: ComponentProps<typeof Empty>;
-  customLoading?: React.ReactNode;
+  customLoading?: ((data?: any) => React.ReactNode) | React.ReactNode;
+  // remove querykey and query function
+  queryOptions?: Omit<
+    UndefinedInitialDataOptions<any, Error, any, readonly unknown[]>,
+    "queryKey" | "queryFn"
+  >;
 };
 
 // Outer component with Suspense boundary
@@ -26,20 +35,24 @@ const MappingComp = ({
   emptyProps,
   errorProps,
   customLoading,
+  queryOptions,
 }: Props) => {
-  const { token, isLoading: authLoading } = useAuthContext();
-  const { data, error, isLoading } = useQuery({
+  const { token } = useAuthContext();
+  const { data, error, isLoading, isPlaceholderData } = useQuery({
     queryKey: Array.isArray(queryKey)
       ? [...queryKey, token ? "authenticated" : "guest"]
       : [queryKey, token ? "authenticated" : "guest"],
     queryFn: token ? getClientPrivateData : getClientData,
     enabled: enable,
+    ...queryOptions,
   });
 
-  // const authLoading = typeof token === "undefined";
+  const authLoading = typeof token === "undefined";
 
-  if (authLoading || isLoading) {
-    return customLoading || <LoadingSpinner />;
+  if (true || authLoading || isLoading) {
+    return typeof customLoading === "function"
+      ? customLoading(data)
+      : customLoading || <LoadingSpinner />;
   }
 
   if (error) {
@@ -51,7 +64,7 @@ const MappingComp = ({
     return <Empty text="لا يوجد محتوى بعد" {...emptyProps} />;
   }
 
-  return <>{data && render(data)}</>;
+  return <>{data && render(data, isPlaceholderData)}</>;
 };
 
 export default MappingComp;

@@ -15,9 +15,11 @@ import { useModal } from "@/context/ModalProvider";
 import { useCallback } from "react";
 import { StudentSelectCenterModal } from "../modals/StudentSelectCenterModal";
 import { useAuthContext } from "@/context/auth-context";
+import { useState } from "react";
 
 function MobileDropDown({ studentLinks }) {
   const { profile } = useAuthContext();
+  const [open, setOpen] = useState(false);
   const pathName = usePathname();
   const modal = useModal();
 
@@ -33,7 +35,7 @@ function MobileDropDown({ studentLinks }) {
   );
 
   return (
-    <DropdownMenu>
+    <DropdownMenu open={open} onOpenChange={setOpen} modal={false}>
       <DropdownMenuTrigger className="mobile:hidden flex size-10 items-center justify-center rounded-lg bg-white px-1 shadow-md">
         <MenuIcon size={24} />
       </DropdownMenuTrigger>
@@ -62,7 +64,10 @@ function MobileDropDown({ studentLinks }) {
             <Link
               key={index}
               href={studentLink.href}
-              onClick={() => handleCenterSelect(studentLink.title === "الحصص")}
+              onClick={() => {
+                setOpen(false);
+                handleCenterSelect(studentLink.title === "الحصص");
+              }}
               className={`border-gray-light flex h-11 items-center justify-center rounded-[10px] border px-3 ${
                 pathName.substring(0, 6) === studentLink.href.substring(0, 6)
                   ? "bg-primary text-white"

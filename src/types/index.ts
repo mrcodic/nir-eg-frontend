@@ -317,7 +317,7 @@ export interface IPagination<T> {
   };
 }
 
-export interface NotificationsData extends IPagination<INotification> {}
+export interface NotificationsData extends IPagination<INotification[]> {}
 
 export interface Grade {
   id: number;

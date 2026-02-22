@@ -55,6 +55,10 @@ const ShowBundle = () => {
   }
 
   const bundle = data?.body;
+  const savedAmount = Math.max(
+    Number(classroomsPrice) - Number(bundle?.price || 0),
+    0,
+  );
 
   return (
     <div className="wrapper mt-[140px] mb-22">
@@ -102,44 +106,41 @@ const ShowBundle = () => {
           ))}
         </div>
 
-        <div className="bg-background border-primary-800 mx-auto mt-10 flex max-w-[780px] flex-col items-center gap-6 rounded-lg border p-4 text-center">
-          <p className="text-xl font-bold">
-            ستقوم بتوفير{" "}
-            <StyledText
-              className="text-32"
-              text={formatCurrency(
-                Math.max(
-                  Number(classroomsPrice) - Number(bundle?.price || 0),
-                  0,
-                ),
-              )}
-            />
-            {"  "}
-            اذا اشتركت فى الباقة كاملة{" "}
-          </p>
+        {!!savedAmount && (
+          <div className="bg-background border-primary-800 mx-auto mt-10 flex max-w-[780px] flex-col items-center gap-6 rounded-lg border p-4 text-center">
+            <p className="text-xl font-bold">
+              ستقوم بتوفير{" "}
+              <StyledText
+                className="text-32"
+                text={formatCurrency(savedAmount)}
+              />
+              {"  "}
+              اذا اشتركت فى الباقة كاملة{" "}
+            </p>
 
-          <Button
-            className="w-full max-w-43"
-            onClick={() => {
-              if (profile) {
-                modal.setDialogContent(
-                  <PaymentModel
-                    bundleId={bundleId}
-                    price={Number(bundle?.price)}
-                    sale={bundle?.sale}
-                  />,
-                );
-                modal.openModal();
-              } else {
-                router.push(
-                  `/login?redirect=/bundles/showBundle?bundleId=${bundleId}`,
-                );
-              }
-            }}
-          >
-            اشترى الآن
-          </Button>
-        </div>
+            <Button
+              className="w-full max-w-43"
+              onClick={() => {
+                if (profile) {
+                  modal.setDialogContent(
+                    <PaymentModel
+                      bundleId={bundleId}
+                      price={Number(bundle?.price)}
+                      sale={bundle?.sale}
+                    />,
+                  );
+                  modal.openModal();
+                } else {
+                  router.push(
+                    `/login?redirect=/bundles/showBundle?bundleId=${bundleId}`,
+                  );
+                }
+              }}
+            >
+              اشترى الآن
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );

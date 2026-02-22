@@ -1,6 +1,10 @@
-import { NewFeaturesModal } from "@/components/modals/NewFeaturesModal";
 import { useModal } from "@/context/ModalProvider";
 import { getClientData } from "@/helpers/client-fetch";
+import dynamic from "next/dynamic";
+
+const NewFeaturesModal = dynamic(
+  () => import("@/components/modals/NewFeaturesModal"),
+);
 
 function useHandleFeaturesDisplay() {
   const modal = useModal();

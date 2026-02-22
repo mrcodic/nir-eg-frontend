@@ -1,12 +1,16 @@
-import OfferModel from "@/components/modals/OfferModel";
 import { useModal } from "@/context/ModalProvider";
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { useCallback } from "react";
 import useCoupon from "./useCoupon";
+import dynamic from "next/dynamic";
+
+const OfferModel = dynamic(() => import("@/components/modals/OfferModel"));
+const DotLottieReact = dynamic(
+  async () => (await import("@lottiefiles/dotlottie-react")).DotLottieReact,
+);
 
 function useHandleOfferDisplay() {
   const modal = useModal();
-  const { showCoupon, isLoading, data } = useCoupon();
+  const { showCoupon, isLoading } = useCoupon();
 
   const handleOfferDisplay = useCallback(async () => {
     if (!isLoading && showCoupon) {

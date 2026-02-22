@@ -47,7 +47,7 @@ export function ComboboxForm({
     <div
       className={cn(
         "flex w-full flex-col gap-2",
-        disabled && "cursor-not-allowed",
+        disabled && "pointer-events-none cursor-not-allowed",
       )}
     >
       {label && (

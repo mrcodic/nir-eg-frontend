@@ -1,25 +1,33 @@
 "use client";
 
 import { useAuthContext } from "@/context/auth-context";
-import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import CourseCard from "./CourseCard";
 import Empty from "./Empty";
 import MappingComp from "./MappingComp";
 import PaginationComponent from "./Pagination";
 import RoomHeader from "./RoomHeader";
 import { Skeleton } from "./ui/skeleton";
+import { CourseType } from "@/types";
 
 const NewCourses = () => {
   const [page, setPage] = useState(1);
   const { token, grade } = useAuthContext();
   const searchParams = useSearchParams();
+  const router = useRouter();
 
-  const coursesGrade = searchParams.get("grade") || grade?.id;
+  const coursesGrade = searchParams.get("grade");
+
+  useEffect(() => {
+    if (!grade && !token) {
+      router.replace(`/bundles?grade=1`);
+    }
+  }, [grade, router, token]);
 
   let api = token
     ? `/students/classrooms`
-    : `/guest/classrooms/${coursesGrade}`;
+    : `/guest/classrooms/${coursesGrade || 1}`;
 
   return (
     <div className="wrapper">
@@ -32,7 +40,7 @@ const NewCourses = () => {
       <div className="relative mt-6">
         <MappingComp
           queryKey={api}
-          render={(data) => {
+          render={(data: { data: CourseType[] }) => {
             const allCourses = data?.data || [];
             // const filteredCourses = allCourses.filter(
             //   (course: any) => !course?.isSubscribed,

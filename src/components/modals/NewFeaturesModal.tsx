@@ -11,7 +11,7 @@ interface FeatureListResponse {
   items: { description: string }[];
 }
 
-export function NewFeaturesModal({
+export default function NewFeaturesModal({
   features,
 }: {
   features?: FeatureListResponse;

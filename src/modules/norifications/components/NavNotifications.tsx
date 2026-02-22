@@ -37,7 +37,7 @@ function NavNotifications() {
   if (isLoading || !notifications || !notifications?.data) return null;
 
   return (
-    <DropdownMenu open={open} onOpenChange={setOpen}>
+    <DropdownMenu open={open} onOpenChange={setOpen} modal={false}>
       <DropdownMenuTrigger asChild>
         <button className="border-primary-100 group hover:bg-primary-800 relative flex size-10 cursor-pointer items-center justify-center rounded-lg border transition-all focus:outline-hidden">
           {notifications?.meta?.unread_count > 0 && (
