@@ -1,7 +1,10 @@
 import { getServerData } from "@/helpers/server-fetch";
-import AuthNavBar from "./AuthNavBar";
+// import AuthNavBar from "./AuthNavBar";
 import GuestNavBar from "./GuestNavBar";
+import dynamic from "next/dynamic";
 // import ParentPortalNavbar from "./ParentPortalNavbar";
+
+const AuthNavBar = dynamic(() => import("./AuthNavBar"));
 
 const NavbarWrapper = async () => {
   const data = await getServerData({

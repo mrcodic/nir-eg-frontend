@@ -11,13 +11,19 @@ import CustomImage from "../ui/CustomImage";
 import LinkStyled from "./LinkStyled";
 import MobileDropDown from "./MobileDropDown";
 import NavUserMenu from "./NavUserMenu";
-import NavCartButton from "@/modules/books-store/components/NavCartButton";
 import { useBooksSettings } from "@/hooks/useBooksSettings";
+import { usePathname } from "next/navigation";
+import dynamic from "next/dynamic";
+
+const NavCartButton = dynamic(
+  () => import("@/modules/books-store/components/NavCartButton"),
+);
 
 const AuthNavBar = () => {
   const { profile, grade } = useAuthContext();
   const { templateNumber, logo, features } = useTenant();
   const { shouldShowBooks, shouldShowCart } = useBooksSettings();
+  const pathname = usePathname();
 
   const hasGradesEnabled = features?.student_gradebook;
   const isOnlineStudent = profile?.type !== 3;
@@ -109,7 +115,9 @@ const AuthNavBar = () => {
           </ul>
 
           <div className="mobile:gap-6 flex items-center gap-4">
-            {features?.book_store && shouldShowCart && <NavCartButton />}
+            {pathname.startsWith("/books") &&
+              features?.book_store &&
+              shouldShowCart && <NavCartButton />}
 
             <NavNotifications />
 

@@ -17,6 +17,7 @@ import Script from "next/script";
 import CustomGlobalError from "./CustomGlobalError";
 import CustomError from "@/lib/customError";
 import SuspendedTenant from "./SuspendedTenant";
+import { isRedirectError } from "next/dist/client/components/redirect-error";
 
 const almarai = Almarai({
   subsets: ["arabic"],
@@ -91,6 +92,9 @@ export default async function Layout({ children }) {
   try {
     tenantSettings = await getTenantSettingsServer();
   } catch (e) {
+    if (isRedirectError(e)) {
+      throw e;
+    }
     console.log("🌋 tenant settings error", e);
     const error = new CustomError("TENANT_NOT_FOUND", e?.status || 500);
     error.name = "TenantNotFoundError";
