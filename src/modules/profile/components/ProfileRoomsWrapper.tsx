@@ -3,7 +3,6 @@
 import { useMemo, useState } from "react";
 import RoomAccordion from "@/components/RoomAccordion";
 import { ApiResponse, LatestRoom } from "@/types";
-import { Link } from "lucide-react";
 import Empty from "@/components/Empty";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { getClientPrivateData } from "@/helpers/client-fetch";
@@ -11,6 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useAuthContext } from "@/context/auth-context";
 import { Button } from "@/components/ui/button";
 import { useTenant } from "@/context/TenantProvider";
+import Link from "next/link";
 
 const VISIBLE_ROOMS_COUNT = 3;
 
