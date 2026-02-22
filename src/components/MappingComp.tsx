@@ -49,7 +49,7 @@ const MappingComp = ({
 
   const authLoading = typeof token === "undefined";
 
-  if (true || authLoading || isLoading) {
+  if (authLoading || isLoading) {
     return typeof customLoading === "function"
       ? customLoading(data)
       : customLoading || <LoadingSpinner />;
