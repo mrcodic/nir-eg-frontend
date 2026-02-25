@@ -8,6 +8,9 @@ import PaginationComponent from "./Pagination";
 import RoomHeader from "./RoomHeader";
 import { Skeleton } from "./ui/skeleton";
 import { CourseType } from "@/types";
+import Link from "next/link";
+import { Button } from "./ui/button";
+import { ArrowLeftIcon } from "lucide-react";
 
 const SubbedCourses = () => {
   const [page, setPage] = useState(1);
@@ -25,7 +28,13 @@ const SubbedCourses = () => {
         queryKey="/students/courses/enrolled"
         render={(data: { data: CourseType[] }) => {
           if (data?.data?.length === 0)
-            return <Empty text="لم تشترك في اي كورس" />;
+            return (
+              <Empty text="لم تشترك في اي كورس">
+                <Link href="/bundles">
+                  <Button className="mt-4">اذهب للباقات</Button>
+                </Link>
+              </Empty>
+            );
 
           const allCourses = data?.data || [];
           const pageSize = 6;

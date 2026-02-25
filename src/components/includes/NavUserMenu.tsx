@@ -9,14 +9,20 @@ import {
 import { useModal } from "@/context/ModalProvider";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { QRCodeCanvas } from "qrcode.react";
 import LogoutCustomModal from "../modals/LogoutCustomModal";
 import CustomImage from "../ui/CustomImage";
 import { useTenant } from "@/context/TenantProvider";
+import { IUser } from "@/types";
 
-function NavUserMenu({ profile }) {
-  const router = useRouter();
+function NavUserMenu({
+  profile,
+  shouldShowBooks,
+}: {
+  profile: IUser;
+  shouldShowBooks: boolean;
+}) {
   const modal = useModal();
   const { features } = useTenant();
 
@@ -34,7 +40,6 @@ function NavUserMenu({ profile }) {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent className="mobile:top-1 border-gray-light relative left-10 z-9999 max-h-[calc(100vh-90px)] w-[272px] overflow-y-auto rounded-lg border bg-[#FFFFFF] py-4">
-        {" "}
         <DropdownMenuItem className="flex w-full flex-col items-center justify-center gap-4">
           <CustomImage
             src={profile?.avatar}
@@ -49,7 +54,8 @@ function NavUserMenu({ profile }) {
 
           <div className="bg-gray-light mb-4 h-px w-full" />
         </DropdownMenuItem>
-        <DropdownMenuItem className="">
+
+        <DropdownMenuItem>
           <div className="mb-3 flex items-center gap-2">
             <Image
               className="size-5"
@@ -61,6 +67,7 @@ function NavUserMenu({ profile }) {
             <h3 className="text-gray-dark text-[12px] font-bold">رقم الهاتف</h3>
           </div>
         </DropdownMenuItem>
+
         <DropdownMenuItem>
           <div className="grid w-full grid-cols-2 gap-2">
             <div className="bg-background flex flex-col gap-2 rounded-lg p-2">
@@ -69,7 +76,6 @@ function NavUserMenu({ profile }) {
                 {profile?.phone}
               </span>
             </div>
-
             <div className="bg-background flex flex-col gap-2 rounded-lg p-2">
               <h3 className="text-gray-dark text-xs font-bold">
                 رقم ولي الأمر:
@@ -80,25 +86,30 @@ function NavUserMenu({ profile }) {
             </div>
           </div>
         </DropdownMenuItem>
+
         <div className="bg-gray-light my-4 mb-4 h-px w-full px-4" />
+
         <MenuItem
-          onClick={() => router.push("/profile/accountSettings")}
+          href="/profile/accountSettings"
           icon="/assets/settings.svg"
           text="إعدادات الحساب"
         />
-        <MenuItem
-          onClick={() => router.push("/orders")}
-          icon="/assets/bundles.svg"
-          text="الطلبات"
-        />
+        <MenuItem href="/orders" icon="/assets/bundles.svg" text="الطلبات" />
         {hasCommunityEnabled &&
           (profile?.type === 4 || profile?.type === 5) && (
             <MenuItem
-              onClick={() => router.push("/profile/comments")}
+              href="/profile/comments"
               icon="/assets/query.svg"
               text="الأسئلة والاستفسارات"
             />
           )}
+        {features?.book_store && shouldShowBooks && (
+          <MenuItem
+            href="/books"
+            icon="/assets/store-outline.svg"
+            text="متجر الكتب"
+          />
+        )}
         <MenuItem
           onClick={() => {
             modal.setDialogContent(<LogoutCustomModal />);
@@ -128,37 +139,42 @@ export default NavUserMenu;
 
 const MenuItem = ({
   onClick,
+  href,
   icon,
   text,
   textClassName,
   className,
 }: {
-  onClick: () => void;
+  onClick?: () => void;
+  href?: string;
   icon: string;
   text: string;
   textClassName?: string;
   className?: string;
 }) => {
+  const content = (
+    <>
+      <Image className="size-5" src={icon} width={20} height={20} alt="icon" />
+      <span className={textClassName}>{text}</span>
+    </>
+  );
+
+  const baseClassName = cn(
+    "flex w-full cursor-pointer items-center gap-4 rounded-lg px-0 py-2 text-sm font-bold",
+    className,
+  );
+
   return (
-    <DropdownMenuItem>
-      <div
-        className={cn(
-          "flex w-full cursor-pointer items-center gap-4 rounded-lg px-0 py-2 text-sm font-bold",
-          className,
-        )}
-        onClick={() => {
-          onClick();
-        }}
-      >
-        <Image
-          className="size-5"
-          src={icon}
-          width={20}
-          height={20}
-          alt="icon"
-        />
-        <span className={textClassName}>{text}</span>
-      </div>
+    <DropdownMenuItem asChild>
+      {href ? (
+        <Link href={href} className={baseClassName}>
+          {content}
+        </Link>
+      ) : (
+        <button type="button" className={baseClassName} onClick={onClick}>
+          {content}
+        </button>
+      )}
     </DropdownMenuItem>
   );
 };

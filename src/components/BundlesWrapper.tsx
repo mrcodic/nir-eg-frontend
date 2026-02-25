@@ -13,12 +13,19 @@ import RoomHeader from "./RoomHeader";
 import { Button } from "./ui/button";
 import DataWithLabel from "./ui/DataWithLabel";
 import PriceBubbles from "./ui/price-bubble";
+import { useState } from "react";
+import PaginationComponent from "./Pagination";
+import { cn } from "@/lib/utils";
+
+const ITEMS_PER_PAGE = 4;
 
 const BundlesWrapper = () => {
   const modal = useModal();
 
   const searchParams = useSearchParams();
   const router = useRouter();
+
+  const [page, setPage] = useState(1);
 
   const { profile, isLoading } = useAuthContext();
 
@@ -48,6 +55,11 @@ const BundlesWrapper = () => {
     ? (data?.body as { budles: Bundle[] })?.budles
     : (data?.body as Bundle[]);
 
+  const displayedBundles = bundlesData?.slice(
+    (page - 1) * ITEMS_PER_PAGE,
+    page * ITEMS_PER_PAGE,
+  );
+
   if (!bundlesData?.length || isLoadingBundles) return null;
 
   return (
@@ -59,8 +71,13 @@ const BundlesWrapper = () => {
         subText="أحدث الباقات المضافة"
       />
 
-      <div className="mt-8 flex max-h-[600px] flex-col gap-6 overflow-y-auto">
-        {bundlesData?.map((bundle, index) => {
+      <div
+        // className="mt-8 flex max-h-[600px] flex-col gap-6 overflow-y-auto"
+        className={cn("mt-8 grid gap-6", {
+          "xl:grid-cols-2 xl:gap-10": displayedBundles?.length > 1,
+        })}
+      >
+        {displayedBundles?.map((bundle, index) => {
           return (
             <div
               key={index}
@@ -167,6 +184,16 @@ const BundlesWrapper = () => {
           );
         })}
       </div>
+
+      {bundlesData?.length > ITEMS_PER_PAGE && (
+        <PaginationComponent
+          className="w-full"
+          currentPage={page}
+          total={bundlesData?.length}
+          setPage={setPage}
+          pageSize={ITEMS_PER_PAGE}
+        />
+      )}
     </div>
   );
 };

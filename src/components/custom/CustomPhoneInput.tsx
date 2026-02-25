@@ -93,9 +93,7 @@ const CustomPhoneInput = ({
               </FormControl>
             </div>
 
-            {info && (
-              <p className="text-primary-800 mt-1 mr-2 text-xs">{info}</p>
-            )}
+            {info && <p className="text-secondary mt-1 mr-2 text-xs">{info}</p>}
           </div>
 
           <FormMessage />

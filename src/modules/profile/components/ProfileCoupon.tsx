@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import CustomImage from "@/components/ui/CustomImage";
 import { useToast } from "@/hooks/use-toast";
 import useCoupon from "@/hooks/useCoupon";
 import { CheckCheck, Copy } from "lucide-react";
@@ -53,9 +54,10 @@ function ProfileCoupon() {
         <div className="absolute top-0 border-dashed border-black max-sm:inset-x-0 max-sm:border-t-4 sm:inset-y-0 sm:-right-0.5 sm:h-full sm:border-r-4" />
 
         <div className="flex items-center gap-4 rounded-lg p-2 max-sm:flex-col">
-          <Image
+          <CustomImage
             className="size-16"
-            src="/assets/gifs/percentage.gif"
+            src={data?.icon_url || "/assets/gifs/percentage.gif"}
+            fallback="/assets/gifs/percentage.gif"
             width={64}
             height={64}
             alt="percentage"

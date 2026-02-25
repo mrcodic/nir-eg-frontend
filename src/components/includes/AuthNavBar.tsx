@@ -27,7 +27,6 @@ const AuthNavBar = () => {
 
   const hasGradesEnabled = features?.student_gradebook;
   const isOnlineStudent = profile?.type !== 3;
-  // const isOfflineStudent = profile?.type === 3;
 
   const studentLinks = useMemo(() => {
     const links = [
@@ -35,6 +34,12 @@ const AuthNavBar = () => {
         title: "ملف الطالب",
         href: "/profile",
         show: true,
+      },
+
+      {
+        title: "الاشتراكات",
+        href: `/subscriptions`,
+        show: isOnlineStudent,
       },
       {
         title: "الباقات",
@@ -51,24 +56,17 @@ const AuthNavBar = () => {
         href: "/grades",
         show: hasGradesEnabled,
       },
-      {
-        title: "متجر الكتب",
-        href: "/books",
-        show: features?.book_store && shouldShowBooks,
-      },
+      // {
+      //   title: "متجر الكتب",
+      //   href: "/books",
+      //   show: features?.book_store && shouldShowBooks,
+      // },
     ];
 
     return links.filter(
       (link) => link.show && (link.href || link.title === "الحصص"),
     );
-  }, [
-    profile,
-    grade,
-    isOnlineStudent,
-    hasGradesEnabled,
-    features?.book_store,
-    shouldShowBooks,
-  ]);
+  }, [profile, grade, isOnlineStudent, hasGradesEnabled]);
 
   return (
     <div
@@ -121,7 +119,10 @@ const AuthNavBar = () => {
 
             <NavNotifications />
 
-            <NavUserMenu profile={profile} />
+            <NavUserMenu
+              profile={profile}
+              shouldShowBooks={!!shouldShowBooks}
+            />
 
             <MobileDropDown studentLinks={studentLinks} />
           </div>

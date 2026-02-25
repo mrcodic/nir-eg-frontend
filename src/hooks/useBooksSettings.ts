@@ -10,7 +10,7 @@ export function useBooksSettings() {
   });
 
   const booksData = data?.data;
-  const shouldShowBooks = booksData?.links?.length || !booksData?.hide_books;
+  const shouldShowBooks = !!booksData?.links?.length || !booksData?.hide_books;
 
   return {
     booksData,
