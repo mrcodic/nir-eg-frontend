@@ -10,7 +10,6 @@ import { Skeleton } from "./ui/skeleton";
 import { CourseType } from "@/types";
 import Link from "next/link";
 import { Button } from "./ui/button";
-import { ArrowLeftIcon } from "lucide-react";
 
 const SubbedCourses = () => {
   const [page, setPage] = useState(1);

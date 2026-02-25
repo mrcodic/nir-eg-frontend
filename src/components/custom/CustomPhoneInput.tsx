@@ -12,6 +12,7 @@ import { memo } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { Input } from "../ui/input";
 import CustomCountryFlagField from "./CustomCountryFlagField";
+import Image from "next/image";
 
 interface CustomPhoneInputProps {
   name: string;
@@ -53,7 +54,15 @@ const CustomPhoneInput = ({
               htmlFor={name}
               className="text-gray-dark mb-2 flex cursor-text gap-4 font-medium transition-all"
             >
-              {iconSrc && <img src={iconSrc} alt="icon" className="size-5" />}
+              {iconSrc && (
+                <Image
+                  width={20}
+                  height={20}
+                  src={iconSrc}
+                  alt="phone icon"
+                  className="size-5"
+                />
+              )}
 
               {label}
             </FormLabel>

@@ -85,9 +85,12 @@ const NewCourses = () => {
           }}
           customLoading={
             <div className="cards-grid mt-6">
-              <Skeleton className="mx-auto h-[430px] w-full max-w-[500px] rounded-lg" />
-              <Skeleton className="mx-auto h-[430px] w-full max-w-[500px] rounded-lg" />
-              <Skeleton className="mx-auto h-[430px] w-full max-w-[500px] rounded-lg" />
+              {Array.from({ length: 4 }, (_, i) => (
+                <div key={i}>
+                  <Skeleton className="mx-auto h-[232px] w-full max-w-[500px] rounded-lg bg-gray-300" />
+                  <Skeleton className="mx-auto mt-4 h-[183px] w-full max-w-[500px] rounded-lg" />
+                </div>
+              ))}
             </div>
           }
         />
