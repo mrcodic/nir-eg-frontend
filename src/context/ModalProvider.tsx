@@ -124,7 +124,7 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
           >
             <Suspense
               fallback={
-                <div className="flex size-full min-h-[400px] items-center justify-center">
+                <div className="flex size-full min-h-[300px] items-center justify-center">
                   <Loader2 className="text-primary-800 size-10 animate-spin" />
                 </div>
               }

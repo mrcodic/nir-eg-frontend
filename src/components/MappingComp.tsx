@@ -37,17 +37,17 @@ const MappingComp = ({
   customLoading,
   queryOptions,
 }: Props) => {
-  const { isLoading: authLoading, profile } = useAuthContext();
+  const { profile, isLoading: authLoading } = useAuthContext();
   const { data, error, isLoading, isPlaceholderData } = useQuery({
     queryKey: Array.isArray(queryKey)
       ? [...queryKey, !!profile ? "authenticated" : "guest"]
       : [queryKey, !!profile ? "authenticated" : "guest"],
     queryFn: !!profile ? getClientPrivateData : getClientData,
-    enabled: enable,
+    enabled: enable && !authLoading,
     ...queryOptions,
   });
 
-  if (authLoading || isLoading) {
+  if (isLoading || authLoading) {
     return typeof customLoading === "function"
       ? customLoading(data)
       : customLoading || <LoadingSpinner />;

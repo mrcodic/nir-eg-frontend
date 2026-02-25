@@ -42,6 +42,7 @@ export async function fetchClient<T>({
   } catch (error) {
     console.error(
       `Error in fetcher client for ${endpoint}:`,
+      auth,
       error,
       error.status,
     );

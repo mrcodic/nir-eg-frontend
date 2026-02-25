@@ -37,6 +37,11 @@ export const AuthContextProvider = ({ children }) => {
     staleTime: 1000 * 60 * 20,
   });
 
+  // useEffect(() => {
+  //   const savedToken = Cookies.get("nir_token");
+  //   setToken(savedToken || null);
+  // }, []);
+
   const logout = useCallback(async () => {
     setToken(null);
     localStorage.removeItem("timer");
