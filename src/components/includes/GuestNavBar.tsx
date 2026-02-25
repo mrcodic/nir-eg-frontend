@@ -10,7 +10,22 @@ import GuestDropdown from "./GuestDropdown";
 
 const GuestNavBar = () => {
   const pathname = usePathname();
-  const { logo } = useTenant();
+  const { logo, features } = useTenant();
+
+  const guestLinks = [
+    {
+      text: "الصفوف الدراسية",
+      href: "/#grades",
+      icon: "/assets/books-colored.svg",
+      show: true,
+    },
+    {
+      text: "الكتب",
+      href: "/books",
+      icon: "/assets/icons/BookColor.svg",
+      show: features?.book_store,
+    },
+  ];
 
   return (
     <div
@@ -48,25 +63,28 @@ const GuestNavBar = () => {
             </Link>
 
             <div className="hidden gap-2 md:flex">
-              <Link
-                href="/#grades"
-                className={cn(
-                  "mobile:text-base border-gray-light hidden cursor-pointer items-center justify-center gap-2 rounded-[10px] border p-2 text-sm transition-all md:flex",
-                  {
-                    "bg-primary-800 text-white": pathname === "/",
-                    "bg-transparent": pathname !== "/",
-                  },
-                )}
-              >
-                <Image
-                  width={32}
-                  height={32}
-                  className="size-8"
-                  src="/assets/books-colored.svg"
-                  alt="books icon"
-                />
-                <h3>الصفوف الدراسية</h3>
-              </Link>
+              {guestLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={cn(
+                    "mobile:text-base border-gray-light hidden cursor-pointer items-center justify-center gap-2 rounded-[10px] border p-2 text-sm transition-all md:flex",
+                    {
+                      "bg-primary-800 text-white": pathname === link.href,
+                      "bg-transparent": pathname !== link.href,
+                    },
+                  )}
+                >
+                  <Image
+                    width={32}
+                    height={32}
+                    className="size-8"
+                    src={link.icon}
+                    alt={link.text}
+                  />
+                  <h3>{link.text}</h3>
+                </Link>
+              ))}
             </div>
           </div>
 

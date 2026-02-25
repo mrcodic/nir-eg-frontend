@@ -43,6 +43,8 @@ function ProfileCoupon() {
           width={32}
           height={32}
           alt="percentage"
+          fetchPriority="high"
+          priority
         />
 
         <p className="text-center text-sm font-bold text-white">
@@ -61,6 +63,8 @@ function ProfileCoupon() {
             width={64}
             height={64}
             alt="percentage"
+            fetchPriority="high"
+            priority
           />
 
           <div>

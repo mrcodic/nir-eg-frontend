@@ -6,6 +6,7 @@ const PROTECTED_ROUTES = new Set([
   "/profile",
   "/store",
   "/payment",
+  "/subscriptions",
 ]);
 
 const AUTH_ROUTES = new Set(["/login", "/register"]);

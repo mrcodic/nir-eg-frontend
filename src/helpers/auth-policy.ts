@@ -6,6 +6,7 @@ export type AuthFailureStrategy =
 const silentEndpoints = new Set([
   "students/profile",
   "students/profile/promo_code",
+  // "settings/books"
 ]);
 
 function normalizeEndpoint(endpoint: string): string {
