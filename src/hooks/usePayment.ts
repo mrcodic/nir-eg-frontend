@@ -60,13 +60,15 @@ export const usePayment = ({
     };
   }, []);
 
-  const handleNextClick = useCallback(async () => {
-    if (
-      paymentMethodValue === paymentType.visa ||
-      paymentMethodValue === paymentType.wallet ||
-      paymentMethodValue === paymentType.fawerypay
-    ) {
-      setLoading(true);
+    const handleNextClick = useCallback(async () => {
+      if (loading) return; // prevent double-click
+    
+      if (
+        paymentMethodValue === paymentType.visa ||
+        paymentMethodValue === paymentType.wallet ||
+        paymentMethodValue === paymentType.fawerypay
+      ) {
+        setLoading(true);
 
       try {
         const endpoint =

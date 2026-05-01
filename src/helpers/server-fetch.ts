@@ -16,10 +16,13 @@ export async function fetchServer<T>({
   cache = "default",
   next,
 }: FetchOptions): Promise<T | null> {
-  const { subdomain, host } = await extractTenantFromHostServer();
-
-  try {
-    if (!endpoint || typeof endpoint !== "string") return null;
+    const { subdomain, host } = await extractTenantFromHostServer();
+    try {
+      if (!endpoint || typeof endpoint !== "string") return null;
+      if (!subdomain) {
+        console.error('[server-fetch] null subdomain for host:', host, 'endpoint:', endpoint);
+        return null;
+      }
 
     const token =
       auth || optionalAuth ? (await cookies()).get("nir_token")?.value : null;
@@ -50,7 +53,7 @@ export async function fetchServer<T>({
 
     return res.json() as Promise<T>;
   } catch (error) {
-    // console.log("💥 server-fetch error ", error);
+    // console.log("ðŸ’¥ server-fetch error ", error);
     return handleServerFetchError({
       error,
       endpoint: endpoint as string,

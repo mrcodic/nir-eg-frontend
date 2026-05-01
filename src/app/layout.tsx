@@ -142,6 +142,11 @@ export default async function Layout({ children }) {
         suppressHydrationWarning
         data-template={tenantSettings.landing_template}
       >
+        <script
+            dangerouslySetInnerHTML={{
+              __html: `window.__TENANT_SLUG__ = ${JSON.stringify(tenantSettings.slug ?? "")};`,
+            }}
+          />
         <TenantProvider value={publicTenant}>
           <>
             <NavTopbar primary={tenantSettings.primary_color} />

@@ -1,20 +1,34 @@
 import CustomError from "@/lib/customError";
 
+// Cache resolved tenant slug for custom domains (client-side)
+let _cachedTenantSlug: string | null = null;
+
 export function extractTenantFromHost() {
   if (typeof window === "undefined") return { subdomain: "", host: "" };
   const host = window.location.host;
-
-  // remove port
   const cleanHost = host.replace(/:\d+$/, "");
 
-  // school1.nir-edu.com → school1
-  const [subdomain] = cleanHost.split(".");
+  // Standard nir-edu.com subdomain — extract directly
+  if (cleanHost.endsWith("nir-edu.com")) {
+    const [subdomain] = cleanHost.split(".");
+    return { subdomain, host: cleanHost };
+  }
 
-  return { subdomain, host };
+  // Custom domain — use server-injected slug
+  const slug = (window as any).__TENANT_SLUG__ ?? "";
+  return { subdomain: slug, host: cleanHost };
+}
+
+export function setTenantSlug(slug: string) {
+  _cachedTenantSlug = slug;
 }
 
 export function buildTenantApiBase(tenant: string) {
   const tenantUrl = process.env.NEXT_PUBLIC_TENANT_URL;
+  if (!tenant || tenant === 'null') {
+    console.error('[buildTenantApiBase] invalid tenant:', tenant);
+    return tenantUrl.replace("tenant", "");
+  }
   return tenantUrl.replace("tenant", tenant);
 }
 

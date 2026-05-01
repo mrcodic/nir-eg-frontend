@@ -79,10 +79,8 @@ export async function DELETE(req) {
   try {
     let token = await getCookie();
     const headersList = await headers();
-    const cleanHost = headersList.get("host").replace(/:\d+$/, "");
 
-    // school1.nir-edu.com → school1
-    const [tenant] = cleanHost.split(".");
+    const { subdomain: tenant } = await extractTenantFromHostServer();
 
     const apiUrl = buildApiUrl(tenant, queryURL);
 
