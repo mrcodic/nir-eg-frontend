@@ -1,7 +1,7 @@
 import { TenantLandingResponse } from "@/types/tenant.types";
 import Image from "next/image";
 import { Card, CardContent, CardHeader } from "../ui/card";
-import UnderlineStyle from "../UnderlineStyle";
+import UnderlineStyle from "../shared/UnderlineStyle";
 
 function WhyChooseUs({
   content,

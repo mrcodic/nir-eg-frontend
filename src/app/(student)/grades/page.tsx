@@ -1,4 +1,4 @@
-import RoomHeader from "@/components/RoomHeader";
+import RoomHeader from "@/modules/rooms/components/RoomHeader";
 import ActivitiesTable from "@/components/tables/ActivitiesTable";
 import { getTenantSettingsServer } from "@/services/tenantServices";
 import { redirect } from "next/navigation";

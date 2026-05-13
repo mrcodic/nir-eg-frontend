@@ -8,12 +8,12 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "nextjs-toploader/app";
-import SaleBubble from "../modules/payment/components/sale-bubble";
-import { PaymentModel } from "./modals/PaymentModel";
-import { Button } from "./ui/button";
-import DataWithLabel from "./ui/DataWithLabel";
-import PriceBubbles from "./ui/price-bubble";
-import SubbedBadge from "./ui/SubbedBadge";
+import SaleBubble from "@/modules/payment/components/sale-bubble";
+import { PaymentModel } from "@/components/modals/PaymentModel";
+import { Button } from "@/components/ui/button";
+import DataWithLabel from "@/components/ui/DataWithLabel";
+import PriceBubbles from "@/components/ui/price-bubble";
+import SubbedBadge from "@/components/ui/SubbedBadge";
 
 /* ----------------------------------------
  * Animation Variants (shared parent → child)

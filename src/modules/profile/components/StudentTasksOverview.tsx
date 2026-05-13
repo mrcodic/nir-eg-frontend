@@ -1,6 +1,6 @@
 "use client";
 
-import RoomHeader from "@/components/RoomHeader";
+import RoomHeader from "@/modules/rooms/components/RoomHeader";
 import { getClientPrivateData } from "@/helpers/client-fetch";
 import { useQuery } from "@tanstack/react-query";
 import ExamChartsAside from "./ExamChartsAside";

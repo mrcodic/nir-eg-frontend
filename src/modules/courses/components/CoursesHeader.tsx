@@ -4,11 +4,11 @@ import { useAuthContext } from "@/context/auth-context";
 import { cn } from "@/lib/utils";
 import { ICourseDetails } from "@/types";
 import { useMemo } from "react";
-import PriceBadge from "../modules/payment/components/PriceBadge";
+import PriceBadge from "@/modules/payment/components/PriceBadge";
 import CourseInfoBadge from "./CourseInfoBadge";
-import GroupJoinBadge from "./GroupJoinBadge";
-import DataWithLabel from "./ui/DataWithLabel";
-import SubbedBadge from "./ui/SubbedBadge";
+import GroupJoinBadge from "@/components/shared/GroupJoinBadge";
+import DataWithLabel from "@/components/ui/DataWithLabel";
+import SubbedBadge from "@/components/ui/SubbedBadge";
 
 const CoursesHeader = ({ details }: { details: ICourseDetails }) => {
   const { profile } = useAuthContext();

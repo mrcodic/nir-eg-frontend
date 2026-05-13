@@ -1,7 +1,7 @@
 "use client ";
 // components/InfiniteScroll.js
 import { useCallback, useEffect, useState } from "react";
-import LoadingSpinner from "./LoadingSpinner";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 
 const InfiniteScroll = ({ fetchData, pagination, render, initialData }) => {
   const [items, setItems] = useState(initialData || []);

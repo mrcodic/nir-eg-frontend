@@ -1,7 +1,7 @@
 "use client";
 
-import Empty from "@/components/Empty";
-import LoadingSpinner from "@/components/LoadingSpinner";
+import Empty from "@/components/shared/Empty";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import { useCartStore } from "@/context/BooksStoreProvider";
 import Link from "next/link";
 import BookCartCard from "./BookCartCard";

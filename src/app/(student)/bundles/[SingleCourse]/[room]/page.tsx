@@ -1,8 +1,8 @@
 "use client";
 
 import TopBanner from "@/components/banners/TopBanner";
-import LockedToPassVideoUI from "@/components/LockedToPassVideoUI";
-import RoomSideContent from "@/components/RoomSideContent";
+import LockedToPassVideoUI from "@/modules/video/components/LockedToPassVideoUI";
+import RoomSideContent from "@/modules/rooms/components/RoomSideContent";
 import { useAuthContext } from "@/context/auth-context";
 import useLessonRoomLogic from "@/hooks/useLessonRoomLogic";
 import ProtectedRoute from "@/layouts/ProtectedRoute";
@@ -22,7 +22,7 @@ const Video = dynamic(() => import("@/modules/video/components/Video"), {
   ssr: false,
 });
 
-const SingleVideo = () => {
+const RoomLecturePage = () => {
   const { SingleCourse: classroomId, room } = useParams();
 
   const { profile } = useAuthContext();
@@ -56,7 +56,7 @@ const SingleVideo = () => {
 
   const isCenterStudent = profile?.type === 3;
   const viewCount = otpData?.viewsStats;
-  const lockedByViewLimit = otpData?.locakedByViewLimit;
+  const lockedByViewLimit = otpData?.lockedByViewLimit;
 
   console.log("selectedLesson : ", selectedLesson);
 
@@ -159,4 +159,4 @@ const SingleVideo = () => {
   );
 };
 
-export default SingleVideo;
+export default RoomLecturePage;

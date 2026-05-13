@@ -1,5 +1,5 @@
-import Empty from "@/components/Empty";
-import RoomHeader from "@/components/RoomHeader";
+import Empty from "@/components/shared/Empty";
+import RoomHeader from "@/modules/rooms/components/RoomHeader";
 import { BookLinksSettings } from "@/types/books.types";
 import Image from "next/image";
 import Link from "next/link";

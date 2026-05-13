@@ -1,7 +1,7 @@
 "use client";
 
 import { useModal } from "@/context/ModalProvider";
-import OtpModal from "./modals/OtpModal";
+import OtpModal from "@/components/modals/OtpModal";
 
 function CoursePhoneVerifyCard({ parentPhone }: { parentPhone: string }) {
   const modal = useModal();

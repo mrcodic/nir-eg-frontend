@@ -1,9 +1,9 @@
 "use client";
-import BundleCard from "@/components/BundleCard";
-import CourseCard from "@/components/CourseCard";
-import LoadingSpinner from "@/components/LoadingSpinner";
+import BundleCard from "@/modules/bundles/components/BundleCard";
+import CourseCard from "@/modules/courses/components/CourseCard";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import { PaymentModel } from "@/components/modals/PaymentModel";
-import RoomHeader from "@/components/RoomHeader";
+import RoomHeader from "@/modules/rooms/components/RoomHeader";
 import { Button } from "@/components/ui/button";
 import PriceBubbles from "@/components/ui/price-bubble";
 import RemainingDuration from "@/components/ui/RemainingDuration";

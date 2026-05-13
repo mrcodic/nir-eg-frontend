@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import VoiceMessageRecorder from "@/components/VoiceMessageRecorder";
+import VoiceMessageRecorder from "@/components/shared/VoiceMessageRecorder";
 import { cn } from "@/lib/utils";
 import "filepond/dist/filepond.min.css";
 import { File } from "lucide-react";

@@ -1,6 +1,6 @@
 "use client";
 
-import LessonRoomCard from "@/components/LessonRoomCard";
+import LessonRoomCard from "@/modules/rooms/components/LessonRoomCard";
 import {
   Accordion,
   AccordionContent,
@@ -10,12 +10,12 @@ import {
 import { useModal } from "@/context/ModalProvider";
 import { RoomData } from "@/types";
 import Image from "next/image";
-import PriceBadge from "../modules/payment/components/PriceBadge";
-import RoomExpireBadge from "./cards/RoomExpireBadge";
-import RoomProgressBadge from "./cards/RoomProgressBadge";
-import { PaymentModel } from "./modals/PaymentModel";
-import RoomDropDownQuiz from "./RoomDropDownQuiz";
-import RoomFileDownloadLink from "./RoomFileDownloadLink";
+import PriceBadge from "@/modules/payment/components/PriceBadge";
+import RoomExpireBadge from "@/components/cards/RoomExpireBadge";
+import RoomProgressBadge from "@/components/cards/RoomProgressBadge";
+import { PaymentModel } from "@/components/modals/PaymentModel";
+import RoomDropDownQuiz from "@/modules/rooms/components/RoomDropDownQuiz";
+import RoomFileDownloadLink from "@/modules/rooms/components/RoomFileDownloadLink";
 
 const RoomAccordion = ({
   isProfile,

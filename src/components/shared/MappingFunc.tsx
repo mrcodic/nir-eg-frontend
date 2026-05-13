@@ -7,7 +7,7 @@ import { isDynamicServerError } from "next/dist/client/components/hooks-server-c
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { ComponentProps, ReactNode } from "react";
 import "server-only";
-import Empty from "./Empty";
+import Empty from "@/components/shared/Empty";
 
 type EmptyProps = ComponentProps<typeof Empty>;
 

@@ -6,7 +6,7 @@ import CustomPhoneInput from "@/components/custom/CustomPhoneInput";
 import SmallSpinner from "@/components/custom/SmallSpinner";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import UploadWithCrop from "@/components/UploadImage";
+import UploadWithCrop from "@/components/shared/UploadImage";
 import { useToast } from "@/hooks/use-toast";
 import { editProfileSchema } from "@/lib/schemas";
 import { cn, getPhoneInfoFromCode } from "@/lib/utils";

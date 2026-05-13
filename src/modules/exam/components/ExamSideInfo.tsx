@@ -1,4 +1,4 @@
-import { CountdownTimer } from "@/components/CountdownTimer";
+import { CountdownTimer } from "@/components/shared/CountdownTimer";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { memo } from "react";

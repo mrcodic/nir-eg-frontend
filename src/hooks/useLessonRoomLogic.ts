@@ -3,9 +3,27 @@ import { mutateClient } from "@/helpers/post-client";
 import { ApiResponse, IRoomDetails } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { useQueryState } from "nuqs";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import axios from "axios";
 
-const initOtpStatus = {
+// ✅ FIX #7 — Renamed `locakedByViewLimit` → `lockedByViewLimit` throughout
+type OtpData = {
+  otp?: string;
+  playbackInfo?: string;
+  viewsStats?: {
+    used: number;
+    remaining: number;
+    total_views: number;
+  };
+  lockedByViewLimit: boolean; // ✅ FIX #7 — typo fixed
+};
+
+type OtpStatus = {
+  error: boolean;
+  loading: boolean;
+};
+
+const initOtpStatus: OtpStatus = {
   error: false,
   loading: false,
 };
@@ -17,10 +35,13 @@ function useLessonRoomLogic({
   classroomId: string;
   roomId: string;
 }) {
-  const [otpData, setOtpData] = useState(null);
-  const [otpStatus, setOtpStatus] = useState(initOtpStatus);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [lessonId, setLessonId] = useState(null);
+  // ✅ FIX #2 — Explicit types instead of inferring `null` forever
+  const [otpData, setOtpData] = useState<OtpData | null>(null);
+  const [otpStatus, setOtpStatus] = useState<OtpStatus>(initOtpStatus);
+  const [currentTime, setCurrentTime] = useState<number>(0);
+  const [lessonId, setLessonId] = useState<number | null>(null); // ✅ FIX #2
+
+  const initLessonIdRef = useRef(false);
 
   const [videoId, setVideoId] = useQueryState("video_id", {
     defaultValue: "",
@@ -36,7 +57,6 @@ function useLessonRoomLogic({
     history: "replace",
     shallow: true,
     clearOnDefault: true,
-
     parse: (v) =>
       v === "undefined" || v === "null" ? "" : decodeURIComponent(v),
     serialize: (v) =>
@@ -54,7 +74,7 @@ function useLessonRoomLogic({
   const videoCompleted = useMemo(() => {
     return (
       videoId &&
-      data?.body?.lessons?.find((lesson) => lesson?.vedio_id === videoId)
+      data?.body?.lessons?.find((lesson) => lesson?.video_id === videoId)
         ?.completed
     );
   }, [data, videoId]);
@@ -79,18 +99,16 @@ function useLessonRoomLogic({
       setLessonId(lessId);
       setOtpData(null);
       setCurrentTime(0);
-
       setOtpStatus(initOtpStatus);
     },
     [lessonId, setVideoId, setVideoUrl],
   );
 
+  // ✅ FIX #8 — `vid` explicitly typed as string
   const fetchOtpAndViews = useCallback(
-    async (vid) => {
-      setOtpStatus({
-        loading: true,
-        error: false,
-      });
+    async (vid: string) => {
+      setOtpStatus({ loading: true, error: false });
+
       try {
         const res = await mutateClient("/video/otp", {
           body: {
@@ -108,25 +126,22 @@ function useLessonRoomLogic({
             remaining: res?.views_remaining,
             total_views: res?.total_views,
           },
-          locakedByViewLimit: res?.views_used >= res?.total_views,
+          lockedByViewLimit: res?.views_used >= res?.total_views, // ✅ FIX #7
         });
+
+        setOtpStatus({ loading: false, error: false }); // ✅ FIX #1 — success path
       } catch (error) {
         console.error("❌ OTP fetch failed", error);
-        setOtpStatus({
-          loading: false,
-          error: true,
-        });
-        if (error?.response?.status === 403) {
-          setOtpData({
-            locakedByViewLimit: true,
-          });
+
+        // ✅ FIX #3 — Narrow `unknown` error type before accessing properties
+        const is403 =
+          axios.isAxiosError(error) && error.response?.status === 403;
+
+        if (is403) {
+          setOtpData({ lockedByViewLimit: true }); // ✅ FIX #7
         }
-      } finally {
-        // setOtpLoading(false);
-        setOtpStatus({
-          loading: false,
-          error: false,
-        });
+
+        setOtpStatus({ loading: false, error: true }); // ✅ FIX #1 — error persists
       }
     },
     [classroomId, roomId],
@@ -138,37 +153,39 @@ function useLessonRoomLogic({
     }
   }, [fetchOtpAndViews, otpData, videoId, hasVideoId]);
 
-  // initialize lesson id and video id from video id searchparam
   useEffect(() => {
-    if (!data) return;
+    if (!data || initLessonIdRef.current) return;
 
-    if (lessonId && (videoId || videoUrl)) return;
-
-    console.log(videoId, videoUrl, lessonId);
     if (videoId) {
-      const lesson = data.body.lessons.find((l) => l.vedio_id === videoId);
-      if (lesson) setLessonId(lesson.id);
+      const lesson = data.body.lessons.find((l) => l.video_id === videoId);
+      if (lesson) {
+        setLessonId(lesson.id);
+        initLessonIdRef.current = true;
+      }
       return;
     }
 
     if (videoUrl) {
       const lesson = data.body.lessons.find((l) => l.video_link === videoUrl);
-      if (lesson) setLessonId(lesson.id);
+      if (lesson) {
+        setLessonId(lesson.id);
+        initLessonIdRef.current = true;
+      }
       return;
     }
 
-    // fallback → first lesson
     const first = data.body.lessons[0];
     if (!first) return;
 
     if (first.video_type === "youtube") {
       setVideoUrl(first.video_link);
     } else {
-      setVideoId(first.vedio_id);
+      setVideoId(first.video_id);
     }
 
     setLessonId(first.id);
-  }, [data, videoId, videoUrl, lessonId, setVideoUrl, setVideoId]);
+    initLessonIdRef.current = true;
+  }, [data, videoId, videoUrl, setVideoUrl, setVideoId]);
 
   return {
     otpData,

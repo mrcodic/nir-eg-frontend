@@ -6,7 +6,7 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useParams } from "next/navigation";
 import { useState } from "react";
-import GradesTableAction from "../GradesTableAction";
+import GradesTableAction from "../shared/GradesTableAction";
 import CustomTableUI from "./CustomTableUI";
 
 const columnHelper = createColumnHelper<IActivity>();

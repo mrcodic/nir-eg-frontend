@@ -1,5 +1,5 @@
 import { IUser } from "@/types";
-import PaymentCom from "../modules/payment/components/PaymentCom";
+import PaymentCom from "@/modules/payment/components/PaymentCom";
 import CourseProgressCard from "./CourseProgressCard";
 
 function CourseFloatingCards({

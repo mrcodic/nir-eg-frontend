@@ -6,7 +6,7 @@ import { IActivity, InnerPagination } from "@/types";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useState } from "react";
-import GradesTableAction from "../GradesTableAction";
+import GradesTableAction from "../shared/GradesTableAction";
 import CustomTableUI from "./CustomTableUI";
 
 const columnHelper = createColumnHelper<IActivity>();

@@ -1,6 +1,6 @@
 "use client";
 
-import PaginationComponent from "@/components/Pagination";
+import PaginationComponent from "@/components/shared/Pagination";
 import {
   Accordion,
   AccordionItem,

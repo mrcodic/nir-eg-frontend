@@ -1,4 +1,4 @@
-import SubbedCourses from "@/components/SubbedCourses";
+import SubbedCourses from "@/modules/courses/components/SubbedCourses";
 
 function page() {
   return (

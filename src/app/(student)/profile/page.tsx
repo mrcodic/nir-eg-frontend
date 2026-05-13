@@ -1,9 +1,9 @@
 "use client";
 
-import LoadingSpinner from "@/components/LoadingSpinner";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import { StudentSelectCenterModal } from "@/components/modals/StudentSelectCenterModal";
 
-import RoomHeader from "@/components/RoomHeader";
+import RoomHeader from "@/modules/rooms/components/RoomHeader";
 import { useAuthContext } from "@/context/auth-context";
 import { useModal } from "@/context/ModalProvider";
 import { useTenant } from "@/context/TenantProvider";

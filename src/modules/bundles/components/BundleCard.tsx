@@ -1,6 +1,6 @@
 import { Bundle } from "@/types";
 import Image from "next/image";
-import DataWithLabel from "./ui/DataWithLabel";
+import DataWithLabel from "@/components/ui/DataWithLabel";
 
 function BundleCard({ bundle }: { bundle: Bundle }) {
   return (

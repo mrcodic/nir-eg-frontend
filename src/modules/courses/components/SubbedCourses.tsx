@@ -1,15 +1,15 @@
 "use client";
 
-import MappingComp from "@/components/MappingComp";
+import MappingComp from "@/components/shared/MappingComp";
 import { useState } from "react";
-import CourseCard from "./CourseCard";
-import Empty from "./Empty";
-import PaginationComponent from "./Pagination";
-import RoomHeader from "./RoomHeader";
-import { Skeleton } from "./ui/skeleton";
+import CourseCard from "@/modules/courses/components/CourseCard";
+import Empty from "@/components/shared/Empty";
+import PaginationComponent from "@/components/shared/Pagination";
+import RoomHeader from "@/modules/rooms/components/RoomHeader";
+import { Skeleton } from "@/components/ui/skeleton";
 import { CourseType } from "@/types";
 import Link from "next/link";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 
 const SubbedCourses = () => {
   const [page, setPage] = useState(1);

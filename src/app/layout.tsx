@@ -5,7 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import Providers from "./providers";
 
 import Announcement from "@/components/banners/Announcement";
-import UserModalsWrapper from "@/components/UserModalsWrapper";
+import UserModalsWrapper from "@/components/shared/UserModalsWrapper";
 import { TenantProvider } from "@/context/TenantProvider";
 import { hexToHsl } from "@/helpers/tenant.helpers";
 import { getTenantSettingsServer } from "@/services/tenantServices";

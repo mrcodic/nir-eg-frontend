@@ -3,7 +3,7 @@
 import { useAuthContext } from "@/context/auth-context";
 import { useModal } from "@/context/ModalProvider";
 import { useEffect, useRef } from "react";
-import OfferModel from "./modals/OfferModel";
+import OfferModel from "@/components/modals/OfferModel";
 
 function OfferModelWrapper() {
   const modal = useModal();

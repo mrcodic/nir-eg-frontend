@@ -1,6 +1,6 @@
 "use client";
 
-import RoomHeader from "@/components/RoomHeader";
+import RoomHeader from "@/modules/rooms/components/RoomHeader";
 import ExamsPointsChart from "@/modules/profile/components/ExamsPointsChart";
 import Image from "next/image";
 

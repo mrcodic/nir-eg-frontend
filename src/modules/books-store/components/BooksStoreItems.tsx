@@ -1,9 +1,9 @@
 "use client";
 
-import Empty from "@/components/Empty";
-import LoadingSpinner from "@/components/LoadingSpinner";
-import PaginationComponent from "@/components/Pagination";
-import RoomHeader from "@/components/RoomHeader";
+import Empty from "@/components/shared/Empty";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
+import PaginationComponent from "@/components/shared/Pagination";
+import RoomHeader from "@/modules/rooms/components/RoomHeader";
 import { getClientData } from "@/helpers/client-fetch";
 import { cn } from "@/lib/utils";
 import { IPagination } from "@/types";

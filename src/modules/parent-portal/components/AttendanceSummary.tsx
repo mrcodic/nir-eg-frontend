@@ -1,6 +1,6 @@
 "use client";
 
-import RoomHeader from "@/components/RoomHeader";
+import RoomHeader from "@/modules/rooms/components/RoomHeader";
 import { ChartAsideItem } from "@/modules/profile/components/ExamChartsAside";
 import { IPortalSummaryData } from "../types";
 import AttendanceChart from "./AttendanceChart";

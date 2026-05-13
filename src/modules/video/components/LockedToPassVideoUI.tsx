@@ -1,5 +1,5 @@
 import Image from "next/image";
-import TopBanner from "./banners/TopBanner";
+import TopBanner from "@/components/banners/TopBanner";
 
 function LockedToPassVideoUI() {
   return (

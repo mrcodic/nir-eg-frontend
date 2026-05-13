@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import StyledText from "./ui/StyledText";
+import StyledText from "@/components/ui/StyledText";
 
 const RoomHeader = ({
   title,

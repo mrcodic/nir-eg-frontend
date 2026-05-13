@@ -1,6 +1,6 @@
 "use client";
 import TopBanner from "@/components/banners/TopBanner";
-import LoadingSpinner from "@/components/LoadingSpinner";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import TamperResistantOverlay from "@/modules/video/components/TamperResistantOverlay";
 import { FileWarning } from "lucide-react";
 import Image from "next/image";

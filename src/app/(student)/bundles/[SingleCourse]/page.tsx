@@ -1,6 +1,6 @@
-import CourseDetails from "@/components/CourseDetails";
-import CourseFloatingCards from "@/components/CourseFloatingCards";
-import CoursesHeader from "@/components/CoursesHeader";
+import CourseDetails from "@/modules/courses/components/CourseDetails";
+import CourseFloatingCards from "@/modules/courses/components/CourseFloatingCards";
+import CoursesHeader from "@/modules/courses/components/CoursesHeader";
 import { getServerData } from "@/helpers/server-fetch";
 import ProtectedRoute from "@/layouts/ProtectedRoute";
 import { ICourseDetails } from "@/types";

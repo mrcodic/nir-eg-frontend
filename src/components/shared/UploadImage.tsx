@@ -1,12 +1,12 @@
 "use client";
 
-import { ImageCropper } from "@/components/Cropper";
+import { ImageCropper } from "@/components/shared/Cropper";
 import { Avatar } from "@/components/ui/avatar";
 import { Camera } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { FileWithPath, useDropzone } from "react-dropzone";
-import { Button } from "./ui/button";
-import CustomImage from "./ui/CustomImage";
+import { Button } from "@/components/ui/button";
+import CustomImage from "@/components/ui/CustomImage";
 
 export type FileWithPreview = FileWithPath & {
   preview: string;

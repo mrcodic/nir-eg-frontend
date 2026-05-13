@@ -9,7 +9,7 @@ import {
 import { convertMinutes } from "@/utils/clientFun";
 import { Lock } from "lucide-react";
 import { useRouter } from "nextjs-toploader/app";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 
 const LessonRoomCard = ({
   lesson,
@@ -66,7 +66,7 @@ const LessonRoomCard = ({
               `/bundles/${classroomId}/${roomId}?${
                 lesson?.video_type === "youtube"
                   ? `video_url=${encodeURIComponent(lesson?.video_link)}`
-                  : `video_id=${lesson?.vedio_id || lesson?.video_id}`
+                  : `video_id=${lesson?.video_id || lesson?.video_id}`
               }`,
             );
           }}

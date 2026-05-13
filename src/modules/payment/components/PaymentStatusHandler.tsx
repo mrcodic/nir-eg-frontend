@@ -4,8 +4,8 @@ import { useModal } from "@/context/ModalProvider";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import PayFail from "./modals/PayFail";
-import { PaySuccess } from "./modals/PaySuccess";
+import PayFail from "@/components/modals/PayFail";
+import { PaySuccess } from "@/components/modals/PaySuccess";
 
 type Props = {
   successTitle?: string;

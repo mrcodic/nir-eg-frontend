@@ -3,12 +3,12 @@
 import { useAuthContext } from "@/context/auth-context";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import CourseCard from "./CourseCard";
-import Empty from "./Empty";
-import MappingComp from "./MappingComp";
-import PaginationComponent from "./Pagination";
-import RoomHeader from "./RoomHeader";
-import { Skeleton } from "./ui/skeleton";
+import CourseCard from "@/modules/courses/components/CourseCard";
+import Empty from "@/components/shared/Empty";
+import MappingComp from "@/components/shared/MappingComp";
+import PaginationComponent from "@/components/shared/Pagination";
+import RoomHeader from "@/modules/rooms/components/RoomHeader";
+import { Skeleton } from "@/components/ui/skeleton";
 import { CourseType } from "@/types";
 
 const NewCourses = () => {

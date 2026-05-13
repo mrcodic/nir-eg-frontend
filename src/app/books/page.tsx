@@ -1,4 +1,4 @@
-import PaymentStatusHandler from "@/components/PaymentStatusHandler";
+import PaymentStatusHandler from "@/modules/payment/components/PaymentStatusHandler";
 import { getServerData } from "@/helpers/server-fetch";
 import BooksStoreItems from "@/modules/books-store/components/BooksStoreItems";
 import BooksStores from "@/modules/books-store/components/BooksStores";

@@ -1,6 +1,6 @@
 import BooksStoreItems from "@/modules/books-store/components/BooksStoreItems";
 
-import PaymentStatusHandler from "@/components/PaymentStatusHandler";
+import PaymentStatusHandler from "@/modules/payment/components/PaymentStatusHandler";
 import { getClientData } from "@/helpers/client-fetch";
 import { Book } from "@/types/books.types";
 import BookDetailsCard from "./BookDetailsCard";

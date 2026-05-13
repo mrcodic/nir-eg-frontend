@@ -8,8 +8,8 @@ import {
   useQuery,
 } from "@tanstack/react-query";
 import { ComponentProps } from "react";
-import Empty from "./Empty";
-import LoadingSpinner from "./LoadingSpinner";
+import Empty from "@/components/shared/Empty";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 
 type Props = {
   queryKey: string | QueryKey;

@@ -1,17 +1,17 @@
 "use client";
 
-import ExamCard from "@/components/ExamCard";
-import RoomHeader from "@/components/RoomHeader";
+import ExamCard from "@/modules/exam/components/ExamCard";
+import RoomHeader from "@/modules/rooms/components/RoomHeader";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getClientPrivateData, getClientData } from "@/helpers/client-fetch";
 import { ApiResponse, ICourseDetails, IExamCard, IUser } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import { Suspense, useCallback, useMemo, useState } from "react";
-import Empty from "./Empty";
-import InfiniteScroll from "./InfinteScroll";
-import LoadingSpinner from "./LoadingSpinner";
-import RoomAccordion from "./RoomAccordion";
+import Empty from "@/components/shared/Empty";
+import InfiniteScroll from "@/components/shared/InfinteScroll";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
+import RoomAccordion from "@/modules/rooms/components/RoomAccordion";
 import { useTenant } from "@/context/TenantProvider";
 import dynamic from "next/dynamic";
 

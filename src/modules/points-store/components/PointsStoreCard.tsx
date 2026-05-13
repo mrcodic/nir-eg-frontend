@@ -1,6 +1,6 @@
 "use client";
 
-import LoaderLottie from "@/components/LoaderLottie";
+import LoaderLottie from "@/components/shared/LoaderLottie";
 import { useModal } from "@/context/ModalProvider";
 import { useToast } from "@/hooks/use-toast";
 import BuyPointsItemModal from "@/modules/points-store/components/BuyPointsItemModal";

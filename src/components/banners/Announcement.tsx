@@ -8,7 +8,7 @@ import { X } from "lucide-react";
 import Image from "next/image";
 import { memo, useMemo, useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import DownloadFileBtn from "../DownloadFileBtn";
+import DownloadFileBtn from "../shared/DownloadFileBtn";
 
 export interface Announcement {
   id: number;

@@ -1,25 +1,26 @@
 "use client";
 
-import useFileDownload from "@/hooks/useFileDownload";
-import LinkLocked from "@/layouts/LinkLocked";
-import { cn } from "@/lib/utils";
-import { IRoomDetails } from "@/types";
-import { convertMinutes } from "@/utils/clientFun";
-import { ChevronLeft, ChevronRight, Download, Loader2 } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
-import { memo } from "react";
-import MarkVideoCompleted from "./MarkVideoCompleted";
-import { Button } from "./ui/button";
-import { FaSpinner } from "react-icons/fa";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
 import { useTenant } from "@/context/TenantProvider";
+import { cn } from "@/lib/utils";
+import { IRoomDetails } from "@/types";
+import { ChevronRight } from "lucide-react";
+import Image from "next/image";
+import { useParams, useRouter } from "next/navigation";
+import { memo } from "react";
+import { FaSpinner } from "react-icons/fa";
+import {
+  AssignmentCard,
+  AttachmentCard,
+  LessonCard,
+  QuizCard,
+} from "./RoomSidebarCards";
 
 type RoomSideContentProps = {
   data: IRoomDetails | undefined;
@@ -44,7 +45,12 @@ const RoomSideContent = ({
   className,
   isLoading,
 }: RoomSideContentProps) => {
-  const { SingleCourse, room } = useParams();
+  const params = useParams();
+  const SingleCourse = Array.isArray(params.SingleCourse)
+    ? params.SingleCourse[0]
+    : params.SingleCourse;
+  const room = Array.isArray(params.room) ? params.room[0] : params.room;
+
   const { features } = useTenant();
   const router = useRouter();
 
@@ -131,16 +137,16 @@ const RoomSideContent = ({
                 active={
                   lesson?.video_type === "youtube"
                     ? videoUrl === lesson?.video_link
-                    : videoId === lesson?.vedio_id
+                    : videoId === lesson?.video_id
                 }
                 roomId={data.room.id}
-                classroomId={SingleCourse as string}
+                classroomId={SingleCourse ?? ""}
                 onClick={() =>
-                  !!onLessonClick
-                    ? onLessonClick?.(
+                  onLessonClick
+                    ? onLessonClick(
                         lesson?.video_type === "youtube"
                           ? lesson?.video_link
-                          : lesson?.vedio_id,
+                          : lesson?.video_id,
                         lesson?.id,
                         lesson?.video_type,
                       )
@@ -148,7 +154,7 @@ const RoomSideContent = ({
                         `/bundles/${SingleCourse}/${data.room.id}?${
                           lesson?.video_type === "youtube"
                             ? `video_url=${encodeURIComponent(lesson?.video_link)}`
-                            : `video_id=${lesson?.vedio_id}`
+                            : `video_id=${lesson?.video_id}`
                         }`,
                       )
                 }
@@ -180,7 +186,7 @@ const RoomSideContent = ({
                   key={quiz.id}
                   quiz={quiz}
                   href={`/bundles/${SingleCourse}/${room}/exams/${quiz.id}`}
-                  locked={false}
+                  locked={locked} // ✅ FIX #9 — was hardcoded `false`, now uses actual prop
                 />
               ))}
             </AccordionContent>
@@ -235,9 +241,9 @@ const RoomSideContent = ({
               </div>
             </AccordionTrigger>
             <AccordionContent className="space-y-2 pt-2 pb-2">
-              {data.room.attachments.map((attachment) => (
+              {data.room.attachments.map((attachment, index) => (
                 <AttachmentCard
-                  key={attachment.name}
+                  key={attachment.url ?? `attachment-${index}`}
                   attachment={attachment}
                   locked={locked}
                 />
@@ -249,194 +255,5 @@ const RoomSideContent = ({
     </div>
   );
 };
-
-const LessonCard = memo(function LessonCard({
-  lesson,
-  active,
-  locked,
-  onClick,
-  roomId,
-  classroomId,
-}: {
-  lesson: any;
-  active: boolean;
-  locked: boolean;
-  onClick?: () => void;
-  roomId: string | number;
-  classroomId: string;
-}) {
-  return (
-    <div
-      aria-disabled={locked || active}
-      role="button"
-      onClick={() => {
-        if (locked || active) return;
-        onClick?.();
-      }}
-      className={cn(
-        "relative mt-4 cursor-pointer rounded-lg border px-2 py-2 aria-disabled:cursor-default",
-        active
-          ? "border-primary-800 bg-background"
-          : "border-semantics-green bg-white",
-        locked && "border-gray-light cursor-not-allowed",
-      )}
-    >
-      <div className="flex items-center gap-4 text-sm font-bold">
-        <Image
-          src="/assets/videos-fill.svg"
-          className="size-6"
-          width={24}
-          height={24}
-          alt="videos fill"
-        />
-        <h3 className="line-clamp-1">{lesson.title}</h3>
-      </div>
-
-      <div className="mt-2 mr-10 flex flex-wrap justify-between gap-y-1">
-        <div className="flex items-center gap-2">
-          <Image
-            src="/assets/time.svg"
-            className="size-5"
-            width={20}
-            height={20}
-            alt="time"
-          />
-          <span className="text-xs font-medium">
-            {isFinite(Number(lesson.duration))
-              ? convertMinutes(Number(lesson.duration))
-              : lesson.duration || "--"}
-          </span>
-        </div>
-
-        {!locked && (
-          <MarkVideoCompleted
-            isCompleted={lesson.completed}
-            roomId={roomId}
-            classroomId={classroomId}
-            lessonId={lesson.id}
-          />
-        )}
-
-        {locked && (
-          <Image
-            src="/assets/Locked.png"
-            width={48}
-            height={48}
-            className="absolute bottom-1 left-1 size-12 bg-white/50 object-contain"
-            alt="lock image"
-          />
-        )}
-      </div>
-    </div>
-  );
-});
-
-const QuizCard = memo(function QuizCard({
-  quiz,
-  href,
-  locked,
-}: {
-  quiz: any;
-  href: string;
-  locked: boolean;
-}) {
-  return (
-    <div className="border-gray-light mt-4 flex items-center justify-between rounded-lg border bg-white px-2 py-2 shadow-sm">
-      <Image
-        src="/assets/exam-fill.svg"
-        className="size-6"
-        width={24}
-        height={24}
-        alt="exam fill"
-      />
-      <h3 className="grow truncate text-sm font-bold">{quiz.title}</h3>
-
-      <LinkLocked
-        locked={locked}
-        className="bg-primary-800 flex size-9 shrink-0 items-center justify-center rounded-lg"
-      >
-        <Link href={href}>
-          <ChevronLeft className="size-5 stroke-white" />
-        </Link>
-      </LinkLocked>
-    </div>
-  );
-});
-
-const AttachmentCard = memo(function AttachmentCard({
-  attachment,
-  locked,
-}: {
-  attachment: { name: string; url: string };
-  locked: boolean;
-}) {
-  const { handleDownload, isDownloading } = useFileDownload({
-    attachment,
-  });
-
-  return (
-    <div className="border-gray-light mt-2.5 mb-2 flex items-center justify-between gap-2 rounded-lg border bg-white px-2 py-2 shadow-sm">
-      <Image
-        src="/assets/files-fill.svg"
-        className="size-6"
-        width={24}
-        height={24}
-        alt="files fill"
-      />
-
-      <h4 className="grow truncate text-sm font-bold">{attachment.name}</h4>
-
-      <LinkLocked
-        locked={locked}
-        className="bg-primary-800 flex size-9 shrink-0 items-center justify-center rounded-lg"
-      >
-        <button
-          onClick={handleDownload}
-          disabled={isDownloading}
-          className="disabled:opacity-70"
-        >
-          {isDownloading ? (
-            <Loader2 className="size-5 animate-spin stroke-white" />
-          ) : (
-            <Download className="size-5 stroke-white" />
-          )}
-        </button>
-      </LinkLocked>
-    </div>
-  );
-});
-
-const AssignmentCard = memo(function AssignmentCard({
-  assignment,
-  locked,
-  href,
-}: {
-  assignment: any;
-  locked: boolean;
-  href: string;
-}) {
-  return (
-    <div className="border-gray-light mt-4 flex items-center justify-between gap-2 rounded-lg border bg-white px-2 py-2 shadow-sm">
-      <Image
-        src="/assets/assignment-fill.svg"
-        className="size-6"
-        width={24}
-        height={24}
-        alt="assignment fill"
-      />
-
-      <h2 className="grow truncate text-sm font-bold">{assignment.title}</h2>
-
-      <LinkLocked
-        locked={locked}
-        className="bg-primary-800 flex size-9 shrink-0 items-center justify-center rounded-lg"
-      >
-        <Link href={href}>
-          <ChevronLeft className="size-5 stroke-white" />
-        </Link>
-      </LinkLocked>
-    </div>
-  );
-});
 
 export default memo(RoomSideContent);

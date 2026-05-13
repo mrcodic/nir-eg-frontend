@@ -1,7 +1,7 @@
 "use client";
 
-import Empty from "@/components/Empty";
-import LoadingSpinner from "@/components/LoadingSpinner";
+import Empty from "@/components/shared/Empty";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import PhoneVerificationAlertModal from "@/components/modals/PhoneVerificationAlertModal";
 import { Button } from "@/components/ui/button";
 import { useAuthContext } from "@/context/auth-context";

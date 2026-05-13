@@ -1,10 +1,10 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import RoomAccordion from "@/components/RoomAccordion";
+import RoomAccordion from "@/modules/rooms/components/RoomAccordion";
 import { ApiResponse, LatestRoom } from "@/types";
-import Empty from "@/components/Empty";
-import LoadingSpinner from "@/components/LoadingSpinner";
+import Empty from "@/components/shared/Empty";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import { getClientPrivateData } from "@/helpers/client-fetch";
 import { useQuery } from "@tanstack/react-query";
 import { useAuthContext } from "@/context/auth-context";

@@ -1,4 +1,4 @@
-import PaymentStatusHandler from "@/components/PaymentStatusHandler";
+import PaymentStatusHandler from "@/modules/payment/components/PaymentStatusHandler";
 
 export default function RootLayout({ children }) {
   return (

@@ -1,8 +1,8 @@
 "use client";
 
-import BundlesWrapper from "@/components/BundlesWrapper";
-import LoadingSpinner from "@/components/LoadingSpinner";
-import NewCourses from "@/components/NewCoursers";
+import BundlesWrapper from "@/modules/bundles/components/BundlesWrapper";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
+import NewCourses from "@/modules/courses/components/NewCoursers";
 import { useAuthContext } from "@/context/auth-context";
 import { useMounted } from "@/hooks/useMounted";
 import { useRouter } from "next/navigation";

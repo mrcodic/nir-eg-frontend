@@ -1,8 +1,8 @@
 "use client";
 
-import Empty from "@/components/Empty";
-import InfiniteScroll from "@/components/InfinteScroll";
-import LoadingSpinner from "@/components/LoadingSpinner";
+import Empty from "@/components/shared/Empty";
+import InfiniteScroll from "@/components/shared/InfinteScroll";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { getClientPrivateData } from "@/helpers/client-fetch";
 import { BooksOrder, CourseOrder } from "@/types";

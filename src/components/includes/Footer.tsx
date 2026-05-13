@@ -1,9 +1,9 @@
 import { getServerData } from "@/helpers/server-fetch";
 import { IFooterData } from "@/types/settings.types";
 import Link from "next/link";
-import SocialLinks from "../SocialLinks";
 import CustomImage from "../ui/CustomImage";
 import FooterContacts from "./FooterContacts";
+import SocialLinks from "../shared/SocialLinks";
 
 const Footer = async () => {
   const footerResponse = await getServerData<{ data: IFooterData }>({

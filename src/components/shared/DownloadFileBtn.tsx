@@ -1,7 +1,7 @@
 import useFileDownload from "@/hooks/useFileDownload";
 import { Download } from "lucide-react";
-import SmallSpinner from "./custom/SmallSpinner";
-import { Button } from "./ui/button";
+import SmallSpinner from "@/components/custom/SmallSpinner";
+import { Button } from "@/components/ui/button";
 
 function DownloadFileBtn({
   attachment,

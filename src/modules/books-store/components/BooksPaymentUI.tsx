@@ -1,4 +1,4 @@
-import LoadingSpinner from "@/components/LoadingSpinner";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import { Label } from "@/components/ui/label";
 import PriceBubbles from "@/components/ui/price-bubble";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
