@@ -1,18 +1,14 @@
 "use client";
-import TopBanner from "@/components/banners/TopBanner";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import TamperResistantOverlay from "@/modules/video/components/TamperResistantOverlay";
+import VideoQuestionBtn from "@/modules/video/components/VideoQuestionBtn";
+import { useVideoPlayer } from "@/modules/video/hooks/useVideoPlayer";
 import { FileWarning } from "lucide-react";
-import Image from "next/image";
-import { useVideoPlayer } from "../hooks/useVideoPlayer";
-import VideoQuestionBtn from "./VideoQuestionBtn";
 
-interface VideoProps {
+interface VideoCipherProps {
   response: { otp?: string; playbackInfo?: string } | null;
   videoId: string;
-  locked: boolean;
   setCurrentTime(time: number): void;
-  exceededViews: boolean;
   roomId: string | number;
   classroomId: string | number;
   lessonId: string | number;
@@ -21,13 +17,11 @@ interface VideoProps {
   otpLoading: boolean;
 }
 
-export default function Video(props: VideoProps) {
+export default function VideoCipher(props: VideoCipherProps) {
   const {
     response,
     videoId,
-    locked,
     setCurrentTime,
-    exceededViews,
     roomId,
     classroomId,
     lessonId,
@@ -46,39 +40,12 @@ export default function Video(props: VideoProps) {
     videoCompleted,
   });
 
-  if (locked) {
-    return (
-      <div className="flex-1 space-y-8">
-        <TopBanner
-          icon={<img src="/assets/icons/WarningColor.svg" alt="warning" />}
-          render={
-            <span className="text-sm font-medium">
-              {exceededViews
-                ? "لقد تجاوزت الحد الأقصى لعدد المشاهدات المسموح بها لهذا الدرس"
-                : "يجب ان تقوم باجتياز الاختبار أولا"}
-            </span>
-          }
-          showClose={false}
-        />
-
-        <div className="flex h-[520px] w-full flex-1 items-center justify-center bg-gray-100">
-          <Image
-            src="/assets/Locked.png"
-            width={150}
-            height={150}
-            alt="Locked"
-          />
-        </div>
-      </div>
-    );
-  }
-
   if (otpError) {
     return (
       <div className="bg-background flex min-h-[520px] items-center justify-center">
         <div className="flex items-center gap-2">
           <FileWarning className="stroke-red-500" />
-          <p className="text-lg font-bold">حدث خطأ ما</p>
+          <p className="text-lg font-bold">حدث خطأ ما</p>
         </div>
       </div>
     );
@@ -93,7 +60,7 @@ export default function Video(props: VideoProps) {
       <div className="bg-background flex min-h-[520px] items-center justify-center">
         <div className="flex items-center gap-2">
           <FileWarning className="stroke-red-500" />
-          <p className="text-lg font-bold">حدث خطأ ما</p>
+          <p className="text-lg font-bold">حدث خطأ ما</p>
         </div>
       </div>
     );

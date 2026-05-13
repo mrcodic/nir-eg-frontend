@@ -3,7 +3,7 @@
 
 import CustomTableUI from "@/components/tables/CustomTableUI";
 import { getClientPrivateData } from "@/helpers/client-fetch";
-import type { IPagination } from "@/types";
+import type { IPagination, LessonVideoType } from "@/types";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { createColumnHelper } from "@tanstack/react-table";
 import Image from "next/image";
@@ -24,7 +24,7 @@ type Row = {
   room_id: number;
   video_id: string;
   video_link: string;
-  video_type: "youtube" | "cipher";
+  video_type: LessonVideoType;
   quiz_id: number;
   is_classroom_expired: boolean;
 };

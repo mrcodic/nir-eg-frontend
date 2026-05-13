@@ -7,6 +7,7 @@ import { useAuthContext } from "@/context/auth-context";
 import useLessonRoomLogic from "@/hooks/useLessonRoomLogic";
 import ProtectedRoute from "@/layouts/ProtectedRoute";
 import DisableDevTools from "@/modules/video/components/DisableDivTools";
+import VideoBunny from "@/modules/video/components/VideoBunny";
 import YoutubeVideoPlayer from "@/modules/video/components/YoutubeVideoPlayer";
 import dynamic from "next/dynamic";
 import { redirect, useParams } from "next/navigation";
@@ -18,9 +19,12 @@ const Community = dynamic(
     ssr: false,
   },
 );
-const Video = dynamic(() => import("@/modules/video/components/Video"), {
-  ssr: false,
-});
+const VideoCipher = dynamic(
+  () => import("@/modules/video/components/VideoCipher"),
+  {
+    ssr: false,
+  },
+);
 
 const RoomLecturePage = () => {
   const { SingleCourse: classroomId, room } = useParams();
@@ -40,6 +44,7 @@ const RoomLecturePage = () => {
     videoId,
     videoUrl,
     otpStatus,
+    selectedVideoType,
   } = useLessonRoomLogic({
     classroomId: classroomId?.toString(),
     roomId: room?.toString(),
@@ -57,10 +62,13 @@ const RoomLecturePage = () => {
   const isCenterStudent = profile?.type === 3;
   const viewCount = otpData?.viewsStats;
   const lockedByViewLimit = otpData?.lockedByViewLimit;
+  const lockedToPass = !!lessonData?.body?.locked_to_pass;
+  const activeVideoType = selectedVideoType ?? (videoUrl ? "youtube" : null);
+  const isCipherVideo = activeVideoType === "cipher";
+  const requiresOtpVideo =
+    activeVideoType === "cipher" || activeVideoType === "bunny";
 
-  console.log("selectedLesson : ", selectedLesson);
-
-  console.log("lessons : ", lessonData?.body?.lessons);
+  console.log("selectedLesson", selectedLesson);
 
   return (
     <>
@@ -79,12 +87,13 @@ const RoomLecturePage = () => {
                 onLessonClick={handleLessonSelect}
                 locked={lessonData?.body?.locked_to_pass}
                 isLoading={isLoadingLesson}
+                activeLessonId={lessonId}
               />
             </div>
 
             <div className="flex flex-1 flex-col lg:w-[calc(70%-1.5rem)]">
               <div className="relative">
-                {videoId && viewCount && (
+                {requiresOtpVideo && viewCount && (
                   <TopBanner
                     render={
                       <p className="text-sm">
@@ -98,29 +107,36 @@ const RoomLecturePage = () => {
                 )}
 
                 <Suspense fallback={<div className="h-[520px] w-full" />}>
-                  {videoUrl ? (
-                    lessonData?.body?.locked_to_pass ? (
-                      <LockedToPassVideoUI />
-                    ) : (
-                      <YoutubeVideoPlayer videoUrl={videoUrl} />
-                    )
-                  ) : (
-                    <Video
+                  {lockedToPass || !!lockedByViewLimit ? (
+                    <LockedToPassVideoUI exceededViews={!!lockedByViewLimit} />
+                  ) : activeVideoType === "youtube" && videoUrl ? (
+                    <YoutubeVideoPlayer videoUrl={videoUrl} />
+                  ) : activeVideoType === "bunny" && videoId ? (
+                    <VideoBunny
+                      key={videoId}
+                      response={otpData}
+                      otpLoading={otpStatus?.loading || !otpData}
+                      otpError={otpStatus?.error}
+                    />
+                  ) : activeVideoType === "cipher" ? (
+                    <VideoCipher
                       key={videoId}
                       videoId={videoId}
                       roomId={Number(room)}
                       setCurrentTime={setCurrentTime}
                       classroomId={Number(classroomId)}
-                      locked={
-                        lessonData?.body?.locked_to_pass || lockedByViewLimit
-                      }
                       response={otpData}
-                      otpLoading={otpStatus?.loading}
+                      otpLoading={otpStatus?.loading || !otpData}
                       otpError={otpStatus?.error}
                       lessonId={lessonId || lessonData?.body?.lessons?.[0]?.id}
                       videoCompleted={videoCompleted}
-                      exceededViews={lockedByViewLimit}
                     />
+                  ) : (
+                    <div className="flex h-[520px] w-full items-center justify-center rounded-xl bg-gray-100">
+                      <p className="text-gray-dark text-sm font-bold">
+                        لا يوجد فيديو متاح
+                      </p>
+                    </div>
                   )}
                 </Suspense>
               </div>
@@ -135,18 +151,14 @@ const RoomLecturePage = () => {
 
               <Suspense fallback={null}>
                 {!isCenterStudent &&
-                  !(
-                    !!lessonData?.body?.locked_to_pass || !!lockedByViewLimit
-                  ) &&
+                  !(lockedToPass || !!lockedByViewLimit) &&
                   !!selectedLesson?.access_comment && (
                     <Community
                       key={lessonId}
                       currentTime={currentTime}
-                      locked={
-                        lessonData?.body?.locked_to_pass || lockedByViewLimit
-                      }
+                      locked={lockedToPass || !!lockedByViewLimit}
                       lessonId={lessonId || lessonData?.body?.lessons?.[0]?.id}
-                      isYoutubeVideo={!!videoUrl}
+                      isYoutubeVideo={!isCipherVideo}
                     />
                   )}
               </Suspense>

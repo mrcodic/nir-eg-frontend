@@ -261,13 +261,15 @@ export interface Comment {
   recordings: File[];
   replies: Reply[];
   user: CommentUser;
-  video_type: "cipher" | "youtube";
+  video_type: LessonVideoType;
 }
 
 export interface CommentsData {
   avatar: string;
   data: Comment[];
 }
+
+export type LessonVideoType = "youtube" | "cipher" | "bunny";
 
 export interface INotification {
   id: string;
@@ -431,7 +433,7 @@ interface Lesson {
   title: string;
   video_id?: string;
   video_link?: string;
-  video_type: "youtube" | "cipher";
+  video_type: LessonVideoType;
 
   // detemined if user is allowed to view comments
   access_comment: 0 | 1;

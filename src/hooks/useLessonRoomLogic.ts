@@ -1,6 +1,6 @@
 import { getClientPrivateData } from "@/helpers/client-fetch";
 import { mutateClient } from "@/helpers/post-client";
-import { ApiResponse, IRoomDetails } from "@/types";
+import { ApiResponse, IRoomDetails, LessonVideoType } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { useQueryState } from "nuqs";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -9,6 +9,11 @@ import axios from "axios";
 // ✅ FIX #7 — Renamed `locakedByViewLimit` → `lockedByViewLimit` throughout
 type OtpData = {
   otp?: string;
+  expires?: string | number;
+  embed_url?: string;
+  hls_url?: string;
+  expires_in?: number;
+  provider?: string;
   playbackInfo?: string;
   viewsStats?: {
     used: number;
@@ -39,6 +44,8 @@ function useLessonRoomLogic({
   const [otpData, setOtpData] = useState<OtpData | null>(null);
   const [otpStatus, setOtpStatus] = useState<OtpStatus>(initOtpStatus);
   const [currentTime, setCurrentTime] = useState<number>(0);
+  const [selectedVideoType, setSelectedVideoType] =
+    useState<LessonVideoType | null>(null);
   const [lessonId, setLessonId] = useState<number | null>(null); // ✅ FIX #2
 
   const initLessonIdRef = useRef(false);
@@ -85,7 +92,7 @@ function useLessonRoomLogic({
   );
 
   const handleLessonSelect = useCallback(
-    (vid: string, lessId: number, type: string) => {
+    (vid: string, lessId: number, type: LessonVideoType) => {
       if (lessId === lessonId) return;
 
       if (type === "youtube") {
@@ -97,6 +104,7 @@ function useLessonRoomLogic({
       }
 
       setLessonId(lessId);
+      setSelectedVideoType(type);
       setOtpData(null);
       setCurrentTime(0);
       setOtpStatus(initOtpStatus);
@@ -120,6 +128,11 @@ function useLessonRoomLogic({
 
         setOtpData({
           otp: res?.otp,
+          expires: res?.expires,
+          embed_url: res?.embed_url,
+          hls_url: res?.hls_url,
+          expires_in: res?.expires_in,
+          provider: res?.provider,
           playbackInfo: res?.playbackInfo,
           viewsStats: {
             used: res?.views_used,
@@ -148,10 +161,14 @@ function useLessonRoomLogic({
   );
 
   useEffect(() => {
-    if (hasVideoId && !otpData) {
+    if (
+      hasVideoId &&
+      (selectedVideoType === "cipher" || selectedVideoType === "bunny") &&
+      !otpData
+    ) {
       fetchOtpAndViews(videoId);
     }
-  }, [fetchOtpAndViews, otpData, videoId, hasVideoId]);
+  }, [fetchOtpAndViews, otpData, selectedVideoType, videoId, hasVideoId]);
 
   useEffect(() => {
     if (!data || initLessonIdRef.current) return;
@@ -160,6 +177,7 @@ function useLessonRoomLogic({
       const lesson = data.body.lessons.find((l) => l.video_id === videoId);
       if (lesson) {
         setLessonId(lesson.id);
+        setSelectedVideoType(lesson.video_type);
         initLessonIdRef.current = true;
       }
       return;
@@ -169,6 +187,7 @@ function useLessonRoomLogic({
       const lesson = data.body.lessons.find((l) => l.video_link === videoUrl);
       if (lesson) {
         setLessonId(lesson.id);
+        setSelectedVideoType(lesson.video_type);
         initLessonIdRef.current = true;
       }
       return;
@@ -184,6 +203,7 @@ function useLessonRoomLogic({
     }
 
     setLessonId(first.id);
+    setSelectedVideoType(first.video_type);
     initLessonIdRef.current = true;
   }, [data, videoId, videoUrl, setVideoUrl, setVideoId]);
 
@@ -200,6 +220,7 @@ function useLessonRoomLogic({
     lessonData: data,
     videoUrl,
     videoId,
+    selectedVideoType,
   };
 }
 
