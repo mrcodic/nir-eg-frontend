@@ -32,7 +32,7 @@ export default function PhoneVerificationAlertModal({ initialOpen, phone }) {
             alt="warning icon"
           />
           <div>
-            <h3 className="text-[20px] font-bold text-[#121212]">
+            <h3 className="text-[20px] font-bold text-black">
               لا يمكنك الوصول لمحتوى الباقة دون تأكيد رقم ولي الأمر{" "}
             </h3>
           </div>
@@ -73,7 +73,7 @@ export default function PhoneVerificationAlertModal({ initialOpen, phone }) {
 
           <Button
             onClick={() => router.back()}
-            className="border-primary w-[148px] rounded-lg border bg-white p-4 text-sm font-bold text-[#121212] hover:bg-white"
+            className="border-primary w-[148px] rounded-lg border bg-white p-4 text-sm font-bold text-black hover:bg-white"
           >
             رجوع{" "}
           </Button>

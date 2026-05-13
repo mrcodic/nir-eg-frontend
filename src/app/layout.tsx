@@ -17,6 +17,7 @@ import Script from "next/script";
 import CustomGlobalError from "./CustomGlobalError";
 import CustomError from "@/lib/customError";
 import SuspendedTenant from "./SuspendedTenant";
+import NotFoundTenant from "./NotFoundTenant";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 
 const almarai = Almarai({
@@ -95,24 +96,22 @@ export default async function Layout({ children }) {
     if (isRedirectError(e)) {
       throw e;
     }
-    console.log("🌋 tenant settings error", e);
-    const error = new CustomError("TENANT_NOT_FOUND", e?.status || 500);
-    error.name = "TenantNotFoundError";
 
-    if (e?.status === 403) {
-      return <SuspendedTenant />;
-    } else {
-      return <CustomGlobalError error={error} />;
+    if (e instanceof CustomError) {
+      if (e.code === "TENANT_SUSPENDED") return <SuspendedTenant />;
+      else if (e.code === "TENANT_NOT_FOUND") return <NotFoundTenant />;
+      else {
+        return <CustomGlobalError error={e} />;
+      }
     }
+
+    const error = new CustomError(
+      "UNEXPECTED",
+      (e as any)?.status || 500,
+      "UNEXPECTED",
+    );
+    return <CustomGlobalError error={error} />;
   }
-
-  // if (!tenantSettings) {
-  //   const error = new Error("TENANT_NOT_FOUND");
-  //   error.name = "TenantNotFoundError";
-  //   throw error;
-  // }
-
-  console.log("tenantSettings", tenantSettings);
 
   const hslFromHex = hexToHsl(tenantSettings.primary_color);
 
@@ -143,10 +142,10 @@ export default async function Layout({ children }) {
         data-template={tenantSettings.landing_template}
       >
         <script
-            dangerouslySetInnerHTML={{
-              __html: `window.__TENANT_SLUG__ = ${JSON.stringify(tenantSettings.slug ?? "")};`,
-            }}
-          />
+          dangerouslySetInnerHTML={{
+            __html: `window.__TENANT_SLUG__ = ${JSON.stringify(tenantSettings.slug ?? "")};`,
+          }}
+        />
         <TenantProvider value={publicTenant}>
           <>
             <NavTopbar primary={tenantSettings.primary_color} />

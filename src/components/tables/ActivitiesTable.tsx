@@ -13,31 +13,32 @@ const columnHelper = createColumnHelper<IActivity>();
 
 const columns = [
   columnHelper.accessor("title", {
-    header: () => (
-      <div className="w-full px-2 py-3 text-[18px] font-bold">الأنشطة</div>
-    ),
+    meta: {
+      headerClassName: "w-1/4 ",
+    },
+    header: () => <div className="w-full text-[18px] font-bold">الأنشطة</div>,
     cell: (info) => (
-      <div className="flex max-w-[200px] items-center gap-2 truncate p-2 text-[16px] font-medium md:max-w-[300px]">
-        <p className="text-secondary truncate ps-4 underline">
-          {info.getValue()}
-        </p>
+      <div className="flex max-w-[300px] items-center truncate text-base font-medium">
+        <p className="text-secondary truncate underline">{info.getValue()}</p>
       </div>
     ),
   }),
   columnHelper.accessor("type", {
-    header: () => (
-      <div className="w-[100px] px-2 text-[18px] font-bold">النوع</div>
-    ),
+    meta: {
+      headerClassName: "w-10 ",
+    },
+    header: () => <div className="w-[100px] text-[18px] font-bold">النوع</div>,
     cell: (info) => (
-      <div className="w-[100px] p-2 text-center text-[16px] font-medium">
+      <div className="w-[100px] text-start text-base font-medium">
         {info.getValue()}
       </div>
     ),
   }),
   columnHelper.accessor("classroom", {
-    header: () => (
-      <div className="w-[156px] px-2 text-[18px] font-bold">الكورس</div>
-    ),
+    // meta: {
+    //   headerClassName: "w-1/4 ",
+    // },
+    header: () => <div className="text-[18px] font-bold">الكورس</div>,
     cell: (info) => {
       const courseExpired =
         info.row.original.classroom_expired ||
@@ -46,8 +47,10 @@ const columns = [
       return (
         <div
           className={cn(
-            "w-[156px] truncate p-2 text-center text-base font-medium",
-            { "text-sm text-red-600": courseExpired },
+            "max-w-[300px] truncate text-start text-base font-medium",
+            {
+              "text-sm text-red-600": courseExpired,
+            },
           )}
         >
           {courseExpired ? "تم انتهاء الكورس" : info.getValue()}
@@ -57,17 +60,17 @@ const columns = [
   }),
   columnHelper.accessor("created_at", {
     header: () => (
-      <div className="min-w-[110px] px-2 text-[18px] font-bold">التاريخ</div>
+      <div className="min-w-[110px] text-[18px] font-bold">التاريخ</div>
     ),
     cell: (info) => (
-      <div className="w-[110px] p-2 text-center text-[16px] font-medium">
+      <div className="w-[110px] text-start text-base font-medium">
         {info.getValue()}
       </div>
     ),
   }),
   columnHelper.accessor("score", {
     header: () => (
-      <div className="min-w-[200px] px-2 text-[18px] font-bold">النتيجة</div>
+      <div className="min-w-[200px] text-[18px] font-bold">النتيجة</div>
     ),
     cell: (info) => {
       const row = info.row.original;
@@ -98,8 +101,6 @@ export default function ActivitiesTable() {
 
   const activities = data?.body?.students || [];
   const pageCount = data?.body?.pagination?.last_page ?? -1;
-
-  console.log(activities);
 
   return (
     <CustomTableUI

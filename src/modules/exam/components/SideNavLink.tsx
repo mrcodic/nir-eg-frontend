@@ -44,7 +44,7 @@ function SideNavLink({
   return (
     <button
       className={cn(
-        "flex w-full cursor-pointer items-center gap-4 rounded-lg p-2 text-right text-base font-bold text-[#121212]",
+        "flex w-full cursor-pointer items-center gap-4 rounded-lg p-2 text-right text-base font-bold text-black",
         btnStyles,
       )}
       onClick={(e) => handleClick(e, `#question-${index}`)}

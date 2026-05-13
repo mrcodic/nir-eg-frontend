@@ -15,7 +15,7 @@ const QuestionTitle = ({ title, video }: Props) => {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between gap-4">
-        <div className="mt-4 mb-8 flex items-start gap-1 text-[15px] text-[#121212] md:text-[18px]">
+        <div className="mt-4 mb-8 flex items-start gap-1 text-[15px] text-black md:text-[18px]">
           {title.trim().startsWith("<") ? (
             <div
               dangerouslySetInnerHTML={{ __html: title }}

@@ -89,13 +89,13 @@ export default function CustomTableUI({
         <TableBody>
           {isLoading ? (
             <TableRow>
-              <TableCell colSpan={5} className="py-8 text-center">
+              <TableCell colSpan={5} className="py-8 text-start">
                 <LoadingSpinner />
               </TableCell>
             </TableRow>
           ) : data.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={5} className="py-8 text-center">
+              <TableCell colSpan={5} className="py-8 text-start">
                 <Empty text={errorMessage || "لا يوجد درجات بعد"} />
               </TableCell>
             </TableRow>
@@ -106,7 +106,7 @@ export default function CustomTableUI({
                   <TableCell
                     key={cell.id}
                     className={cn(
-                      "border-gray-light border-b p-0 py-2",
+                      "border-gray-light border-b px-4 py-2 text-start",
                       cell.column.columnDef.meta?.cellClassName,
                     )}
                   >

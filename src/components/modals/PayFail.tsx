@@ -21,11 +21,11 @@ export default function PayFail({
         />
 
         <div className="flex flex-col items-center text-center">
-          <p className="mb-2 text-lg font-bold text-[#121212]">
+          <p className="mb-2 text-lg font-bold text-black">
             {title || "حدث خطأ ما أثناء عملية الدفع"}
           </p>
           {description && (
-            <p className="text-base font-bold text-[#121212]">{description}</p>
+            <p className="text-base font-bold text-black">{description}</p>
           )}
 
           <DialogClose asChild>

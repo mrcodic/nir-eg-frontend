@@ -84,11 +84,11 @@ const AssignmentModal = ({
           <div className="bg-gray-light my-3 h-px" />
 
           {start?.review_pending ? (
-            <span className="inline-block font-medium text-[#121212]">
+            <span className="inline-block font-medium text-black">
               جارى تصحيح الواجب الخاص بك
             </span>
           ) : (
-            <span className="inline-block font-medium text-[#121212]">
+            <span className="inline-block font-medium text-black">
               {start?.show_answer && start?.retake
                 ? "يمكنك عرض اجاباتاك او محاولة حل الواجب مرة اخرى"
                 : start?.show_answer

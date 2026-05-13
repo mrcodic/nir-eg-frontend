@@ -51,7 +51,7 @@ const Footer = async () => {
           <a
             target="_blank"
             href={"https://pixbyte.co/"}
-            className="text-primary ms-1 text-[16px] font-bold underline"
+            className="text-primary ms-1 text-base font-bold underline"
           >
             Pixbyte.co
           </a>

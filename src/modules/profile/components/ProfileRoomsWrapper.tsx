@@ -16,7 +16,7 @@ const VISIBLE_ROOMS_COUNT = 3;
 
 function ProfileRoomsWrapper() {
   const { profile } = useAuthContext();
-  const [showAll, setShowAll] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(VISIBLE_ROOMS_COUNT);
   const { features } = useTenant();
 
   const { data: rooms, isLoading: isLoadingRooms } = useQuery<
@@ -26,12 +26,12 @@ function ProfileRoomsWrapper() {
     queryFn: getClientPrivateData,
   });
 
-  const hasMore = rooms?.body?.length > VISIBLE_ROOMS_COUNT;
-
   const visibleRooms = useMemo(() => {
-    if (showAll) return rooms?.body;
-    return rooms?.body.slice(0, VISIBLE_ROOMS_COUNT);
-  }, [rooms?.body, showAll]);
+    return rooms?.body?.slice(0, visibleCount) || [];
+  }, [rooms?.body, visibleCount]);
+
+  const hasMore = (rooms?.body?.length || 0) > visibleCount;
+  const canShowLess = visibleCount > VISIBLE_ROOMS_COUNT;
 
   if (isLoadingRooms) {
     return <LoadingSpinner />;
@@ -54,14 +54,27 @@ function ProfileRoomsWrapper() {
             />
           ))}
 
-          {hasMore && (
-            <Button
-              variant="outline"
-              className="mx-auto mt-2 w-fit"
-              onClick={() => setShowAll((prev) => !prev)}
-            >
-              {showAll ? "عرض أقل" : "عرض المزيد"}
-            </Button>
+          {(hasMore || canShowLess) && (
+            <div className="mt-2 flex justify-center gap-4">
+              {hasMore && (
+                <Button
+                  variant="outline"
+                  className="w-fit"
+                  onClick={() => setVisibleCount((prev) => prev + VISIBLE_ROOMS_COUNT)}
+                >
+                  عرض المزيد
+                </Button>
+              )}
+              {canShowLess && (
+                <Button
+                  variant="outline"
+                  className="w-fit"
+                  onClick={() => setVisibleCount(VISIBLE_ROOMS_COUNT)}
+                >
+                  عرض أقل
+                </Button>
+              )}
+            </div>
           )}
         </div>
       ) : profile?.type === 4 ? (

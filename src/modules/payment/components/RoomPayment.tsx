@@ -19,7 +19,7 @@ const RoomPayment = async ({ roomId, courseId, data }) => {
           className={`border-gray-light min-h-full grow rounded-lg border p-4`}
         >
           <div className="flex w-full justify-between gap-[24px]">
-            <h2 className="text-[18px] font-bold text-[#121212]">
+            <h2 className="text-[18px] font-bold text-black">
               {data?.body?.room?.title}
             </h2>
 
@@ -31,7 +31,7 @@ const RoomPayment = async ({ roomId, courseId, data }) => {
 
           <hr className="border-gray-light my-3 h-px w-full" />
 
-          <p className="flex gap-2 text-[16px] font-bold">
+          <p className="flex gap-2 text-base font-bold">
             {data?.body?.room?.description}
           </p>
         </div>

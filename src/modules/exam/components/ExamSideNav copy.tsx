@@ -15,11 +15,11 @@ function ExamSideNav() {
   if (!questions?.length) return null;
 
   return (
-    <div className="w-full md:min-w-[280px] flex flex-col gap-2  justify-center border rounded-lg  border-primary-800    bg-background">
-      <h2 className="text-[20px] p-4 text-[#121212] pb-0 text-right  mb-2 font-bold">
+    <div className="border-primary-800 bg-background flex w-full flex-col justify-center gap-2 rounded-lg border md:min-w-[280px]">
+      <h2 className="mb-2 p-4 pb-0 text-right text-[20px] font-bold text-black">
         الاسئلة:
       </h2>
-      <div className="flex flex-col gap-4 max-h-80 overflow-y-auto p-4 pt-0">
+      <div className="flex max-h-80 flex-col gap-4 overflow-y-auto p-4 pt-0">
         {questions?.map((el, index) => {
           let fieldAnswered;
           if (!isAnswer && data && el?.id) {

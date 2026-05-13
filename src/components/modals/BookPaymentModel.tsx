@@ -43,7 +43,7 @@ export const BookPaymentModel: React.FC<PaymentModalProps> = ({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="sm:max-w-[550px] p-6">
+      <DialogContent className="p-6 sm:max-w-[550px]">
         <BooksPaymentUI
           paymentMethodValue={paymentMethodValue}
           setPaymentMethodValue={setPaymentMethodValue}
@@ -56,16 +56,16 @@ export const BookPaymentModel: React.FC<PaymentModalProps> = ({
           isSingleBook
         />
 
-        <DialogFooter className="flex flex-wrap flex-row!  gap-5 mt-5 mx-auto justify-center">
+        <DialogFooter className="mx-auto mt-5 flex flex-row! flex-wrap justify-center gap-5">
           <Button
             onClick={handleCheckout}
-            className="bg-primary border border-gray-light rounded-lg w-[148px] text-sm font-bold p-2 text-white"
+            className="bg-primary border-gray-light w-[148px] rounded-lg border p-2 text-sm font-bold text-white"
           >
             دفع
           </Button>
 
           <DialogClose asChild>
-            <Button className="border border-primary hover:text-white rounded-lg w-[148px] bg-white text-sm font-bold p-2 text-[#121212]">
+            <Button className="border-primary w-[148px] rounded-lg border bg-white p-2 text-sm font-bold text-black hover:text-white">
               إلغاء
             </Button>
           </DialogClose>

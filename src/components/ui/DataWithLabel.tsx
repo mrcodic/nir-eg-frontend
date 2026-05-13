@@ -26,7 +26,7 @@ function DataWithLabel({
           {label}:
         </p>
       </div>
-      <p className={cn("text-[#121212] font-bold", dataClassName)}>{data}</p>
+      <p className={cn("font-bold text-black", dataClassName)}>{data}</p>
     </div>
   );
 }

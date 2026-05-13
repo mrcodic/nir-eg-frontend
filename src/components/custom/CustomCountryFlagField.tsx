@@ -80,7 +80,7 @@ export default function CustomCountryFlagField({
               title="اختر الدولة"
               dir="rtl"
               aria-invalid={error}
-              className="border-gray-light h-11 w-[85px] rounded-lg border px-1 py-1 text-sm font-medium text-[#121212] aria-invalid:border-red-500 [&>div]:mx-auto [&>div]:truncate"
+              className="border-gray-light h-11 w-[85px] rounded-lg border px-1 py-1 text-sm font-medium text-black aria-invalid:border-red-500 [&>div]:mx-auto [&>div]:truncate"
             >
               <SelectValue placeholder="اختر الدولة">
                 {selectedCountry ? (

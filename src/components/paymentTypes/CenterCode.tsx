@@ -38,12 +38,12 @@ export default function CenterCode({ data, phoneNumber, message }) {
         </h3> */}
         {/* <div className="my-[48px] flex items-center justify-center   w-full gap-4">
           <div className="bg-gray-light h-px w-full" />
-          <span className="text-[#523412] text-[16px]">أو</span>
+          <span className="text-[#523412] text-base">أو</span>
           <div className="bg-gray-light h-px w-full" />
         </div>
         <div className="flex flex-wrap gap-[24px] items-center">
           <img className="w-[144px]" src="/assets/Vodafone-cash.svg" />
-          <p className="text-[#121212] text-[20px] font-bold">
+          <p className="text-black text-[20px] font-bold">
             <ul className="flex flex-col gap-4">
               <li>للحصول على كود : من خلال السنتر</li>
               {/* {vNumbers?.body?.length > 0 && (

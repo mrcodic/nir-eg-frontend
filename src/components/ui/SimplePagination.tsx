@@ -32,29 +32,29 @@ export function SimplePagination({
     <div
       dir="rtl"
       className={cn(
-        "flex items-center justify-center gap-4 pt-3 border-t border-gray-light mt-2",
-        className
+        "border-gray-light mt-2 flex items-center justify-center gap-4 border-t pt-3",
+        className,
       )}
     >
       <button
         onClick={handlePrevPage}
         disabled={currentPage <= 1}
-        className="sm:p-1.5 rounded-md hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+        className="rounded-md transition-colors hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-40 sm:p-1.5"
         aria-label="الصفحة السابقة"
       >
-        <ChevronRight className="w-5 h-5 text-[#121212]" />
+        <ChevronRight className="h-5 w-5 text-black" />
       </button>
 
-      <span className="text-sm text-[#121212] min-w-[80px] text-center">
+      <span className="min-w-[80px] text-center text-sm text-black">
         صفحة {currentPage} من {lastPage}
       </span>
       <button
         onClick={handleNextPage}
         disabled={currentPage >= lastPage}
-        className="sm:p-1.5 rounded-md hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+        className="rounded-md transition-colors hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-40 sm:p-1.5"
         aria-label="الصفحة التالية"
       >
-        <ChevronLeft className="w-5 h-5 text-[#121212]" />
+        <ChevronLeft className="h-5 w-5 text-black" />
       </button>
     </div>
   );

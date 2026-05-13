@@ -75,10 +75,10 @@ const OfferModel = () => {
           <hr className="absolute inset-x-0 -top-0.5 border-t-[6px] border-dashed border-black" />
 
           <div className="flex flex-col">
-            <p className="text-xl font-bold text-[#121212]">
+            <p className="text-xl font-bold text-black">
               احصل على خصم {discountValue}
             </p>
-            <p className="font-medium text-[#121212]">
+            <p className="font-medium text-black">
               {data?.description || `خصم ${discountValue} على الكورس`}
             </p>
           </div>
@@ -104,7 +104,7 @@ const OfferModel = () => {
               نسخ الكود
             </Button>
             <DialogClose asChild>
-              <Button className="border-primary w-full rounded-lg border bg-white p-2 text-sm font-bold text-[#121212] hover:text-white sm:w-[148px]">
+              <Button className="border-primary w-full rounded-lg border bg-white p-2 text-sm font-bold text-black hover:text-white sm:w-[148px]">
                 إلغاء
               </Button>
             </DialogClose>

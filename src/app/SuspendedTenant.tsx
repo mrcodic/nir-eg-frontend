@@ -60,13 +60,22 @@ export default function SuspendedTenant() {
             </p>
 
             {/* Actions */}
-            <div className="mt-10 flex justify-center">
-              <Button asChild className="w-full max-w-[165px] rounded-xl">
+            <div className="mt-10 flex flex-wrap justify-center gap-4">
+              <Button
+                variant="secondary"
+                asChild
+                className="w-full max-w-[165px] rounded-xl"
+              >
                 <Link
                   href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSPHONE}`}
                   target="_blank"
                 >
                   تواصل معنا
+                </Link>
+              </Button>
+              <Button asChild className="w-full max-w-[165px] rounded-xl">
+                <Link href={`https://nir-edu.com`} target="_blank">
+                  موقعنا
                 </Link>
               </Button>
             </div>

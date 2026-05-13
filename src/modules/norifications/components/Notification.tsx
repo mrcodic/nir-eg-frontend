@@ -29,13 +29,13 @@ const Notification = ({
       href={getHref(notification)}
       onClick={markAsRead}
       dir="rtl"
-      className={`border-gray-light flex w-full shrink-0 flex-col gap-4 bg-[#FFFFFF] p-2 py-4 text-sm transition-all not-last:border-b hover:bg-[#F5F5F5] ${
+      className={`border-gray-light flex w-full shrink-0 flex-col gap-4 bg-white p-2 py-4 text-sm transition-all not-last:border-b hover:bg-[#F5F5F5] ${
         !notification.is_read ? "bg-[#eee]" : ""
       }`}
     >
       <div className="flex flex-col gap-2">
-        <p className="text-sm text-[#121212]">{getTitle(notification)}</p>
-        {/* <p className="text-[#121212] text-sm">{getTitle(notification)}</p> */}
+        <p className="text-sm text-black">{getTitle(notification)}</p>
+        {/* <p className="text-black text-sm">{getTitle(notification)}</p> */}
 
         {notification?.payload?.reply_excerpt && (
           <p className="text-gray-dark text-[13px] italic">

@@ -59,7 +59,7 @@ export const PaymentUI: React.FC<PaymentUIProps> = ({
       <div className="mb-6 space-y-2 empty:hidden">
         {isModal && !!price && (
           <div className="bg-background flex items-center justify-between gap-3 rounded-lg p-2">
-            <h5 className="font-bold text-[#121212]">السعر</h5>
+            <h5 className="font-bold text-black">السعر</h5>
             {hasCoupon && !!coupon?.promo?.value && isOnline ? (
               <>
                 <PriceBadge
@@ -143,7 +143,7 @@ export const PaymentUI: React.FC<PaymentUIProps> = ({
                   ))}
 
                   {payment.label && (
-                    <span className="font-bold text-[#121212]">
+                    <span className="font-bold text-black">
                       {payment.label}
                     </span>
                   )}

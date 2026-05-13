@@ -20,7 +20,7 @@ const columns = [
     cell: (info) => (
       <Link
         href={`#classroom-chart-${info.row.original?.classroom}`}
-        className="flex max-w-[200px] cursor-pointer items-center gap-2 truncate p-2 text-[16px] font-medium md:max-w-[300px]"
+        className="flex max-w-[200px] cursor-pointer items-center gap-2 truncate p-2 text-base font-medium md:max-w-[300px]"
       >
         <p className="truncate text-[#D9B45C] underline">{info.getValue()}</p>
       </Link>
@@ -31,7 +31,7 @@ const columns = [
       <div className="w-[100px] px-2 text-[18px] font-bold">النوع</div>
     ),
     cell: (info) => (
-      <div className="w-[100px] p-2 text-center text-[16px] font-medium">
+      <div className="w-[100px] p-2 text-center text-base font-medium">
         {info.getValue()}
       </div>
     ),
@@ -41,7 +41,7 @@ const columns = [
       <div className="w-[156px] px-2 text-[18px] font-bold">الكورس</div>
     ),
     cell: (info) => (
-      <div className="w-[156px] truncate p-2 text-center text-[16px] font-medium">
+      <div className="w-[156px] truncate p-2 text-center text-base font-medium">
         {info.getValue()}
       </div>
     ),
@@ -51,7 +51,7 @@ const columns = [
       <div className="min-w-[110px] px-2 text-[18px] font-bold">التاريخ</div>
     ),
     cell: (info) => (
-      <div className="w-[110px] p-2 text-center text-[16px] font-medium">
+      <div className="w-[110px] p-2 text-center text-base font-medium">
         {info.getValue()}
       </div>
     ),
@@ -100,12 +100,12 @@ const columns = [
                   )}
                 </h3>
               ) : (
-                <span className={cn("text-[16px] font-bold text-yellow-800")}>
+                <span className={cn("text-base font-bold text-yellow-800")}>
                   جارى التصحيح
                 </span>
               )
             ) : (
-              <span className="text-[16px] font-bold text-[#1EAD7B]">
+              <span className="text-base font-bold text-[#1EAD7B]">
                 تم الحل
               </span>
             )}
@@ -142,7 +142,6 @@ export default function ParentPortalTable({
     pagination.pageIndex * PAGE_SIZE,
     (pagination.pageIndex + 1) * PAGE_SIZE,
   );
-
 
   return (
     <CustomTableUI

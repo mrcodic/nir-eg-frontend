@@ -84,8 +84,19 @@ export default function Video(props: VideoProps) {
     );
   }
 
-  if (otpLoading || !response?.otp) {
+  if (otpLoading) {
     return <LoadingSpinner className="bg-primary-50 h-fit min-h-[520px]" />;
+  }
+
+  if (!response?.otp) {
+    return (
+      <div className="bg-background flex min-h-[520px] items-center justify-center">
+        <div className="flex items-center gap-2">
+          <FileWarning className="stroke-red-500" />
+          <p className="text-lg font-bold">حدث خطأ ما</p>
+        </div>
+      </div>
+    );
   }
 
   return (

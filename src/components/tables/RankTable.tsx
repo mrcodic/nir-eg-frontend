@@ -23,7 +23,7 @@ const columns = [
   columnHelper.accessor("id", {
     header: () => <div className="py-3 text-[18px] font-bold">الترتيب</div>,
     cell: ({ row }) => (
-      <div className="flex items-center justify-center p-2 text-[16px] font-medium">
+      <div className="flex items-center justify-center p-2 text-base font-medium">
         <CustomNum num={row.index + 1} />
       </div>
     ),
@@ -36,7 +36,7 @@ const columns = [
       <div className="w-[200px] px-2 text-[18px] font-bold">الطالب</div>
     ),
     cell: (info) => (
-      <div className="flex w-[200px] items-center justify-start gap-6 p-2 text-center text-[16px] font-medium">
+      <div className="flex w-[200px] items-center justify-start gap-6 p-2 text-center text-base font-medium">
         <Image
           src="/assets/avatar-user.svg"
           width={48}
@@ -44,7 +44,7 @@ const columns = [
           alt="avatar"
           className="rounded-full"
         />
-        <span className="text-lg leading-4 font-bold text-[#121212]">
+        <span className="text-lg leading-4 font-bold text-black">
           {info.getValue()}
         </span>
       </div>

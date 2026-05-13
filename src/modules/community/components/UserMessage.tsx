@@ -117,7 +117,7 @@ const UserMessage = ({
                 <Link
                   key={index}
                   target="_blank"
-                  className="flex w-full items-center gap-2 rounded-lg border border-[#F8DEC5] bg-[#FFFFFF] p-2 py-2 text-[12px] font-medium"
+                  className="border-primary flex w-full items-center gap-2 rounded-lg border bg-white p-2 py-2 text-[12px] font-medium"
                   href={document?.url}
                 >
                   <Image

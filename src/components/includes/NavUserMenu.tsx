@@ -39,7 +39,7 @@ function NavUserMenu({
         />
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent className="mobile:top-1 border-gray-light relative left-10 z-9999 max-h-[calc(100vh-90px)] w-[272px] overflow-y-auto rounded-lg border bg-[#FFFFFF] py-4">
+      <DropdownMenuContent className="mobile:top-1 border-gray-light relative left-10 z-9999 max-h-[calc(100vh-90px)] w-[272px] overflow-y-auto rounded-lg border bg-white py-4">
         <DropdownMenuItem className="flex w-full flex-col items-center justify-center gap-4">
           <CustomImage
             src={profile?.avatar}
@@ -48,7 +48,7 @@ function NavUserMenu({
             alt="user avatar"
           />
 
-          <h3 className="text-base font-bold text-[#121212]">
+          <h3 className="text-base font-bold text-black">
             {(profile?.first_name || "--") + " " + (profile?.last_name || "--")}
           </h3>
 

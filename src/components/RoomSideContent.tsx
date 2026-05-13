@@ -58,7 +58,12 @@ const RoomSideContent = ({
     );
   }
 
-  if (!data) return null;
+  if (!data)
+    return (
+      <div className="flex h-full items-center justify-center">
+        <p>لا يوجد بيانات</p>
+      </div>
+    );
 
   return (
     <div

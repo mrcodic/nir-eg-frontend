@@ -25,8 +25,8 @@ const PaginationComponent = ({
       total={totalPages}
       onChange={setPage}
       className={cn(
-        "mt-5 mx-auto flex flex-wrap items-center justify-center [&>ul]:flex-wrap max-sm:[&>ul]:justify-center [&>ul]:gap-y-1",
-        className
+        "border-primary-50 mx-auto mt-5 flex w-fit flex-wrap items-center justify-center overflow-hidden rounded-xl border shadow-md [&>ul]:flex-wrap [&>ul]:gap-y-1 max-sm:[&>ul]:justify-center",
+        className,
       )}
       page={currentPage}
       showControls
@@ -40,8 +40,10 @@ const PaginationComponent = ({
             <PaginationItem
               {...item}
               key={item?.key}
-              className={`cursor-pointer size-8 sm:size-10 mx-1 sm:mx-2.5 flex items-center justify-center text-sm sm:text-base ${
-                hasNextPage ? "" : "opacity-50 cursor-not-allowed"
+              className={`mx-1 flex size-8 cursor-pointer items-center justify-center text-sm sm:mx-2.5 sm:size-10 sm:text-base ${
+                hasNextPage
+                  ? ""
+                  : "pointer-events-none cursor-not-allowed opacity-50"
               }`}
             >
               <span className="inline">التالى</span>
@@ -54,8 +56,10 @@ const PaginationComponent = ({
             <PaginationItem
               {...item}
               key={item?.key}
-              className={`cursor-pointer size-8 sm:size-10 mx-1 sm:mx-2.5 flex items-center justify-center text-sm sm:text-base ${
-                hasPrevPage ? "" : "opacity-50 cursor-not-allowed"
+              className={`mx-1 flex size-8 cursor-pointer items-center justify-center text-sm sm:mx-2.5 sm:size-10 sm:text-base ${
+                hasPrevPage
+                  ? ""
+                  : "pointer-events-none cursor-not-allowed opacity-50"
               }`}
             >
               <span className="inline">السابق</span>
@@ -67,9 +71,9 @@ const PaginationComponent = ({
           <PaginationItem
             {...item}
             key={item?.key}
-            className={`size-8 cursor-pointer sm:size-10 mx-1 sm:mx-2.5 flex items-center justify-center text-sm sm:text-base ${
+            className={`mx-1 flex size-8 cursor-pointer items-center justify-center text-sm sm:mx-2.5 sm:size-10 sm:text-base ${
               item.isActive
-                ? "font-semibold text-white bg-primary-800"
+                ? "bg-primary-800 pointer-events-none font-semibold text-white"
                 : "bg-background"
             }`}
           />

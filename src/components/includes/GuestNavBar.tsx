@@ -31,19 +31,12 @@ const GuestNavBar = () => {
     <div
       className={cn(
         "border-secondary bg-background fixed top-0 left-0 z-30 flex h-20 w-full items-center border-b group-data-[template=landing-v3]/template:h-28 group-data-[template=landing-v3]/template:items-end group-data-[template=landing-v3]/template:border-none group-data-[template=landing-v3]/template:bg-transparent aria-hidden:pointer-events-auto! data-[aria-hidden='true']:pointer-events-auto!",
-        // {
-        //   "h-28 items-end border-none bg-transparent": template == 3,
-        // },
       )}
     >
       <div className="wrapper">
         <div
           className={cn(
             "group-data-[template=landing-v3]/template:bg-background group-data-[template=landing-v3]/template:border-gray-light flex items-center justify-between gap-2 group-data-[template=landing-v3]/template:rounded-lg group-data-[template=landing-v3]/template:border group-data-[template=landing-v3]/template:p-4",
-            //    {
-            //   "bg-background border-gray-light rounded-lg border p-4":
-            //     template == 3,
-            // }
           )}
         >
           <div className="mobile:gap-20 flex items-center gap-12 self-end font-bold">
@@ -54,7 +47,7 @@ const GuestNavBar = () => {
                 width={110}
                 height={48}
                 unoptimized
-                className="h-12 object-contain object-right"
+                className="h-12 w-[110px] object-contain object-right"
                 loading="eager"
                 fetchPriority="high"
                 alt="logo"

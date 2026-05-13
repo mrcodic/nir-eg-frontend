@@ -36,7 +36,7 @@ function BookOrderCard({ bookOrder }: { bookOrder: BooksOrder }) {
 
       <div className={`rounded-LG flex-1 p-4`}>
         <div className="flex w-full flex-wrap items-center justify-between gap-6">
-          <h2 className="text-[14px] font-bold text-[#121212] md:text-[18px]">
+          <h2 className="text-[14px] font-bold text-black md:text-[18px]">
             {isCart ? "عربة التسوق" : bookOrder.items[0]?.book_name}
             <p className="text-sm text-gray-500">{bookOrder?.order_number}</p>
           </h2>

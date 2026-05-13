@@ -2,7 +2,7 @@ import Image from "next/image";
 
 function ProfileGradeCard({ text }: { text: string }) {
   return (
-    <div className="border-secondary flex w-full items-center justify-center gap-2 rounded-[12px] border p-2 text-center sm:gap-4 md:max-w-[246px]">
+    <div className="border-primary-800 flex w-full items-center justify-center gap-2 rounded-[12px] border p-2 text-center sm:gap-4 md:max-w-[246px]">
       <Image
         width={40}
         height={40}

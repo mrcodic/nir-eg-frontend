@@ -99,7 +99,7 @@ export function StudentSelectCenterModal() {
           alt="location icon"
         />
 
-        <h2 className="text-lg font-bold text-[#121212]">اختر السنتر</h2>
+        <h2 className="text-lg font-bold text-black">اختر السنتر</h2>
       </div>
 
       <Form {...form}>

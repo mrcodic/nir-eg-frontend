@@ -106,7 +106,7 @@ const AuthNavBar = () => {
             />
           </Link>
 
-          <ul className="mobile:flex mx-auto hidden list-none items-center gap-6 text-[16px] font-bold text-[#FFFFFF]">
+          <ul className="mobile:flex mx-auto hidden list-none items-center gap-6 text-base font-bold text-white">
             {studentLinks.map((link, i) => (
               <LinkStyled key={i} href={link.href} title={link.title} />
             ))}

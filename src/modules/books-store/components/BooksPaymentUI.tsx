@@ -53,7 +53,7 @@ export const BooksPaymentUI: React.FC<PaymentUIProps> = ({
         <>
           <div className="mt-[16px] flex items-center gap-[12px]">
             <img src="/assets/PaymentColor.svg" className="h-[24px] w-[24px]" />
-            <span className="text-[18px] font-bold text-[#121212]">
+            <span className="text-[18px] font-bold text-black">
               اختر طريقة الدفع
             </span>
           </div>
@@ -68,7 +68,7 @@ export const BooksPaymentUI: React.FC<PaymentUIProps> = ({
             <h4 className="text-lg font-bold sm:text-2xl">{name}</h4>
 
             <div className="bg-background flex items-center justify-between gap-3 rounded-lg p-2">
-              <h5 className="font-bold text-[#121212]">السعر</h5>
+              <h5 className="font-bold text-black">السعر</h5>
               {!!coupon?.promo?.value ? (
                 <>
                   <PriceBadge
@@ -148,9 +148,7 @@ export const BooksPaymentUI: React.FC<PaymentUIProps> = ({
                   {payment.icons.map((icon) => (
                     <img key={icon} src={icon} />
                   ))}
-                  <span className="font-bold text-[#121212]">
-                    {payment.label}
-                  </span>
+                  <span className="font-bold text-black">{payment.label}</span>
                 </Label>
                 {/* {payment.soon && (
                 <div className="bg-red-600 text-white px-8 absolute top-4 -left-5 -rotate-45 h-5 text-sm">

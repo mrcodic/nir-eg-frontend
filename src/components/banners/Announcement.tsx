@@ -7,6 +7,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
 import Image from "next/image";
 import { memo, useMemo, useState } from "react";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import DownloadFileBtn from "../DownloadFileBtn";
 
 export interface Announcement {
@@ -79,7 +80,7 @@ function Announcement() {
                 left: 0,
                 right: 0,
               }}
-              className="border-secondary bg-background pointer-events-auto relative flex flex-wrap items-center justify-between gap-5 rounded-lg border p-4 pe-7 text-sm font-bold text-black shadow-lg"
+              className="border-primary bg-background pointer-events-auto relative flex flex-wrap items-center justify-between gap-5 rounded-lg border p-4 pe-7 text-sm font-bold text-black shadow-lg"
             >
               {/* Content */}
               <div className="flex flex-wrap items-center gap-6">
@@ -101,7 +102,9 @@ function Announcement() {
                     alt="announcement"
                   />
                 </motion.div>
-                <p className="text-base leading-relaxed">{announce.desc}</p>
+                <ScrollArea className="h-full max-h-[50vh] flex-1 overflow-y-auto pr-4">
+                  <p className="text-base leading-relaxed">{announce.desc}</p>
+                </ScrollArea>
               </div>
 
               {/* File button (kept for later) */}

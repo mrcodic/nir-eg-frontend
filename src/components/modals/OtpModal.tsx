@@ -123,16 +123,14 @@ export default function OtpModal({ phone }) {
           alt="otp modal icon"
         />
         <div>
-          <h3 className="text-[20px] font-bold text-[#121212]">
-            تأكيد رقم الهاتف
-          </h3>
+          <h3 className="text-[20px] font-bold text-black">تأكيد رقم الهاتف</h3>
 
           <div>
-            <p className="text-gray-dark mt-1 text-[16px] font-medium">
+            <p className="text-gray-dark mt-1 text-base font-medium">
               {start ? "قمنا" : "سنقوم"} بإرسال رمز التأكيد إلى رقم الهاتف
               التالي
             </p>
-            <span className="inline-block font-bold text-[#121212]" dir="ltr">
+            <span className="inline-block font-bold text-black" dir="ltr">
               {phone}
             </span>
           </div>

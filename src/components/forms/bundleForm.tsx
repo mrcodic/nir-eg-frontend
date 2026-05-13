@@ -16,7 +16,7 @@ const BundleForm = async ({ bundleId, data }) => {
           className={`flex-1 rounded-lg border border-[#1EAD7B] p-4`}
         >
           <div className="flex w-full justify-between gap-[24px]">
-            <h2 className="text-[18px] font-bold text-[#121212]">
+            <h2 className="text-[18px] font-bold text-black">
               {data?.body?.name}
             </h2>
             {!data?.body?.sale?.id && (
@@ -40,7 +40,7 @@ const BundleForm = async ({ bundleId, data }) => {
             )}
           </div>
           <div className="bg-gray-light my-[12px] h-px w-full" />
-          <div className="flex gap-[8px] text-[16px] font-bold">
+          <div className="flex gap-[8px] text-base font-bold">
             <span className="text-gray-dark inline-block text-sm">
               {" "}
               {/* {classRoom.description} */}
@@ -75,7 +75,7 @@ const BundleForm = async ({ bundleId, data }) => {
               {data?.body.sale?.id && (
                 <div>
                   <div className="flex items-center gap-1">
-                    <h2 className="text-sm font-bold text-[#121212]">
+                    <h2 className="text-sm font-bold text-black">
                       احصل على خصم
                     </h2>
                     <div className="re flex h-[48px] w-[48px] items-center justify-center bg-[url(/assets/Sale.svg)] bg-cover">

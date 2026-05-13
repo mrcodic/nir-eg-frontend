@@ -33,7 +33,7 @@ function RoomDropDownQuiz({
     <div className="bg-background border-gray-light flex justify-between rounded-md border p-2">
       <div className="flex items-center gap-2 font-bold">
         <img
-          className="h-[28px] w-[28px] bg-white text-[#121212]"
+          className="h-[28px] w-[28px] bg-white text-black"
           src={mapTypeToIcon[type]}
         />
         <span>{item?.title}</span>

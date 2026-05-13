@@ -4,7 +4,7 @@ import { Mail, MapPin, Phone } from "lucide-react";
 function FooterContacts({ contacts }: { contacts: Contacts }) {
   return (
     <div className="mobile:col-span-4 mobile:mx-auto mobile:w-fit mobile:col-start-6 col-span-12 space-y-2 lg:pe-6">
-      <h3 className="mb-4 text-right text-[16px] font-semibold">تواصل معنا</h3>
+      <h3 className="mb-4 text-right text-base font-semibold">تواصل معنا</h3>
       <p className="text-start text-sm font-bold">
         إذا كان لديك أي استفسارات أو تحتاج إلى دعم، يُرجى التواصل معنا عبر:
       </p>

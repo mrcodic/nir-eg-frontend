@@ -67,8 +67,8 @@ const MessageInput = ({
   };
 
   return (
-    <div className={cn("flex flex-col  md:flex-row  gap-2", className)}>
-      <div className="flex flex-col w-full h-full">
+    <div className={cn("flex flex-col gap-2 md:flex-row", className)}>
+      <div className="flex h-full w-full flex-col">
         {files.length > 0 && (
           <FilePond
             acceptedFileTypes={["application/pdf", "image/*"]}
@@ -79,16 +79,16 @@ const MessageInput = ({
         )}
 
         <div
-          className={cn("flex flex-col md:flex-row  gap-2", {
+          className={cn("flex flex-col gap-2 md:flex-row", {
             "md:flex-col": isRecorder,
           })}
         >
           <div
-            className={cn("flex items-center  gap-2", {
+            className={cn("flex items-center gap-2", {
               "w-full": isRecorder,
             })}
           >
-            <label className="cursor-pointer shrink-0 flex items-center justify-center size-8 border border-[#F8DEC5] bg-background rounded-md">
+            <label className="border-primary bg-background flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-md border">
               <File className="size-5" />
 
               <input
@@ -106,7 +106,7 @@ const MessageInput = ({
                 }}
                 onClick={() => {
                   const iframeRef = document.getElementById(
-                    "vdocipher-iframe"
+                    "vdocipher-iframe",
                   ) as HTMLIFrameElement;
                   if (!iframeRef) return;
                   const player = window?.VdoPlayer?.getInstance(iframeRef);
@@ -124,14 +124,14 @@ const MessageInput = ({
           </div>
 
           {/* {!isRecorder && ( */}
-          <div className="flex items-center w-full  gap-2">
+          <div className="flex w-full items-center gap-2">
             <input
               id={id || "input-field"}
               // ref={ref}
               style={{
                 scrollMarginTop: "100px",
               }}
-              className="flex-1 bg-transparent text-gray-dark px-3 h-11 rounded-lg border border-gray-light  w-full py-1 outline-hidden"
+              className="text-gray-dark border-gray-light h-11 w-full flex-1 rounded-lg border bg-transparent px-3 py-1 outline-hidden"
               placeholder={placeholder || "اكتب ملاحظتك هنا"}
               value={text}
               onChange={(e) => setText(e.target.value)}
@@ -140,7 +140,7 @@ const MessageInput = ({
               }}
               onClick={() => {
                 const iframeRef = document.getElementById(
-                  "vdocipher-iframe"
+                  "vdocipher-iframe",
                 ) as HTMLIFrameElement;
                 if (!iframeRef) return;
                 const player = window?.VdoPlayer?.getInstance(iframeRef);
@@ -157,7 +157,7 @@ const MessageInput = ({
                 (isRecorder && !audios.length)
               }
               onClick={() => handleSend(currentTime)}
-              className="sm:max-w-32 max-w-16 w-full h-11"
+              className="h-11 w-full max-w-16 sm:max-w-32"
             >
               إدخال
             </Button>

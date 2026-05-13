@@ -58,7 +58,9 @@ const SingleVideo = () => {
   const viewCount = otpData?.viewsStats;
   const lockedByViewLimit = otpData?.locakedByViewLimit;
 
-  // console.log("lessons : ", data?.body?.lessons);
+  console.log("selectedLesson : ", selectedLesson);
+
+  console.log("lessons : ", lessonData?.body?.lessons);
 
   return (
     <>

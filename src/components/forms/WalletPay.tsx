@@ -59,7 +59,7 @@ const WalletPay = ({ id, gradeId, label }) => {
               <input
                 type="text"
                 name="phone"
-                className="mt-[8px] w-full border-none text-sm font-medium text-[#121212] placeholder:text-[#121212] focus:outline-hidden"
+                className="mt-[8px] w-full border-none text-sm font-medium text-black placeholder:text-black focus:outline-hidden"
                 placeholder={`أدخل ${label || "الكود"}`}
                 {...register("phone")}
               />

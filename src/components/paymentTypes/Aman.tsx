@@ -10,11 +10,11 @@ export default function Aman() {
 
   return (
     <div>
-      <h3 className="mt-[56px] text-[18px] font-bold text-[#121212]">
+      <h3 className="mt-[56px] text-[18px] font-bold text-black">
         كود الدفع الخاص بك:
       </h3>
       <div className="border-primary mt-[16px] rounded-lg border px-[40px] py-[32px]">
-        <h4 className="text-sm font-medium text-[#121212]">
+        <h4 className="text-sm font-medium text-black">
           الكود المرجعي الخاص بك:
         </h4>
         <div className="flex justify-between">

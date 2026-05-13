@@ -28,9 +28,7 @@ const PaymentCenterCode = ({ courseId, data, roomId }) => {
           className={`border-primary-800 min-h-48 w-full flex-1 rounded-lg border p-4`}
         >
           <div className="flex w-full justify-between gap-6">
-            <h2 className="text-[18px] font-bold text-[#121212]">
-              {data?.title}
-            </h2>
+            <h2 className="text-[18px] font-bold text-black">{data?.title}</h2>
 
             <PriceBubbles price={data?.price} sale={data?.sale} />
           </div>
@@ -62,9 +60,7 @@ const PaymentCenterCode = ({ courseId, data, roomId }) => {
             {data?.sale && (
               <div>
                 <div className="flex items-center gap-1">
-                  <h2 className="text-sm font-bold text-[#121212]">
-                    احصل على خصم
-                  </h2>
+                  <h2 className="text-sm font-bold text-black">احصل على خصم</h2>
                   <div className="mr-2 flex size-8 items-center justify-center bg-[url(/assets/sale?.svg)]">
                     <div className="flex items-center justify-center text-center">
                       <div className="re flex size-12 items-center justify-center bg-[url(/assets/Sale.svg)] bg-cover">

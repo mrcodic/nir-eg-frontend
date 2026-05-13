@@ -32,7 +32,7 @@ const GradeCard = ({ grade }: { grade: Grade }) => {
         <motion.h2
           initial={{ opacity: 1 }}
           variants={{ isHovered: { opacity: 0 } }}
-          className="text-[16px] font-bold text-white"
+          className="text-base font-bold text-white"
         >
           {grade?.name}
         </motion.h2>

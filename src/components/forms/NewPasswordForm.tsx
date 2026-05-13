@@ -59,10 +59,10 @@ const NewPasswordForm = () => {
       <div className="flex gap-2">
         <img src="/assets/icons/LockColor.svg" className="h-[32px] w-[32px]" />
         <div>
-          <h3 className="text-[20px] font-bold text-[#121212]">
+          <h3 className="text-[20px] font-bold text-black">
             إعادة تعيين كلمة السر
           </h3>
-          <p className="text-gray-dark mt-[4px] text-[16px] font-medium">
+          <p className="text-gray-dark mt-[4px] text-base font-medium">
             أدخل كلمة السر الجديدة و قم بتأكيدها لتتمكن من الدخول لحسابك
           </p>
         </div>

@@ -16,22 +16,26 @@ export async function fetchServer<T>({
   cache = "default",
   next,
 }: FetchOptions): Promise<T | null> {
-    const { subdomain, host } = await extractTenantFromHostServer();
-    try {
-      if (!endpoint || typeof endpoint !== "string") return null;
-      if (!subdomain) {
-        console.error('[server-fetch] null subdomain for host:', host, 'endpoint:', endpoint);
-        return null;
-      }
+  const { subdomain, host } = await extractTenantFromHostServer();
+  try {
+    if (!endpoint || typeof endpoint !== "string") return null;
+    if (!subdomain) {
+      console.error(
+        "[server-fetch] null subdomain for host:",
+        host,
+        "endpoint:",
+        endpoint,
+      );
+      return null;
+    }
 
     const token =
       auth || optionalAuth ? (await cookies()).get("nir_token")?.value : null;
 
     if (auth && !token) {
       return handleServerFetchError({
-        error: new CustomError("Unauthenticated", 401),
+        error: new CustomError("Unauthenticated", 401, "UNAUTHORIZED"),
         endpoint,
-        host,
       });
     }
 
@@ -48,7 +52,16 @@ export async function fetchServer<T>({
 
     if (!res.ok) {
       const data = await res.json().catch(() => null);
-      throw new CustomError(data?.message ?? "Request failed", res.status);
+      const message = data?.message ?? "Request failed";
+      const code =
+        res.status === 401
+          ? "UNAUTHORIZED"
+          : res.status === 403
+            ? "FORBIDDEN"
+            : res.status === 429
+              ? "RATE_LIMITED"
+              : "UNEXPECTED";
+      throw new CustomError(message, res.status, code);
     }
 
     return res.json() as Promise<T>;
@@ -57,7 +70,6 @@ export async function fetchServer<T>({
     return handleServerFetchError({
       error,
       endpoint: endpoint as string,
-      host,
     });
   }
 }

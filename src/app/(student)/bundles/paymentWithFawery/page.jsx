@@ -30,7 +30,7 @@ const PaymentWithFawery = () => {
                 <img className="h-[32px] w-[96px]" src="/assets/Vodafone.svg" />
                 <span> فودافون كاش</span>
               </div>
-              <button className="border-primary-800 flex h-[36px] w-[250px] items-center justify-center gap-[12px] rounded-[10px] border text-sm text-[#121212]">
+              <button className="border-primary-800 flex h-[36px] w-[250px] items-center justify-center gap-[12px] rounded-[10px] border text-sm text-black">
                 <span>العودة لاختيار طريقة الدفع</span>
                 <img
                   className="h-[24px] w-[24px]"
@@ -51,12 +51,12 @@ const PaymentWithFawery = () => {
                   className={`flex-1 rounded-lg border border-[#1EAD7B] p-4`}
                 >
                   <div className="flex w-full justify-between gap-[24px]">
-                    <h2 className="text-[18px] font-bold text-[#121212]">
+                    <h2 className="text-[18px] font-bold text-black">
                       باقة شهر 10 و 11
                     </h2>
                   </div>
                   <div className="bg-gray-light my-[12px] h-px w-full" />
-                  <div className="flex gap-[8px] text-[16px] font-bold">
+                  <div className="flex gap-[8px] text-base font-bold">
                     <span className="text-gray-dark inline-block">
                       تحتوى على
                     </span>
@@ -99,7 +99,7 @@ const PaymentWithFawery = () => {
                     </div>
                     <div>
                       <div className="flex items-center gap-1">
-                        <h2 className="text-sm font-bold text-[#121212]">
+                        <h2 className="text-sm font-bold text-black">
                           احصل على خصم
                         </h2>
                         <div className="flex h-[32px] w-[32px] items-center justify-center bg-[url(/assets/Sale.svg)]">
@@ -129,11 +129,11 @@ const PaymentWithFawery = () => {
                 </div>
               </div>
               <div>
-                <h3 className="mt-[56px] text-[18px] font-bold text-[#121212]">
+                <h3 className="mt-[56px] text-[18px] font-bold text-black">
                   كود الدفع الخاص بك:
                 </h3>
                 <div className="border-primary mt-[16px] rounded-lg border px-[40px] py-[32px]">
-                  <h4 className="text-sm font-medium text-[#121212]">
+                  <h4 className="text-sm font-medium text-black">
                     الكود المرجعي الخاص بك:
                   </h4>
                   <h3 className="mt-[8px] text-[24px] font-bold text-[#523412]">
@@ -209,7 +209,7 @@ const PaymentWithFawery = () => {
               </div>
               <button
                 onClick={() => router.push("/bundles")}
-                className=" border text-sm flex justify-center  h-[36px] rounded-[10px] w-[250px] border-primary-800 text-[#121212] items-center gap-[12px]"
+                className=" border text-sm flex justify-center  h-[36px] rounded-[10px] w-[250px] border-primary-800 text-black items-center gap-[12px]"
               >
                 <span>العودة لاختيار طريقة الدفع</span>
                 <img
@@ -229,12 +229,12 @@ const PaymentWithFawery = () => {
                 className={`flex-1 border border-[#1EAD7B] rounded-lg p-4 `}
               >
                 <div className="flex w-full justify-between gap-[24px]">
-                  <h2 className="text-[#121212] text-[18px] font-bold">
+                  <h2 className="text-black text-[18px] font-bold">
                     باقة شهر 10 و 11
                   </h2>
                 </div>
                 <div className="h-px w-full bg-gray-light my-[12px]" />
-                <div className="flex font-bold text-[16px]  gap-[8px]">
+                <div className="flex font-bold text-base  gap-[8px]">
                   <span className="text-gray-dark inline-block">تحتوى على</span>
                   <span className="text-[#523412] inline-block font-bold">
                     كورس شهر 10
@@ -275,7 +275,7 @@ const PaymentWithFawery = () => {
                   </div>
                   <div>
                     <div className="flex gap-1 items-center">
-                      <h2 className="text-[#121212] text-sm font-bold">
+                      <h2 className="text-black text-sm font-bold">
                         احصل على خصم
                       </h2>
                       <div className="bg-[url(/assets/Sale.svg)] flex items-center justify-center w-[32px] h-[32px]">

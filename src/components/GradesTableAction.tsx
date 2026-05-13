@@ -17,7 +17,7 @@ function GradesTableAction({
   const isReviewPending = row?.review_pending;
 
   return (
-    <div className="flex h-14 w-full items-center justify-start gap-4 p-2">
+    <div className="flex h-14 w-full items-center justify-start gap-4">
       {isExpired && !haveAnswer ? (
         <p className="mx-auto text-center font-bold text-blue-600">
           انتهى الكورس بدون تصحيح
@@ -54,7 +54,7 @@ function GradesTableAction({
                     }/${row.quiz_id}`
               }
               className={cn(
-                "bg-primary-800 flex h-9 w-[120px] items-center justify-center rounded-[10px] p-1 text-sm font-bold text-white lg:h-10 lg:w-[155px]",
+                "bg-primary-800 hover:bg-primary/80 flex h-9 w-[120px] items-center justify-center rounded-[10px] p-1 text-sm font-bold text-white transition-all lg:h-10 lg:w-[155px]",
               )}
             >
               {` عرض ال${row?.type}`}

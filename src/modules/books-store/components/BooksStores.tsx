@@ -37,7 +37,7 @@ function BooksList({ links }: { links: LinkItem[] }) {
 function BooksListItem({ href }: { href: string }) {
   return (
     <li
-      className={`group bg-background flex flex-col justify-between gap-1 rounded-lg border border-[#F8DEC5] p-4 transition-all group-hover:border-(--grade-color) hover:-translate-y-1`}
+      className={`group bg-background border-primary flex flex-col justify-between gap-1 rounded-lg border p-4 transition-all group-hover:border-(--grade-color) hover:-translate-y-1`}
     >
       <Image
         src={"/assets/BookColor.svg"}

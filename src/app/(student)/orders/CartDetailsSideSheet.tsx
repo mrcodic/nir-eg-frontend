@@ -37,7 +37,7 @@ function CartDetailsSideSheet({ bookOrder }: { bookOrder: BooksOrder }) {
         </SheetDescription>
         <SheetHeader className="text-start sm:text-start">
           <h2 className="mt-8 flex w-full flex-wrap items-center justify-between gap-x-4 gap-y-2 border-b border-[#D9B45C] pb-2">
-            <span className="text-[14px] font-bold text-[#121212] md:text-[18px]">
+            <span className="text-[14px] font-bold text-black md:text-[18px]">
               عربة التسوق
               <p className="text-sm text-gray-500">{bookOrder?.order_number}</p>
             </span>

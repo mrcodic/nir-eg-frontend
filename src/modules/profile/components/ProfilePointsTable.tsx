@@ -58,7 +58,7 @@ const columns = [
       <div className="w-full px-2 py-3 text-[18px] font-bold">الأنشطة</div>
     ),
     cell: (info) => (
-      <div className="flex max-w-[200px] gap-1 truncate p-2 text-[16px] font-medium md:max-w-[250px]">
+      <div className="flex max-w-[200px] gap-1 truncate p-2 text-base font-medium md:max-w-[250px]">
         <p className="">{info.getValue()}</p>
 
         {info?.row?.original?.is_classroom_expired ? (
@@ -82,7 +82,7 @@ const columns = [
       <div className="w-[100px] px-2 text-[18px] font-bold">النوع</div>
     ),
     cell: (info) => (
-      <div className="w-[100px] p-2 text-center text-[16px] font-medium">
+      <div className="w-[100px] p-2 text-center text-base font-medium">
         {info?.getValue() || "-"}
       </div>
     ),
@@ -94,7 +94,7 @@ const columns = [
     cell: (info) => (
       <div
         title={info.getValue()}
-        className="w-[156px] truncate p-2 text-center text-[16px] font-medium"
+        className="w-[156px] truncate p-2 text-center text-base font-medium"
       >
         {info.getValue()}
       </div>
@@ -105,7 +105,7 @@ const columns = [
       <div className="min-w-[110px] px-2 text-[18px] font-bold">التاريخ</div>
     ),
     cell: (info) => (
-      <div className="w-[110px] p-2 text-center text-[16px] font-medium">
+      <div className="w-[110px] p-2 text-center text-base font-medium">
         {info.getValue()}
       </div>
     ),
@@ -126,7 +126,7 @@ const columns = [
           <span className="text-primary-800 text-2xl font-bold">
             {info.getValue()}
           </span>
-          <span className="text-[16px] font-bold">نقطة</span>
+          <span className="text-base font-bold">نقطة</span>
         </div>
       </div>
     ),

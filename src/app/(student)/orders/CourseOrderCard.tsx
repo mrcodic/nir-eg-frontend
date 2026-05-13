@@ -23,7 +23,7 @@ function CourseOrderCard({ courseOrder }: { courseOrder: CourseOrder }) {
 
       <div className={`border-gray-light flex-1 rounded-lg border p-4`}>
         <div className="flex w-full flex-wrap items-center justify-between gap-x-6 gap-y-2">
-          <h2 className="text-sm font-bold text-[#121212] md:text-xl">
+          <h2 className="text-sm font-bold text-black md:text-xl">
             {courseOrder.model?.name}
             <p className="text-sm text-gray-500">
               {courseOrder.trasnsaction_id}

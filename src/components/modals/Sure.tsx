@@ -22,11 +22,11 @@ const SureModal = ({ open, setOpen, questionsCount }) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="max-w-lg rounded-lg bg-white shadow-lg">
-        <DialogTitle className="text-[18px] font-bold text-[#121212]">
+        <DialogTitle className="text-[18px] font-bold text-black">
           هل أنت متأكد من أنك تريد حفظ الإجابات؟
         </DialogTitle>
         <div>
-          <p className="mt-8 inline-block font-medium text-[#121212]">
+          <p className="mt-8 inline-block font-medium text-black">
             لن تتمكن من تغيير الإجابات مرة أخرى
           </p>
 

@@ -27,9 +27,7 @@ const CourseForm = async ({ courseId, data }) => {
           className={`flex-1 rounded-lg border border-[#1EAD7B] p-4`}
         >
           <div className="flex w-full justify-between gap-[24px]">
-            <h2 className="text-[18px] font-bold text-[#121212]">
-              {data?.title}
-            </h2>
+            <h2 className="text-[18px] font-bold text-black">{data?.title}</h2>
             {!data?.sale?.id && data?.price && (
               <div className="w-[111px] rounded-lg bg-[#523412] px-[8px] py-[2px] text-center text-[18px] text-white">
                 {data?.price} جنيه
@@ -50,7 +48,7 @@ const CourseForm = async ({ courseId, data }) => {
             )}
           </div>
           <div className="bg-gray-light my-[12px] h-px w-full" />
-          <div className="flex gap-[8px] text-[16px] font-bold">
+          <div className="flex gap-[8px] text-base font-bold">
             <span className="text-gray-dark inline-block text-sm">
               {" "}
               {data?.description}
@@ -74,9 +72,7 @@ const CourseForm = async ({ courseId, data }) => {
             {data?.sale && (
               <div>
                 <div className="flex items-center gap-1">
-                  <h2 className="text-sm font-bold text-[#121212]">
-                    احصل على خصم
-                  </h2>
+                  <h2 className="text-sm font-bold text-black">احصل على خصم</h2>
                   <div className="mr-2 flex h-[32px] w-[32px] items-center justify-center bg-[url(/assets/sale?.svg)]">
                     <div className="flex items-center justify-center text-center">
                       <div className="re flex h-[48px] w-[48px] items-center justify-center bg-[url(/assets/Sale.svg)] bg-cover">

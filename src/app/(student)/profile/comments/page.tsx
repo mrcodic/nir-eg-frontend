@@ -112,9 +112,7 @@ const Comments = () => {
   return (
     <div className="wrapper mt-[140px] mb-12">
       <div className="flex flex-col justify-between">
-        <h3 className="text-lg font-bold text-[#121212]">
-          الاسئلة والاستفسارات
-        </h3>
+        <h3 className="text-lg font-bold text-black">الاسئلة والاستفسارات</h3>
 
         <CommentsFilter
           setPage={setPage}

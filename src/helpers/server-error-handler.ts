@@ -7,43 +7,37 @@ import { getAuthFailureStrategy } from "./auth-policy";
 export async function handleServerFetchError({
   error,
   endpoint,
-  host,
 }: {
   error: unknown;
   endpoint: string;
-  host: string;
 }): Promise<never | null> {
-  const status =
-    error instanceof CustomError ? error.status : (error as any)?.status;
+  const appError =
+    error instanceof CustomError
+      ? error
+      : new CustomError(
+          "Unexpected server error",
+          (error as any)?.status ?? 500,
+          "UNEXPECTED",
+        );
 
   const strategy = getAuthFailureStrategy(endpoint);
 
-  console.log("server -> ", endpoint, status);
+  console.log("server ->", endpoint, appError.status, appError.code);
 
-  if (status === 401) {
-    // await fetch(`https://${host}/api/delete-session`, {
-    //   method: "GET",
-    // });
-
+  if (appError.code === "UNAUTHORIZED" || appError.code === "FORBIDDEN") {
     if (strategy === "silent-null") {
       return null;
     }
 
-    redirect("/login");
-  }
-
-  if (status === 403) {
-    console.log("unauth redirect");
+    if (appError.code === "UNAUTHORIZED") {
+      redirect("/login");
+    }
     redirect("/unauthorized");
   }
 
-  if (status === 429) {
+  if (appError.code === "RATE_LIMITED") {
     redirect("/ErrorPage?message=لقد تجاوزت الحد المسموح به من الطلبات");
   }
 
-  if (error instanceof CustomError) {
-    throw error;
-  }
-
-  throw new CustomError("Unexpected server error", 500);
+  throw appError;
 }

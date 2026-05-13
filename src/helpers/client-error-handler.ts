@@ -19,6 +19,8 @@ export function handleClientFetchError(error: any, endpoint: unknown): null {
   }
 
   if (status === 403) {
+    console.log("unauthorized", error);
+    if (strategy === "silent-null") return null;
     safeRedirect("/unauthorized");
     return null;
   }

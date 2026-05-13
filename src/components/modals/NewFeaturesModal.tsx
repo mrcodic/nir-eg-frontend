@@ -48,7 +48,7 @@ export default function NewFeaturesModal({
             <div key={index} className="flex items-center gap-2">
               <CustomNum num={index + 1} />
 
-              <h2 className="text-xl font-bold text-[#121212]">
+              <h2 className="text-xl font-bold text-black">
                 {item.description}
               </h2>
             </div>

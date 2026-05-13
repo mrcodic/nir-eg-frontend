@@ -1,6 +1,11 @@
 "use client";
 
-import TooltipLock from "@/components/ToolTip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { convertMinutes } from "@/utils/clientFun";
 import { Lock } from "lucide-react";
 import { useRouter } from "nextjs-toploader/app";
@@ -22,7 +27,7 @@ const LessonRoomCard = ({
         <img src="/assets/videos-fill.svg" className="size-6" />
 
         <div>
-          <h3 className="text-sm font-bold text-[#121212] md:text-[16px]">
+          <h3 className="text-sm font-bold text-black md:text-base">
             {lesson?.title}
           </h3>
           {lesson?.description && (
@@ -76,9 +81,16 @@ const LessonRoomCard = ({
               /> */}
             </>
           ) : (
-            <TooltipLock text="عليك اجتياز الاختبار أولا">
-              <Lock className="size-5!" />
-            </TooltipLock>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Lock className="size-5!" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>عليك اجتياز الاختبار أولا</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           )}
         </Button>
       )}

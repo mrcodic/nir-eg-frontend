@@ -21,12 +21,12 @@ function TopCourseStudentsBadges({ students }: { students: TopStudent[] }) {
 
   return (
     <TooltipProvider>
-      <div className="data-[slot=avatar]:*:ring-background flex flex-row-reverse [&>div]:-ms-1.5 data-[slot=avatar]:*:size-10 data-[slot=avatar]:*:ring-2 data-[slot=avatar]:*:grayscale justify-start my-1">
+      <div className="data-[slot=avatar]:*:ring-background my-1 flex flex-row-reverse justify-start data-[slot=avatar]:*:size-10 data-[slot=avatar]:*:ring-2 data-[slot=avatar]:*:grayscale [&>div]:-ms-1.5">
         {students?.slice(0, 3)?.map((student, index) => (
           <Tooltip key={student.student_id}>
             <TooltipTrigger asChild>
-              <div className="relative group/avatar">
-                <Avatar className="size-8 transition-all hover:z-10 group-hover/avatar:scale-110 group-hover/avatar:grayscale-0 border-2 border-[#F8DEC5]">
+              <div className="group/avatar relative">
+                <Avatar className="border-primary size-8 border-2 transition-all group-hover/avatar:scale-110 group-hover/avatar:grayscale-0 hover:z-10">
                   <AvatarImage
                     src={
                       student.profile_image?.includes("images/default")
@@ -48,10 +48,10 @@ function TopCourseStudentsBadges({ students }: { students: TopStudent[] }) {
                   width={20}
                   height={20}
                   alt="leaderboard cup"
-                  className="absolute -top-2.5 left-0 -rotate-12 group-hover/avatar:scale-110 group-hover/avatar:-translate-y-1 transition-all z-10 "
+                  className="absolute -top-2.5 left-0 z-10 -rotate-12 transition-all group-hover/avatar:-translate-y-1 group-hover/avatar:scale-110"
                 />
                 {/* student rank number */}
-                <p className="absolute font-bold -bottom-1 left-1/2 -translate-x-1/2 bg-[#F8DEC5] size-3 text-[10px] flex items-center justify-center rounded-full  transition-all z-10 border border-gray-400">
+                <p className="absolute -bottom-1 left-1/2 z-10 flex size-3 -translate-x-1/2 items-center justify-center rounded-full border border-gray-400 bg-[#F8DEC5] text-[10px] font-bold transition-all">
                   {index + 1}
                 </p>
               </div>

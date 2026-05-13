@@ -79,7 +79,7 @@ const PassedModal = ({
           <div>
             {start?.review_pending ? (
               <div className="flex flex-col gap-3">
-                <p className="inline-block text-lg font-bold text-[#121212]">
+                <p className="inline-block text-lg font-bold text-black">
                   جارى تصحيح الامتحان
                 </p>
                 <p className="mt-6 text-[18px] font-medium">

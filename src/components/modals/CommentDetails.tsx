@@ -66,7 +66,7 @@ const CommentDetails = ({
         <DialogDescription className="hidden" />
 
         <div className="border-gray-light flex h-[80px] w-full justify-between border-b-2 p-2">
-          <h2 className="text-sm font-bold text-[#121212] sm:text-lg">
+          <h2 className="text-sm font-bold text-black sm:text-lg">
             عرض الأسئلة والاستفسارات{" "}
           </h2>
           <div
@@ -80,15 +80,15 @@ const CommentDetails = ({
         {showDetailsCard && (
           <div
             // href={`/bundles/${comment?.classroom_id}/${comment?.lesson_id}`}
-            className="bg-background relative flex h-20 flex-col gap-2 rounded-lg border border-[#F8DEC5] p-3"
+            className="bg-background border-primary relative flex h-20 flex-col gap-2 rounded-lg border p-3"
           >
             <div className="flex items-center justify-between gap-2">
-              <h2 className="text-sm font-bold text-[#121212] sm:text-lg">
+              <h2 className="text-sm font-bold text-black sm:text-lg">
                 كورس : {comment?.classroom_title}
               </h2>
             </div>
 
-            <h3 className="text-xs font-bold text-[#121212] sm:text-base">
+            <h3 className="text-xs font-bold text-black sm:text-base">
               حصة : {comment?.lesson_title}
             </h3>
 

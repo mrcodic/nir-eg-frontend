@@ -71,7 +71,7 @@ function NavNotifications() {
         collisionPadding={8}
       >
         <div className="flex w-full shrink-0 flex-row-reverse justify-between">
-          <h3 className="text-[16px] font-bold text-[#121212]">الإشعارات</h3>
+          <h3 className="text-base font-bold text-black">الإشعارات</h3>
 
           {notifications?.meta?.unread_count > 0 && (
             <MarkAllAsRead key={notifications?.meta?.unread_count} />
@@ -105,9 +105,7 @@ function NavNotifications() {
                 alt="empty notifications icon"
                 className="h-[150px] w-[200px] md:h-[200px] md:w-[300px]"
               />
-              <p className="text-[#121212]text-center text-sm">
-                لا يوجد إشعارات
-              </p>
+              <p className="text-blacktext-center text-sm">لا يوجد إشعارات</p>
             </div>
           )}
         </div>

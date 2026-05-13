@@ -20,7 +20,7 @@ const columns = [
     ),
     cell: (info) => {
       return (
-        <div className="flex w-full max-w-[200px] min-w-[200px] flex-wrap items-center gap-2 truncate p-2 ps-4 text-[16px] font-medium md:max-w-[300px]">
+        <div className="flex w-full max-w-[200px] min-w-[200px] flex-wrap items-center gap-2 truncate p-2 ps-4 text-base font-medium md:max-w-[300px]">
           <p className="truncate">{info.getValue()}</p>
         </div>
       );
@@ -29,7 +29,7 @@ const columns = [
   columnHelper.accessor("type", {
     header: () => <div className="w-34 px-2 text-[18px] font-bold">النوع</div>,
     cell: (info) => (
-      <div className="w-34 p-2 text-start text-[16px] font-medium">
+      <div className="w-34 p-2 text-start text-base font-medium">
         {info.getValue()}
       </div>
     ),
@@ -39,7 +39,7 @@ const columns = [
       <div className="w-34 px-2 text-[18px] font-bold">التاريخ</div>
     ),
     cell: (info) => (
-      <div className="w-34 p-2 text-start text-[16px] font-medium">
+      <div className="w-34 p-2 text-start text-base font-medium">
         {info.getValue()}
       </div>
     ),
