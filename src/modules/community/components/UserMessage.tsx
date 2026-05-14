@@ -142,7 +142,7 @@ const UserMessage = ({
         )}
 
         {comment?.replies?.length > 0 && (
-          <div className="mr-8 flex flex-col gap-2 border-r border-[#cccc] pr-4">
+          <div className="mr-2 flex flex-col gap-2 border-r border-[#cccc] pr-2 md:mr-8 md:pr-4">
             {comment?.replies?.map((reply, index) => (
               <UserMessage
                 avatar={

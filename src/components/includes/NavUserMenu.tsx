@@ -39,7 +39,7 @@ function NavUserMenu({
         />
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent className="mobile:top-1 border-gray-light relative left-10 z-9999 max-h-[calc(100vh-90px)] w-[272px] overflow-y-auto rounded-lg border bg-white py-4">
+      <DropdownMenuContent className="mobile:top-1 border-gray-light relative left-10 z-100 max-h-[calc(100vh-90px)] w-[272px] overflow-y-auto rounded-lg border bg-white pt-4 pb-2">
         <DropdownMenuItem className="flex w-full flex-col items-center justify-center gap-4">
           <CustomImage
             src={profile?.avatar}
@@ -94,7 +94,9 @@ function NavUserMenu({
           icon="/assets/settings.svg"
           text="إعدادات الحساب"
         />
+
         <MenuItem href="/orders" icon="/assets/bundles.svg" text="الطلبات" />
+
         {hasCommunityEnabled &&
           (profile?.type === 4 || profile?.type === 5) && (
             <MenuItem
@@ -103,6 +105,7 @@ function NavUserMenu({
               text="الأسئلة والاستفسارات"
             />
           )}
+
         {features?.book_store && shouldShowBooks && (
           <MenuItem
             href="/books"
@@ -110,6 +113,9 @@ function NavUserMenu({
             text="متجر الكتب"
           />
         )}
+
+        <hr className="my-2 bg-gray-300" />
+
         <MenuItem
           onClick={() => {
             modal.setDialogContent(<LogoutCustomModal />);
@@ -118,8 +124,8 @@ function NavUserMenu({
           icon="/assets/sign-out.svg"
           text="تسجيل خروج"
           textClassName="text-semantics-red"
-          className="border-gray-light mt-2 rounded-none border-t pt-4"
         />
+
         {profile?.id && profile?.type === 3 && (
           <div className="ms-4 mt-2 flex flex-col items-start">
             <QRCodeCanvas
@@ -160,7 +166,7 @@ const MenuItem = ({
   );
 
   const baseClassName = cn(
-    "flex w-full cursor-pointer items-center gap-4 rounded-lg px-0 py-2 text-sm font-bold",
+    "flex w-full hover:bg-primary-50 transition-all cursor-pointer items-center gap-4 rounded-xl px-0 py-2 text-sm font-bold",
     className,
   );
 

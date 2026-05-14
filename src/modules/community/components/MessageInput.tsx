@@ -3,12 +3,12 @@
 import { Button } from "@/components/ui/button";
 import VoiceMessageRecorder from "@/components/shared/VoiceMessageRecorder";
 import { cn } from "@/lib/utils";
-import "filepond/dist/filepond.min.css";
+import { useVideoPlayerStore } from "@/store/videoPlayerStore";
 import { File } from "lucide-react";
 import { useState } from "react";
-import { FilePond } from "react-filepond";
 import useSendComment from "../hooks/useSendComment";
 import useSendReply from "../hooks/useSendReply";
+import FilePreview from "./FilePreview";
 
 type MessageInputProps = {
   className?: string;
@@ -69,14 +69,7 @@ const MessageInput = ({
   return (
     <div className={cn("flex flex-col gap-2 md:flex-row", className)}>
       <div className="flex h-full w-full flex-col">
-        {files.length > 0 && (
-          <FilePond
-            acceptedFileTypes={["application/pdf", "image/*"]}
-            files={files}
-            onupdatefiles={setFiles}
-            allowMultiple
-          />
-        )}
+        <FilePreview files={files} onChange={setFiles} className="mb-1" />
 
         <div
           className={cn("flex flex-col gap-2 md:flex-row", {
@@ -105,13 +98,7 @@ const MessageInput = ({
                   }
                 }}
                 onClick={() => {
-                  const iframeRef = document.getElementById(
-                    "vdocipher-iframe",
-                  ) as HTMLIFrameElement;
-                  if (!iframeRef) return;
-                  const player = window?.VdoPlayer?.getInstance(iframeRef);
-
-                  player?.video?.pause();
+                  useVideoPlayerStore.getState().pause();
                 }}
               />
             </label>
@@ -139,13 +126,7 @@ const MessageInput = ({
                 if (e.key === "Enter") handleSend(currentTime);
               }}
               onClick={() => {
-                const iframeRef = document.getElementById(
-                  "vdocipher-iframe",
-                ) as HTMLIFrameElement;
-                if (!iframeRef) return;
-                const player = window?.VdoPlayer?.getInstance(iframeRef);
-
-                player?.video?.pause();
+                useVideoPlayerStore.getState().pause();
               }}
             />
 

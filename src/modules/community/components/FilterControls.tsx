@@ -1,3 +1,5 @@
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { Dispatch, SetStateAction } from "react";
 
 function FilterControls({
@@ -8,27 +10,25 @@ function FilterControls({
   setFilterMode: Dispatch<SetStateAction<"current" | "all">>;
 }) {
   return (
-    <div className="flex gap-2">
-      <button
+    <div className="ms-auto flex gap-2">
+      <Button
+        variant="outline-primary"
+        className={cn("h-8 p-2 text-xs font-medium", {
+          "bg-primary-800 text-white": filterMode === "current",
+        })}
         onClick={() => setFilterMode("current")}
-        className={`px-3 py-1 text-[10px] rounded-md transition-colors ${
-          filterMode === "current"
-            ? "bg-gray-light text-white"
-            : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-        }`}
       >
         الوقت الحالي
-      </button>
-      <button
+      </Button>
+      <Button
+        variant="outline-primary"
+        className={cn("h-8 p-2 text-xs font-medium", {
+          "bg-primary-800 text-white": filterMode === "all",
+        })}
         onClick={() => setFilterMode("all")}
-        className={`px-3 py-1 text-[10px] rounded-md transition-colors ${
-          filterMode === "all"
-            ? "bg-gray-light text-white"
-            : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-        }`}
       >
         جميع التعليقات
-      </button>
+      </Button>
     </div>
   );
 }

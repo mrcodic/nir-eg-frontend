@@ -1,8 +1,32 @@
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
+import { useVideoPlayerStore } from "@/store/videoPlayerStore";
 import { Mic, Pause, Play, StopCircle, Trash } from "lucide-react";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { VoiceVisualizer, useVoiceVisualizer } from "react-voice-visualizer";
+
+const Timer = ({ duration }) => {
+  const totalSeconds =
+    typeof duration === "number" && duration >= 0
+      ? Math.floor(duration / 1000)
+      : 0;
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+
+  const formattedTime = `${minutes.toString().padStart(2, "0")}:${seconds
+    .toString()
+    .padStart(2, "0")}`;
+
+  return (
+    <div
+      className="text-customGray shrink-0 text-xs"
+      role="timer"
+      aria-label={`Duration: ${minutes} minutes and ${seconds} seconds`}
+    >
+      {formattedTime}
+    </div>
+  );
+};
 
 const VoiceMessageRecorder = ({ toggleRecorder, setAudios, isRecorder }) => {
   const recorderControls = useVoiceVisualizer();
@@ -27,28 +51,44 @@ const VoiceMessageRecorder = ({ toggleRecorder, setAudios, isRecorder }) => {
   const showPlaybackControls =
     isAvailableRecordedAudio || isRecordingInProgress;
 
-  const toggleStartStop = () => {
+  const toggleStartStop = async () => {
     if (isRecordingInProgress) {
       stopRecording();
     } else {
+      // Check for an available audio input device before starting
+      try {
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        const hasMic = devices.some((d) => d.kind === "audioinput");
+        if (!hasMic) {
+          toast({
+            description: "لم يتم العثور على جهاز تسجيل صوتي",
+            icon: "error",
+          });
+          return;
+        }
+      } catch {
+        toast({
+          description: "تعذّر الوصول إلى أجهزة الوسائط",
+          icon: "error",
+        });
+        return;
+      }
+
       toggleRecorder(true);
       clearCanvas();
       startRecording();
 
-      // stop iframe video
-      const iframeRef = document.getElementById("vdocipher-iframe");
-      if (!iframeRef) return;
-      const player = window?.VdoPlayer?.getInstance(iframeRef);
-      player?.video?.pause();
+      // Pause whichever video provider is currently active (VdoCipher or Bunny)
+      useVideoPlayerStore.getState().pause();
     }
   };
 
-  const handleDelete = () => {
+  const handleDelete = useCallback(() => {
     stopRecording();
     clearCanvas();
     setAudios([]);
     toggleRecorder(false);
-  };
+  }, [clearCanvas, setAudios, stopRecording, toggleRecorder]);
 
   useEffect(() => {
     if (recordedBlob && recordedBlob.size > 0) {
@@ -70,87 +110,64 @@ const VoiceMessageRecorder = ({ toggleRecorder, setAudios, isRecorder }) => {
     switch (errorName) {
       case "NotAllowedError":
         toast({
-          description: "Permission denied",
+          description: "تم رفض الإذن بالوصول إلى الميكروفون",
           icon: "error",
         });
         break;
       case "NotFoundError":
         toast({
-          description: "Device not found",
+          description: "لم يتم العثور على جهاز تسجيل صوتي",
           icon: "error",
         });
         break;
       case "NotReadableError":
         toast({
-          description: "Device not readable",
+          description: "تعذّر قراءة بيانات الجهاز، يرجى التحقق منه",
           icon: "error",
         });
         break;
       case "OverconstrainedError":
         toast({
-          description: "Device not overconstrained",
+          description: "لا يستوفي الجهاز المتطلبات المطلوبة",
           icon: "error",
         });
         break;
       case "NotSupportedError":
         toast({
-          description: "Device not supported",
+          description: "الجهاز غير مدعوم في هذا المتصفح",
           icon: "error",
         });
         break;
       case "SecurityError":
         toast({
-          description: "Device not secure",
+          description: "تم حظر الوصول لأسباب أمنية",
           icon: "error",
         });
         break;
       case "UnknownError":
         toast({
-          description: "Device not unknown",
+          description: "حدث خطأ غير معروف، يرجى المحاولة مرة أخرى",
           icon: "error",
         });
         break;
       default:
         break;
     }
-  }, [error]);
+  }, [error, setAudios, toast, toggleRecorder]);
 
   // delete audio when isRecorder is false
   useEffect(() => {
     if (!isRecorder && recordedBlob) {
       handleDelete();
     }
-  }, [isRecorder, recordedBlob]);
-
-  const Timer = ({ duration }) => {
-    const totalSeconds =
-      typeof duration === "number" && duration >= 0
-        ? Math.floor(duration / 1000)
-        : 0;
-    const minutes = Math.floor(totalSeconds / 60);
-    const seconds = totalSeconds % 60;
-
-    const formattedTime = `${minutes.toString().padStart(2, "0")}:${seconds
-      .toString()
-      .padStart(2, "0")}`;
-
-    return (
-      <div
-        className="shrink-0 text-xs text-customGray"
-        role="timer"
-        aria-label={`Duration: ${minutes} minutes and ${seconds} seconds`}
-      >
-        {formattedTime}
-      </div>
-    );
-  };
+  }, [handleDelete, isRecorder, recordedBlob]);
 
   return (
-    <div className="flex  items-center   gap-2">
-      <div className="voice-recorder-container flex items-center gap-4 max-sm:flex-wrap-reverse grow">
+    <div className="flex items-center gap-2">
+      <div className="voice-recorder-container flex grow items-center gap-4 max-sm:flex-wrap-reverse">
         <div
           id="waveform"
-          className=" hidden  grow items-center justify-center rounded-xl "
+          className="hidden grow items-center justify-center rounded-xl"
         >
           <VoiceVisualizer
             controls={recorderControls}
@@ -173,13 +190,13 @@ const VoiceMessageRecorder = ({ toggleRecorder, setAudios, isRecorder }) => {
         />
       )}
 
-      <div className="flex gap-2 justify-between">
+      <div className="flex justify-between gap-2">
         <button
           className={cn(
             "flex size-8 items-center justify-center rounded-xl bg-white",
             {
               "animate-pulse": isRecordingInProgress && !isPausedRecording,
-            }
+            },
           )}
           onClick={toggleStartStop}
           aria-label={
@@ -199,7 +216,7 @@ const VoiceMessageRecorder = ({ toggleRecorder, setAudios, isRecorder }) => {
             className="flex size-8 items-center justify-center rounded-xl bg-white"
             aria-label="Delete recording"
           >
-            <Trash className="size-6 stroke-customGray" />
+            <Trash className="stroke-customGray size-6" />
           </button>
         )}
 

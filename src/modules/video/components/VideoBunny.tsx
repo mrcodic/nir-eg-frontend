@@ -45,6 +45,7 @@ export default function VideoBunny({
       <TamperResistantOverlay>
         <iframe
           ref={iframeRef}
+          id="bunny-iframe"
           className="relative h-[520px] w-full"
           src={embedUrl}
           loading="lazy"

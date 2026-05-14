@@ -121,8 +121,8 @@ const Community = ({ lessonId, locked, isYoutubeVideo }: CommunityProps) => {
 
       {comments?.data?.length > 0 ? (
         <div>
-          <div className="my-3 flex items-center justify-between">
-            <h2 className="text-[12px] font-bold">ملاحظات الطلاب</h2>
+          <div className="my-3 flex flex-wrap items-center justify-between gap-2">
+            <h2 className="text-xs font-bold">ملاحظات الطلاب</h2>
 
             {!isYoutubeVideo && (
               <FilterControls

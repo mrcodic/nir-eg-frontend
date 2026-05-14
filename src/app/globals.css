@@ -370,50 +370,6 @@
     scroll-behavior: smooth;
   }
 
-  .video-js {
-    background-color: #d9dadb !important;
-    position: relative !important;
-  }
-
-  .vjs-poster {
-    display: none;
-    background-image: none !important;
-    background-color: #d9dadb !important;
-  }
-  .video-js .vjs-control-bar {
-    display: flex !important;
-    background-color: transparent !important;
-  }
-  .vjs-big-play-button {
-    display: none !important;
-  }
-  .video-js .vjs-play-progress {
-    background-color: #2e77ae !important;
-  }
-  .vjs-play-progress .vjs-slider-bar {
-    background-color: #2e77ae !important;
-  }
-  .video-js .vjs-slider {
-    background-color: #41474b !important;
-    height: 3px !important;
-  }
-  .lesson-btn.active {
-    background-color: #2e77ae;
-    color: white;
-  }
-
-  .lesson-btn.active img {
-    filter: brightness(0) saturate(100%) invert(100%) sepia(10%) saturate(7388%)
-      hue-rotate(287deg) brightness(130%) contrast(97%) !important;
-  }
-
-  .fc-daygrid-day-frame.fc-scrollgrid-sync-inner {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    text-align: center !important;
-  }
-
   .scroll-target {
     scroll-margin-top: -500px !important;
   }
