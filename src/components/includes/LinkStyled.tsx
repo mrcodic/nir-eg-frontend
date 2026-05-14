@@ -47,7 +47,7 @@ function LinkStyled({ href, title }: { href: string; title: string }) {
 
       {/* underline — animate based on activeOrHover */}
       <motion.div
-        className="bg-secondary h-0.5 w-full origin-right"
+        className="bg-primary-800 h-0.5 w-full origin-right"
         initial={{ scaleX: 0 }}
         animate={{ scaleX: activeOrHover ? 0.5 : 0 }}
         transition={{ duration: 0.18 }}

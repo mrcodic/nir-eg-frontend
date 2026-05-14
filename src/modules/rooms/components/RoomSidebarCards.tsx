@@ -148,7 +148,9 @@ const AttachmentCard = memo(function AttachmentCard({
         alt="files fill"
       />
 
-      <h4 className="grow truncate text-sm font-bold">{attachment.name}</h4>
+      <h4 className="line-clamp-1 w-full grow text-sm font-bold break-all">
+        {attachment.name}
+      </h4>
 
       <LinkLocked
         locked={locked}

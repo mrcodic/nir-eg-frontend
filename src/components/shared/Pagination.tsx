@@ -25,7 +25,7 @@ const PaginationComponent = ({
       total={totalPages}
       onChange={setPage}
       className={cn(
-        "border-primary-50 mx-auto mt-5 flex w-fit flex-wrap items-center justify-center overflow-hidden rounded-xl border shadow-md [&>ul]:flex-wrap [&>ul]:gap-y-1 max-sm:[&>ul]:justify-center",
+        "mx-auto mt-5 flex w-fit flex-wrap items-center justify-center overflow-hidden [&>ul]:flex-wrap [&>ul]:gap-y-1 max-sm:[&>ul]:justify-center",
         className,
       )}
       page={currentPage}
@@ -40,7 +40,7 @@ const PaginationComponent = ({
             <PaginationItem
               {...item}
               key={item?.key}
-              className={`mx-1 flex size-8 cursor-pointer items-center justify-center text-sm sm:mx-2.5 sm:size-10 sm:text-base ${
+              className={`mx-1 flex size-8 cursor-pointer items-center justify-center rounded-lg text-sm sm:mx-2.5 sm:size-10 sm:text-base ${
                 hasNextPage
                   ? ""
                   : "pointer-events-none cursor-not-allowed opacity-50"
@@ -56,7 +56,7 @@ const PaginationComponent = ({
             <PaginationItem
               {...item}
               key={item?.key}
-              className={`mx-1 flex size-8 cursor-pointer items-center justify-center text-sm sm:mx-2.5 sm:size-10 sm:text-base ${
+              className={`mx-1 flex size-8 cursor-pointer items-center justify-center rounded-lg text-sm sm:mx-2.5 sm:size-10 sm:text-base ${
                 hasPrevPage
                   ? ""
                   : "pointer-events-none cursor-not-allowed opacity-50"
@@ -71,7 +71,7 @@ const PaginationComponent = ({
           <PaginationItem
             {...item}
             key={item?.key}
-            className={`mx-1 flex size-8 cursor-pointer items-center justify-center text-sm sm:mx-2.5 sm:size-10 sm:text-base ${
+            className={`mx-1 flex size-8 cursor-pointer items-center justify-center rounded-lg text-sm sm:mx-2.5 sm:size-10 sm:text-base ${
               item.isActive
                 ? "bg-primary-800 pointer-events-none font-semibold text-white"
                 : "bg-background"

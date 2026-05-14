@@ -78,7 +78,7 @@ const RoomLecturePage = () => {
       >
         <div className="wrapper mt-[110px]">
           <div className="flex flex-col-reverse gap-6 py-8 lg:flex-row">
-            <div className="flex w-full lg:w-[35%]">
+            <div className="flex w-full lg:w-[min(35%,400px)]">
               <RoomSideContent
                 data={lessonData?.body}
                 onLessonClick={handleLessonSelect}
@@ -132,7 +132,7 @@ const RoomLecturePage = () => {
                           alt="Locked"
                         />
                         {otpStatus?.message && (
-                          <p className="text-destructive text-lg">
+                          <p className="text-destructive text-center text-base sm:text-lg">
                             {otpStatus.message}
                           </p>
                         )}

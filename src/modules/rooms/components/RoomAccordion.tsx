@@ -50,7 +50,7 @@ const RoomAccordion = ({
         <AccordionItem
           isProfile={isProfile}
           value="item-1"
-          className="data-[state=open]:border-secondary hover:border-secondary transition-all"
+          className="data-[state=open]:border-primary-800 hover:border-primary-800 transition-all"
         >
           <AccordionTrigger className="bg-white">
             <div className="me-2 flex w-full gap-2 sm:me-4 sm:gap-4 md:gap-6">
