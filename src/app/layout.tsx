@@ -136,11 +136,12 @@ export default async function Layout({ children }) {
   };
 
   return (
-    <html lang="ar" style={cssVars}>
+    <html lang="ar" style={cssVars} dir="rtl">
       <body
         className={`${almarai.className} group/template flex flex-col antialiased`}
         suppressHydrationWarning
         data-template={tenantSettings.landing_template}
+        dir="rtl"
       >
         <script
           dangerouslySetInnerHTML={{

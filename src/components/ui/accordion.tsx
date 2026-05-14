@@ -27,6 +27,7 @@ const AccordionItem = React.forwardRef<
       `border-gray-light rounded-lg border p-2 py-4 data-[state=closed]:bg-white data-[state=open]:border data-[state=open]:bg-white`,
       className,
     )}
+    dir="rtl"
     {...props}
   />
 ));

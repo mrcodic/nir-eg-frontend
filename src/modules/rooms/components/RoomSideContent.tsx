@@ -129,6 +129,7 @@ const RoomSideContent = ({
                 "rounded-none border-transparent p-0 pb-2",
                 "border-b-gray-light!",
               )}
+              dir="rtl"
             >
               <AccordionTrigger className="text-gray-dark hover:text-gray-darker py-1 text-sm font-bold hover:no-underline">
                 <div className="flex items-center gap-2">
