@@ -6,10 +6,10 @@ import CourseCard from "@/modules/courses/components/CourseCard";
 import Empty from "@/components/shared/Empty";
 import PaginationComponent from "@/components/shared/Pagination";
 import RoomHeader from "@/modules/rooms/components/RoomHeader";
-import { Skeleton } from "@/components/ui/skeleton";
 import { CourseType } from "@/types";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import CourseSkeleton from "@/components/shared/CourseSkeleton";
 
 const SubbedCourses = () => {
   const [page, setPage] = useState(1);
@@ -26,7 +26,7 @@ const SubbedCourses = () => {
       <MappingComp
         queryKey="/students/courses/enrolled"
         render={(data: { data: CourseType[] }) => {
-          if (data?.data?.length === 0)
+          if (page === 1 && data?.data?.length === 0)
             return (
               <Empty text="لم تشترك في اي كورس">
                 <Link href="/bundles">
@@ -62,13 +62,7 @@ const SubbedCourses = () => {
             </div>
           );
         }}
-        customLoading={
-          <div className="cards-grid mt-6">
-            <Skeleton className="mx-auto h-[430px] w-full max-w-[500px] rounded-lg" />
-            <Skeleton className="mx-auto h-[430px] w-full max-w-[500px] rounded-lg" />
-            <Skeleton className="mx-auto h-[430px] w-full max-w-[500px] rounded-lg" />
-          </div>
-        }
+        customLoading={<CourseSkeleton />}
       />
     </div>
   );

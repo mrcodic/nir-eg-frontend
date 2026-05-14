@@ -1,33 +1,30 @@
 "use client";
 
-import { useAuthContext } from "@/context/auth-context";
+import { PaymentModel } from "@/components/modals/PaymentModel";
+import PaginationComponent from "@/components/shared/Pagination";
+import { Button } from "@/components/ui/button";
+import DataWithLabel from "@/components/ui/DataWithLabel";
+import PriceBubbles from "@/components/ui/price-bubble";
 import { useModal } from "@/context/ModalProvider";
-import { getClientPrivateData, getClientData } from "@/helpers/client-fetch";
-import { Bundle, Grade } from "@/types";
+import { getClientData, getClientPrivateData } from "@/helpers/client-fetch";
+import { cn } from "@/lib/utils";
+import RoomHeader from "@/modules/rooms/components/RoomHeader";
+import { Bundle, Grade, IUser } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "nextjs-toploader/app";
-import { PaymentModel } from "@/components/modals/PaymentModel";
-import RoomHeader from "@/modules/rooms/components/RoomHeader";
-import { Button } from "@/components/ui/button";
-import DataWithLabel from "@/components/ui/DataWithLabel";
-import PriceBubbles from "@/components/ui/price-bubble";
 import { useState } from "react";
-import PaginationComponent from "@/components/shared/Pagination";
-import { cn } from "@/lib/utils";
 
 const ITEMS_PER_PAGE = 4;
 
-const BundlesWrapper = () => {
+const BundlesWrapper = ({ profile }: { profile: IUser | null }) => {
   const modal = useModal();
 
   const searchParams = useSearchParams();
   const router = useRouter();
 
   const [page, setPage] = useState(1);
-
-  const { profile, isLoading } = useAuthContext();
 
   let api = "";
 
@@ -48,7 +45,7 @@ const BundlesWrapper = () => {
     queryKey: [api],
     queryFn: profile ? getClientPrivateData : getClientData,
     gcTime: 0,
-    enabled: !isLoading && profile?.type !== 5,
+    enabled: profile?.type !== 5,
   });
 
   const bundlesData = profile
@@ -72,7 +69,6 @@ const BundlesWrapper = () => {
       />
 
       <div
-        // className="mt-8 flex max-h-[600px] flex-col gap-6 overflow-y-auto"
         className={cn("mt-8 grid gap-6", {
           "xl:grid-cols-2 xl:gap-10": displayedBundles?.length > 1,
         })}

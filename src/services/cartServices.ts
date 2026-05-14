@@ -1,4 +1,4 @@
-import { CartItem } from "@/context/booksCartStore";
+import { CartItem } from "@/store/booksCartStore";
 import { Book } from "@/types/books.types";
 import { instanceClient } from "@/utils/instanceClient";
 

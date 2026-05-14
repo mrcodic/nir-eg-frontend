@@ -1,15 +1,15 @@
 "use client";
 
-import { useAuthContext } from "@/context/auth-context";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import CourseCard from "@/modules/courses/components/CourseCard";
+import CourseSkeleton from "@/components/shared/CourseSkeleton";
 import Empty from "@/components/shared/Empty";
 import MappingComp from "@/components/shared/MappingComp";
 import PaginationComponent from "@/components/shared/Pagination";
+import { useAuthContext } from "@/context/auth-context";
+import CourseCard from "@/modules/courses/components/CourseCard";
 import RoomHeader from "@/modules/rooms/components/RoomHeader";
-import { Skeleton } from "@/components/ui/skeleton";
 import { CourseType } from "@/types";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const NewCourses = () => {
   const [page, setPage] = useState(1);
@@ -52,8 +52,6 @@ const NewCourses = () => {
             const end = start + pageSize;
             const currentCourses = allCourses.slice(start, end);
 
-            console.log("NEW Courses : ", data);
-
             return (
               <div className="cards-grid min-h-[455px] rounded-lg">
                 {currentCourses.length > 0 ? (
@@ -83,16 +81,7 @@ const NewCourses = () => {
               </div>
             );
           }}
-          customLoading={
-            <div className="cards-grid mt-6">
-              {Array.from({ length: 4 }, (_, i) => (
-                <div key={i}>
-                  <Skeleton className="mx-auto h-[232px] w-full max-w-[500px] rounded-lg bg-gray-300" />
-                  <Skeleton className="mx-auto mt-4 h-[183px] w-full max-w-[500px] rounded-lg" />
-                </div>
-              ))}
-            </div>
-          }
+          customLoading={<CourseSkeleton />}
         />
       </div>
     </div>

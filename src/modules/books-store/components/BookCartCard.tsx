@@ -1,5 +1,5 @@
 import DataWithLabel from "@/components/ui/DataWithLabel";
-import { CartItem } from "@/context/booksCartStore";
+import { CartItem } from "@/store/booksCartStore";
 import { cn, formatCurrency } from "@/lib/utils";
 import { Trash } from "lucide-react";
 import Image from "next/image";
@@ -15,7 +15,7 @@ function BookCartCard({
 }) {
   return (
     <div className={cn("flex items-center gap-6 pt-6 pb-3", className)}>
-      <div className="relative size-24 aspect-square bg-background">
+      <div className="bg-background relative aspect-square size-24">
         <Image src={"/assets/book.svg"} alt="book" fill />
       </div>
 
@@ -23,13 +23,13 @@ function BookCartCard({
         <div className="flex flex-col gap-1">
           <RemoveFromCart
             id={item.id}
-            className="h-auto ms-auto w-fit p-0 text-red-500 bg-transparent hover:bg-transparent"
+            className="ms-auto h-auto w-fit bg-transparent p-0 text-red-500 hover:bg-transparent"
           >
             <Trash className="size-6" />{" "}
-            <span className="underline font-bold ">ازالة من السلة</span>
+            <span className="font-bold underline">ازالة من السلة</span>
           </RemoveFromCart>
 
-          <h3 className="border-b border-gray-light font-bold text-lg pb-2">
+          <h3 className="border-gray-light border-b pb-2 text-lg font-bold">
             {item?.name}
           </h3>
         </div>
@@ -41,7 +41,7 @@ function BookCartCard({
             data={formatCurrency(item.price)}
           />
 
-          <div className="flex flex-wrap items-end gap-2 justify-between">
+          <div className="flex flex-wrap items-end justify-between gap-2">
             <DataWithLabel
               className="flex-wrap"
               label="اجمالي السعر"
@@ -51,7 +51,7 @@ function BookCartCard({
 
             <BookQuantity
               book={item}
-              className="gap-4 ms-auto"
+              className="ms-auto gap-4"
               textClassName="text-[24px]"
               buttonClassName="size-10"
             />

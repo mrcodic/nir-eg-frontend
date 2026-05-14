@@ -1,40 +1,24 @@
-"use client";
-
 import BundlesWrapper from "@/modules/bundles/components/BundlesWrapper";
-import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import NewCourses from "@/modules/courses/components/NewCoursers";
-import { useAuthContext } from "@/context/auth-context";
-import { useMounted } from "@/hooks/useMounted";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { getServerData } from "@/helpers/server-fetch";
+import { ApiResponse, IUser } from "@/types";
+import { redirect } from "next/navigation";
 
-const BundlesPage = () => {
-  const router = useRouter();
-  const { profile, isLoading } = useAuthContext();
-  const isMounted = useMounted();
+const BundlesPage = async () => {
+  const profileData = await getServerData<ApiResponse<IUser | null>>({
+    queryKey: [`/students/profile`],
+  });
 
-  useEffect(() => {
-    if (!profile || profile?.type !== 3) return;
+  const profile = profileData?.body;
+  const isCenterUser = profile?.type === 3;
 
-    if (profile?.has_center == false) {
-      router.push("/profile");
-    } else {
-      router.push(`/bundles/${profile?.center_id}`);
-    }
-  }, [profile, router]);
-
-  if (!isMounted || isLoading || profile?.type === 3) {
-    return (
-      <div className="mt-[120px] mb-12 flex grow items-center justify-center">
-        <LoadingSpinner />
-      </div>
-    );
-  }
+  if (isCenterUser && !profile?.has_center) redirect("/profile");
+  if (isCenterUser && profile?.has_center)
+    redirect(`/bundles/${profile?.center_id}`);
 
   return (
     <div className="mt-[120px] mb-12 grow space-y-[50px] group-data-[template=landing-v3]/template:mt-[140px] md:space-y-[100px]">
-      <BundlesWrapper />
-      {/* {!!profile && <SubbedCourses />} */}
+      <BundlesWrapper profile={profile} />
       <NewCourses />
     </div>
   );

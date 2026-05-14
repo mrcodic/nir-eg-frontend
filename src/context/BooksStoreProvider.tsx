@@ -9,12 +9,12 @@ import {
   useRef,
 } from "react";
 import { useStore } from "zustand";
-import { type CartState, createCartStore } from "./booksCartStore";
+import { type CartState, createCartStore } from "../store/booksCartStore";
 
 export type CartStoreApi = ReturnType<typeof createCartStore>;
 
 export const CartStoreContext = createContext<CartStoreApi | undefined>(
-  undefined
+  undefined,
 );
 
 export interface CartStoreProviderProps {

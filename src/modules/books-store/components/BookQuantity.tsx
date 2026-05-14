@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { CartItem } from "@/context/booksCartStore";
+import { CartItem } from "@/store/booksCartStore";
 import { useCartStore } from "@/context/BooksStoreProvider";
 import { cn } from "@/lib/utils";
 import { debounce } from "lodash";
