@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useQueryState } from "nuqs";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import axios from "axios";
+import { useVideoPlayerStore } from "@/store/videoPlayerStore";
 
 type OtpData = {
   otp?: string;
@@ -26,6 +27,7 @@ type OtpData = {
 type OtpStatus = {
   error: boolean;
   loading: boolean;
+  message?: string;
 };
 
 const initOtpStatus: OtpStatus = {
@@ -106,6 +108,7 @@ function useLessonRoomLogic({
       setSelectedVideoType(type);
       setOtpData(null);
       setOtpStatus(initOtpStatus);
+      useVideoPlayerStore.getState().setCurrentTime(0);
     },
     [lessonId, setVideoId, setVideoUrl],
   );
@@ -147,20 +150,24 @@ function useLessonRoomLogic({
         const errorStatus = axios.isAxiosError(error) && error.response?.status;
 
         if (errorStatus === 403) {
-          setOtpData({ lockedByViewLimit: true });
-        } else if (errorStatus === 410) {
-          setOtpData({
-            lockedByViewLimit: true,
-            lockedMessage: error.response?.data.message,
-          });
-        } else if (errorStatus === 415) {
-          setOtpData({
-            lockedByViewLimit: true,
-            lockedMessage: error.response?.data.message,
-          });
+          if (error?.response?.data?.code === 410) {
+            setOtpStatus({
+              loading: false,
+              error: true,
+              message: "قمت باستهلاك السعة المحدده للفيديوهات",
+            });
+          } else if (error?.response?.data?.code === 415) {
+            setOtpStatus({
+              loading: false,
+              error: true,
+              message: "قمت باستهلاك السعة المحدده للتخزين",
+            });
+          } else {
+            setOtpData({ lockedByViewLimit: true });
+          }
         }
 
-        setOtpStatus({ loading: false, error: true });
+        setOtpStatus((prev) => ({ ...prev, loading: false, error: true }));
       }
     },
     [classroomId, roomId],

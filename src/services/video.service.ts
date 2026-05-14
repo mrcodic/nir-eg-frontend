@@ -50,6 +50,37 @@ export async function markLessonComplete({
   });
 }
 
+// ── VdoCipher SDK bootstrap ───────────────────────────────────────────────────
+
+export async function waitForVdoAPI(timeoutMs = 12_000): Promise<boolean> {
+  return new Promise((resolve) => {
+    if (typeof window !== "undefined" && window.VdoPlayer) {
+      return resolve(true);
+    }
+
+    let done = false;
+    window.onVdoPlayerV2APIReady = () => {
+      if (done) return;
+      done = true;
+      resolve(true);
+    };
+
+    const poll = setInterval(() => {
+      if (window.VdoPlayer && !done) {
+        clearInterval(poll);
+        done = true;
+        resolve(true);
+      }
+    }, 200);
+
+    setTimeout(() => {
+      if (done) return;
+      clearInterval(poll);
+      resolve(false);
+    }, timeoutMs);
+  });
+}
+
 // ── Watch threshold ───────────────────────────────────────────────────────────
 
 /** 15 minutes in seconds — shared threshold used by both player hooks */

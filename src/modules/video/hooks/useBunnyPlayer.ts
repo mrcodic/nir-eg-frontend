@@ -26,7 +26,6 @@ export function useBunnyPlayer({
   const playerRef = useRef<PlayerJsInstance | null>(null);
   const completedRef = useRef(false);
   const viewLoggedRef = useRef(false);
-  const lastMetricsSampleAtRef = useRef(0);
 
   const [isReady, setIsReady] = useState(false);
   const [duration, setDuration] = useState<number | null>(null);
@@ -36,7 +35,6 @@ export function useBunnyPlayer({
     completedRef.current = false;
     viewLoggedRef.current = false;
     playerRef.current = null;
-    lastMetricsSampleAtRef.current = 0;
     setIsReady(false);
     setDuration(null);
   }, [videoId]);
@@ -127,17 +125,17 @@ export function useBunnyPlayer({
       }
 
       // Throttled fallback every 5 s
-      const now = Date.now();
-      if (now - lastMetricsSampleAtRef.current > 5_000) {
-        lastMetricsSampleAtRef.current = now;
-        playerRef.current?.getCurrentTime((ct) => {
-          if (viewLoggedRef.current || cancelled) return;
-          if (ct >= WATCH_THRESHOLD_SECS) {
-            viewLoggedRef.current = true;
-            void logView(videoId, roomId, classroomId);
-          }
-        });
-      }
+      // const now = Date.now();
+      // if (now - lastMetricsSampleAtRef.current > 5_000) {
+      //   lastMetricsSampleAtRef.current = now;
+      //   playerRef.current?.getCurrentTime((ct) => {
+      //     if (viewLoggedRef.current || cancelled) return;
+      //     if (ct >= WATCH_THRESHOLD_SECS) {
+      //       viewLoggedRef.current = true;
+      //       void logView(videoId, roomId, classroomId);
+      //     }
+      //   });
+      // }
     };
 
     // ── Bootstrap ─────────────────────────────────────────────────────────

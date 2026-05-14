@@ -66,6 +66,9 @@ const RoomLecturePage = () => {
 
   console.log("selectedLesson", selectedLesson);
 
+  console.log("otpStatus", otpStatus);
+  console.log("otpData", otpData);
+
   return (
     <>
       <ProtectedRoute
@@ -114,50 +117,61 @@ const RoomLecturePage = () => {
                   />
                 )}
 
-                <Suspense
-                  fallback={
-                    <LoadingSpinner className="bg-primary-50 h-fit min-h-[520px]" />
-                  }
-                >
-                  {lockedToPass || !!lockedByViewLimit ? (
-                    <div className="flex h-[520px] w-full flex-1 items-center justify-center bg-gray-100">
-                      <Image
-                        src="/assets/Locked.png"
-                        width={150}
-                        height={150}
-                        alt="Locked"
+                <div className="border-primary-50 overflow-hidden rounded-lg border">
+                  <Suspense
+                    fallback={
+                      <LoadingSpinner className="h-fit min-h-[520px] bg-white" />
+                    }
+                  >
+                    {otpStatus.error ? (
+                      <div className="flex h-[520px] w-full flex-1 flex-col items-center justify-center gap-4 bg-gray-100">
+                        <Image
+                          src="/assets/Locked.png"
+                          width={150}
+                          height={150}
+                          alt="Locked"
+                        />
+                        {otpStatus?.message && (
+                          <p className="text-destructive text-lg">
+                            {otpStatus.message}
+                          </p>
+                        )}
+                      </div>
+                    ) : otpStatus?.loading ? (
+                      <LoadingSpinner className="h-fit min-h-[520px] bg-white" />
+                    ) : otpStatus?.error ? (
+                      <VideoError message={otpData?.lockedMessage} />
+                    ) : activeVideoType === "youtube" && videoUrl ? (
+                      <YoutubeVideoPlayer videoUrl={videoUrl} />
+                    ) : activeVideoType === "bunny" && videoId ? (
+                      <VideoBunny
+                        key={videoId}
+                        response={otpData}
+                        videoId={videoId}
+                        roomId={Number(room)}
+                        classroomId={Number(classroomId)}
+                        lessonId={
+                          lessonId || lessonData?.body?.lessons?.[0]?.id
+                        }
+                        videoCompleted={videoCompleted}
                       />
-                    </div>
-                  ) : otpStatus?.loading ? (
-                    <LoadingSpinner className="bg-primary-50 h-fit min-h-[520px]" />
-                  ) : otpStatus?.error ? (
-                    <VideoError message={otpData?.lockedMessage} />
-                  ) : activeVideoType === "youtube" && videoUrl ? (
-                    <YoutubeVideoPlayer videoUrl={videoUrl} />
-                  ) : activeVideoType === "bunny" && videoId ? (
-                    <VideoBunny
-                      key={videoId}
-                      response={otpData}
-                      videoId={videoId}
-                      roomId={Number(room)}
-                      classroomId={Number(classroomId)}
-                      lessonId={lessonId || lessonData?.body?.lessons?.[0]?.id}
-                      videoCompleted={videoCompleted}
-                    />
-                  ) : activeVideoType === "cipher" ? (
-                    <VideoCipher
-                      key={videoId}
-                      videoId={videoId}
-                      roomId={Number(room)}
-                      classroomId={Number(classroomId)}
-                      response={otpData}
-                      lessonId={lessonId || lessonData?.body?.lessons?.[0]?.id}
-                      videoCompleted={videoCompleted}
-                    />
-                  ) : (
-                    <VideoError message={"لا يوجد فيديو متاح"} />
-                  )}
-                </Suspense>
+                    ) : activeVideoType === "cipher" && videoId ? (
+                      <VideoCipher
+                        key={videoId}
+                        videoId={videoId}
+                        roomId={Number(room)}
+                        classroomId={Number(classroomId)}
+                        response={otpData}
+                        lessonId={
+                          lessonId || lessonData?.body?.lessons?.[0]?.id
+                        }
+                        videoCompleted={videoCompleted}
+                      />
+                    ) : (
+                      <VideoError message={"لا يوجد فيديو متاح"} />
+                    )}
+                  </Suspense>
+                </div>
               </div>
 
               <div className="border-gray-light mt-4 rounded-lg border p-2">
