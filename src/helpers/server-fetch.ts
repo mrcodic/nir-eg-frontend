@@ -67,7 +67,6 @@ export async function fetchServer<T>({
 
     return res.json() as Promise<T>;
   } catch (error) {
-    // console.log("ðŸ’¥ server-fetch error ", error);
     return handleServerFetchError({
       error,
       endpoint: endpoint as string,

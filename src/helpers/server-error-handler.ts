@@ -1,8 +1,8 @@
 // helpers/server-error-handler.ts
 import CustomError from "@/lib/customError";
-import { redirect } from "next/navigation";
 import "server-only";
 import { getAuthFailureStrategy } from "./auth-policy";
+import { safeRedirectServer } from "./safe-redirect-server";
 
 export async function handleServerFetchError({
   error,
@@ -30,13 +30,15 @@ export async function handleServerFetchError({
     }
 
     if (appError.code === "UNAUTHORIZED") {
-      redirect("/login");
+      safeRedirectServer("/login");
     }
-    redirect("/unauthorized");
+    safeRedirectServer("/unauthorized");
   }
 
   if (appError.code === "RATE_LIMITED") {
-    redirect("/ErrorPage?message=لقد تجاوزت الحد المسموح به من الطلبات");
+    safeRedirectServer(
+      "/ErrorPage?message=لقد تجاوزت الحد المسموح به من الطلبات",
+    );
   }
 
   throw appError;

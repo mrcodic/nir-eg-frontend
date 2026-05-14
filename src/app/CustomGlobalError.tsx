@@ -82,7 +82,7 @@ export default function CustomGlobalError({
 
             {/* Dev Debug */}
             {process.env.NODE_ENV === "development" && (
-              <pre className="bg-muted mt-6 max-w-full overflow-auto rounded-lg p-4 text-left text-xs">
+              <pre className="bg-muted mt-6 max-w-full overflow-auto rounded-lg p-4 text-left text-xs break-all whitespace-break-spaces">
                 [{code}] {error.message}
               </pre>
             )}

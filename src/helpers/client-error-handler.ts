@@ -2,7 +2,18 @@
 
 import Cookies from "js-cookie";
 import { getAuthFailureStrategy } from "./auth-policy";
-import { safeRedirect } from "./fetch-utils";
+
+function safeRedirect(path: string) {
+  if (typeof window === "undefined") return;
+
+  const current = window.location.pathname;
+
+  const cleanedPath = path.split("?")?.[0] ?? path;
+
+  if (current === cleanedPath) return;
+
+  window.location.href = path;
+}
 
 export function handleClientFetchError(error: any, endpoint: unknown): null {
   if (typeof endpoint !== "string") return null;

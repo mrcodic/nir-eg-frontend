@@ -36,16 +36,23 @@ export function middleware(request: NextRequest) {
     const loginUrl = request.nextUrl.clone();
     loginUrl.pathname = "/login";
     loginUrl.searchParams.set("redirect", pathname);
-    return NextResponse.redirect(loginUrl);
+    const res = NextResponse.redirect(loginUrl);
+    res.headers.set("x-pathname", pathname);
+    return res;
   }
 
   if (isAuthRoute && token) {
     const homeUrl = request.nextUrl.clone();
     homeUrl.pathname = "/";
+    const res = NextResponse.redirect(homeUrl);
+    res.headers.set("x-pathname", pathname);
     return NextResponse.redirect(homeUrl);
   }
 
-  return NextResponse.next();
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-pathname", request.nextUrl.pathname);
+
+  return NextResponse.next({ request: { headers: requestHeaders } });
 }
 
 export const config = {
