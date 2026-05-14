@@ -7,6 +7,7 @@ import { CourseType } from "@/types";
 import { DialogClose } from "@radix-ui/react-dialog";
 import React from "react";
 import { PaymentUI } from "../../modules/payment/components/PaymentUI";
+import { Loader2 } from "lucide-react";
 
 interface PaymentModalProps {
   courseId?: string;
@@ -39,6 +40,7 @@ export const PaymentModel: React.FC<PaymentModalProps> = ({
     bundleId,
     roomId,
     asModal: true,
+    isFree: Number(price) === 0,
   });
 
   return (
@@ -60,7 +62,11 @@ export const PaymentModel: React.FC<PaymentModalProps> = ({
       <DialogFooter className="mt-5 flex w-full flex-row! justify-center gap-5 max-sm:flex-wrap sm:justify-center sm:space-x-0">
         {paymentTypes.length > 0 && (
           <Button className="w-full" onClick={handleNextClick}>
-            التالي
+            {loading ? (
+              <Loader2 className="animate-spin" />
+            ) : (
+              <span>تأكيد</span>
+            )}
           </Button>
         )}
 

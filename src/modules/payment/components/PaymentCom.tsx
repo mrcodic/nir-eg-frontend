@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { usePayment } from "@/hooks/usePayment";
 import { CourseType } from "@/types";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, Loader2 } from "lucide-react";
 import { PaymentUI } from "./PaymentUI";
 
 // interface PaymentComProps {
@@ -36,7 +36,13 @@ const PaymentCom = ({
     coupon,
     setCoupon,
     isLoadingMethods,
-  } = usePayment({ courseId, bundleId, isCodeCenter, asModal: false });
+  } = usePayment({
+    courseId,
+    bundleId,
+    isCodeCenter,
+    asModal: false,
+    isFree: Number(price) === 0,
+  });
 
   return (
     <div
@@ -65,8 +71,14 @@ const PaymentCom = ({
             onClick={handleNextClick}
             className="h-11 w-32 items-center [&>svg]:size-6"
           >
-            التالي
-            <ChevronLeft />
+            {loading ? (
+              <Loader2 className="animate-spin" />
+            ) : (
+              <>
+                <span className="text-base">تأكيد</span>
+                <ChevronLeft className="size-5!" />
+              </>
+            )}
           </Button>
         </div>
       )}

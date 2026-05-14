@@ -30,7 +30,7 @@ type OtpStatus = {
 
 const initOtpStatus: OtpStatus = {
   error: false,
-  loading: false,
+  loading: true,
 };
 
 function useLessonRoomLogic({
@@ -43,7 +43,6 @@ function useLessonRoomLogic({
   // ✅ FIX #2 — Explicit types instead of inferring `null` forever
   const [otpData, setOtpData] = useState<OtpData | null>(null);
   const [otpStatus, setOtpStatus] = useState<OtpStatus>(initOtpStatus);
-  const [currentTime, setCurrentTime] = useState<number>(0);
   const [selectedVideoType, setSelectedVideoType] =
     useState<LessonVideoType | null>(null);
   const [lessonId, setLessonId] = useState<number | null>(null); // ✅ FIX #2
@@ -106,7 +105,6 @@ function useLessonRoomLogic({
       setLessonId(lessId);
       setSelectedVideoType(type);
       setOtpData(null);
-      setCurrentTime(0);
       setOtpStatus(initOtpStatus);
     },
     [lessonId, setVideoId, setVideoUrl],
@@ -218,9 +216,7 @@ function useLessonRoomLogic({
   return {
     otpData,
     otpStatus,
-    currentTime,
     lessonId,
-    setCurrentTime,
     videoCompleted,
     selectedLesson,
     handleLessonSelect,

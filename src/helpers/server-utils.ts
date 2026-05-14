@@ -3,7 +3,7 @@ import { headers } from "next/headers";
 const NIR_ROOT_DOMAIN =
   process.env.NODE_ENV === "production"
     ? (process.env.NEXT_PUBLIC_ROOT_DOMAIN ?? "nir-edu.com")
-    : (process.env.NEXT_PUBLIC_DEV_ROOT_DOMAIN ?? "localhost");
+    : "localhost";
 // Use the main admin domain — resolve-tenant is a public central endpoint
 const RESOLVE_TENANT_API =
   "https://admin.nir-edu.com/api/v1/central/resolve-tenant";
@@ -15,7 +15,10 @@ export async function extractTenantFromHostServer() {
   // Standard nir-edu.com subdomain — extract slug directly, no API call needed
   if (cleanHost.endsWith(NIR_ROOT_DOMAIN)) {
     const [subdomain] = cleanHost.split(".");
-    return { subdomain, host: cleanHost };
+    return {
+      subdomain,
+      host: cleanHost.endsWith("localhost") ? host : cleanHost,
+    };
   }
 
   // Custom domain — resolve slug via central API

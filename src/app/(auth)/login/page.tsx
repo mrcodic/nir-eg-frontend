@@ -86,14 +86,17 @@ const AuthPage = () => {
 
       if (err.status == 409) {
         localStorage.setItem("phone", v.phone);
+        toast({
+          icon: "error",
+          description: "رقم الهاتف غير مفعل",
+        });
         setVerify(true);
       } else {
         toast({
-          status: err.status,
           description:
-            err?.response?.error?.message ||
-            err?.response?.data?.message ||
-            "حدث خطأ",
+            err?.status !== 500
+              ? err?.response?.error?.message || err?.response?.data?.message
+              : "حدث خطأ ما اثناء تسجيل الدخول",
           icon: "error",
         });
       }

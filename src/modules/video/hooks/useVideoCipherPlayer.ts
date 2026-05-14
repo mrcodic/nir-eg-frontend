@@ -1,6 +1,14 @@
-import { mutateClient } from "@/helpers/post-client";
+import {
+  logView,
+  markLessonComplete,
+  waitForVdoAPI,
+  WATCH_THRESHOLD_SECS,
+} from "@/services/video.service";
+import { useVideoPlayerStore } from "@/store/videoPlayerStore";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
+
+// ── VdoCipher types ───────────────────────────────────────────────────────────
 
 type VdoStatusChange =
   | string
@@ -14,52 +22,12 @@ type VdoInstance = {
       cb: (e: VdoStatusChange) => void,
     ) => () => void | void;
     removeEventListener?: (evt: string, cb: (e: any) => void) => void;
-
     getTotalPlayed: () => Promise<number>;
     getTotalCovered: () => Promise<number>;
   };
 };
 
-async function waitForVdoAPI(timeoutMs = 12_000): Promise<boolean> {
-  return new Promise((resolve) => {
-    if (typeof window !== "undefined" && window.VdoPlayer) {
-      return resolve(true);
-    }
-
-    let done = false;
-    window.onVdoPlayerV2APIReady = () => {
-      if (done) return;
-      done = true;
-      resolve(true);
-    };
-
-    const poll = setInterval(() => {
-      if (window.VdoPlayer && !done) {
-        clearInterval(poll);
-        done = true;
-        resolve(true);
-      }
-    }, 200);
-
-    setTimeout(() => {
-      if (done) return;
-      clearInterval(poll);
-      resolve(false);
-    }, timeoutMs);
-  });
-}
-
-async function logView(
-  videoId: string,
-  roomId: string | number,
-  classroomId: string | number,
-) {
-  try {
-    await mutateClient("/video/confirm-view", {
-      body: { video_id: videoId, room_id: roomId, classroom_id: classroomId },
-    });
-  } catch {}
-}
+// ── Hook ─────────────────────────────────────────────────────────────────────
 
 export function useVideoCipherPlayer({
   response,
@@ -67,7 +35,6 @@ export function useVideoCipherPlayer({
   roomId,
   classroomId,
   lessonId,
-  setCurrentTime,
   videoCompleted,
 }: {
   response: { otp?: string; playbackInfo?: string } | null;
@@ -75,28 +42,28 @@ export function useVideoCipherPlayer({
   roomId: string | number;
   classroomId: string | number;
   lessonId: string | number;
-  setCurrentTime: (t: number) => void;
   videoCompleted: boolean;
 }) {
   const queryClient = useQueryClient();
 
-  const completedRef = useRef(false);
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const playerRef = useRef<VdoInstance | null>(null);
-
-  const [duration, setDuration] = useState<number | null>(null);
-
+  const completedRef = useRef(false);
   const viewLoggedRef = useRef(false);
   const lastMetricsSampleAtRef = useRef(0);
 
-  // Reset when switching videos
+  const [duration, setDuration] = useState<number | null>(null);
+
+  // ── Reset when the video changes ─────────────────────────────────────────
   useEffect(() => {
     viewLoggedRef.current = false;
     completedRef.current = false;
     playerRef.current = null;
+    lastMetricsSampleAtRef.current = 0;
     setDuration(null);
   }, [videoId]);
 
+  // ── Main player setup ─────────────────────────────────────────────────────
   useEffect(() => {
     let cancelled = false;
     const cleanups: Array<() => void> = [];
@@ -108,7 +75,7 @@ export function useVideoCipherPlayer({
       const ok = await waitForVdoAPI();
       if (!ok || cancelled) return;
 
-      // try to obtain instance (retry while iframe boots)
+      // Retry while the iframe boots
       let inst: VdoInstance | null =
         window.VdoPlayer?.getInstance(iframeRef.current) ?? null;
       for (let i = 0; !inst && i < 40 && !cancelled; i++) {
@@ -118,8 +85,13 @@ export function useVideoCipherPlayer({
       if (!inst || cancelled) return;
 
       playerRef.current = inst;
-
       const v = inst.video;
+
+      // Register pause with the global store so any component can pause
+      useVideoPlayerStore.getState().registerPause(() => v.pause());
+      cleanups.push(() => useVideoPlayerStore.getState().unregisterPause());
+
+      // ── Event handlers ──────────────────────────────────────────────
 
       const onLoadedMeta = () => setDuration(v.duration || 0);
 
@@ -127,8 +99,9 @@ export function useVideoCipherPlayer({
         const ct = v?.currentTime ?? 0;
         const dur = v?.duration ?? 0;
 
-        setCurrentTime(Math.floor(ct));
+        useVideoPlayerStore.getState().setCurrentTime(Math.floor(ct));
 
+        // 90% completion → mark lesson complete
         if (
           !videoCompleted &&
           !completedRef.current &&
@@ -137,29 +110,24 @@ export function useVideoCipherPlayer({
         ) {
           completedRef.current = true;
           try {
-            await mutateClient(`/students/lesson/store_completed`, {
-              body: {
-                room_id: roomId,
-                lesson_id: lessonId,
-                classroom_id: classroomId,
-              },
+            await markLessonComplete({
+              queryClient,
+              roomId,
+              lessonId,
+              classroomId,
             });
-
-            queryClient.invalidateQueries({
-              queryKey: [
-                `/students/get-lessons/${roomId}?classroom_id=${classroomId}`,
-              ],
-            });
-          } catch (err) {
+          } catch {
             // swallow – preserve UX
           }
         }
 
-        maybeMarkWatched(inst, v);
+        void maybeMarkWatched(inst!, v);
       };
 
       const onSeeking = () => {
-        setCurrentTime(v?.currentTime ? Math.floor(v.currentTime) : 0);
+        useVideoPlayerStore
+          .getState()
+          .setCurrentTime(v?.currentTime ? Math.floor(v.currentTime) : 0);
       };
 
       const onEnded = () => {
@@ -169,12 +137,15 @@ export function useVideoCipherPlayer({
         }
       };
 
-      inst.video.addEventListener("ended", onEnded);
+      const onPlay = () => useVideoPlayerStore.getState().setIsPlaying(true);
+      const onPause = () => useVideoPlayerStore.getState().setIsPlaying(false);
 
       v.addEventListener("loadedmetadata", onLoadedMeta);
       v.addEventListener("timeupdate", onTimeUpdate);
       v.addEventListener("seeking", onSeeking);
       v.addEventListener("ended", onEnded);
+      v.addEventListener("play", onPlay);
+      v.addEventListener("pause", onPause);
 
       cleanups.push(() =>
         v.removeEventListener("loadedmetadata", onLoadedMeta),
@@ -182,8 +153,12 @@ export function useVideoCipherPlayer({
       cleanups.push(() => v.removeEventListener("timeupdate", onTimeUpdate));
       cleanups.push(() => v.removeEventListener("seeking", onSeeking));
       cleanups.push(() => v.removeEventListener("ended", onEnded));
+      cleanups.push(() => v.removeEventListener("play", onPlay));
+      cleanups.push(() => v.removeEventListener("pause", onPause));
 
-      const statusHandler = (evt: any) => {
+      // VdoCipher-specific: also listen to the API-level statusChange event
+      // as a safety net for the "ended" case
+      const statusHandler = (evt: VdoStatusChange) => {
         const label =
           typeof evt === "string" ? evt : evt?.label || evt?.status || "";
         if (
@@ -199,10 +174,11 @@ export function useVideoCipherPlayer({
         "statusChange",
         statusHandler,
       );
-      if (typeof maybeUnsub === "function") cleanups.push(maybeUnsub);
-      else if (inst.api.removeEventListener) {
+      if (typeof maybeUnsub === "function") {
+        cleanups.push(maybeUnsub);
+      } else if (inst.api.removeEventListener) {
         cleanups.push(() =>
-          inst.api.removeEventListener?.("statusChange", statusHandler),
+          inst!.api.removeEventListener?.("statusChange", statusHandler),
         );
       }
     })();
@@ -211,8 +187,13 @@ export function useVideoCipherPlayer({
       cancelled = true;
       cleanups.forEach((fn) => fn());
     };
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [response?.otp, videoId, roomId, classroomId, lessonId, videoCompleted]);
+
+  // ── Watch-threshold logic ─────────────────────────────────────────────────
+  // VdoCipher exposes getTotalPlayed / getTotalCovered for more accurate
+  // tracking than raw currentTime, so it gets its own implementation.
 
   const maybeMarkWatched = async (inst: VdoInstance, v: HTMLVideoElement) => {
     if (viewLoggedRef.current) return;
@@ -222,41 +203,39 @@ export function useVideoCipherPlayer({
 
     if (!dur || Number.isNaN(dur)) return;
 
-    if (dur <= 900 && ct >= Math.max(dur - 10, 0)) {
+    if (dur <= WATCH_THRESHOLD_SECS) {
+      if (ct >= Math.max(dur - 10, 0)) {
+        viewLoggedRef.current = true;
+        await logView(videoId, roomId, classroomId);
+      }
+      return;
+    }
+
+    // Long video: currentTime check first (fast path)
+    if (ct >= WATCH_THRESHOLD_SECS) {
       viewLoggedRef.current = true;
       await logView(videoId, roomId, classroomId);
       return;
     }
 
-    if (dur > 900) {
-      if (ct >= 900) {
-        viewLoggedRef.current = true;
-        await logView(videoId, roomId, classroomId);
-        return;
-      }
-
-      const now = Date.now();
-      if (now - lastMetricsSampleAtRef.current > 5000) {
-        lastMetricsSampleAtRef.current = now;
-        try {
-          const [played, covered] = await Promise.all([
-            inst.api.getTotalPlayed(),
-            inst.api.getTotalCovered(),
-          ]);
-          if (played >= 900 || covered >= 900) {
-            viewLoggedRef.current = true;
-            await logView(videoId, roomId, classroomId);
-            return;
-          }
-        } catch {}
+    // Throttled precise check via VdoCipher API every 5 s
+    const now = Date.now();
+    if (now - lastMetricsSampleAtRef.current > 5_000) {
+      lastMetricsSampleAtRef.current = now;
+      try {
+        const [played, covered] = await Promise.all([
+          inst.api.getTotalPlayed(),
+          inst.api.getTotalCovered(),
+        ]);
+        if (played >= WATCH_THRESHOLD_SECS || covered >= WATCH_THRESHOLD_SECS) {
+          viewLoggedRef.current = true;
+          await logView(videoId, roomId, classroomId);
+        }
+      } catch {
+        // swallow
       }
     }
   };
 
-  return {
-    iframeRef,
-    playerRef,
-
-    duration,
-  } as const;
+  return { iframeRef, playerRef, duration } as const;
 }

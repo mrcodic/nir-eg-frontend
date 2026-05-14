@@ -14,7 +14,7 @@ interface UsePaymentProps {
   roomId?: string | number;
   isCodeCenter?: boolean;
   asModal?: boolean;
-  setOpen?: (open: boolean) => void;
+  isFree?: boolean;
 }
 
 export const usePayment = ({
@@ -23,6 +23,7 @@ export const usePayment = ({
   roomId,
   isCodeCenter,
   asModal = false,
+  isFree = false,
 }: UsePaymentProps) => {
   const router = useRouter();
   const { toast } = useToast();
@@ -60,19 +61,20 @@ export const usePayment = ({
     };
   }, []);
 
-    const handleNextClick = useCallback(async () => {
-      if (loading) return; // prevent double-click
-    
-      if (
-        paymentMethodValue === paymentType.visa ||
-        paymentMethodValue === paymentType.wallet ||
-        paymentMethodValue === paymentType.fawerypay
-      ) {
-        setLoading(true);
+  const handleNextClick = useCallback(async () => {
+    if (loading && !isFree) return; // prevent double-click
+
+    if (
+      isFree ||
+      paymentMethodValue === paymentType.visa ||
+      paymentMethodValue === paymentType.wallet ||
+      paymentMethodValue === paymentType.fawerypay
+    ) {
+      setLoading(true);
 
       try {
         const endpoint =
-          paymentMethodValue === paymentType.fawerypay
+          isFree || paymentMethodValue === paymentType.fawerypay
             ? "/payments/fawry/checkout"
             : "/payment";
 
@@ -80,7 +82,7 @@ export const usePayment = ({
           body: {
             model_id: courseId || bundleId,
             model_type: courseId ? "course" : "bundle",
-            payment_method: paymentMethodValue,
+            payment_method: isFree ? paymentType.fawerypay : paymentMethodValue,
             success_url: redirectUrl({ bundleId, courseId })[0],
             failure_url: redirectUrl({ bundleId, courseId })[1],
             coupon: coupon?.promo?.code || null,
@@ -122,6 +124,7 @@ export const usePayment = ({
       }, 1000);
     }
   }, [
+    loading,
     paymentMethodValue,
     asModal,
     courseId,

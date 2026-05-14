@@ -41,8 +41,6 @@ const RoomLecturePage = () => {
     videoCompleted,
     selectedLesson,
     otpData,
-    setCurrentTime,
-    currentTime,
     videoId,
     videoUrl,
     otpStatus,
@@ -116,7 +114,11 @@ const RoomLecturePage = () => {
                   />
                 )}
 
-                <Suspense fallback={<div className="h-[520px] w-full" />}>
+                <Suspense
+                  fallback={
+                    <LoadingSpinner className="bg-primary-50 h-fit min-h-[520px]" />
+                  }
+                >
                   {lockedToPass || !!lockedByViewLimit ? (
                     <div className="flex h-[520px] w-full flex-1 items-center justify-center bg-gray-100">
                       <Image
@@ -138,7 +140,6 @@ const RoomLecturePage = () => {
                       response={otpData}
                       videoId={videoId}
                       roomId={Number(room)}
-                      setCurrentTime={setCurrentTime}
                       classroomId={Number(classroomId)}
                       lessonId={lessonId || lessonData?.body?.lessons?.[0]?.id}
                       videoCompleted={videoCompleted}
@@ -148,7 +149,6 @@ const RoomLecturePage = () => {
                       key={videoId}
                       videoId={videoId}
                       roomId={Number(room)}
-                      setCurrentTime={setCurrentTime}
                       classroomId={Number(classroomId)}
                       response={otpData}
                       lessonId={lessonId || lessonData?.body?.lessons?.[0]?.id}
@@ -176,7 +176,6 @@ const RoomLecturePage = () => {
                   !!selectedLesson?.access_comment && (
                     <Community
                       key={lessonId}
-                      currentTime={currentTime}
                       locked={lockedToPass || !!lockedByViewLimit}
                       lessonId={lessonId || lessonData?.body?.lessons?.[0]?.id}
                       isYoutubeVideo={activeVideoType === "youtube"}

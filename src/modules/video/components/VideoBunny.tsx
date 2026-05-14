@@ -12,7 +12,6 @@ interface VideoBunnyProps {
     expires?: string | number;
   } | null;
   videoId: string;
-  setCurrentTime(time: number): void;
   roomId: string | number;
   classroomId: string | number;
   lessonId: string | number;
@@ -25,7 +24,6 @@ export default function VideoBunny({
   roomId,
   classroomId,
   lessonId,
-  setCurrentTime,
   videoCompleted,
 }: VideoBunnyProps) {
   const embedUrl = response?.embed_url;
@@ -35,7 +33,6 @@ export default function VideoBunny({
     roomId,
     classroomId,
     lessonId,
-    setCurrentTime,
     videoCompleted,
   });
 

@@ -10,6 +10,7 @@ import React from "react";
 import PaymentCoupon from "./PaymentCoupon";
 import PriceBadge from "./PriceBadge";
 import { Skeleton } from "@/components/ui/skeleton";
+import CustomImage from "@/components/ui/CustomImage";
 
 interface PaymentUIProps {
   paymentMethodValue: paymentType | null;
@@ -45,16 +46,19 @@ export const PaymentUI: React.FC<PaymentUIProps> = ({
   const isOnline = profile?.type === 4;
 
   const hasPaymentMethods = paymentTypes.length > 0;
+  const isFree = Number(price) === 0;
 
   return (
     <>
       {loading && (
-        <div className="absolute top-0 left-0 z-50 h-full min-h-[250px] w-full bg-black/40">
+        <div className="absolute top-0 left-0 z-50 h-full w-full bg-black/40">
           <LoadingSpinner />
         </div>
       )}
 
-      <h4 className="mb-4 text-[18px] font-bold">اختر طريقة الدفع</h4>
+      <h4 className="mb-4 text-[18px] font-bold">
+        {isFree ? "" : "اختر طريقة الدفع"}
+      </h4>
 
       <div className="mb-6 space-y-2 empty:hidden">
         {isModal && !!price && (
@@ -85,20 +89,22 @@ export const PaymentUI: React.FC<PaymentUIProps> = ({
         )}
       </div>
 
-      {hasPaymentMethods && paymentMethodValue === paymentType.fawerypay && (
-        <span className="mb-2 block text-sm leading-6 font-bold text-red-600">
-          <Image
-            src={"/assets/warning-fill.svg"}
-            width={24}
-            height={24}
-            alt="warinng"
-            className="ml-2 inline-block"
-          />
-          بعد ما تضغط &quot;التالي&quot; ، هيتعرضلك كود الدفع. خده وادفعه في
-          أقرب فرع فورى أو تطبيق فورى احتفظ بالايصال وفي خلال 30 دقيقة الباقه
-          هتتفتح, مع العلم ان صلاحية الكود 7 ايام.
-        </span>
-      )}
+      {!isFree &&
+        hasPaymentMethods &&
+        paymentMethodValue === paymentType.fawerypay && (
+          <span className="mb-2 block text-sm leading-6 font-bold text-red-600">
+            <Image
+              src={"/assets/warning-fill.svg"}
+              width={24}
+              height={24}
+              alt="warinng"
+              className="ml-2 inline-block"
+            />
+            بعد ما تضغط &quot;التالي&quot; ، هيتعرضلك كود الدفع. خده وادفعه في
+            أقرب فرع فورى أو تطبيق فورى احتفظ بالايصال وفي خلال 30 دقيقة الباقه
+            هتتفتح, مع العلم ان صلاحية الكود 7 ايام.
+          </span>
+        )}
 
       {isLoadingMethods ? (
         // <LoadingSpinner className="h-auto min-h-[200px]" />
@@ -110,6 +116,22 @@ export const PaymentUI: React.FC<PaymentUIProps> = ({
               <Skeleton className="bg-background h-12.5 rounded-xl" />
             </>
           )}
+        </div>
+      ) : isFree ? (
+        <div className="flex flex-col items-center gap-2">
+          <CustomImage
+            className="size-16"
+            src={"/assets/gifs/percentage.gif"}
+            fallback="/assets/gifs/percentage.gif"
+            width={64}
+            height={64}
+            alt="percentage"
+            fetchPriority="high"
+            priority
+          />
+          <span className="mb-2 text-xl font-bold text-green-600">
+            يمكنك الاشتراك فى الباقه مجانا
+          </span>
         </div>
       ) : hasPaymentMethods ? (
         <RadioGroup

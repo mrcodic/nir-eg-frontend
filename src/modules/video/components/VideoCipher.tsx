@@ -8,7 +8,6 @@ import VideoError from "./VideoError";
 interface VideoCipherProps {
   response: { otp?: string; playbackInfo?: string } | null;
   videoId: string;
-  setCurrentTime(time: number): void;
   roomId: string | number;
   classroomId: string | number;
   lessonId: string | number;
@@ -18,7 +17,6 @@ interface VideoCipherProps {
 export default function VideoCipher({
   response,
   videoId,
-  setCurrentTime,
   roomId,
   classroomId,
   lessonId,
@@ -30,7 +28,6 @@ export default function VideoCipher({
     roomId,
     classroomId,
     lessonId,
-    setCurrentTime,
     videoCompleted,
   });
 

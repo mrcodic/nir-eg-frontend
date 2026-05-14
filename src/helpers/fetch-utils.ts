@@ -6,7 +6,7 @@ let _cachedTenantSlug: string | null = null;
 const NIR_ROOT_DOMAIN =
   process.env.NODE_ENV === "production"
     ? (process.env.NEXT_PUBLIC_ROOT_DOMAIN ?? "nir-edu.com")
-    : (process.env.NEXT_PUBLIC_DEV_ROOT_DOMAIN ?? "localhost");
+    : "localhost";
 
 export function extractTenantFromHost() {
   if (typeof window === "undefined") return { subdomain: "", host: "" };
@@ -16,7 +16,10 @@ export function extractTenantFromHost() {
   // Standard nir-edu.com subdomain — extract directly
   if (cleanHost.endsWith(NIR_ROOT_DOMAIN)) {
     const [subdomain] = cleanHost.split(".");
-    return { subdomain, host: cleanHost };
+    return {
+      subdomain,
+      host: cleanHost.endsWith("localhost") ? host : cleanHost,
+    };
   }
 
   // Custom domain — use server-injected slug
@@ -63,16 +66,4 @@ export async function parseError(res: Response): Promise<never> {
   }
 
   throw new CustomError(message, res.status);
-}
-
-export function safeRedirect(path: string) {
-  if (typeof window === "undefined") return;
-
-  const current = window.location.pathname;
-
-  const cleanedPath = path.split("?")?.[0] ?? path;
-
-  if (current === cleanedPath) return;
-
-  window.location.href = path;
 }

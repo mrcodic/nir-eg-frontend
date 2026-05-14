@@ -18,26 +18,23 @@ import { useMediaQuery } from "@/hooks/useMediaQuery";
 import FilterControls from "./FilterControls";
 import MessageInput from "./MessageInput";
 import UserMessage from "./UserMessage";
+import { useVideoPlayerStore } from "@/store/videoPlayerStore";
 
 const TIME_MARGIN = 300;
 const ITEMS_PER_PAGE = 10;
 
 type CommunityProps = {
   lessonId: string | number;
-  currentTime: number;
   locked: boolean;
   isYoutubeVideo: boolean;
 };
 
-const Community = ({
-  lessonId,
-  currentTime,
-  locked,
-  isYoutubeVideo,
-}: CommunityProps) => {
+const Community = ({ lessonId, locked, isYoutubeVideo }: CommunityProps) => {
   const [filterMode, setFilterMode] = useState<"all" | "current">("current");
   const [currentPage, setCurrentPage] = useState(1);
   const [isMobile] = useMediaQuery("(max-width: 1024px)");
+
+  const { currentTime } = useVideoPlayerStore();
 
   const { data: comments } = useQuery({
     queryKey: [`comments`, lessonId],

@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { memo, useState } from "react";
 
 function TopBanner({
   render,
@@ -17,14 +17,16 @@ function TopBanner({
   iconClassName?: string;
 }) {
   const [hideBanner, setHideBanner] = useState(false);
+
   if (hideBanner) {
     return null;
   }
+
   return (
     <div
       className={cn(
-        "bg-white border relative border-secondary text-black p-2 mb-4 rounded-lg flex items-center gap-2 ",
-        className
+        "border-secondary relative mb-4 flex items-center gap-2 rounded-lg border bg-white p-2 text-black",
+        className,
       )}
     >
       {showClose && (
@@ -32,7 +34,7 @@ function TopBanner({
           onClick={() => setHideBanner(true)}
           className="absolute top-1 left-1 cursor-pointer"
         >
-          <X className="stroke-yellow-700 size-4" />
+          <X className="size-4 stroke-yellow-700" />
         </button>
       )}
 
@@ -55,4 +57,4 @@ function TopBanner({
   );
 }
 
-export default TopBanner;
+export default memo(TopBanner);
