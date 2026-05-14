@@ -61,6 +61,7 @@ export async function fetchServer<T>({
             : res.status === 429
               ? "RATE_LIMITED"
               : "UNEXPECTED";
+      console.log("server-fetch error ", message);
       throw new CustomError(message, res.status, code);
     }
 

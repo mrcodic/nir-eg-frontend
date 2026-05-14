@@ -31,8 +31,6 @@ type RoomSideContentProps = {
   ) => void;
   locked: boolean;
   isLoading: boolean;
-  videoId?: string;
-  videoUrl?: string;
   className?: string;
   activeLessonId?: number;
 };
@@ -41,8 +39,6 @@ const RoomSideContent = ({
   data,
   onLessonClick,
   locked,
-  videoId,
-  videoUrl,
   className,
   isLoading,
   activeLessonId,

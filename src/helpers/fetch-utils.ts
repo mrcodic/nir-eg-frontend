@@ -70,7 +70,9 @@ export function safeRedirect(path: string) {
 
   const current = window.location.pathname;
 
-  if (current === path) return;
+  const cleanedPath = path.split("?")?.[0] ?? path;
+
+  if (current === cleanedPath) return;
 
   window.location.href = path;
 }

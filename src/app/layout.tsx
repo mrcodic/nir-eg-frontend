@@ -1,3 +1,5 @@
+import "./globals.css";
+
 import NavTopbar from "@/components/custom/NavTopbar";
 import Footer from "@/components/includes/Footer";
 import NavbarWrapper from "@/components/includes/NavbarWrapper";
@@ -12,7 +14,6 @@ import { getTenantSettingsServer } from "@/services/tenantServices";
 import { Metadata } from "next";
 import { Almarai } from "next/font/google";
 import { Suspense } from "react";
-import "./globals.css";
 import Script from "next/script";
 import CustomGlobalError from "./CustomGlobalError";
 import CustomError from "@/lib/customError";
@@ -33,7 +34,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const siteUrl =
     tenant.domain_type === "domain"
       ? `https://${tenant.site_name}`
-      : `https://${tenant.slug}.${isProd ? "nir-edu.com" : "localhost:3000"}`;
+      : `https://${tenant.slug}.${isProd ? process.env.NEXT_PUBLIC_ROOT_DOMAIN : "localhost:3000"}`;
 
   const metadataBase = new URL(siteUrl);
 
@@ -170,6 +171,10 @@ export default async function Layout({ children }) {
 
         <Script
           src="https://player.vdocipher.com/v2/api.js"
+          strategy="afterInteractive"
+        />
+        <Script
+          src="https://assets.mediadelivery.net/playerjs/player-0.1.0.min.js"
           strategy="afterInteractive"
         />
       </body>

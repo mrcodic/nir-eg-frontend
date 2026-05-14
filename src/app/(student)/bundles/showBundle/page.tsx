@@ -100,7 +100,6 @@ const ShowBundle = () => {
             <CourseCard
               key={classroom.id}
               isBundles={true}
-              isNewCourse={true}
               courseDetails={classroom}
             />
           ))}

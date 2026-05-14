@@ -37,7 +37,6 @@ export default function SuspendedTenant() {
       >
         <main className="wrapper grid min-h-screen place-items-center py-8">
           <div className="w-full text-center">
-            {/* Logo */}
             <div className="relative mx-auto aspect-square w-full max-w-71">
               <Image
                 src="/assets/bg/suspended.png"

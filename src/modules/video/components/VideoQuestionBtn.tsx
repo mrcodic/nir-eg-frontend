@@ -1,7 +1,16 @@
 import { X } from "lucide-react";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
-function VideoQuestionBtn({ playerRef, setHideBtn }: any) {
+function VideoQuestionBtn({ playerRef, videoId, isBunnyPlayer = false }: any) {
+  const [hideBtn, setHideBtn] = useState(false);
+
+  useEffect(() => {
+    if (videoId) setHideBtn(false);
+  }, [videoId]);
+
+  if (hideBtn) return null;
+
   return (
     <button
       onClick={() => {
@@ -11,7 +20,12 @@ function VideoQuestionBtn({ playerRef, setHideBtn }: any) {
           (inputEl as HTMLElement).focus?.();
         }
         const inst = playerRef.current;
-        inst?.video?.pause?.();
+
+        if (isBunnyPlayer) {
+          inst?.pause?.();
+        } else {
+          inst?.video?.pause?.();
+        }
       }}
       className="text-primary-800 border-gray-light bg-background absolute right-4 bottom-14 z-5 w-[190px] rounded-lg border p-2 py-4 transition-all md:w-[250px]"
     >

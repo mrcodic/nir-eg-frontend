@@ -61,7 +61,7 @@ async function logView(
   } catch {}
 }
 
-export function useVideoPlayer({
+export function useVideoCipherPlayer({
   response,
   videoId,
   roomId,
@@ -84,7 +84,6 @@ export function useVideoPlayer({
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const playerRef = useRef<VdoInstance | null>(null);
 
-  const [hideBtn, setHideBtn] = useState(false);
   const [duration, setDuration] = useState<number | null>(null);
 
   const viewLoggedRef = useRef(false);
@@ -96,7 +95,6 @@ export function useVideoPlayer({
     completedRef.current = false;
     playerRef.current = null;
     setDuration(null);
-    setHideBtn(false);
   }, [videoId]);
 
   useEffect(() => {
@@ -258,8 +256,7 @@ export function useVideoPlayer({
   return {
     iframeRef,
     playerRef,
-    hideBtn,
-    setHideBtn,
+
     duration,
   } as const;
 }

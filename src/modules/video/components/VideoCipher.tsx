@@ -1,9 +1,9 @@
 "use client";
-import LoadingSpinner from "@/components/shared/LoadingSpinner";
+
 import TamperResistantOverlay from "@/modules/video/components/TamperResistantOverlay";
 import VideoQuestionBtn from "@/modules/video/components/VideoQuestionBtn";
-import { useVideoPlayer } from "@/modules/video/hooks/useVideoPlayer";
-import { FileWarning } from "lucide-react";
+import { useVideoCipherPlayer } from "@/modules/video/hooks/useVideoCipherPlayer";
+import VideoError from "./VideoError";
 
 interface VideoCipherProps {
   response: { otp?: string; playbackInfo?: string } | null;
@@ -13,24 +13,18 @@ interface VideoCipherProps {
   classroomId: string | number;
   lessonId: string | number;
   videoCompleted: boolean;
-  otpError: boolean;
-  otpLoading: boolean;
 }
 
-export default function VideoCipher(props: VideoCipherProps) {
-  const {
-    response,
-    videoId,
-    setCurrentTime,
-    roomId,
-    classroomId,
-    lessonId,
-    videoCompleted,
-    otpError,
-    otpLoading,
-  } = props;
-
-  const { iframeRef, hideBtn, setHideBtn } = useVideoPlayer({
+export default function VideoCipher({
+  response,
+  videoId,
+  setCurrentTime,
+  roomId,
+  classroomId,
+  lessonId,
+  videoCompleted,
+}: VideoCipherProps) {
+  const { iframeRef } = useVideoCipherPlayer({
     response,
     videoId,
     roomId,
@@ -40,34 +34,12 @@ export default function VideoCipher(props: VideoCipherProps) {
     videoCompleted,
   });
 
-  if (otpError) {
-    return (
-      <div className="bg-background flex min-h-[520px] items-center justify-center">
-        <div className="flex items-center gap-2">
-          <FileWarning className="stroke-red-500" />
-          <p className="text-lg font-bold">حدث خطأ ما</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (otpLoading) {
-    return <LoadingSpinner className="bg-primary-50 h-fit min-h-[520px]" />;
-  }
-
   if (!response?.otp) {
-    return (
-      <div className="bg-background flex min-h-[520px] items-center justify-center">
-        <div className="flex items-center gap-2">
-          <FileWarning className="stroke-red-500" />
-          <p className="text-lg font-bold">حدث خطأ ما</p>
-        </div>
-      </div>
-    );
+    return <VideoError />;
   }
 
   return (
-    <div className="relative h-fit flex-1 overflow-hidden">
+    <div className="relative h-[520px] w-full overflow-hidden">
       <TamperResistantOverlay>
         <iframe
           ref={iframeRef}
@@ -81,9 +53,7 @@ export default function VideoCipher(props: VideoCipherProps) {
         />
       </TamperResistantOverlay>
 
-      {!hideBtn && (
-        <VideoQuestionBtn playerRef={iframeRef} setHideBtn={setHideBtn} />
-      )}
+      <VideoQuestionBtn playerRef={iframeRef} videoId={videoId} />
     </div>
   );
 }

@@ -6,7 +6,6 @@ import { useQueryState } from "nuqs";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import axios from "axios";
 
-// ✅ FIX #7 — Renamed `locakedByViewLimit` → `lockedByViewLimit` throughout
 type OtpData = {
   otp?: string;
   expires?: string | number;
@@ -20,7 +19,8 @@ type OtpData = {
     remaining: number;
     total_views: number;
   };
-  lockedByViewLimit: boolean; // ✅ FIX #7 — typo fixed
+  lockedByViewLimit: boolean;
+  lockedMessage?: string;
 };
 
 type OtpStatus = {
@@ -139,22 +139,30 @@ function useLessonRoomLogic({
             remaining: res?.views_remaining,
             total_views: res?.total_views,
           },
-          lockedByViewLimit: res?.views_used >= res?.total_views, // ✅ FIX #7
+          lockedByViewLimit: res?.views_used >= res?.total_views,
         });
 
-        setOtpStatus({ loading: false, error: false }); // ✅ FIX #1 — success path
+        setOtpStatus({ loading: false, error: false });
       } catch (error) {
         console.error("❌ OTP fetch failed", error);
 
-        // ✅ FIX #3 — Narrow `unknown` error type before accessing properties
-        const is403 =
-          axios.isAxiosError(error) && error.response?.status === 403;
+        const errorStatus = axios.isAxiosError(error) && error.response?.status;
 
-        if (is403) {
-          setOtpData({ lockedByViewLimit: true }); // ✅ FIX #7
+        if (errorStatus === 403) {
+          setOtpData({ lockedByViewLimit: true });
+        } else if (errorStatus === 410) {
+          setOtpData({
+            lockedByViewLimit: true,
+            lockedMessage: error.response?.data.message,
+          });
+        } else if (errorStatus === 415) {
+          setOtpData({
+            lockedByViewLimit: true,
+            lockedMessage: error.response?.data.message,
+          });
         }
 
-        setOtpStatus({ loading: false, error: true }); // ✅ FIX #1 — error persists
+        setOtpStatus({ loading: false, error: true });
       }
     },
     [classroomId, roomId],

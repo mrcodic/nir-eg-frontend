@@ -1,62 +1,64 @@
 "use client";
 
-import LoadingSpinner from "@/components/shared/LoadingSpinner";
-import { FileWarning } from "lucide-react";
+import { useBunnyPlayer } from "../hooks/useBunnyPlayer";
+import TamperResistantOverlay from "./TamperResistantOverlay";
+import VideoError from "./VideoError";
+import VideoQuestionBtn from "./VideoQuestionBtn";
 
-type VideoBunnyProps = {
+interface VideoBunnyProps {
   response: {
     embed_url?: string;
     otp?: string;
     expires?: string | number;
   } | null;
-  otpError: boolean;
-  otpLoading: boolean;
-};
+  videoId: string;
+  setCurrentTime(time: number): void;
+  roomId: string | number;
+  classroomId: string | number;
+  lessonId: string | number;
+  videoCompleted: boolean;
+}
 
 export default function VideoBunny({
   response,
-  otpError,
-  otpLoading,
+  videoId,
+  roomId,
+  classroomId,
+  lessonId,
+  setCurrentTime,
+  videoCompleted,
 }: VideoBunnyProps) {
   const embedUrl = response?.embed_url;
 
-  if (otpError) {
-    return (
-      <div className="bg-background flex min-h-[520px] items-center justify-center">
-        <div className="flex items-center gap-2">
-          <FileWarning className="stroke-red-500" />
-          <p className="text-lg font-bold">حدث خطأ ما</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (otpLoading) {
-    return <LoadingSpinner className="bg-primary-50 h-fit min-h-[520px]" />;
-  }
+  const { iframeRef } = useBunnyPlayer({
+    videoId,
+    roomId,
+    classroomId,
+    lessonId,
+    setCurrentTime,
+    videoCompleted,
+  });
 
   if (!embedUrl) {
-    return (
-      <div className="bg-background flex min-h-[520px] items-center justify-center">
-        <div className="flex items-center gap-2">
-          <FileWarning className="stroke-red-500" />
-          <p className="text-lg font-bold">حدث خطأ ما</p>
-        </div>
-      </div>
-    );
+    return <VideoError />;
   }
 
   return (
     <div className="relative h-[520px] w-full overflow-hidden">
-      <iframe
-        className="absolute inset-0 h-full w-full"
-        src={embedUrl}
-        loading="lazy"
-        style={{ border: 0 }}
-        allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-        allowFullScreen
-        title="Bunny Video"
-      />
+      <TamperResistantOverlay>
+        <iframe
+          ref={iframeRef}
+          className="relative h-[520px] w-full"
+          src={embedUrl}
+          loading="lazy"
+          style={{ border: 0 }}
+          allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+          allowFullScreen
+          title="Bunny Video"
+        />
+      </TamperResistantOverlay>
+
+      <VideoQuestionBtn playerRef={iframeRef} videoId={videoId} isBunnyPlayer />
     </div>
   );
 }
