@@ -7,7 +7,7 @@ import {
   UndefinedInitialDataOptions,
   useQuery,
 } from "@tanstack/react-query";
-import { ComponentProps } from "react";
+import { ComponentProps, ReactNode } from "react";
 import Empty from "@/components/shared/Empty";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
 
@@ -18,6 +18,8 @@ type Props = {
   showEmpty?: boolean;
   emptyProps?: ComponentProps<typeof Empty>;
   errorProps?: ComponentProps<typeof Empty>;
+  errorComponent?: ReactNode;
+  emptyComponent?: ReactNode;
   customLoading?: ((data?: any) => React.ReactNode) | React.ReactNode;
   // remove querykey and query function
   queryOptions?: Omit<
@@ -34,6 +36,8 @@ const MappingComp = ({
   showEmpty = false,
   emptyProps,
   errorProps,
+  errorComponent,
+  emptyComponent,
   customLoading,
   queryOptions,
 }: Props) => {
@@ -55,11 +59,18 @@ const MappingComp = ({
 
   if (error) {
     console.error("Query error:", error);
-    return <Empty isError {...errorProps} />;
+    return errorComponent || <Empty isError {...errorProps} />;
   }
 
-  if (!data && showEmpty) {
-    return <Empty text="لا يوجد محتوى بعد" {...emptyProps} />;
+  if (!data) {
+    return !showEmpty
+      ? null
+      : emptyComponent || (
+          <Empty
+            {...errorProps}
+            text={emptyProps?.text || "لا يوجد محتوى بعد"}
+          />
+        );
   }
 
   return <>{data && render(data, isPlaceholderData)}</>;

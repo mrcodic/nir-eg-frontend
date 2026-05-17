@@ -11,7 +11,7 @@ import { Loader2 } from "lucide-react";
 
 interface PaymentModalProps {
   courseId?: string;
-  bundleId?: string;
+  bundleId?: string | number;
   roomId?: string | number;
   price?: number | string;
   sale?: CourseType["sale"];

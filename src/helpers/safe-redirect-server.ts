@@ -24,5 +24,5 @@ export async function safeRedirectServer(
     return null;
   }
 
-  redirect(destination);
+  return redirect(destination);
 }

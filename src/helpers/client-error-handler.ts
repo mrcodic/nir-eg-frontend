@@ -41,5 +41,9 @@ export function handleClientFetchError(error: any, endpoint: unknown): null {
     return null;
   }
 
+  if (status === 404) {
+    return null;
+  }
+
   throw error;
 }

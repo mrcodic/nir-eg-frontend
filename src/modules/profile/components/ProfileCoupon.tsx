@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import CustomImage from "@/components/ui/CustomImage";
 import { useToast } from "@/hooks/use-toast";

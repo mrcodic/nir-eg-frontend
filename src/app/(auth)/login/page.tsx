@@ -20,7 +20,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
 import Cookies from "js-cookie";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { redirect, useRouter, useSearchParams } from "next/navigation";
 import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 
 const AuthPage = () => {
@@ -29,11 +29,13 @@ const AuthPage = () => {
   const queryClient = useQueryClient();
 
   const [verify, setVerify] = useState(false);
-  const { setToken } = useAuthContext();
+  const { setToken, profile } = useAuthContext();
 
   const searchParams = useSearchParams();
   const redirectSearch = searchParams.get("redirect");
-  const redirect = redirectSearch ? decodeURIComponent(redirectSearch) : null;
+  const redirectPath = redirectSearch
+    ? decodeURIComponent(redirectSearch)
+    : null;
 
   const form = useForm({
     resolver: zodResolver(loginSchema),
@@ -48,6 +50,10 @@ const AuthPage = () => {
       recaptcha_token: "",
     },
   });
+
+  if (profile) {
+    redirect("/");
+  }
 
   const onSubmit = async (v) => {
     try {
@@ -72,14 +78,16 @@ const AuthPage = () => {
         response?.student?.type === 3 &&
         response?.student?.has_center === true
       ) {
-        router.push(redirect || `bundles/${response?.student?.center_id}`);
+        router.push(redirectPath || `bundles/${response?.student?.center_id}`);
       } else if (response?.student.type === 4 || response?.student.type === 5) {
-        router.push(redirect || `bundles?grade=${response?.student?.grade}`);
+        router.push(
+          redirectPath || `bundles?grade=${response?.student?.grade}`,
+        );
       } else if (
         response?.student?.type === 3 &&
         response?.student?.has_center === false
       ) {
-        router.push(redirect || `profile`);
+        router.push(redirectPath || `profile`);
       }
     } catch (err) {
       console.log("💥 login error : ", err);

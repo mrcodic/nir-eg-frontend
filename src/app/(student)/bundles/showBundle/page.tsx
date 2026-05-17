@@ -1,58 +1,45 @@
-"use client";
-import BundleCard from "@/modules/bundles/components/BundleCard";
-import CourseCard from "@/modules/courses/components/CourseCard";
-import LoadingSpinner from "@/components/shared/LoadingSpinner";
-import { PaymentModel } from "@/components/modals/PaymentModel";
-import RoomHeader from "@/modules/rooms/components/RoomHeader";
-import { Button } from "@/components/ui/button";
 import PriceBubbles from "@/components/ui/price-bubble";
 import RemainingDuration from "@/components/ui/RemainingDuration";
 import StyledText from "@/components/ui/StyledText";
-import { useAuthContext } from "@/context/auth-context";
-import { useModal } from "@/context/ModalProvider";
-import { getClientData, getClientPrivateData } from "@/helpers/client-fetch";
+import { getServerData } from "@/helpers/server-fetch";
 import { formatCurrency } from "@/lib/utils";
-import { Bundle } from "@/types";
-import { useQuery } from "@tanstack/react-query";
-import { redirect, useRouter, useSearchParams } from "next/navigation";
-import { useMemo } from "react";
+import BundleDetailsCard from "@/modules/bundles/components/BundleDetailsCard";
+import BundlePurchaseButton from "@/modules/bundles/components/BundlePurchaseButton";
+import CourseCard from "@/modules/courses/components/CourseCard";
+import RoomHeader from "@/modules/rooms/components/RoomHeader";
+import { ApiResponse, Bundle, IUser } from "@/types";
+import { redirect } from "next/navigation";
 
-const ShowBundle = () => {
-  const params = useSearchParams();
-  const { profile } = useAuthContext();
-  const router = useRouter();
-  const modal = useModal();
+const ShowBundle = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ bundleId?: string }>;
+}) => {
+  const params = await searchParams;
+  const bundleId = params.bundleId;
 
-  const bundleId = params.get("bundleId");
-
-  const { data, isLoading, error } = useQuery<{ body: Bundle }>({
-    queryKey: [`/bundles/${bundleId}`],
-    queryFn: !!profile ? getClientPrivateData : getClientData,
+  const profileData = await getServerData<ApiResponse<IUser | null>>({
+    queryKey: [`/students/profile`],
   });
 
-  const classroomsPrice = useMemo(
-    () =>
-      data?.body.classrooms.reduce((acc, classroom) => {
-        return acc + Number(classroom.price);
-      }, 0),
-    [data],
-  );
+  const profile = profileData?.body;
 
   if (!bundleId) {
     return redirect("/ErrorPage?message=حدث خطأ اثناء البحث عن الباقة");
   }
 
-  if (isLoading) {
-    return (
-      <div className="wrapper mt-[140px] flex min-h-[min(calc(100vh-140px),768px)] items-center justify-center">
-        <LoadingSpinner />
-      </div>
-    );
+  const data = await getServerData<{ body: Bundle }>({
+    queryKey: [`/bundles/${bundleId}`],
+    isAuth: !!profile,
+  });
+
+  if (!data) {
+    return redirect("/ErrorPage?message=حدث خطأ اثناء البحث عن الباقة");
   }
 
-  if (error || (!data && !isLoading)) {
-    redirect("/ErrorPage?message=حدث خطأ اثناء البحث عن الباقة");
-  }
+  const classroomsPrice = data?.body.classrooms.reduce((acc, classroom) => {
+    return acc + Number(classroom.price);
+  }, 0);
 
   const bundle = data?.body;
   const savedAmount = Math.max(
@@ -69,8 +56,14 @@ const ShowBundle = () => {
         title={"محتويات الباقة"}
       />
       <div className="mt-8">
-        <div className="flex flex-wrap items-center justify-between">
-          <h2 className="text-32 font-bold">{bundle?.name}</h2>
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <h2 className="text-32 font-bold max-sm:w-full">{bundle?.name}</h2>
+
+          <BundlePurchaseButton
+            profile={profile}
+            bundle={bundle}
+            className="ms-auto h-9 w-full max-w-24"
+          />
 
           <div className="flex flex-col items-end gap-3">
             <PriceBubbles
@@ -91,7 +84,7 @@ const ShowBundle = () => {
 
         <hr className="bg-gray-light my-4 h-px w-full" />
 
-        <BundleCard bundle={bundle} />
+        <BundleDetailsCard bundle={bundle} />
 
         <h5 className="mt-10 text-2xl font-bold">تحتوى الباقة على </h5>
 
@@ -117,27 +110,7 @@ const ShowBundle = () => {
               اذا اشتركت فى الباقة كاملة{" "}
             </p>
 
-            <Button
-              className="w-full max-w-43"
-              onClick={() => {
-                if (profile) {
-                  modal.setDialogContent(
-                    <PaymentModel
-                      bundleId={bundleId}
-                      price={Number(bundle?.price)}
-                      sale={bundle?.sale}
-                    />,
-                  );
-                  modal.openModal();
-                } else {
-                  router.push(
-                    `/login?redirect=/bundles/showBundle?bundleId=${bundleId}`,
-                  );
-                }
-              }}
-            >
-              اشترى الآن
-            </Button>
+            <BundlePurchaseButton profile={profile} bundle={bundle} />
           </div>
         )}
       </div>

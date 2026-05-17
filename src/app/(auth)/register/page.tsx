@@ -22,11 +22,14 @@ import { presistUserPhone } from "@/lib/utils";
 import { useForm } from "react-hook-form";
 import { useTenant } from "@/context/TenantProvider";
 import { isAxiosError } from "axios";
+import { useAuthContext } from "@/context/auth-context";
+import { redirect } from "next/navigation";
 
 const RegisterPage = () => {
   const router = useRouter();
   const { toast } = useToast();
   const { features } = useTenant();
+  const { profile } = useAuthContext();
 
   const form = useForm({
     mode: "all",
@@ -53,6 +56,10 @@ const RegisterPage = () => {
       recaptcha_token: "",
     },
   });
+
+  if (profile) {
+    redirect("/");
+  }
 
   const onSubmit = async (v) => {
     try {

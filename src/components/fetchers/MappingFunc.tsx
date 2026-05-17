@@ -1,13 +1,12 @@
 /* eslint-disable react-hooks/error-boundaries */
+import Empty from "@/components/shared/Empty";
 import { getServerData } from "@/helpers/server-fetch";
-import CustomError from "@/lib/customError";
 import { IGetDataOptions } from "@/types/helpers.types";
 import get from "lodash/get";
 import { isDynamicServerError } from "next/dist/client/components/hooks-server-context";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { ComponentProps, ReactNode } from "react";
 import "server-only";
-import Empty from "@/components/shared/Empty";
 
 type EmptyProps = ComponentProps<typeof Empty>;
 
@@ -16,6 +15,7 @@ const MappingFun = async ({
   render,
   arraypath,
   errorComponent,
+  emptyComponent,
   emptyProps,
   errorProps,
   returnEmptyState = false,
@@ -27,6 +27,7 @@ const MappingFun = async ({
   render: (data: any) => ReactNode;
   arraypath: string;
   errorComponent?: ReactNode;
+  emptyComponent?: ReactNode;
   emptyProps?: EmptyProps;
   errorProps?: EmptyProps;
   returnEmptyState?: boolean;
@@ -63,25 +64,20 @@ const MappingFun = async ({
     )
       return returnEmptyState
         ? null
-        : errorComponent || <Empty {...emptyProps} />;
+        : emptyComponent || <Empty {...emptyProps} />;
 
     return <>{fetchedData && render(fetchedData)}</>;
   } catch (e) {
     if (isRedirectError(e) || isDynamicServerError(e)) throw e;
 
-    console.log("🚀 ~ MappingFun ~ error: ", queryKey, e);
-
-    if (e instanceof CustomError) {
-      if (e.status === 404) {
-        return returnEmptyState
-          ? null
-          : errorComponent || <Empty {...emptyProps} />;
-      }
-    }
-
     return returnEmptyState
       ? null
-      : errorComponent || <Empty {...errorProps} />;
+      : errorComponent || (
+          <Empty
+            {...errorProps}
+            text={errorProps?.text || "حدث خطاء ما اثناء عرض البيانات "}
+          />
+        );
   }
 };
 

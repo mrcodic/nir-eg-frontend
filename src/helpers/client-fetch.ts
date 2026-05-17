@@ -46,7 +46,7 @@ export async function fetchClient<T>({
       error,
       error.status,
     );
-    handleClientFetchError(error, endpoint);
+    return handleClientFetchError(error, endpoint);
   }
 }
 

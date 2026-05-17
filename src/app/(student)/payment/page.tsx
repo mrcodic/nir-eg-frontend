@@ -20,7 +20,7 @@ const page = async ({ searchParams }) => {
     const response = await getServerData({
       queryKey: [`/students/courses/${courseId}`],
     });
-    data = response.data;
+    data = response?.data ?? null;
   } else if (bundleId) {
     // code center student
     data = await getServerData({

@@ -1,60 +1,57 @@
-"use client";
-
+import MappingFun from "@/components/fetchers/MappingFunc";
 import CourseSkeleton from "@/components/shared/CourseSkeleton";
-import Empty from "@/components/shared/Empty";
-import MappingComp from "@/components/shared/MappingComp";
-import PaginationComponent from "@/components/shared/Pagination";
-import { useAuthContext } from "@/context/auth-context";
+import PaginationServer from "@/components/shared/PaginationServer";
 import CourseCard from "@/modules/courses/components/CourseCard";
 import RoomHeader from "@/modules/rooms/components/RoomHeader";
-import { CourseType } from "@/types";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { CourseType, IUser } from "@/types";
+import { Suspense } from "react";
 
-const NewCourses = () => {
-  const [page, setPage] = useState(1);
-  const { token, grade } = useAuthContext();
-  const searchParams = useSearchParams();
-  const router = useRouter();
+const NewCourses = async ({
+  profile,
+  searchParams,
+}: {
+  profile: IUser;
+  searchParams: Promise<{ grade?: string; page?: string }>;
+}) => {
+  const params = await searchParams;
+  const page = params?.page ? Number(params?.page) : 1;
 
-  const coursesGrade = searchParams.get("grade");
-
-  useEffect(() => {
-    if (!grade && !token) {
-      router.replace(`/bundles?grade=1`);
-    }
-  }, [grade, router, token]);
-
-  let api = token
+  let api = profile
     ? `/students/classrooms`
-    : `/guest/classrooms/${coursesGrade || 1}`;
+    : `/guest/classrooms/${params?.grade || 1}`;
 
   return (
     <div className="wrapper">
       <RoomHeader
         className=""
-        title={grade?.name ? `كورسات ${grade?.name}` : "كورسات جديدة"}
+        title={
+          profile?.grade_name ? `كورسات ${profile?.grade_name}` : "كورسات جديدة"
+        }
         icon="/assets/gifs/book-gif.gif"
       />
 
       <div className="relative mt-6">
-        <MappingComp
-          queryKey={api}
-          render={(data: { data: CourseType[] }) => {
-            const allCourses = data?.data || [];
-            // const filteredCourses = allCourses.filter(
-            //   (course: any) => !course?.isSubscribed,
-            // );
+        <Suspense fallback={<CourseSkeleton />}>
+          <MappingFun
+            arraypath="data"
+            queryKey={api}
+            requireAuth={!!profile}
+            endPointOptions={{
+              next: {
+                revalidate: 60 * 10,
+              },
+            }}
+            render={(data: { data: CourseType[] }) => {
+              const allCourses = data?.data || [];
 
-            const pageSize = 6;
-            const total = allCourses.length;
-            const start = (page - 1) * pageSize;
-            const end = start + pageSize;
-            const currentCourses = allCourses.slice(start, end);
+              const pageSize = 6;
+              const total = allCourses.length;
+              const start = (page - 1) * pageSize;
+              const end = start + pageSize;
+              const currentCourses = allCourses.slice(start, end);
 
-            return (
-              <div className="cards-grid min-h-[455px] rounded-lg">
-                {currentCourses.length > 0 ? (
+              return (
+                <div className="cards-grid min-h-[455px] rounded-lg">
                   <>
                     {currentCourses.map((course: any, index: number) => (
                       <CourseCard
@@ -64,25 +61,27 @@ const NewCourses = () => {
                       />
                     ))}
                     <div className="col-span-full w-full">
-                      <PaginationComponent
+                      <PaginationServer
                         currentPage={page}
                         total={total}
-                        setPage={setPage}
                         pageSize={pageSize}
+                        searchParams={params}
                       />
                     </div>
                   </>
-                ) : (
-                  <Empty
-                    className="col-span-full"
-                    text="لا يوجد كورسات جديدة"
-                  />
-                )}
-              </div>
-            );
-          }}
-          customLoading={<CourseSkeleton />}
-        />
+                </div>
+              );
+            }}
+            emptyProps={{
+              className: "col-span-full",
+              text: "لا يوجد كورسات جديدة",
+            }}
+            errorProps={{
+              className: "col-span-full",
+              text: "حدث خطاء ما اثناء عرض الكورسات ",
+            }}
+          />
+        </Suspense>
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import MappingFun from "@/components/shared/MappingFunc";
+import MappingFun from "@/components/fetchers/MappingFunc";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getServerData } from "@/helpers/server-fetch";

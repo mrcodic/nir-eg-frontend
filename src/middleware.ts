@@ -36,16 +36,12 @@ export function middleware(request: NextRequest) {
     const loginUrl = request.nextUrl.clone();
     loginUrl.pathname = "/login";
     loginUrl.searchParams.set("redirect", pathname);
-    const res = NextResponse.redirect(loginUrl);
-    res.headers.set("x-pathname", pathname);
-    return res;
+    return NextResponse.redirect(loginUrl);
   }
 
   if (isAuthRoute && token) {
     const homeUrl = request.nextUrl.clone();
     homeUrl.pathname = "/";
-    const res = NextResponse.redirect(homeUrl);
-    res.headers.set("x-pathname", pathname);
     return NextResponse.redirect(homeUrl);
   }
 

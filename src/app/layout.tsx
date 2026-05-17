@@ -20,6 +20,8 @@ import CustomError from "@/lib/customError";
 import SuspendedTenant from "./SuspendedTenant";
 import NotFoundTenant from "./NotFoundTenant";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
+import { getServerData } from "@/helpers/server-fetch";
+import { ApiResponse, IUser } from "@/types";
 
 const almarai = Almarai({
   subsets: ["arabic"],
@@ -89,7 +91,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Layout({ children }) {
-  let tenantSettings;
+  let tenantSettings: Awaited<ReturnType<typeof getTenantSettingsServer>>;
 
   try {
     tenantSettings = await getTenantSettingsServer();
@@ -100,10 +102,8 @@ export default async function Layout({ children }) {
 
     if (e instanceof CustomError) {
       if (e.code === "TENANT_SUSPENDED") return <SuspendedTenant />;
-      else if (e.code === "TENANT_NOT_FOUND") return <NotFoundTenant />;
-      else {
-        return <CustomGlobalError error={e} />;
-      }
+      if (e.code === "TENANT_NOT_FOUND") return <NotFoundTenant />;
+      return <CustomGlobalError error={e} />;
     }
 
     const error = new CustomError(
@@ -113,6 +113,11 @@ export default async function Layout({ children }) {
     );
     return <CustomGlobalError error={error} />;
   }
+
+  const profile = await getServerData<ApiResponse<IUser | null>>({
+    queryKey: [`/students/profile`],
+    isAuth: true,
+  });
 
   const hslFromHex = hexToHsl(tenantSettings.primary_color);
 
@@ -152,8 +157,8 @@ export default async function Layout({ children }) {
           <>
             <NavTopbar primary={tenantSettings.primary_color} />
 
-            <Providers>
-              <NavbarWrapper />
+            <Providers profile={profile?.body}>
+              <NavbarWrapper profile={profile?.body} />
 
               <main className="flex min-h-screen grow flex-col justify-between [&>section]:grow">
                 {children}

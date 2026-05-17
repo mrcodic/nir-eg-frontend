@@ -9,6 +9,9 @@ const Footer = async () => {
   const footerResponse = await getServerData<{ data: IFooterData }>({
     queryKey: ["settings/footer"],
     isAuth: false,
+    next: {
+      revalidate: 60 * 20,
+    },
   });
 
   const footerSettings = footerResponse?.data;

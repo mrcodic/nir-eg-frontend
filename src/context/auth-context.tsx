@@ -26,21 +26,28 @@ export const useAuthContext = () => {
   return context;
 };
 
-export const AuthContextProvider = ({ children }) => {
+export const AuthContextProvider = ({
+  children,
+  profile,
+}: {
+  children: React.ReactNode;
+  profile: IUser | null;
+}) => {
   const [token, setToken] = useState<undefined | string | null>(
     () => Cookies.get("nir_token") || undefined,
   );
 
   const { data: profileData, isLoading } = useQuery({
-    queryFn: getClientPrivateData as () => Promise<{ body: IUser }>,
     queryKey: ["/students/profile"],
+    queryFn: async () => {
+      const res = await getClientPrivateData({
+        queryKey: ["/students/profile"],
+      });
+      return res.body as unknown as IUser;
+    },
     staleTime: 1000 * 60 * 20,
+    initialData: profile,
   });
-
-  // useEffect(() => {
-  //   const savedToken = Cookies.get("nir_token");
-  //   setToken(savedToken || null);
-  // }, []);
 
   const logout = useCallback(async () => {
     setToken(null);
@@ -50,7 +57,7 @@ export const AuthContextProvider = ({ children }) => {
     await deleteCookie("nir_token");
   }, []);
 
-  console.log("profile -> ", profileData?.body);
+  console.log("profile -> ", profileData);
 
   return (
     <AuthContext.Provider
@@ -58,11 +65,11 @@ export const AuthContextProvider = ({ children }) => {
         logout: logout,
         token: token,
         setToken,
-        profile: profileData?.body,
+        profile: profileData,
         isLoading,
-        grade: profileData?.body?.grade && {
-          id: profileData?.body?.grade,
-          name: profileData?.body?.grade_name,
+        grade: profileData?.grade && {
+          id: profileData?.grade,
+          name: profileData?.grade_name,
         },
       }}
     >

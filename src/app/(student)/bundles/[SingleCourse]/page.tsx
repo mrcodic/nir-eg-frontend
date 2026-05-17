@@ -24,6 +24,10 @@ const SingleCourse = async ({ params }) => {
 
   console.log("bundleRooms -> ", bundleRooms);
 
+  if (!bundleRooms) {
+    redirect("/ErrorPage?message=حدث خطأ اثناء البحث عن الكورس");
+  }
+
   return (
     <ProtectedRoute
       data={bundleRooms}

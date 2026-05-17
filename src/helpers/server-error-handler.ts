@@ -30,15 +30,19 @@ export async function handleServerFetchError({
     }
 
     if (appError.code === "UNAUTHORIZED") {
-      safeRedirectServer("/login");
+      return await safeRedirectServer("/login");
     }
-    safeRedirectServer("/unauthorized");
+    return await safeRedirectServer("/unauthorized");
   }
 
   if (appError.code === "RATE_LIMITED") {
-    safeRedirectServer(
+    return await safeRedirectServer(
       "/ErrorPage?message=لقد تجاوزت الحد المسموح به من الطلبات",
     );
+  }
+
+  if (appError.code === "NOT_FOUND") {
+    return null;
   }
 
   throw appError;

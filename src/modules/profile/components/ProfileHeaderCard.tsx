@@ -1,3 +1,5 @@
+"use client";
+
 import CustomImage from "@/components/ui/CustomImage";
 import { useModal } from "@/context/ModalProvider";
 import { IUser } from "@/types";
@@ -10,7 +12,6 @@ import ProfileCoupon from "./ProfileCoupon";
 import ProfileGradeCard from "./ProfileGradeCard";
 import StudentPointsCard from "./StudentPointsCard";
 import { useTenant } from "@/context/TenantProvider";
-import { Skeleton } from "@/components/ui/skeleton";
 
 const StudentSelectCenterModal = dynamic(async () =>
   import("@/components/modals/StudentSelectCenterModal").then(
@@ -18,21 +19,15 @@ const StudentSelectCenterModal = dynamic(async () =>
   ),
 );
 
-function ProfileHeaderCard({
-  profileData,
-  isLoadingProfile,
-}: {
-  profileData: IUser;
-  isLoadingProfile: boolean;
-}) {
+function ProfileHeaderCard({ profileData }: { profileData: IUser }) {
   const modal = useModal();
   const { features } = useTenant();
 
   const hasPointsEnabled = features.points_system;
   const hasPromoCode = features.promo_code;
 
-  if (isLoadingProfile)
-    return <Skeleton className="min-h-[325px] rounded-xl md:min-h-[290px]" />;
+  // if (isLoadingProfile)
+  //   return <Skeleton className="min-h-[325px] rounded-xl md:min-h-[290px]" />;
 
   return (
     <motion.div

@@ -1,6 +1,6 @@
 "use client";
 
-import MappingComp from "@/components/shared/MappingComp";
+import MappingComp from "@/components/fetchers/MappingComp";
 import { useState } from "react";
 import CourseCard from "@/modules/courses/components/CourseCard";
 import Empty from "@/components/shared/Empty";

@@ -5,6 +5,7 @@ export type ErrorCode =
   | "TENANT_SUSPENDED"
   | "UNAUTHORIZED"
   | "FORBIDDEN"
+  | "NOT_FOUND"
   | "NOT_SUBSCRIBED"
   | "RATE_LIMITED"
   | "UNEXPECTED";
@@ -34,6 +35,10 @@ export const ERROR_MAP: Record<ErrorCode, ErrorMeta> = {
   FORBIDDEN: {
     title: "ممنوع",
     description: "ليس لديك صلاحية للوصول إلى هذا المحتوى.",
+  },
+  NOT_FOUND: {
+    title: "غير موجود",
+    description: "المحتوى الذي تبحث عنه غير موجود أو تم حذفه.",
   },
   NOT_SUBSCRIBED: {
     title: "غير مشترك",

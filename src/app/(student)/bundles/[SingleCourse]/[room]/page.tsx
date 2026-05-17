@@ -7,7 +7,6 @@ import useLessonRoomLogic from "@/hooks/useLessonRoomLogic";
 import ProtectedRoute from "@/layouts/ProtectedRoute";
 import RoomSideContent from "@/modules/rooms/components/RoomSideContent";
 import DisableDevTools from "@/modules/video/components/DisableDivTools";
-import VideoBunny from "@/modules/video/components/VideoBunny";
 import VideoError from "@/modules/video/components/VideoError";
 import YoutubeVideoPlayer from "@/modules/video/components/YoutubeVideoPlayer";
 import dynamic from "next/dynamic";
@@ -23,6 +22,12 @@ const Community = dynamic(
 );
 const VideoCipher = dynamic(
   () => import("@/modules/video/components/VideoCipher"),
+  {
+    ssr: false,
+  },
+);
+const VideoBunny = dynamic(
+  () => import("@/modules/video/components/VideoBunny"),
   {
     ssr: false,
   },
@@ -63,11 +68,6 @@ const RoomLecturePage = () => {
   const activeVideoType = selectedVideoType ?? (videoUrl ? "youtube" : null);
   const requiresOtpVideo =
     activeVideoType === "cipher" || activeVideoType === "bunny";
-
-  console.log("selectedLesson", selectedLesson);
-
-  console.log("otpStatus", otpStatus);
-  console.log("otpData", otpData);
 
   return (
     <>
