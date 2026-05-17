@@ -117,7 +117,7 @@ export const TaskProvider = ({ children, taskType = "exam" }) => {
       console.log("start : ", res.body);
       return res.body;
     },
-    enabled: !!taskId,
+    enabled: !!taskId && features?.quizzes,
     staleTime: 1000 * 30,
     // refetchOnMount: false,
   });

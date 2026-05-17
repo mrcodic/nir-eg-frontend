@@ -6,7 +6,9 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogDescription,
   DialogFooter,
+  DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { CropIcon, Trash2Icon } from "lucide-react";
@@ -30,7 +32,7 @@ interface ImageCropperProps {
 export function centerAspectCrop(
   mediaWidth: number,
   mediaHeight: number,
-  aspect: number
+  aspect: number,
 ): Crop {
   return centerCrop(
     makeAspectCrop(
@@ -41,10 +43,10 @@ export function centerAspectCrop(
       },
       aspect,
       mediaWidth,
-      mediaHeight
+      mediaHeight,
     ),
     mediaWidth,
-    mediaHeight
+    mediaHeight,
   );
 }
 
@@ -69,12 +71,15 @@ export function ImageCropper({
   const aspect = 1;
   const imgRef = React.useRef<HTMLImageElement | null>(null);
   const [crop, setCrop] = React.useState<Crop>();
-  const [croppedImageUrl, setCroppedImageUrl] = React.useState<string>("");
   const [croppedImage, setCroppedImage] = React.useState<string>("");
+  // Only store the final pixel crop — no canvas work until the user clicks save
+  const [completedCrop, setCompletedCrop] = React.useState<PixelCrop | null>(
+    null,
+  );
 
   function onImageLoad(e: SyntheticEvent<HTMLImageElement>) {
     if (aspect) {
-      const { width, height } = e.currentTarget;
+      // const { width, height } = e.currentTarget;
       setCrop(centerAspectCrop(144, 144, aspect));
     }
   }
@@ -100,7 +105,7 @@ export function ImageCropper({
         0,
         0,
         crop.width * scaleX,
-        crop.height * scaleY
+        crop.height * scaleY,
       );
     }
 
@@ -108,28 +113,29 @@ export function ImageCropper({
   }
 
   function onCropComplete(crop: PixelCrop) {
-    if (imgRef.current && crop.width && crop.height) {
-      const croppedImageUrl = getCroppedImg(imgRef.current, crop);
-      setCroppedImageUrl(croppedImageUrl);
-    }
+    setCompletedCrop(crop);
   }
 
   async function onCrop() {
     try {
-      if (croppedImageUrl) {
-        const croppedFile = dataURLtoFile(
-          croppedImageUrl,
-          selectedFile.name || "cropped-image.png"
-        );
-        const fileWithPreview: FileWithPreview = Object.assign(croppedFile, {
-          preview: croppedImageUrl,
-        });
-        
+      if (!imgRef.current || !completedCrop) return;
 
-        setSelectedFile(fileWithPreview);
-        setCroppedImage(croppedImageUrl);
-        setDialogOpen(false);
-      }
+      // Canvas work happens once here — not on every drag move
+      const croppedImageUrl = getCroppedImg(imgRef.current, completedCrop);
+
+      const croppedFile = dataURLtoFile(
+        croppedImageUrl,
+        selectedFile.name || "cropped-image.png",
+      );
+      const fileWithPreview: FileWithPreview = Object.assign(croppedFile, {
+        preview: croppedImageUrl,
+        // Preserve the original so re-opening the dialog shows the image, not "Loading..."
+        originalImage: selectedFile.originalImage,
+      });
+
+      setSelectedFile(fileWithPreview);
+      setCroppedImage(croppedImageUrl);
+      setDialogOpen(false);
     } catch (error) {
       alert("Something went wrong!");
     }
@@ -138,7 +144,7 @@ export function ImageCropper({
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger id="file">
-        <Avatar className="size-24 cursor-pointer ring-offset-2 ring-2 ring-slate-200">
+        <Avatar className="size-24 cursor-pointer ring-2 ring-slate-200 ring-offset-2">
           <AvatarImage
             src={croppedImage ? croppedImage : selectedFile?.preview}
             alt="@shadcn"
@@ -146,14 +152,16 @@ export function ImageCropper({
           <AvatarFallback>image</AvatarFallback>
         </Avatar>
       </DialogTrigger>
-      <DialogContent className="p-0 gap-0">
-        <div className="p-6 size-full">
+      <DialogContent className="gap-0 p-0 pt-2">
+        <DialogTitle className="sr-only">تعديل الصورة</DialogTitle>
+        <DialogDescription className="sr-only">تعديل الصورة</DialogDescription>
+        <div className="size-full p-6">
           <ReactCrop
             crop={crop}
             onChange={(_, percentCrop) => setCrop(percentCrop)}
             onComplete={(c) => onCropComplete(c)}
             aspect={aspect}
-            className="w-full"
+            className="w-full overflow-hidden rounded-lg"
           >
             <Avatar className="size-full rounded-none">
               <AvatarImage
@@ -169,7 +177,7 @@ export function ImageCropper({
             </Avatar>
           </ReactCrop>
         </div>
-        <DialogFooter className="p-6 pt-0 justify-center gap-5">
+        <DialogFooter className="justify-center gap-5 p-6 pt-0">
           <DialogClose asChild>
             <Button
               size={"sm"}
