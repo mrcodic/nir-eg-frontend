@@ -303,6 +303,11 @@ export const editProfileSchema = z
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: "كلمتا السر غير متطابقتين",
+          path: ["password"],
+        });
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "كلمتا السر غير متطابقتين",
           path: ["password_confirmation"],
         });
       }

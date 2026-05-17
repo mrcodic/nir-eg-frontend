@@ -21,7 +21,13 @@ import StudentCenterField from "@/components/custom/StudentCenterField";
 import { useAuthContext } from "@/context/auth-context";
 import { mutateClient } from "@/helpers/post-client";
 import ChangePasswordSettings from "@/modules/profile/components/ChangePasswordSettings";
-import { ChevronDown } from "lucide-react";
+import { LockKeyhole } from "lucide-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const PageSettings = () => {
   const router = useRouter();
@@ -247,28 +253,41 @@ const PageSettings = () => {
                 />
               </div>
 
-              <div className="mt-4 flex-1">
-                <div className="flex w-full items-center justify-between">
-                  <button
-                    type="button"
-                    onClick={() => setIsChangePassword((t) => !t)}
-                    className="text-primary-800 mt-2 flex cursor-pointer items-center gap-2 text-sm font-bold underline"
+              <div className="mt-8 flex-1">
+                <Accordion
+                  type="single"
+                  collapsible
+                  value={changePassword ? "password" : ""}
+                  onValueChange={(val) =>
+                    setIsChangePassword(val === "password")
+                  }
+                  className="w-full"
+                >
+                  <AccordionItem
+                    value="password"
+                    className="border-gray-light rounded-xl border bg-gray-50/50 px-4 md:px-6"
                   >
-                    {changePassword
-                      ? "إلغاء تغيير كلمة المرور"
-                      : "تغيير كلمة المرور"}
-                    <ChevronDown
-                      className={cn("rotate-90 transition-transform", {
-                        "rotate-180": changePassword,
-                      })}
-                    />
-                  </button>
-                  <span className="text-gray-dark mt-5 inline-block text-[12px] font-medium">
-                    آخر تحديث: {profile?.updated_at}
-                  </span>
-                </div>
-
-                {changePassword && <ChangePasswordSettings form={form} />}
+                    <AccordionTrigger className="py-4 hover:no-underline [&[data-state=open]>svg]:rotate-180">
+                      <div className="flex items-center gap-4">
+                        <div className="bg-primary-50 flex size-12 items-center justify-center rounded-xl">
+                          <LockKeyhole className="text-primary-800 size-6" />
+                        </div>
+                        <div className="flex flex-col items-start gap-1">
+                          <span className="text-base font-bold text-black">
+                            تغيير كلمة المرور
+                          </span>
+                          <span className="text-gray-dark text-xs font-normal">
+                            آخر تحديث: {profile?.updated_at || "--"}
+                          </span>
+                        </div>
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent className="pt-2 pb-6">
+                      <div className="border-gray-light mb-6 border-t"></div>
+                      <ChangePasswordSettings form={form} />
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
               </div>
 
               <Button
