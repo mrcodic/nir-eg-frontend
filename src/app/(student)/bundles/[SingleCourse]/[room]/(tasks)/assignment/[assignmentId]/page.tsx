@@ -3,16 +3,12 @@
 import AssignmentForm from "@/components/forms/AssignmentForm";
 import RoomSheet from "@/components/sheets/RoomSheet";
 import { useTaskContext } from "@/context/TaskProvider";
-import { useTenant } from "@/context/TenantProvider";
 import ProtectedRoute from "@/layouts/ProtectedRoute";
 import { cn } from "@/lib/utils";
-import ExamSideInfo from "@/modules/exam/components/ExamSideInfo";
-import ExamSideNav from "@/modules/exam/components/ExamSideNav";
 import SubmitLoader from "@/modules/exam/components/SubmitLoader";
+import TaskSideBar from "@/modules/exam/components/TaskSideBar";
 
 const AssignmentPage = () => {
-  const { templateNumber } = useTenant();
-
   const {
     start,
     isLoading,
@@ -34,29 +30,18 @@ const AssignmentPage = () => {
     >
       <div
         className={cn(
-          "wrapper mt-[110px] mb-[186px] flex h-[calc(100%-80px)] flex-col items-center gap-8 py-4 lg:flex-row lg:items-start",
+          "wrapper mt-[110px] mb-[186px] flex flex-col items-center gap-8 py-4 lg:flex-row lg:items-start",
           {
             "pointer-events-none opacity-70": isSubmitting,
           },
         )}
       >
-        <div
-          className={cn(
-            "top-[85px] flex flex-col space-y-4 overflow-y-auto max-lg:w-full lg:sticky lg:max-h-[calc(100vh-90px)]",
-            {
-              "top-29 lg:max-h-[calc(100vh-126px)]": templateNumber == 3,
-            },
-          )}
-        >
-          <ExamSideInfo
-            data={data}
-            start={start}
-            setShowRoom={setShowRoom}
-            defaultTitle="واجب"
-          />
-
-          <ExamSideNav />
-        </div>
+        <TaskSideBar
+          data={data}
+          start={start}
+          setShowRoom={setShowRoom}
+          defaultTitle="واجب"
+        />
 
         <div className="flex-1 self-stretch">
           <AssignmentForm start={start} />

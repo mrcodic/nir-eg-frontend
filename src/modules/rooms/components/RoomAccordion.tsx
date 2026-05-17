@@ -141,7 +141,7 @@ const RoomAccordion = ({
                     alt="warning icon"
                     className="animate-pulse"
                   />
-                  <p className="text-sm font-bold sm:text-lg">
+                  <p className="text-sm font-bold">
                     يجب أن تنجح في الكويز لتتمكن من عرض محتويات الحصة
                   </p>
                 </div>
@@ -156,7 +156,7 @@ const RoomAccordion = ({
                     alt="warning icon"
                     className="animate-pulse"
                   />
-                  <p className="text-sm font-bold sm:text-lg">
+                  <p className="text-sm font-bold">
                     لا يوجد محتوى في هذه الحصة حتى الان
                   </p>
                 </div>

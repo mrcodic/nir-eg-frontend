@@ -3,6 +3,7 @@
 import { useTaskContext } from "@/context/TaskProvider";
 import { useWatch } from "react-hook-form";
 import SideNavItem from "./SideNavItem";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 function ExamSideNav() {
   const { control, data } = useTaskContext();
@@ -21,7 +22,10 @@ function ExamSideNav() {
     <div className="bg-background flex w-full flex-col gap-2 rounded-lg md:min-w-[280px]">
       <h2 className="p-4 pb-0 text-right text-[20px] font-bold">الاسئلة:</h2>
 
-      <div className="flex max-h-80 flex-col gap-4 overflow-y-auto p-4 pt-0">
+      <ScrollArea
+        className="flex max-h-80 flex-col gap-4 overflow-y-auto p-4 pt-0"
+        dir="rtl"
+      >
         {questions.map((q, index) => (
           <SideNavItem
             key={q.id}
@@ -31,7 +35,7 @@ function ExamSideNav() {
             isAnswer={isAnswer}
           />
         ))}
-      </div>
+      </ScrollArea>
     </div>
   );
 }

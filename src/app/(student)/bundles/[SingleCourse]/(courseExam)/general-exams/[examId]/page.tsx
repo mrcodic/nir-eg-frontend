@@ -4,9 +4,8 @@ import ExamForm from "@/components/forms/ExamForm";
 import { useTaskContext } from "@/context/TaskProvider";
 import ProtectedRoute from "@/layouts/ProtectedRoute";
 import { cn } from "@/lib/utils";
-import ExamSideInfo from "@/modules/exam/components/ExamSideInfo";
-import ExamSideNav from "@/modules/exam/components/ExamSideNav";
 import SubmitLoader from "@/modules/exam/components/SubmitLoader";
+import TaskSideBar from "@/modules/exam/components/TaskSideBar";
 
 const ExamPage = () => {
   const {
@@ -35,23 +34,12 @@ const ExamPage = () => {
           // },
         )}
       >
-        <div
-          className={cn(
-            "top-[85px] flex flex-col space-y-4 overflow-y-auto group-data-[template=landing-v3]/template:top-29 max-lg:w-full lg:sticky lg:max-h-[calc(100vh-90px)] group-data-[template=landing-v3]/template:lg:max-h-[calc(100vh-126px)]",
-            // {
-            //   "top-29 lg:max-h-[calc(100vh-126px)]": template == 3,
-            // },
-          )}
-        >
-          <ExamSideInfo
-            data={data}
-            start={start}
-            startTimer={startExam && !!start?.timer}
-            onComplete={onComplete}
-          />
-
-          <ExamSideNav />
-        </div>
+        <TaskSideBar
+          data={data}
+          start={start}
+          startTimer={startExam && !!start?.timer}
+          onComplete={onComplete}
+        />
 
         <div className="flex-1 self-stretch">
           <ExamForm
