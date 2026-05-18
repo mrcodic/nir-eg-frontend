@@ -118,7 +118,7 @@ const WrittenQuestion = ({ question, index, listRef }: Props) => {
                   className={cn(
                     "w-full rounded-xl p-2 text-sm placeholder-shown:text-start disabled:text-black disabled:opacity-100",
                     {
-                      "pe-12": !selectedFile,
+                      "pe-12": !selectedFile && !answered,
                     },
                   )}
                   value={
