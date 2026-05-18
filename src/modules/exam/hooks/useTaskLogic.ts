@@ -7,14 +7,20 @@ import { useCallback, useEffect, useRef, useState } from "react";
 export const useTaskLogic = (
   options: {
     onInitialize?: (val: boolean) => void;
-    shouldStartQuiz?: (start: any) => boolean;
+    shouldStartQuiz?: (start: any) => {
+      start: boolean;
+      type: "fresh" | "mid-session" | "no";
+    };
     onRetakeSuccess?: () => void;
+    /** Called when the exam is about to start for the first time — pause until confirmed */
+    onConfirmRequired?: () => void;
   } = {},
 ) => {
   const { toast } = useToast();
   const isInit = useRef(false);
 
-  const { onInitialize, shouldStartQuiz, onRetakeSuccess } = options;
+  const { onInitialize, shouldStartQuiz, onRetakeSuccess, onConfirmRequired } =
+    options;
 
   // ✅ only stable values from context
   const { taskId, start, data, setData, reset, trigger } = useTaskContext();
@@ -26,6 +32,7 @@ export const useTaskLogic = (
   const [resolver, setResolver] = useState<((v: boolean) => void) | null>(null);
   const [status, setStatus] = useState(false);
   const [isLoadingRetake, setIsLoadingRetake] = useState(false);
+  const [awaitingConfirm, setAwaitingConfirm] = useState(false);
 
   // ================= RETAKE LOGIC =================
   const retakeExamLogic = useCallback(async () => {
@@ -83,16 +90,19 @@ export const useTaskLogic = (
   useEffect(() => {
     if (isInit.current) return;
 
-    console.log("initializeQuiz");
-
     const initializeQuiz = async () => {
       isInit.current = true;
 
-      const shouldStart = shouldStartQuiz
-        ? shouldStartQuiz(start)
-        : start?.score === null && !start?.review_pending;
+      const shouldStart = shouldStartQuiz(start);
 
-      if (shouldStart) {
+      if (shouldStart.start) {
+        if (shouldStart.type === "fresh" && onConfirmRequired) {
+          // Pause — wait for the user to confirm before fetching questions
+          setAwaitingConfirm(true);
+          onConfirmRequired();
+          return;
+        }
+
         setStatus(false);
         onInitialize?.(true);
 
@@ -123,10 +133,32 @@ export const useTaskLogic = (
     start?.result,
     shouldStartQuiz,
     onInitialize,
+    onConfirmRequired,
     fail,
     setData,
     start,
   ]);
+
+  // ================= CONFIRM START =================
+  const proceedWithStart = useCallback(async () => {
+    setAwaitingConfirm(false);
+    setStatus(false);
+    onInitialize?.(true);
+
+    try {
+      const q = await getClientPrivateData({
+        queryKey: [`students/quiz/questions/${taskId}`],
+      });
+      setData(q?.body);
+    } catch (e) {
+      console.log("get questions error:", e);
+    }
+  }, [taskId, setData, onInitialize]);
+
+  const cancelStart = useCallback(() => {
+    setAwaitingConfirm(false);
+    isInit.current = false; // allow re-init if user comes back
+  }, []);
 
   // ================= SHOW ANSWERS =================
   const showAnswers = useCallback(async () => {
@@ -196,5 +228,8 @@ export const useTaskLogic = (
     retake,
     handleClose,
     isLoadingRetake,
+    awaitingConfirm,
+    proceedWithStart,
+    cancelStart,
   };
 };

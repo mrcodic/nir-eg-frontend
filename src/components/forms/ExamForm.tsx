@@ -1,7 +1,7 @@
 "use client";
 
 import { useTaskLogic } from "@/modules/exam/hooks/useTaskLogic";
-import { redirect, useParams } from "next/navigation";
+import { redirect, useParams, useRouter } from "next/navigation";
 
 import { useAuthContext } from "@/context/auth-context";
 import {
@@ -10,6 +10,7 @@ import {
   TargetGradeBanner,
 } from "@/modules/exam/components/ExamBanners";
 import TaskModalsWrapper from "@/modules/exam/components/TaskModalsWrapper";
+import StartExamDialog from "@/modules/exam/components/StartExamDialog";
 import { QuizStatus } from "@/types";
 import { memo } from "react";
 import TaskForm from "./TaskForm";
@@ -25,6 +26,7 @@ type Props = {
 const ExamForm = ({ start, setStartExam, examType = "exam" }: Props) => {
   const { examId } = useParams();
   const { profile } = useAuthContext();
+  const router = useRouter();
 
   if (!examId) {
     redirect("/ErrorPage?message=لم يتم العثور على امتحان");
@@ -44,15 +46,26 @@ const ExamForm = ({ start, setStartExam, examType = "exam" }: Props) => {
     handleClose,
     data,
     isLoadingRetake,
+    awaitingConfirm,
+    proceedWithStart,
+    cancelStart,
   } = useTaskLogic({
     shouldStartQuiz: (start) => {
       const nowTime = Date.now();
       const storedTime = localStorage.getItem(`timer-${examId}-${profile?.id}`);
 
-      return (
+      const shouldStart =
         !start.review_pending &&
-        (start.score === null || (storedTime && nowTime < Number(storedTime)))
-      );
+        (start.score === null || (storedTime && nowTime < Number(storedTime)));
+
+      return {
+        start: shouldStart,
+        type: shouldStart
+          ? storedTime && nowTime < Number(storedTime)
+            ? "mid-session"
+            : "fresh"
+          : "no",
+      };
     },
     onInitialize: (shouldStart) => {
       setStartExam(shouldStart);
@@ -64,10 +77,23 @@ const ExamForm = ({ start, setStartExam, examType = "exam" }: Props) => {
       localStorage.removeItem(`timer-${examId}-${profile?.id}`);
       setStartExam(true);
     },
+    onConfirmRequired: () => {
+      // useTaskLogic will set awaitingConfirm = true; dialog renders below
+    },
   });
 
   return (
     <>
+      <StartExamDialog
+        open={awaitingConfirm}
+        start={start}
+        onConfirm={proceedWithStart}
+        onCancel={() => {
+          cancelStart();
+          router.back();
+        }}
+      />
+
       {!status && data?.score && <TargetGradeBanner score={data.score} />}
 
       {status && data?.details?.score && (
