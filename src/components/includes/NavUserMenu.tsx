@@ -15,6 +15,7 @@ import LogoutCustomModal from "../modals/LogoutCustomModal";
 import CustomImage from "../ui/CustomImage";
 import { useTenant } from "@/context/TenantProvider";
 import { IUser } from "@/types";
+import { ScrollArea } from "../ui/scroll-area";
 
 function NavUserMenu({
   profile,
@@ -39,103 +40,114 @@ function NavUserMenu({
         />
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent className="mobile:top-1 border-gray-light relative left-10 z-100 max-h-[calc(100vh-90px)] w-[272px] overflow-y-auto rounded-lg border bg-white pt-4 pb-2">
-        <DropdownMenuItem className="flex w-full flex-col items-center justify-center gap-4">
-          <CustomImage
-            src={profile?.avatar}
-            size={56}
-            className="size-14 rounded-full"
-            alt="user avatar"
+      <DropdownMenuContent className="mobile:top-1 border-gray-light relative left-10 z-100 w-[272px] rounded-lg border bg-white pt-4 pb-2">
+        <ScrollArea
+          dir="rtl"
+          className="h-[calc(100vh-120px)] max-h-[451px] flex-1"
+        >
+          <DropdownMenuItem className="flex w-full flex-col items-center justify-center gap-4">
+            <CustomImage
+              src={profile?.avatar}
+              size={56}
+              className="size-14 rounded-full"
+              alt="user avatar"
+            />
+
+            <h3 className="text-base font-bold text-black">
+              {(profile?.first_name || "--") +
+                " " +
+                (profile?.last_name || "--")}
+            </h3>
+
+            <div className="bg-gray-light mb-4 h-px w-full" />
+          </DropdownMenuItem>
+
+          <DropdownMenuItem>
+            <div className="mb-3 flex items-center gap-2">
+              <Image
+                className="size-5"
+                src="/assets/phone.svg"
+                width={20}
+                height={20}
+                alt="phone icon"
+              />
+              <h3 className="text-gray-dark text-[12px] font-bold">
+                رقم الهاتف
+              </h3>
+            </div>
+          </DropdownMenuItem>
+
+          <DropdownMenuItem>
+            <div className="grid w-full grid-cols-2 gap-2">
+              <div className="bg-background flex flex-col gap-2 rounded-lg p-2">
+                <h3 className="text-gray-dark text-xs font-bold">
+                  رقم الطالب:
+                </h3>
+                <span className="text-sm font-bold tracking-wider">
+                  {profile?.phone}
+                </span>
+              </div>
+              <div className="bg-background flex flex-col gap-2 rounded-lg p-2">
+                <h3 className="text-gray-dark text-xs font-bold">
+                  رقم ولي الأمر:
+                </h3>
+                <span className="text-sm font-bold tracking-wider">
+                  {profile?.parent_phone}
+                </span>
+              </div>
+            </div>
+          </DropdownMenuItem>
+
+          <div className="bg-gray-light my-4 mb-4 h-px w-full px-4" />
+
+          <MenuItem
+            href="/profile/accountSettings"
+            icon="/assets/settings.svg"
+            text="إعدادات الحساب"
           />
 
-          <h3 className="text-base font-bold text-black">
-            {(profile?.first_name || "--") + " " + (profile?.last_name || "--")}
-          </h3>
+          <MenuItem href="/orders" icon="/assets/bundles.svg" text="الطلبات" />
 
-          <div className="bg-gray-light mb-4 h-px w-full" />
-        </DropdownMenuItem>
+          {hasCommunityEnabled &&
+            (profile?.type === 4 || profile?.type === 5) && (
+              <MenuItem
+                href="/profile/comments"
+                icon="/assets/query.svg"
+                text="الأسئلة والاستفسارات"
+              />
+            )}
 
-        <DropdownMenuItem>
-          <div className="mb-3 flex items-center gap-2">
-            <Image
-              className="size-5"
-              src="/assets/phone.svg"
-              width={20}
-              height={20}
-              alt="phone icon"
-            />
-            <h3 className="text-gray-dark text-[12px] font-bold">رقم الهاتف</h3>
-          </div>
-        </DropdownMenuItem>
-
-        <DropdownMenuItem>
-          <div className="grid w-full grid-cols-2 gap-2">
-            <div className="bg-background flex flex-col gap-2 rounded-lg p-2">
-              <h3 className="text-gray-dark text-xs font-bold">رقم الطالب:</h3>
-              <span className="text-sm font-bold tracking-wider">
-                {profile?.phone}
-              </span>
-            </div>
-            <div className="bg-background flex flex-col gap-2 rounded-lg p-2">
-              <h3 className="text-gray-dark text-xs font-bold">
-                رقم ولي الأمر:
-              </h3>
-              <span className="text-sm font-bold tracking-wider">
-                {profile?.parent_phone}
-              </span>
-            </div>
-          </div>
-        </DropdownMenuItem>
-
-        <div className="bg-gray-light my-4 mb-4 h-px w-full px-4" />
-
-        <MenuItem
-          href="/profile/accountSettings"
-          icon="/assets/settings.svg"
-          text="إعدادات الحساب"
-        />
-
-        <MenuItem href="/orders" icon="/assets/bundles.svg" text="الطلبات" />
-
-        {hasCommunityEnabled &&
-          (profile?.type === 4 || profile?.type === 5) && (
+          {features?.book_store && shouldShowBooks && (
             <MenuItem
-              href="/profile/comments"
-              icon="/assets/query.svg"
-              text="الأسئلة والاستفسارات"
+              href="/books"
+              icon="/assets/store-outline.svg"
+              text="متجر الكتب"
             />
           )}
 
-        {features?.book_store && shouldShowBooks && (
+          <hr className="my-2 bg-gray-300" />
+
           <MenuItem
-            href="/books"
-            icon="/assets/store-outline.svg"
-            text="متجر الكتب"
+            onClick={() => {
+              modal.setDialogContent(<LogoutCustomModal />);
+              modal.openModal();
+            }}
+            icon="/assets/sign-out.svg"
+            text="تسجيل خروج"
+            textClassName="text-semantics-red"
           />
-        )}
 
-        <hr className="my-2 bg-gray-300" />
-
-        <MenuItem
-          onClick={() => {
-            modal.setDialogContent(<LogoutCustomModal />);
-            modal.openModal();
-          }}
-          icon="/assets/sign-out.svg"
-          text="تسجيل خروج"
-          textClassName="text-semantics-red"
-        />
-
-        {profile?.id && profile?.type === 3 && (
-          <div className="ms-4 mt-2 flex flex-col items-start">
-            <QRCodeCanvas
-              value={String(profile?.id)}
-              size={96}
-              bgColor="#ffffff"
-              fgColor="#000000"
-            />
-          </div>
-        )}
+          {profile?.id && profile?.type === 3 && (
+            <div className="ms-4 mt-2 flex flex-col items-start">
+              <QRCodeCanvas
+                value={String(profile?.id)}
+                size={96}
+                bgColor="#ffffff"
+                fgColor="#000000"
+              />
+            </div>
+          )}
+        </ScrollArea>
       </DropdownMenuContent>
     </DropdownMenu>
   );

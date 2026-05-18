@@ -16,6 +16,7 @@ import { useState } from "react";
 import { useNotificationSound } from "../hooks/useNotificationSound";
 import MarkAllAsRead from "./MarkAllAsRead";
 import Notification from "./Notification";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 function NavNotifications() {
   const [open, setOpen] = useState(false);
@@ -56,8 +57,8 @@ function NavNotifications() {
         className={cn(
           "z-50 w-screen max-w-[min(438px,95vw)] p-2",
           "border-gray-light rounded-lg border bg-white",
-          "flex flex-col overflow-hidden",
-          "max-h-[min(80vh,var(--radix-dropdown-menu-content-available-height))]",
+          "flex flex-col",
+          // "max-h-[min(80vh,var(--radix-dropdown-menu-content-available-height))]",
         )}
         sideOffset={8}
         collisionPadding={8}
@@ -70,11 +71,14 @@ function NavNotifications() {
           )}
         </div>
 
-        <div
-          className={cn("mt-2 mb-2 h-0 flex-1 overflow-y-auto rounded-xl", {
-            "animate-pulse opacity-80": isPlaceholderData,
-            "border-t-0": notifications?.data?.length === 0,
-          })}
+        <ScrollArea
+          className={cn(
+            "mt-2 mb-2 h-[calc(100vh-140px)] max-h-[450px] rounded-xl",
+            {
+              "animate-pulse opacity-80": isPlaceholderData,
+              "border-t-0": notifications?.data?.length === 0,
+            },
+          )}
         >
           {notifications?.data?.length > 0 ? (
             notifications.data.map(
@@ -100,7 +104,7 @@ function NavNotifications() {
               <p className="text-blacktext-center text-sm">لا يوجد إشعارات</p>
             </div>
           )}
-        </div>
+        </ScrollArea>
 
         <div className="shrink-0 pt-2 empty:p-0">
           <SimplePagination
