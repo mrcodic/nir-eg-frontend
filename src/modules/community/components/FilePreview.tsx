@@ -116,22 +116,13 @@ export default function FilePreview({
               </div>
             )}
 
-            {/* ── Image size badge ──────────────────────────────────────── */}
-            {objectUrl && (
-              <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-black/30 px-1 py-0.5">
-                <p className="truncate text-center text-[9px] text-white">
-                  {humanSize(file.size)}
-                </p>
-              </div>
-            )}
+            {/* ── size badge ──────────────────────────────────────── */}
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-black/30 px-1 py-0.5">
+              <p className="truncate text-center text-[9px] text-white">
+                {humanSize(file.size)}
+              </p>
+            </div>
           </div>
-
-          {/* ── Name label (non-image only) ───────────────────────────── */}
-          {!objectUrl && (
-            <p className="w-20 truncate text-center text-[10px] text-gray-500">
-              {humanSize(file.size)}
-            </p>
-          )}
         </div>
       ))}
 
