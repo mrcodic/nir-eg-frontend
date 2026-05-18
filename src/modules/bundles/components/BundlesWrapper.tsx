@@ -5,7 +5,7 @@ import { Bundle, IUser } from "@/types";
 import BundleCard from "./BundleCard";
 import PaginationServer from "@/components/shared/PaginationServer";
 
-const ITEMS_PER_PAGE = 4;
+const ITEMS_PER_PAGE = 1;
 
 const BundlesWrapper = async ({
   profile,

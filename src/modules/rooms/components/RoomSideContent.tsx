@@ -120,8 +120,11 @@ const RoomSideContent = ({
         defaultValue={["lessons", "quizzes", "assignments", "attachments"]}
         className="mt-6 min-h-0 w-full flex-1"
       >
-        <ScrollArea className="border-gray-light h-full min-h-0 rounded-lg border p-1">
-          <div className="space-y-4 pr-2">
+        <ScrollArea
+          dir="rtl"
+          className="border-gray-light h-full min-h-0 rounded-lg border p-1"
+        >
+          <div className="space-y-4">
             {/* Lessons Section */}
             <AccordionItem
               value="lessons"

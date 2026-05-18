@@ -93,9 +93,6 @@ const itemActive =
 
 const itemInactive = "bg-background hover:bg-muted text-foreground";
 
-const itemDisabled =
-  "pointer-events-none cursor-not-allowed opacity-50 bg-background";
-
 // ---------------------------------------------------------------------------
 // Component
 // ---------------------------------------------------------------------------
@@ -131,21 +128,15 @@ const PaginationServer = ({
       )}
     >
       {/* ── Prev ── */}
-      {hasPrev ? (
-        <Link
-          href={href(currentPage - 1)}
-          className={cn(itemBase, itemInactive, "sm:text-sm")}
-        >
-          <span>السابق</span>
-        </Link>
-      ) : (
-        <span
-          className={cn(itemBase, itemDisabled, "sm:text-sm")}
-          aria-disabled="true"
-        >
-          السابق
-        </span>
-      )}
+
+      <Link
+        href={href(currentPage - 1)}
+        className={cn("mx-1 text-sm sm:mx-2", {
+          "pointer-events-none cursor-not-allowed opacity-50": !hasPrev,
+        })}
+      >
+        <span>السابق</span>
+      </Link>
 
       {/* ── Page numbers ── */}
       {pages.map((page, i) =>
@@ -172,21 +163,15 @@ const PaginationServer = ({
       )}
 
       {/* ── Next ── */}
-      {hasNext ? (
-        <Link
-          href={href(currentPage + 1)}
-          className={cn(itemBase, itemInactive, "sm:text-sm")}
-        >
-          <span>التالى</span>
-        </Link>
-      ) : (
-        <span
-          className={cn(itemBase, itemDisabled, "sm:text-sm")}
-          aria-disabled="true"
-        >
-          التالى
-        </span>
-      )}
+
+      <Link
+        href={href(currentPage + 1)}
+        className={cn("mx-1 text-sm sm:mx-2", {
+          "pointer-events-none cursor-not-allowed opacity-50": !hasNext,
+        })}
+      >
+        <span>التالى</span>
+      </Link>
     </nav>
   );
 };

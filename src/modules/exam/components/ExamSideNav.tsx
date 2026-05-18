@@ -25,6 +25,7 @@ function ExamSideNav() {
       <ScrollArea
         className="flex max-h-80 flex-col gap-4 overflow-y-auto p-4 pt-0"
         dir="rtl"
+        thumbClassName="bg-primary-800"
       >
         {questions.map((q, index) => (
           <SideNavItem

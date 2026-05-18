@@ -2,7 +2,7 @@ import React, { ComponentProps } from "react";
 import { cn } from "@/lib/utils";
 import ExamSideInfo from "./ExamSideInfo";
 import ExamSideNav from "./ExamSideNav";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 type ExamSideInfoProps = ComponentProps<typeof ExamSideInfo>;
 
