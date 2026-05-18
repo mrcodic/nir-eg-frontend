@@ -5,7 +5,7 @@ import ReadingBorder from "@/components/ui/paragraph-borders";
 import { Textarea } from "@/components/ui/textarea";
 import { useTaskContext } from "@/context/TaskProvider";
 import { cn } from "@/lib/utils";
-import { File, Files, Trash } from "lucide-react";
+import { File, ImagePlus, Trash } from "lucide-react";
 import Image from "next/image";
 import { ChangeEvent, memo, useCallback } from "react";
 import { useFormContext, useFormState, useWatch } from "react-hook-form";
@@ -81,7 +81,7 @@ const WrittenQuestion = ({ question, index, listRef }: Props) => {
 
   return (
     <div
-      dir="ltr"
+      dir="rtl"
       ref={(el) => {
         listRef.current[index] = el!;
       }}
@@ -112,7 +112,7 @@ const WrittenQuestion = ({ question, index, listRef }: Props) => {
                   disabled={disabled}
                   placeholder="قم بإدخال إجابتك هنا"
                   className={cn(
-                    "w-full rounded-xl p-2 pr-9 text-sm placeholder-shown:text-end disabled:text-black disabled:opacity-100",
+                    "w-full rounded-xl p-2 pe-9 text-sm placeholder-shown:text-start disabled:text-black disabled:opacity-100",
                   )}
                   value={
                     answered
@@ -149,9 +149,9 @@ const WrittenQuestion = ({ question, index, listRef }: Props) => {
                     {!selectedFile && (
                       <label
                         htmlFor={`pickFile-${question.id}`}
-                        className="group absolute top-1 right-1 cursor-pointer p-1"
+                        className="group bg-background border-gray-light absolute top-1 left-1 cursor-pointer rounded-lg border p-1"
                       >
-                        <Files className="size-6 transition-all group-hover:stroke-blue-500" />
+                        <ImagePlus className="group-hover:stroke-primary size-6 stroke-gray-700 transition-all" />
                       </label>
                     )}
                   </>
@@ -216,8 +216,8 @@ const Overview = ({
   isAnswer: boolean;
 }) => {
   return (
-    <div className="mt-2 flex w-full flex-col gap-2">
-      <div className="flex items-center justify-between gap-4 rounded-xl bg-gray-100 p-2">
+    <div className="border-primary-100 mt-2 flex w-full flex-col gap-2 rounded-xl border">
+      <div className="flex items-center justify-between gap-4 p-2">
         <div className="flex w-full items-center gap-4">
           {isAnswer && file?.mime?.startsWith("image") ? (
             <ImagePreview src={file.url} />
@@ -227,7 +227,9 @@ const Overview = ({
             <File className="h-6 w-6" />
           )}
 
-          <p className="text-xs font-bold break-all">{file.name}</p>
+          <p className="line-clamp-1 text-xs font-bold break-all">
+            {file.name}
+          </p>
         </div>
 
         {!isAnswer && (

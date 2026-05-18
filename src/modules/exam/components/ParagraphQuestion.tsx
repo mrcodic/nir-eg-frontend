@@ -1,9 +1,11 @@
 import ReadingBorder from "@/components/ui/paragraph-borders";
+import { useTaskContext } from "@/context/TaskProvider";
+import { QuizQuestion } from "@/types";
 import { memo, useMemo } from "react";
+import { useFormState } from "react-hook-form";
 import Question from "./Question";
 import QuestionHeader from "./QuestionHeader";
 import QuestionTitle from "./QuestionTitle";
-import { QuizQuestion } from "@/types";
 
 type Props = {
   question: QuizQuestion;
@@ -41,6 +43,19 @@ const ParagraphQuestion = ({
     return notFullyAnswered;
   }, [isAnswer, allQuestionsAnswers]);
 
+  const { control } = useTaskContext();
+
+  const { errors } = useFormState({
+    control,
+    name: question.related_questions?.map((rq) => `questions.${rq.id}`) ?? [],
+  });
+  const hasUnansweredSubQuestion = useMemo(
+    () =>
+      question.related_questions?.some((rq) => !!errors?.questions?.[rq.id]) ??
+      false,
+    [errors, question.related_questions],
+  );
+
   return (
     <div
       ref={(el) => {
@@ -52,18 +67,18 @@ const ParagraphQuestion = ({
     >
       <QuestionHeader
         index={index}
-        error={notFullyAnsweredQuestions}
+        error={hasUnansweredSubQuestion || notFullyAnsweredQuestions}
         multiCorrect
       />
 
-      <div dir="ltr" className="space-y-2">
+      <div dir="rtl" className="space-y-2">
         <QuestionTitle
           title={question.title}
           video={question.answer_video}
           isSubQuestion={false}
         />
 
-        <div className="space-y-4 border-l border-gray-200 pl-4">
+        <div className="border-primary-100 space-y-4 border-r ps-4">
           {question.related_questions?.map((rq, idx) => (
             <Question
               key={rq.id}

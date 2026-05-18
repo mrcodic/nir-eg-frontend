@@ -47,8 +47,6 @@ const Question = ({
     [isAnswer, question.answers],
   );
 
-  console.log(question);
-
   return (
     <div
       ref={(el) => {

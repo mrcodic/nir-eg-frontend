@@ -20,11 +20,11 @@ export default function TaskSideBar({
     // max-h-[calc(100vh-130px)]
     <ScrollArea
       className={cn(
-        "relative! flex flex-col gap-4 overflow-y-auto max-lg:w-full lg:sticky! lg:max-h-[calc(100vh-90px)] group-data-[template=landing-v3]/template:lg:max-h-[calc(100vh-126px)]",
-        {
-          "top-[85px] group-data-[template=landing-v3]/template:top-29":
-            examSideInfoProps?.startTimer,
-        },
+        "relative! flex flex-col gap-4 overflow-y-auto max-lg:w-full lg:sticky! lg:top-[85px] lg:max-h-[calc(100vh-90px)] lg:group-data-[template=landing-v3]/template:top-29 group-data-[template=landing-v3]/template:lg:max-h-[calc(100vh-126px)]",
+        // {
+        //   "":
+        //     examSideInfoProps?.startTimer,
+        // },
         className,
       )}
       dir="rtl"

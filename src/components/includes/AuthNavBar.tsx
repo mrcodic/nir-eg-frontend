@@ -21,7 +21,7 @@ const NavCartButton = dynamic(
 
 const AuthNavBar = () => {
   const { profile, grade } = useAuthContext();
-  const { templateNumber, logo, features } = useTenant();
+  const { logo, features } = useTenant();
   const { shouldShowBooks, shouldShowCart } = useBooksSettings();
   const pathname = usePathname();
 
@@ -72,17 +72,14 @@ const AuthNavBar = () => {
     <div
       className={cn(
         "border-gray-light bg-background fixed top-0 left-0 z-30 flex h-20 w-full items-center border-b aria-hidden:pointer-events-auto! data-[aria-hidden='true']:pointer-events-auto!",
-        {
-          "h-28 items-end border-none bg-transparent": templateNumber == 3,
-        },
+        "group-data-[template=landing-v3]/template:h-28 group-data-[template=landing-v3]/template:items-end group-data-[template=landing-v3]/template:border-none group-data-[template=landing-v3]/template:bg-transparent",
       )}
     >
       <div className="wrapper">
         <div
-          className={cn("flex items-center justify-between gap-4", {
-            "bg-background border-gray-light rounded-lg border p-4":
-              templateNumber == 3,
-          })}
+          className={cn(
+            "group-data-[template=landing-v3]/template:bg-background group-data-[template=landing-v3]/template:border-gray-light flex items-center justify-between gap-4 group-data-[template=landing-v3]/template:rounded-lg group-data-[template=landing-v3]/template:border group-data-[template=landing-v3]/template:p-4",
+          )}
         >
           <Link
             href={
