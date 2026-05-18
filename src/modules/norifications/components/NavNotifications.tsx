@@ -43,14 +43,6 @@ function NavNotifications() {
           {notifications?.meta?.unread_count > 0 && (
             <CountBubble count={notifications?.meta?.unread_count} />
           )}
-
-          {/* <DotLottieReact
-            key={notifications?.meta?.unread_count}
-            className="mx-auto size-28"
-            src="/Animations/bell-icon.lottie"
-            autoplay={notifications?.meta?.unread_count > 0}
-            loop
-          /> */}
           <div
             className="bg-primary-800 size-6 mask-center mask-no-repeat object-contain transition-all group-hover:bg-white"
             style={{
@@ -79,7 +71,7 @@ function NavNotifications() {
         </div>
 
         <div
-          className={cn("mt-2 mb-2 flex-1 overflow-y-auto rounded-xl", {
+          className={cn("mt-2 mb-2 h-0 flex-1 overflow-y-auto rounded-xl", {
             "animate-pulse opacity-80": isPlaceholderData,
             "border-t-0": notifications?.data?.length === 0,
           })}
@@ -110,7 +102,6 @@ function NavNotifications() {
           )}
         </div>
 
-        {/* Keep pagination OUTSIDE the scroller */}
         <div className="shrink-0 pt-2 empty:p-0">
           <SimplePagination
             currentPage={notifications?.meta?.current_page}

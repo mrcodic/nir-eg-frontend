@@ -21,12 +21,12 @@ function useSendReply() {
       formData.append("body", data?.body);
       formData.append("at_second", currentTime + "");
 
-      data?.files?.forEach((item) => {
-        const fileType = item.file.type;
+      data?.files?.forEach((item: File) => {
+        const fileType = item.type;
         if (fileType.startsWith("image")) {
-          formData.append(`images[]`, item.file);
+          formData.append(`images[]`, item);
         } else if (fileType.startsWith("application")) {
-          formData.append(`documents[]`, item.file);
+          formData.append(`documents[]`, item);
         }
       });
 
@@ -58,7 +58,8 @@ function useSendReply() {
         icon: "success",
       });
     },
-    onError: () => {
+    onError: (e) => {
+      console.log(e);
       toast({
         description: "حدث خطأ أثناء إرسال الرد",
         icon: "error",
