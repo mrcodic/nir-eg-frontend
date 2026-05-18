@@ -227,10 +227,9 @@ function TaskForm({
           <div className="flex-1 space-y-4">
             {data.questions.map((question, index) => {
               return (
-                <>
+                <div key={question.id}>
                   {question.type === 2 ? (
                     <ParagraphQuestion
-                      key={question.id}
                       question={question}
                       index={index}
                       listRef={listRef}
@@ -255,9 +254,9 @@ function TaskForm({
                     />
                   )}
                   {index < data.questions.length - 1 && (
-                    <hr className="border-secondary" />
+                    <hr className="border-secondary mt-4" />
                   )}
-                </>
+                </div>
               );
             })}
           </div>

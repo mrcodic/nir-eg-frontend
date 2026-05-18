@@ -4,6 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 import { formatTime, getHref, getTitle } from "../helpers";
+import { cn } from "@/lib/utils";
 
 const Notification = ({
   notification,
@@ -29,9 +30,12 @@ const Notification = ({
       href={getHref(notification)}
       onClick={markAsRead}
       dir="rtl"
-      className={`border-gray-light flex w-full shrink-0 flex-col gap-4 bg-white p-2 py-4 text-sm transition-all not-last:border-b hover:bg-[#F5F5F5] ${
-        !notification.is_read ? "bg-[#eee]" : ""
-      }`}
+      className={cn(
+        `border-gray-light flex w-full shrink-0 flex-col gap-4 bg-white p-2 py-4 text-sm transition-all not-last:border-b hover:bg-[#F5F5F5]`,
+        {
+          "bg-primary-50": !notification.is_read,
+        },
+      )}
     >
       <div className="flex flex-col gap-2">
         <p className="text-sm text-black">{getTitle(notification)}</p>
@@ -55,8 +59,9 @@ const Notification = ({
         <span className="text-gray-dark text-[12px]">
           {formatTime(notification.created_at)}
         </span>
+
         {!notification.is_read && (
-          <span className="bg-primary-100 ms-auto size-4 animate-pulse rounded-full"></span>
+          <span className="bg-secondary ms-auto size-4 animate-pulse rounded-full"></span>
         )}
       </div>
     </Link>
