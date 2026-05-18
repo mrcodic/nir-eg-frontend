@@ -1,11 +1,12 @@
 import ReadingBorder from "@/components/ui/paragraph-borders";
-import { memo } from "react";
+import { memo, useMemo } from "react";
 import Question from "./Question";
 import QuestionHeader from "./QuestionHeader";
 import QuestionTitle from "./QuestionTitle";
+import { QuizQuestion } from "@/types";
 
 type Props = {
-  question: any;
+  question: QuizQuestion;
   index: number;
   listRef: React.MutableRefObject<HTMLDivElement[]>;
   status: boolean;
@@ -19,11 +20,26 @@ const ParagraphQuestion = ({
   status,
   isAnswer,
 }: Props) => {
-  const allQuestionsAnswers =
-    isAnswer && question.related_questions?.flatMap((q) => q.answers);
+  const allQuestionsAnswers = useMemo(
+    () => isAnswer && question.related_questions?.map((q) => q.answers),
+    [isAnswer, question.related_questions],
+  );
 
-  const notSolvedQuestion =
-    isAnswer && allQuestionsAnswers?.some((a) => !a.selected && a.correct);
+  const notFullyAnsweredQuestions = useMemo(() => {
+    if (!isAnswer) return;
+
+    let notFullyAnswered = false;
+
+    for (const answers of allQuestionsAnswers) {
+      const hasSelectedAnswer = answers.some((ans) => ans.selected);
+      if (!hasSelectedAnswer) {
+        notFullyAnswered = true;
+        break;
+      }
+    }
+
+    return notFullyAnswered;
+  }, [isAnswer, allQuestionsAnswers]);
 
   return (
     <div
@@ -32,9 +48,13 @@ const ParagraphQuestion = ({
       }}
       style={{ scrollMarginTop: "100px" }}
       id={`question-${index}`}
-      className="bg-background p-4 rounded-lg"
+      className="bg-background rounded-lg p-4"
     >
-      <QuestionHeader index={index} error={notSolvedQuestion} multiCorrect />
+      <QuestionHeader
+        index={index}
+        error={notFullyAnsweredQuestions}
+        multiCorrect
+      />
 
       <div dir="ltr" className="space-y-2">
         <QuestionTitle
@@ -43,7 +63,7 @@ const ParagraphQuestion = ({
           isSubQuestion={false}
         />
 
-        <div className="pl-4 space-y-4 border-l border-gray-200">
+        <div className="space-y-4 border-l border-gray-200 pl-4">
           {question.related_questions?.map((rq, idx) => (
             <Question
               key={rq.id}

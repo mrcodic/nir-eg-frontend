@@ -13,7 +13,7 @@ function GradesTableAction({
 }) {
   const isExam = row?.type !== "واجب";
   const haveAnswer = !!(row?.score_ratio || row?.score !== null);
-  const isExpired = row?.classroom_expired || row?.classroom === "--";
+  const isExpired = row?.classroom_expired;
   const isReviewPending = row?.review_pending;
 
   return (
@@ -27,6 +27,7 @@ function GradesTableAction({
           score={rowValue}
           pass={!isExam || row?.passed}
           pending={isReviewPending}
+          type={row.type}
         />
       ) : (
         !isReviewPending &&

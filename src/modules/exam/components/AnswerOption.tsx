@@ -5,7 +5,13 @@ import { Circle } from "lucide-react";
 import { memo, useCallback, useMemo } from "react";
 
 type Props = {
-  answer: any;
+  answer: {
+    correct: boolean;
+    id: number;
+    selected: boolean;
+    valueCk: string | null;
+    valueInput: string | null;
+  };
   questionId: number;
   disabled: boolean;
   field: any;
@@ -19,8 +25,6 @@ const AnswerOption = ({
   field,
   isMultiple,
 }: Props) => {
-  // const { trigger } = useTaskContext();
-
   const answerId = `answer-${questionId}-${answer.id}`;
 
   const selectedAnswers = useMemo(() => {
@@ -57,7 +61,7 @@ const AnswerOption = ({
       return "border-green-500 bg-green-50";
     if (answerState === "correct-unselected")
       return "border-green-500 bg-green-50";
-    if (answerState === "incorrect-selected") return "border-red-600 bg-red-50";
+    if (answerState === "incorrect-selected") return "border-red-700 bg-red-50";
     return "border-gray-light";
   }, [answerState]);
 
@@ -65,14 +69,14 @@ const AnswerOption = ({
     if (answerState === "correct-selected")
       return "bg-green-500 border-green-500";
     if (answerState === "incorrect-selected")
-      return "bg-red-600 border-red-600";
+      return "bg-red-700 border-red-700";
     return "";
   }, [answerState]);
 
   return (
     <label
       htmlFor={answerId}
-      dir="ltr"
+      dir="rtl"
       className={cn("rounded-lg border bg-white p-2", borderClass)}
     >
       <FormItem className="flex items-center space-y-0 space-x-3">
@@ -84,11 +88,11 @@ const AnswerOption = ({
               checked={isChecked}
               onCheckedChange={handleCheckboxChange}
               className={cn(
-                "border-gray-dark group size-6 rounded-full data-[state=checked]:bg-white",
+                "border-primary group size-6 rounded-full transition-all data-[state=checked]:bg-white",
                 checkboxClass,
               )}
               icon={
-                <Circle className="h-4 w-4 group-data-[state=checked]:fill-black" />
+                <Circle className="group-data-[state=checked]:fill-primary h-4 w-4 transition-colors" />
               }
             />
           </div>

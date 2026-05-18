@@ -3,11 +3,9 @@ import { cn } from "@/lib/utils";
 const ScorePercent = ({
   score,
   passed,
-  type,
 }: {
   score: number;
   passed: boolean;
-  type: string;
 }) => {
   if (score === null) return null;
   return (

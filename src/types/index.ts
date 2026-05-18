@@ -39,33 +39,26 @@ export interface QuizStatus {
   total_score_denominator: number;
 }
 
-export type QuizAnswer =
-  | number
-  | string
-  | number[]
-  | string[]
-  | {
-      type?: string;
-      text?: string;
-      attachments?: Attachment[];
-      graded?: number | boolean;
-      is_correct?: number | boolean;
-      [key: string]: unknown;
-    }
-  | {
-      id: number;
-      valueCk?: string | null;
-      correct?: boolean | "true" | "false" | string;
-      status?: boolean | "true" | "false" | string;
-      [key: string]: unknown;
-    }
-  | Record<string, unknown>;
+export type QuizAnswer = {
+  type?: string;
+  text?: string;
+  attachments?: Attachment[];
+  graded?: number | boolean;
+  is_correct?: number | boolean;
+  id: number;
+  valueCk?: string | null;
+  selected?: boolean;
+  correct?: boolean;
+  status?: boolean | "true" | "false" | string;
+  [key: string]: unknown;
+};
 
 export interface QuizQuestion {
   id: number;
   title?: string | null;
   type?: number;
   answers?: QuizAnswer[] | null;
+  answer_video?: string;
   has_multi_correct?: boolean | null;
   related_questions?: QuizQuestion[] | null;
   [key: string]: unknown;
@@ -338,6 +331,8 @@ export interface TopStudent {
   total_correct: number;
 }
 
+export type TaskType = "امتحان" | "واجب" | string;
+
 export interface IActivity {
   classroom: string;
   classroom_active: boolean;
@@ -351,7 +346,7 @@ export interface IActivity {
   score: number;
   score_ratio: string;
   title: string;
-  type: "امتحان" | string;
+  type: TaskType;
   type_label?: string;
   review_pending: boolean;
 }

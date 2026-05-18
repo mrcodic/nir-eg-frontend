@@ -23,19 +23,21 @@ function ExamSideNav() {
       <h2 className="p-4 pb-0 text-right text-[20px] font-bold">الاسئلة:</h2>
 
       <ScrollArea
-        className="flex max-h-80 flex-col gap-4 overflow-y-auto p-4 pt-0"
+        className="flex max-h-80 flex-col overflow-y-auto p-4 pt-0"
         dir="rtl"
         thumbClassName="bg-primary-800"
       >
-        {questions.map((q, index) => (
-          <SideNavItem
-            key={q.id}
-            question={q}
-            index={index}
-            answers={answers}
-            isAnswer={isAnswer}
-          />
-        ))}
+        <div className="flex flex-col gap-4">
+          {questions.map((q, index) => (
+            <SideNavItem
+              key={q.id}
+              question={q}
+              index={index}
+              answers={answers}
+              isAnswer={isAnswer}
+            />
+          ))}
+        </div>
       </ScrollArea>
     </div>
   );

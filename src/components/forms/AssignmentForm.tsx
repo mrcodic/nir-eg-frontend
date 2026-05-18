@@ -1,10 +1,8 @@
-import AssignmentModal from "@/components/modals/AssignmentModal";
-import FailModal from "@/components/modals/FailModal";
+import TaskModalsWrapper from "@/modules/exam/components/TaskModalsWrapper";
 import { useTaskLogic } from "@/modules/exam/hooks/useTaskLogic";
 import { QuizStatus } from "@/types";
 import { redirect, useParams } from "next/navigation";
 import { memo } from "react";
-import SureModal from "../modals/Sure";
 import TaskForm from "./TaskForm";
 
 const AssignmentForm = ({ start }: { start: QuizStatus }) => {
@@ -40,35 +38,18 @@ const AssignmentForm = ({ start }: { start: QuizStatus }) => {
         setResolver={setResolver}
       />
 
-      {sure && (
-        <SureModal
-          open={sure}
-          setOpen={handleClose}
-          questionsCount={start?.questions_count}
-        />
-      )}
-
-      {success && (
-        <AssignmentModal
-          open={success}
-          showAnswers={showAnswers}
-          retake={retake}
-          start={start}
-          taskId={assignmentId?.toString()}
-          isLoadingRetake={isLoadingRetake}
-        />
-      )}
-
-      {fail && (
-        <FailModal
-          open={fail}
-          showAnswers={showAnswers}
-          retake={retake}
-          start={start}
-          taskId={assignmentId?.toString()}
-          isLoadingRetake={isLoadingRetake}
-        />
-      )}
+      <TaskModalsWrapper
+        sure={sure}
+        success={success}
+        fail={fail}
+        handleClose={handleClose}
+        start={start}
+        showAnswersHandler={showAnswers}
+        retakeHandler={retake}
+        examId={Number(assignmentId)}
+        isLoadingRetake={isLoadingRetake}
+        isAssignment
+      />
     </>
   );
 };

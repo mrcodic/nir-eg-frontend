@@ -1,20 +1,18 @@
 "use client";
 
-import FailModal from "@/components/modals/FailModal";
-import PassedModal from "@/components/modals/passedModal";
 import { useTaskLogic } from "@/modules/exam/hooks/useTaskLogic";
 import { redirect, useParams } from "next/navigation";
 
+import { useAuthContext } from "@/context/auth-context";
 import {
   ExamTimerBanner,
   ResultBanner,
   TargetGradeBanner,
 } from "@/modules/exam/components/ExamBanners";
+import TaskModalsWrapper from "@/modules/exam/components/TaskModalsWrapper";
 import { QuizStatus } from "@/types";
 import { memo } from "react";
-import SureModal from "../modals/Sure";
 import TaskForm from "./TaskForm";
-import { useAuthContext } from "@/context/auth-context";
 
 export type ExamType = "general" | "exam";
 
@@ -92,37 +90,18 @@ const ExamForm = ({ start, setStartExam, examType = "exam" }: Props) => {
         examType={examType}
       />
 
-      {sure && (
-        <SureModal
-          open={sure}
-          setOpen={handleClose}
-          questionsCount={start?.questions_count}
-        />
-      )}
-
-      {success && (
-        <PassedModal
-          open={success}
-          showAnswers={showAnswers}
-          retake={retake}
-          start={start}
-          taskId={examId.toString()}
-          isLoadingRetake={isLoadingRetake}
-          examType={examType}
-        />
-      )}
-
-      {fail && (
-        <FailModal
-          open={fail}
-          showAnswers={showAnswers}
-          retake={retake}
-          start={start}
-          taskId={examId.toString()}
-          isLoadingRetake={isLoadingRetake}
-          examType={examType}
-        />
-      )}
+      <TaskModalsWrapper
+        sure={sure}
+        success={success}
+        fail={fail}
+        handleClose={handleClose}
+        start={start}
+        showAnswersHandler={showAnswers}
+        retakeHandler={retake}
+        examId={Number(examId)}
+        isLoadingRetake={isLoadingRetake}
+        examType={examType}
+      />
     </>
   );
 };

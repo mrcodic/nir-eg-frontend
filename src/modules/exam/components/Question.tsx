@@ -3,7 +3,7 @@
 import { FormField, FormItem } from "@/components/ui/form";
 import ReadingBorder from "@/components/ui/paragraph-borders";
 import { useTaskContext } from "@/context/TaskProvider";
-import { memo } from "react";
+import { memo, useMemo } from "react";
 import { useFormState, useWatch } from "react-hook-form";
 import AnswerOption from "./AnswerOption";
 import QuestionHeader from "./QuestionHeader";
@@ -28,13 +28,11 @@ const Question = ({
 }: Props) => {
   const { control } = useTaskContext();
 
-  // ✅ subscribe only to THIS question value
   const value = useWatch({
     control,
     name: `questions.${question.id}`,
   });
 
-  // ✅ subscribe only to THIS question error
   const { errors } = useFormState({
     control,
     name: `questions.${question.id}`,
@@ -44,8 +42,12 @@ const Question = ({
     errors?.questions?.[question.id] ||
     (question.has_multi_correct && value?.length < 2);
 
-  const notSolvedQuestion =
-    isAnswer && question.answers?.some((a) => !a.selected && a.correct);
+  const notSolvedQuestion = useMemo(
+    () => isAnswer && !question.answers?.some((a) => a.selected),
+    [isAnswer, question.answers],
+  );
+
+  console.log(question);
 
   return (
     <div
@@ -54,7 +56,7 @@ const Question = ({
       }}
       style={{ scrollMarginTop: "100px" }}
       id={isSubQuestion ? `sub-question-${index}` : `question-${index}`}
-      className={isSubQuestion ? "" : "bg-background p-4 rounded-lg"}
+      className={isSubQuestion ? "" : "bg-background rounded-lg p-4"}
     >
       <div className="flex flex-col gap-2">
         <QuestionHeader
@@ -65,13 +67,13 @@ const Question = ({
         />
 
         {question.has_multi_correct && (
-          <p className="font-bold text-secondary self-end w-fit">
+          <p className="text-secondary w-fit self-end font-bold">
             يوجد اكثر من اجابة
           </p>
         )}
       </div>
 
-      <div dir="ltr" className="space-y-4">
+      <div dir="rtl" className="space-y-4">
         <QuestionTitle
           title={question.title}
           video={question.answer_video}
