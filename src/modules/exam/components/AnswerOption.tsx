@@ -77,7 +77,13 @@ const AnswerOption = ({
     <label
       htmlFor={answerId}
       dir="rtl"
-      className={cn("rounded-lg border bg-white p-2", borderClass)}
+      className={cn(
+        "rounded-lg border bg-white p-2 transition-all",
+        borderClass,
+        {
+          "border-primary": isChecked,
+        },
+      )}
     >
       <FormItem className="flex items-center space-y-0 space-x-3">
         <FormControl>
@@ -88,11 +94,11 @@ const AnswerOption = ({
               checked={isChecked}
               onCheckedChange={handleCheckboxChange}
               className={cn(
-                "border-primary group size-6 rounded-full transition-all data-[state=checked]:bg-white",
+                "border-primary group size-5 rounded-full transition-all data-[state=checked]:bg-white",
                 checkboxClass,
               )}
               icon={
-                <Circle className="group-data-[state=checked]:fill-primary h-4 w-4 transition-colors" />
+                <Circle className="group-data-[state=checked]:fill-primary group-data-[state=checked]:stroke-primary size-3! transition-all" />
               }
             />
           </div>
@@ -100,7 +106,7 @@ const AnswerOption = ({
 
         <FormLabel
           htmlFor={answerId}
-          className={cn("font-normal text-black!", {
+          className={cn("font-normal text-black! select-none", {
             "text-red-600": answerState === "incorrect-selected",
             "text-green-500": answerState === "correct-selected",
           })}

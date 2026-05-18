@@ -62,8 +62,6 @@ export async function fetchServer<T>({
 
     const clientIp = await getClientIp();
 
-    console.log("client ip address ", clientIp);
-
     const res = await fetch(buildApiUrl(subdomain, endpoint), {
       headers: {
         Accept: "application/json",

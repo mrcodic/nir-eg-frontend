@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useMemo, useState } from "react";
@@ -7,7 +8,7 @@ import { useMemo, useState } from "react";
 type Props = {
   title: string;
   video?: string;
-  isSubQuestion?: boolean;
+  className?: string;
 };
 
 type VideoState = "idle" | "loaded" | "error";
@@ -23,7 +24,7 @@ function isValidUrl(value?: string): boolean {
   }
 }
 
-const QuestionTitle = ({ title, video }: Props) => {
+const QuestionTitle = ({ title, video, className }: Props) => {
   const urlValid = useMemo(() => isValidUrl(video), [video]);
 
   const [showVideo, setShowVideo] = useState(false);
@@ -47,9 +48,14 @@ const QuestionTitle = ({ title, video }: Props) => {
   const isError = videoState === "error";
 
   return (
-    <div className="flex flex-col gap-4">
+    <div
+      className={cn(
+        "border-primary-100 flex flex-col gap-4 border-b",
+        className,
+      )}
+    >
       <div className="flex items-center justify-between gap-4">
-        <div className="mt-4 mb-8 flex items-start gap-1 text-[15px] text-black md:text-[18px]">
+        <div className="my-4 flex items-start gap-1 text-base text-black md:text-lg">
           {title.trim().startsWith("<") ? (
             <div
               dangerouslySetInnerHTML={{ __html: title }}

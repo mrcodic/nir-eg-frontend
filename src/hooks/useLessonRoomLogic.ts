@@ -1,5 +1,6 @@
 import { getClientPrivateData } from "@/helpers/client-fetch";
 import { mutateClient } from "@/helpers/post-client";
+import { getActionErrorMeta } from "@/lib/errorCodes";
 import { ApiResponse, IRoomDetails, LessonVideoType } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { useQueryState } from "nuqs";
@@ -148,19 +149,19 @@ function useLessonRoomLogic({
         console.error("❌ OTP fetch failed", error);
 
         const errorStatus = axios.isAxiosError(error) && error.response?.status;
+        const apiCode = axios.isAxiosError(error)
+          ? error.response?.data?.code
+          : undefined;
 
         if (errorStatus === 403) {
-          if (error?.response?.data?.code === 410) {
+          const meta = getActionErrorMeta(errorStatus, apiCode);
+
+          // VIDEO_BANDWIDTH_EXCEEDED / STORAGE_BANDWIDTH_EXCEEDED → show message
+          if (apiCode === 410 || apiCode === 415) {
             setOtpStatus({
               loading: false,
               error: true,
-              message: "قمت باستهلاك السعة المحدده للفيديوهات",
-            });
-          } else if (error?.response?.data?.code === 415) {
-            setOtpStatus({
-              loading: false,
-              error: true,
-              message: "قمت باستهلاك السعة المحدده للتخزين",
+              message: meta.description,
             });
           } else {
             setOtpData({ lockedByViewLimit: true });

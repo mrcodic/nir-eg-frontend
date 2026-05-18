@@ -97,7 +97,7 @@ const WrittenQuestion = ({ question, index, listRef }: Props) => {
         </p>
       )}
 
-      <div className="space-y-2">
+      <div className="space-y-6">
         <QuestionTitle title={question.title} video={question?.answer_video} />
 
         <FormField
@@ -105,6 +105,10 @@ const WrittenQuestion = ({ question, index, listRef }: Props) => {
           name={`questions.${question.id}.text`}
           render={({ field }) => (
             <FormItem>
+              <p className="text-sm font-bold">
+                {answered ? "اجابتك" : "اكتب إجابتك هنا"}
+              </p>
+
               <div className="bg-gray-light relative flex w-full items-start rounded-xl border border-gray-300">
                 <Textarea
                   {...field}
@@ -112,7 +116,10 @@ const WrittenQuestion = ({ question, index, listRef }: Props) => {
                   disabled={disabled}
                   placeholder="قم بإدخال إجابتك هنا"
                   className={cn(
-                    "w-full rounded-xl p-2 pe-10 text-sm placeholder-shown:text-start disabled:text-black disabled:opacity-100",
+                    "w-full rounded-xl p-2 text-sm placeholder-shown:text-start disabled:text-black disabled:opacity-100",
+                    {
+                      "pe-12": !selectedFile,
+                    },
                   )}
                   value={
                     answered

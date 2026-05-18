@@ -3,7 +3,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import Countdown from "react-countdown";
 
-const Completionist = () => <span>انتهى الوقت</span>;
+const Completionist = () => <span className="text-base">انتهى الوقت</span>;
 
 export function CountdownTimer({ minutes, onComplete, start }) {
   const { examId } = useParams();

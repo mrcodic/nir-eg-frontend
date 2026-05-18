@@ -71,12 +71,8 @@ const Question = ({
         )}
       </div>
 
-      <div dir="rtl" className="space-y-4">
-        <QuestionTitle
-          title={question.title}
-          video={question.answer_video}
-          isSubQuestion={isSubQuestion}
-        />
+      <div dir="rtl" className="space-y-6">
+        <QuestionTitle title={question.title} video={question.answer_video} />
 
         <FormField
           control={control}

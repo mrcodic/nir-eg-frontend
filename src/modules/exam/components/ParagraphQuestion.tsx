@@ -75,7 +75,7 @@ const ParagraphQuestion = ({
         <QuestionTitle
           title={question.title}
           video={question.answer_video}
-          isSubQuestion={false}
+          className="border-none"
         />
 
         <div className="border-primary-100 space-y-4 border-r ps-4">

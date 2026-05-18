@@ -51,7 +51,7 @@ interface TaskContextType {
   setShowRoom: (v: boolean) => void;
   startExam: boolean;
   setStartExam: (v: boolean) => void;
-  completed: boolean;
+  isCompleted: boolean;
   setCompleted: (v: boolean) => void;
   isSubmitting: boolean;
   setIsSubmitting: (v: boolean) => void;
@@ -100,7 +100,7 @@ export const TaskProvider = ({ children, taskType = "exam" }) => {
   const [data, setData] = useState();
   const [showRoom, setShowRoom] = useState(false);
   const [startExam, setStartExam] = useState(false);
-  const [completed, setCompleted] = useState(false);
+  const [isCompleted, setCompleted] = useState(false);
 
   // ===== fetch start =====
   const {
@@ -147,7 +147,7 @@ export const TaskProvider = ({ children, taskType = "exam" }) => {
       setShowRoom,
       startExam,
       setStartExam,
-      completed,
+      isCompleted,
       setCompleted,
       isSubmitting,
       setIsSubmitting,
@@ -169,7 +169,7 @@ export const TaskProvider = ({ children, taskType = "exam" }) => {
       data,
       showRoom,
       startExam,
-      completed,
+      isCompleted,
       isSubmitting,
       onComplete,
       taskType,

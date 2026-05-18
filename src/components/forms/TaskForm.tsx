@@ -10,6 +10,8 @@ import ParagraphQuestion from "@/modules/exam/components/ParagraphQuestion";
 import Question from "@/modules/exam/components/Question";
 import WrittenQuestion from "@/modules/exam/components/WrittenQuestion";
 import { useQueryClient } from "@tanstack/react-query";
+import { getActionErrorMeta } from "@/lib/errorCodes";
+import { isAxiosError } from "axios";
 import { useParams } from "next/navigation";
 import { memo, useCallback, useEffect, useRef } from "react";
 import { useFormContext } from "react-hook-form";
@@ -40,6 +42,7 @@ function TaskForm({
 }: Props) {
   const { toast } = useToast();
   const { SingleCourse: classroomId, room: roomId } = useParams();
+  const autoSubmitTriggered = useRef<boolean>(false);
 
   const queryClient = useQueryClient();
   const listRef = useRef<HTMLDivElement[]>([]);
@@ -52,7 +55,7 @@ function TaskForm({
     isLoading,
     isSubmitting,
     setIsSubmitting,
-    completed,
+    isCompleted,
     setCompleted,
   } = useTaskContext();
 
@@ -162,14 +165,12 @@ function TaskForm({
       }
 
       onTaskSubmit?.();
-    } catch (e: any) {
-      toast({
-        description:
-          e.response?.data?.error?.message ||
-          e.response?.data?.message ||
-          "حدث خطأ, حاول مرة اخرى",
-        icon: "error",
-      });
+    } catch (e: unknown) {
+      const meta = isAxiosError(e)
+        ? getActionErrorMeta(e.response?.status, e.response?.data?.code)
+        : getActionErrorMeta(undefined, undefined);
+
+      toast({ description: meta.description, icon: "error" });
     } finally {
       setCompleted(false);
       setIsSubmitting(false);
@@ -194,10 +195,11 @@ function TaskForm({
 
   // ================= AUTO SUBMIT =================
   useEffect(() => {
-    if (completed === true) {
+    if (isCompleted === true && !autoSubmitTriggered.current) {
+      autoSubmitTriggered.current = true;
       onSubmit();
     }
-  }, [completed, onSubmit]);
+  }, [isCompleted, onSubmit]);
 
   // ================= STATES =================
   if (isLoading || !data?.questions?.length) {
@@ -222,41 +224,40 @@ function TaskForm({
         dir="ltr"
       >
         <div id="taskForm" className="flex">
-          <div className="flex-1 space-y-6">
+          <div className="flex-1 space-y-4">
             {data.questions.map((question, index) => {
-              if (question.type === 2) {
-                return (
-                  <ParagraphQuestion
-                    key={question.id}
-                    question={question}
-                    index={index}
-                    listRef={listRef}
-                    status={status}
-                    isAnswer={data.solution}
-                  />
-                );
-              }
-
-              if (question.type === 3) {
-                return (
-                  <WrittenQuestion
-                    key={question.id}
-                    question={question}
-                    index={index}
-                    listRef={listRef}
-                  />
-                );
-              }
-
               return (
-                <Question
-                  key={question.id}
-                  question={question}
-                  index={index}
-                  listRef={listRef}
-                  status={status}
-                  isAnswer={data.solution}
-                />
+                <>
+                  {question.type === 2 ? (
+                    <ParagraphQuestion
+                      key={question.id}
+                      question={question}
+                      index={index}
+                      listRef={listRef}
+                      status={status}
+                      isAnswer={data.solution}
+                    />
+                  ) : question.type === 3 ? (
+                    <WrittenQuestion
+                      key={question.id}
+                      question={question}
+                      index={index}
+                      listRef={listRef}
+                    />
+                  ) : (
+                    <Question
+                      key={question.id}
+                      question={question}
+                      index={index}
+                      listRef={listRef}
+                      status={status}
+                      isAnswer={data.solution}
+                    />
+                  )}
+                  {index < data.questions.length - 1 && (
+                    <hr className="border-secondary" />
+                  )}
+                </>
               );
             })}
           </div>
