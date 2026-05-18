@@ -84,8 +84,6 @@ export default function CourseActivitiesTable({
   const activities = data?.body?.students || [];
   const pageCount = data?.body?.pagination?.last_page ?? -1;
 
-  console.log(activities);
-
   return (
     <CustomTableUI
       data={activities}

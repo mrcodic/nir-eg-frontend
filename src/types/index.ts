@@ -331,7 +331,7 @@ export interface TopStudent {
   total_correct: number;
 }
 
-export type TaskType = "امتحان" | "واجب" | string;
+export type TaskType = "امتحان" | "واجب" | "كويز";
 
 export interface IActivity {
   classroom: string;

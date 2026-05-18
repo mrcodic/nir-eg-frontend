@@ -1,5 +1,6 @@
 "use client";
 
+import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useMemo, useState } from "react";
 
@@ -42,6 +43,9 @@ const QuestionTitle = ({ title, video }: Props) => {
       : video;
   }, [video]);
 
+  const isLoading = videoState === "idle";
+  const isError = videoState === "error";
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between gap-4">
@@ -61,15 +65,13 @@ const QuestionTitle = ({ title, video }: Props) => {
             type="button"
             onClick={handleToggle}
             title={
-              videoState === "error"
+              isError
                 ? "الفيديو غير متاح"
                 : showVideo
                   ? "إخفاء الفيديو"
                   : "عرض الفيديو"
             }
-            className={
-              videoState === "error" ? "opacity-50 grayscale" : "animate-pulse"
-            }
+            className={isError ? "opacity-50 grayscale" : "animate-pulse"}
           >
             <Image
               src={"/assets/show-video.svg"}
@@ -82,21 +84,36 @@ const QuestionTitle = ({ title, video }: Props) => {
       </div>
 
       {video && showVideo && (
-        <div>
-          {videoState === "error" ? (
-            <div className="flex max-w-[360px] items-center gap-2 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
+        <div className="relative w-full max-w-[360px]">
+          {isError ? (
+            <div className="flex items-center gap-2 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
               <span>⚠️</span>
               <span>الفيديو غير متاح أو الرابط غير صحيح</span>
             </div>
           ) : (
-            <iframe
-              key={iframeSrc}
-              src={iframeSrc}
-              className="aspect-video rounded-lg"
-              style={{ maxWidth: "360px", width: "100%" }}
-              onLoad={() => setVideoState("loaded")}
-              onError={() => setVideoState("error")}
-            />
+            <>
+              {/* Skeleton shown while loading */}
+              {isLoading && (
+                <div className="flex aspect-video w-full items-center justify-center rounded-lg bg-gray-800">
+                  <Loader2 className="h-10 w-10 animate-spin rounded-full stroke-white" />
+                </div>
+              )}
+
+              {/* iframe always rendered so onLoad fires; hidden until loaded */}
+              <iframe
+                key={iframeSrc}
+                src={iframeSrc}
+                className="aspect-video w-full rounded-lg"
+                style={{
+                  opacity: isLoading ? 0 : 1,
+                  position: isLoading ? "absolute" : "static",
+                  inset: 0,
+                  pointerEvents: isLoading ? "none" : "auto",
+                }}
+                onLoad={() => setVideoState("loaded")}
+                onError={() => setVideoState("error")}
+              />
+            </>
           )}
         </div>
       )}

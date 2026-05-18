@@ -6,12 +6,12 @@ function StudentScoreResult({
   score,
   pass = true,
   pending,
-  type,
+  type = "امتحان",
 }: {
   score: number;
   pass?: boolean;
   pending?: boolean;
-  type: TaskType;
+  type?: TaskType;
 }) {
   return (
     <div className="relative flex min-w-[116px] gap-2 text-lg font-bold text-nowrap sm:text-xl">

@@ -7,7 +7,7 @@ import {
 import { cn } from "@/lib/utils";
 import ExamPDFGenerator from "@/modules/exam/components/ExamPDFGenerator";
 import StudentScoreResult from "@/modules/exam/components/StudentScoreResult";
-import { QuizStatus } from "@/types";
+import { QuizStatus, TaskType } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -24,6 +24,7 @@ interface Props {
   taskId: string | number;
   isLoadingRetake: boolean;
   examType?: ExamType;
+  type?: TaskType;
 }
 
 const FailModal = ({
@@ -34,6 +35,7 @@ const FailModal = ({
   taskId,
   isLoadingRetake,
   examType,
+  type = "امتحان",
 }: Props) => {
   const { SingleCourse, room } = useParams();
 
@@ -62,6 +64,7 @@ const FailModal = ({
               score={start?.score}
               pass={start?.result}
               pending={start?.review_pending}
+              type={type}
             />
           </div>
 
@@ -80,6 +83,12 @@ const FailModal = ({
             {start?.show_answer && !start?.review_pending && (
               <p className="inline-block">
                 - يمكنك تنزيل نموذج الإجابة بالكامل
+              </p>
+            )}
+
+            {!start?.result && (
+              <p className="inline-block">
+                - لن تتمكن من عرض الاجابات حتى تنجح
               </p>
             )}
           </div>

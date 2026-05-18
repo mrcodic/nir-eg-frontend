@@ -112,7 +112,7 @@ const WrittenQuestion = ({ question, index, listRef }: Props) => {
                   disabled={disabled}
                   placeholder="قم بإدخال إجابتك هنا"
                   className={cn(
-                    "w-full rounded-xl p-2 pe-9 text-sm placeholder-shown:text-start disabled:text-black disabled:opacity-100",
+                    "w-full rounded-xl p-2 pe-10 text-sm placeholder-shown:text-start disabled:text-black disabled:opacity-100",
                   )}
                   value={
                     answered

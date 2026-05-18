@@ -76,6 +76,7 @@ const AssignmentModal = ({
                   score={start?.score}
                   pass={start?.result}
                   pending={start?.review_pending}
+                  type={"واجب"}
                 />
               </div>
             </>

@@ -40,9 +40,7 @@ const columns = [
     // },
     header: () => <div className="text-[18px] font-bold">الكورس</div>,
     cell: (info) => {
-      const courseExpired =
-        info.row.original.classroom_expired ||
-        info.row.original.classroom === "--";
+      const courseExpired = info.row.original.classroom_expired;
 
       return (
         <div

@@ -88,6 +88,7 @@ export default function TaskModalsWrapper({
           taskId={examId.toString()}
           isLoadingRetake={isLoadingRetake}
           examType={examType}
+          type={isAssignment ? "واجب" : "امتحان"}
         />
       )}
     </Suspense>
