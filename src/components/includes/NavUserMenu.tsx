@@ -43,7 +43,10 @@ function NavUserMenu({
       <DropdownMenuContent className="mobile:top-1 border-gray-light relative left-10 z-100 w-[272px] rounded-lg border bg-white pt-4 pb-2">
         <ScrollArea
           dir="rtl"
-          className="h-[calc(100vh-120px)] max-h-[451px] flex-1"
+          className={cn(
+            "w-full",
+            "[&_[data-radix-scroll-area-viewport]]:max-h-[min(451px,calc(100dvh_-_120px))]",
+          )}
         >
           <DropdownMenuItem className="flex w-full flex-col items-center justify-center gap-4">
             <CustomImage
