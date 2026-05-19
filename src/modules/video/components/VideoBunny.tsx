@@ -16,6 +16,7 @@ interface VideoBunnyProps {
   classroomId: string | number;
   lessonId: string | number;
   videoCompleted: boolean;
+  communityAvailable: boolean;
 }
 
 export default function VideoBunny({
@@ -25,6 +26,7 @@ export default function VideoBunny({
   classroomId,
   lessonId,
   videoCompleted,
+  communityAvailable,
 }: VideoBunnyProps) {
   const embedUrl = response?.embed_url;
 
@@ -56,7 +58,13 @@ export default function VideoBunny({
         />
       </TamperResistantOverlay>
 
-      <VideoQuestionBtn playerRef={iframeRef} videoId={videoId} isBunnyPlayer />
+      {communityAvailable && (
+        <VideoQuestionBtn
+          playerRef={iframeRef}
+          videoId={videoId}
+          isBunnyPlayer
+        />
+      )}
     </div>
   );
 }

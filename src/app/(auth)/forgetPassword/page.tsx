@@ -69,7 +69,7 @@ const ForgetPasswordPage = () => {
           );
         }
 
-        router.push("/resetPassword?type=forget");
+        router.push("/verify-otp?type=forget");
 
         // localStorage.setItem("phone", v.phone);
         presistUserPhone(v.phone.phone, v.phone.country);

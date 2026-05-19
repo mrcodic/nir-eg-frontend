@@ -13,10 +13,9 @@ import { useToast } from "@/hooks/use-toast";
 import { isOtpExpired, setNewOtpSendTime } from "@/lib/utils";
 import { DialogClose } from "@radix-ui/react-dialog";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "nextjs-toploader/app";
 
-export function Verify({ open, setOpen }) {
+export function OTPNotVerifIed({ open, setOpen }) {
   const router = useRouter();
   const { toast } = useToast();
 
@@ -47,42 +46,39 @@ export function Verify({ open, setOpen }) {
         {/* ✅ Dialog Buttons */}
         <DialogFooter className="mt-5 flex justify-between gap-5">
           <DialogClose asChild>
-            <Link href="/resetPassword" className="w-full text-center">
-              <Button
-                className="bg-primary-800 h-full w-[150px]"
-                onClick={async () => {
-                  const phone = localStorage.getItem("phone");
-                  const otp = await mutateClient("/otp/request", {
-                    body: { phone },
-                  });
+            <Button
+              className="bg-primary-800 h-full w-[150px]"
+              onClick={async () => {
+                const phone = localStorage.getItem("phone");
+                const otp = await mutateClient("/otp/request", {
+                  body: { phone },
+                });
 
-                  if (otp) {
-                    const { otpSendTime, isExpired } = isOtpExpired();
+                if (otp) {
+                  const { otpSendTime, isExpired } = isOtpExpired();
 
-                    // new otp timestamp
-                    if (isExpired) {
-                      setNewOtpSendTime();
+                  // new otp timestamp
+                  if (isExpired) {
+                    setNewOtpSendTime();
 
-                      toast({
-                        description: " بعتنالك otp عبر sms  ",
-                        icon: "success",
-                      });
-                    } else {
-                      // old otp timestamp
-                      localStorage.setItem(
-                        OTP_SEND_TIME_KEY,
-                        otpSendTime.getTime().toString(),
-                      );
-                    }
-
-                    router.push("/resetPassword?type=forget");
+                    toast({
+                      description: " بعتنالك otp عبر sms  ",
+                      icon: "success",
+                    });
+                  } else {
+                    // old otp timestamp
+                    localStorage.setItem(
+                      OTP_SEND_TIME_KEY,
+                      otpSendTime.getTime().toString(),
+                    );
                   }
-                }}
-              >
-                {" "}
-                تأكيد{" "}
-              </Button>
-            </Link>
+
+                  router.push("/verify-otp?type=login");
+                }
+              }}
+            >
+              تأكيد
+            </Button>
           </DialogClose>
         </DialogFooter>
       </DialogContent>

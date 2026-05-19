@@ -154,3 +154,5 @@ export const deliveryStatusArabic = {
 
 export const OTP_SEND_TIME_KEY = "otp_send_time";
 export const COOLDOWN_DURATION = 60;
+export const RESET_PASSWORD_OTP_GATE_KEY = "reset_password_otp_gate";
+export const RESET_PASSWORD_OTP_GATE_TTL_MS = 5 * 60 * 1000;

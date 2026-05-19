@@ -7,34 +7,53 @@ import { mutateClient } from "@/helpers/post-client";
 import { useToast } from "@/hooks/use-toast";
 import { newPasswordSchema } from "@/lib/schemas";
 import { getLocalStorage } from "@/utils/clientFun";
+import {
+  clearResetPasswordOtpGate,
+  hasValidResetPasswordOtpGate,
+} from "@/utils/reset-password-gate";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "nextjs-toploader/app";
 import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 import { useForm } from "react-hook-form";
 import SmallSpinner from "../custom/SmallSpinner";
+import { useEffect, useState } from "react";
 
 const NewPasswordForm = () => {
+  const router = useRouter();
+  const { toast } = useToast();
+  const { token } = useAuthContext();
+
+  const [savedPhone, setSavedPhone] = useState(
+    () => getLocalStorage("phone") || "",
+  );
+
   const form = useForm({
     mode: "all",
     resolver: zodResolver(newPasswordSchema),
     defaultValues: {
-      phone: getLocalStorage("phone") || "",
+      phone: savedPhone || "",
       password: "",
       password_confirmation: "",
       recaptcha_token: "",
     },
   });
 
-  const router = useRouter();
-  const { toast } = useToast();
-  const { token } = useAuthContext();
-
   const onSubmit = async (v) => {
+    if (!hasValidResetPasswordOtpGate(v.phone)) {
+      toast({
+        description: "يجب تأكيد رمز OTP أولاً",
+        icon: "error",
+      });
+      router.push("/forgetPassword");
+      return;
+    }
+
     try {
       await mutateClient("/reset-password", {
         body: v,
       });
+      clearResetPasswordOtpGate();
 
       toast({
         description: "تم تأكيد حفظ الباسورد الجديد بنجاح",
@@ -54,6 +73,21 @@ const NewPasswordForm = () => {
       });
     }
   };
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const storagePhone = getLocalStorage("phone");
+    const effectivePhone = (savedPhone || storagePhone || "") as string;
+
+    if (!hasValidResetPasswordOtpGate(effectivePhone)) {
+      router.push("/forgetPassword");
+    }
+
+    if (!savedPhone && storagePhone) {
+      setSavedPhone(storagePhone);
+    }
+  }, [router, savedPhone, token]);
+
   return (
     <div className="">
       <div className="flex gap-2">

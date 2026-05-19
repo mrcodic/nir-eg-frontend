@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import CustomInput from "@/components/custom/customInput";
 import CustomPhoneInput from "@/components/custom/CustomPhoneInput";
 import SmallSpinner from "@/components/custom/SmallSpinner";
-import { Verify } from "@/components/modals/Verify";
+import { OTPNotVerifIed } from "@/components/modals/OTPNotVerifIed";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useAuthContext } from "@/context/auth-context";
@@ -179,7 +179,7 @@ const AuthPage = () => {
         </Form>
       </div>
 
-      {verify && <Verify open={verify} setOpen={setVerify} />}
+      {verify && <OTPNotVerifIed open={verify} setOpen={setVerify} />}
     </>
   );
 };

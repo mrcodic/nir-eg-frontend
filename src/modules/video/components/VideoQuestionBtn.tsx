@@ -27,7 +27,7 @@ function VideoQuestionBtn({ playerRef, videoId, isBunnyPlayer = false }: any) {
           inst?.video?.pause?.();
         }
       }}
-      className="text-primary-800 border-gray-light bg-background absolute right-4 bottom-14 z-5 w-[190px] rounded-lg border p-2 py-4 transition-all md:w-[250px]"
+      className="text-primary-800 border-gray-light bg-background hover:border-primary hover:bg-primary-100 absolute right-4 bottom-16 z-5 w-[190px] cursor-pointer rounded-lg border p-2 py-4 transition-all md:w-[250px]"
     >
       <div
         onClick={(e) => {

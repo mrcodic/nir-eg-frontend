@@ -15,6 +15,7 @@ import useOtp from "@/hooks/useOtp";
 import AuthHeader from "@/layouts/AuthHeader";
 import { otpSchema } from "@/lib/schemas";
 import { getLocalStorage } from "@/utils/clientFun";
+import { setResetPasswordOtpGate } from "@/utils/reset-password-gate";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
@@ -26,14 +27,14 @@ import SmallSpinner from "../custom/SmallSpinner";
 import { Button } from "../ui/button";
 import CountDownTimerUI from "../ui/CountDownTimerUI";
 
-const ValidateOtp = ({ setResetForm }) => {
+const ValidateOtp = () => {
   const { toast } = useToast();
   const router = useRouter();
   const searchParams = useSearchParams();
   const [savedPhone, setSavedPhone] = useState(() => getLocalStorage("phone"));
   const isMounted = useMounted();
 
-  const type = searchParams.get("type");
+  const type = searchParams.get("type") as "forget" | "login" | "register";
 
   const form = useForm({
     mode: "all",
@@ -58,9 +59,14 @@ const ValidateOtp = ({ setResetForm }) => {
         icon: "success",
       });
       setStart(true);
-      if (type == "forget") {
-        setResetForm(true);
-      } else {
+
+      // type forget means the user wants to reset his password so we open the reset password page
+      if (type && type == "forget") {
+        setResetPasswordOtpGate(v.phone);
+        router.push("/resetPassword");
+      }
+      // here he tried to login with his unverified phone number
+      else {
         router.push("/login");
       }
 
@@ -72,10 +78,6 @@ const ValidateOtp = ({ setResetForm }) => {
         icon: "error",
       });
     }
-    // const response = await axios.post(
-    //   "https://more-english.net/api/v1/auth/register",
-    //   v
-    // );
   };
 
   useEffect(() => {
@@ -84,9 +86,10 @@ const ValidateOtp = ({ setResetForm }) => {
     if (storagePhone) {
       setSavedPhone(storagePhone);
     } else {
-      router.push("/forgetPassword");
+      if (type && type === "forget") router.push("/forgetPassword");
+      else router.push("/login");
     }
-  }, [router, savedPhone]);
+  }, [router, savedPhone, type]);
 
   return (
     <div className="">

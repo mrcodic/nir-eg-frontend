@@ -12,6 +12,7 @@ interface VideoCipherProps {
   classroomId: string | number;
   lessonId: string | number;
   videoCompleted: boolean;
+  communityAvailable: boolean;
 }
 
 export default function VideoCipher({
@@ -21,6 +22,7 @@ export default function VideoCipher({
   classroomId,
   lessonId,
   videoCompleted,
+  communityAvailable,
 }: VideoCipherProps) {
   const { iframeRef } = useVideoCipherPlayer({
     response,
@@ -50,7 +52,9 @@ export default function VideoCipher({
         />
       </TamperResistantOverlay>
 
-      <VideoQuestionBtn playerRef={iframeRef} videoId={videoId} />
+      {communityAvailable && (
+        <VideoQuestionBtn playerRef={iframeRef} videoId={videoId} />
+      )}
     </div>
   );
 }

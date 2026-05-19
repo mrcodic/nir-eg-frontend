@@ -8,6 +8,12 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import axios from "axios";
 import { useVideoPlayerStore } from "@/store/videoPlayerStore";
 
+export interface IOtpViewStatus {
+  used: number;
+  remaining: number;
+  total_views: number;
+}
+
 type OtpData = {
   otp?: string;
   expires?: string | number;
@@ -16,11 +22,7 @@ type OtpData = {
   expires_in?: number;
   provider?: string;
   playbackInfo?: string;
-  viewsStats?: {
-    used: number;
-    remaining: number;
-    total_views: number;
-  };
+  viewsStats?: IOtpViewStatus;
   lockedByViewLimit: boolean;
 };
 

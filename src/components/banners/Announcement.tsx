@@ -1,14 +1,12 @@
 "use client";
 
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { useAuthContext } from "@/context/auth-context";
 import { getClientPrivateData } from "@/helpers/client-fetch";
 import { useQuery } from "@tanstack/react-query";
-import { AnimatePresence, motion } from "framer-motion";
-import { X } from "lucide-react";
-import Image from "next/image";
-import { memo, useMemo, useState } from "react";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { memo, useMemo } from "react";
 import DownloadFileBtn from "../shared/DownloadFileBtn";
+import StackedBanners, { StackedBannerItem } from "./StackedBanners";
 
 export interface Announcement {
   id: number;
@@ -28,7 +26,6 @@ export interface Announcement {
 
 function Announcement() {
   const { profile } = useAuthContext();
-  const [dismissed, setDismissed] = useState<number[]>([]);
 
   const { data } = useQuery<{
     status: boolean;
@@ -40,93 +37,38 @@ function Announcement() {
     staleTime: 1000 * 60 * 30,
   });
 
-  const announcements = useMemo(() => {
-    return data?.announcements?.filter((a) => !dismissed.includes(a.id)) ?? [];
-  }, [data?.announcements, dismissed]);
+  const announcements = useMemo(() => data?.announcements || [], [data]);
 
-  if (!data?.status || !announcements.length) return null;
+  const bannerItems: StackedBannerItem[] = useMemo(() => {
+    return !!announcements?.length
+      ? announcements.map((a) => ({
+          id: a.id,
+          icon: "/assets/announcement.svg",
+          animateIcon: true,
+          content: (
+            <div className="flex w-full flex-wrap items-center justify-between gap-5">
+              <ScrollArea
+                dir="rtl"
+                className="h-full max-h-[50vh] flex-1 overflow-y-auto"
+              >
+                <p className="text-base leading-relaxed">{a.desc}</p>
+              </ScrollArea>
+              {a.file && (
+                <DownloadFileBtn attachment={{ name: a.name, url: a.file }} />
+              )}
+            </div>
+          ),
+        }))
+      : [];
+  }, [announcements]);
+
+  if (!bannerItems.length) return null;
 
   return (
-    <div className="wrapper pointer-events-none fixed top-22 left-1/2 z-40 -translate-x-1/2 px-3">
-      <div className="relative max-h-[calc(100vh-5.5rem)] overflow-visible py-2">
-        <AnimatePresence mode="popLayout">
-          {announcements.map((announce, index) => (
-            <motion.div
-              key={announce.id}
-              layout
-              initial={{ opacity: 0, y: -20, scale: 0.95 }}
-              animate={{
-                opacity: 1,
-                y: index * -4,
-                scale: 1 - index * 0.02,
-              }}
-              exit={{
-                opacity: 0,
-                x: 100,
-                scale: 0.9,
-                transition: {
-                  duration: 0.2,
-                },
-              }}
-              transition={{
-                type: "spring",
-                stiffness: 300,
-                damping: 30,
-              }}
-              style={{
-                zIndex: announcements.length - index,
-                position: index === 0 ? "relative" : "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-              }}
-              className="border-primary bg-background pointer-events-auto relative flex flex-wrap items-center justify-between gap-5 rounded-lg border p-4 pe-7 text-sm font-bold text-black shadow-lg"
-            >
-              {/* Content */}
-              <div className="flex flex-wrap items-center gap-6">
-                <motion.div
-                  animate={{
-                    rotate: [0, -10, 10, -10, 10, 0],
-                  }}
-                  transition={{
-                    duration: 1,
-                    repeat: Infinity,
-                    repeatDelay: 2,
-                    ease: "easeInOut",
-                  }}
-                >
-                  <Image
-                    src="/assets/announcement.svg"
-                    width={40}
-                    height={40}
-                    alt="announcement"
-                  />
-                </motion.div>
-                <ScrollArea className="h-full max-h-[50vh] flex-1 overflow-y-auto pr-4">
-                  <p className="text-base leading-relaxed">{announce.desc}</p>
-                </ScrollArea>
-              </div>
-
-              {/* File button (kept for later) */}
-              {announce?.file && (
-                <DownloadFileBtn
-                  attachment={{ name: announce?.name, url: announce.file }}
-                />
-              )}
-
-              {/* Close */}
-              <button
-                aria-label="Close announcement"
-                onClick={() => setDismissed((prev) => [...prev, announce.id])}
-                className="text-muted-foreground hover:bg-muted hover:text-foreground absolute top-1 right-1 cursor-pointer rounded-full p-1 transition"
-              >
-                <X size={16} />
-              </button>
-            </motion.div>
-          ))}
-        </AnimatePresence>
-      </div>
-    </div>
+    <StackedBanners
+      banners={bannerItems}
+      containerClassName="wrapper fixed top-20 left-1/2 -translate-x-1/2 w-full z-40"
+    />
   );
 }
 

@@ -72,6 +72,7 @@ export default function OtpModal({ phone }) {
         });
 
         localStorage.removeItem(OTP_SEND_TIME_KEY);
+        modal.closeModal();
         router.refresh();
       } catch (e) {
         console.log(e);
@@ -79,8 +80,6 @@ export default function OtpModal({ phone }) {
           description: " رمز التأكيد غلط او وقته خلص",
           icon: "error",
         });
-      } finally {
-        modal.closeModal();
       }
     },
     [phone, queryClient, toast, router, modal],
@@ -103,7 +102,7 @@ export default function OtpModal({ phone }) {
       initialSend.current = true;
       return;
     }
-    if (initialSend.current || !open) return;
+    if (initialSend.current) return;
 
     if (isExpired) {
       console.log("initialEnabled...........");

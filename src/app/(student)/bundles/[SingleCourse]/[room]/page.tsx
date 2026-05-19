@@ -1,12 +1,12 @@
 "use client";
 
-import TopBanner from "@/components/banners/TopBanner";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import { useAuthContext } from "@/context/auth-context";
 import useLessonRoomLogic from "@/hooks/useLessonRoomLogic";
 import ProtectedRoute from "@/layouts/ProtectedRoute";
 import RoomSideContent from "@/modules/rooms/components/RoomSideContent";
 import DisableDevTools from "@/modules/video/components/DisableDivTools";
+import VideoBanners from "@/components/banners/VideoBanners";
 import VideoError from "@/modules/video/components/VideoError";
 import YoutubeVideoPlayer from "@/modules/video/components/YoutubeVideoPlayer";
 import dynamic from "next/dynamic";
@@ -68,6 +68,11 @@ const RoomLecturePage = () => {
   const requiresOtpVideo =
     activeVideoType === "cipher" || activeVideoType === "bunny";
 
+  const communityAvailable =
+    profile?.type !== 3 &&
+    !(lockedToPass || !!lockedByViewLimit) &&
+    !!selectedLesson?.access_comment;
+
   return (
     <>
       <ProtectedRoute
@@ -89,33 +94,14 @@ const RoomLecturePage = () => {
 
             <div className="flex flex-1 flex-col lg:w-[calc(70%-1.5rem)]">
               <div className="relative">
-                {requiresOtpVideo && viewCount && (
-                  <TopBanner
-                    render={
-                      <p className="text-sm">
-                        عدد المشاهدات المسموح هو{" "}
-                        <strong>{viewCount.total_views}</strong>، متبقي لك{" "}
-                        <strong>{viewCount.remaining}</strong> مشاهدة ويتم
-                        احتساب المشاهدة بعد اول 15 دقيقة في الفيديو.
-                      </p>
-                    }
-                  />
-                )}
+                <VideoBanners
+                  requiresOtpVideo={requiresOtpVideo}
+                  viewCount={viewCount}
+                  lockedByViewLimit={lockedByViewLimit}
+                  lockedToPass={lockedToPass}
+                />
 
-                {(lockedToPass || !!lockedByViewLimit) && (
-                  <TopBanner
-                    icon="/assets/warning-fill.svg"
-                    render={
-                      <p className="text-sm">
-                        {!!lockedByViewLimit
-                          ? "لقد تجاوزت الحد الأقصى لعدد المشاهدات المسموح بها لهذا الدرس"
-                          : "يجب ان تقوم باجتياز الاختبار أولا"}
-                      </p>
-                    }
-                  />
-                )}
-
-                <div className="border-primary-50 overflow-hidden rounded-lg border">
+                <div className="border-primary-50 min-h-[520px] overflow-hidden rounded-lg border">
                   <Suspense
                     fallback={
                       <LoadingSpinner className="h-fit min-h-[520px] bg-white" />
@@ -145,6 +131,7 @@ const RoomLecturePage = () => {
                           lessonId || lessonData?.body?.lessons?.[0]?.id
                         }
                         videoCompleted={videoCompleted}
+                        communityAvailable={communityAvailable}
                       />
                     ) : activeVideoType === "cipher" && videoId ? (
                       <VideoCipher
@@ -157,6 +144,7 @@ const RoomLecturePage = () => {
                           lessonId || lessonData?.body?.lessons?.[0]?.id
                         }
                         videoCompleted={videoCompleted}
+                        communityAvailable={communityAvailable}
                       />
                     ) : (
                       <VideoError message={"لا يوجد فيديو متاح"} />
@@ -176,16 +164,14 @@ const RoomLecturePage = () => {
               </div>
 
               <Suspense fallback={null}>
-                {profile?.type !== 3 &&
-                  !(lockedToPass || !!lockedByViewLimit) &&
-                  !!selectedLesson?.access_comment && (
-                    <Community
-                      key={lessonId}
-                      locked={lockedToPass || !!lockedByViewLimit}
-                      lessonId={lessonId || lessonData?.body?.lessons?.[0]?.id}
-                      isYoutubeVideo={activeVideoType === "youtube"}
-                    />
-                  )}
+                {communityAvailable && (
+                  <Community
+                    key={lessonId}
+                    locked={lockedToPass || !!lockedByViewLimit}
+                    lessonId={lessonId || lessonData?.body?.lessons?.[0]?.id}
+                    isYoutubeVideo={activeVideoType === "youtube"}
+                  />
+                )}
               </Suspense>
             </div>
           </div>

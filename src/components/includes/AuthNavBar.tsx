@@ -71,7 +71,7 @@ const AuthNavBar = () => {
   return (
     <div
       className={cn(
-        "border-gray-light bg-background fixed top-0 left-0 z-30 flex h-20 w-full items-center border-b aria-hidden:pointer-events-auto! data-[aria-hidden='true']:pointer-events-auto!",
+        "border-gray-light bg-background fixed top-0 left-0 z-40 flex h-20 w-full items-center border-b aria-hidden:pointer-events-auto! data-[aria-hidden='true']:pointer-events-auto!",
         "group-data-[template=landing-v3]/template:h-28 group-data-[template=landing-v3]/template:items-end group-data-[template=landing-v3]/template:border-none group-data-[template=landing-v3]/template:bg-transparent",
       )}
     >
