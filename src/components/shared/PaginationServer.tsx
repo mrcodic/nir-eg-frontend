@@ -134,6 +134,7 @@ const PaginationServer = ({
         className={cn("mx-1 text-sm sm:mx-2", {
           "pointer-events-none cursor-not-allowed opacity-50": !hasPrev,
         })}
+        scroll={false}
       >
         <span>السابق</span>
       </Link>
@@ -156,6 +157,7 @@ const PaginationServer = ({
               itemBase,
               page === currentPage ? itemActive : itemInactive,
             )}
+            scroll={false}
           >
             {page}
           </Link>
@@ -169,6 +171,7 @@ const PaginationServer = ({
         className={cn("mx-1 text-sm sm:mx-2", {
           "pointer-events-none cursor-not-allowed opacity-50": !hasNext,
         })}
+        scroll={false}
       >
         <span>التالى</span>
       </Link>

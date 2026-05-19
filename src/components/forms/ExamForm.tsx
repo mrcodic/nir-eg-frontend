@@ -29,7 +29,7 @@ const ExamForm = ({ start, setStartExam, examType = "exam" }: Props) => {
   const router = useRouter();
 
   if (!examId) {
-    redirect("/ErrorPage?message=لم يتم العثور على امتحان");
+    redirect("/ErrorPage?message=لم يتم العثور على الامتحان");
   }
 
   const {

@@ -4,9 +4,9 @@ import CustomCityStateField from "@/components/custom/CustomCityStateField";
 import CustomInput from "@/components/custom/customInput";
 import CustomPhoneInput from "@/components/custom/CustomPhoneInput";
 import SmallSpinner from "@/components/custom/SmallSpinner";
+import UploadWithCrop from "@/components/shared/UploadImage";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import UploadWithCrop from "@/components/shared/UploadImage";
 import { useToast } from "@/hooks/use-toast";
 import { editProfileSchema } from "@/lib/schemas";
 import { cn, getPhoneInfoFromCode } from "@/lib/utils";
@@ -21,13 +21,6 @@ import StudentCenterField from "@/components/custom/StudentCenterField";
 import { useAuthContext } from "@/context/auth-context";
 import { mutateClient } from "@/helpers/post-client";
 import ChangePasswordSettings from "@/modules/profile/components/ChangePasswordSettings";
-import { LockKeyhole } from "lucide-react";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 
 const PageSettings = () => {
   const router = useRouter();
@@ -77,13 +70,21 @@ const PageSettings = () => {
           !values.old_password
         ) {
           toast({
-            description: "يرجى ادخال كلمة المرور الجديدة",
+            description: "يرجى ادخال جميع حقول كلمة المرور",
             icon: "error",
           });
 
           form.setError("password", {
             type: "manual",
-            message: "يرجى ادخال كلمة المرور الجديدة",
+            message: "يرجى ادخال جميع حقول كلمة المرور",
+          });
+          form.setError("password_confirmation", {
+            type: "manual",
+            message: "يرجى ادخال جميع حقول كلمة المرور",
+          });
+          form.setError("old_password", {
+            type: "manual",
+            message: "يرجى ادخال جميع حقول كلمة المرور",
           });
           return;
         }
@@ -253,42 +254,12 @@ const PageSettings = () => {
                 />
               </div>
 
-              <div className="mt-8 flex-1">
-                <Accordion
-                  type="single"
-                  collapsible
-                  value={changePassword ? "password" : ""}
-                  onValueChange={(val) =>
-                    setIsChangePassword(val === "password")
-                  }
-                  className="w-full"
-                >
-                  <AccordionItem
-                    value="password"
-                    className="border-gray-light rounded-xl border bg-gray-50/50 px-4 md:px-6"
-                  >
-                    <AccordionTrigger className="py-4 hover:no-underline [&[data-state=open]>svg]:rotate-180">
-                      <div className="flex items-center gap-4">
-                        <div className="bg-primary-50 flex size-12 items-center justify-center rounded-xl">
-                          <LockKeyhole className="text-primary-800 size-6" />
-                        </div>
-                        <div className="flex flex-col items-start gap-1">
-                          <span className="text-base font-bold text-black">
-                            تغيير كلمة المرور
-                          </span>
-                          <span className="text-gray-dark text-xs font-normal">
-                            آخر تحديث: {profile?.updated_at || "--"}
-                          </span>
-                        </div>
-                      </div>
-                    </AccordionTrigger>
-                    <AccordionContent className="pt-2 pb-6">
-                      <div className="border-gray-light mb-6 border-t"></div>
-                      <ChangePasswordSettings form={form} />
-                    </AccordionContent>
-                  </AccordionItem>
-                </Accordion>
-              </div>
+              <ChangePasswordSettings
+                form={form}
+                profile={profile}
+                changePassword={changePassword}
+                setIsChangePassword={setIsChangePassword}
+              />
 
               <Button
                 type="submit"

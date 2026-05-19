@@ -65,80 +65,6 @@ export const useTaskLogic = (
     }
   }, [taskId, setData, reset, trigger, onRetakeSuccess, toast]);
 
-  // ================= HANDLE SUCCESS / FAIL =================
-  useEffect(() => {
-    if (!success) return;
-    if (start?.score_ratio && !start?.result) {
-      setSuccess(false);
-      setFail(true);
-    }
-  }, [success, start?.score_ratio, start?.result]);
-
-  useEffect(() => {
-    if ((success || fail) && !start?.score_ratio && !start?.review_pending) {
-      retakeExamLogic();
-    }
-  }, [
-    success,
-    fail,
-    start?.score_ratio,
-    start?.review_pending,
-    retakeExamLogic,
-  ]);
-
-  // ================= INITIALIZATION =================
-  useEffect(() => {
-    if (isInit.current) return;
-
-    const initializeQuiz = async () => {
-      isInit.current = true;
-
-      const shouldStart = shouldStartQuiz(start);
-
-      if (shouldStart.start) {
-        if (shouldStart.type === "fresh" && onConfirmRequired) {
-          // Pause — wait for the user to confirm before fetching questions
-          setAwaitingConfirm(true);
-          onConfirmRequired();
-          return;
-        }
-
-        setStatus(false);
-        onInitialize?.(true);
-
-        try {
-          const q = await getClientPrivateData({
-            queryKey: [`students/quiz/questions/${taskId}`],
-          });
-          setData(q?.body);
-        } catch (e) {
-          console.log("get questions error:", e);
-        }
-      } else {
-        onInitialize?.(false);
-
-        if ((start?.result && !fail) || start?.review_pending) {
-          setSuccess(true);
-        } else {
-          setFail(true);
-        }
-      }
-    };
-
-    initializeQuiz();
-  }, [
-    taskId,
-    start?.score,
-    start?.review_pending,
-    start?.result,
-    shouldStartQuiz,
-    onInitialize,
-    onConfirmRequired,
-    fail,
-    setData,
-    start,
-  ]);
-
   // ================= CONFIRM START =================
   const proceedWithStart = useCallback(async () => {
     setAwaitingConfirm(false);
@@ -212,6 +138,90 @@ export const useTaskLogic = (
     },
     [resolver],
   );
+
+  // ================= HANDLE SUCCESS / FAIL =================
+  useEffect(() => {
+    if (!success) return;
+    if (start?.score_ratio && !start?.result) {
+      setSuccess(false);
+      setFail(true);
+    }
+  }, [success, start?.score_ratio, start?.result]);
+
+  useEffect(() => {
+    if ((success || fail) && !start?.score_ratio && !start?.review_pending) {
+      retakeExamLogic();
+    }
+  }, [
+    success,
+    fail,
+    start?.score_ratio,
+    start?.review_pending,
+    retakeExamLogic,
+  ]);
+
+  // ================= INITIALIZATION =================
+  useEffect(() => {
+    if (isInit.current) return;
+
+    const initializeQuiz = async () => {
+      isInit.current = true;
+
+      const shouldStart = shouldStartQuiz(start);
+
+      // 1) should start solving the task
+      if (shouldStart.start) {
+        if (shouldStart.type === "fresh" && onConfirmRequired) {
+          // Pause — wait for the user to confirm before fetching questions
+          setAwaitingConfirm(true);
+          onConfirmRequired();
+          return;
+        }
+
+        setStatus(false);
+        onInitialize?.(true);
+
+        try {
+          const q = await getClientPrivateData({
+            queryKey: [`students/quiz/questions/${taskId}`],
+          });
+          setData(q?.body);
+        } catch (e) {
+          console.log("get questions error:", e);
+        }
+      }
+      // 2) already solved with no retake option and show answers allowed (show answers right away)
+      else if (
+        (start?.score || start?.score_ratio) &&
+        !start?.review_pending &&
+        start?.show_answer &&
+        !start?.retake
+      ) {
+        await showAnswers();
+      } else {
+        onInitialize?.(false);
+
+        if ((start?.result && !fail) || start?.review_pending) {
+          setSuccess(true);
+          setFail(false);
+        } else {
+          setFail(true);
+          setSuccess(false);
+        }
+      }
+    };
+
+    initializeQuiz();
+  }, [
+    taskId,
+    start,
+    shouldStartQuiz,
+    onInitialize,
+    onConfirmRequired,
+    fail,
+    setData,
+    showAnswers,
+  ]);
 
   return {
     success,
