@@ -10,7 +10,6 @@ import DisableDevTools from "@/modules/video/components/DisableDivTools";
 import VideoError from "@/modules/video/components/VideoError";
 import YoutubeVideoPlayer from "@/modules/video/components/YoutubeVideoPlayer";
 import dynamic from "next/dynamic";
-import Image from "next/image";
 import { redirect, useParams } from "next/navigation";
 import { Suspense } from "react";
 
@@ -108,10 +107,9 @@ const RoomLecturePage = () => {
                     icon="/assets/warning-fill.svg"
                     render={
                       <p className="text-sm">
-                        {otpData?.lockedMessage ||
-                          (!!lockedByViewLimit
-                            ? "لقد تجاوزت الحد الأقصى لعدد المشاهدات المسموح بها لهذا الدرس"
-                            : "يجب ان تقوم باجتياز الاختبار أولا")}
+                        {!!lockedByViewLimit
+                          ? "لقد تجاوزت الحد الأقصى لعدد المشاهدات المسموح بها لهذا الدرس"
+                          : "يجب ان تقوم باجتياز الاختبار أولا"}
                       </p>
                     }
                   />
@@ -123,24 +121,17 @@ const RoomLecturePage = () => {
                       <LoadingSpinner className="h-fit min-h-[520px] bg-white" />
                     }
                   >
-                    {otpStatus.error ? (
-                      <div className="flex h-[520px] w-full flex-1 flex-col items-center justify-center gap-4 bg-gray-100">
-                        <Image
-                          src="/assets/Locked.png"
-                          width={150}
-                          height={150}
-                          alt="Locked"
-                        />
-                        {otpStatus?.message && (
-                          <p className="text-destructive text-center text-base sm:text-lg">
-                            {otpStatus.message}
-                          </p>
-                        )}
-                      </div>
-                    ) : otpStatus?.loading ? (
+                    {otpStatus?.loading ? (
                       <LoadingSpinner className="h-fit min-h-[520px] bg-white" />
                     ) : otpStatus?.error ? (
-                      <VideoError message={otpData?.lockedMessage} />
+                      <VideoError
+                        message={
+                          lockedByViewLimit
+                            ? "لقد تجاوزت الحد الأقصى لعدد المشاهدات المسموح بها لهذا الدرس"
+                            : otpStatus?.message
+                        }
+                        src={lockedByViewLimit ? "/assets/Locked.png" : ""}
+                      />
                     ) : activeVideoType === "youtube" && videoUrl ? (
                       <YoutubeVideoPlayer videoUrl={videoUrl} />
                     ) : activeVideoType === "bunny" && videoId ? (

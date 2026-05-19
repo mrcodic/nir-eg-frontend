@@ -5,7 +5,7 @@ import Link from "next/link";
 const Suspended = async () => {
   return (
     <div className="wrapper mt-20 flex min-h-[min(calc(100vh-80px),768px)] flex-col items-center justify-center gap-6 py-12 text-center">
-      <Image src="/assets/suspended.png" alt="" width={284} height={284} />
+      <Image src="/assets/error.svg" alt="" width={284} height={284} />
 
       <h2 className="text-gradient-custom text-32 font-bold">
         لن تتمكن من الوصول لحسابك في المنصة

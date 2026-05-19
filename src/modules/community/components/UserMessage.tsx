@@ -1,14 +1,14 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import CustomImage from "@/components/ui/CustomImage";
+import { cn } from "@/lib/utils";
 import { convertDate, secondsToHms } from "@/utils/clientFun";
-import { X } from "lucide-react";
+import { ChevronDown, ChevronUp, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import MessageInput from "./MessageInput";
-import CustomImage from "@/components/ui/CustomImage";
-import { cn } from "@/lib/utils";
 
 type UserMessageProps = {
   comment: any;
@@ -30,7 +30,8 @@ const UserMessage = ({
   isYoutubeVideo,
 }: UserMessageProps) => {
   // const hasRightBorder = comment?.replies?.length > 0;
-  const [showReply, setShowReply] = useState(false);
+  const [showReplyInput, setShowReplyInput] = useState(false);
+  const [showReplies, setShowReplies] = useState(false);
   const isAdmin = comment.user.type === "admin";
 
   return (
@@ -141,28 +142,50 @@ const UserMessage = ({
           </div>
         )}
 
-        {comment?.replies?.length > 0 && (
-          <div className="mr-2 flex flex-col gap-2 border-r border-[#cccc] pr-2 md:mr-8 md:pr-4">
-            {comment?.replies?.map((reply, index) => (
-              <UserMessage
-                avatar={
-                  reply.user.type === "user" ? avatar : "/assets/Logo.svg"
-                }
-                isReply={true}
-                key={index}
-                comment={reply}
-                lessonId={lessonId}
-                currentTime={currentTime}
-                isYoutubeVideo={isYoutubeVideo}
-              />
-            ))}
-          </div>
-        )}
+        <>
+          {showReplies && comment?.replies?.length > 0 && (
+            <div className="mr-2 flex flex-col gap-2 border-r border-[#cccc] pr-2 md:mr-8 md:pr-4">
+              {comment?.replies?.map((reply, index) => (
+                <UserMessage
+                  avatar={
+                    reply.user.type === "user" ? avatar : "/assets/Logo.svg"
+                  }
+                  isReply={true}
+                  key={index}
+                  comment={reply}
+                  lessonId={lessonId}
+                  currentTime={currentTime}
+                  isYoutubeVideo={isYoutubeVideo}
+                />
+              ))}
+            </div>
+          )}
 
-        {!showReply && !isReply && (
+          {comment?.replies?.length > 0 && (
+            <Button
+              variant="link"
+              className="hover:text-gray-dark ms-auto w-fit gap-1 p-0 text-xs underline"
+              onClick={() => setShowReplies(!showReplies)}
+            >
+              {showReplies ? (
+                <>
+                  اخفاء الردود
+                  <ChevronUp className="size-3" />
+                </>
+              ) : (
+                <>
+                  عرض الردود ({comment?.replies?.length}){" "}
+                  <ChevronDown className="size-3" />
+                </>
+              )}
+            </Button>
+          )}
+        </>
+
+        {!showReplyInput && !isReply && (
           <div className="flex items-center justify-end ps-2 sm:ps-[33px]">
             <Button
-              onClick={() => setShowReply(true)}
+              onClick={() => setShowReplyInput(true)}
               variant="outline"
               className="h-8 rounded-xl text-xs font-medium sm:text-sm"
             >
@@ -171,11 +194,11 @@ const UserMessage = ({
           </div>
         )}
 
-        {showReply && !isReply && (
+        {showReplyInput && !isReply && (
           <div className="border-gray-light relative mt-4 flex items-start gap-4 rounded-lg border p-2 max-sm:flex-wrap">
             <div className="bg-primary-800 absolute top-0 right-0 flex size-5 items-center justify-center rounded-full">
               <button
-                onClick={() => setShowReply(false)}
+                onClick={() => setShowReplyInput(false)}
                 className="top-0 right-0"
               >
                 <X className="size-4 text-white" />

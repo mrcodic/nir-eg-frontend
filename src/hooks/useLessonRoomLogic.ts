@@ -22,7 +22,6 @@ type OtpData = {
     total_views: number;
   };
   lockedByViewLimit: boolean;
-  lockedMessage?: string;
 };
 
 type OtpStatus = {

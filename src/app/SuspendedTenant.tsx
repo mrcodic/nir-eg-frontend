@@ -39,7 +39,7 @@ export default function SuspendedTenant() {
           <div className="w-full text-center">
             <div className="relative mx-auto aspect-square w-full max-w-71">
               <Image
-                src="/assets/bg/suspended.png"
+                src="/assets/bg/error.svg"
                 alt="NIR EDU"
                 fill
                 className="object-contain"
