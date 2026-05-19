@@ -12,7 +12,8 @@ import { cn } from "@/lib/utils";
 import { NotificationsData } from "@/types";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import { useNotificationSound } from "../hooks/useNotificationSound";
 import MarkAllAsRead from "./MarkAllAsRead";
 import Notification from "./Notification";
@@ -35,6 +36,32 @@ function NavNotifications() {
 
   useNotificationSound(notifications, isLoading);
 
+  const unreadCount = notifications?.meta?.unread_count || 0;
+  const pathname = usePathname();
+  const originalTitleRef = useRef("");
+
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+
+    // Small delay to let Next.js set the new route title first
+    const timeout = setTimeout(() => {
+      // Capture original title only if it doesn't already contain our indicator
+      if (!document.title.startsWith("🔴")) {
+        originalTitleRef.current = document.title;
+      }
+
+      if (unreadCount > 0) {
+        document.title = `🔴 (${unreadCount} إشعارات جديدة) | ${originalTitleRef.current}`;
+      } else if (originalTitleRef.current) {
+        document.title = originalTitleRef.current;
+      }
+    }, 200);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [unreadCount, pathname]);
+
   if (isLoading || !notifications || !notifications?.data) return null;
 
   return (
@@ -45,9 +72,16 @@ function NavNotifications() {
             <CountBubble count={notifications?.meta?.unread_count} />
           )}
           <div
-            className="bg-primary-800 size-6 mask-center mask-no-repeat object-contain transition-all group-hover:bg-white"
+            className={cn(
+              "bg-primary-800 me-px h-6 w-5 mask-center mask-no-repeat transition-all group-hover:bg-white",
+              {
+                "animate-bell-ring origin-top":
+                  notifications?.meta?.unread_count > 0,
+              },
+            )}
             style={{
               maskImage: "url(/assets/icons/notification.svg)",
+              maskSize: "contain",
             }}
           />
         </button>

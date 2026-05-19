@@ -77,6 +77,7 @@ function TaskForm({
       const values = getValues();
       const formData = new FormData();
       formData.append("quiz_id", String(taskId));
+      formData.append("classroom_id", String(classroomId));
 
       const allQuestions: { id: number; type: number }[] = [];
 
@@ -94,6 +95,7 @@ function TaskForm({
         const value = values.questions?.[id];
 
         if (!value) {
+          // written
           if (type === 3) {
             formData.append(`questions[${id}][text]`, null);
             formData.append(`questions[${id}][attachment]`, null);
