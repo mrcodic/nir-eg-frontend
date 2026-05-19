@@ -4,6 +4,7 @@ import RoomHeader from "@/modules/rooms/components/RoomHeader";
 import { Bundle, IUser } from "@/types";
 import BundleCard from "./BundleCard";
 import PaginationServer from "@/components/shared/PaginationServer";
+import { Animate } from "@/components/shared/Animate";
 
 const ITEMS_PER_PAGE = 1;
 
@@ -53,22 +54,28 @@ const BundlesWrapper = async ({
         subText="أحدث الباقات المضافة"
       />
 
-      <div
+      <Animate
+        as="div"
         className={cn("mt-8 grid gap-6", {
           "xl:grid-cols-2 xl:gap-10": isMultiGrid,
         })}
+        variants={{
+          hidden: {},
+          visible: { transition: { staggerChildren: 0.1 } },
+        }}
       >
-        {paginatedBundles?.map((bundle) => {
+        {paginatedBundles?.map((bundle, index) => {
           return (
-            <BundleCard
-              key={bundle.id}
-              profile={profile}
-              bundle={bundle}
-              isMultiGrid={isMultiGrid}
-            />
+            <Animate key={bundle.id} isChild preset="slideUp">
+              <BundleCard
+                profile={profile}
+                bundle={bundle}
+                isMultiGrid={isMultiGrid}
+              />
+            </Animate>
           );
         })}
-      </div>
+      </Animate>
 
       {bundles?.length > ITEMS_PER_PAGE && (
         <PaginationServer

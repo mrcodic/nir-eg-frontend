@@ -71,6 +71,12 @@ interface AnimateProps extends Omit<HTMLMotionProps<"div">, "variants"> {
    */
   trigger?: "inView" | "mount";
 
+  /**
+   * If true, disables initial/whileInView props so the element can be 
+   * staggered by a parent motion component.
+   */
+  isChild?: boolean;
+
   // ── Full custom override ─────────────────────────────────────────────────────
   /**
    * Pass your own Framer Motion variants object.
@@ -195,6 +201,7 @@ export function Animate({
   amount = 0.15,
   // trigger
   trigger = "inView",
+  isChild = false,
   // custom overrides
   variants,
   transition,
@@ -214,8 +221,9 @@ export function Animate({
   // so we skip the default transition for it (unless user provides one)
   const isSelfTransitioned = !transition && preset === "bounceIn";
 
-  const animationProps =
-    trigger === "mount"
+  const animationProps = isChild
+    ? {}
+    : trigger === "mount"
       ? {
           initial: "hidden",
           animate: "visible",

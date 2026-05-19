@@ -5,6 +5,7 @@ import CourseCard from "@/modules/courses/components/CourseCard";
 import RoomHeader from "@/modules/rooms/components/RoomHeader";
 import { CourseType, IUser } from "@/types";
 import { Suspense } from "react";
+import { Animate } from "@/components/shared/Animate";
 
 const NewCourses = async ({
   profile,
@@ -51,7 +52,14 @@ const NewCourses = async ({
               const currentCourses = allCourses.slice(start, end);
 
               return (
-                <div className="cards-grid min-h-[455px] rounded-lg">
+                <Animate
+                  as="div"
+                  className="cards-grid min-h-[455px] rounded-lg"
+                  variants={{
+                    hidden: {},
+                    visible: { transition: { staggerChildren: 0.1 } },
+                  }}
+                >
                   <>
                     {currentCourses.map((course: any, index: number) => (
                       <CourseCard
@@ -69,7 +77,7 @@ const NewCourses = async ({
                       />
                     </div>
                   </>
-                </div>
+                </Animate>
               );
             }}
             emptyProps={{

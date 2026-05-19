@@ -10,6 +10,7 @@ import { CourseType } from "@/types";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import CourseSkeleton from "@/components/shared/CourseSkeleton";
+import { Animate } from "@/components/shared/Animate";
 
 const SubbedCourses = () => {
   const [page, setPage] = useState(1);
@@ -43,7 +44,14 @@ const SubbedCourses = () => {
           const currentCourses = allCourses.slice(start, end);
 
           return (
-            <div className="cards-grid mt-6">
+            <Animate
+              as="div"
+              className="cards-grid mt-6"
+              variants={{
+                hidden: {},
+                visible: { transition: { staggerChildren: 0.1 } },
+              }}
+            >
               {currentCourses.map((courseDetails: any, index: number) => (
                 <CourseCard
                   key={index}
@@ -59,7 +67,7 @@ const SubbedCourses = () => {
                   pageSize={pageSize}
                 />
               </div>
-            </div>
+            </Animate>
           );
         }}
         customLoading={<CourseSkeleton />}

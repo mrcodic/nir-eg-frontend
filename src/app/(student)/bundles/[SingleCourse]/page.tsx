@@ -5,6 +5,7 @@ import { getServerData } from "@/helpers/server-fetch";
 import ProtectedRoute from "@/layouts/ProtectedRoute";
 import { ICourseDetails } from "@/types";
 import { redirect } from "next/navigation";
+import { Animate } from "@/components/shared/Animate";
 
 const SingleCourse = async ({ params }) => {
   const { SingleCourse } = await params;
@@ -37,18 +38,24 @@ const SingleCourse = async ({ params }) => {
       verifyPhone={false}
     >
       <div className="">
-        <CoursesHeader details={bundleRooms?.body} />
+        <Animate preset="slideDown">
+          <CoursesHeader details={bundleRooms?.body} />
+        </Animate>
 
-        <CourseFloatingCards
-          SingleCourse={SingleCourse}
-          data={bundleRooms}
-          profile={profileData?.body}
-        />
+        <Animate preset="fadeIn" delay={0.2}>
+          <CourseFloatingCards
+            SingleCourse={SingleCourse}
+            data={bundleRooms}
+            profile={profileData?.body}
+          />
+        </Animate>
 
-        <CourseDetails
-          details={bundleRooms?.body}
-          profile={profileData?.body}
-        />
+        <Animate preset="slideUp" delay={0.4}>
+          <CourseDetails
+            details={bundleRooms?.body}
+            profile={profileData?.body}
+          />
+        </Animate>
       </div>
     </ProtectedRoute>
   );

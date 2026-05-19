@@ -53,11 +53,13 @@ const CourseCard = ({
   isNewCourse = false,
   isBundles = false,
   isSubbed = false,
+  standalone = false,
 }: {
   courseDetails: CourseType;
   isNewCourse?: boolean;
   isBundles?: boolean;
   isSubbed?: boolean;
+  standalone?: boolean;
 }) => {
   const router = useRouter();
   const modal = useModal();
@@ -80,9 +82,11 @@ const CourseCard = ({
     <motion.div
       className="group relative mx-auto flex h-full w-full max-w-[500px] flex-col items-center rounded-lg"
       variants={cardVariants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-100px" }}
+      {...(standalone && {
+        initial: "hidden",
+        whileInView: "visible",
+        viewport: { once: true, margin: "-100px" },
+      })}
     >
       {courseDetails?.has_promocode && isOnline && !isCodeCenterRoomType && (
         <SaleBubble className="absolute -top-2 -right-2 z-10" text="كوبون" />

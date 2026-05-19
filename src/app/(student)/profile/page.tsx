@@ -8,6 +8,7 @@ import { ApiResponse, IUser } from "@/types";
 import { Suspense } from "react";
 import dynamic from "next/dynamic";
 import CenterSelectModalTrigger from "./CenterSelectModalTrigger";
+import { Animate } from "@/components/shared/Animate";
 
 const ProfilePointsTable = dynamic(
   () => import("@/modules/profile/components/ProfilePointsTable"),
@@ -35,23 +36,29 @@ export default async function ProfilePage() {
         {/* Auto-opens center modal for center-type students without a center */}
         <CenterSelectModalTrigger profile={profile} />
 
-        <ProfileHeaderCard profileData={profile} />
+        <Animate preset="slideDown">
+          <ProfileHeaderCard profileData={profile} />
+        </Animate>
 
         <Suspense fallback={<LoadingSpinner />}>
-          {hasQuizzesEnabled && <StudentTasksOverview />}
+          {hasQuizzesEnabled && (
+            <Animate preset="slideUp" delay={0.2}>
+              <StudentTasksOverview />
+            </Animate>
+          )}
         </Suspense>
 
-        <div className="mt-24">
+        <Animate preset="slideUp" delay={0.4} className="mt-24">
           <RoomHeader icon={"/assets/books-colored.svg"} title={"آخر الحصص"} />
           <ProfileRoomsWrapper />
-        </div>
+        </Animate>
 
         <Suspense fallback={<LoadingSpinner />}>
           {hasPointsEnabled && (
-            <div id="points-table" className="mt-24 scroll-mt-24">
+            <Animate preset="slideUp" delay={0.6} id="points-table" className="mt-24 scroll-mt-24">
               <RoomHeader icon={"/assets/star-colored.svg"} title={"النقاط"} />
               <ProfilePointsTable />
-            </div>
+            </Animate>
           )}
         </Suspense>
       </div>

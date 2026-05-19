@@ -120,17 +120,14 @@ const RoomSideContent = ({
         defaultValue={["lessons", "quizzes", "assignments", "attachments"]}
         className="mt-6 min-h-0 w-full flex-1"
       >
-        <ScrollArea
-          dir="rtl"
-          className="border-gray-light h-full min-h-0 rounded-lg border p-1"
-        >
-          <div className="space-y-4">
+        <ScrollArea dir="rtl" className="h-full min-h-0">
+          <div className="border-gray-light space-y-4 rounded-lg border p-1">
             {/* Lessons Section */}
             <AccordionItem
               value="lessons"
               className={cn(
                 "rounded-none border-transparent p-0 pb-2",
-                "border-b-gray-light!",
+                "not-last-of-type:border-b-gray-light",
               )}
             >
               <AccordionTrigger className="text-gray-dark hover:text-gray-darker py-1 text-sm font-bold hover:no-underline">
@@ -179,7 +176,7 @@ const RoomSideContent = ({
                 value="quizzes"
                 className={cn(
                   "rounded-none border-transparent p-0 pb-2",
-                  "border-b-gray-light!",
+                  "not-last-of-type:border-b-gray-light!",
                 )}
               >
                 <AccordionTrigger className="text-gray-dark hover:text-gray-darker text-sm font-bold hover:no-underline">
@@ -210,7 +207,7 @@ const RoomSideContent = ({
                 value="assignments"
                 className={cn(
                   "rounded-none border-transparent p-0 pb-2",
-                  "border-b-gray-light!",
+                  "not-last-of-type:border-b-gray-light",
                 )}
               >
                 <AccordionTrigger className="text-gray-dark hover:text-gray-darker text-sm font-bold hover:no-underline">
@@ -241,7 +238,7 @@ const RoomSideContent = ({
                 value="attachments"
                 className={cn(
                   "rounded-none border-transparent p-0 pb-2",
-                  "border-b-gray-light!",
+                  "not-last-of-type:border-b-gray-light",
                 )}
               >
                 <AccordionTrigger className="text-gray-dark hover:text-gray-darker text-sm font-bold hover:no-underline">
