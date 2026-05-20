@@ -14,7 +14,7 @@ export default function PayLabel({ price, courseId, bundleId, roomId }) {
 
   function backtoPayMethod() {
     router.push(
-      `/bundles${courseId ? `/${courseId}` : bundleId ? `/showBundle?bundleId=${bundleId}` : ""}`,
+      `/bundles${courseId ? `/${courseId}` : bundleId ? `/bundle-details/${bundleId}` : ""}`,
     );
 
     modal.setDialogContent(

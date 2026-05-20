@@ -22,7 +22,7 @@ import { useAuthContext } from "@/context/auth-context";
 import { mutateClient } from "@/helpers/post-client";
 import ChangePasswordSettings from "@/modules/profile/components/ChangePasswordSettings";
 
-const PageSettings = () => {
+const AccountSettings = () => {
   const router = useRouter();
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -287,4 +287,4 @@ const PageSettings = () => {
     </div>
   );
 };
-export default PageSettings;
+export default AccountSettings;

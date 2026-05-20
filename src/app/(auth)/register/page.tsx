@@ -1,29 +1,25 @@
 "use client";
 
-import CustomInput from "@/components/custom/customInput";
-import CustomSelect from "@/components/custom/customSelect";
-import { Form } from "@/components/ui/form";
-import { zodResolver } from "@hookform/resolvers/zod";
-
-import CustomCityStateField from "@/components/custom/CustomCityStateField";
 import SmallSpinner from "@/components/custom/SmallSpinner";
+import OtpVerifyForm from "@/components/forms/OtpVerifyForm";
+import RegisterStepOne from "@/components/forms/register-stepper/RegisterStepOne";
+import RegisterStepperHeader from "@/components/forms/register-stepper/RegisterStepperHeader";
+import RegisterStepTwo from "@/components/forms/register-stepper/RegisterStepTwo";
+import { useRegisterStepper } from "@/components/forms/register-stepper/useRegisterStepper";
+import { Button } from "@/components/ui/button";
+import { Form } from "@/components/ui/form";
+import { useAuthContext } from "@/context/auth-context";
+import { useTenant } from "@/context/TenantProvider";
 import { useToast } from "@/hooks/use-toast";
 import { registerSchema } from "@/lib/schemas";
+import { RegisterFormValues, RegisterStep } from "@/types/register.types";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { useRouter } from "nextjs-toploader/app";
-import { GoogleReCaptcha } from "react-google-recaptcha-v3";
-
-import CustomPhoneInput from "@/components/custom/CustomPhoneInput";
-import DynamicSelect from "@/components/custom/DynamicSelect";
-import { Button } from "@/components/ui/button";
-import { mutateClient } from "@/helpers/post-client";
-import AuthHeader from "@/layouts/AuthHeader";
-import { presistUserPhone } from "@/lib/utils";
-import { useForm } from "react-hook-form";
-import { useTenant } from "@/context/TenantProvider";
-import { isAxiosError } from "axios";
-import { useAuthContext } from "@/context/auth-context";
 import { redirect } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
+import { useState } from "react";
+import { GoogleReCaptcha } from "react-google-recaptcha-v3";
+import { useForm } from "react-hook-form";
 
 const RegisterPage = () => {
   const router = useRouter();
@@ -31,28 +27,27 @@ const RegisterPage = () => {
   const { features } = useTenant();
   const { profile } = useAuthContext();
 
-  const form = useForm({
+  const [step, setStep] = useState<RegisterStep>(1);
+  const [phoneForOtp, setPhoneForOtp] = useState("");
+
+  const form = useForm<RegisterFormValues>({
     mode: "all",
     resolver: zodResolver(registerSchema),
     defaultValues: {
       first_name: "",
       last_name: "",
-
       phones: {
         country: "+20",
         country_iso: "EG",
         phone: "",
         parent__phone: "",
       },
-
       password: "",
       password_confirmation: "",
       grade_id: "",
       type: "4",
-      // city: "",
-      state_id: "",
-      city_id: "",
-
+      state_id: 0,
+      city_id: 0,
       recaptcha_token: "",
     },
   });
@@ -61,197 +56,118 @@ const RegisterPage = () => {
     redirect("/");
   }
 
-  const onSubmit = async (v) => {
-    try {
-      const { phones, ...rest } = v;
-
-      const response = await mutateClient("/auth/register", {
-        body: {
-          ...rest,
-          ...phones,
-        },
+  const { validateStepOne, submitRegister } = useRegisterStepper({
+    form,
+    setStep,
+    onErrorToast: (message) =>
+      toast({
+        description: message,
+        icon: "error",
+      }),
+    onRegistered: (phone) => {
+      setPhoneForOtp(phone);
+      setStep(3);
+      toast({
+        description: "تم إنشاء الحساب، قم بتأكيد كود التفعيل",
+        icon: "success",
       });
-
-      presistUserPhone(phones.phone, phones.country);
-
-      if (response.status) {
-        toast({
-          description: "تم إنشاء الحساب بنجاح سجل دخولك الان",
-          icon: "success",
-        });
-
-        router.push("/login");
-      }
-    } catch (err) {
-      console.log(err, err?.response?.data?.errors);
-
-      if (isAxiosError(err)) {
-        if (err?.status === 422 && err?.response?.data?.errors) {
-          const firstKey = Object.keys(err?.response?.data?.errors)?.[0];
-
-          form.setError(
-            firstKey === "phone" ? "phones.phone" : (firstKey as any),
-            {
-              message: err?.response?.data?.errors?.[firstKey]?.[0],
-            },
-          );
-
-          toast({
-            description:
-              err?.response?.data?.errors?.[firstKey]?.[0] || "حدث خطأ ما",
-            icon: "error",
-          });
-        } else {
-          toast({
-            status: err.status,
-            description:
-              err?.response?.data?.message ||
-              err?.response?.data?.error?.message ||
-              "حدث خطأ ما",
-            icon: "error",
-          });
-        }
-      } else {
-        toast({
-          status: err.status,
-          description: "حدث خطأ ما",
-          icon: "error",
-        });
-      }
-    }
-  };
+    },
+  });
 
   return (
     <>
-      <AuthHeader
-        title="إنشاء حساب جديد"
-        description=" أدخل بياناتك لتتمكن من التسجيل معنا"
+      <RegisterStepperHeader
+        step={step}
+        isOtpStep={step === 3}
+        phoneLabel={phoneForOtp}
       />
 
-      <div className="bg-gray-light mt-2 h-px w-full" />
-
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit, (errors) => {
-            const first = Object.values(errors)?.[0];
-            // show first validation message (zod) or a fallback
-            const msg = first?.message || "قم بملء جميع الحقول المطلوبة";
-            console.error("Form validation errors:", errors);
-            // toast is already in your file
-            // @ts-ignore
-            typeof msg === "string" && // defensive
-              typeof window !== "undefined" &&
-              // use your existing toast
-              // you can customize text as you like
-              toast({ description: msg, icon: "error" });
-          })}
-          className="mt-10 w-full"
-        >
-          <div className="grid grid-cols-1 items-start gap-x-6 gap-y-8 md:grid-cols-2">
-            <CustomInput
-              name="first_name"
-              control={form.control}
-              label="الاسم الأول"
-            />
-
-            <CustomInput
-              name="last_name"
-              control={form.control}
-              label="الاسم الأخير"
-            />
-
-            <CustomPhoneInput
-              name="phones.phone"
+        <form className="mt-10 w-full space-y-8">
+          {step === 1 && <RegisterStepOne form={form} />}
+          {step === 2 && (
+            <RegisterStepTwo
               form={form}
-              label="رقم هاتف الطالب بالإنجليزية"
-              info="  يجب أن يكون رقم واتس اب"
-              countryFieldName="phones.country"
-              countryISOFieldName="phones.country_iso"
+              showCenterOption={Boolean(features?.center_system)}
             />
-
-            <CustomPhoneInput
-              name="phones.parent__phone"
-              form={form}
-              label="رقم هاتف ولى الأمر بالإنجليزية"
-              info="يجب أن يكون رقم واتس اب"
-              countryFieldName="phones.country"
-              countryISOFieldName="phones.country_iso"
+          )}
+          {step === 3 && (
+            <OtpVerifyForm
+              phone={phoneForOtp || form.getValues("phones.phone")}
+              onSuccess={() => {
+                router.push("/login");
+              }}
             />
+          )}
 
-            <CustomCityStateField form={form} />
+          {step !== 3 && (
+            <>
+              {step === 2 && (
+                <GoogleReCaptcha
+                  onVerify={(token) => {
+                    form.setValue("recaptcha_token", token);
+                  }}
+                />
+              )}
 
-            <DynamicSelect
-              name="grade_id"
-              control={form.control}
-              label="الصف"
-              queryKey="/grades"
-            />
+              <div className="flex gap-2">
+                {step === 2 && (
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    className="w-1/3"
+                    onClick={() => setStep(1)}
+                  >
+                    السابق
+                  </Button>
+                )}
 
-            <CustomSelect
-              name="type"
-              control={form.control}
-              label="نوع الحضور"
-              options={[
-                { value: "4", label: "طالب اونلاين" },
-                // { value: "5", label: "اكواد سنتر" },
-                {
-                  ...(features?.center_system && {
-                    value: "3",
-                    label: "طالب سنتر",
-                  }),
-                },
-              ]}
-            />
-            <CustomInput
-              name="password"
-              control={form.control}
-              label="كلمة السر"
-              type="password"
-            />
+                {step === 1 ? (
+                  <Button
+                    type="button"
+                    className="w-full"
+                    onClick={async () => {
+                      const valid = await validateStepOne();
+                      if (valid) setStep(2);
+                    }}
+                  >
+                    التالي
+                  </Button>
+                ) : (
+                  <Button
+                    type="button"
+                    className="flex-1"
+                    disabled={form.formState.isSubmitting}
+                    onClick={async () => {
+                      await submitRegister();
+                    }}
+                  >
+                    {!form.formState.isSubmitting ? (
+                      "تأكيد"
+                    ) : (
+                      <SmallSpinner className="text-white" />
+                    )}
+                  </Button>
+                )}
+              </div>
+            </>
+          )}
 
-            <CustomInput
-              name="password_confirmation"
-              control={form.control}
-              label="تأكيد كلمة السر"
-              type="password"
-            />
-          </div>
-
-          <div className="mt-14 flex gap-2">
+          <div className="mt-6 flex justify-center gap-2">
             <span className="text-gray-dark inline-block font-medium">
               لديك حساب بالفعل؟
             </span>
             <Link
-              href={"/login"}
-              className="text-primary-800 border-gray-light rounded-md border px-4 text-sm font-bold underline"
+              href="/login"
+              className="text-primary-800 font-bold underline"
             >
-              تسجيل الدخول
+              تسجيل دخول
             </Link>
-          </div>
-
-          <GoogleReCaptcha
-            onVerify={(token) => {
-              // setToken(token);
-              form.setValue("recaptcha_token", token);
-            }}
-          />
-
-          <div className="mt-10 flex">
-            <Button
-              type="submit"
-              className="ms-auto w-full max-w-40"
-              disabled={form.formState.isSubmitting}
-            >
-              {!form.formState.isSubmitting ? (
-                "إنشاء حساب"
-              ) : (
-                <SmallSpinner className="text-white" />
-              )}
-            </Button>
           </div>
         </form>
       </Form>
     </>
   );
 };
+
 export default RegisterPage;

@@ -10,13 +10,13 @@ import RoomHeader from "@/modules/rooms/components/RoomHeader";
 import { ApiResponse, Bundle, IUser } from "@/types";
 import { redirect } from "next/navigation";
 
-const ShowBundle = async ({
-  searchParams,
+const BundleDetails = async ({
+  params,
 }: {
-  searchParams: Promise<{ bundleId?: string }>;
+  params: Promise<{ bundleId?: string }>;
 }) => {
-  const params = await searchParams;
-  const bundleId = params.bundleId;
+  const pageParams = await params;
+  const bundleId = pageParams.bundleId;
 
   const profileData = await getServerData<ApiResponse<IUser | null>>({
     queryKey: [`/students/profile`],
@@ -117,4 +117,4 @@ const ShowBundle = async ({
     </div>
   );
 };
-export default ShowBundle;
+export default BundleDetails;

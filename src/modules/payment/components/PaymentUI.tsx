@@ -3,14 +3,14 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useAuthContext } from "@/context/auth-context";
 
+import CustomImage from "@/components/ui/CustomImage";
 import PriceBubbles from "@/components/ui/price-bubble";
+import { Skeleton } from "@/components/ui/skeleton";
 import { CourseType, paymentType, PricingResponse } from "@/types";
 import Image from "next/image";
 import React from "react";
 import PaymentCoupon from "./PaymentCoupon";
 import PriceBadge from "./PriceBadge";
-import { Skeleton } from "@/components/ui/skeleton";
-import CustomImage from "@/components/ui/CustomImage";
 
 interface PaymentUIProps {
   paymentMethodValue: paymentType | null;
@@ -56,9 +56,9 @@ export const PaymentUI: React.FC<PaymentUIProps> = ({
         </div>
       )}
 
-      <h4 className="mb-4 text-[18px] font-bold">
-        {isFree ? "" : "اختر طريقة الدفع"}
-      </h4>
+      {!isFree && (
+        <h4 className="mb-4 text-[18px] font-bold">اختر طريقة الدفع</h4>
+      )}
 
       <div className="mb-6 space-y-2 empty:hidden">
         {isModal && !!price && (
@@ -130,7 +130,7 @@ export const PaymentUI: React.FC<PaymentUIProps> = ({
             priority
           />
           <span className="mb-2 text-xl font-bold text-green-600">
-            يمكنك الاشتراك فى الباقه مجانا
+            يمكنك الاشتراك فى الكورس مجانا
           </span>
         </div>
       ) : hasPaymentMethods ? (

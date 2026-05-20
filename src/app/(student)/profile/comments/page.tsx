@@ -1,5 +1,5 @@
 import { getServerData } from "@/helpers/server-fetch";
-import { getTenantSettingsServer } from "@/services/tenantServices";
+import { getTenantSettingsServer } from "@/services/tenant.service";
 import { ApiResponse, IUser } from "@/types";
 import { redirect } from "next/navigation";
 import CommentsView from "./CommentsView";

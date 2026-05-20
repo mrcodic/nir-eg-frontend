@@ -87,7 +87,7 @@ export default function BundleCard({
                     modal.openModal();
                   } else {
                     router.push(
-                      `/login?redirect=/bundles/showBundle?bundleId=${bundle.id}`,
+                      `/login?redirect=/bundles/bundle-details/${bundle.id}`,
                     );
                   }
                 }}
@@ -98,7 +98,7 @@ export default function BundleCard({
 
               <Button
                 onClick={() => {
-                  router.push(`/bundles/showBundle?bundleId=${bundle.id}`);
+                  router.push(`/bundles/bundle-details/${bundle.id}`);
                 }}
                 variant="secondary"
                 className="w-full max-w-[171px]"

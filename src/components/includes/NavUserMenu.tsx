@@ -7,14 +7,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useModal } from "@/context/ModalProvider";
+import { useTenant } from "@/context/TenantProvider";
 import { cn } from "@/lib/utils";
+import { IUser } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 import { QRCodeCanvas } from "qrcode.react";
 import LogoutCustomModal from "../modals/LogoutCustomModal";
 import CustomImage from "../ui/CustomImage";
-import { useTenant } from "@/context/TenantProvider";
-import { IUser } from "@/types";
 import { ScrollArea } from "../ui/scroll-area";
 
 function NavUserMenu({
@@ -104,7 +104,7 @@ function NavUserMenu({
           <div className="bg-gray-light my-4 mb-4 h-px w-full px-4" />
 
           <MenuItem
-            href="/profile/accountSettings"
+            href="/profile/account-settings"
             icon="/assets/settings.svg"
             text="إعدادات الحساب"
           />

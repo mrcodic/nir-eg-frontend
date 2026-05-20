@@ -31,8 +31,8 @@ src/app/
 │   │   └── page.jsx          # /activities
 │   ├── bundles/
 │   │   ├── page.tsx          # /bundles (course list)
-│   │   ├── showBundle/
-│   │   │   └── page.tsx      # /bundles/showBundle
+│   │   ├── bundle-details/
+│   │   │   └── page.tsx      # /bundles/bundle-details
 │   │   └── [SingleCourse]/   # Dynamic route
 │   │       ├── page.tsx      # /bundles/:courseId
 │   │       ├── (courseExam)/ # Route group for course exams
@@ -57,8 +57,8 @@ src/app/
 │   │   └── page.tsx          # /grades
 │   ├── profile/
 │   │   ├── page.tsx          # /profile
-│   │   ├── accountSettings/
-│   │   │   └── page.tsx      # /profile/accountSettings
+│   │   ├── account-settings/
+│   │   │   └── page.tsx      # /profile/account-settings
 │   │   └── comments/
 │   │       └── page.tsx      # /profile/comments
 │   ├── store/
@@ -230,7 +230,7 @@ export default async function ExamPage({
 
 ```
 /profile                    # Main profile
-/profile/accountSettings    # Settings page
+/profile/account-settings    # Settings page
 /profile/comments           # Comments page
 ```
 

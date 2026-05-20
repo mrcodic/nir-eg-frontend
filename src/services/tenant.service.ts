@@ -11,7 +11,7 @@ export const getTenantSettingsServer = cache(async () => {
   if (!tenant.subdomain) {
     throw new CustomError("TENANT_NOT_FOUND", 404, "TENANT_NOT_FOUND");
   }
-
+  extractTenantFromHostServer;
   const url = buildApiUrl(
     tenant.subdomain,
     `/central/tenants/${tenant.subdomain}`,

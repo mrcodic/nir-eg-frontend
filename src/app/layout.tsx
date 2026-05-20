@@ -9,19 +9,19 @@ import Providers from "./providers";
 import Announcement from "@/components/banners/Announcement";
 import UserModalsWrapper from "@/components/shared/UserModalsWrapper";
 import { TenantProvider } from "@/context/TenantProvider";
-import { hexToHsl } from "@/helpers/tenant.helpers";
-import { getTenantSettingsServer } from "@/services/tenantServices";
-import { Metadata } from "next";
-import { Almarai } from "next/font/google";
-import { Suspense } from "react";
-import Script from "next/script";
-import CustomGlobalError from "./CustomGlobalError";
-import CustomError from "@/lib/customError";
-import SuspendedTenant from "./SuspendedTenant";
-import NotFoundTenant from "./NotFoundTenant";
-import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { getServerData } from "@/helpers/server-fetch";
+import { hexToHsl } from "@/helpers/tenant.helpers";
+import CustomError from "@/lib/customError";
+import { getTenantSettingsServer } from "@/services/tenant.service";
 import { ApiResponse, IUser } from "@/types";
+import { Metadata } from "next";
+import { isRedirectError } from "next/dist/client/components/redirect-error";
+import { Almarai } from "next/font/google";
+import Script from "next/script";
+import { Suspense } from "react";
+import CustomGlobalError from "./CustomGlobalError";
+import NotFoundTenant from "./NotFoundTenant";
+import SuspendedTenant from "./SuspendedTenant";
 
 const almarai = Almarai({
   subsets: ["arabic"],
@@ -104,14 +104,14 @@ export default async function Layout({ children }) {
       if (e.code === "TENANT_SUSPENDED") return <SuspendedTenant />;
       if (e.code === "TENANT_NOT_FOUND") return <NotFoundTenant />;
       return <CustomGlobalError error={e} />;
+    } else {
+      const error = new CustomError(
+        "UNEXPECTED",
+        (e as any)?.status || 500,
+        "UNEXPECTED",
+      );
+      return <CustomGlobalError error={error} />;
     }
-
-    const error = new CustomError(
-      "UNEXPECTED",
-      (e as any)?.status || 500,
-      "UNEXPECTED",
-    );
-    return <CustomGlobalError error={error} />;
   }
 
   const profile = await getServerData<ApiResponse<IUser | null>>({

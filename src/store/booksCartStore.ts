@@ -1,6 +1,6 @@
 import { getClientData } from "@/helpers/client-fetch";
 import { toast } from "@/hooks/use-toast";
-import cartServices from "@/services/cartServices";
+import cartServices from "@/services/cart.service";
 import { Book, BookLinksSettings } from "@/types/books.types";
 
 import Cookies from "js-cookie";

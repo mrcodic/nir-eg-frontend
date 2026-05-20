@@ -21,7 +21,6 @@ export const usePayment = ({
   courseId,
   bundleId,
   roomId,
-  isCodeCenter,
   asModal = false,
   isFree = false,
 }: UsePaymentProps) => {
@@ -125,6 +124,7 @@ export const usePayment = ({
     }
   }, [
     loading,
+    isFree,
     paymentMethodValue,
     asModal,
     courseId,

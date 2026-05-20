@@ -2,7 +2,7 @@ import TemplateOne from "@/components/guest-templates/TemplateOne";
 import TemplateThree from "@/components/guest-templates/TemplateThree";
 import TemplateTwo from "@/components/guest-templates/TemplateTwo";
 import CustomError from "@/lib/customError";
-import { getTenantContentServer } from "@/services/tenantServices";
+import { getTenantContentServer } from "@/services/tenant.service";
 
 const mapTemplate = {
   "landing-v1": TemplateOne,

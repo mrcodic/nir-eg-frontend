@@ -1,14 +1,14 @@
+import { Animate } from "@/components/shared/Animate";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
-import RoomHeader from "@/modules/rooms/components/RoomHeader";
+import { getServerData } from "@/helpers/server-fetch";
 import ProfileHeaderCard from "@/modules/profile/components/ProfileHeaderCard";
 import ProfileRoomsWrapper from "@/modules/profile/components/ProfileRoomsWrapper";
-import { getServerData } from "@/helpers/server-fetch";
-import { getTenantSettingsServer } from "@/services/tenantServices";
+import RoomHeader from "@/modules/rooms/components/RoomHeader";
+import { getTenantSettingsServer } from "@/services/tenant.service";
 import { ApiResponse, IUser } from "@/types";
-import { Suspense } from "react";
 import dynamic from "next/dynamic";
+import { Suspense } from "react";
 import CenterSelectModalTrigger from "./CenterSelectModalTrigger";
-import { Animate } from "@/components/shared/Animate";
 
 const ProfilePointsTable = dynamic(
   () => import("@/modules/profile/components/ProfilePointsTable"),
@@ -55,7 +55,12 @@ export default async function ProfilePage() {
 
         <Suspense fallback={<LoadingSpinner />}>
           {hasPointsEnabled && (
-            <Animate preset="slideUp" delay={0.6} id="points-table" className="mt-24 scroll-mt-24">
+            <Animate
+              preset="slideUp"
+              delay={0.6}
+              id="points-table"
+              className="mt-24 scroll-mt-24"
+            >
               <RoomHeader icon={"/assets/star-colored.svg"} title={"النقاط"} />
               <ProfilePointsTable />
             </Animate>

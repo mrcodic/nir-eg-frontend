@@ -81,7 +81,7 @@ nier-front/
     │   │   │
     │   │   ├── 📂 bundles/           # 📚 COURSES
     │   │   │   ├── page.tsx          # Course list
-    │   │   │   ├── 📂 showBundle/
+    │   │   │   ├── 📂 bundle-details/
     │   │   │   │   └── page.tsx      # Bundle details
     │   │   │   └── 📂 [SingleCourse]/  # Dynamic course route
     │   │   │       ├── page.tsx      # Course detail
@@ -111,7 +111,7 @@ nier-front/
     │   │   │
     │   │   ├── 📂 profile/           # 👤 USER PROFILE
     │   │   │   ├── page.tsx          # Profile overview
-    │   │   │   ├── 📂 accountSettings/
+    │   │   │   ├── 📂 account-settings/
     │   │   │   │   └── page.tsx      # Account settings
     │   │   │   └── 📂 comments/
     │   │   │       ├── page.tsx      # User comments

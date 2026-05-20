@@ -6,7 +6,6 @@ import { useModal } from "@/context/ModalProvider";
 import { cn } from "@/lib/utils";
 import { Bundle, IUser } from "@/types";
 import { useRouter } from "next/navigation";
-import React from "react";
 
 export default function BundlePurchaseButton({
   profile,
@@ -34,9 +33,7 @@ export default function BundlePurchaseButton({
           );
           modal.openModal();
         } else {
-          router.push(
-            `/login?redirect=/bundles/showBundle?bundleId=${bundle.id}`,
-          );
+          router.push(`/login?redirect=/bundles/bundle-details/${bundle.id}`);
         }
       }}
     >

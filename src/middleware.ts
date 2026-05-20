@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { extractTenantFromHostServer } from "./helpers/server-utils";
 
 const PROTECTED_ROUTES = new Set([
   "/activities",
@@ -17,7 +18,7 @@ function isRouteMatch(pathname: string, routes: Set<string>) {
   );
 }
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname.replace(/\/$/, "");
 
   if (
@@ -30,19 +31,21 @@ export function middleware(request: NextRequest) {
 
   const token = request.cookies.get("nir_token")?.value;
   const isProtected = isRouteMatch(pathname, PROTECTED_ROUTES);
-  const isAuthRoute = isRouteMatch(pathname, AUTH_ROUTES);
 
   if (isProtected && !token) {
-    const loginUrl = request.nextUrl.clone();
-    loginUrl.pathname = "/login";
-    loginUrl.searchParams.set("redirect", pathname);
-    return NextResponse.redirect(loginUrl);
+    const { host } = await extractTenantFromHostServer();
+    const res = new NextResponse(null, { status: 307 });
+    res.headers.set("Location", `${host}/login`);
+    return res;
   }
 
+  const isAuthRoute = isRouteMatch(pathname, AUTH_ROUTES);
+
   if (isAuthRoute && token) {
-    const homeUrl = request.nextUrl.clone();
-    homeUrl.pathname = "/";
-    return NextResponse.redirect(homeUrl);
+    const { host } = await extractTenantFromHostServer();
+    const res = new NextResponse(null, { status: 307 });
+    res.headers.set("Location", `${host}/`);
+    return res;
   }
 
   const requestHeaders = new Headers(request.headers);

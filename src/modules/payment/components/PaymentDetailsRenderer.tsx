@@ -1,4 +1,3 @@
-import BundleForm from "@/components/forms/bundleForm";
 import PaymentCenterCode from "@/components/forms/PaymentCenterCode";
 import { getServerData } from "@/helpers/server-fetch";
 import RoomPayment from "@/modules/payment/components/RoomPayment";
@@ -27,8 +26,8 @@ export default async function PaymentDetailsRenderer({
         data={data?.body?.room || data}
       />
     );
-  } else if (bundleId) {
-    return <BundleForm bundleId={bundleId} data={data} />;
+    // } else if (bundleId) {
+    //   return <BundleForm bundleId={bundleId} data={data} />;
   } else if (roomId) {
     return <RoomPayment roomId={roomId} courseId={courseId} data={data} />;
   }

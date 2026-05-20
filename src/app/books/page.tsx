@@ -1,8 +1,8 @@
-import PaymentStatusHandler from "@/modules/payment/components/PaymentStatusHandler";
 import { getServerData } from "@/helpers/server-fetch";
 import BooksStoreItems from "@/modules/books-store/components/BooksStoreItems";
 import BooksStores from "@/modules/books-store/components/BooksStores";
-import { getTenantSettingsServer } from "@/services/tenantServices";
+import PaymentStatusHandler from "@/modules/payment/components/PaymentStatusHandler";
+import { getTenantSettingsServer } from "@/services/tenant.service";
 import { BookLinksSettings } from "@/types/books.types";
 import { redirect } from "next/navigation";
 

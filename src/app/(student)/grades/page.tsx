@@ -1,8 +1,8 @@
-import RoomHeader from "@/modules/rooms/components/RoomHeader";
-import ActivitiesTable from "@/components/tables/ActivitiesTable";
-import { getTenantSettingsServer } from "@/services/tenantServices";
-import { redirect } from "next/navigation";
 import { Animate } from "@/components/shared/Animate";
+import ActivitiesTable from "@/components/tables/ActivitiesTable";
+import RoomHeader from "@/modules/rooms/components/RoomHeader";
+import { getTenantSettingsServer } from "@/services/tenant.service";
+import { redirect } from "next/navigation";
 
 const Grades = async () => {
   const tenantSettings = await getTenantSettingsServer();
