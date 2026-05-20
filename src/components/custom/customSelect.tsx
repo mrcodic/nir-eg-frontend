@@ -53,7 +53,7 @@ const CustomSelect = ({
               >
                 <SelectTrigger
                   aria-invalid={!!fieldState.error}
-                  className="border-gray-light flex w-full cursor-pointer gap-2 text-sm transition-all hover:bg-neutral-100 aria-invalid:border-red-500"
+                  className="border-gray-light flex h-11 w-full cursor-pointer gap-2 text-sm shadow-xs transition-all hover:bg-neutral-100 aria-invalid:border-red-500"
                 >
                   {iconSrc && (
                     <Image

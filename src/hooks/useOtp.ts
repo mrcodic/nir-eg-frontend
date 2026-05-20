@@ -2,16 +2,18 @@
 
 import { OTP_SEND_TIME_KEY } from "@/constants";
 import { mutateClient } from "@/helpers/post-client";
+import { handleOtpError } from "@/lib/handle-otp-error";
+import { isOtpExpired, setNewOtpSendTime } from "@/lib/utils";
+import { OtpSendResponse } from "@/types/auth.types";
 import { isAxiosError } from "axios";
 import { useCallback, useState } from "react";
 import { useTimer } from "react-timer-hook";
-import { isOtpExpired, setNewOtpSendTime } from "../lib/utils";
 import { useToast } from "./use-toast";
-import { handleOtpError } from "@/lib/handle-otp-error";
 
 function useOtp() {
   const { otpSendTime, isExpired } = isOtpExpired();
   const [resending, setResending] = useState(false);
+  const [lastOtpIsNew, setLastOtpIsNew] = useState<boolean | null>(null);
   const { toast } = useToast();
 
   const [start, setStart] = useState(!isExpired);
@@ -28,45 +30,68 @@ function useOtp() {
   const sendOtp = useCallback(
     async (phone: string) => {
       try {
-        if (typeof window == "undefined") return;
-        //  const { otpSendTime, isExpired } = isOtpExpired();
+        if (typeof window === "undefined") return null;
 
         setResending(true);
 
-        const res = await mutateClient("/otp/request", {
+        const res = await mutateClient<OtpSendResponse>("/auth/otp/send", {
           body: { phone },
         });
 
-        const newTime = setNewOtpSendTime();
+        const payload = res?.data ?? {
+          is_new: res?.is_new,
+          expires_at: res?.expires_at,
+          otp_code: res?.otp_code,
+        };
 
-        restart(newTime);
+        const expiryFromServer = payload?.expires_at
+          ? new Date(payload.expires_at)
+          : null;
+        const hasValidServerExpiry =
+          expiryFromServer instanceof Date &&
+          !Number.isNaN(expiryFromServer.getTime()) &&
+          expiryFromServer.getTime() > Date.now();
+
+        if (hasValidServerExpiry) {
+          localStorage.setItem(
+            OTP_SEND_TIME_KEY,
+            expiryFromServer.getTime().toString(),
+          );
+          restart(expiryFromServer);
+        } else {
+          const newTime = setNewOtpSendTime();
+          restart(newTime);
+        }
+
         setStart(true);
+        setLastOtpIsNew(
+          typeof payload?.is_new === "boolean" ? payload.is_new : null,
+        );
 
-        if (res.status) {
-          console.log(res);
+        if (res.status && res.code === "OTP_SENT") {
           toast({
-            description: "بعتنالك otp تاني ",
+            description: "بعتنالك otp تاني",
             icon: "success",
           });
         }
-      } catch (e) {
-        console.log(e);
-        handleOtpError(e);
 
-        // server otp time still active if error is 405
-        if (isAxiosError(e) && e.status === 405) {
-          console.log("server otp time still active");
+        return res;
+      } catch (error) {
+        handleOtpError(error);
 
+        if (isAxiosError(error) && error.status === 405) {
           const newTimeStamp =
-            new Date().getTime() +
-            (e?.response?.data?.error?.data?.cooldown_remaining_sec ||
-              e?.response?.data?.data?.cooldown_remaining_sec ||
+            Date.now() +
+            (error?.response?.data?.error?.data?.cooldown_remaining_sec ||
+              error?.response?.data?.data?.cooldown_remaining_sec ||
               60) *
               1000;
 
           restart(new Date(newTimeStamp));
           setStart(true);
         }
+
+        return null;
       } finally {
         setResending(false);
       }
@@ -81,6 +106,7 @@ function useOtp() {
     minutes,
     seconds,
     resending,
+    lastOtpIsNew,
     otpSendTime,
     isExpired,
   };

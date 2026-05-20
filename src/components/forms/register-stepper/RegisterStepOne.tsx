@@ -32,6 +32,7 @@ export default function RegisterStepOne({ form }: Props) {
         info="يجب أن يكون رقم واتس اب"
         countryFieldName="phones.country"
         countryISOFieldName="phones.country_iso"
+        className="col-span-2"
       />
 
       <CustomCityStateField form={form} />

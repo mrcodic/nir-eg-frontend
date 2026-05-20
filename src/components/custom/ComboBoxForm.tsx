@@ -72,7 +72,7 @@ export function ComboboxForm({
             aria-expanded={open}
             aria-invalid={!!error}
             disabled={disabled}
-            className="border-gray-light flex w-full flex-col items-start justify-between rounded-lg border px-3 aria-invalid:border-red-500"
+            className="border-gray-light flex h-11 w-full flex-col items-start justify-between rounded-lg border px-3 shadow-xs aria-invalid:border-red-500"
           >
             <div className="flex h-10 w-full items-center justify-between gap-4">
               {(value &&

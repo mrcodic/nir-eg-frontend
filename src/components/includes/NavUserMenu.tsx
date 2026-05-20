@@ -45,7 +45,7 @@ function NavUserMenu({
           dir="rtl"
           className={cn(
             "w-full",
-            "[&_[data-radix-scroll-area-viewport]]:max-h-[min(451px,calc(100dvh_-_120px))]",
+            "**:data-radix-scroll-area-viewport:max-h-[min(451px,calc(100dvh-120px))]",
           )}
         >
           <DropdownMenuItem className="flex w-full flex-col items-center justify-center gap-4">

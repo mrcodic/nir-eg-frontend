@@ -50,7 +50,7 @@ export function OTPNotVerifIed({ open, setOpen }) {
               className="bg-primary-800 h-full w-[150px]"
               onClick={async () => {
                 const phone = localStorage.getItem("phone");
-                const otp = await mutateClient("/otp/request", {
+                const otp = await mutateClient("/auth/otp/send", {
                   body: { phone },
                 });
 

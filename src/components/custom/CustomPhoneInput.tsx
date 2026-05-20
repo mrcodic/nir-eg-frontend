@@ -8,11 +8,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 import { memo } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { Input } from "../ui/input";
 import CustomCountryFlagField from "./CustomCountryFlagField";
-import Image from "next/image";
 
 interface CustomPhoneInputProps {
   name: string;
@@ -46,9 +46,7 @@ const CustomPhoneInput = ({
       control={form.control}
       name={name}
       render={({ field, fieldState }) => (
-        <FormItem
-          className={cn("relative w-full", label ? "mt-4" : "", className)}
-        >
+        <FormItem className={cn("relative w-full", className)}>
           {label && (
             <FormLabel
               htmlFor={name}

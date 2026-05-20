@@ -28,7 +28,7 @@ type StepperDeps = {
   form: UseFormReturn<RegisterFormValues>;
   setStep: (step: RegisterStep) => void;
   onErrorToast: (message: string) => void;
-  onRegistered: (phone: string, countryCode: string) => void;
+  onRegistered: () => void;
 };
 
 const mapBackendField = (
@@ -81,17 +81,12 @@ export function useRegisterStepper({
     return isValid;
   };
 
-  const validateFirstTwoSteps = async () => {
+  const validateBeforeOtpStep = async () => {
+    ensureParentPhone();
     const isValid = await form.trigger([
       ...STEP_ONE_FIELDS,
       ...STEP_TWO_FIELDS,
     ]);
-    return isValid;
-  };
-
-  const submitRegister = async () => {
-    ensureParentPhone();
-    const isValid = await validateFirstTwoSteps();
     if (!isValid) {
       const firstErrorField = Object.keys(form.formState.errors)[0] as
         | FieldPath<RegisterFormValues>
@@ -102,6 +97,27 @@ export function useRegisterStepper({
       onErrorToast("قم بملء جميع الحقول المطلوبة");
       return false;
     }
+    return true;
+  };
+
+  const submitRegister = async () => {
+    ensureParentPhone();
+    const isValid = await form.trigger([
+      ...STEP_ONE_FIELDS,
+      ...STEP_TWO_FIELDS,
+    ]);
+    if (!isValid) {
+      const firstErrorField = Object.keys(form.formState.errors)[0] as
+        | FieldPath<RegisterFormValues>
+        | undefined;
+
+      if (firstErrorField) {
+        setStep(getStepForField(firstErrorField));
+      }
+
+      onErrorToast("قم بملء جميع الحقول المطلوبة");
+      return false;
+    }
 
     const values = form.getValues();
     const phones = values.phones;
@@ -109,7 +125,6 @@ export function useRegisterStepper({
     const payload = {
       ...values,
       ...phones,
-      // keep compatibility if endpoint still expects parent phone
       parent__phone: phones.parent__phone || phones.phone,
     };
 
@@ -117,7 +132,7 @@ export function useRegisterStepper({
       const response = await mutateClient("/auth/register", { body: payload });
       if (response?.status) {
         presistUserPhone(phones.phone, phones.country);
-        onRegistered(phones.phone, phones.country);
+        onRegistered();
         return true;
       }
       return false;
@@ -135,10 +150,13 @@ export function useRegisterStepper({
           return false;
         }
       }
+
       onErrorToast(
-        error?.response?.data?.message ||
-          error?.response?.data?.error?.message ||
-          "حدث خطأ ما",
+        error?.response?.data?.code === "PHONE_NOT_VERIFIED"
+          ? "يجب التحقق من رقم الهاتف أولا"
+          : error?.response?.data?.message ||
+              error?.response?.data?.error?.message ||
+              "حدث خطأ ما",
       );
       return false;
     }
@@ -146,6 +164,7 @@ export function useRegisterStepper({
 
   return {
     validateStepOne,
+    validateBeforeOtpStep,
     submitRegister,
   };
 }

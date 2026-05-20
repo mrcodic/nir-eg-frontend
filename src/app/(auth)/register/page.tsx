@@ -56,102 +56,144 @@ const RegisterPage = () => {
     redirect("/");
   }
 
-  const { validateStepOne, submitRegister } = useRegisterStepper({
-    form,
-    setStep,
-    onErrorToast: (message) =>
-      toast({
-        description: message,
-        icon: "error",
-      }),
-    onRegistered: (phone) => {
-      setPhoneForOtp(phone);
-      setStep(3);
-      toast({
-        description: "تم إنشاء الحساب، قم بتأكيد كود التفعيل",
-        icon: "success",
-      });
-    },
-  });
+  const { validateStepOne, validateBeforeOtpStep, submitRegister } =
+    useRegisterStepper({
+      form,
+      setStep,
+      onErrorToast: (message) =>
+        toast({
+          description: message,
+          icon: "error",
+        }),
+      onRegistered: () => {
+        toast({
+          description: "تم إنشاء الحساب بنجاح",
+          icon: "success",
+        });
+      },
+    });
 
   return (
     <>
       <RegisterStepperHeader
         step={step}
         isOtpStep={step === 3}
-        phoneLabel={phoneForOtp}
+        phoneLabel={phoneForOtp || form.getValues("phones.phone")}
       />
 
-      <Form {...form}>
-        <form className="mt-10 w-full space-y-8">
-          {step === 1 && <RegisterStepOne form={form} />}
-          {step === 2 && (
-            <RegisterStepTwo
-              form={form}
-              showCenterOption={Boolean(features?.center_system)}
-            />
-          )}
-          {step === 3 && (
-            <OtpVerifyForm
-              phone={phoneForOtp || form.getValues("phones.phone")}
-              onSuccess={() => {
-                router.push("/login");
-              }}
-            />
-          )}
+      {step !== 3 ? (
+        <Form {...form}>
+          <form className="w-full space-y-8">
+            {step === 1 && <RegisterStepOne form={form} />}
+            {step === 2 && (
+              <RegisterStepTwo
+                form={form}
+                showCenterOption={Boolean(features?.center_system)}
+              />
+            )}
 
-          {step !== 3 && (
-            <>
+            {step === 2 && (
+              <GoogleReCaptcha
+                onVerify={(token) => {
+                  form.setValue("recaptcha_token", token);
+                }}
+              />
+            )}
+
+            <div className="flex gap-2">
               {step === 2 && (
-                <GoogleReCaptcha
-                  onVerify={(token) => {
-                    form.setValue("recaptcha_token", token);
-                  }}
-                />
+                <Button
+                  type="button"
+                  variant="secondary"
+                  className="w-1/3"
+                  onClick={() => setStep(1)}
+                >
+                  السابق
+                </Button>
               )}
 
-              <div className="flex gap-2">
-                {step === 2 && (
+              {step === 1 ? (
+                <Button
+                  type="button"
+                  className="w-full"
+                  onClick={async () => {
+                    const valid = await validateStepOne();
+                    if (valid) setStep(2);
+                  }}
+                >
+                  التالي
+                </Button>
+              ) : (
+                <Button
+                  type="button"
+                  className="flex-1"
+                  disabled={form.formState.isSubmitting}
+                  onClick={async () => {
+                    const valid = await validateBeforeOtpStep();
+                    if (!valid) return;
+                    setPhoneForOtp(form.getValues("phones.phone"));
+                    setStep(3);
+                  }}
+                >
+                  {!form.formState.isSubmitting ? (
+                    "تأكيد"
+                  ) : (
+                    <SmallSpinner className="text-white" />
+                  )}
+                </Button>
+              )}
+            </div>
+
+            <div className="mt-6 flex justify-center gap-2">
+              <span className="text-gray-dark inline-block font-medium">
+                لديك حساب بالفعل؟
+              </span>
+              <Link
+                href="/login"
+                className="text-primary-800 font-bold underline"
+              >
+                تسجيل دخول
+              </Link>
+            </div>
+          </form>
+        </Form>
+      ) : (
+        <div className="w-full space-y-8">
+          <OtpVerifyForm
+            autoSubmit
+            phone={phoneForOtp || form.getValues("phones.phone")}
+            onSuccess={async () => {
+              const done = await submitRegister();
+              if (done) {
+                router.push("/login");
+              }
+            }}
+            footer={({ isStart, isSubmitting }) => {
+              return (
+                <div className="flex gap-2">
+                  <Button
+                    type="submit"
+                    className="w-full"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? (
+                      <SmallSpinner className="text-white" />
+                    ) : (
+                      "تأكيد"
+                    )}
+                  </Button>
                   <Button
                     type="button"
                     variant="secondary"
-                    className="w-1/3"
-                    onClick={() => setStep(1)}
+                    className="w-full max-w-40"
+                    onClick={() => setStep(2)}
                   >
                     السابق
                   </Button>
-                )}
-
-                {step === 1 ? (
-                  <Button
-                    type="button"
-                    className="w-full"
-                    onClick={async () => {
-                      const valid = await validateStepOne();
-                      if (valid) setStep(2);
-                    }}
-                  >
-                    التالي
-                  </Button>
-                ) : (
-                  <Button
-                    type="button"
-                    className="flex-1"
-                    disabled={form.formState.isSubmitting}
-                    onClick={async () => {
-                      await submitRegister();
-                    }}
-                  >
-                    {!form.formState.isSubmitting ? (
-                      "تأكيد"
-                    ) : (
-                      <SmallSpinner className="text-white" />
-                    )}
-                  </Button>
-                )}
-              </div>
-            </>
-          )}
+                </div>
+              );
+            }}
+          />
 
           <div className="mt-6 flex justify-center gap-2">
             <span className="text-gray-dark inline-block font-medium">
@@ -164,8 +206,8 @@ const RegisterPage = () => {
               تسجيل دخول
             </Link>
           </div>
-        </form>
-      </Form>
+        </div>
+      )}
     </>
   );
 };

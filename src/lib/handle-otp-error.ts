@@ -1,8 +1,51 @@
 import { toast } from "@/hooks/use-toast";
+import { OtpVerifyErrorResponse } from "@/types/auth.types";
 import { isAxiosError } from "axios";
 import { isOtpExpired, setNewOtpSendTime } from "./utils";
 
-export const handleOtpError = (error: any) => {
+export const getOtpVerifyErrorMessage = (error: unknown): string => {
+  if (!isAxiosError(error)) {
+    return "رمز التأكيد غير صحيح";
+  }
+
+  const payload = error.response?.data as OtpVerifyErrorResponse | undefined;
+  const code = payload?.code;
+
+  if (code === "OTP_INVALID") {
+    const attempts = payload?.data?.attempts_remaining;
+    if (typeof attempts === "number") {
+      return `رمز التأكيد غير صحيح. المحاولات المتبقية: ${attempts}`;
+    }
+    return "رمز التأكيد غير صحيح";
+  }
+
+  if (code === "OTP_LOCKED") {
+    const minutes = payload?.data?.locked_for_minutes;
+    if (typeof minutes === "number") {
+      return `تم قفل المحاولات. حاول مرة أخرى بعد ${minutes} دقيقة`;
+    }
+    return "تم قفل المحاولات. حاول مرة أخرى لاحقًا";
+  }
+
+  return payload?.message || "رمز التأكيد غير صحيح";
+};
+
+export const handleOtpError = (error: unknown) => {
+  if (isAxiosError(error)) {
+    const payload = error.response?.data as OtpVerifyErrorResponse | undefined;
+    if (payload?.code === "OTP_LOCKED") {
+      const minutes = payload?.data?.locked_for_minutes;
+      toast({
+        description:
+          typeof minutes === "number"
+            ? `تم استهلاك محاولاتك. حاول مرة أخرى بعد ${minutes} دقيقة`
+            : "تم استهلاك محاولاتك. حاول مرة أخرى لاحقًا",
+        icon: "error",
+      });
+      return;
+    }
+  }
+
   if (isAxiosError(error) && error?.response?.status === 404) {
     toast({
       description: "لا يوجد طالب او ولى امر مسجل بهذا الرقم",

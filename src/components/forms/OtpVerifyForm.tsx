@@ -21,20 +21,14 @@ import { OTP_SEND_TIME_KEY } from "@/constants";
 import { mutateClient } from "@/helpers/post-client";
 import { useToast } from "@/hooks/use-toast";
 import useOtp from "@/hooks/useOtp";
+import { getOtpVerifyErrorMessage } from "@/lib/handle-otp-error";
 import { otpSchema } from "@/lib/schemas";
 
 export type OtpVerifyFormProps = {
   phone: string;
-  /** Called after a successful /otp/verify response. Clean up localStorage before calling. */
   onSuccess: () => void | Promise<void>;
-  /** Auto-submit when all 6 digits are entered. Default: false. */
   autoSubmit?: boolean;
-  /** Label for the submit button. Default: "تأكيد" */
   submitLabel?: string;
-  /**
-   * Replaces the default submit button row.
-   * Receives isSubmitting + isStart so the caller can disable its own buttons.
-   */
   footer?: (ctx: {
     isSubmitting: boolean;
     isStart: boolean;
@@ -62,14 +56,12 @@ export default function OtpVerifyForm({
     defaultValues: { phone, otp_code: "" },
   });
 
-  // Keep phone in sync if it changes (e.g. multi-step registration)
   useEffect(() => {
     form.setValue("phone", phone);
     form.setValue("otp_code", "");
     setInlineError("");
   }, [phone, form]);
 
-  // Send OTP on mount when timer is already expired (first open)
   useEffect(() => {
     if (!isExpired && !initialSend.current) {
       initialSend.current = true;
@@ -94,21 +86,20 @@ export default function OtpVerifyForm({
         }
 
         setInlineError("");
-        await mutateClient("/otp/verify", { body: { ...data, phone } });
+        await mutateClient("/auth/otp/verify", { body: { ...data, phone } });
         localStorage.removeItem(OTP_SEND_TIME_KEY);
         toast({ description: "تم تأكيد رقم الهاتف بنجاح", icon: "success" });
         await onSuccess?.();
-      } catch (e: any) {
-        const msg = "رمز التأكيد غلط او وقته خلص";
+      } catch (e: unknown) {
+        const msg = getOtpVerifyErrorMessage(e);
         setInlineError(msg);
         onError?.(msg);
-        toast({ description: msg, icon: "error", status: e?.status });
+        toast({ description: msg, icon: "error" });
       }
     },
     [phone, onSuccess, onError, toast],
   );
 
-  // Auto-submit when OTP reaches 6 digits
   const otpValue = useWatch({ control: form.control, name: "otp_code" });
   useEffect(() => {
     if (!autoSubmit) return;
@@ -125,10 +116,36 @@ export default function OtpVerifyForm({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        {/* Countdown */}
+        <div>
+          <FormLabel className="mb-2 block text-xl">
+            {start ? "أدخل رمز التأكيد" : "قم بارسال رمز التاكيد"}
+          </FormLabel>
+          {inlineError && (
+            <p className="text-sm font-medium text-red-500">{inlineError}</p>
+          )}
+          <div className="flex justify-center" dir="ltr">
+            <FormField
+              control={form.control}
+              name="otp_code"
+              render={() => (
+                <FormItem>
+                  <FormControl>
+                    <OTPInput
+                      length={6}
+                      form={form}
+                      name="otp_code"
+                      disabled={isSubmitting}
+                    />
+                  </FormControl>
+                  {start && <FormMessage />}
+                </FormItem>
+              )}
+            />
+          </div>
+        </div>
+
         {start && <CountDownTimerUI minutes={minutes} seconds={seconds} />}
 
-        {/* Resend button */}
         <button
           type="button"
           onClick={() => {
@@ -142,47 +159,15 @@ export default function OtpVerifyForm({
             sendOtp(phone);
           }}
           disabled={start || resending}
-          className="text-secondary mt-4 flex cursor-pointer items-center gap-1 text-base font-bold underline disabled:cursor-not-allowed disabled:opacity-60"
+          className="text-secondary mx-auto mt-4 flex cursor-pointer items-center gap-1 text-center text-base font-bold underline disabled:cursor-not-allowed disabled:opacity-60"
         >
           أعد الإرسال {resending && <SmallSpinner className="size-4" />}
         </button>
 
-        {/* OTP input */}
-        <div>
-          <FormLabel className="mb-2 block text-xl">أدخل رمز التأكيد</FormLabel>
-          {inlineError && (
-            <p className="text-sm font-medium text-red-500">{inlineError}</p>
-          )}
-          <div className="flex justify-end" dir="ltr">
-            <FormField
-              control={form.control}
-              name="otp_code"
-              render={() => (
-                <FormItem>
-                  <FormControl>
-                    <OTPInput
-                      length={6}
-                      form={form}
-                      name="otp_code"
-                      disabled={!start || isSubmitting}
-                    />
-                  </FormControl>
-                  {start && <FormMessage />}
-                </FormItem>
-              )}
-            />
-          </div>
-        </div>
-
-        {/* Footer — custom or default submit button */}
         {footer ? (
           footer({ isSubmitting, isStart: start })
         ) : (
-          <Button
-            type="submit"
-            className="w-full"
-            disabled={!start || isSubmitting}
-          >
+          <Button type="submit" className="w-full" disabled={isSubmitting}>
             {isSubmitting ? (
               <SmallSpinner className="text-white" />
             ) : (

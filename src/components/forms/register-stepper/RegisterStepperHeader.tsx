@@ -37,14 +37,19 @@ export default function RegisterStepperHeader({
 
       <div className="bg-gray-light mt-2 h-px w-full" />
 
-      <div className="mt-6 mb-8 flex items-center gap-2">
+      <div className="my-12 flex items-center gap-2">
         {steps.map((s, idx) => {
           const isDoneOrCurrent = s <= step;
           return (
-            <div key={s} className="flex flex-1 items-center gap-2">
+            <div
+              key={s}
+              className={cn("flex items-center gap-2", {
+                "flex-1": idx !== steps.length - 1,
+              })}
+            >
               <div
                 className={cn(
-                  "flex size-9 items-center justify-center rounded-full text-base font-bold",
+                  "flex size-10 items-center justify-center rounded-full text-lg font-bold",
                   isDoneOrCurrent
                     ? "bg-primary-800 text-white"
                     : "bg-gray-light text-gray-dark",
