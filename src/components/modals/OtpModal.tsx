@@ -22,7 +22,7 @@ import { otpSchema } from "@/lib/schemas";
 import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import OTPInput from "../custom/OTPInput";
 import SmallSpinner from "../custom/SmallSpinner";
 import CountDownTimerUI from "../ui/CountDownTimerUI";
@@ -36,6 +36,7 @@ export default function OtpModal({ phone }) {
 
   const initialSend = useRef(false);
   const isAutoSubmitting = useRef(false);
+  const [inlineError, setInlineError] = useState("");
 
   const form = useForm<z.infer<typeof otpSchema>>({
     resolver: zodResolver(otpSchema),
@@ -55,6 +56,7 @@ export default function OtpModal({ phone }) {
   const onSubmit = useCallback(
     async (data: z.infer<typeof otpSchema>) => {
       try {
+        setInlineError("");
         await mutateClient("/otp/verify", {
           body: {
             ...data,
@@ -76,6 +78,7 @@ export default function OtpModal({ phone }) {
         router.refresh();
       } catch (e) {
         console.log(e);
+        setInlineError("رمز التأكيد غلط او وقته خلص");
         toast({
           description: " رمز التأكيد غلط او وقته خلص",
           icon: "error",
@@ -105,7 +108,6 @@ export default function OtpModal({ phone }) {
     if (initialSend.current) return;
 
     if (isExpired) {
-      console.log("initialEnabled...........");
       initialSend.current = true;
       sendOtp(phone);
     }
@@ -145,6 +147,7 @@ export default function OtpModal({ phone }) {
           <button
             onClick={(e) => {
               e.preventDefault();
+              setInlineError("");
               sendOtp(phone);
             }}
             className="text-secondary mt-4 flex cursor-pointer items-center gap-1 text-base font-bold underline disabled:cursor-not-allowed disabled:opacity-60"
@@ -154,6 +157,9 @@ export default function OtpModal({ phone }) {
           </button>
 
           <FormLabel className="block text-xl"> أدخل رمز التأكيد</FormLabel>
+          {inlineError && (
+            <p className="text-sm font-medium text-red-500">{inlineError}</p>
+          )}
 
           <div className="text-32! flex justify-end" dir="ltr">
             <FormField

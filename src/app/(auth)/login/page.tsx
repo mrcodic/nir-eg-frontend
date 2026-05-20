@@ -22,6 +22,7 @@ import Cookies from "js-cookie";
 import Link from "next/link";
 import { redirect, useRouter, useSearchParams } from "next/navigation";
 import { GoogleReCaptcha } from "react-google-recaptcha-v3";
+import { z } from "zod";
 
 const AuthPage = () => {
   const router = useRouter();
@@ -55,7 +56,7 @@ const AuthPage = () => {
     redirect("/");
   }
 
-  const onSubmit = async (v) => {
+  const onSubmit = async (v: z.infer<typeof loginSchema>) => {
     try {
       const { phone, ...rest } = v;
       const response = await mutateClient("/auth/login", {
@@ -93,7 +94,8 @@ const AuthPage = () => {
       console.log("💥 login error : ", err);
 
       if (err.status == 409) {
-        localStorage.setItem("phone", v.phone);
+        localStorage.setItem("phone", v?.phone?.phone);
+
         toast({
           icon: "error",
           description: "رقم الهاتف غير مفعل",
