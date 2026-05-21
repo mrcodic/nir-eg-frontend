@@ -8,10 +8,10 @@ import Providers from "./providers";
 
 import Announcement from "@/components/banners/Announcement";
 import UserModalsWrapper from "@/components/shared/UserModalsWrapper";
+import { TENANT_ERROR_CODES } from "@/constants/error-codes";
 import { TenantProvider } from "@/context/TenantProvider";
 import { getServerData } from "@/helpers/server-fetch";
 import { hexToHsl } from "@/helpers/tenant.helpers";
-import { TENANT_ERROR_CODES } from "@/constants/error-codes";
 import CustomError from "@/lib/customError";
 import { getTenantSettingsServer } from "@/services/tenant.service";
 import { ApiResponse, IUser } from "@/types";
@@ -167,7 +167,14 @@ export default async function Layout({ children }) {
                 {children}
               </main>
 
-              <Suspense fallback={<footer className="bg-background h-80" />}>
+              <Suspense
+                fallback={
+                  <footer
+                    key="placeholder-footer"
+                    className="bg-background h-80"
+                  />
+                }
+              >
                 <Footer />
               </Suspense>
               <UserModalsWrapper />

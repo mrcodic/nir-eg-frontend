@@ -1,6 +1,5 @@
 "use client";
 
-import CustomCityStateField from "@/components/custom/CustomCityStateField";
 import CustomInput from "@/components/custom/customInput";
 import CustomPhoneInput from "@/components/custom/CustomPhoneInput";
 import { UseFormReturn } from "react-hook-form";
@@ -35,7 +34,6 @@ export default function RegisterStepOne({ form }: Props) {
         className="col-span-2"
       />
 
-      <CustomCityStateField form={form} />
     </div>
   );
 }

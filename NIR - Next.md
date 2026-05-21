@@ -454,7 +454,7 @@ Expected response:
 
 Endpoint:
 
-`POST /api/v1/student/profile/complete`
+`POST /api/v1/students/profile/complete`
 
 Request payload example:
 

@@ -1,9 +1,9 @@
 import { getServerData } from "@/helpers/server-fetch";
 import { IFooterData } from "@/types/settings.types";
 import Link from "next/link";
+import SocialLinks from "../shared/SocialLinks";
 import CustomImage from "../ui/CustomImage";
 import FooterContacts from "./FooterContacts";
-import SocialLinks from "../shared/SocialLinks";
 
 const Footer = async () => {
   const footerResponse = await getServerData<{ data: IFooterData }>({
@@ -17,7 +17,10 @@ const Footer = async () => {
   const footerSettings = footerResponse?.data;
 
   return (
-    <footer className="bg-background py-10 text-center font-semibold text-black">
+    <footer
+      key="footer"
+      className="bg-background py-10 text-center font-semibold text-black"
+    >
       <div className="wrapper grid grid-cols-12 justify-between gap-y-6 md:text-right">
         {/* About Section */}
         <div className="mobile:col-span-4 col-span-12 flex flex-col items-start gap-4">

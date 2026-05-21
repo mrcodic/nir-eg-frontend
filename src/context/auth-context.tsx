@@ -43,9 +43,10 @@ export const AuthContextProvider = ({
       const res = await getClientPrivateData({
         queryKey: ["/students/profile"],
       });
+      console.log("res profile", res);
       return res.body as unknown as IUser;
     },
-    staleTime: 1000 * 60 * 20,
+    staleTime: 1000 * 60 * 10, //10 minutes cache
     initialData: profile,
   });
 
@@ -56,8 +57,6 @@ export const AuthContextProvider = ({
     Cookies.remove("nir_token");
     await deleteCookie("nir_token");
   }, []);
-
-  console.log("profile -> ", profileData);
 
   return (
     <AuthContext.Provider

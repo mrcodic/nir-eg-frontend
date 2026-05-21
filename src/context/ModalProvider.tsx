@@ -22,10 +22,11 @@ import {
   useMemo,
   useState,
 } from "react";
+import { useAuthContext } from "./auth-context";
 
 type ModalContextType = {
   isOpen: boolean;
-  openModal: () => void;
+  openModal: (options?: { force?: boolean }) => void;
   closeModal: () => void;
   setDialogContent: Dispatch<SetStateAction<ReactNode | undefined>>;
   setDialogContentProps: Dispatch<SetStateAction<DialogContentProps | null>>;
@@ -36,6 +37,7 @@ type ModalContextType = {
 const ModalContext = createContext<ModalContextType | undefined>(undefined);
 
 const ModalProvider = ({ children }: { children: ReactNode }) => {
+  const { profile } = useAuthContext();
   const [isOpen, setIsOpen] = useState(false);
   const [modalContent, setModalContent] = useState<ReactNode | undefined>();
   const [dialogContentProps, setDialogContentProps] =
@@ -46,9 +48,13 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
     setIsOpen(false);
   }, []);
 
-  const openModal = useCallback(() => {
-    setIsOpen(true);
-  }, []);
+  const openModal = useCallback(
+    (options?: { force?: boolean }) => {
+      if (!options?.force && profile?.profile_completed === false) return;
+      setIsOpen(true);
+    },
+    [profile?.profile_completed],
+  );
 
   const addSideElement = useCallback((node: ReactNode) => {
     setSideElement(node);

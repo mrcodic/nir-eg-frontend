@@ -31,7 +31,7 @@ const CustomSelect = ({
   control,
   name,
   label,
-  placeholder = `اختر ${label}`,
+  placeholder,
   className,
   iconSrc,
   options,
@@ -49,7 +49,7 @@ const CustomSelect = ({
               <Select
                 dir="rtl"
                 onValueChange={field.onChange}
-                defaultValue={field.value}
+                value={field.value ? String(field.value) : undefined}
               >
                 <SelectTrigger
                   aria-invalid={!!fieldState.error}
@@ -64,7 +64,7 @@ const CustomSelect = ({
                       alt=""
                     />
                   )}
-                  <SelectValue placeholder={placeholder} />
+                  <SelectValue placeholder={placeholder || `اختر ${label}`} />
                 </SelectTrigger>
                 <SelectContent className="z-9999999 bg-white text-black">
                   {isLoading ? (

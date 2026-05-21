@@ -60,8 +60,11 @@ const AuthPage = () => {
     try {
       const { phone, ...rest } = v;
       const response = await loginWithPhonePassword({
-        ...rest,
-        ...phone,
+        phone: phone.phone,
+        country: phone.country,
+        country_iso: phone.country_iso || "EG",
+        password: rest.password,
+        recaptcha_token: rest.recaptcha_token,
       });
 
       await saveCookie(response?.access_token);

@@ -1,13 +1,12 @@
 "use client";
 
+import ProfileCompletionModal from "@/modules/profile/components/ProfileCompletionModal";
 import { useAuthContext } from "@/context/auth-context";
-import { useModal } from "@/context/ModalProvider";
 import useHandleFeaturesDisplay from "@/hooks/useHandleFeaturesDisplay";
 import useHandleOfferDisplay from "@/hooks/useHandleOfferDisplay";
 import { useEffect, useRef } from "react";
 
 function UserModalsWrapper() {
-  const modal = useModal();
   const { profile } = useAuthContext();
   const { handleFeaturesDisplay } = useHandleFeaturesDisplay();
   const { handleOfferDisplay } = useHandleOfferDisplay();
@@ -15,7 +14,7 @@ function UserModalsWrapper() {
   const isOpened = useRef(false);
 
   useEffect(() => {
-    if (profile && !isOpened.current) {
+    if (profile && profile?.profile_completed === true && !isOpened.current) {
       handleFeaturesDisplay({
         onClose: () => {
           if (profile?.type === 4) {
@@ -25,9 +24,9 @@ function UserModalsWrapper() {
       });
       isOpened.current = true;
     }
-  }, [handleFeaturesDisplay, handleOfferDisplay, modal, profile]);
+  }, [handleFeaturesDisplay, handleOfferDisplay, profile]);
 
-  return null;
+  return <ProfileCompletionModal />;
 }
 
 export default UserModalsWrapper;

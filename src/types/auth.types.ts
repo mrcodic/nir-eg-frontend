@@ -55,12 +55,7 @@ export type JoinPrefillResponse = {
   status: boolean;
   message: string;
   code: AuthErrorCode | string;
-  data?:
-    | {
-        action?: "redirect_to_login" | "redirect_to_register";
-        student?: Record<string, unknown>;
-      }
-    | null;
+  data?: Record<string, unknown> | null;
   errors: Record<string, string[]> | null;
 };
 
@@ -87,6 +82,8 @@ export type LoginStudent = {
   parent_phone_verification: boolean;
   has_center?: boolean;
   center_id?: number;
+  profile_completed?: boolean;
+  missing_required?: string[];
 };
 
 export type LoginEnrollment = {
@@ -113,4 +110,43 @@ export type LoginResponse = {
   deeplink_token?: string;
   deeplink_expires_in?: number;
   enrollments?: LoginEnrollment[];
+  profile_completed?: boolean;
+  missing_required?: string[];
 };
+
+export type ProfileFieldType =
+  | "text"
+  | "phone"
+  | "select"
+  | "date"
+  | "textarea"
+  | "email";
+
+export type DynamicProfileFieldOption = {
+  value: string | number;
+  label: string;
+};
+
+export type DynamicProfileField = {
+  key: string;
+  label: string;
+  type: ProfileFieldType;
+  required: boolean;
+  enabled: boolean;
+  value: string | number | null;
+  options?: DynamicProfileFieldOption[];
+};
+
+export type StudentProfileFieldsResponse = {
+  status: boolean;
+  message: string;
+  code: string;
+  data: {
+    profile_completed: boolean;
+    missing_required: string[];
+    fields: DynamicProfileField[];
+  };
+  errors: Record<string, string[]> | null;
+};
+
+export type StudentProfileCompletePayload = Record<string, unknown>;

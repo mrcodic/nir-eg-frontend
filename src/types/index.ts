@@ -21,6 +21,8 @@ export interface IUser {
   type: number;
   updated_at: string;
   points: number;
+  profile_completed?: boolean;
+  missing_required?: string[];
 }
 
 export interface QuizStatus {

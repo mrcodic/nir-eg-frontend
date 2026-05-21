@@ -9,9 +9,8 @@ import { useRegisterStepper } from "@/components/forms/register-stepper/useRegis
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useAuthContext } from "@/context/auth-context";
-import { useTenant } from "@/context/TenantProvider";
 import { useToast } from "@/hooks/use-toast";
-import { registerSchema } from "@/lib/schemas";
+import { registerCoreSchema } from "@/lib/register-core.schema";
 import { RegisterFormValues, RegisterStep } from "@/types/register.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
@@ -24,16 +23,12 @@ import { useForm } from "react-hook-form";
 const RegisterPage = () => {
   const router = useRouter();
   const { toast } = useToast();
-  const { features } = useTenant();
   const { profile } = useAuthContext();
-
   const [step, setStep] = useState<RegisterStep>(1);
-  const [phoneForOtp, setPhoneForOtp] = useState("");
-  const [isNewStudent, setIsNewStudent] = useState<boolean | null>(null);
 
   const form = useForm<RegisterFormValues>({
     mode: "all",
-    resolver: zodResolver(registerSchema),
+    resolver: zodResolver(registerCoreSchema),
     defaultValues: {
       first_name: "",
       last_name: "",
@@ -41,64 +36,53 @@ const RegisterPage = () => {
         country: "+20",
         country_iso: "EG",
         phone: "",
-        parent__phone: "",
       },
       password: "",
       password_confirmation: "",
       grade_id: "",
-      type: "4",
-      state_id: 0,
-      city_id: 0,
       recaptcha_token: "",
     },
   });
 
-  if (profile) {
-    redirect("/");
-  }
+  if (profile) redirect("/");
 
-  const {
-    validateStepOne,
-    validateBeforeOtpStep,
-    submitRegister,
-    submitJoinFlow,
-  } = useRegisterStepper({
-    form,
-    setStep,
-    onErrorToast: (message) =>
-      toast({
-        description: message,
-        icon: "error",
-      }),
-    onRegistered: () => {
-      toast({
-        description: "تم إنشاء الحساب بنجاح",
-        icon: "success",
-      });
-    },
-    onAlreadyEnrolled: () => {
-      router.push("/login");
-    },
-  });
+  const { validateStepOne, validateBeforeOtpStep, submitRegister } =
+    useRegisterStepper({
+      form,
+      setStep,
+      onErrorToast: (message) => toast({ description: message, icon: "error" }),
+      onRegistered: () =>
+        toast({ description: "تم إنشاء الحساب بنجاح", icon: "success" }),
+      onAlreadyEnrolled: () => {
+        router.push("/login");
+      },
+    });
 
   return (
     <>
       <RegisterStepperHeader
         step={step}
         isOtpStep={step === 3}
-        phoneLabel={phoneForOtp || form.getValues("phones.phone")}
+        phoneLabel={form.getValues("phones.phone")}
       />
 
-      {step !== 3 ? (
+      {step === 3 ? (
+        <OtpVerifyForm
+          autoSubmit
+          phone={form.getValues("phones.phone")}
+          onSuccess={async () => {
+            toast({
+              description: "تم إنشاء الحساب بنجاح، قم بتسجيل الدخول",
+              icon: "success",
+            });
+            router.push("/login");
+          }}
+        />
+      ) : (
         <Form {...form}>
           <form className="w-full space-y-8">
             {step === 1 && <RegisterStepOne form={form} />}
-            {step === 2 && (
-              <RegisterStepTwo
-                form={form}
-                showCenterOption={Boolean(features?.center_system)}
-              />
-            )}
+            {step === 2 && <RegisterStepTwo form={form} />}
 
             {step === 2 && (
               <GoogleReCaptcha
@@ -139,8 +123,10 @@ const RegisterPage = () => {
                   onClick={async () => {
                     const valid = await validateBeforeOtpStep();
                     if (!valid) return;
-                    setPhoneForOtp(form.getValues("phones.phone"));
-                    setIsNewStudent(null);
+
+                    const done = await submitRegister();
+                    if (!done) return;
+
                     setStep(3);
                   }}
                 >
@@ -152,80 +138,21 @@ const RegisterPage = () => {
                 </Button>
               )}
             </div>
-
-            <div className="mt-6 flex justify-center gap-2">
-              <span className="text-gray-dark inline-block font-medium">
-                لديك حساب بالفعل؟
-              </span>
-              <Link
-                href="/login"
-                className="text-primary-800 font-bold underline"
-              >
-                تسجيل دخول
-              </Link>
-            </div>
           </form>
         </Form>
-      ) : (
-        <div className="w-full space-y-8">
-          <OtpVerifyForm
-            autoSubmit
-            phone={phoneForOtp || form.getValues("phones.phone")}
-            onOtpSent={({ isNew }) => {
-              if (typeof isNew === "boolean") {
-                setIsNewStudent(isNew);
-              }
-            }}
-            onSuccess={async () => {
-              const isNew = isNewStudent ?? true;
-              // const done = isNew ? await submitRegister() : await submitJoinFlow();
-              const done = await submitRegister();
-              if (done) {
-                router.push("/login");
-              }
-            }}
-            footer={({ isSubmitting }) => {
-              return (
-                <div className="flex gap-2">
-                  <Button
-                    type="submit"
-                    className="w-full"
-                    disabled={isSubmitting}
-                  >
-                    {isSubmitting ? (
-                      <SmallSpinner className="text-white" />
-                    ) : (
-                      "تأكيد"
-                    )}
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="secondary"
-                    className="w-full max-w-40"
-                    onClick={() => setStep(2)}
-                  >
-                    السابق
-                  </Button>
-                </div>
-              );
-            }}
-          />
-
-          <div className="mt-6 flex justify-center gap-2">
-            <span className="text-gray-dark inline-block font-medium">
-              لديك حساب بالفعل؟
-            </span>
-            <Link
-              href="/login"
-              className="text-primary-800 font-bold underline"
-            >
-              تسجيل دخول
-            </Link>
-          </div>
-        </div>
       )}
+
+      <div className="mt-6 flex justify-center gap-2">
+        <span className="text-gray-dark inline-block font-medium">
+          لديك حساب بالفعل؟
+        </span>
+        <Link href="/login" className="text-primary-800 font-bold underline">
+          تسجيل دخول
+        </Link>
+      </div>
     </>
   );
 };
 
 export default RegisterPage;
+

@@ -5,6 +5,8 @@ import {
   LoginResponse,
   OtpSendResponse,
   OtpVerifyResponse,
+  StudentProfileCompletePayload,
+  StudentProfileFieldsResponse,
 } from "@/types/auth.types";
 import axios, { Method } from "axios";
 import Cookies from "js-cookie";
@@ -66,7 +68,7 @@ export function registerStudentAccount(
   return authRequest<AuthApiResponse>("/auth/register", "POST", payload);
 }
 
-export function joinPrefilledStudent(
+export function fetchTenantProfilePrefillByPhone(
   phone: string,
 ): Promise<JoinPrefillResponse> {
   return authRequest<JoinPrefillResponse>("/auth/join/prefill", "GET", null, {
@@ -74,8 +76,22 @@ export function joinPrefilledStudent(
   });
 }
 
-export function submitJoinEnrollment(
-  payload: Record<string, unknown>,
+export function fetchRequiredStudentProfileFields(): Promise<StudentProfileFieldsResponse> {
+  return authRequest<StudentProfileFieldsResponse>(
+    "/students/profile/fields",
+    "GET",
+    null,
+    { auth: true },
+  );
+}
+
+export function completeStudentProfile(
+  payload: StudentProfileCompletePayload,
 ): Promise<AuthApiResponse> {
-  return authRequest<AuthApiResponse>("/auth/join", "POST", payload);
+  return authRequest<AuthApiResponse>(
+    "/students/profile/complete",
+    "POST",
+    payload,
+    { auth: true },
+  );
 }

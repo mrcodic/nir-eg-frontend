@@ -1,10 +1,10 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
-import { cn } from "@/lib/utils";
 
 export interface StackedBannerItem {
   id: string | number;
@@ -50,8 +50,8 @@ export default function StackedBanners({
               initial={{ opacity: 0, y: -40, scale: 0.95 }}
               animate={{
                 opacity: 1,
-                y: index * -4,
-                scale: 1 - index * 0.02,
+                y: index > 0 ? 6 : 0,
+                scale: 1 - (index > 0 ? 1 : 0) * 0.02,
               }}
               exit={{
                 opacity: 0,

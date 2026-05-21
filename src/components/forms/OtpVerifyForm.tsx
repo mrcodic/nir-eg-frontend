@@ -7,6 +7,7 @@ import { z } from "zod";
 
 import OTPInput from "@/components/custom/OTPInput";
 import SmallSpinner from "@/components/custom/SmallSpinner";
+import SuccessFeedbackModal from "@/components/modals/SuccessFeedbackModal";
 import { Button } from "@/components/ui/button";
 import CountDownTimerUI from "@/components/ui/CountDownTimerUI";
 import {
@@ -56,6 +57,8 @@ export default function OtpVerifyForm({
   const isAutoSubmitting = useRef(false);
   const initialSend = useRef(false);
   const [inlineError, setInlineError] = useState("");
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [pendingSuccessAction, setPendingSuccessAction] = useState(false);
 
   const form = useForm<z.infer<typeof otpSchema>>({
     resolver: zodResolver(otpSchema),
@@ -65,7 +68,6 @@ export default function OtpVerifyForm({
   useEffect(() => {
     form.setValue("phone", phone);
     form.setValue("otp_code", "");
-    setInlineError("");
   }, [phone, form]);
 
   useEffect(() => {
@@ -98,10 +100,10 @@ export default function OtpVerifyForm({
         }
 
         setInlineError("");
-        await verifyAuthOtpCode({ ...data, phone });
+        await verifyAuthOtpCode({ phone, otp_code: data.otp_code ?? "" });
         localStorage.removeItem(OTP_SEND_TIME_KEY);
-        toast({ description: "تم تأكيد رقم الهاتف بنجاح", icon: "success" });
-        await onSuccess?.();
+        setPendingSuccessAction(true);
+        setShowSuccessModal(true);
       } catch (e: unknown) {
         const msg = getOtpVerifyErrorMessage(e);
         setInlineError(msg);
@@ -109,7 +111,7 @@ export default function OtpVerifyForm({
         toast({ description: msg, icon: "error" });
       }
     },
-    [phone, onSuccess, onError, toast],
+    [phone, onError, toast],
   );
 
   const otpValue = useWatch({ control: form.control, name: "otp_code" });
@@ -124,73 +126,94 @@ export default function OtpVerifyForm({
     }
   }, [autoSubmit, otpValue, form, onSubmit]);
 
+  const handleSuccessModalChange = useCallback(
+    async (open: boolean) => {
+      setShowSuccessModal(open);
+      if (!open && pendingSuccessAction) {
+        setPendingSuccessAction(false);
+        await onSuccess?.();
+      }
+    },
+    [onSuccess, pendingSuccessAction],
+  );
+
   const isSubmitting = form.formState.isSubmitting;
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div>
-          <FormLabel className="mb-2 block text-xl">
-            {start ? "أدخل رمز التأكيد" : "قم بارسال رمز التاكيد"}
-          </FormLabel>
-          {inlineError && (
-            <p className="text-sm font-medium text-red-500">{inlineError}</p>
-          )}
-          <div className="flex justify-center" dir="ltr">
-            <FormField
-              control={form.control}
-              name="otp_code"
-              render={() => (
-                <FormItem>
-                  <FormControl>
-                    <OTPInput
-                      length={6}
-                      form={form}
-                      name="otp_code"
-                      disabled={isSubmitting}
-                    />
-                  </FormControl>
-                  {start && <FormMessage />}
-                </FormItem>
-              )}
-            />
-          </div>
-        </div>
-
-        {start && <CountDownTimerUI minutes={minutes} seconds={seconds} />}
-
-        <button
-          type="button"
-          onClick={async () => {
-            setInlineError("");
-            if (!phone) {
-              const msg = "رقم الهاتف غير متاح";
-              setInlineError(msg);
-              onError?.(msg);
-              return;
-            }
-            const response = await sendOtp(phone);
-            const isNew = response?.data?.is_new ?? response?.is_new ?? null;
-            onOtpSent?.({ isNew, response });
-          }}
-          disabled={start || resending}
-          className="text-secondary mx-auto mt-4 flex cursor-pointer items-center gap-1 text-center text-base font-bold underline disabled:cursor-not-allowed disabled:opacity-60"
-        >
-          أعد الإرسال {resending && <SmallSpinner className="size-4" />}
-        </button>
-
-        {footer ? (
-          footer({ isSubmitting, isStart: start })
-        ) : (
-          <Button type="submit" className="w-full" disabled={isSubmitting}>
-            {isSubmitting ? (
-              <SmallSpinner className="text-white" />
-            ) : (
-              submitLabel
+    <>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <div>
+            <FormLabel className="mb-2 block text-xl">
+              {start ? "أدخل رمز التأكيد" : "قم بارسال رمز التاكيد"}
+            </FormLabel>
+            {inlineError && (
+              <p className="text-sm font-medium text-red-500">{inlineError}</p>
             )}
-          </Button>
-        )}
-      </form>
-    </Form>
+            <div className="flex justify-center" dir="ltr">
+              <FormField
+                control={form.control}
+                name="otp_code"
+                render={() => (
+                  <FormItem>
+                    <FormControl>
+                      <OTPInput
+                        length={6}
+                        form={form}
+                        name="otp_code"
+                        disabled={isSubmitting}
+                      />
+                    </FormControl>
+                    {start && <FormMessage />}
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
+
+          {start && <CountDownTimerUI minutes={minutes} seconds={seconds} />}
+
+          <button
+            type="button"
+            onClick={async () => {
+              setInlineError("");
+              if (!phone) {
+                const msg = "رقم الهاتف غير متاح";
+                setInlineError(msg);
+                onError?.(msg);
+                return;
+              }
+              const response = await sendOtp(phone);
+              const isNew = response?.data?.is_new ?? response?.is_new ?? null;
+              onOtpSent?.({ isNew, response });
+            }}
+            disabled={start || resending}
+            className="text-secondary mx-auto mt-4 flex cursor-pointer items-center gap-1 text-center text-base font-bold underline disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            أعد الإرسال {resending && <SmallSpinner className="size-4" />}
+          </button>
+
+          {footer ? (
+            footer({ isSubmitting, isStart: start })
+          ) : (
+            <Button type="submit" className="w-full" disabled={isSubmitting}>
+              {isSubmitting ? (
+                <SmallSpinner className="text-white" />
+              ) : (
+                submitLabel
+              )}
+            </Button>
+          )}
+        </form>
+      </Form>
+
+      <SuccessFeedbackModal
+        open={showSuccessModal}
+        onOpenChange={(open) => {
+          void handleSuccessModalChange(open);
+        }}
+        message="تم التحقق من رقم جوالك بنجاح"
+      />
+    </>
   );
 }
