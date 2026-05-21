@@ -1,3 +1,4 @@
+import { AUTH_ERROR_CODES } from "@/constants/error-codes";
 import { toast } from "@/hooks/use-toast";
 import { OtpVerifyErrorResponse } from "@/types/auth.types";
 import { isAxiosError } from "axios";
@@ -11,7 +12,7 @@ export const getOtpVerifyErrorMessage = (error: unknown): string => {
   const payload = error.response?.data as OtpVerifyErrorResponse | undefined;
   const code = payload?.code;
 
-  if (code === "OTP_INVALID") {
+  if (code === AUTH_ERROR_CODES.OTP_INVALID) {
     const attempts = payload?.data?.attempts_remaining;
     if (typeof attempts === "number") {
       return `رمز التأكيد غير صحيح. المحاولات المتبقية: ${attempts}`;
@@ -19,7 +20,7 @@ export const getOtpVerifyErrorMessage = (error: unknown): string => {
     return "رمز التأكيد غير صحيح";
   }
 
-  if (code === "OTP_LOCKED") {
+  if (code === AUTH_ERROR_CODES.OTP_LOCKED) {
     const minutes = payload?.data?.locked_for_minutes;
     if (typeof minutes === "number") {
       return `تم قفل المحاولات. حاول مرة أخرى بعد ${minutes} دقيقة`;
@@ -33,7 +34,7 @@ export const getOtpVerifyErrorMessage = (error: unknown): string => {
 export const handleOtpError = (error: unknown) => {
   if (isAxiosError(error)) {
     const payload = error.response?.data as OtpVerifyErrorResponse | undefined;
-    if (payload?.code === "OTP_LOCKED") {
+    if (payload?.code === AUTH_ERROR_CODES.OTP_LOCKED) {
       const minutes = payload?.data?.locked_for_minutes;
       toast({
         description:

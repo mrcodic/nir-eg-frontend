@@ -1,10 +1,10 @@
 "use client";
 
 import { OTP_SEND_TIME_KEY } from "@/constants";
-import { mutateClient } from "@/helpers/post-client";
+import { AUTH_ERROR_CODES } from "@/constants/error-codes";
 import { handleOtpError } from "@/lib/handle-otp-error";
+import { sendAuthOtpCode } from "@/services/auth.service";
 import { isOtpExpired, setNewOtpSendTime } from "@/lib/utils";
-import { OtpSendResponse } from "@/types/auth.types";
 import { isAxiosError } from "axios";
 import { useCallback, useState } from "react";
 import { useTimer } from "react-timer-hook";
@@ -34,9 +34,7 @@ function useOtp() {
 
         setResending(true);
 
-        const res = await mutateClient<OtpSendResponse>("/auth/otp/send", {
-          body: { phone },
-        });
+        const res = await sendAuthOtpCode(phone);
 
         const payload = res?.data ?? {
           is_new: res?.is_new,
@@ -68,7 +66,7 @@ function useOtp() {
           typeof payload?.is_new === "boolean" ? payload.is_new : null,
         );
 
-        if (res.status && res.code === "OTP_SENT") {
+        if (res.status && res.code === AUTH_ERROR_CODES.OTP_SENT) {
           toast({
             description: "بعتنالك otp تاني",
             icon: "success",

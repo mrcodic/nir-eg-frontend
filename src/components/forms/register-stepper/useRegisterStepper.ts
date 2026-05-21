@@ -1,7 +1,12 @@
 "use client";
 
-import { mutateClient } from "@/helpers/post-client";
+import { AUTH_ERROR_CODES } from "@/constants/error-codes";
 import { presistUserPhone } from "@/lib/utils";
+import {
+  joinPrefilledStudent,
+  registerStudentAccount,
+  submitJoinEnrollment,
+} from "@/services/auth.service";
 import { isAxiosError } from "axios";
 import { FieldPath, UseFormReturn } from "react-hook-form";
 import {
@@ -29,6 +34,7 @@ type StepperDeps = {
   setStep: (step: RegisterStep) => void;
   onErrorToast: (message: string) => void;
   onRegistered: () => void;
+  onAlreadyEnrolled?: () => void;
 };
 
 const mapBackendField = (
@@ -63,6 +69,7 @@ export function useRegisterStepper({
   setStep,
   onErrorToast,
   onRegistered,
+  onAlreadyEnrolled,
 }: StepperDeps) {
   const ensureParentPhone = () => {
     const values = form.getValues();
@@ -74,14 +81,7 @@ export function useRegisterStepper({
     }
   };
 
-  const validateStepOne = async () => {
-    ensureParentPhone();
-    const isValid = await form.trigger(STEP_ONE_FIELDS);
-    if (!isValid) setStep(1);
-    return isValid;
-  };
-
-  const validateBeforeOtpStep = async () => {
+  const validateBothSteps = async () => {
     ensureParentPhone();
     const isValid = await form.trigger([
       ...STEP_ONE_FIELDS,
@@ -100,59 +100,65 @@ export function useRegisterStepper({
     return true;
   };
 
-  const submitRegister = async () => {
+  const validateStepOne = async () => {
     ensureParentPhone();
-    const isValid = await form.trigger([
-      ...STEP_ONE_FIELDS,
-      ...STEP_TWO_FIELDS,
-    ]);
-    if (!isValid) {
-      const firstErrorField = Object.keys(form.formState.errors)[0] as
-        | FieldPath<RegisterFormValues>
-        | undefined;
+    const isValid = await form.trigger(STEP_ONE_FIELDS);
+    if (!isValid) setStep(1);
+    return isValid;
+  };
 
-      if (firstErrorField) {
-        setStep(getStepForField(firstErrorField));
-      }
+  const validateBeforeOtpStep = validateBothSteps;
 
-      onErrorToast("قم بملء جميع الحقول المطلوبة");
-      return false;
-    }
-
+  const buildPayload = () => {
     const values = form.getValues();
     const phones = values.phones;
-
-    const payload = {
-      ...values,
-      ...phones,
-      parent__phone: phones.parent__phone || phones.phone,
+    return {
+      payload: {
+        ...values,
+        ...phones,
+        parent__phone: phones.parent__phone || phones.phone,
+      },
+      phone: phones.phone,
+      country: phones.country,
     };
+  };
+
+  const handleFieldErrors = (error: unknown) => {
+    if (isAxiosError(error) && error?.response?.data?.errors) {
+      const errors = error.response.data.errors as Record<string, string[]>;
+      const firstKey = Object.keys(errors)[0];
+      const mappedField = firstKey ? mapBackendField(firstKey) : undefined;
+      const firstMessage = firstKey ? errors[firstKey]?.[0] : undefined;
+
+      if (mappedField && firstMessage) {
+        form.setError(mappedField, { message: firstMessage });
+        setStep(getStepForField(mappedField));
+        onErrorToast(firstMessage);
+        return true;
+      }
+    }
+    return false;
+  };
+
+  const submitRegister = async () => {
+    const isValid = await validateBothSteps();
+    if (!isValid) return false;
+
+    const { payload, phone, country } = buildPayload();
 
     try {
-      const response = await mutateClient("/auth/register", { body: payload });
+      const response = await registerStudentAccount(payload);
       if (response?.status) {
-        presistUserPhone(phones.phone, phones.country);
+        presistUserPhone(phone, country);
         onRegistered();
         return true;
       }
       return false;
     } catch (error) {
-      if (isAxiosError(error) && error?.response?.data?.errors) {
-        const errors = error.response.data.errors as Record<string, string[]>;
-        const firstKey = Object.keys(errors)[0];
-        const mappedField = firstKey ? mapBackendField(firstKey) : undefined;
-        const firstMessage = firstKey ? errors[firstKey]?.[0] : undefined;
-
-        if (mappedField && firstMessage) {
-          form.setError(mappedField, { message: firstMessage });
-          setStep(getStepForField(mappedField));
-          onErrorToast(firstMessage);
-          return false;
-        }
-      }
+      if (handleFieldErrors(error)) return false;
 
       onErrorToast(
-        error?.response?.data?.code === "PHONE_NOT_VERIFIED"
+        error?.response?.data?.code === AUTH_ERROR_CODES.PHONE_NOT_VERIFIED
           ? "يجب التحقق من رقم الهاتف أولا"
           : error?.response?.data?.message ||
               error?.response?.data?.error?.message ||
@@ -162,9 +168,53 @@ export function useRegisterStepper({
     }
   };
 
+  const submitJoinFlow = async () => {
+    const isValid = await validateBothSteps();
+    if (!isValid) return false;
+
+    const { payload, phone, country } = buildPayload();
+
+    try {
+      await joinPrefilledStudent(phone);
+
+      const response = await submitJoinEnrollment(payload);
+
+      if (response?.status) {
+        presistUserPhone(phone, country);
+        onRegistered();
+        return true;
+      }
+      return false;
+    } catch (error) {
+      const code = error?.response?.data?.code;
+
+      if (code === AUTH_ERROR_CODES.ALREADY_ENROLLED) {
+        onErrorToast("لديك حساب بالفعل على هذه المنصة");
+        onAlreadyEnrolled?.();
+        return false;
+      }
+
+      if (code === AUTH_ERROR_CODES.NOT_REGISTERED) {
+        onErrorToast("هذا الرقم غير مسجل. يرجى التسجيل أولًا");
+        return false;
+      }
+
+      if (handleFieldErrors(error)) return false;
+
+      onErrorToast(
+        error?.response?.data?.message ||
+          error?.response?.data?.error?.message ||
+          "حدث خطأ ما",
+      );
+
+      return false;
+    }
+  };
+
   return {
     validateStepOne,
     validateBeforeOtpStep,
     submitRegister,
+    submitJoinFlow,
   };
 }

@@ -8,9 +8,9 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { OTP_SEND_TIME_KEY } from "@/constants";
-import { mutateClient } from "@/helpers/post-client";
 import { useToast } from "@/hooks/use-toast";
 import { isOtpExpired, setNewOtpSendTime } from "@/lib/utils";
+import { sendAuthOtpCode } from "@/services/auth.service";
 import { DialogClose } from "@radix-ui/react-dialog";
 import Image from "next/image";
 import { useRouter } from "nextjs-toploader/app";
@@ -50,9 +50,8 @@ export function OTPNotVerifIed({ open, setOpen }) {
               className="bg-primary-800 h-full w-[150px]"
               onClick={async () => {
                 const phone = localStorage.getItem("phone");
-                const otp = await mutateClient("/auth/otp/send", {
-                  body: { phone },
-                });
+                if (!phone) return;
+                const otp = await sendAuthOtpCode(phone);
 
                 if (otp) {
                   const { otpSendTime, isExpired } = isOtpExpired();

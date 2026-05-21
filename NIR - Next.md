@@ -8,57 +8,138 @@ Implement the new student auth flow with OTP, register/continue registration, de
 
 ---
 
-## 1. Auth Flow
+## Register / Continue Registration
 
-### Register / Continue Registration
+Use one registration experience only. No visible “Join Tenant” page.
 
-Use one flow only. No separate “Join Tenant” page.
+Every tenant website shows a normal registration form with core fields.
 
-Flow:
+### Core Registration Form
 
-1. Student enters phone.
-2. Send OTP:
-   `POST /api/v1/auth/otp/send`
-3. Verify OTP:
-   `POST /api/v1/auth/auth/otp/verify`
-4. Validation phone number for parent and student
-
-Payload:
+Fields shown before auth:
 
 ```json
 {
+  "first_name": "Ahmed",
+  "last_name": "Mohamed",
   "phone": "010xxxxxxxx",
-  "otp_code": "123456"
-}
-```
-
-After OTP:
-
-- If `is_new = true` → call `/auth/register`
-- If `is_new = false` → call `/auth/join/prefill`, then `/auth/join`
-- If `ALREADY_ENROLLED` → redirect to login
-
-Register / Join payload:
-
-```
-{
-  "phone":"010xxxxxxxx",
-  "first_name":"Ahmed",
-  "last_name":"Mohamed",
-  "password":"12345678",
-  "password_confirmation":"12345678",
-  "grade_id":1
+  "grade_id": 1,
+  "password": "12345678",
+  "password_confirmation": "12345678"
 }
 ```
 
 Important:
 
-- Send `grade_id`, not grade text.
-- If prefilled grade is invalid, force student to choose grade from current tenant.
+- Every tenant shows this same core form.
+- `grade_id` must come from the current tenant grades list.
+- Password is tenant-specific.
+- The same global student can use a different password per tenant.
+- Do not collect extra tenant fields here.
 
 ---
 
-## 2. After Auth Success
+## Flow
+
+1. Student opens tenant register page.
+2. Student fills the full core registration form.
+3. Student submits form.
+4. Frontend sends OTP to the submitted phone:
+
+`POST /api/v1/auth/otp/send`
+
+Payload:
+
+```
+{
+  "phone":"010xxxxxxxx"
+}
+```
+
+1. Student enters OTP.
+2. Frontend verifies OTP:
+
+`POST /api/v1/auth/otp/verify`
+
+Payload:
+
+```
+{
+  "phone":"010xxxxxxxx",
+  "otp_code":"123456"
+}
+```
+
+1. After OTP is verified, user is logged in right away (call login endpoint):
+
+we first check the "profile_completed" and "missing_required" from the login response or user profile if available
+
+if the "profile_completed":false,
+"missing_required": ["father_phone","state_id"]
+
+we call /api/v1/students/profile/fields to get the extra profile fields to show them to the student to complete his profile and we call `GET /api/v1/auth/join/prefill?phone=010xxxxxxxx` to get the data of the student in other tenants to prefill current tenant data if similar
+
+if the /api/v1/students/profile/fields response is empty we skip showing the completiong modal
+
+if the "profile_completed":true,
+"missing_required": []
+
+we dont need to show the profile completion modal at all
+
+```
+
+Frontend label should still be:
+
+`Create Account`
+
+or:
+
+`Complete Registration`
+
+Do not show “Join Tenant” to the student.
+
+### Case C — Already enrolled in current tenant
+
+If backend returns:
+
+`ALREADY_ENROLLED`
+
+Frontend redirects to login and shows:
+
+`You already have an account on this platform. Please login.`
+
+---
+
+## Extra Profile Fields
+
+Any extra data is collected after auth success only.
+
+Examples:
+
+- parent_phone
+- father_phone
+- mother_phone
+- state_id
+- city_id
+- school_name
+- student_type
+- national_id
+- gender
+- address
+
+These fields are controlled by tenant dashboard settings.
+
+If father/mother/parent phone fields are enabled, backend should validate them during Profile Completion, not during core registration.
+
+Example validation:
+
+- father_phone must not equal student phone
+- mother_phone must not equal student phone
+- parent_phone must not equal student phone
+
+---
+
+## After Auth Success
 
 Applies after:
 
@@ -72,16 +153,66 @@ Store:
 - `student`
 - `enrollments`
 
-Show “Open in App” button using:
+Then call:
+
+`GET /api/v1/students/profile/fields`
+
+If:
 
 ```
+
+{
+"profile_completed":false,
+"missing_required": ["father_phone","state_id"]
+}
+
+```
+
+open Complete Profile modal.
+
+If:
+
+```
+
+{
+"profile_completed":true,
+"missing_required": []
+}
+
+```
+
+ do nothing.
+
+---
+
+## Open in App
+
+After register, join, or login, show “Open in App” button if `deeplink_token` exists.
+
+Deep link format:
+
+```
+
 nir://auth?token={deeplink_token}&tenant={tenant_slug}
+
 ```
 
-Note:
+Notes:
 
 - `deeplink_token` expires in 60 seconds.
 - Use latest token only.
+
+So the final UX is:
+
+```
+
+Normal tenant registration form
+→ register
+→ OTP
+→ auth success
+→ profile completion if needed
+
+````
 
 ---
 
@@ -107,8 +238,8 @@ For Phase 2A:
 
 - Do not block user.
 - Backend returns:
-  - `profile_completed: false`
-  - `missing_required: []`
+    - `profile_completed: false`
+    - `missing_required: []`
 
 For Phase 2B:
 
@@ -158,18 +289,18 @@ Backend endpoint
 
 ## 8. Error Handling
 
-| Code                 | Action                |
-| -------------------- | --------------------- |
-| `OTP_SENT`           | Show OTP input        |
-| `OTP_VERIFIED`       | Continue form         |
-| `OTP_INVALID`        | Show wrong OTP        |
-| `OTP_LOCKED`         | Show lock message     |
-| `PHONE_NOT_VERIFIED` | Restart OTP           |
-| `REGISTERED`         | Auth success          |
-| `JOINED`             | Auth success          |
-| `ALREADY_ENROLLED`   | Redirect login        |
-| `INVALID_GRADE`      | Select valid grade    |
-| `INVALID_DEEPLINK`   | Manual login fallback |
+| Code | Action |
+| --- | --- |
+| `OTP_SENT` | Show OTP input |
+| `OTP_VERIFIED` | Continue form |
+| `OTP_INVALID` | Show wrong OTP |
+| `OTP_LOCKED` | Show lock message |
+| `PHONE_NOT_VERIFIED` | Restart OTP |
+| `REGISTERED` | Auth success |
+| `JOINED` | Auth success |
+| `ALREADY_ENROLLED` | Redirect login |
+| `INVALID_GRADE` | Select valid grade |
+| `INVALID_DEEPLINK` | Manual login fallback |
 
 ---
 
@@ -252,7 +383,7 @@ Expected response:
   },
   "errors": null
 }
-```
+````
 
 ## 2. Profile Fields Response
 

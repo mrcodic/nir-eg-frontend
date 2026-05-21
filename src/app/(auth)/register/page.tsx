@@ -29,6 +29,7 @@ const RegisterPage = () => {
 
   const [step, setStep] = useState<RegisterStep>(1);
   const [phoneForOtp, setPhoneForOtp] = useState("");
+  const [isNewStudent, setIsNewStudent] = useState<boolean | null>(null);
 
   const form = useForm<RegisterFormValues>({
     mode: "all",
@@ -56,22 +57,29 @@ const RegisterPage = () => {
     redirect("/");
   }
 
-  const { validateStepOne, validateBeforeOtpStep, submitRegister } =
-    useRegisterStepper({
-      form,
-      setStep,
-      onErrorToast: (message) =>
-        toast({
-          description: message,
-          icon: "error",
-        }),
-      onRegistered: () => {
-        toast({
-          description: "تم إنشاء الحساب بنجاح",
-          icon: "success",
-        });
-      },
-    });
+  const {
+    validateStepOne,
+    validateBeforeOtpStep,
+    submitRegister,
+    submitJoinFlow,
+  } = useRegisterStepper({
+    form,
+    setStep,
+    onErrorToast: (message) =>
+      toast({
+        description: message,
+        icon: "error",
+      }),
+    onRegistered: () => {
+      toast({
+        description: "تم إنشاء الحساب بنجاح",
+        icon: "success",
+      });
+    },
+    onAlreadyEnrolled: () => {
+      router.push("/login");
+    },
+  });
 
   return (
     <>
@@ -132,6 +140,7 @@ const RegisterPage = () => {
                     const valid = await validateBeforeOtpStep();
                     if (!valid) return;
                     setPhoneForOtp(form.getValues("phones.phone"));
+                    setIsNewStudent(null);
                     setStep(3);
                   }}
                 >
@@ -162,13 +171,20 @@ const RegisterPage = () => {
           <OtpVerifyForm
             autoSubmit
             phone={phoneForOtp || form.getValues("phones.phone")}
+            onOtpSent={({ isNew }) => {
+              if (typeof isNew === "boolean") {
+                setIsNewStudent(isNew);
+              }
+            }}
             onSuccess={async () => {
+              const isNew = isNewStudent ?? true;
+              // const done = isNew ? await submitRegister() : await submitJoinFlow();
               const done = await submitRegister();
               if (done) {
                 router.push("/login");
               }
             }}
-            footer={({ isStart, isSubmitting }) => {
+            footer={({ isSubmitting }) => {
               return (
                 <div className="flex gap-2">
                   <Button

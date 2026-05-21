@@ -10,11 +10,11 @@ import { OTPNotVerifIed } from "@/components/modals/OTPNotVerifIed";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useAuthContext } from "@/context/auth-context";
-import { mutateClient } from "@/helpers/post-client";
 import { useToast } from "@/hooks/use-toast";
 import AuthHeader from "@/layouts/AuthHeader";
 import { loginSchema } from "@/lib/schemas";
 import { getUserPhoneFromStorage, presistUserPhone } from "@/lib/utils";
+import { loginWithPhonePassword } from "@/services/auth.service";
 import { saveCookie } from "@/utils/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
@@ -59,11 +59,9 @@ const AuthPage = () => {
   const onSubmit = async (v: z.infer<typeof loginSchema>) => {
     try {
       const { phone, ...rest } = v;
-      const response = await mutateClient("/auth/login", {
-        body: {
-          ...rest,
-          ...phone,
-        },
+      const response = await loginWithPhonePassword({
+        ...rest,
+        ...phone,
       });
 
       await saveCookie(response?.access_token);

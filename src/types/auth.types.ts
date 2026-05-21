@@ -1,3 +1,5 @@
+import { AuthErrorCode } from "./api-errors.types";
+
 export type OtpSendPayload = {
   is_new: boolean;
   expires_at: string;
@@ -7,7 +9,7 @@ export type OtpSendPayload = {
 export type OtpSendResponse = {
   status: boolean;
   message: string;
-  code: string;
+  code: AuthErrorCode | string;
   data: OtpSendPayload | null;
   errors: Record<string, string[]> | null;
   is_new?: boolean;
@@ -18,7 +20,7 @@ export type OtpSendResponse = {
 export type OtpVerifyErrorResponse = {
   status: false;
   message: string;
-  code: "OTP_INVALID" | "OTP_LOCKED" | string;
+  code: AuthErrorCode | string;
   data:
     | {
         attempts_remaining?: number;
@@ -26,4 +28,89 @@ export type OtpVerifyErrorResponse = {
       }
     | null;
   errors: Record<string, string[]> | null;
+};
+
+export type OtpVerifyResponse = {
+  status: boolean;
+  message: string;
+  code: AuthErrorCode | string;
+  data:
+    | {
+        verified: boolean;
+        valid_until: string;
+      }
+    | null;
+  errors: Record<string, string[]> | null;
+};
+
+export type AuthApiResponse = {
+  status: boolean;
+  message: string;
+  code?: AuthErrorCode | string;
+  data?: unknown;
+  errors?: Record<string, string[]> | null;
+};
+
+export type JoinPrefillResponse = {
+  status: boolean;
+  message: string;
+  code: AuthErrorCode | string;
+  data?:
+    | {
+        action?: "redirect_to_login" | "redirect_to_register";
+        student?: Record<string, unknown>;
+      }
+    | null;
+  errors: Record<string, string[]> | null;
+};
+
+export type LoginStudent = {
+  id: number;
+  first_name: string;
+  last_name: string;
+  code_country: string;
+  avatar: string;
+  type: number;
+  phone: string;
+  parent_phone: string;
+  state_id: number;
+  state_name: string;
+  city: string | null;
+  city_id: number;
+  created_at: string;
+  updated_at: string;
+  grade: number;
+  grade_name: string;
+  group_link: string | null;
+  points: number;
+  student_phone_verification: boolean;
+  parent_phone_verification: boolean;
+  has_center?: boolean;
+  center_id?: number;
+};
+
+export type LoginEnrollment = {
+  tenant_id: string;
+  name: string;
+  slug: string;
+  status: string;
+  domain: string;
+  domain_type: string;
+  primary_color: string;
+  tenant_status: number;
+  tenant_user_id: number;
+  source: string;
+  enrolled_at: string;
+  last_accessed_at: string | null;
+};
+
+export type LoginResponse = {
+  status: boolean;
+  message: string;
+  student: LoginStudent;
+  user_id: number;
+  access_token: string;
+  deeplink_token?: string;
+  deeplink_expires_in?: number;
+  enrollments?: LoginEnrollment[];
 };

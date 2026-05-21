@@ -11,6 +11,7 @@ import UserModalsWrapper from "@/components/shared/UserModalsWrapper";
 import { TenantProvider } from "@/context/TenantProvider";
 import { getServerData } from "@/helpers/server-fetch";
 import { hexToHsl } from "@/helpers/tenant.helpers";
+import { TENANT_ERROR_CODES } from "@/constants/error-codes";
 import CustomError from "@/lib/customError";
 import { getTenantSettingsServer } from "@/services/tenant.service";
 import { ApiResponse, IUser } from "@/types";
@@ -101,8 +102,10 @@ export default async function Layout({ children }) {
     }
 
     if (e instanceof CustomError) {
-      if (e.code === "TENANT_SUSPENDED") return <SuspendedTenant />;
-      if (e.code === "TENANT_NOT_FOUND") return <NotFoundTenant />;
+      if (e.code === TENANT_ERROR_CODES.TENANT_SUSPENDED)
+        return <SuspendedTenant />;
+      if (e.code === TENANT_ERROR_CODES.TENANT_NOT_FOUND)
+        return <NotFoundTenant />;
       return <CustomGlobalError error={e} />;
     } else {
       const error = new CustomError(

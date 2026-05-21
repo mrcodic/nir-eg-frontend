@@ -18,11 +18,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { OTP_SEND_TIME_KEY } from "@/constants";
-import { mutateClient } from "@/helpers/post-client";
 import { useToast } from "@/hooks/use-toast";
 import useOtp from "@/hooks/useOtp";
 import { getOtpVerifyErrorMessage } from "@/lib/handle-otp-error";
 import { otpSchema } from "@/lib/schemas";
+import { verifyAuthOtpCode } from "@/services/auth.service";
+import { OtpSendResponse } from "@/types/auth.types";
 
 export type OtpVerifyFormProps = {
   phone: string;
@@ -34,6 +35,10 @@ export type OtpVerifyFormProps = {
     isStart: boolean;
   }) => React.ReactNode;
   onError?: (message: string) => void;
+  onOtpSent?: (meta: {
+    isNew: boolean | null;
+    response: OtpSendResponse | null;
+  }) => void;
 };
 
 export default function OtpVerifyForm({
@@ -43,6 +48,7 @@ export default function OtpVerifyForm({
   submitLabel = "تأكيد",
   footer,
   onError,
+  onOtpSent,
 }: OtpVerifyFormProps) {
   const { toast } = useToast();
   const { sendOtp, start, minutes, seconds, resending, isExpired } = useOtp();
@@ -63,6 +69,12 @@ export default function OtpVerifyForm({
   }, [phone, form]);
 
   useEffect(() => {
+    const triggerInitialOtp = async () => {
+      const response = await sendOtp(phone);
+      const isNew = response?.data?.is_new ?? response?.is_new ?? null;
+      onOtpSent?.({ isNew, response });
+    };
+
     if (!isExpired && !initialSend.current) {
       initialSend.current = true;
       return;
@@ -70,9 +82,9 @@ export default function OtpVerifyForm({
     if (initialSend.current) return;
     if (isExpired && phone) {
       initialSend.current = true;
-      sendOtp(phone);
+      void triggerInitialOtp();
     }
-  }, [isExpired, phone, sendOtp]);
+  }, [isExpired, phone, sendOtp, onOtpSent]);
 
   const onSubmit = useCallback(
     async (data: z.infer<typeof otpSchema>) => {
@@ -86,7 +98,7 @@ export default function OtpVerifyForm({
         }
 
         setInlineError("");
-        await mutateClient("/auth/otp/verify", { body: { ...data, phone } });
+        await verifyAuthOtpCode({ ...data, phone });
         localStorage.removeItem(OTP_SEND_TIME_KEY);
         toast({ description: "تم تأكيد رقم الهاتف بنجاح", icon: "success" });
         await onSuccess?.();
@@ -101,6 +113,7 @@ export default function OtpVerifyForm({
   );
 
   const otpValue = useWatch({ control: form.control, name: "otp_code" });
+
   useEffect(() => {
     if (!autoSubmit) return;
     if (otpValue?.length === 6 && !isAutoSubmitting.current) {
@@ -148,7 +161,7 @@ export default function OtpVerifyForm({
 
         <button
           type="button"
-          onClick={() => {
+          onClick={async () => {
             setInlineError("");
             if (!phone) {
               const msg = "رقم الهاتف غير متاح";
@@ -156,7 +169,9 @@ export default function OtpVerifyForm({
               onError?.(msg);
               return;
             }
-            sendOtp(phone);
+            const response = await sendOtp(phone);
+            const isNew = response?.data?.is_new ?? response?.is_new ?? null;
+            onOtpSent?.({ isNew, response });
           }}
           disabled={start || resending}
           className="text-secondary mx-auto mt-4 flex cursor-pointer items-center gap-1 text-center text-base font-bold underline disabled:cursor-not-allowed disabled:opacity-60"
