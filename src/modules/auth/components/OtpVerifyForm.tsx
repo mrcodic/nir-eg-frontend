@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/form";
 import { OTP_SEND_TIME_KEY } from "@/constants";
 import { useToast } from "@/hooks/use-toast";
-import useOtp from "@/hooks/useOtp";
+import useOtp from "@/modules/auth/hooks/useOtp";
 import { getOtpVerifyErrorMessage } from "@/lib/handle-otp-error";
 import { otpSchema } from "@/lib/schemas";
 import { verifyAuthOtpCode } from "@/services/auth.service";

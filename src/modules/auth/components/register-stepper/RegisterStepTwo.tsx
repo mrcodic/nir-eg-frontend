@@ -2,8 +2,8 @@
 
 import CustomInput from "@/components/custom/customInput";
 import DynamicSelect from "@/components/custom/DynamicSelect";
+import { RegisterFormValues } from "@/types/register.types";
 import { UseFormReturn } from "react-hook-form";
-import { RegisterFormValues } from "../../../types/register.types";
 
 type Props = {
   form: UseFormReturn<RegisterFormValues>;
@@ -35,4 +35,3 @@ export default function RegisterStepTwo({ form }: Props) {
     </div>
   );
 }
-

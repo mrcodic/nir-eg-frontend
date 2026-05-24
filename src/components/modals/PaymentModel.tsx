@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { DialogFooter } from "@/components/ui/dialog";
-import { usePayment } from "@/hooks/usePayment";
+import { usePayment } from "@/modules/payment/hooks/usePayment";
 import { CourseType } from "@/types";
 import { DialogClose } from "@radix-ui/react-dialog";
 import React from "react";

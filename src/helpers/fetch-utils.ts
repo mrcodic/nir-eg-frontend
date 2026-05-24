@@ -6,7 +6,7 @@ let _cachedTenantSlug: string | null = null;
 const NIR_ROOT_DOMAIN =
   process.env.NODE_ENV === "production"
     ? (process.env.NEXT_PUBLIC_ROOT_DOMAIN ?? "nir-edu.com")
-    : "localhost";
+    : (process.env.NEXT_PUBLIC_DEV_DOMAIN ?? "localhost").replace(/:\d+$/, "");
 
 export function extractTenantFromHost() {
   if (typeof window === "undefined") return { subdomain: "", host: "" };
@@ -18,7 +18,7 @@ export function extractTenantFromHost() {
     const [subdomain] = cleanHost.split(".");
     return {
       subdomain,
-      host: cleanHost.endsWith("localhost") ? host : cleanHost,
+      host: cleanHost.endsWith(NIR_ROOT_DOMAIN) ? host : cleanHost,
     };
   }
 

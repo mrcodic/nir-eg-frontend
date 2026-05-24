@@ -1,6 +1,6 @@
 "use client";
 
-import OtpVerifyForm from "@/components/forms/OtpVerifyForm";
+import OtpVerifyForm from "@/modules/auth/components/OtpVerifyForm";
 import AuthHeader from "@/layouts/AuthHeader";
 import { getLocalStorage } from "@/utils/clientFun";
 import { setResetPasswordOtpGate } from "@/utils/reset-password-gate";

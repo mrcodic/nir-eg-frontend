@@ -3,7 +3,7 @@ import { headers } from "next/headers";
 const NIR_ROOT_DOMAIN =
   process.env.NODE_ENV === "production"
     ? (process.env.NEXT_PUBLIC_ROOT_DOMAIN ?? "nir-edu.com")
-    : "localhost";
+    : (process.env.NEXT_PUBLIC_DEV_DOMAIN ?? "localhost").replace(/:\d+$/, "");
 
 // Use the main admin domain — resolve-tenant is a public central endpoint
 const RESOLVE_TENANT_API =
@@ -18,7 +18,7 @@ export async function extractTenantFromHostServer() {
     const [subdomain] = cleanHost.split(".");
     return {
       subdomain,
-      host: cleanHost.endsWith("localhost") ? host : cleanHost,
+      host: cleanHost.endsWith(NIR_ROOT_DOMAIN) ? host : cleanHost,
     };
   }
 

@@ -7,7 +7,7 @@ import { useModal } from "@/context/ModalProvider";
 import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import OtpVerifyForm from "../forms/OtpVerifyForm";
+import OtpVerifyForm from "@/modules/auth/components/OtpVerifyForm";
 
 export default function OtpModal({ phone }: { phone: string }) {
   const queryClient = useQueryClient();

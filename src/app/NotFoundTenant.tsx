@@ -7,17 +7,24 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import { getErrorMeta } from "@/lib/errorCodes";
+import { cn } from "@/lib/utils";
 
 const almarai = Almarai({
   subsets: ["arabic"],
   weight: ["400", "700"],
 });
 
+export const metadata = {
+  title: "الموقع غير موجود | NIR EDU",
+  description:
+    "يبدو أن الرابط الذي تحاول الوصول إليه غير مرتبط بأي موقع تعليمي حاليًا. يمكنك إنشاء موقعك التعليمي الخاص أو الانضمام إلينا بسهولة.",
+  robots: "noindex, nofollow",
+};
+
 export default function NotFoundTenant() {
   const { title, description } = getErrorMeta("TENANT_NOT_FOUND");
-  
+
   return (
     <html lang="ar" dir="rtl">
       <head>

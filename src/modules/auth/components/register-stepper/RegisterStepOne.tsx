@@ -2,8 +2,8 @@
 
 import CustomInput from "@/components/custom/customInput";
 import CustomPhoneInput from "@/components/custom/CustomPhoneInput";
+import { RegisterFormValues } from "@/types/register.types";
 import { UseFormReturn } from "react-hook-form";
-import { RegisterFormValues } from "../../../types/register.types";
 
 type Props = {
   form: UseFormReturn<RegisterFormValues>;

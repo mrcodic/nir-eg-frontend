@@ -1,3 +1,6 @@
+import { UserTenant } from "@/types/tenant.types";
+import { isAxiosError } from "axios";
+
 export const mapTemplateToNumber = {
   "landing-v1": 1,
   "landing-v2": 2,
@@ -52,3 +55,47 @@ export const hexToHsl = (hex: string) => {
 
   return `${Math.round(h)} ${Math.round(s * 100)}% ${Math.round(l * 100)}%`;
 };
+
+export function normalizeDomain(domain: string | null | undefined): string {
+  if (!domain) return "";
+  return domain.replace(/^https?:\/\//, "").replace(/\/+$/, "");
+}
+
+export function buildTargetOrigin(tenant: UserTenant): string {
+  const isProd = process.env.NODE_ENV === "production";
+
+  if (tenant.domain_type === "domain") {
+    const domain = normalizeDomain(tenant.domain);
+    return isProd ? `https://${domain}` : `http://${domain}`;
+  }
+
+  if (isProd) {
+    const domain = normalizeDomain(tenant.domain);
+    return `https://${domain}`;
+  }
+
+  const currentHost = window.location.host;
+  const hostWithoutPort = currentHost.replace(/:\d+$/, "");
+  const portMatch = currentHost.match(/:\d+$/);
+  const port = portMatch ? portMatch[0] : "";
+  const hostParts = hostWithoutPort.split(".");
+  const baseHost =
+    hostParts.length > 1 ? hostParts.slice(1).join(".") : hostWithoutPort;
+
+  return `http://${tenant.slug}.${baseHost}${port}`;
+}
+
+export function getSwitchTenantErrorMessage(error: unknown): string {
+  if (isAxiosError(error)) {
+    const status = error.response?.status;
+    const message = error.response?.data?.message as string | undefined;
+
+    if (status === 401) return "انتهت الجلسة. برجاء تسجيل الدخول مرة أخرى.";
+    if (status === 403) return message || "غير مسموح بالتحويل إلى هذا المدرس.";
+    if (status === 404) return message || "المدرس غير موجود.";
+    if (status === 422) return "بيانات التحويل غير مكتملة.";
+    return message || "حدث خطأ أثناء التحويل";
+  }
+
+  return "حدث خطأ أثناء التحويل";
+}

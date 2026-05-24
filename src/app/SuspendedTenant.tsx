@@ -14,6 +14,13 @@ const almarai = Almarai({
   weight: ["400", "700"],
 });
 
+export const metadata = {
+  title: "تم حجب هذه المنصة | NIR EDU",
+  description:
+    "الموقع التعليمي الذي تحاول الوصول إليه غير مفعل. يرجى التواصل مع مدير الموقع أو دعم NIR EDU.",
+  robots: "noindex, nofollow",
+};
+
 export default function SuspendedTenant() {
   return (
     <html lang="ar" dir="rtl">

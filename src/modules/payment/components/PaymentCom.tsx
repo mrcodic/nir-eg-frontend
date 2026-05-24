@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { usePayment } from "@/hooks/usePayment";
+import { usePayment } from "@/modules/payment/hooks/usePayment";
 import { CourseType } from "@/types";
 import { ChevronLeft, Loader2 } from "lucide-react";
 import { PaymentUI } from "./PaymentUI";

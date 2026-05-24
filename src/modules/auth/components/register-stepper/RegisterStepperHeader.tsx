@@ -2,7 +2,7 @@
 
 import StepperHeader from "@/components/ui/stepper-header";
 import AuthHeader from "@/layouts/AuthHeader";
-import { RegisterStep } from "../../../types/register.types";
+import { RegisterStep } from "@/types/register.types";
 
 type Props = {
   step: RegisterStep;

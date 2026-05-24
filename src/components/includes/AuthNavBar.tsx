@@ -5,7 +5,7 @@ import { useMemo } from "react";
 
 import { useAuthContext } from "@/context/auth-context";
 import { useTenant } from "@/context/TenantProvider";
-import { useBooksSettings } from "@/hooks/useBooksSettings";
+import { useBooksSettings } from "@/modules/books-store/hooks/useBooksSettings";
 import { cn } from "@/lib/utils";
 import NavNotifications from "@/modules/norifications/components/NavNotifications";
 import dynamic from "next/dynamic";
@@ -14,7 +14,7 @@ import CustomImage from "../ui/CustomImage";
 import LinkStyled from "./LinkStyled";
 import MobileDropDown from "./MobileDropDown";
 import NavUserMenu from "./NavUserMenu";
-import UserTenantSwitch from "./UserTenantSwitch";
+import UserTenantSwitch from "@/modules/tenant/components/UserTenantSwitch";
 
 const NavCartButton = dynamic(
   () => import("@/modules/books-store/components/NavCartButton"),

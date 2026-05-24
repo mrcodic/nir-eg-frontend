@@ -11,20 +11,16 @@ import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useAuthContext } from "@/context/auth-context";
-import { openDesktopAuthDeeplink } from "@/helpers/auth-deeplink";
 import { useToast } from "@/hooks/use-toast";
 import AuthHeader from "@/layouts/AuthHeader";
 import { loginSchema } from "@/lib/schemas";
-import { getUserPhoneFromStorage, presistUserPhone } from "@/lib/utils";
-import { loginWithPhonePassword } from "@/services/auth.service";
-import { saveCookie } from "@/utils/api";
+import { getUserPhoneFromStorage } from "@/lib/utils";
+import { useLogin } from "@/modules/auth/hooks/useLogin";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
-import Cookies from "js-cookie";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { GoogleReCaptcha } from "react-google-recaptcha-v3";
-import { z } from "zod";
 
 const AuthPage = () => {
   const router = useRouter();
@@ -42,7 +38,6 @@ const AuthPage = () => {
 
   const form = useForm({
     resolver: zodResolver(loginSchema),
-
     defaultValues: {
       phone: {
         country: getUserPhoneFromStorage().phone_code,
@@ -54,70 +49,29 @@ const AuthPage = () => {
     },
   });
 
+  const { onSubmit } = useLogin({
+    router,
+    queryClient,
+    redirectPath,
+    setToken,
+    onPhoneNotVerified: (phone) => {
+      localStorage.setItem("phone", phone);
+      toast({
+        icon: "error",
+        description: "رقم الهاتف غير مفعل",
+      });
+      setVerify(true);
+    },
+    onErrorToast: (message) => {
+      toast({ description: message, icon: "error" });
+    },
+  });
+
   useEffect(() => {
     if (profile) {
       router.replace("/");
     }
   }, [profile, router]);
-
-  const onSubmit = async (v: z.infer<typeof loginSchema>) => {
-    try {
-      const { phone, ...rest } = v;
-      const response = await loginWithPhonePassword({
-        phone: phone.phone,
-        country: phone.country,
-        country_iso: phone.country_iso || "EG",
-        password: rest.password,
-        recaptcha_token: rest.recaptcha_token,
-      });
-
-      await saveCookie(response?.access_token);
-
-      Cookies.remove("guest_token");
-      queryClient.invalidateQueries({ queryKey: ["/students/profile"] });
-
-      setToken(response?.access_token);
-
-      presistUserPhone(phone.phone, phone.country);
-      openDesktopAuthDeeplink(response);
-
-      if (
-        response?.student?.type === 3 &&
-        response?.student?.has_center === true
-      ) {
-        router.push(redirectPath || `bundles/${response?.student?.center_id}`);
-      } else if (response?.student.type === 4 || response?.student.type === 5) {
-        router.push(
-          redirectPath || `bundles?grade=${response?.student?.grade}`,
-        );
-      } else if (
-        response?.student?.type === 3 &&
-        response?.student?.has_center === false
-      ) {
-        router.push(redirectPath || `profile`);
-      }
-    } catch (err) {
-      console.log("💥 login error : ", err);
-
-      if (err.status == 409) {
-        localStorage.setItem("phone", v?.phone?.phone);
-
-        toast({
-          icon: "error",
-          description: "رقم الهاتف غير مفعل",
-        });
-        setVerify(true);
-      } else {
-        toast({
-          description:
-            err?.status !== 500
-              ? err?.response?.error?.message || err?.response?.data?.message
-              : "حدث خطأ ما اثناء تسجيل الدخول",
-          icon: "error",
-        });
-      }
-    }
-  };
 
   if (profile) return <LoadingSpinner className="h-full min-h-[300px]" />;
 
@@ -166,7 +120,6 @@ const AuthPage = () => {
 
           <GoogleReCaptcha
             onVerify={(token) => {
-              // setToken(token);
               form.setValue("recaptcha_token", token);
             }}
           />
@@ -190,4 +143,5 @@ const AuthPage = () => {
     </div>
   );
 };
+
 export default AuthPage;

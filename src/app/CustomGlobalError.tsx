@@ -16,6 +16,13 @@ const almarai = Almarai({
   weight: ["400", "700"],
 });
 
+export const metadata = {
+  title: "خطأ غير متوقع | NIR EDU",
+  description:
+    "حدث خطأ غير متوقع أثناء تحميل الصفحة. يرجى المحاولة مرة أخرى أو التواصل مع الدعم.",
+  robots: "noindex, nofollow",
+};
+
 export default function CustomGlobalError({
   error,
 }: {

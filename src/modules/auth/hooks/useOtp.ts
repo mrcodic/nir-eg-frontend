@@ -8,7 +8,7 @@ import { isOtpExpired, setNewOtpSendTime } from "@/lib/utils";
 import { isAxiosError } from "axios";
 import { useCallback, useState } from "react";
 import { useTimer } from "react-timer-hook";
-import { useToast } from "./use-toast";
+import { useToast } from "@/hooks/use-toast";
 
 function useOtp() {
   const { otpSendTime, isExpired } = isOtpExpired();

@@ -30,6 +30,7 @@ const almarai = Almarai({
 });
 
 const isProd = process.env.NODE_ENV === "production";
+const devDomain = process.env.NEXT_PUBLIC_DEV_DOMAIN ?? "localhost:3000";
 
 export async function generateMetadata(): Promise<Metadata> {
   const tenant = await getTenantSettingsServer();
@@ -37,7 +38,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const siteUrl =
     tenant.domain_type === "domain"
       ? `https://${tenant.site_name}`
-      : `https://${tenant.slug}.${isProd ? process.env.NEXT_PUBLIC_ROOT_DOMAIN : "localhost:3000"}`;
+      : `${isProd ? "https" : "http"}://${tenant.slug}.${isProd ? process.env.NEXT_PUBLIC_ROOT_DOMAIN : devDomain}`;
 
   const metadataBase = new URL(siteUrl);
 

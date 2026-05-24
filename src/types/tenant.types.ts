@@ -107,3 +107,36 @@ export interface TenantLandingResponse {
     };
   };
 }
+
+export interface UserTenant {
+  domain: string;
+  domain_type: string;
+  enrolled_at: string;
+  last_accessed_at: string | null;
+  logo: string | null;
+  name: string;
+  primary_color: string;
+  slug: string;
+  source: string;
+  status: string;
+  tenant_id: string;
+  tenant_status: number;
+  tenant_user_id: number;
+}
+
+export type SwitchTenantActiveTenant = {
+  id: string;
+  name: string;
+  slug: string;
+  brand_name: string | null;
+  site_name: string | null;
+  primary_color: string | null;
+  domain_type: "subdomain" | "domain";
+  status: number;
+};
+
+export type SwitchTenantResponse = {
+  status: boolean;
+  active_tenant?: SwitchTenantActiveTenant;
+  message?: string;
+};
