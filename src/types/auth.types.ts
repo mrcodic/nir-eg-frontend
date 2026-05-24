@@ -149,4 +149,6 @@ export type StudentProfileFieldsResponse = {
   errors: Record<string, string[]> | null;
 };
 
+export type StudentProfileSettingsResponse = StudentProfileFieldsResponse;
+
 export type StudentProfileCompletePayload = Record<string, unknown>;

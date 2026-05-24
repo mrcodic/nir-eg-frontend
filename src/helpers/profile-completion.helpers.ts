@@ -1,5 +1,5 @@
-import { DynamicProfileField } from "@/types/auth.types";
 import { phoneSchema } from "@/lib/schemas";
+import { DynamicProfileField } from "@/types/auth.types";
 import { z } from "zod";
 
 export type ProfileCompletionValues = Record<string, unknown>;
@@ -92,22 +92,31 @@ export const buildProfileCompletionDefaults = (
 
 export const buildProfileCompletionSchema = (fields: DynamicProfileField[]) => {
   const shape: Record<string, z.ZodTypeAny> = {};
+  const toStringPreprocess = (value: unknown) => {
+    if (value === null || value === undefined) return "";
+    return String(value);
+  };
 
   fields.forEach((field) => {
     if (!field.enabled || !SUPPORTED_FIELD_TYPES.has(field.type)) return;
     if (field.key === "avatar") return;
 
     if (field.type === "phone") {
-      shape[field.key] = field.required
-        ? phoneSchema
-        : phoneSchema.optional();
+      shape[field.key] = field.required ? phoneSchema : phoneSchema.optional();
       return;
     }
 
-    if (field.key === "state_id" || field.key === "city_id" || field.type === "select") {
+    if (
+      field.key === "state_id" ||
+      field.key === "city_id" ||
+      field.type === "select"
+    ) {
       shape[field.key] = field.required
-        ? z.string().min(1, `${field.label} مطلوب`)
-        : z.string().optional();
+        ? z.preprocess(
+            toStringPreprocess,
+            z.string().min(1, `${field.label} مطلوب`),
+          )
+        : z.preprocess(toStringPreprocess, z.string().optional());
       return;
     }
 

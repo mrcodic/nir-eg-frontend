@@ -4,6 +4,7 @@ import {
   JoinPrefillResponse,
   LoginResponse,
   OtpSendResponse,
+  StudentProfileSettingsResponse,
   OtpVerifyResponse,
   StudentProfileCompletePayload,
   StudentProfileFieldsResponse,
@@ -79,6 +80,15 @@ export function fetchTenantProfilePrefillByPhone(
 export function fetchRequiredStudentProfileFields(): Promise<StudentProfileFieldsResponse> {
   return authRequest<StudentProfileFieldsResponse>(
     "/students/profile/fields",
+    "GET",
+    null,
+    { auth: true },
+  );
+}
+
+export function fetchStudentProfileSettingsFields(): Promise<StudentProfileSettingsResponse> {
+  return authRequest<StudentProfileSettingsResponse>(
+    "/students/profile/setting",
     "GET",
     null,
     { auth: true },

@@ -9,12 +9,14 @@ import { useMemo } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { FALLBACK_STUDENT_TYPE_OPTIONS } from "../../../helpers/profile-completion.helpers";
 
-type Props = {
-  form: UseFormReturn<Record<string, unknown>>;
+type Props<TValues extends Record<string, unknown>> = {
+  form: UseFormReturn<TValues>;
   fields: DynamicProfileField[];
 };
 
-export default function ProfileCompletionFields({ form, fields }: Props) {
+export default function ProfileCompletionFields<
+  TValues extends Record<string, unknown>,
+>({ form, fields }: Props<TValues>) {
   const shouldRenderCityState = useMemo(
     () =>
       fields.some(
