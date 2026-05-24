@@ -10,6 +10,7 @@ import { OTPNotVerifIed } from "@/components/modals/OTPNotVerifIed";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useAuthContext } from "@/context/auth-context";
+import { openDesktopAuthDeeplink } from "@/helpers/auth-deeplink";
 import { useToast } from "@/hooks/use-toast";
 import AuthHeader from "@/layouts/AuthHeader";
 import { loginSchema } from "@/lib/schemas";
@@ -75,6 +76,7 @@ const AuthPage = () => {
       setToken(response?.access_token);
 
       presistUserPhone(phone.phone, phone.country);
+      openDesktopAuthDeeplink(response);
 
       if (
         response?.student?.type === 3 &&

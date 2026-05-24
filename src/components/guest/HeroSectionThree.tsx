@@ -1,8 +1,8 @@
+import { cn } from "@/lib/utils";
 import { TenantLandingResponse } from "@/types/tenant.types";
 import Image from "next/image";
-import { Button } from "../ui/button";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
+import { Button } from "../ui/button";
 
 function HeroSectionThree({
   content,
@@ -44,9 +44,9 @@ function HeroSectionThree({
               src={content?.image}
               fill
               alt="hero image"
+              className="object-cover"
               fetchPriority="high"
               loading="eager"
-              className="object-contain"
             />
           )}
         </div>

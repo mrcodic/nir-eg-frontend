@@ -1,8 +1,8 @@
+import { cn } from "@/lib/utils";
 import { TenantLandingResponse } from "@/types/tenant.types";
 import Image from "next/image";
-import { Button } from "../ui/button";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
+import { Button } from "../ui/button";
 
 function HeroSection({
   content,
@@ -22,7 +22,7 @@ function HeroSection({
 
       <div
         className={cn(
-          "relative h-[450px] w-full max-w-[466px] overflow-hidden lg:h-[600px] lg:max-w-1/2",
+          "relative h-[450px] w-full max-w-[466px] overflow-hidden rounded-2xl lg:h-[600px] lg:max-w-1/2",
           {
             "bg-gray-light": !content?.image,
           },
@@ -33,7 +33,7 @@ function HeroSection({
             src={content?.image}
             fill
             alt="hero image"
-            className="object-contain"
+            className="object-cover"
             fetchPriority="high"
             loading="eager"
           />

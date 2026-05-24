@@ -44,8 +44,6 @@ const RegisterPage = () => {
     },
   });
 
-  if (profile) redirect("/");
-
   const { validateStepOne, validateBeforeOtpStep, submitRegister } =
     useRegisterStepper({
       form,
@@ -57,6 +55,8 @@ const RegisterPage = () => {
         router.push("/login");
       },
     });
+
+  if (profile) redirect("/");
 
   return (
     <>

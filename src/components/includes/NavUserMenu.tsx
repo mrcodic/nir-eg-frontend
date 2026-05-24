@@ -45,7 +45,7 @@ function NavUserMenu({
           dir="rtl"
           className={cn(
             "w-full",
-            "**:data-radix-scroll-area-viewport:max-h-[min(451px,calc(100dvh-120px))]",
+            "**:data-radix-scroll-area-viewport:max-h-[min(630px,calc(100dvh-100px))]",
           )}
         >
           <DropdownMenuItem className="flex w-full flex-col items-center justify-center gap-4">
@@ -87,7 +87,7 @@ function NavUserMenu({
                   رقم الطالب:
                 </h3>
                 <span className="text-sm font-bold tracking-wider">
-                  {profile?.phone}
+                  {profile?.phone || "--"}
                 </span>
               </div>
               <div className="bg-background flex flex-col gap-2 rounded-lg p-2">
@@ -95,7 +95,7 @@ function NavUserMenu({
                   رقم ولي الأمر:
                 </h3>
                 <span className="text-sm font-bold tracking-wider">
-                  {profile?.parent_phone}
+                  {profile?.parent_phone || "--"}
                 </span>
               </div>
             </div>

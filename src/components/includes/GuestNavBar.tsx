@@ -28,7 +28,7 @@ const GuestNavBar = () => {
   ];
 
   return (
-    <div
+    <header
       className={cn(
         "border-secondary bg-background fixed top-0 left-0 z-30 flex h-20 w-full items-center border-b group-data-[template=landing-v3]/template:h-28 group-data-[template=landing-v3]/template:items-end group-data-[template=landing-v3]/template:border-none group-data-[template=landing-v3]/template:bg-transparent aria-hidden:pointer-events-auto! data-[aria-hidden='true']:pointer-events-auto!",
       )}
@@ -55,7 +55,7 @@ const GuestNavBar = () => {
               />
             </Link>
 
-            <div className="hidden gap-2 md:flex">
+            <nav className="hidden gap-2 md:flex">
               {guestLinks.map((link) => (
                 <Link
                   key={link.href}
@@ -78,7 +78,7 @@ const GuestNavBar = () => {
                   <h3>{link.text}</h3>
                 </Link>
               ))}
-            </div>
+            </nav>
           </div>
 
           <div className="flex gap-3">
@@ -114,7 +114,7 @@ const GuestNavBar = () => {
           </div>
         </div>
       </div>
-    </div>
+    </header>
   );
 };
 export default GuestNavBar;

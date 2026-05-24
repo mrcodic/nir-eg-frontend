@@ -5,15 +5,16 @@ import { useMemo } from "react";
 
 import { useAuthContext } from "@/context/auth-context";
 import { useTenant } from "@/context/TenantProvider";
+import { useBooksSettings } from "@/hooks/useBooksSettings";
 import { cn } from "@/lib/utils";
 import NavNotifications from "@/modules/norifications/components/NavNotifications";
+import dynamic from "next/dynamic";
+import { usePathname } from "next/navigation";
 import CustomImage from "../ui/CustomImage";
 import LinkStyled from "./LinkStyled";
 import MobileDropDown from "./MobileDropDown";
 import NavUserMenu from "./NavUserMenu";
-import { useBooksSettings } from "@/hooks/useBooksSettings";
-import { usePathname } from "next/navigation";
-import dynamic from "next/dynamic";
+import UserTenantSwitch from "./UserTenantSwitch";
 
 const NavCartButton = dynamic(
   () => import("@/modules/books-store/components/NavCartButton"),
@@ -69,7 +70,7 @@ const AuthNavBar = () => {
   }, [profile, grade, isOnlineStudent, hasGradesEnabled]);
 
   return (
-    <div
+    <header
       className={cn(
         "border-gray-light bg-background fixed top-0 left-0 z-40 flex h-20 w-full items-center border-b aria-hidden:pointer-events-auto! data-[aria-hidden='true']:pointer-events-auto!",
         "group-data-[template=landing-v3]/template:h-28 group-data-[template=landing-v3]/template:items-end group-data-[template=landing-v3]/template:border-none group-data-[template=landing-v3]/template:bg-transparent",
@@ -103,16 +104,18 @@ const AuthNavBar = () => {
             />
           </Link>
 
-          <ul className="mobile:flex mx-auto hidden list-none items-center gap-6 text-base font-bold text-white">
+          <nav className="mobile:flex mx-auto hidden list-none items-center gap-6 text-base font-bold text-white">
             {studentLinks.map((link, i) => (
               <LinkStyled key={i} href={link.href} title={link.title} />
             ))}
-          </ul>
+          </nav>
 
           <div className="mobile:gap-6 flex items-center gap-4">
             {pathname.startsWith("/books") &&
               features?.book_store &&
               shouldShowCart && <NavCartButton />}
+
+            <UserTenantSwitch />
 
             <NavNotifications />
 
@@ -125,7 +128,7 @@ const AuthNavBar = () => {
           </div>
         </div>
       </div>
-    </div>
+    </header>
   );
 };
 
