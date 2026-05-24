@@ -20,6 +20,7 @@ const Footer = async () => {
     <footer
       key="footer"
       className="bg-background py-10 text-center font-semibold text-black"
+      suppressHydrationWarning
     >
       <div className="wrapper grid grid-cols-12 justify-between gap-y-6 md:text-right">
         {/* About Section */}

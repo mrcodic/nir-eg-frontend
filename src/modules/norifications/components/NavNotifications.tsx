@@ -6,18 +6,18 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { SimplePagination } from "@/components/ui/SimplePagination";
 import { getClientPrivateData } from "@/helpers/client-fetch";
 import { cn } from "@/lib/utils";
 import { NotificationsData } from "@/types";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import Image from "next/image";
-import { useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 import { useNotificationSound } from "../hooks/useNotificationSound";
 import MarkAllAsRead from "./MarkAllAsRead";
 import Notification from "./Notification";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
 function NavNotifications() {
   const [open, setOpen] = useState(false);
@@ -67,7 +67,7 @@ function NavNotifications() {
   return (
     <DropdownMenu open={open} onOpenChange={setOpen} modal={false}>
       <DropdownMenuTrigger asChild>
-        <button className="border-primary-100 group hover:bg-primary-800 relative flex size-10 cursor-pointer items-center justify-center rounded-lg border transition-all focus:outline-hidden">
+        <button className="border-primary-100 group hover:bg-primary-800 relative flex size-10 shrink-0 cursor-pointer items-center justify-center rounded-lg border transition-all focus:outline-hidden">
           {notifications?.meta?.unread_count > 0 && (
             <CountBubble count={notifications?.meta?.unread_count} />
           )}

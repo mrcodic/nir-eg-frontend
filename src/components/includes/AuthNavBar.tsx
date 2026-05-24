@@ -110,7 +110,7 @@ const AuthNavBar = () => {
             ))}
           </nav>
 
-          <div className="mobile:gap-6 flex items-center gap-4">
+          <div className="mobile:gap-6 flex items-center gap-2 sm:gap-4">
             {pathname.startsWith("/books") &&
               features?.book_store &&
               shouldShowCart && <NavCartButton />}

@@ -19,6 +19,9 @@ export function openDesktopAuthDeeplink(response: LoginResponse): boolean {
   const deeplink = buildAuthDeeplink(response);
   if (!deeplink || typeof window === "undefined") return false;
 
+  const shouldOpen = window.confirm("Open the desktop application now?");
+  if (!shouldOpen) return false;
+
   window.location.assign(deeplink);
   return true;
 }

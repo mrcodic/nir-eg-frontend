@@ -5,6 +5,7 @@ import OtpVerifyForm from "@/components/forms/OtpVerifyForm";
 import RegisterStepOne from "@/components/forms/register-stepper/RegisterStepOne";
 import RegisterStepperHeader from "@/components/forms/register-stepper/RegisterStepperHeader";
 import RegisterStepTwo from "@/components/forms/register-stepper/RegisterStepTwo";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useAuthContext } from "@/context/auth-context";
@@ -14,9 +15,8 @@ import { useRegisterStepper } from "@/modules/profile/hooks/useRegisterStepper";
 import { RegisterFormValues, RegisterStep } from "@/types/register.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import { useRouter } from "nextjs-toploader/app";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 import { useForm } from "react-hook-form";
 
@@ -56,7 +56,13 @@ const RegisterPage = () => {
       },
     });
 
-  if (profile) redirect("/");
+  useEffect(() => {
+    if (profile) {
+      router.replace("/");
+    }
+  }, [profile, router]);
+
+  if (profile) return <LoadingSpinner className="h-full min-h-[300px]" />;
 
   return (
     <>

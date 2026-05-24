@@ -17,6 +17,7 @@ export interface IUser {
   state_name: string;
   has_center?: boolean;
   center_id?: number;
+  tenant_code: number;
   student_phone_verification: boolean;
   type: number;
   updated_at: string;
