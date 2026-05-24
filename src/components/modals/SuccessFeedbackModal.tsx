@@ -20,14 +20,14 @@ export default function SuccessFeedbackModal({
   open,
   message,
   onOpenChange,
-  iconSrc = "/assets/notfSuccess.svg",
+  iconSrc = "/assets/gifs/confetti.gif",
 }: SuccessFeedbackModalProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-[420px] py-10">
+      <DialogContent className="max-w-[420px] py-6">
         <DialogHeader className="items-center gap-4">
           <Image src={iconSrc} alt="" width={56} height={56} />
-          <DialogTitle className="text-center text-3xl font-semibold">
+          <DialogTitle className="text-center text-base font-semibold">
             {message}
           </DialogTitle>
         </DialogHeader>

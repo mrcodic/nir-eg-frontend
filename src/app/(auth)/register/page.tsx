@@ -5,12 +5,12 @@ import OtpVerifyForm from "@/components/forms/OtpVerifyForm";
 import RegisterStepOne from "@/components/forms/register-stepper/RegisterStepOne";
 import RegisterStepperHeader from "@/components/forms/register-stepper/RegisterStepperHeader";
 import RegisterStepTwo from "@/components/forms/register-stepper/RegisterStepTwo";
-import { useRegisterStepper } from "@/components/forms/register-stepper/useRegisterStepper";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useAuthContext } from "@/context/auth-context";
 import { useToast } from "@/hooks/use-toast";
-import { registerCoreSchema } from "@/lib/register-core.schema";
+import { registerSchema } from "@/lib/schemas";
+import { useRegisterStepper } from "@/modules/profile/hooks/useRegisterStepper";
 import { RegisterFormValues, RegisterStep } from "@/types/register.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
@@ -28,7 +28,7 @@ const RegisterPage = () => {
 
   const form = useForm<RegisterFormValues>({
     mode: "all",
-    resolver: zodResolver(registerCoreSchema),
+    resolver: zodResolver(registerSchema),
     defaultValues: {
       first_name: "",
       last_name: "",
@@ -71,6 +71,12 @@ const RegisterPage = () => {
           autoSubmit
           phone={form.getValues("phones.phone")}
           onSuccess={async () => {
+            localStorage.setItem("phone", form.getValues("phones.phone"));
+            localStorage.setItem(
+              "phone_code",
+              form.getValues("phones.country"),
+            );
+
             toast({
               description: "تم إنشاء الحساب بنجاح، قم بتسجيل الدخول",
               icon: "success",
@@ -155,4 +161,3 @@ const RegisterPage = () => {
 };
 
 export default RegisterPage;
-

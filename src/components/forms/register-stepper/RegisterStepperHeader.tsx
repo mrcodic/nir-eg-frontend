@@ -1,7 +1,7 @@
 "use client";
 
+import StepperHeader from "@/components/ui/stepper-header";
 import AuthHeader from "@/layouts/AuthHeader";
-import { cn } from "@/lib/utils";
 import { RegisterStep } from "../../../types/register.types";
 
 type Props = {
@@ -9,8 +9,6 @@ type Props = {
   isOtpStep?: boolean;
   phoneLabel?: string;
 };
-
-const steps: RegisterStep[] = [1, 2, 3];
 
 export default function RegisterStepperHeader({
   step,
@@ -37,38 +35,7 @@ export default function RegisterStepperHeader({
 
       <div className="bg-gray-light mt-2 h-px w-full" />
 
-      <div className="my-12 flex items-center gap-2">
-        {steps.map((s, idx) => {
-          const isDoneOrCurrent = s <= step;
-          return (
-            <div
-              key={s}
-              className={cn("flex items-center gap-2", {
-                "flex-1": idx !== steps.length - 1,
-              })}
-            >
-              <div
-                className={cn(
-                  "flex size-10 items-center justify-center rounded-full text-lg font-bold",
-                  isDoneOrCurrent
-                    ? "bg-primary-800 text-white"
-                    : "bg-gray-light text-gray-dark",
-                )}
-              >
-                {s}
-              </div>
-              {idx !== steps.length - 1 && (
-                <div
-                  className={cn(
-                    "h-px flex-1",
-                    s < step ? "bg-primary-800" : "bg-gray-light",
-                  )}
-                />
-              )}
-            </div>
-          );
-        })}
-      </div>
+      <StepperHeader className="my-12" currentStep={step - 1} totalSteps={3} />
     </>
   );
 }

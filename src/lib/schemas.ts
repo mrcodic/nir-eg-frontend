@@ -2,10 +2,11 @@ import { CountryCode, isValidPhoneNumber } from "libphonenumber-js";
 import { z } from "zod";
 
 const onlyLettersRegex = /^[\p{L}\s]+$/u;
+
 const EGYPT_MOBILE_REGEX = /^01[0125][0-9]{8}$/;
 
 // zod helpers
-const phoneEgValidator = ({
+export const phoneEgValidator = ({
   country_iso,
   phone,
   ctx,
@@ -125,12 +126,11 @@ export const registerSchema = z
     first_name: z
       .string()
       .min(1, "الاسم الأول مطلوب")
-      .regex(onlyLettersRegex, "يجب أن يحتوي الاسم الأول على حروف فقط"),
+      .regex(onlyLettersRegex, "الاسم الأول يجب أن يحتوي على حروف فقط"),
     last_name: z
       .string()
-      .min(1, "الاسم الأخير مطلوب")
-      .regex(onlyLettersRegex, "يجب أن يحتوي الاسم الأخير على حروف فقط"),
-
+      .min(1, "الاسم الثاني مطلوب")
+      .regex(onlyLettersRegex, "الاسم الثاني يجب أن يحتوي على حروف فقط"),
     phones: z
       .object({
         country: z.string().min(1, "يجب اختيار كود الدولة"),
@@ -143,15 +143,8 @@ export const registerSchema = z
             (val) => val && !val.startsWith("+"),
             "لا تدخل كود الدولة هنا",
           ),
-        parent__phone: z
-          .string()
-          .min(1, "رقم هاتف ولي الأمر مطلوب")
-          .refine(
-            (val) => val && !val.startsWith("+"),
-            "لا تدخل كود الدولة هنا",
-          ),
       })
-      .superRefine(({ phone, parent__phone, country_iso, country }, ctx) => {
+      .superRefine(({ phone, country_iso, country }, ctx) => {
         if (country_iso) {
           // custome validations
           phoneEgValidator({
@@ -159,13 +152,6 @@ export const registerSchema = z
             phone,
             ctx,
             path: ["phone"],
-          });
-
-          phoneEgValidator({
-            country_iso,
-            phone: parent__phone,
-            ctx,
-            path: ["parent__phone"],
           });
 
           // general validations
@@ -176,14 +162,6 @@ export const registerSchema = z
             country,
             path: ["phone"],
           });
-
-          phoneCodeValidator({
-            country_iso,
-            phone: parent__phone,
-            ctx,
-            country,
-            path: ["parent__phone"],
-          });
         } else {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
@@ -192,19 +170,14 @@ export const registerSchema = z
           });
         }
       }),
-
-    password: z.string().min(8, "يجب أن تكون كلمة السر 8 أحرف على الأقل"),
+    grade_id: z.string().min(1, "يجب تحديد الصف الدراسي"),
+    password: z.string().min(8, "كلمة السر يجب أن تكون 8 أحرف على الأقل"),
     password_confirmation: z
       .string()
-      .min(8, "يجب أن تكون كلمة السر 8 أحرف على الأقل"),
-
-    grade_id: z.string().min(1, "يجب تحديد الصف الدراسي"),
-    state_id: z.coerce.number().min(1, "يجب اختيار المحافظة"),
-    city_id: z.coerce.number().min(1, "حقل المدينة مطلوب"),
-    type: z.string().min(1, "يجب تحديد النوع"),
+      .min(8, "تأكيد كلمة السر يجب أن يكون 8 أحرف على الأقل"),
     recaptcha_token: z.string().optional(),
   })
-  .refine((data) => data?.password === data?.password_confirmation, {
+  .refine((data) => data.password === data.password_confirmation, {
     message: "كلمتا السر غير متطابقتين",
     path: ["password_confirmation"],
   });
@@ -251,7 +224,6 @@ export const unlockRoomSchema = z.object({
   room_id: z.number(),
   code: z.union([z.string().min(1, "من فضلك ادخل الكود"), z.any()]),
 });
-const MAX_FILE_SIZE = 5000000;
 
 export const editProfileSchema = z
   .object({

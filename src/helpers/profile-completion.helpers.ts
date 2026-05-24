@@ -132,3 +132,85 @@ export const buildProfileCompletionSchema = (fields: DynamicProfileField[]) => {
 
   return z.object(shape);
 };
+
+type ProfileFieldStep = DynamicProfileField[];
+
+const ensureStateCityPaired = (
+  fields: DynamicProfileField[],
+): ProfileFieldStep => {
+  const stateField = fields.find((f) => f.key === "state_id");
+  const cityField = fields.find((f) => f.key === "city_id");
+
+  if (!stateField || !cityField) return fields;
+
+  const used = new Set<string>();
+  const ordered: DynamicProfileField[] = [];
+
+  for (const field of fields) {
+    if (used.has(field.key)) continue;
+
+    if (field.key === "state_id" || field.key === "city_id") {
+      if (!used.has("state_id")) {
+        ordered.push(stateField);
+        used.add("state_id");
+      }
+      if (!used.has("city_id")) {
+        ordered.push(cityField);
+        used.add("city_id");
+      }
+      continue;
+    }
+
+    ordered.push(field);
+    used.add(field.key);
+  }
+
+  return ordered;
+};
+
+export const buildProfileCompletionSteps = (
+  fields: DynamicProfileField[],
+): ProfileFieldStep[] => {
+  const normalized = ensureStateCityPaired(fields);
+  const total = normalized.length;
+
+  if (total === 0) return [];
+  if (total < 8) return [normalized];
+
+  const minFieldsPerStep = 3;
+  const maxSteps = 4;
+
+  const maxAllowedStepsByMinFields = Math.max(
+    1,
+    Math.floor(total / minFieldsPerStep),
+  );
+  const stepCount = Math.min(
+    maxSteps,
+    Math.max(2, Math.ceil(total / 5)),
+    maxAllowedStepsByMinFields,
+  );
+
+  const steps: ProfileFieldStep[] = [];
+  let start = 0;
+  let remainingFields = total;
+
+  for (let i = 0; i < stepCount; i++) {
+    const remainingSteps = stepCount - i;
+    const target = Math.ceil(remainingFields / remainingSteps);
+    const maxEnd = total - (remainingSteps - 1) * minFieldsPerStep;
+    const end = i === stepCount - 1 ? total : Math.min(start + target, maxEnd);
+
+    steps.push(normalized.slice(start, end));
+    remainingFields -= end - start;
+    start = end;
+  }
+
+  for (let i = steps.length - 1; i > 0; i--) {
+    if (steps[i].length <= 2) {
+      steps[i - 1] = [...steps[i - 1], ...steps[i]];
+      steps.splice(i, 1);
+    }
+  }
+
+  return steps;
+};

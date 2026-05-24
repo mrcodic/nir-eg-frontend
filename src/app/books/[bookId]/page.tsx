@@ -1,6 +1,5 @@
 import BooksStoreItems from "@/modules/books-store/components/BooksStoreItems";
 
-import PaymentStatusHandler from "@/modules/payment/components/PaymentStatusHandler";
 import { getClientData } from "@/helpers/client-fetch";
 import { Book } from "@/types/books.types";
 import BookDetailsCard from "./BookDetailsCard";
@@ -16,8 +15,6 @@ async function page({ params }: { params: Promise<{ bookId: string }> }) {
   return (
     <div className="section--style">
       <h1 className="text-28 font-bold">{book?.data?.name}</h1>
-
-      <PaymentStatusHandler />
 
       <BookDetailsCard book={book?.data} />
 
