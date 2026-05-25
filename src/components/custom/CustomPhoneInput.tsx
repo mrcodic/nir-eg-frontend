@@ -93,7 +93,7 @@ const CustomPhoneInput = ({
                     field.onChange(value);
                   }}
                   id={name}
-                  value={field.value}
+                  value={field.value ?? ""}
                   disabled={disabled}
                   dir="ltr"
                 />

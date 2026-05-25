@@ -211,16 +211,18 @@ export default function ProfileCompletionModal() {
                 <ScrollArea
                   dir="rtl"
                   className={cn(
-                    "w-full pb-2 [&:has([data-state=visible])]:pe-2",
+                    "w-full [&:has([data-state=visible])]:pe-2",
                     isStepper
                       ? "mt-6 **:data-radix-scroll-area-viewport:max-h-[min(48dvh,calc(100dvh-430px))]"
                       : "**:data-radix-scroll-area-viewport:max-h-[min(52dvh,calc(100dvh-330px))]",
                   )}
                 >
-                  <ProfileCompletionFields
-                    form={form}
-                    fields={isStepper ? currentStepFields : filteredFields}
-                  />
+                  <div className="grid w-full grid-cols-1 gap-4 pb-6 md:grid-cols-2 max-md:[&_>_div]:col-span-2">
+                    <ProfileCompletionFields
+                      form={form}
+                      fields={isStepper ? currentStepFields : filteredFields}
+                    />
+                  </div>
                 </ScrollArea>
 
                 <FormActions

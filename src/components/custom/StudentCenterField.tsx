@@ -3,15 +3,18 @@ import { getClientData } from "@/helpers/client-fetch";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import { useAuthContext } from "@/context/auth-context";
+import { cn } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { ComboboxForm } from "./ComboBoxForm";
 
 export default function StudentCenterField({
   onSelect,
   disabled,
+  className,
 }: {
   onSelect: (v: string | { value: string; label: string }) => void;
   disabled?: boolean;
+  className?: string;
 }) {
   const initCenter = useRef(false);
   const { grade, profile } = useAuthContext();
@@ -44,7 +47,7 @@ export default function StudentCenterField({
   }, [profile, mappedCenters]);
 
   return (
-    <div className="mt-6">
+    <div className={cn("mt-6", className)}>
       <ComboboxForm
         label="السنتر"
         options={mappedCenters}

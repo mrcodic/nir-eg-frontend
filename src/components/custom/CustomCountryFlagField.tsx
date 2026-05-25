@@ -54,7 +54,7 @@ export default function CustomCountryFlagField({
         <FormItem className="h-11">
           <Select
             disabled={disabled}
-            value={field.value}
+            value={field.value ?? ""}
             onOpenChange={setOpen}
             onValueChange={(value) => {
               const country = countriesByCode.get(value);

@@ -1,6 +1,5 @@
 "use client";
 
-import CustomCityStateField from "@/components/custom/CustomCityStateField";
 import CustomInput from "@/components/custom/customInput";
 import CustomPhoneInput from "@/components/custom/CustomPhoneInput";
 import SmallSpinner from "@/components/custom/SmallSpinner";
@@ -8,12 +7,47 @@ import StudentCenterField from "@/components/custom/StudentCenterField";
 import UploadWithCrop from "@/components/shared/UploadImage";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
+import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
-import { mapTypeToText } from "@/utils/clientFun";
 
-import AccountSettingsDynamicFields from "@/modules/profile/components/AccountSettingsDynamicFields";
 import ChangePasswordSettings from "@/modules/profile/components/ChangePasswordSettings";
+import ProfileCompletionFields from "@/modules/profile/components/ProfileCompletionFields";
 import { useAccountSettingsForm } from "@/modules/profile/hooks/useAccountSettingsForm";
+
+function SkeletonField() {
+  return (
+    <div className="space-y-2">
+      <Skeleton className="h-5 w-14" />
+      <Skeleton className="h-11 w-full" />
+    </div>
+  );
+}
+
+function AccountSettingsFieldsSkeleton() {
+  return (
+    <div className="mt-10 space-y-4">
+      <div className="flex items-end justify-between gap-6">
+        <Skeleton className="size-24 rounded-full" />
+        <Skeleton className="h-11 w-[98px]" />
+      </div>
+
+      <div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-2">
+        <SkeletonField />
+        <SkeletonField />
+      </div>
+      <SkeletonField />
+      <SkeletonField />
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <SkeletonField />
+        <SkeletonField />
+      </div>
+      <SkeletonField />
+
+      <Skeleton className="mt-8 h-[114px] w-full" />
+      <Skeleton className="mt-10 h-12 w-40" />
+    </div>
+  );
+}
 
 const AccountSettings = () => {
   const {
@@ -26,14 +60,11 @@ const AccountSettings = () => {
     changePassword,
     setIsChangePassword,
     dynamicFields,
-    dynamicFieldKeys,
     isFieldsLoading,
   } = useAccountSettingsForm();
 
-  const shouldShowParentPhone = !dynamicFieldKeys.has("parent_phone");
-  const shouldShowCityState =
-    !dynamicFieldKeys.has("state_id") && !dynamicFieldKeys.has("city_id");
-  const shouldShowStaticStudentType = !dynamicFieldKeys.has("student_type");
+  const hasExistingCenter =
+    profile?.center_id !== null && profile?.center_id !== undefined;
 
   return (
     <div className="wrapper mt-[168px] mb-12">
@@ -48,124 +79,92 @@ const AccountSettings = () => {
                 isSubmitting || isFieldsLoading,
             })}
           >
-            <div className="flex gap-6">
-              <UploadWithCrop
-                defaultAvatar={profile?.avatar}
-                selectedFile={selectedFile}
-                setSelectedFile={setSelectedFile}
-                setValue={form.setValue}
-              />
-            </div>
-
-            <div className="mt-10">
-              <div className="flex w-full flex-col gap-6 md:flex-row">
-                <div className="flex-1">
-                  <CustomInput
-                    name="first_name"
-                    control={form.control}
-                    label="الاسم الأول"
+            {isFieldsLoading ? (
+              <AccountSettingsFieldsSkeleton />
+            ) : (
+              <>
+                <div className="flex gap-6">
+                  <UploadWithCrop
+                    defaultAvatar={profile?.avatar}
+                    selectedFile={selectedFile}
+                    setSelectedFile={setSelectedFile}
+                    setValue={form.setValue}
                   />
                 </div>
 
-                <div className="flex-1">
-                  <CustomInput
-                    name="last_name"
-                    control={form.control}
-                    label="الاسم الأخير"
-                  />
-                </div>
-              </div>
+                <div className="mt-10">
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                    <CustomInput
+                      control={form.control}
+                      name="first_name"
+                      label="الاسم الأول"
+                    />
 
-              {shouldShowParentPhone && (
-                <div className="flex w-full flex-col gap-2">
-                  <CustomPhoneInput
-                    name="parent_phone.phone"
+                    <CustomPhoneInput
+                      name="phone.phone"
+                      form={form}
+                      label="رقم الهاتف"
+                      countryFieldName="phone.country"
+                      countryISOFieldName="phone.country_iso"
+                    />
+
+                    <ProfileCompletionFields
+                      form={form}
+                      fields={dynamicFields}
+                    />
+
+                    {profile?.type === 3 && (
+                      <StudentCenterField
+                        onSelect={(value) => {
+                          form.setValue(
+                            "center_id",
+                            typeof value === "string" ? value : value.value,
+                            { shouldValidate: true, shouldDirty: true },
+                          );
+                        }}
+                        disabled={hasExistingCenter}
+                      />
+                    )}
+
+                    <CustomInput
+                      control={form.control}
+                      name="grade_id"
+                      disabled
+                      label="المرحلة"
+                      defaultValue={profile?.grade_name}
+                    />
+                  </div>
+
+                  <ChangePasswordSettings
                     form={form}
-                    label="رقم هاتف ولي الأمر"
-                    countryFieldName="parent_phone.country"
-                    countryISOFieldName="parent_phone.country_iso"
-                    className="mt-6"
+                    profile={profile}
+                    changePassword={changePassword}
+                    setIsChangePassword={setIsChangePassword}
                   />
+
+                  <Button
+                    type="submit"
+                    disabled={
+                      isSubmitting ||
+                      !Object.keys(form.formState.dirtyFields).length
+                    }
+                    className="mt-10 w-full max-w-[172px]"
+                  >
+                    {isSubmitting ? (
+                      <SmallSpinner className="text-white" />
+                    ) : (
+                      "حفظ التغييرات"
+                    )}
+                  </Button>
+
+                  {Object.values(form.formState.errors).length > 0 && (
+                    <p className="text-sm text-red-500">
+                      يرجى ملء جميع الحقول المطلوبة
+                    </p>
+                  )}
                 </div>
-              )}
-
-              {shouldShowCityState && (
-                <div className="mt-6 flex w-full flex-col items-center gap-6 md:flex-row">
-                  <CustomCityStateField form={form} />
-                </div>
-              )}
-
-              {profile?.type === 3 && (
-                <StudentCenterField
-                  onSelect={(value) => {
-                    form.setValue(
-                      "center_id",
-                      typeof value === "string" ? value : value.value,
-                      { shouldValidate: true, shouldDirty: true },
-                    );
-                  }}
-                  disabled
-                />
-              )}
-
-              <div className="mt-6 flex w-full flex-col items-center gap-6 md:flex-row">
-                <CustomInput
-                  control={form.control}
-                  name="profile_grade"
-                  disabled
-                  label="المرحله"
-                  defaultValue={profile?.grade_name}
-                />
-                {shouldShowStaticStudentType && (
-                  <CustomInput
-                    control={form.control}
-                    name="profile_type"
-                    disabled
-                    label="نوع الحساب"
-                    defaultValue={mapTypeToText(profile?.type)}
-                  />
-                )}
-              </div>
-
-              <ChangePasswordSettings
-                form={form}
-                profile={profile}
-                changePassword={changePassword}
-                setIsChangePassword={setIsChangePassword}
-              />
-
-              {isFieldsLoading ? (
-                <div className="mt-8 flex min-h-24 items-center justify-center">
-                  <SmallSpinner />
-                </div>
-              ) : (
-                <AccountSettingsDynamicFields
-                  form={form}
-                  fields={dynamicFields}
-                />
-              )}
-
-              <Button
-                type="submit"
-                disabled={
-                  isSubmitting ||
-                  !Object.keys(form.formState.dirtyFields).length
-                }
-                className="mt-10 w-full max-w-[172px]"
-              >
-                {isSubmitting ? (
-                  <SmallSpinner className="text-white" />
-                ) : (
-                  "حفظ التغييرات"
-                )}
-              </Button>
-
-              {Object.values(form.formState.errors).length > 0 && (
-                <p className="text-sm text-red-500">
-                  يرجى ملء جميع الحقول المطلوبة
-                </p>
-              )}
-            </div>
+              </>
+            )}
           </form>
         </Form>
       </div>

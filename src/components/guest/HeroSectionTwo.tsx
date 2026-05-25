@@ -3,6 +3,7 @@ import { TenantLandingResponse } from "@/types/tenant.types";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "../ui/button";
+import CustomImage from "../ui/CustomImage";
 
 function HeroSectionTwo({
   main,
@@ -11,6 +12,7 @@ function HeroSectionTwo({
   main?: TenantLandingResponse["data"]["main"];
   features?: TenantLandingResponse["data"]["features"];
 }) {
+  console.log(features);
   return (
     <section className="max-mobile:flex-col flex items-center justify-between gap-x-20 gap-y-20 xl:gap-x-30.5">
       <div>
@@ -22,16 +24,15 @@ function HeroSectionTwo({
               key={feature?.text || i}
               className="bg-background flex items-center gap-2 rounded-lg p-2 pe-3"
             >
-              {feature?.image && (
-                <Image
-                  className="h-6 w-6"
-                  src={feature?.image}
-                  width={24}
-                  height={24}
-                  alt={feature?.text}
-                />
-              )}
-              <p>{feature?.text}</p>
+              <CustomImage
+                className="h-6 w-6"
+                src={feature?.image}
+                fallback="/logo.svg"
+                width={24}
+                height={24}
+                alt={feature?.text}
+              />
+              <p>{feature?.text || "--"}</p>
             </div>
           ))}
         </div>

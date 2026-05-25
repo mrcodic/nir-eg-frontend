@@ -17,6 +17,8 @@ export const SUPPORTED_FIELD_TYPES = new Set([
   "date",
   "textarea",
   "email",
+  "profile_attachments",
+  "file",
 ]);
 
 const isTypeCompatible = (
@@ -25,8 +27,14 @@ const isTypeCompatible = (
 ): boolean => {
   if (incoming === null || incoming === undefined) return false;
   if (field.type === "select") {
+    if (field.key === "state_id" || field.key === "city_id") {
+      return typeof incoming === "string" || typeof incoming === "number";
+    }
     const options = field.options ?? [];
     return options.some((opt) => String(opt.value) === String(incoming));
+  }
+  if (field.type === "profile_attachments" || field.type === "file") {
+    return Array.isArray(incoming);
   }
   return typeof incoming === "string" || typeof incoming === "number";
 };
@@ -60,6 +68,11 @@ export const buildProfileCompletionDefaults = (
         country_iso: "EG",
         phone: rawValue ? String(rawValue) : "",
       };
+      return;
+    }
+
+    if (field.type === "profile_attachments" || field.type === "file") {
+      defaults[field.key] = [];
       return;
     }
 
@@ -103,6 +116,44 @@ export const buildProfileCompletionSchema = (fields: DynamicProfileField[]) => {
 
     if (field.type === "phone") {
       shape[field.key] = field.required ? phoneSchema : phoneSchema.optional();
+      return;
+    }
+
+    if (field.type === "profile_attachments" || field.type === "file") {
+      const maxFiles = field.max_files ?? 2;
+      const maxSizeMb = field.max_size_mb ?? 10;
+      const maxSizeBytes = maxSizeMb * 1024 * 1024;
+      const acceptedMimePrefixes = (field.accept ?? []).map((rule) =>
+        rule.replace("*", ""),
+      );
+
+      const attachmentSchema = z
+        .custom<File>((file) => file instanceof File, {
+          message: "الملف غير صالح",
+        })
+        .refine(
+          (file) => {
+            if (!acceptedMimePrefixes.length) return true;
+            return acceptedMimePrefixes.some((prefix) =>
+              file.type.startsWith(prefix),
+            );
+          },
+          "نوع الملف غير مدعوم",
+        )
+        .refine(
+          (file) => file.size <= maxSizeBytes,
+          `حجم الملف يجب ألا يتجاوز ${maxSizeMb}MB`,
+        );
+
+      shape[field.key] = field.required
+        ? z
+            .array(attachmentSchema)
+            .min(1, `${field.label} مطلوب`)
+            .max(maxFiles, `الحد الأقصى ${maxFiles} ملفات`)
+        : z
+            .array(attachmentSchema)
+            .max(maxFiles, `الحد الأقصى ${maxFiles} ملفات`)
+            .optional();
       return;
     }
 

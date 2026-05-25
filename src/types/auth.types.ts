@@ -120,7 +120,9 @@ export type ProfileFieldType =
   | "select"
   | "date"
   | "textarea"
-  | "email";
+  | "email"
+  | "profile_attachments"
+  | "file";
 
 export type DynamicProfileFieldOption = {
   value: string | number;
@@ -133,8 +135,12 @@ export type DynamicProfileField = {
   type: ProfileFieldType;
   required: boolean;
   enabled: boolean;
-  value: string | number | null;
+  value: string | number | null | unknown[];
   options?: DynamicProfileFieldOption[];
+  accept?: string[] | null;
+  multiple?: boolean;
+  max_files?: number;
+  max_size_mb?: number;
 };
 
 export type StudentProfileFieldsResponse = {
@@ -151,4 +157,4 @@ export type StudentProfileFieldsResponse = {
 
 export type StudentProfileSettingsResponse = StudentProfileFieldsResponse;
 
-export type StudentProfileCompletePayload = Record<string, unknown>;
+export type StudentProfileCompletePayload = Record<string, unknown> | FormData;

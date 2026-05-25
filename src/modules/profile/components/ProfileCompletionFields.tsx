@@ -4,6 +4,7 @@ import CustomCityStateField from "@/components/custom/CustomCityStateField";
 import CustomInput from "@/components/custom/customInput";
 import CustomPhoneInput from "@/components/custom/CustomPhoneInput";
 import CustomSelect from "@/components/custom/customSelect";
+import ProfileAttachmentsField from "@/components/custom/ProfileAttachmentsField";
 import { DynamicProfileField } from "@/types/auth.types";
 import { useMemo } from "react";
 import { UseFormReturn } from "react-hook-form";
@@ -17,18 +18,28 @@ type Props<TValues extends Record<string, unknown>> = {
 export default function ProfileCompletionFields<
   TValues extends Record<string, unknown>,
 >({ form, fields }: Props<TValues>) {
-  const shouldRenderCityState = useMemo(
+  const firstCityStateIndex = useMemo(
     () =>
-      fields.some(
+      fields.findIndex(
         (field) => field.key === "state_id" || field.key === "city_id",
       ),
     [fields],
   );
 
   return (
-    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-      {fields.map((field) => {
-        if (field.key === "state_id" || field.key === "city_id") return null;
+    <>
+      {fields.map((field, index) => {
+        if (field.key === "state_id" || field.key === "city_id") {
+          if (index !== firstCityStateIndex) return null;
+          return (
+            <div
+              key="state-city-pair"
+              className="col-span-2 grid grid-cols-1 gap-4 md:grid-cols-2"
+            >
+              <CustomCityStateField form={form} />
+            </div>
+          );
+        }
 
         if (field.key === "student_type") {
           const options =
@@ -74,6 +85,19 @@ export default function ProfileCompletionFields<
               label={field.label}
               countryFieldName={`${field.key}.country`}
               countryISOFieldName={`${field.key}.country_iso`}
+              className="col-span-2"
+            />
+          );
+        }
+
+        if (field.type === "profile_attachments" || field.type === "file") {
+          return (
+            <ProfileAttachmentsField
+              key={field.key}
+              form={form}
+              name={field.key}
+              label={field.label}
+              field={field}
             />
           );
         }
@@ -94,8 +118,6 @@ export default function ProfileCompletionFields<
           />
         );
       })}
-
-      {shouldRenderCityState && <CustomCityStateField form={form} />}
-    </div>
+    </>
   );
 }

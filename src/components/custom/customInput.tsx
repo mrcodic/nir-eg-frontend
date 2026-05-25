@@ -58,8 +58,7 @@ const CustomInput = ({
                 className=""
                 {...field}
                 id={name}
-                defaultValue={defaultValue}
-                value={field.value}
+                value={field.value ?? defaultValue ?? ""}
                 disabled={isPassword || disabled}
               />
             </FormControl>

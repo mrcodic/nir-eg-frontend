@@ -7,6 +7,7 @@ import {
   buildProfileCompletionDefaults,
   ProfileCompletionValues,
 } from "@/helpers/profile-completion.helpers";
+import { sortDynamicProfileFields } from "@/helpers/profile-fields-order";
 import {
   fetchRequiredStudentProfileFields,
   fetchTenantProfilePrefillByPhone,
@@ -36,7 +37,9 @@ export function useProfileCompletionFields() {
 
     try {
       const fieldsResponse = await fetchRequiredStudentProfileFields();
-      const serverFields = fieldsResponse?.data?.fields ?? [];
+      const serverFields = sortDynamicProfileFields(
+        fieldsResponse?.data?.fields ?? [],
+      );
 
       if (!serverFields.length) {
         skipForSessionRef.current = String(profile.id);

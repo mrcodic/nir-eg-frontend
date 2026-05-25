@@ -3,11 +3,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { useAuthContext } from "@/context/auth-context";
 import { mapApiErrorsToForm } from "@/helpers/form-errors";
+import { sortDynamicProfileFields } from "@/helpers/profile-fields-order";
 import { mutateClient } from "@/helpers/post-client";
 import { buildProfileCompletionDefaults } from "@/helpers/profile-completion.helpers";
 import { useToast } from "@/hooks/use-toast";
@@ -17,11 +18,9 @@ import { fetchStudentProfileSettingsFields } from "@/services/auth.service";
 import { useRouter } from "next/navigation";
 
 type AccountSettingsValues = Record<string, unknown> & {
-  first_name: string;
-  last_name: string;
-  parent_phone?: { country?: string; country_iso?: string; phone?: string };
-  state_id?: number | string;
-  city_id?: number | string;
+  first_name?: string;
+  phone?: { country?: string; country_iso?: string; phone?: string };
+  grade_id?: number | string;
   center_id?: number | string;
   avatar?: File | null;
   old_password?: string;
@@ -44,38 +43,42 @@ export function useAccountSettingsForm() {
   const [changePassword, setIsChangePassword] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
+  const phoneInfo = getPhoneInfoFromCode(profile?.code_country);
+
   const settingsFieldsQuery = useQuery({
     queryKey: ["/students/profile/setting"],
     queryFn: fetchStudentProfileSettingsFields,
   });
 
-  const dynamicFields = useMemo(
-    () =>
-      (settingsFieldsQuery.data?.data?.fields ?? []).filter(
-        (field) => field.enabled,
-      ),
-    [settingsFieldsQuery.data?.data?.fields],
-  );
+  const dynamicFields = useMemo(() => {
+    const fields = (settingsFieldsQuery.data?.data?.fields ?? []).filter(
+      (field) => field.enabled,
+    );
+
+    return sortDynamicProfileFields(fields, {
+      excludeKeys: ["first_name", "phone", "grade_id", "avatar"],
+    });
+  }, [settingsFieldsQuery.data?.data?.fields]);
 
   const dynamicDefaults = useMemo(
-    () => buildProfileCompletionDefaults(dynamicFields, null),
-    [dynamicFields],
+    () =>
+      buildProfileCompletionDefaults(
+        dynamicFields,
+        (profile as unknown as Record<string, unknown> | null) ?? null,
+      ),
+    [dynamicFields, profile],
   );
-
-  const phoneInfo = getPhoneInfoFromCode(profile?.code_country);
 
   const defaultValues = useMemo<AccountSettingsValues>(
     () => ({
       first_name: profile?.first_name ?? "",
-      last_name: profile?.last_name ?? "",
-      parent_phone: {
+      phone: {
         country: phoneInfo?.code || "",
         country_iso: phoneInfo?.isoCode || "",
-        phone: profile?.parent_phone || "",
+        phone: profile?.phone || "",
       },
-      state_id: profile?.state_id ?? "",
-      city_id: profile?.city_id ?? "",
-      center_id: profile?.center_id ?? "",
+      grade_id: profile?.grade ?? undefined,
+      center_id: profile?.center_id ?? null,
       avatar: null,
       old_password: "",
       password: "",
@@ -85,21 +88,19 @@ export function useAccountSettingsForm() {
     [dynamicDefaults, phoneInfo?.code, phoneInfo?.isoCode, profile],
   );
 
-  const dynamicFieldKeys = useMemo(
-    () => new Set(dynamicFields.map((field) => field.key)),
-    [dynamicFields],
-  );
-
   const schema = useMemo(() => {
-    return buildAccountSettingsSchema({ dynamicFields, dynamicFieldKeys });
-  }, [dynamicFieldKeys, dynamicFields]);
+    return buildAccountSettingsSchema({ dynamicFields });
+  }, [dynamicFields]);
 
   const form = useForm<AccountSettingsValues>({
     defaultValues,
-    values: defaultValues,
     mode: "onBlur",
     resolver: zodResolver(schema),
   });
+
+  useEffect(() => {
+    form.reset(defaultValues);
+  }, [defaultValues, form]);
 
   const submit = form.handleSubmit(async (values) => {
     if (changePassword) {
@@ -127,8 +128,28 @@ export function useAccountSettingsForm() {
         if (rawValue === undefined || rawValue === null || rawValue === "")
           return;
 
+        if (key === "center_id") {
+          const hasExistingCenter =
+            profile?.center_id !== null && profile?.center_id !== undefined;
+          if (profile?.type !== 3 || hasExistingCenter) return;
+        }
+
         if (key === "avatar" && rawValue instanceof File) {
           formData.append("avatar", rawValue);
+          return;
+        }
+
+        const fileDynamicField = dynamicFields.find(
+          (field) =>
+            field.key === key &&
+            (field.type === "profile_attachments" || field.type === "file"),
+        );
+
+        if (fileDynamicField && Array.isArray(rawValue)) {
+          const files = rawValue.filter(
+            (entry): entry is File => entry instanceof File,
+          );
+          files.forEach((file) => formData.append(`${key}[]`, file));
           return;
         }
 
@@ -148,6 +169,15 @@ export function useAccountSettingsForm() {
             const countryIso = (rawValue as { country_iso?: string })
               .country_iso;
             if (phone) formData.append("parent_phone", phone);
+            if (country) formData.append("country", country);
+            if (countryIso) formData.append("country_iso", countryIso);
+          }
+
+          if (key === "phone") {
+            const phone = (rawValue as { phone?: string }).phone;
+            const country = (rawValue as { country?: string }).country;
+            const countryIso = (rawValue as { country_iso?: string }).country_iso;
+            if (phone) formData.append("phone", phone);
             if (country) formData.append("country", country);
             if (countryIso) formData.append("country_iso", countryIso);
           }
@@ -220,7 +250,6 @@ export function useAccountSettingsForm() {
     changePassword,
     setIsChangePassword,
     dynamicFields,
-    dynamicFieldKeys,
     isFieldsLoading: settingsFieldsQuery.isLoading,
   };
 }

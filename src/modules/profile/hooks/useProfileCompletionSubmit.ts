@@ -20,8 +20,10 @@ const FALLBACK_ERROR_MESSAGE = "حدث خطأ أثناء استكمال البي
 function buildSubmitPayload(
   fields: DynamicProfileField[],
   values: ProfileCompletionValues,
-): Record<string, unknown> {
+): { payload: Record<string, unknown> | FormData; hasFiles: boolean } {
   const payload: Record<string, unknown> = {};
+  const formData = new FormData();
+  let hasFiles = false;
 
   for (const field of fields) {
     const raw = values[field.key];
@@ -33,10 +35,28 @@ function buildSubmitPayload(
       continue;
     }
 
+    if (
+      (field.type === "profile_attachments" || field.type === "file") &&
+      Array.isArray(raw)
+    ) {
+      const files = raw.filter((entry): entry is File => entry instanceof File);
+      if (!files.length) continue;
+      hasFiles = true;
+      files.forEach((file) => formData.append(`${field.key}[]`, file));
+      continue;
+    }
+
     payload[field.key] = NUMERIC_FIELDS.has(field.key) ? Number(raw) : raw;
   }
 
-  return payload;
+  if (hasFiles) {
+    Object.entries(payload).forEach(([key, value]) => {
+      formData.append(key, String(value));
+    });
+    return { payload: formData, hasFiles: true };
+  }
+
+  return { payload, hasFiles: false };
 }
 
 function buildPhoneFieldMap(
@@ -83,7 +103,7 @@ export function useProfileCompletionSubmit() {
 
     try {
       const payload = buildSubmitPayload(fields, values);
-      await completeStudentProfile(payload);
+      await completeStudentProfile(payload.payload);
       await queryClient.invalidateQueries({ queryKey: ["/students/profile"] });
       onSuccess();
       return true;
