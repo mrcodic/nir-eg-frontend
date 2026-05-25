@@ -17,6 +17,12 @@ function VideoQuestionBtn({ videoId }: { videoId: string }) {
     <button
       onClick={() => {
         pause?.();
+
+        const inputEl = document.getElementById("community-input");
+        if (inputEl) {
+          inputEl.scrollIntoView({ behavior: "smooth" });
+          (inputEl as HTMLElement).focus?.();
+        }
       }}
       className="text-primary-800 border-gray-light bg-background hover:border-primary hover:bg-primary-100 absolute right-4 bottom-16 z-5 w-[190px] cursor-pointer rounded-lg border p-2 py-4 transition-all md:w-[250px]"
     >
