@@ -73,7 +73,10 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: 22
+          script_stop: true
           script: |
+            set -e
+
             export HOME="/home/nir"
             export PM2_HOME="/home/nir/.pm2"
             export NPM_CONFIG_CACHE="/home/nir/.npm"
@@ -81,28 +84,11 @@ jobs:
 
             cd /home/nir/public_html/student.nir-edu.com
 
-            echo "User:"
-            whoami
-
-            echo "HOME:"
-            echo $HOME
-
-            echo "PM2_HOME:"
-            echo $PM2_HOME
-
-            echo "Node:"
-            which node
-            node -v
-
-            echo "NPM:"
-            which npm
-            npm -v
-
-            echo "PM2:"
-            which pm2
-            pm2 -v
-
             npm ci --omit=dev --cache /home/nir/.npm
 
-            pm2 reload student-nir-edu --update-env
-            pm2 save
+            pm2 describe student-nir-edu > /dev/null \
+              && pm2 reload student-nir-edu --update-env \
+              || pm2 restart student-nir-edu
+
+            pm2 save --force
+            pm2 status
