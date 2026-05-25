@@ -1,12 +1,13 @@
 "use client";
 
+import VideoBanners from "@/components/banners/VideoBanners";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import { useAuthContext } from "@/context/auth-context";
 import useLessonRoomLogic from "@/hooks/useLessonRoomLogic";
 import ProtectedRoute from "@/layouts/ProtectedRoute";
+import LessonTimedQuiz from "@/modules/rooms/components/LessonTimedQuiz";
 import RoomSideContent from "@/modules/rooms/components/RoomSideContent";
 import DisableDevTools from "@/modules/video/components/DisableDivTools";
-import VideoBanners from "@/components/banners/VideoBanners";
 import VideoError from "@/modules/video/components/VideoError";
 import YoutubeVideoPlayer from "@/modules/video/components/YoutubeVideoPlayer";
 import dynamic from "next/dynamic";
@@ -80,6 +81,10 @@ const RoomLecturePage = () => {
         data={lessonData}
         isLoading={isLoadingLesson}
       >
+        {selectedLesson && requiresOtpVideo && (
+          <LessonTimedQuiz lessonData={selectedLesson} />
+        )}
+
         <div className="wrapper mt-[110px]">
           <div className="flex flex-col-reverse gap-6 py-8 lg:flex-row">
             <div className="flex w-full lg:w-[min(35%,400px)]">

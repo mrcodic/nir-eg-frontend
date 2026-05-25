@@ -1,12 +1,12 @@
 import { getClientPrivateData } from "@/helpers/client-fetch";
 import { mutateClient } from "@/helpers/post-client";
 import { getActionErrorMeta } from "@/lib/errorCodes";
+import { useVideoPlayerStore } from "@/store/videoPlayerStore";
 import { ApiResponse, IRoomDetails, LessonVideoType } from "@/types";
 import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import { useQueryState } from "nuqs";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import axios from "axios";
-import { useVideoPlayerStore } from "@/store/videoPlayerStore";
 
 export interface IOtpViewStatus {
   used: number;
@@ -81,6 +81,7 @@ function useLessonRoomLogic({
     queryKey: [`/students/get-lessons/${roomId}?classroom_id=${classroomId}`],
   });
 
+  console.log("lesssons data : ", data);
   const videoCompleted = useMemo(() => {
     return (
       videoId &&

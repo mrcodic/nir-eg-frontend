@@ -421,7 +421,7 @@ interface Assignment {
   title: string;
 }
 
-interface Lesson {
+export interface ILesson {
   id: number;
   active: boolean;
   completed: boolean;
@@ -432,6 +432,13 @@ interface Lesson {
   video_id?: string;
   video_link?: string;
   video_type: LessonVideoType;
+  quiz?: {
+    id: number;
+    retake: number;
+    show_answer: number;
+    timer: number;
+    title: string;
+  };
 
   // detemined if user is allowed to view comments
   access_comment: 0 | 1;
@@ -452,7 +459,7 @@ export interface RoomData {
 
   assignments: Assignment[];
   attachments: Attachment[];
-  lessons: Lesson[];
+  lessons: ILesson[];
   quizzes: (QuizItem | QuizObject)[];
 
   grade?: Grade;
@@ -482,7 +489,7 @@ export interface RoomData {
 export interface IRoomDetails {
   assignments: Assignment[];
   is_subscriped: boolean;
-  lessons: Lesson[];
+  lessons: ILesson[];
   locked_to_pass: boolean;
   parent_phone_verification: boolean;
   quizzes: QuizItem[];
