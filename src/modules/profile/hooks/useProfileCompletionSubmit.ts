@@ -1,14 +1,18 @@
 "use client";
 
-import { QueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
 import { useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 
 import { mapApiErrorsToForm } from "@/helpers/form-errors";
 import { ProfileCompletionValues } from "@/helpers/profile-completion.helpers";
+import { useToast } from "@/hooks/use-toast";
 import { completeStudentProfile } from "@/services/auth.service";
-import { DynamicProfileField } from "@/types/auth.types";
+import {
+  DynamicProfileField,
+  ProfileAttachmentEntry,
+} from "@/types/auth.types";
 
 // ── Constants ───────────────────────────────────────────────────────────────
 
@@ -39,10 +43,25 @@ function buildSubmitPayload(
       (field.type === "profile_attachments" || field.type === "file") &&
       Array.isArray(raw)
     ) {
-      const files = raw.filter((entry): entry is File => entry instanceof File);
-      if (!files.length) continue;
+      const attachments = raw.filter(
+        (entry): entry is ProfileAttachmentEntry =>
+          typeof entry === "object" &&
+          entry !== null &&
+          ("id" in entry || "file" in entry),
+      );
+
+      if (!attachments.length) continue;
       hasFiles = true;
-      files.forEach((file) => formData.append(`${field.key}[]`, file));
+
+      attachments.forEach((attachment, index) => {
+        if (attachment.id !== undefined) {
+          formData.append(`${field.key}[${index}][id]`, String(attachment.id));
+        }
+
+        if (attachment.file instanceof File) {
+          formData.append(`${field.key}[${index}][file]`, attachment.file);
+        }
+      });
       continue;
     }
 
@@ -79,33 +98,35 @@ type SubmitParams = {
   values: ProfileCompletionValues;
   fields: DynamicProfileField[];
   form: UseFormReturn<ProfileCompletionValues>;
-  queryClient: QueryClient;
   onServerFieldError: (fieldKey?: string) => void;
   onSuccess: () => void;
-  onErrorToast: (message: string) => void;
 };
 
 // ── Hook ────────────────────────────────────────────────────────────────────
 
 export function useProfileCompletionSubmit() {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
 
   const submit = async ({
     values,
     fields,
     form,
-    queryClient,
     onServerFieldError,
     onSuccess,
-    onErrorToast,
   }: SubmitParams): Promise<boolean> => {
     setIsSubmitting(true);
 
     try {
       const payload = buildSubmitPayload(fields, values);
       await completeStudentProfile(payload.payload);
-      await queryClient.invalidateQueries({ queryKey: ["/students/profile"] });
-      onSuccess();
+
+      queryClient.invalidateQueries({ queryKey: ["/students/profile"] });
+      queryClient.removeQueries({ queryKey: ["/students/profile/setting"] });
+
+      onSuccess?.();
+
       return true;
     } catch (error) {
       if (isAxiosError(error) && error.response?.data?.errors) {
@@ -119,7 +140,10 @@ export function useProfileCompletionSubmit() {
         onServerFieldError(Object.keys(apiErrors)[0]);
       }
 
-      onErrorToast(extractApiErrorMessage(error) || FALLBACK_ERROR_MESSAGE);
+      toast({
+        description: extractApiErrorMessage(error) || FALLBACK_ERROR_MESSAGE,
+        icon: "error",
+      });
       return false;
     } finally {
       setIsSubmitting(false);

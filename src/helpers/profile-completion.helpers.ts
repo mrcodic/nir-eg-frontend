@@ -72,6 +72,14 @@ export const buildProfileCompletionDefaults = (
     }
 
     if (field.type === "profile_attachments" || field.type === "file") {
+      if (Array.isArray(candidate)) {
+        defaults[field.key] = candidate;
+        return;
+      }
+      if (Array.isArray(field.value)) {
+        defaults[field.key] = field.value;
+        return;
+      }
       defaults[field.key] = [];
       return;
     }
@@ -127,31 +135,36 @@ export const buildProfileCompletionSchema = (fields: DynamicProfileField[]) => {
         rule.replace("*", ""),
       );
 
-      const attachmentSchema = z
-        .custom<File>((file) => file instanceof File, {
+      const attachmentEntrySchema = z
+        .object({
+          id: z.number().optional(),
+          file: z.instanceof(File).optional(),
+        })
+        .refine((entry) => entry.id !== undefined || entry.file !== undefined, {
           message: "الملف غير صالح",
         })
         .refine(
-          (file) => {
+          (entry) => {
+            if (!entry.file) return true;
             if (!acceptedMimePrefixes.length) return true;
             return acceptedMimePrefixes.some((prefix) =>
-              file.type.startsWith(prefix),
+              entry.file!.type.startsWith(prefix),
             );
           },
           "نوع الملف غير مدعوم",
         )
         .refine(
-          (file) => file.size <= maxSizeBytes,
+          (entry) => !entry.file || entry.file.size <= maxSizeBytes,
           `حجم الملف يجب ألا يتجاوز ${maxSizeMb}MB`,
         );
 
       shape[field.key] = field.required
         ? z
-            .array(attachmentSchema)
+            .array(attachmentEntrySchema)
             .min(1, `${field.label} مطلوب`)
             .max(maxFiles, `الحد الأقصى ${maxFiles} ملفات`)
         : z
-            .array(attachmentSchema)
+            .array(attachmentEntrySchema)
             .max(maxFiles, `الحد الأقصى ${maxFiles} ملفات`)
             .optional();
       return;
