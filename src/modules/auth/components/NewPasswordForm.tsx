@@ -1,6 +1,7 @@
 "use client";
 
 import CustomInput from "@/components/custom/customInput";
+import SmallSpinner from "@/components/custom/SmallSpinner";
 import { Form } from "@/components/ui/form";
 import { useAuthContext } from "@/context/auth-context";
 import { mutateClient } from "@/helpers/post-client";
@@ -14,10 +15,9 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "nextjs-toploader/app";
+import { useEffect, useState } from "react";
 import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 import { useForm } from "react-hook-form";
-import SmallSpinner from "../custom/SmallSpinner";
-import { useEffect, useState } from "react";
 
 const NewPasswordForm = () => {
   const router = useRouter();

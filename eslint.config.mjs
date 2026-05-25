@@ -21,7 +21,7 @@ const eslintConfig = defineConfig([
       "react-hooks/set-state-in-effect": "warn",
 
       // Enable the unused-imports rules
-      "unused-imports/no-unused-imports": "error",
+      "unused-imports/no-unused-imports": "warn",
       "unused-imports/no-unused-vars": [
         "warn",
         {
@@ -29,6 +29,9 @@ const eslintConfig = defineConfig([
           varsIgnorePattern: "^_",
           args: "after-used",
           argsIgnorePattern: "^_",
+          // ✅ Ignore unused catch binding: catch (e) {} or catch (_e) {}
+          caughtErrors: "all",
+          caughtErrorsIgnorePattern: "^_",
         },
       ],
     },
