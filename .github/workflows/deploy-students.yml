@@ -43,6 +43,18 @@ jobs:
             pwd
             echo "SSH connection successful"
 
+      - name: Remove old .next from server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: 22
+          script: |
+            cd /home/nir/public_html/student.nir-edu.com
+            rm -rf .next
+            mkdir -p .next
+
       - name: Upload build files to server
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -62,7 +74,35 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: 22
           script: |
+            export HOME="/home/nir"
+            export PM2_HOME="/home/nir/.pm2"
+            export NPM_CONFIG_CACHE="/home/nir/.npm"
+            export PATH="/opt/cpanel/ea-nodejs20/bin:/usr/local/bin:/usr/bin:/bin:$PATH"
+
             cd /home/nir/public_html/student.nir-edu.com
-            npm ci --omit=dev
+
+            echo "User:"
+            whoami
+
+            echo "HOME:"
+            echo $HOME
+
+            echo "PM2_HOME:"
+            echo $PM2_HOME
+
+            echo "Node:"
+            which node
+            node -v
+
+            echo "NPM:"
+            which npm
+            npm -v
+
+            echo "PM2:"
+            which pm2
+            pm2 -v
+
+            npm ci --omit=dev --cache /home/nir/.npm
+
             pm2 reload student-nir-ed --update-env
             pm2 save
