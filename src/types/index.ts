@@ -434,11 +434,14 @@ export interface ILesson {
   video_type: LessonVideoType;
   quiz?: {
     id: number;
-    retake: number;
     show_answer: number;
-    timer: number;
+    time: number;
     title: string;
-  };
+    answered: boolean;
+    skipped: boolean;
+    passed: boolean;
+    score: number;
+  }[];
 
   // detemined if user is allowed to view comments
   access_comment: 0 | 1;

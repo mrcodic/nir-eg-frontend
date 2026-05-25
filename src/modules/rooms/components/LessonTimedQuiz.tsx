@@ -19,11 +19,11 @@ export default function LessonTimedQuiz({
   const currentTimeInMinutes = Math.floor(currentTime);
 
   useEffect(() => {
-    if (currentTimeInMinutes === quiz?.timer) {
+    if (currentTimeInMinutes === quiz?.[0]?.time) {
       pause();
       setOpen(true);
     }
-  }, [quiz?.timer, setOpen, currentTimeInMinutes, pause]);
+  }, [setOpen, currentTimeInMinutes, pause, quiz]);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
