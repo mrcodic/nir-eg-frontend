@@ -74,7 +74,22 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: 22
           script: |
+            export PATH="/opt/cpanel/ea-nodejs20/bin:/usr/local/bin:/usr/bin:/bin:$PATH"
+
             cd /home/nir/public_html/student.nir-edu.com
+
+            echo "Node:"
+            which node
+            node -v
+
+            echo "NPM:"
+            which npm
+            npm -v
+
+            echo "PM2:"
+            which pm2
+            pm2 -v
+
             npm ci --omit=dev
             pm2 reload student-nir-ed --update-env
             pm2 save
