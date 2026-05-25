@@ -87,8 +87,8 @@ jobs:
             npm ci --omit=dev --cache /home/nir/.npm
 
             pm2 describe student-nir-edu > /dev/null \
-              && pm2 reload student-nir-edu --update-env \
-              || pm2 restart student-nir-edu
+              && PORT=3005 pm2 reload student-nir-edu --update-env \
+              || PORT=3005 pm2 start npm --name student-nir-edu -- start
 
             pm2 save --force
             pm2 status
