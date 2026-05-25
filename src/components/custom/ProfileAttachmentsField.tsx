@@ -2,9 +2,14 @@
 
 import { Button } from "@/components/ui/button";
 import { FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { DynamicProfileField } from "@/types/auth.types";
+import {
+  DynamicProfileField,
+  ExistingProfileAttachment,
+  ProfileAttachmentEntry,
+} from "@/types/auth.types";
 import { Upload, X } from "lucide-react";
-import { useDropzone } from "react-dropzone";
+import { useCallback, useEffect, useMemo, useRef } from "react";
+import { FileRejection, useDropzone } from "react-dropzone";
 import {
   UseControllerProps,
   UseFormReturn,
@@ -20,8 +25,49 @@ type Props<TValues extends Record<string, unknown>> = {
 
 const DROPZONE_ERROR_MAP: Record<string, string> = {
   "file-invalid-type": "الملف يجب أن يكون صورة أو PDF",
-  "too-many-files": "الحد الأقصى 2 ملفات",
+  "too-many-files": "تم تجاوز الحد الأقصى للملفات",
   "file-too-large": "حجم الملف كبير جدًا",
+};
+
+const isExistingAttachment = (
+  value: unknown,
+): value is ExistingProfileAttachment =>
+  typeof value === "object" &&
+  value !== null &&
+  "id" in value &&
+  typeof (value as { id?: unknown }).id === "number";
+
+const isProfileAttachmentEntry = (
+  value: unknown,
+): value is ProfileAttachmentEntry =>
+  typeof value === "object" &&
+  value !== null &&
+  ("id" in value || "file" in value);
+
+const normalizeEntries = (value: unknown): ProfileAttachmentEntry[] => {
+  if (!Array.isArray(value)) return [];
+  const normalized: ProfileAttachmentEntry[] = [];
+  value.forEach((entry) => {
+    if (isProfileAttachmentEntry(entry)) {
+      normalized.push({
+        id: entry.id,
+        file: entry.file,
+        url: entry.url,
+        name: entry.name,
+        file_name: entry.file_name,
+      });
+      return;
+    }
+    if (isExistingAttachment(entry)) {
+      normalized.push({
+        id: entry.id,
+        url: entry.url,
+        name: entry.name,
+        file_name: entry.file_name,
+      });
+    }
+  });
+  return normalized;
 };
 
 export default function ProfileAttachmentsField<
@@ -32,25 +78,64 @@ export default function ProfileAttachmentsField<
     name: name as UseControllerProps<TValues>["name"],
   });
 
-  const currentFiles = Array.isArray(controller.field.value)
-    ? (controller.field.value as File[])
-    : [];
+  const entries = useMemo(
+    () => normalizeEntries(controller.field.value),
+    [controller.field.value],
+  );
+
+  // ✅ Memoize derived arrays so downstream memos don't invalidate every render
+  const existingEntries = useMemo(
+    () =>
+      entries.filter((e) => e.id !== undefined && !(e.file instanceof File)),
+    [entries],
+  );
+
+  const sessionEntries = useMemo(
+    () => entries.filter((e) => e.file instanceof File),
+    [entries],
+  );
+
+  const replacementQueueRef = useRef<number[]>([]);
 
   const maxFiles = field?.max_files ?? 2;
   const maxSizeMb = field?.max_size_mb ?? 10;
   const maxSizeBytes = maxSizeMb * 1024 * 1024;
-  const reachedMaxFiles = currentFiles.length >= maxFiles;
-  const accepts = field?.accept?.length
-    ? Object.fromEntries(field.accept.map((mime) => [mime, []]))
-    : { "image/*": [], "application/*": [] };
+  const reachedMaxFiles = entries.length >= maxFiles;
 
-  const { getRootProps, getInputProps, open } = useDropzone({
-    onDrop: (accepted: File[]) => {
-      const merged = [...currentFiles, ...accepted].slice(0, maxFiles);
-      controller.field.onChange(merged);
+  // ✅ Memoize accepts — prevents useDropzone from re-initializing on every render
+  const acceptList = field?.accept;
+
+  const accepts = useMemo(() => {
+    if (acceptList?.length) {
+      return Object.fromEntries(acceptList.map((mime) => [mime, []]));
+    }
+
+    return {
+      "image/*": [],
+      "application/pdf": [],
+    };
+  }, [acceptList]);
+
+  // ✅ Stable callbacks prevent useDropzone from re-initializing
+  const handleDrop = useCallback(
+    (acceptedFiles: File[]) => {
+      const available = Math.max(0, maxFiles - entries.length);
+      const nextFiles = acceptedFiles
+        .slice(0, available)
+        .map((selectedFile) => {
+          const replaceId = replacementQueueRef.current.shift();
+          return replaceId !== undefined
+            ? { id: replaceId, file: selectedFile }
+            : { file: selectedFile };
+        });
+      controller.field.onChange([...entries, ...nextFiles]);
       form.clearErrors(name as UseControllerProps<TValues>["name"]);
     },
-    onDropRejected: (rejections) => {
+    [entries, maxFiles, controller.field, form, name],
+  );
+
+  const handleDropRejected = useCallback(
+    (rejections: FileRejection[]) => {
       const firstErrorCode = rejections?.[0]?.errors?.[0]?.code;
       const message =
         (firstErrorCode && DROPZONE_ERROR_MAP[firstErrorCode]) ||
@@ -60,6 +145,12 @@ export default function ProfileAttachmentsField<
         message,
       });
     },
+    [form, name],
+  );
+
+  const { getRootProps, getInputProps, open } = useDropzone({
+    onDrop: handleDrop,
+    onDropRejected: handleDropRejected,
     maxFiles,
     maxSize: maxSizeBytes,
     disabled: reachedMaxFiles,
@@ -68,15 +159,74 @@ export default function ProfileAttachmentsField<
     accept: accepts,
   });
 
-  const removeFileAt = (index: number) => {
-    const next = currentFiles.filter((_, i) => i !== index);
-    controller.field.onChange(next);
-  };
+  // ✅ Now safe: sessionEntries is memoized, so this only reruns when files actually change
+  const previews = useMemo(
+    () =>
+      sessionEntries.map((entry) => ({
+        entry,
+        src:
+          entry.file && entry.file.type.startsWith("image/")
+            ? URL.createObjectURL(entry.file)
+            : null,
+      })),
+    [sessionEntries],
+  );
+
+  // ✅ Revoke only removed URLs — not the full list on every change
+  const prevPreviewsRef = useRef(previews);
+  useEffect(() => {
+    const prev = prevPreviewsRef.current;
+    const currentSrcs = new Set(previews.map((p) => p.src).filter(Boolean));
+
+    prev.forEach(({ src }) => {
+      if (src && !currentSrcs.has(src)) {
+        URL.revokeObjectURL(src);
+      }
+    });
+
+    prevPreviewsRef.current = previews;
+
+    return () => {
+      // Revoke all on unmount
+      previews.forEach(({ src }) => {
+        if (src) URL.revokeObjectURL(src);
+      });
+    };
+  }, [previews]);
+
+  // ✅ Stable reference — prevents re-renders in mapped children
+  const removeEntryAt = useCallback(
+    (index: number) => {
+      const target = entries[index];
+      if (target?.id !== undefined) {
+        replacementQueueRef.current.push(target.id);
+      }
+      controller.field.onChange(entries.filter((_, i) => i !== index));
+    },
+    [entries, controller.field],
+  );
+
+  console.log(existingEntries);
 
   return (
     <FormItem className="col-span-2 my-2">
-      <div className="flex flex-col-reverse items-start gap-6 sm:flex-row">
+      <div className="flex flex-col items-start gap-6 sm:flex-row">
         <input {...getInputProps()} />
+
+        {!reachedMaxFiles && (
+          <div
+            {...getRootProps()}
+            className="border-muted-foreground/30 hover:bg-muted/20 flex size-32 cursor-pointer flex-col items-center justify-center gap-3 rounded-2xl border border-dashed px-2 transition-colors max-sm:w-full"
+            onClick={open}
+          >
+            <div className="bg-primary-50 text-primary-800 rounded-md p-2">
+              <Upload className="size-4" />
+            </div>
+            <p className="text-muted-foreground text-center text-xs">
+              يمكنك وضع الملفات هنا لرفعها
+            </p>
+          </div>
+        )}
 
         <div className="flex flex-1 flex-col gap-2">
           <FormLabel>{label}</FormLabel>
@@ -101,17 +251,62 @@ export default function ProfileAttachmentsField<
             </p>
           )}
 
+          {existingEntries.length > 0 && (
+            <p className="text-muted-foreground text-xs">ملفات مرفوعة مسبقًا</p>
+          )}
           <div className="flex flex-wrap gap-2">
-            {currentFiles.map((file, index) => {
-              const isImage = file.type.startsWith("image/");
+            {existingEntries.map((entry) => {
+              const idx = entries.findIndex((item) => item === entry);
+              const fileName =
+                entry.name || entry.file_name || `File #${entry.id ?? "-"}`;
+
               return (
                 <div
-                  key={`${file.name}-${index}`}
+                  key={`existing-${entry.id ?? fileName}`}
                   className="border-muted bg-muted/30 flex items-center gap-2 rounded-md border p-1 pe-2"
                 >
-                  {isImage ? (
+                  <p className="max-w-40 truncate text-xs">{fileName}</p>
+                  {entry.url && (
+                    <a
+                      href={entry.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-primary-800 text-xs underline"
+                    >
+                      تنزيل
+                    </a>
+                  )}
+                  <button
+                    type="button"
+                    className="text-muted-foreground hover:text-destructive"
+                    onClick={() => removeEntryAt(idx)}
+                    aria-label={`remove-existing-${entry.id ?? fileName}`}
+                  >
+                    <X className="size-3.5" />
+                  </button>
+                </div>
+              );
+            })}
+          </div>
+
+          {sessionEntries.length > 0 && (
+            <p className="text-muted-foreground text-xs">
+              ملفات مضافة في الجلسة الحالية
+            </p>
+          )}
+          <div className="flex flex-wrap gap-2">
+            {previews.map(({ entry, src }) => {
+              const file = entry.file as File;
+              const idx = entries.findIndex((item) => item === entry);
+
+              return (
+                <div
+                  key={`session-${file.name}-${idx}`}
+                  className="border-muted bg-muted/30 flex items-center gap-2 rounded-md border p-1 pe-2"
+                >
+                  {src ? (
                     <img
-                      src={URL.createObjectURL(file)}
+                      src={src}
                       alt={file.name}
                       className="size-8 rounded object-cover"
                     />
@@ -124,8 +319,8 @@ export default function ProfileAttachmentsField<
                   <button
                     type="button"
                     className="text-muted-foreground hover:text-destructive"
-                    onClick={() => removeFileAt(index)}
-                    aria-label={`remove-${file.name}`}
+                    onClick={() => removeEntryAt(idx)}
+                    aria-label={`remove-session-${file.name}`}
                   >
                     <X className="size-3.5" />
                   </button>
@@ -134,21 +329,6 @@ export default function ProfileAttachmentsField<
             })}
           </div>
         </div>
-
-        {!reachedMaxFiles && (
-          <div
-            {...getRootProps()}
-            className="border-muted-foreground/30 hover:bg-muted/20 flex size-32 cursor-pointer flex-col items-center justify-center gap-3 rounded-2xl border border-dashed px-2 transition-colors max-sm:w-full"
-            onClick={open}
-          >
-            <div className="bg-primary-50 text-primary-800 rounded-md p-2">
-              <Upload className="size-4" />
-            </div>
-            <p className="text-muted-foreground text-center text-xs">
-              يمكنك وضع الملفات هنا لرفعها
-            </p>
-          </div>
-        )}
       </div>
       <FormMessage>{controller.fieldState.error?.message}</FormMessage>
     </FormItem>

@@ -8,13 +8,14 @@ import { useForm } from "react-hook-form";
 
 import { useAuthContext } from "@/context/auth-context";
 import { mapApiErrorsToForm } from "@/helpers/form-errors";
-import { sortDynamicProfileFields } from "@/helpers/profile-fields-order";
 import { mutateClient } from "@/helpers/post-client";
 import { buildProfileCompletionDefaults } from "@/helpers/profile-completion.helpers";
+import { sortDynamicProfileFields } from "@/helpers/profile-fields-order";
 import { useToast } from "@/hooks/use-toast";
 import { buildAccountSettingsSchema } from "@/lib/account-settings.schema";
 import { getPhoneInfoFromCode } from "@/lib/utils";
 import { fetchStudentProfileSettingsFields } from "@/services/auth.service";
+import { ProfileAttachmentEntry } from "@/types/auth.types";
 import { useRouter } from "next/navigation";
 
 type AccountSettingsValues = Record<string, unknown> & {
@@ -146,10 +147,21 @@ export function useAccountSettingsForm() {
         );
 
         if (fileDynamicField && Array.isArray(rawValue)) {
-          const files = rawValue.filter(
-            (entry): entry is File => entry instanceof File,
+          const attachments = rawValue.filter(
+            (entry): entry is ProfileAttachmentEntry =>
+              typeof entry === "object" &&
+              entry !== null &&
+              ("id" in entry || "file" in entry),
           );
-          files.forEach((file) => formData.append(`${key}[]`, file));
+
+          attachments.forEach((attachment, index) => {
+            if (attachment.id !== undefined) {
+              formData.append(`${key}[${index}][id]`, String(attachment.id));
+            }
+            if (attachment.file instanceof File) {
+              formData.append(`${key}[${index}][file]`, attachment.file);
+            }
+          });
           return;
         }
 
@@ -176,7 +188,8 @@ export function useAccountSettingsForm() {
           if (key === "phone") {
             const phone = (rawValue as { phone?: string }).phone;
             const country = (rawValue as { country?: string }).country;
-            const countryIso = (rawValue as { country_iso?: string }).country_iso;
+            const countryIso = (rawValue as { country_iso?: string })
+              .country_iso;
             if (phone) formData.append("phone", phone);
             if (country) formData.append("country", country);
             if (countryIso) formData.append("country_iso", countryIso);
@@ -200,12 +213,15 @@ export function useAccountSettingsForm() {
 
       if (response?.code === 200) {
         toast({ description: "تم حفظ التغييرات بنجاح", icon: "success" });
-        await queryClient.invalidateQueries({ queryKey: PROFILE_QUERY_KEY });
-        await queryClient.invalidateQueries({
+
+        queryClient.invalidateQueries({ queryKey: PROFILE_QUERY_KEY });
+        queryClient.invalidateQueries({
           queryKey: ["/students/profile/setting"],
         });
+
         setIsChangePassword(false);
         setSelectedFile(null);
+
         form.reset();
         router.refresh();
       }

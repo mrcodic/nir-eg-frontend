@@ -1,7 +1,6 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
@@ -23,7 +22,6 @@ import {
   ProfileCompletionValues,
   SUPPORTED_FIELD_TYPES,
 } from "@/helpers/profile-completion.helpers";
-import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { useProfileCompletionFields } from "../hooks/useProfileCompletionFields";
@@ -91,8 +89,6 @@ function FormActions({
 // ── Main component ───────────────────────────────────────────────────────────
 
 export default function ProfileCompletionModal() {
-  const { toast } = useToast();
-  const queryClient = useQueryClient();
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const { open, setOpen, isLoading, fields, load, profile, token } =
@@ -152,13 +148,11 @@ export default function ProfileCompletionModal() {
       values,
       fields: filteredFields,
       form,
-      queryClient,
       onServerFieldError: moveToStepByField,
       onSuccess: () => {
         setOpen(false);
         setShowSuccessModal(true);
       },
-      onErrorToast: (message) => toast({ description: message, icon: "error" }),
     });
   });
 

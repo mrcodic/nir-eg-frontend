@@ -129,13 +129,36 @@ export type DynamicProfileFieldOption = {
   label: string;
 };
 
+export type ExistingProfileAttachment = {
+  id: number;
+  name?: string;
+  file_name?: string;
+  mime_type?: string;
+  size?: number;
+  url?: string;
+};
+
+export type ProfileAttachmentEntry = {
+  id?: number;
+  file?: File;
+  name?: string;
+  file_name?: string;
+  url?: string;
+};
+
 export type DynamicProfileField = {
   key: string;
   label: string;
   type: ProfileFieldType;
   required: boolean;
   enabled: boolean;
-  value: string | number | null | unknown[];
+  value:
+    | string
+    | number
+    | null
+    | unknown[]
+    | ExistingProfileAttachment[]
+    | ProfileAttachmentEntry[];
   options?: DynamicProfileFieldOption[];
   accept?: string[] | null;
   multiple?: boolean;

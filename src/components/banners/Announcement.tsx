@@ -67,7 +67,7 @@ function Announcement() {
   return (
     <StackedBanners
       banners={bannerItems}
-      containerClassName="wrapper fixed top-20 left-1/2 -translate-x-1/2 w-full z-40"
+      containerClassName="wrapper fixed top-20 left-1/2 -translate-x-1/2 z-40"
     />
   );
 }
