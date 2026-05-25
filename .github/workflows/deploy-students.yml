@@ -104,5 +104,5 @@ jobs:
 
             npm ci --omit=dev --cache /home/nir/.npm
 
-            pm2 reload student-nir-ed --update-env
+            pm2 reload student-nir-edu --update-env
             pm2 save
