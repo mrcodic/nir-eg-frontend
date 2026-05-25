@@ -206,8 +206,6 @@ export default function ProfileAttachmentsField<
     [entries, controller.field],
   );
 
-  console.log(existingEntries);
-
   return (
     <FormItem className="col-span-2 my-2">
       <div className="flex flex-col items-start gap-6 sm:flex-row">

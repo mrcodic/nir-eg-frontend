@@ -154,6 +154,9 @@ export function useAccountSettingsForm() {
               ("id" in entry || "file" in entry),
           );
 
+          console.log("dynamic files ", fileDynamicField);
+          console.log("attachments files ", attachments);
+
           attachments.forEach((attachment, index) => {
             if (attachment.id !== undefined) {
               formData.append(`${key}[${index}][id]`, String(attachment.id));
