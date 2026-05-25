@@ -52,9 +52,7 @@ export default function VideoCipher({
         />
       </TamperResistantOverlay>
 
-      {communityAvailable && (
-        <VideoQuestionBtn playerRef={iframeRef} videoId={videoId} />
-      )}
+      {communityAvailable && <VideoQuestionBtn videoId={videoId} />}
     </div>
   );
 }

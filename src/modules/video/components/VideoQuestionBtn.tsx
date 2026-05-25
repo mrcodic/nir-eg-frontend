@@ -1,9 +1,11 @@
+import { useVideoPlayerStore } from "@/store/videoPlayerStore";
 import { X } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-function VideoQuestionBtn({ playerRef, videoId, isBunnyPlayer = false }: any) {
+function VideoQuestionBtn({ videoId }: { videoId: string }) {
   const [hideBtn, setHideBtn] = useState(false);
+  const { pause } = useVideoPlayerStore();
 
   useEffect(() => {
     if (videoId) setHideBtn(false);
@@ -14,18 +16,7 @@ function VideoQuestionBtn({ playerRef, videoId, isBunnyPlayer = false }: any) {
   return (
     <button
       onClick={() => {
-        const inputEl = document.getElementById("community-input");
-        if (inputEl) {
-          inputEl.scrollIntoView({ behavior: "smooth" });
-          (inputEl as HTMLElement).focus?.();
-        }
-        const inst = playerRef.current;
-
-        if (isBunnyPlayer) {
-          inst?.pause?.();
-        } else {
-          inst?.video?.pause?.();
-        }
+        pause?.();
       }}
       className="text-primary-800 border-gray-light bg-background hover:border-primary hover:bg-primary-100 absolute right-4 bottom-16 z-5 w-[190px] cursor-pointer rounded-lg border p-2 py-4 transition-all md:w-[250px]"
     >

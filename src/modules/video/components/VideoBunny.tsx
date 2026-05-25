@@ -58,13 +58,7 @@ export default function VideoBunny({
         />
       </TamperResistantOverlay>
 
-      {communityAvailable && (
-        <VideoQuestionBtn
-          playerRef={iframeRef}
-          videoId={videoId}
-          isBunnyPlayer
-        />
-      )}
+      {communityAvailable && <VideoQuestionBtn videoId={videoId} />}
     </div>
   );
 }
