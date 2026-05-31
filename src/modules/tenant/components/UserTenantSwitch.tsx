@@ -70,7 +70,7 @@ export default function UserTenantSwitch() {
       const switchUrl = `${targetOrigin}/api/auth/switch?token=${encodeURIComponent(token)}&next=${encodeURIComponent("/")}`;
 
       window.open(switchUrl, "_self", "noopener,noreferrer");
-      toast({ icon: "success", description: "تم التحويل بنجاح" });
+      toast({ icon: "loading", description: "جاري التحويل..." });
     } catch (switchError) {
       toast({
         icon: "error",

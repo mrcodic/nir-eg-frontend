@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/toast";
 import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
+import SmallSpinner from "../custom/SmallSpinner";
 
 export function Toaster() {
   const { toasts } = useToast();
@@ -53,7 +54,11 @@ export function Toaster() {
             <div className="flex h-[5px]! items-center gap-2">
               {/* {title && <ToastTitle>{title}</ToastTitle>} */}
               <div className="flex size-7 items-center justify-center rounded-lg">
-                <Image src={path} alt="" width={24} height={24} />
+                {icon == "loading" ? (
+                  <SmallSpinner className="text-primary-600 size-5" />
+                ) : (
+                  <Image src={path} alt="" width={24} height={24} />
+                )}
               </div>
 
               {(description || status) && (

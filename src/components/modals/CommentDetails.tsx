@@ -2,15 +2,16 @@
 
 import { getClientPrivateData } from "@/helpers/client-fetch";
 import { cn } from "@/lib/utils";
+import { Comment, IPagination } from "@/types";
 import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import UserMessage from "../../modules/community/components/UserMessage";
-import { Dialog, DialogContent } from "../ui/dialog";
-import { SimplePagination } from "../ui/SimplePagination";
-import { Comment, IPagination } from "@/types";
 import LoadingSpinner from "../shared/LoadingSpinner";
+import { Dialog, DialogContent } from "../ui/dialog";
+import { ScrollArea } from "../ui/scroll-area";
+import { SimplePagination } from "../ui/SimplePagination";
 
 interface CommentDetailsProps {
   open: boolean;
@@ -105,13 +106,12 @@ const CommentDetails = ({
           </div>
         )}
 
-        <div
-          className={cn(
-            "flex min-h-[150px]! grow flex-col gap-2 overflow-y-auto",
-            {
-              "animate-pulse opacity-80": isPlaceholderData,
-            },
-          )}
+        <ScrollArea
+          dir="rtl"
+          type="always"
+          className={cn("flex min-h-[150px]! grow flex-col gap-2", {
+            "animate-pulse opacity-80": isPlaceholderData,
+          })}
         >
           {isLoading ? (
             <LoadingSpinner />
@@ -129,7 +129,7 @@ const CommentDetails = ({
           ) : (
             <p>لا يوجد تعليقات</p>
           )}
-        </div>
+        </ScrollArea>
 
         <div className="flex flex-col gap-2">
           {data?.data?.length && !isLoading && (
