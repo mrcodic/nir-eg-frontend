@@ -2,6 +2,7 @@ import { useTaskContext } from "@/context/TaskProvider";
 import { getClientPrivateData } from "@/helpers/client-fetch";
 import { mutateClient } from "@/helpers/post-client";
 import { useToast } from "@/hooks/use-toast";
+import { getTaskQuestions } from "@/services/task.service";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 export const useTaskLogic = (
@@ -37,9 +38,7 @@ export const useTaskLogic = (
   // ================= RETAKE LOGIC =================
   const retakeExamLogic = useCallback(async () => {
     try {
-      const q = await getClientPrivateData({
-        queryKey: [`students/quiz/questions/${taskId}`],
-      });
+      const q = await getTaskQuestions(taskId);
 
       setData(q?.body);
       setSuccess(false);

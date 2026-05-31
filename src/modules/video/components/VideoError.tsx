@@ -9,7 +9,7 @@ export default function VideoError({
 }) {
   return (
     <div className="flex h-[300px] flex-col items-center justify-center gap-4 bg-white sm:h-[520px]">
-      <div className="relative mx-auto aspect-square w-full max-w-71">
+      <div className="relative mx-auto aspect-square w-full max-w-30 sm:max-w-71">
         <Image
           src={src || "/assets/bg/error.svg"}
           alt="NIR EDU"

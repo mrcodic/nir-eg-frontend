@@ -1,35 +1,76 @@
+"use client";
+
+import SmallSpinner from "@/components/custom/SmallSpinner";
+import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { useVideoPlayerStore } from "@/store/videoPlayerStore";
+import { cn } from "@/lib/utils";
 import { ILesson } from "@/types";
-import { useEffect, useState } from "react";
+import { useLessonTimedQuiz } from "../hooks/useLessonTimedQuiz";
+import LessonTimedQuizConfirmModal from "./LessonTimedQuizConfirmModal";
+import LessonTimedQuizQuestionView from "./LessonTimedQuizQuestionView";
+import LessonTimedQuizResultView from "./LessonTimedQuizResultView";
 
 export default function LessonTimedQuiz({
   lessonData,
 }: {
   lessonData: ILesson;
 }) {
-  const [open, setOpen] = useState(false);
-  const { currentTime, pause } = useVideoPlayerStore();
+  const quiz = useLessonTimedQuiz(lessonData);
 
-  const quiz = lessonData?.quiz;
-
-  // pause the video when current time is equal to the quiz time (minutes)
-  // and open the dialog
-
-  const currentTimeInMinutes = Math.floor(currentTime);
-
-  useEffect(() => {
-    if (currentTimeInMinutes === quiz?.[0]?.time) {
-      pause();
-      setOpen(true);
-    }
-  }, [setOpen, currentTimeInMinutes, pause, quiz]);
+  if (!quiz.open && !quiz.showResult) return null;
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent>
-        <h1>Quiz</h1>
-      </DialogContent>
-    </Dialog>
+    <>
+      <Dialog
+        open={quiz.open}
+        onOpenChange={(next) => {
+          if (quiz.isSubmitting) return;
+          if (!next) quiz.handleManualClose();
+          quiz.setOpen(next);
+        }}
+      >
+        <DialogContent
+          className={cn("z-[1000002] max-w-[500px] transition-all", {
+            "blur-sm brightness-50": quiz.confirmOpen,
+          })}
+          overlayClassName="z-[1000002]"
+          hideClose={quiz.showResult}
+        >
+          {quiz.isLoading ? (
+            <div className="flex min-h-44 items-center justify-center">
+              <SmallSpinner className="text-primary-800" />
+            </div>
+          ) : quiz.showResult ? (
+            <LessonTimedQuizResultView
+              passed={quiz.passed}
+              score={quiz.score}
+              onContinue={quiz.closeAll}
+            />
+          ) : quiz.currentQuestion ? (
+            <LessonTimedQuizQuestionView quiz={quiz} />
+          ) : (
+            <div className="flex min-h-44 items-center justify-center">
+              <Button
+                variant="ghost"
+                className="text-gray-dark"
+                onClick={quiz.handleManualClose}
+              >
+                إغلاق
+              </Button>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {quiz.confirmOpen && (
+      <LessonTimedQuizConfirmModal
+        open={quiz.confirmOpen}
+        unansweredCount={quiz.unansweredCount}
+        mode={quiz.pendingAction === "skip" ? "skip" : "submit"}
+        onCancel={() => quiz.setConfirmOpen(false)}
+        onConfirm={quiz.handleConfirmSubmit}
+      />
+      )}
+    </>
   );
 }

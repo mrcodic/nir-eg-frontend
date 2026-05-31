@@ -689,7 +689,7 @@ const TamperResistantOverlay: React.FC<VideoWrapperProps> = ({
         style={{
           position: "relative",
           width: "100%",
-          height: window.innerWidth < 640 ? 300 : 520,
+          height: window?.innerWidth < 640 ? 300 : 520,
           background: "#000",
           display: "flex",
           alignItems: "center",

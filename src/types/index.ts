@@ -432,7 +432,7 @@ export interface ILesson {
   video_id?: string;
   video_link?: string;
   video_type: LessonVideoType;
-  quiz?: {
+  quizzes?: {
     id: number;
     show_answer: number;
     time: number;
@@ -441,6 +441,10 @@ export interface ILesson {
     skipped: boolean;
     passed: boolean;
     score: number;
+    has_questions: boolean;
+    questions_count: number;
+    show_hint: boolean;
+    type: number;
   }[];
 
   // detemined if user is allowed to view comments
