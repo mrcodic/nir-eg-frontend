@@ -83,7 +83,7 @@ nier-front/
     │   │   │   ├── page.tsx          # Course list
     │   │   │   ├── 📂 bundle-details/
     │   │   │   │   └── page.tsx      # Bundle details
-    │   │   │   └── 📂 [SingleCourse]/  # Dynamic course route
+    │   │   │   └── 📂 [classroomId]/  # Dynamic course route
     │   │   │       ├── page.tsx      # Course detail
     │   │   │       │
     │   │   │       ├── 📂 (courseExam)/  # Course-level exams

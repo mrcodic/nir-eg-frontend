@@ -89,7 +89,7 @@ const columns = [
 ];
 
 export default function RankTable() {
-  const { SingleCourse } = useParams();
+  const { classroomId } = useParams();
   const [pagination, setPagination] = useState({
     pageIndex: 0,
     pageSize: 5,
@@ -102,7 +102,7 @@ export default function RankTable() {
     };
   }>({
     queryKey: [
-      `/students/get-classrank/${SingleCourse}?per_page=5&page=${
+      `/students/get-classrank/${classroomId}?per_page=5&page=${
         pagination.pageIndex + 1
       }`,
     ],

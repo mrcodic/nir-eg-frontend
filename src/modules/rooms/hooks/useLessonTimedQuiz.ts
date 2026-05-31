@@ -61,7 +61,7 @@ export function useLessonTimedQuiz(lessonData: ILesson) {
 
   const formQuestions = useWatch({ control: form.control, name: "questions" });
 
-  const classroomId = Number(params.SingleCourse);
+  const classroomId = Number(params.classroomId);
   const roomId = Number(params.room);
   const currentMinute = Math.floor((currentTime ?? 0) / 60);
 

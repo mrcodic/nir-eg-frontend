@@ -41,7 +41,7 @@ function TaskForm({
   examType = "exam",
 }: Props) {
   const { toast } = useToast();
-  const { SingleCourse: classroomId, room: roomId } = useParams();
+  const { classroomId: classroomId, room: roomId } = useParams();
   const autoSubmitTriggered = useRef<boolean>(false);
 
   const queryClient = useQueryClient();

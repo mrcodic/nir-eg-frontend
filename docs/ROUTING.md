@@ -33,7 +33,7 @@ src/app/
 │   │   ├── page.tsx          # /bundles (course list)
 │   │   ├── bundle-details/
 │   │   │   └── page.tsx      # /bundles/bundle-details
-│   │   └── [SingleCourse]/   # Dynamic route
+│   │   └── [classroomId]/   # Dynamic route
 │   │       ├── page.tsx      # /bundles/:courseId
 │   │       ├── (courseExam)/ # Route group for course exams
 │   │       │   ├── layout.tsx
@@ -134,7 +134,7 @@ src/app/(student)/
 #### 3. Tasks Group `(tasks)`
 
 ```
-src/app/(student)/bundles/[SingleCourse]/[room]/(tasks)/
+src/app/(student)/bundles/[classroomId]/[room]/(tasks)/
 ├── layout.tsx          # Task-specific layout
 ├── exams/[examId]/page.tsx
 ├── assignments/[assignmentId]/page.tsx
@@ -150,34 +150,34 @@ src/app/(student)/bundles/[SingleCourse]/[room]/(tasks)/
 **Pattern**: `[paramName]`
 
 ```typescript
-// src/app/(student)/bundles/[SingleCourse]/page.tsx
+// src/app/(student)/bundles/[classroomId]/page.tsx
 export default async function CoursePage({
   params,
 }: {
-  params: { SingleCourse: string };
+  params: { classroomId: string };
 }) {
-  const courseId = params.SingleCourse;
+  const courseId = params.classroomId;
   // Fetch course data
 }
 ```
 
 **URL Examples**:
 
-- `/bundles/123` → `params.SingleCourse = "123"`
-- `/bundles/math-101` → `params.SingleCourse = "math-101"`
+- `/bundles/123` → `params.classroomId = "123"`
+- `/bundles/math-101` → `params.classroomId = "math-101"`
 
 ### Nested Dynamic Segments
 
 **Pattern**: `[param1]/[param2]`
 
 ```typescript
-// src/app/(student)/bundles/[SingleCourse]/[room]/page.tsx
+// src/app/(student)/bundles/[classroomId]/[room]/page.tsx
 export default async function RoomPage({
   params,
 }: {
-  params: { SingleCourse: string; room: string };
+  params: { classroomId: string; room: string };
 }) {
-  const courseId = params.SingleCourse;
+  const courseId = params.classroomId;
   const roomId = params.room;
   // Fetch room data
 }
@@ -185,23 +185,23 @@ export default async function RoomPage({
 
 **URL Examples**:
 
-- `/bundles/123/456` → `{ SingleCourse: "123", room: "456" }`
-- `/bundles/math/lesson-1` → `{ SingleCourse: "math", room: "lesson-1" }`
+- `/bundles/123/456` → `{ classroomId: "123", room: "456" }`
+- `/bundles/math/lesson-1` → `{ classroomId: "math", room: "lesson-1" }`
 
 ### Triple Nested Dynamic Segments
 
 ```typescript
-// src/app/(student)/bundles/[SingleCourse]/[room]/(tasks)/exams/[examId]/page.tsx
+// src/app/(student)/bundles/[classroomId]/[room]/(tasks)/exams/[examId]/page.tsx
 export default async function ExamPage({
   params,
 }: {
   params: {
-    SingleCourse: string;
+    classroomId: string;
     room: string;
     examId: string;
   };
 }) {
-  const { SingleCourse, room, examId } = params;
+  const { classroomId, room, examId } = params;
   // Fetch exam data
 }
 ```

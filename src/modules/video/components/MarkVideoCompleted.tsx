@@ -38,7 +38,7 @@ function MarkVideoCompleted({
         },
       });
       // await axios.post(
-      //   `/api?url=students/lesson/store_completed&paths=/bundles/[SingleCourse]`,
+      //   `/api?url=students/lesson/store_completed&paths=/bundles/[classroomId]`,
       //   {
       //     room_id: Number(roomId),
       //     lesson_id: Number(lessonId),

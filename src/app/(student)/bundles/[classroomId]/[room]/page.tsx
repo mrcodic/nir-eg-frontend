@@ -34,7 +34,7 @@ const VideoBunny = dynamic(
 );
 
 const RoomLecturePage = () => {
-  const { SingleCourse: classroomId, room } = useParams();
+  const { classroomId: classroomId, room } = useParams();
 
   const { profile } = useAuthContext();
 

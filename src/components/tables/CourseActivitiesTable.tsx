@@ -66,13 +66,13 @@ export default function CourseActivitiesTable({
     pageSize: 5,
   });
 
-  const { SingleCourse } = useParams();
+  const { classroomId } = useParams();
 
   const { data, isLoading, isPlaceholderData } = useQuery<{
     body: StudentActivitiesData;
   }>({
     queryKey: [
-      `/students/mywork/${SingleCourse}?per_page=5&page=${
+      `/students/mywork/${classroomId}?per_page=5&page=${
         pagination.pageIndex + 1
       }`,
     ],

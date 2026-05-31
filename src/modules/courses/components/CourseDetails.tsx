@@ -1,19 +1,19 @@
 "use client";
 
-import ExamCard from "@/modules/exam/components/ExamCard";
-import RoomHeader from "@/modules/rooms/components/RoomHeader";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { getClientPrivateData, getClientData } from "@/helpers/client-fetch";
-import { ApiResponse, ICourseDetails, IExamCard, IUser } from "@/types";
-import { useQuery } from "@tanstack/react-query";
-import { useParams } from "next/navigation";
-import { Suspense, useCallback, useMemo, useState } from "react";
 import Empty from "@/components/shared/Empty";
 import InfiniteScroll from "@/components/shared/InfinteScroll";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
-import RoomAccordion from "@/modules/rooms/components/RoomAccordion";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTenant } from "@/context/TenantProvider";
+import { getClientData, getClientPrivateData } from "@/helpers/client-fetch";
+import ExamCard from "@/modules/exam/components/ExamCard";
+import RoomAccordion from "@/modules/rooms/components/RoomAccordion";
+import RoomHeader from "@/modules/rooms/components/RoomHeader";
+import { ApiResponse, ICourseDetails, IExamCard, IUser } from "@/types";
+import { useQuery } from "@tanstack/react-query";
 import dynamic from "next/dynamic";
+import { useParams } from "next/navigation";
+import { Suspense, useCallback, useMemo, useState } from "react";
 
 const CourseActivitiesTable = dynamic(
   () => import("@/components/tables/CourseActivitiesTable"),
@@ -53,7 +53,7 @@ const CourseTabs = [
 ];
 
 const CourseDetails = ({ details, profile }: Props) => {
-  const { SingleCourse } = useParams();
+  const { classroomId } = useParams();
   const [selectedTab, setSelectedTab] = useState("lessons");
   const { features } = useTenant();
 
@@ -62,7 +62,7 @@ const CourseDetails = ({ details, profile }: Props) => {
     isLoading: isLoadingExams,
     error: examError,
   } = useQuery({
-    queryKey: [`/students/get-exams/${SingleCourse}`],
+    queryKey: [`/students/get-exams/${classroomId}`],
     queryFn: getClientPrivateData as () => Promise<
       ApiResponse<{
         incoming_exams: IExamCard[];
@@ -77,14 +77,14 @@ const CourseDetails = ({ details, profile }: Props) => {
     async (page = 1) => {
       const res = await getClientData({
         queryKey: [
-          `/students/get-rooms/${SingleCourse}?page=${page}&per_page=10`,
+          `/students/get-rooms/${classroomId}?page=${page}&per_page=10`,
         ],
         isAuth: !!profile,
       });
 
       return res?.body?.rooms;
     },
-    [SingleCourse, profile],
+    [classroomId, profile],
   );
 
   const hasExams =
@@ -161,7 +161,7 @@ const CourseDetails = ({ details, profile }: Props) => {
                           details?.subscription_type === "حصة"
                         }
                         verify={true || profile?.parent_phone_verification}
-                        classroomId={SingleCourse.toString()}
+                        classroomId={classroomId.toString()}
                         tasksEnabled={features?.quizzes}
                       />
                     );

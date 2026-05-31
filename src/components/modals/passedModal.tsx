@@ -43,7 +43,7 @@ const PassedModal = ({
   isLoadingRetake,
   examType,
 }: Props) => {
-  const { SingleCourse, room } = useParams();
+  const { classroomId, room } = useParams();
 
   return (
     <Dialog open={open}>
@@ -151,8 +151,8 @@ const PassedModal = ({
             <Link
               href={
                 examType === "general"
-                  ? `/bundles/${SingleCourse}`
-                  : `/bundles/${SingleCourse}/${room}`
+                  ? `/bundles/${classroomId}`
+                  : `/bundles/${classroomId}/${room}`
               }
               className="inline-block w-full"
             >

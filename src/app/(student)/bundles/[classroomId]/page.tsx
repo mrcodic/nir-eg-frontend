@@ -1,14 +1,14 @@
+import { Animate } from "@/components/shared/Animate";
+import { getServerData } from "@/helpers/server-fetch";
+import ProtectedRoute from "@/layouts/ProtectedRoute";
 import CourseDetails from "@/modules/courses/components/CourseDetails";
 import CourseFloatingCards from "@/modules/courses/components/CourseFloatingCards";
 import CoursesHeader from "@/modules/courses/components/CoursesHeader";
-import { getServerData } from "@/helpers/server-fetch";
-import ProtectedRoute from "@/layouts/ProtectedRoute";
 import { ICourseDetails } from "@/types";
 import { redirect } from "next/navigation";
-import { Animate } from "@/components/shared/Animate";
 
-const SingleCourse = async ({ params }) => {
-  const { SingleCourse } = await params;
+const classroomId = async ({ params }) => {
+  const { classroomId } = await params;
 
   const profileData = await getServerData({
     queryKey: [`/students/profile`],
@@ -19,7 +19,7 @@ const SingleCourse = async ({ params }) => {
   }
 
   const bundleRooms = await getServerData<{ body: ICourseDetails }>({
-    queryKey: [`/students/get-rooms/${SingleCourse}?page=1&per_page=10`],
+    queryKey: [`/students/get-rooms/${classroomId}?page=1&per_page=10`],
     isAuth: !!profileData,
   });
 
@@ -44,7 +44,7 @@ const SingleCourse = async ({ params }) => {
 
         <Animate preset="fadeIn" delay={0.2}>
           <CourseFloatingCards
-            SingleCourse={SingleCourse}
+            classroomId={classroomId}
             data={bundleRooms}
             profile={profileData?.body}
           />
@@ -60,4 +60,4 @@ const SingleCourse = async ({ params }) => {
     </ProtectedRoute>
   );
 };
-export default SingleCourse;
+export default classroomId;

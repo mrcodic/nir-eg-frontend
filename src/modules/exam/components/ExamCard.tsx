@@ -64,7 +64,7 @@ const ExamStatusBadge = ({ expiresAt }: { expiresAt: string }) => {
 };
 
 const ExamCard = ({ exam }: Props) => {
-  const { SingleCourse } = useParams();
+  const { classroomId } = useParams();
 
   // const isPendingReview = exam.completed && !exam.score_ratio;
   const isPendingReview = exam.review_pending;
@@ -78,12 +78,12 @@ const ExamCard = ({ exam }: Props) => {
     ctaLabel = "جاري التصحيح";
   } else if (isExpired && isCompleted && exam.show_answer) {
     ctaLabel = "عرض الاجابات";
-    ctaHref = `/bundles/${SingleCourse}/general-exams/${exam.id}`;
+    ctaHref = `/bundles/${classroomId}/general-exams/${exam.id}`;
   } else if (isExpired && !isCompleted) {
     ctaLabel = "لم تقم بحل الامتحان";
   } else if (!isExpired && (!isCompleted || exam.retake)) {
     ctaLabel = isCompleted ? "اعادة الامتحان" : "الذهاب للامتحان";
-    ctaHref = `/bundles/${SingleCourse}/general-exams/${exam.id}`;
+    ctaHref = `/bundles/${classroomId}/general-exams/${exam.id}`;
   } else if (isCompleted && !exam?.retake) {
     ctaLabel = "قمت بحل الامتحان";
   }

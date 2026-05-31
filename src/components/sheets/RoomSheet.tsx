@@ -7,8 +7,8 @@ import {
 import { getClientPrivateData } from "@/helpers/client-fetch";
 import { ApiResponse, IRoomDetails } from "@/types";
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "next/navigation";
 import dynamic from "next/dynamic";
+import { useParams } from "next/navigation";
 
 const RoomSideContent = dynamic(
   () => import("@/modules/rooms/components/RoomSideContent"),
@@ -16,10 +16,10 @@ const RoomSideContent = dynamic(
 );
 
 export default function RoomSheet({ open, setOpen }) {
-  const { room, SingleCourse } = useParams();
+  const { room, classroomId } = useParams();
 
   const { data, isLoading } = useQuery<ApiResponse<IRoomDetails>>({
-    queryKey: [`students/get-lessons/${room}?classroom_id=${SingleCourse}`],
+    queryKey: [`students/get-lessons/${room}?classroom_id=${classroomId}`],
     queryFn: getClientPrivateData,
     enabled: !!open,
   });

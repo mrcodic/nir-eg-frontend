@@ -1,14 +1,14 @@
-import { IUser } from "@/types";
 import PaymentCom from "@/modules/payment/components/PaymentCom";
+import { IUser } from "@/types";
 import CourseProgressCard from "./CourseProgressCard";
 
 function CourseFloatingCards({
   data,
-  SingleCourse,
+  classroomId,
   profile,
 }: {
   data: any;
-  SingleCourse: any;
+  classroomId: any;
   profile: IUser | null;
 }) {
   // if (data?.body?.is_subscriped && !profile?.parent_phone_verification)
@@ -20,7 +20,7 @@ function CourseFloatingCards({
   if (!data?.body?.is_subscriped && data?.body?.subscription_type !== "حصة")
     return (
       <PaymentCom
-        courseId={SingleCourse}
+        courseId={classroomId}
         bundleId={data?.body?.bundle_id}
         isCodeCenter={profile && profile?.type == 5}
         price={data?.body?.classroom_price}

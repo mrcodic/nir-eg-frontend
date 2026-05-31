@@ -40,7 +40,7 @@ const AssignmentModal = ({
   taskId,
   isLoadingRetake,
 }: Props) => {
-  const { SingleCourse, room } = useParams();
+  const { classroomId, room } = useParams();
 
   return (
     <Dialog open={open}>
@@ -136,7 +136,7 @@ const AssignmentModal = ({
               )}
 
               <Link
-                href={`/bundles/${SingleCourse}/${room}`}
+                href={`/bundles/${classroomId}/${room}`}
                 className="inline-block w-full"
               >
                 <Button variant="outline" className="h-11 w-full font-bold">

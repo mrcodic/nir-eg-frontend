@@ -37,7 +37,7 @@ const FailModal = ({
   examType,
   type = "امتحان",
 }: Props) => {
-  const { SingleCourse, room } = useParams();
+  const { classroomId, room } = useParams();
 
   return (
     <Dialog open={open}>
@@ -122,8 +122,8 @@ const FailModal = ({
             <Link
               href={
                 examType === "general"
-                  ? `/bundles/${SingleCourse}`
-                  : `/bundles/${SingleCourse}/${room}`
+                  ? `/bundles/${classroomId}`
+                  : `/bundles/${classroomId}/${room}`
               }
               className="inline-block"
             >

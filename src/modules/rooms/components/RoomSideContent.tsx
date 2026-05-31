@@ -7,6 +7,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { useTenant } from "@/context/TenantProvider";
 import { cn } from "@/lib/utils";
 import { IRoomDetails, LessonVideoType } from "@/types";
@@ -20,7 +21,6 @@ import {
   LessonCard,
   QuizCard,
 } from "./RoomSidebarCards";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
 type RoomSideContentProps = {
   data: IRoomDetails | undefined;
@@ -44,9 +44,9 @@ const RoomSideContent = ({
   activeLessonId,
 }: RoomSideContentProps) => {
   const params = useParams();
-  const SingleCourse = Array.isArray(params.SingleCourse)
-    ? params.SingleCourse[0]
-    : params.SingleCourse;
+  const classroomId = Array.isArray(params.classroomId)
+    ? params.classroomId[0]
+    : params.classroomId;
   const room = Array.isArray(params.room) ? params.room[0] : params.room;
 
   const { features } = useTenant();
@@ -107,7 +107,7 @@ const RoomSideContent = ({
 
       {/* Back Button */}
       <Button
-        onClick={() => router.push(`/bundles/${SingleCourse}`)}
+        onClick={() => router.push(`/bundles/${classroomId}`)}
         className="text-primary-800 border-primary-800 hover:bg-primary-800 group mt-6 h-11 w-full shrink-0 border bg-white py-2.5 hover:text-white"
       >
         <ChevronRight className="group-hover:stroke-white" />
@@ -147,7 +147,7 @@ const RoomSideContent = ({
                     locked={locked}
                     active={activeLessonId === lesson.id}
                     roomId={data.room.id}
-                    classroomId={SingleCourse ?? ""}
+                    classroomId={classroomId ?? ""}
                     onClick={() =>
                       onLessonClick
                         ? onLessonClick(
@@ -158,7 +158,7 @@ const RoomSideContent = ({
                             lesson?.video_type,
                           )
                         : router.push(
-                            `/bundles/${SingleCourse}/${data.room.id}?${
+                            `/bundles/${classroomId}/${data.room.id}?${
                               lesson?.video_type === "youtube"
                                 ? `video_url=${encodeURIComponent(lesson?.video_link)}`
                                 : `video_id=${lesson?.video_id}`
@@ -193,7 +193,7 @@ const RoomSideContent = ({
                     <QuizCard
                       key={quiz.id}
                       quiz={quiz}
-                      href={`/bundles/${SingleCourse}/${room}/exams/${quiz.id}`}
+                      href={`/bundles/${classroomId}/${room}/exams/${quiz.id}`}
                       locked={locked}
                     />
                   ))}
@@ -225,7 +225,7 @@ const RoomSideContent = ({
                       key={ass.id}
                       assignment={ass}
                       locked={locked}
-                      href={`/bundles/${SingleCourse}/${room}/assignment/${ass.id}`}
+                      href={`/bundles/${classroomId}/${room}/assignment/${ass.id}`}
                     />
                   ))}
                 </AccordionContent>
