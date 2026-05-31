@@ -112,6 +112,7 @@ function useLessonRoomLogic({
       setOtpData(null);
       setOtpStatus(initOtpStatus);
       useVideoPlayerStore.getState().setCurrentTime(0);
+      useVideoPlayerStore.getState().setIsPlaying(false);
     },
     [lessonId, setVideoId, setVideoUrl],
   );
@@ -211,6 +212,8 @@ function useLessonRoomLogic({
 
     const first = data.body.lessons[0];
     if (!first) return;
+    useVideoPlayerStore.getState().setCurrentTime(0);
+    useVideoPlayerStore.getState().setIsPlaying(false);
 
     if (first.video_type === "youtube") {
       setVideoUrl(first.video_link);

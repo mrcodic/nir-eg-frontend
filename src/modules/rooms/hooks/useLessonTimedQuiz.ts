@@ -40,7 +40,7 @@ export function useLessonTimedQuiz(lessonData: ILesson) {
   const { toast } = useToast();
   const params = useParams();
   const queryClient = useQueryClient();
-  const { currentTime, pause } = useVideoPlayerStore();
+  const { currentTime, isPlaying, pause } = useVideoPlayerStore();
 
   const form = useForm<TimedQuizFormValues>({
     resolver: zodResolver(timedQuizSchema),
@@ -230,6 +230,9 @@ export function useLessonTimedQuiz(lessonData: ILesson) {
 
   useEffect(() => {
     if (open || isLoading || isSubmitting) return;
+    if (!isPlaying) return;
+    if (currentTime < 0) return;
+
     const dueQuiz = availableQuizzes.find(
       (quiz) => !handledQuizIds.includes(quiz.id) && currentMinute >= quiz.time,
     );
@@ -242,9 +245,11 @@ export function useLessonTimedQuiz(lessonData: ILesson) {
     handledQuizIds,
     isLoading,
     isSubmitting,
+    isPlaying,
     loadQuizQuestions,
     open,
     pause,
+    currentTime,
   ]);
 
   const toggleAnswer = useCallback(
