@@ -106,7 +106,7 @@ const RoomLecturePage = () => {
                   lockedToPass={lockedToPass}
                 />
 
-                <div className="border-primary-50 h-[300px] overflow-hidden rounded-lg border sm:h-[520px]">
+                <div className="border-gray-light h-[300px] overflow-hidden rounded-lg border sm:h-[520px]">
                   <Suspense
                     fallback={
                       <LoadingSpinner className="h-[300px] bg-white sm:h-[520px]" />
@@ -162,7 +162,9 @@ const RoomLecturePage = () => {
                 <h2 className="text-lg font-bold">
                   {selectedLesson?.title || "--"}
                 </h2>
+
                 <hr className="border-gray-light my-2" />
+
                 <p className="text-gray-dark text-xs font-bold">
                   {lessonData?.body?.room?.grade?.title || "--"}
                 </p>

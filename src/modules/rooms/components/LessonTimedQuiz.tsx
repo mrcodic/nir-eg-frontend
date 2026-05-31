@@ -30,7 +30,7 @@ export default function LessonTimedQuiz({
         }}
       >
         <DialogContent
-          className={cn("z-[1000002] max-w-[500px] transition-all", {
+          className={cn("z-[1000002] max-w-lg transition-all", {
             "blur-sm brightness-50": quiz.confirmOpen,
           })}
           overlayClassName="z-[1000002]"
@@ -63,13 +63,13 @@ export default function LessonTimedQuiz({
       </Dialog>
 
       {quiz.confirmOpen && (
-      <LessonTimedQuizConfirmModal
-        open={quiz.confirmOpen}
-        unansweredCount={quiz.unansweredCount}
-        mode={quiz.pendingAction === "skip" ? "skip" : "submit"}
-        onCancel={() => quiz.setConfirmOpen(false)}
-        onConfirm={quiz.handleConfirmSubmit}
-      />
+        <LessonTimedQuizConfirmModal
+          open={quiz.confirmOpen}
+          unansweredCount={quiz.unansweredCount}
+          mode={quiz.pendingAction}
+          onCancel={() => quiz.setConfirmOpen(false)}
+          onConfirm={quiz.handleConfirmSubmit}
+        />
       )}
     </>
   );

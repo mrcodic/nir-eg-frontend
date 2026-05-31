@@ -81,14 +81,24 @@ export function useLessonTimedQuiz(lessonData: ILesson) {
   const passed = Boolean(result?.result ?? result?.passed);
   const score = scoreFromResult(result ?? undefined);
 
-  const unansweredCount = useMemo(() => {
-    if (!questions.length || !confirmOpen || pendingAction !== "submit")
-      return 0;
-    return questions.reduce((count, question) => {
+  const questionProgress = useMemo(() => {
+    const answeredQuestionIds = new Set<number>();
+    let unanswered = 0;
+
+    questions.forEach((question) => {
       const values = formQuestions?.[String(question.id)] ?? [];
-      return values.length > 0 ? count : count + 1;
-    }, 0);
-  }, [questions, confirmOpen, pendingAction, formQuestions]);
+      if (values.length > 0) {
+        answeredQuestionIds.add(question.id);
+      } else {
+        unanswered += 1;
+      }
+    });
+
+    return { answeredQuestionIds, unanswered };
+  }, [formQuestions, questions]);
+
+  const answeredQuestionIds = questionProgress.answeredQuestionIds;
+  const unansweredCount = questionProgress.unanswered || 0;
 
   const closeAll = useCallback(() => {
     setOpen(false);
@@ -298,6 +308,7 @@ export function useLessonTimedQuiz(lessonData: ILesson) {
     passed,
     score,
     unansweredCount,
+    answeredQuestionIds,
     handleManualClose,
     toggleAnswer,
     handleConfirm,

@@ -1,26 +1,11 @@
 import SmallSpinner from "@/components/custom/SmallSpinner";
 import { Button } from "@/components/ui/button";
 import { cn, numberToArabicOrdinal } from "@/lib/utils";
-import { QuizQuestion } from "@/types";
 import { Circle } from "lucide-react";
-
-type QuizViewModel = {
-  currentQuestion: QuizQuestion | null;
-  currentQuestionIndex: number;
-  questions: QuizQuestion[];
-  selectedAnswers: string[];
-  isLastQuestion: boolean;
-  isSubmitting: boolean;
-  toggleAnswer: (questionId: number, answerId: string) => void;
-  setCurrentQuestionIndex: (index: number) => void;
-  handleConfirm: () => void;
-  handleSkip: () => void;
-  goToNextQuestion: () => void;
-  goToPreviousQuestion: () => void;
-};
+import { useLessonTimedQuiz } from "../hooks/useLessonTimedQuiz";
 
 type Props = {
-  quiz: QuizViewModel;
+  quiz: ReturnType<typeof useLessonTimedQuiz>;
 };
 
 export default function LessonTimedQuizQuestionView({ quiz }: Props) {
@@ -28,6 +13,7 @@ export default function LessonTimedQuizQuestionView({ quiz }: Props) {
     currentQuestion: question,
     currentQuestionIndex: questionIndex,
     questions,
+    answeredQuestionIds,
     selectedAnswers,
     isSubmitting,
     toggleAnswer: onPickAnswer,
@@ -90,8 +76,14 @@ export default function LessonTimedQuizQuestionView({ quiz }: Props) {
               key={q.id}
               onClick={() => onGoToQuestion(index)}
               className={cn(
-                "bg-primary-100 size-2 rounded-full transition-all",
+                "size-2 rounded-full transition-all",
                 index === questionIndex && "bg-primary-800 w-6",
+                index !== questionIndex &&
+                  answeredQuestionIds.has(q.id) &&
+                  "bg-semantics-green",
+                index !== questionIndex &&
+                  !answeredQuestionIds.has(q.id) &&
+                  "bg-primary-100",
               )}
             />
           ))}

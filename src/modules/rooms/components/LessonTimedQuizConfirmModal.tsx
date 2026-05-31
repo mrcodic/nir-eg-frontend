@@ -9,7 +9,7 @@ import {
 type Props = {
   open: boolean;
   unansweredCount: number;
-  mode: "submit" | "skip";
+  mode: "submit" | "skip" | null;
   onCancel: () => void;
   onConfirm: () => void;
 };
@@ -47,7 +47,8 @@ export default function LessonTimedQuizConfirmModal({
             {unansweredCount > 0 && (
               <p className="font-medium text-black">
                 - لم تجب على
-                <span className="px-1 text-red-600">{unansweredCount}</span>سؤال
+                <span className="px-1 text-red-600">{unansweredCount}</span>
+                اسئلة
               </p>
             )}
           </>
