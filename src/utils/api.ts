@@ -20,6 +20,7 @@ export const postTamperAttempt = async ({
   lang,
 }) => {
   try {
+    console.log({ message, timestamp, userAgent, screen, tz, lang });
     const authToken = await getCookie();
 
     if (!authToken) {

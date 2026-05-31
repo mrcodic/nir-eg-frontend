@@ -38,12 +38,12 @@ export default function VideoCipher({
   }
 
   return (
-    <div className="relative h-[520px] w-full overflow-hidden">
+    <div className="relative h-[300px] w-full overflow-hidden sm:h-[520px]">
       <TamperResistantOverlay>
         <iframe
           ref={iframeRef}
           id="vdocipher-iframe"
-          className="relative h-[520px] w-full"
+          className="relative h-[300px] w-full sm:h-[520px]"
           src={`https://player.vdocipher.com/v2/?otp=${response.otp}&playbackInfo=${response.playbackInfo}`}
           style={{ border: 0 }}
           allow="encrypted-media"

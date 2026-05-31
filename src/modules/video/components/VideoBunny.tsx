@@ -43,12 +43,12 @@ export default function VideoBunny({
   }
 
   return (
-    <div className="relative h-[520px] w-full overflow-hidden">
+    <div className="relative h-[300px] w-full overflow-hidden sm:h-[520px]">
       <TamperResistantOverlay>
         <iframe
           ref={iframeRef}
           id="bunny-iframe"
-          className="relative h-[520px] w-full"
+          className="relative h-[300px] w-full sm:h-[520px]"
           src={embedUrl}
           loading="lazy"
           style={{ border: 0 }}

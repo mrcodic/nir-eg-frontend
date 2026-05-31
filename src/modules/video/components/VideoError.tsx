@@ -1,5 +1,4 @@
 import Image from "next/image";
-import React from "react";
 
 export default function VideoError({
   message,
@@ -9,7 +8,7 @@ export default function VideoError({
   src?: string;
 }) {
   return (
-    <div className="flex min-h-[520px] flex-col items-center justify-center gap-4 bg-white">
+    <div className="flex h-[300px] flex-col items-center justify-center gap-4 bg-white sm:h-[520px]">
       <div className="relative mx-auto aspect-square w-full max-w-71">
         <Image
           src={src || "/assets/bg/error.svg"}

@@ -106,14 +106,14 @@ const RoomLecturePage = () => {
                   lockedToPass={lockedToPass}
                 />
 
-                <div className="border-primary-50 min-h-[520px] overflow-hidden rounded-lg border">
+                <div className="border-primary-50 h-[300px] overflow-hidden rounded-lg border sm:h-[520px]">
                   <Suspense
                     fallback={
-                      <LoadingSpinner className="h-fit min-h-[520px] bg-white" />
+                      <LoadingSpinner className="h-[300px] bg-white sm:h-[520px]" />
                     }
                   >
                     {otpStatus?.loading ? (
-                      <LoadingSpinner className="h-fit min-h-[520px] bg-white" />
+                      <LoadingSpinner className="h-[300px] bg-white sm:h-[520px]" />
                     ) : otpStatus?.error ? (
                       <VideoError
                         message={

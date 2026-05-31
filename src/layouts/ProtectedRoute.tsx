@@ -1,8 +1,8 @@
 "use client";
 
+import PhoneVerificationAlertModal from "@/components/modals/PhoneVerificationAlertModal";
 import Empty from "@/components/shared/Empty";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
-import PhoneVerificationAlertModal from "@/components/modals/PhoneVerificationAlertModal";
 import { Button } from "@/components/ui/button";
 import { useAuthContext } from "@/context/auth-context";
 import { useRouter } from "next/navigation";
@@ -43,7 +43,7 @@ const ProtectedRoute = ({
     );
   }
 
-  if (!subscribed)
+  if (data && !subscribed)
     return (
       <div className="h-screen">
         <Empty isError text={text || " انت غير مشترك في هذا الكورس  "} />
