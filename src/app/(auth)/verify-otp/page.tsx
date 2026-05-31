@@ -1,7 +1,7 @@
 "use client";
 
-import OtpVerifyForm from "@/modules/auth/components/OtpVerifyForm";
 import AuthHeader from "@/layouts/AuthHeader";
+import OtpVerifyForm from "@/modules/auth/components/OtpVerifyForm";
 import { getLocalStorage } from "@/utils/clientFun";
 import { setResetPasswordOtpGate } from "@/utils/reset-password-gate";
 import Link from "next/link";
@@ -12,11 +12,13 @@ export default function VerifyOtpPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const type = searchParams.get("type") as "forget" | "login";
+
   const [phone, setPhone] = useState(() => getLocalStorage("phone") ?? "");
 
   useEffect(() => {
     if (phone) return;
     const stored = getLocalStorage("phone");
+
     if (stored) {
       setPhone(stored);
     } else {

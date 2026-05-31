@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
-
 import ChangePasswordSettings from "@/modules/profile/components/ChangePasswordSettings";
 import ProfileCompletionFields from "@/modules/profile/components/ProfileCompletionFields";
 import { useAccountSettingsForm } from "@/modules/profile/hooks/useAccountSettingsForm";

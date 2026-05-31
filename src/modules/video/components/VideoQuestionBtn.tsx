@@ -1,17 +1,13 @@
 import { useVideoPlayerStore } from "@/store/videoPlayerStore";
 import { X } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 function VideoQuestionBtn({ videoId }: { videoId: string }) {
   const [hideBtn, setHideBtn] = useState(false);
   const { pause } = useVideoPlayerStore();
 
-  useEffect(() => {
-    if (videoId) setHideBtn(false);
-  }, [videoId]);
-
-  if (hideBtn) return null;
+  if (hideBtn || !videoId) return null;
 
   return (
     <button
@@ -24,7 +20,7 @@ function VideoQuestionBtn({ videoId }: { videoId: string }) {
           (inputEl as HTMLElement).focus?.();
         }
       }}
-      className="text-primary-800 border-gray-light bg-background hover:border-primary hover:bg-primary-100 absolute right-4 bottom-16 z-5 w-[190px] cursor-pointer rounded-lg border p-2 py-4 transition-all md:w-[250px]"
+      className="text-primary-800 border-gray-light bg-background hover:border-primary hover:bg-primary-100 absolute right-4 bottom-18 z-5 w-[190px] cursor-pointer rounded-lg border p-2 py-4 transition-all md:w-[250px]"
     >
       <div
         onClick={(e) => {

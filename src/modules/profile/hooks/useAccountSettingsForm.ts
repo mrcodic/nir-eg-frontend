@@ -21,7 +21,6 @@ import { useRouter } from "next/navigation";
 type AccountSettingsValues = Record<string, unknown> & {
   first_name?: string;
   phone?: { country?: string; country_iso?: string; phone?: string };
-  grade_id?: number | string;
   center_id?: number | string;
   avatar?: File | null;
   old_password?: string;
@@ -38,6 +37,7 @@ export function useAccountSettingsForm() {
   const router = useRouter();
   const { toast } = useToast();
   const queryClient = useQueryClient();
+
   const { profile } = useAuthContext();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -78,7 +78,6 @@ export function useAccountSettingsForm() {
         country_iso: phoneInfo?.isoCode || "",
         phone: profile?.phone || "",
       },
-      grade_id: profile?.grade ?? undefined,
       center_id: profile?.center_id ?? null,
       avatar: null,
       old_password: "",

@@ -12,7 +12,6 @@ interface CustomInputProps {
   type?: string;
   iconSrc?: string;
   onChange?: () => void;
-  isPassword?: boolean; // Icon support
   placeholder?: string;
   defaultValue?: string;
   disabled?: boolean;
@@ -27,7 +26,6 @@ const CustomInput = ({
   type = "text",
   className = "",
   iconSrc,
-  isPassword,
   defaultValue,
   disabled,
 }: CustomInputProps) => {
@@ -59,7 +57,7 @@ const CustomInput = ({
                 {...field}
                 id={name}
                 value={field.value ?? defaultValue ?? ""}
-                disabled={isPassword || disabled}
+                disabled={disabled}
               />
             </FormControl>
 

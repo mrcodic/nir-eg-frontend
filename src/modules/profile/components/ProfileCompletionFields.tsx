@@ -5,10 +5,10 @@ import CustomInput from "@/components/custom/customInput";
 import CustomPhoneInput from "@/components/custom/CustomPhoneInput";
 import CustomSelect from "@/components/custom/customSelect";
 import ProfileAttachmentsField from "@/components/custom/ProfileAttachmentsField";
+import { FALLBACK_STUDENT_TYPE_OPTIONS } from "@/helpers/profile-completion.helpers";
 import { DynamicProfileField } from "@/types/auth.types";
 import { useMemo } from "react";
 import { UseFormReturn } from "react-hook-form";
-import { FALLBACK_STUDENT_TYPE_OPTIONS } from "../../../helpers/profile-completion.helpers";
 
 type Props<TValues extends Record<string, unknown>> = {
   form: UseFormReturn<TValues>;

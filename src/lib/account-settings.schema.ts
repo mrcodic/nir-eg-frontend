@@ -11,7 +11,6 @@ export const buildAccountSettingsSchema = ({
   const staticBaseSchema = z.object({
     first_name: z.string().min(1, "الاسم الأول مطلوب"),
     phone: phoneSchema,
-    grade_id: z.coerce.number().optional(),
     center_id: z.coerce.number().optional(),
     avatar: z.any().optional(),
     old_password: z
