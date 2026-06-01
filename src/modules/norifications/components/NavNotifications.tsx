@@ -92,7 +92,6 @@ function NavNotifications() {
           "z-50 w-screen max-w-[min(438px,95vw)] p-2",
           "border-gray-light rounded-lg border bg-white",
           "flex flex-col",
-          // "max-h-[min(80vh,var(--radix-dropdown-menu-content-available-height))]",
         )}
         sideOffset={8}
         collisionPadding={8}
@@ -107,7 +106,8 @@ function NavNotifications() {
 
         <ScrollArea
           className={cn(
-            "mt-2 mb-2 h-[calc(100vh-140px)] max-h-[450px] rounded-xl",
+            "mt-2 mb-2 rounded-xl",
+            "**:data-radix-scroll-area-viewport:max-h-[min(630px,calc(100dvh-140px))]",
             {
               "animate-pulse opacity-80": isPlaceholderData,
               "border-t-0": notifications?.data?.length === 0,

@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useModal } from "@/context/ModalProvider";
 import { useTenant } from "@/context/TenantProvider";
-import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { IUser } from "@/types";
 import Image from "next/image";
@@ -27,7 +26,6 @@ function NavUserMenu({
   shouldShowBooks: boolean;
 }) {
   const modal = useModal();
-  const { toast } = useToast();
   const { features } = useTenant();
 
   const hasCommunityEnabled = features?.community_system;

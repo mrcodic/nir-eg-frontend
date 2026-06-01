@@ -4,21 +4,21 @@ import { PaymentModel } from "@/components/modals/PaymentModel";
 import { Button } from "@/components/ui/button";
 import DataWithLabel from "@/components/ui/DataWithLabel";
 import PriceBubbles from "@/components/ui/price-bubble";
+import { useAuthContext } from "@/context/auth-context";
 import { useModal } from "@/context/ModalProvider";
 import { cn } from "@/lib/utils";
-import { Bundle, IUser } from "@/types";
+import { Bundle } from "@/types";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 export default function BundleCard({
   bundle,
-  profile,
   isMultiGrid,
 }: {
   bundle: Bundle;
-  profile: IUser;
   isMultiGrid?: boolean;
 }) {
+  const { profile } = useAuthContext();
   const router = useRouter();
   const modal = useModal();
 

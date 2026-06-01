@@ -3,25 +3,24 @@
 import Link from "next/link";
 import { useMemo } from "react";
 
-import { useAuthContext } from "@/context/auth-context";
 import { useTenant } from "@/context/TenantProvider";
-import { useBooksSettings } from "@/modules/books-store/hooks/useBooksSettings";
 import { cn } from "@/lib/utils";
+import { useBooksSettings } from "@/modules/books-store/hooks/useBooksSettings";
 import NavNotifications from "@/modules/norifications/components/NavNotifications";
+import UserTenantSwitch from "@/modules/tenant/components/UserTenantSwitch";
+import { IUser } from "@/types";
 import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 import CustomImage from "../ui/CustomImage";
 import LinkStyled from "./LinkStyled";
 import MobileDropDown from "./MobileDropDown";
 import NavUserMenu from "./NavUserMenu";
-import UserTenantSwitch from "@/modules/tenant/components/UserTenantSwitch";
 
 const NavCartButton = dynamic(
   () => import("@/modules/books-store/components/NavCartButton"),
 );
 
-const AuthNavBar = () => {
-  const { profile, grade } = useAuthContext();
+const AuthNavBar = ({ profile }: { profile: IUser }) => {
   const { logo, features } = useTenant();
   const { shouldShowBooks, shouldShowCart } = useBooksSettings();
   const pathname = usePathname();
@@ -36,7 +35,6 @@ const AuthNavBar = () => {
         href: "/profile",
         show: true,
       },
-
       {
         title: "الاشتراكات",
         href: `/subscriptions`,
@@ -44,7 +42,7 @@ const AuthNavBar = () => {
       },
       {
         title: "الباقات",
-        href: `/bundles?grade=${grade?.id}`,
+        href: `/bundles?grade=${profile?.grade}`,
         show: isOnlineStudent,
       },
       {
@@ -65,9 +63,10 @@ const AuthNavBar = () => {
     ];
 
     return links.filter(
-      (link) => link.show && (link.href || link.title === "الحصص"),
+      (link) => link.show,
+      // (link) => link.show && (link.href || link.title === "الحصص"),
     );
-  }, [profile, grade, isOnlineStudent, hasGradesEnabled]);
+  }, [profile, isOnlineStudent, hasGradesEnabled]);
 
   return (
     <header
@@ -86,7 +85,7 @@ const AuthNavBar = () => {
             href={
               profile?.has_center
                 ? `/bundles/${profile?.center_id}`
-                : `/bundles?grade=${grade?.id}`
+                : `/bundles?grade=${profile?.grade}`
             }
             className="flex gap-2 self-end"
           >
@@ -112,8 +111,8 @@ const AuthNavBar = () => {
 
           <div className="mobile:gap-6 flex items-center gap-2 sm:gap-4">
             {pathname.startsWith("/books") &&
-              features?.book_store &&
-              shouldShowCart && <NavCartButton />}
+              !!features?.book_store &&
+              !!shouldShowCart && <NavCartButton />}
 
             <UserTenantSwitch />
 

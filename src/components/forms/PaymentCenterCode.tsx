@@ -1,5 +1,3 @@
-"use client";
-
 import Image from "next/image";
 import Empty from "../shared/Empty";
 import PriceBubbles from "../ui/price-bubble";

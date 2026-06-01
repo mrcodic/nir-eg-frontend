@@ -1,10 +1,10 @@
+import { Animate } from "@/components/shared/Animate";
+import PaginationServer from "@/components/shared/PaginationServer";
 import { getServerData } from "@/helpers/server-fetch";
 import { cn } from "@/lib/utils";
 import RoomHeader from "@/modules/rooms/components/RoomHeader";
 import { Bundle, IUser } from "@/types";
 import BundleCard from "./BundleCard";
-import PaginationServer from "@/components/shared/PaginationServer";
-import { Animate } from "@/components/shared/Animate";
 
 const ITEMS_PER_PAGE = 1;
 
@@ -67,11 +67,7 @@ const BundlesWrapper = async ({
         {paginatedBundles?.map((bundle, index) => {
           return (
             <Animate key={bundle.id} isChild preset="slideUp">
-              <BundleCard
-                profile={profile}
-                bundle={bundle}
-                isMultiGrid={isMultiGrid}
-              />
+              <BundleCard bundle={bundle} isMultiGrid={isMultiGrid} />
             </Animate>
           );
         })}

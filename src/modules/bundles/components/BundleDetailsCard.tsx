@@ -1,8 +1,15 @@
+import DataWithLabel from "@/components/ui/DataWithLabel";
+import PriceBubbles from "@/components/ui/price-bubble";
 import { Bundle } from "@/types";
 import Image from "next/image";
-import DataWithLabel from "@/components/ui/DataWithLabel";
 
-function BundleDetailsCard({ bundle }: { bundle: Bundle }) {
+function BundleDetailsCard({
+  bundle,
+  showPrice,
+}: {
+  bundle: Bundle;
+  showPrice?: boolean;
+}) {
   return (
     <div className="flex gap-6 max-md:flex-col">
       <div className="border-gray-light relative aspect-square max-h-58 min-w-46 overflow-hidden rounded-lg border">
@@ -19,6 +26,8 @@ function BundleDetailsCard({ bundle }: { bundle: Bundle }) {
       <div className="border-gray-light grow rounded-lg border p-4">
         <div className="flex items-center justify-between gap-4">
           <h4 className="text-2xl font-bold">{bundle?.name}</h4>
+
+          {showPrice && <PriceBubbles price={bundle?.price} />}
         </div>
 
         <hr className="bg-gray-light my-3 h-px w-full" />

@@ -18,17 +18,15 @@ const formSchema = z.object({
   code: z.string().min(1, "الكود مطلوب"),
 });
 
-{
-  /* <Congrats open={open} setOpen={setOpen} /> */
-}
-
 function CodePaymentForm({
   roomId,
   courseId,
   isCodeCenter,
+  bundleId,
 }: {
-  roomId: string;
-  courseId: string;
+  roomId?: string;
+  bundleId?: string;
+  courseId?: string;
   isCodeCenter?: boolean;
 }) {
   const { toast } = useToast();
@@ -56,7 +54,15 @@ function CodePaymentForm({
     try {
       let response;
 
-      if (isCodeCenterStudent) {
+      if (bundleId) {
+        response = await mutateClient("/students/subscripe-bundle", {
+          body: {
+            code: v.code.trim(),
+            bundle_id: bundleId,
+            grade_id: profile?.grade,
+          },
+        });
+      } else if (isCodeCenterStudent) {
         response = await mutateClient("/students/subscriptions/claim-coupon", {
           body: {
             code: v.code.trim(),
@@ -65,6 +71,7 @@ function CodePaymentForm({
           },
         });
       } else {
+        // center student
         response = await mutateClient("/students/subscribe-room", {
           body: {
             code: v.code.trim(),
@@ -77,11 +84,15 @@ function CodePaymentForm({
       console.log("response : ", response);
 
       toast({
-        description: "تم دفع قيمه الكورس بنجاح",
+        description: "تم الاشتراك بنجاح",
         icon: "success",
       });
 
-      router.push(`/bundles/${courseId}`);
+      if (bundleId) {
+        router.push(`/bundles/bundle-details/${bundleId}`);
+      } else {
+        router.push(`/bundles/${courseId}`);
+      }
     } catch (e) {
       const errorMessage =
         e?.response?.data?.error?.errors?.code[0] ||
@@ -152,13 +163,7 @@ function CodePaymentForm({
         <span className="relative z-5 bg-white px-8">او</span>
       </div>
 
-      <div>
-        <h4 className="text-xl font-bold">
-          لو مش معاك كود الدفع، كلمنا على واتساب
-        </h4>
-
-        <PaymentWhatsappLink className="mt-4" />
-      </div>
+      <PaymentWhatsappLink className="mt-4" />
     </div>
   );
 }

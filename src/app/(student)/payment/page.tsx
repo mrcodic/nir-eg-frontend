@@ -32,6 +32,7 @@ const page = async ({ searchParams }) => {
   // used only for payment with code for now
   // other payment methods use payment gateway from the model
 
+  console.log(data);
   return (
     <div className="wrapper mt-20 mb-12 pt-22">
       <h2 className="text-28 mb-10 font-bold whitespace-nowrap">
