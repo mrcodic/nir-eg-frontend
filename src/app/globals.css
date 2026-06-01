@@ -457,3 +457,20 @@
     height: 300px;
   }
 }
+
+::-webkit-scrollbar {
+  width: 7px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: hsl(var(--primary-h) var(--primary-s) var(--primary-l));
+  border-radius: 999px;
+  border: 0.2px solid transparent;
+  background-clip: padding-box;
+}
