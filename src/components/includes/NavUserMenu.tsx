@@ -8,12 +8,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useModal } from "@/context/ModalProvider";
 import { useTenant } from "@/context/TenantProvider";
+import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { IUser } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 import { QRCodeCanvas } from "qrcode.react";
 import LogoutCustomModal from "../modals/LogoutCustomModal";
+import UserTenantCode from "../shared/UserTenantCode";
 import CustomImage from "../ui/CustomImage";
 import { ScrollArea } from "../ui/scroll-area";
 
@@ -25,6 +27,7 @@ function NavUserMenu({
   shouldShowBooks: boolean;
 }) {
   const modal = useModal();
+  const { toast } = useToast();
   const { features } = useTenant();
 
   const hasCommunityEnabled = features?.community_system;
@@ -40,7 +43,7 @@ function NavUserMenu({
         />
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent className="mobile:top-1 border-gray-light relative left-10 z-100 w-[272px] rounded-lg border bg-white pt-4 pb-2">
+      <DropdownMenuContent className="mobile:top-1 border-gray-light relative left-10 z-100 flex w-[272px] flex-col rounded-lg border bg-white pt-4 pb-2">
         <ScrollArea
           dir="rtl"
           className={cn(
@@ -61,9 +64,16 @@ function NavUserMenu({
                 " " +
                 (profile?.last_name || "--")}
             </h3>
-
-            <div className="bg-gray-light mb-4 h-px w-full" />
           </DropdownMenuItem>
+
+          <div className="flex justify-center">
+            <UserTenantCode
+              tenantCode={profile?.tenant_code}
+              className="mt-4"
+            />
+          </div>
+
+          <div className="bg-gray-light mt-3 mb-4 h-px w-full" />
 
           <DropdownMenuItem>
             <div className="mb-3 flex items-center gap-2">

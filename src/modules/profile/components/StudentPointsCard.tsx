@@ -35,7 +35,7 @@ function StudentPointsCard({
           </div>
         </div>
 
-        {showLink && (
+        {showLink && !!points && (
           <Link
             href="#points-table"
             className="bg-primary-800 hover:bg-primary/80 ms-auto flex h-7 shrink-0 items-center justify-center self-end rounded-md px-3 text-sm font-medium text-white transition-all"
