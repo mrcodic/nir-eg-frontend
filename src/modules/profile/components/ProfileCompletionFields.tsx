@@ -5,7 +5,6 @@ import CustomInput from "@/components/custom/customInput";
 import CustomPhoneInput from "@/components/custom/CustomPhoneInput";
 import CustomSelect from "@/components/custom/customSelect";
 import ProfileAttachmentsField from "@/components/custom/ProfileAttachmentsField";
-import { FALLBACK_STUDENT_TYPE_OPTIONS } from "@/helpers/profile-completion.helpers";
 import { DynamicProfileField } from "@/types/auth.types";
 import { useMemo } from "react";
 import { UseFormReturn } from "react-hook-form";
@@ -104,25 +103,6 @@ export default function ProfileCompletionFields<
         // ── single-column fields (selects + inputs) ────────────────────────
         const colClass = oddLastKeys.has(field.key) ? "col-span-2" : undefined;
 
-        if (field.key === "student_type") {
-          const options =
-            field.options?.map((opt) => ({
-              value: String(opt.value),
-              label: opt.label,
-            })) ?? FALLBACK_STUDENT_TYPE_OPTIONS;
-
-          return (
-            <CustomSelect
-              key={field.key}
-              control={form.control}
-              name={field.key}
-              label={field.label}
-              options={options}
-              className={colClass}
-            />
-          );
-        }
-
         if (field.type === "select") {
           const options =
             field.options?.map((opt) => ({
@@ -130,9 +110,14 @@ export default function ProfileCompletionFields<
               label: opt.label,
             })) ?? [];
 
+          // ✅ getValues is fine here — parent re-renders after reset() anyway
+          const savedValue = form.getValues(field.key as never) as
+            | string
+            | undefined;
+
           return (
             <CustomSelect
-              key={field.key}
+              key={`${field.key}-${savedValue || "empty"}`}
               control={form.control}
               name={field.key}
               label={field.label}

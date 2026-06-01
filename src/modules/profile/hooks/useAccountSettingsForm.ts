@@ -37,7 +37,6 @@ export function useAccountSettingsForm() {
   const router = useRouter();
   const { toast } = useToast();
   const queryClient = useQueryClient();
-
   const { profile } = useAuthContext();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -55,23 +54,19 @@ export function useAccountSettingsForm() {
     const fields = (settingsFieldsQuery.data?.data?.fields ?? []).filter(
       (field) => field.enabled,
     );
-
     return sortDynamicProfileFields(fields, {
       excludeKeys: ["first_name", "phone", "grade_id", "avatar"],
     });
   }, [settingsFieldsQuery.data?.data?.fields]);
 
-  const dynamicDefaults = useMemo(
-    () =>
-      buildProfileCompletionDefaults(
-        dynamicFields,
-        (profile as unknown as Record<string, unknown> | null) ?? null,
-      ),
-    [dynamicFields, profile],
-  );
+  // ✅ Schema built once when fields arrive, stable empty schema before that
+  const schema = useMemo(() => {
+    return buildAccountSettingsSchema({ dynamicFields });
+  }, [dynamicFields]);
 
-  const defaultValues = useMemo<AccountSettingsValues>(
-    () => ({
+  // ✅ defaultValues only includes dynamic fields when they're actually ready
+  const defaultValues = useMemo<AccountSettingsValues>(() => {
+    const base: AccountSettingsValues = {
       first_name: profile?.first_name ?? "",
       phone: {
         country: phoneInfo?.code || "",
@@ -83,24 +78,35 @@ export function useAccountSettingsForm() {
       old_password: "",
       password: "",
       password_confirmation: "",
-      ...dynamicDefaults,
-    }),
-    [dynamicDefaults, phoneInfo?.code, phoneInfo?.isoCode, profile],
-  );
+    };
 
-  const schema = useMemo(() => {
-    return buildAccountSettingsSchema({ dynamicFields });
-  }, [dynamicFields]);
+    if (dynamicFields.length === 0) return base;
+
+    const dynamicDefaults = buildProfileCompletionDefaults(
+      dynamicFields,
+      (profile as unknown as Record<string, unknown> | null) ?? null,
+    );
+
+    return { ...base, ...dynamicDefaults };
+  }, [dynamicFields, phoneInfo?.code, phoneInfo?.isoCode, profile]);
 
   const form = useForm<AccountSettingsValues>({
-    defaultValues,
     mode: "onBlur",
     resolver: zodResolver(schema),
+    defaultValues,
   });
 
+  // ✅ Reset once when dynamic fields + profile are both ready
+  // Uses settingsFieldsQuery.isSuccess to guarantee data exists
   useEffect(() => {
+    if (
+      !settingsFieldsQuery.isSuccess ||
+      dynamicFields.length === 0 ||
+      !profile
+    )
+      return;
     form.reset(defaultValues);
-  }, [defaultValues, form]);
+  }, [settingsFieldsQuery.isSuccess, dynamicFields, profile]);
 
   const submit = form.handleSubmit(async (values) => {
     if (changePassword) {
@@ -131,7 +137,12 @@ export function useAccountSettingsForm() {
         if (key === "center_id") {
           const hasExistingCenter =
             profile?.center_id !== null && profile?.center_id !== undefined;
-          if (profile?.type !== 3 || hasExistingCenter) return;
+          if (
+            profile?.type !== 3 ||
+            hasExistingCenter ||
+            values?.student_type != 3
+          )
+            return;
         }
 
         if (key === "avatar" && rawValue instanceof File) {

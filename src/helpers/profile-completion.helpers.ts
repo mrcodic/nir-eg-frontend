@@ -26,6 +26,7 @@ const isTypeCompatible = (
   incoming: unknown,
 ): boolean => {
   if (incoming === null || incoming === undefined) return false;
+
   if (field.type === "select") {
     if (field.key === "state_id" || field.key === "city_id") {
       return typeof incoming === "string" || typeof incoming === "number";
@@ -33,18 +34,17 @@ const isTypeCompatible = (
     const options = field.options ?? [];
     return options.some((opt) => String(opt.value) === String(incoming));
   }
+
   if (field.type === "profile_attachments" || field.type === "file") {
     return Array.isArray(incoming);
   }
+
   return typeof incoming === "string" || typeof incoming === "number";
 };
 
-const normalizeSelectValue = (key: string, value: unknown): string => {
+const normalizeSelectValue = (_key: string, value: unknown): string => {
   if (value === null || value === undefined || value === "") return "";
-  if (key === "state_id" || key === "city_id" || key === "student_type") {
-    return String(Number(value));
-  }
-  return String(value);
+  return String(value); // ← simplest possible, always returns string
 };
 
 export const buildProfileCompletionDefaults = (
@@ -54,14 +54,16 @@ export const buildProfileCompletionDefaults = (
   const defaults: ProfileCompletionValues = {};
 
   fields.forEach((field) => {
-    const candidate = prefillData?.[field.key];
+    const candidate =
+      prefillData?.[field.key === "student_type" ? "type" : field.key];
     if (field.type === "phone") {
-      const rawValue =
-        isTypeCompatible(field, candidate)
-          ? candidate
-          : field.value !== null && field.value !== undefined && field.value !== ""
-            ? field.value
-            : "";
+      const rawValue = isTypeCompatible(field, candidate)
+        ? candidate
+        : field.value !== null &&
+            field.value !== undefined &&
+            field.value !== ""
+          ? field.value
+          : "";
 
       defaults[field.key] = {
         country: "+20",
@@ -143,16 +145,13 @@ export const buildProfileCompletionSchema = (fields: DynamicProfileField[]) => {
         .refine((entry) => entry.id !== undefined || entry.file !== undefined, {
           message: "الملف غير صالح",
         })
-        .refine(
-          (entry) => {
-            if (!entry.file) return true;
-            if (!acceptedMimePrefixes.length) return true;
-            return acceptedMimePrefixes.some((prefix) =>
-              entry.file!.type.startsWith(prefix),
-            );
-          },
-          "نوع الملف غير مدعوم",
-        )
+        .refine((entry) => {
+          if (!entry.file) return true;
+          if (!acceptedMimePrefixes.length) return true;
+          return acceptedMimePrefixes.some((prefix) =>
+            entry.file!.type.startsWith(prefix),
+          );
+        }, "نوع الملف غير مدعوم")
         .refine(
           (entry) => !entry.file || entry.file.size <= maxSizeBytes,
           `حجم الملف يجب ألا يتجاوز ${maxSizeMb}MB`,
@@ -186,7 +185,10 @@ export const buildProfileCompletionSchema = (fields: DynamicProfileField[]) => {
 
     if (field.type === "email") {
       shape[field.key] = field.required
-        ? z.string().min(1, `${field.label} مطلوب`).email("بريد إلكتروني غير صالح")
+        ? z
+            .string()
+            .min(1, `${field.label} مطلوب`)
+            .email("بريد إلكتروني غير صالح")
         : z.string().optional();
       return;
     }

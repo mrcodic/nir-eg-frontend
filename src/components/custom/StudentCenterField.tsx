@@ -47,7 +47,7 @@ export default function StudentCenterField({
   }, [profile, mappedCenters]);
 
   return (
-    <div className={cn("mt-6", className)}>
+    <div className={cn(className)}>
       <ComboboxForm
         label="السنتر"
         options={mappedCenters}

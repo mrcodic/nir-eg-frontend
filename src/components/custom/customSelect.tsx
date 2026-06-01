@@ -49,7 +49,7 @@ const CustomSelect = ({
               <Select
                 dir="rtl"
                 onValueChange={field.onChange}
-                value={field.value ? String(field.value) : undefined}
+                value={field.value !== undefined ? String(field.value) : ""}
               >
                 <SelectTrigger
                   aria-invalid={!!fieldState.error}
@@ -66,7 +66,7 @@ const CustomSelect = ({
                   )}
                   <SelectValue placeholder={placeholder || `اختر ${label}`} />
                 </SelectTrigger>
-                <SelectContent className="z-9999999 bg-white text-black">
+                <SelectContent className="z-99999 bg-white text-black">
                   {isLoading ? (
                     <div className="flex min-h-16 items-center justify-center">
                       <Loader2 className="size-4 animate-spin" />

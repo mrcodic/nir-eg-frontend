@@ -65,6 +65,8 @@ const AccountSettings = () => {
   const hasExistingCenter =
     profile?.center_id !== null && profile?.center_id !== undefined;
 
+  // console.log("form", form.getValues());
+
   return (
     <div className="wrapper mt-[168px] mb-12">
       <div className="border-gray-light mx-auto w-full rounded-lg border p-4 md:max-w-[792px]">
