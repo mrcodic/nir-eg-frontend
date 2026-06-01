@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { OTP_SEND_TIME_KEY } from "@/constants";
 import { useToast } from "@/hooks/use-toast";
-import { isOtpExpired, setNewOtpSendTime } from "@/lib/utils";
+import { isOtpExpired, setNewOtpSendTime } from "@/lib/otp-timer";
 import { sendAuthOtpCode } from "@/services/auth.service";
 import { DialogClose } from "@radix-ui/react-dialog";
 import Image from "next/image";

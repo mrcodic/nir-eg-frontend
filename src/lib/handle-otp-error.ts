@@ -2,7 +2,7 @@ import { AUTH_ERROR_CODES } from "@/constants/error-codes";
 import { toast } from "@/hooks/use-toast";
 import { OtpVerifyErrorResponse } from "@/types/auth.types";
 import { isAxiosError } from "axios";
-import { isOtpExpired, setNewOtpSendTime } from "./utils";
+import { isOtpExpired, setNewOtpSendTime } from "./otp-timer";
 
 export const getOtpVerifyErrorMessage = (error: unknown): string => {
   if (!isAxiosError(error)) {

@@ -1,8 +1,4 @@
-import {
-  arabicOrdinalMap,
-  COOLDOWN_DURATION,
-  OTP_SEND_TIME_KEY,
-} from "@/constants";
+import { arabicOrdinalMap } from "@/constants";
 import { arabCountries } from "@/constants/arabCountries";
 import { clsx, type ClassValue } from "clsx";
 import { extendTailwindMerge } from "tailwind-merge";
@@ -41,46 +37,6 @@ export const numberToArabicOrdinal = (num: number): string => {
   }
 
   return num.toString();
-};
-
-export const getInitialExpiryTime = () => {
-  if (typeof window == "undefined") return new Date();
-
-  const otpSendTime = localStorage.getItem(OTP_SEND_TIME_KEY);
-
-  if (otpSendTime) {
-    const sendTimestamp = parseInt(otpSendTime);
-    const currentTime = Date.now();
-
-    if (sendTimestamp < currentTime) {
-      localStorage.removeItem(OTP_SEND_TIME_KEY);
-      return new Date();
-    } else {
-      return new Date(sendTimestamp);
-    }
-  }
-
-  return new Date();
-};
-
-export const isOtpExpired = () => {
-  const otpSendTime = getInitialExpiryTime();
-
-  return { otpSendTime, isExpired: otpSendTime.getTime() < Date.now() + 1000 };
-};
-
-export const setNewOtpSendTime = ({
-  customDuration,
-}: {
-  customDuration?: number;
-} = {}) => {
-  const newTime = new Date();
-  newTime.setSeconds(
-    newTime.getSeconds() + (customDuration || COOLDOWN_DURATION),
-  );
-
-  localStorage.setItem(OTP_SEND_TIME_KEY, newTime.getTime().toString());
-  return newTime;
 };
 
 interface Answer {
