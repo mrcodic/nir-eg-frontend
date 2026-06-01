@@ -5,17 +5,17 @@ import Image from "next/image";
 import { useEffect } from "react";
 import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 
-const AuthLayout = ({ children, img }) => {
+const AuthLayout = ({ children }) => {
   useEffect(() => {
     return () => {
       // Delay cleanup by e.g. 300ms
       setTimeout(() => {
         try {
           if (
-            window.grecaptcha &&
-            typeof window.grecaptcha.reset === "function"
+            window?.grecaptcha &&
+            typeof window?.grecaptcha.reset === "function"
           ) {
-            window.grecaptcha.reset();
+            window?.grecaptcha?.reset?.();
           }
         } catch {}
         const badge = document.querySelector(".grecaptcha-badge");
@@ -38,9 +38,6 @@ const AuthLayout = ({ children, img }) => {
       <div
         className={cn(
           "mt-20 flex h-full min-h-[calc(100%-80px)] grow flex-wrap group-data-[template=landing-v3]/template:mt-0 lg:items-start",
-          // {
-          //   "mt-0": template == 3,
-          // },
         )}
       >
         <div className="bg-primary-radial relative flex items-center justify-center max-lg:h-[400px] max-lg:w-full lg:w-[38%] lg:self-stretch">
@@ -54,10 +51,7 @@ const AuthLayout = ({ children, img }) => {
 
         <main
           className={cn(
-            "relative z-10 mx-4 -mt-40 bg-white! p-5 py-[62px] max-lg:w-full lg:mx-auto lg:mt-0 lg:w-[52%] group-data-[template=landing-v3]/template:lg:mt-32",
-            // {
-            //   "lg:mt-32": template == 3,
-            // },
+            "relative z-10 mx-4 -mt-40 bg-white! px-3 py-8 max-lg:w-full sm:px-5 sm:py-16 lg:mx-auto lg:mt-0 lg:w-[52%] group-data-[template=landing-v3]/template:lg:mt-32",
           )}
         >
           {children}

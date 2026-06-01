@@ -2,13 +2,14 @@
 
 import { OTP_SEND_TIME_KEY } from "@/constants";
 import { AUTH_ERROR_CODES } from "@/constants/error-codes";
+import { useToast } from "@/hooks/use-toast";
 import { handleOtpError } from "@/lib/handle-otp-error";
+import { resolveOtpExpiryTimestamp } from "@/lib/otp-timer";
+import { isOtpExpired } from "@/lib/utils";
 import { sendAuthOtpCode } from "@/services/auth.service";
-import { isOtpExpired, setNewOtpSendTime } from "@/lib/utils";
 import { isAxiosError } from "axios";
 import { useCallback, useState } from "react";
 import { useTimer } from "react-timer-hook";
-import { useToast } from "@/hooks/use-toast";
 
 function useOtp() {
   const { otpSendTime, isExpired } = isOtpExpired();
@@ -42,24 +43,8 @@ function useOtp() {
           otp_code: res?.otp_code,
         };
 
-        const expiryFromServer = payload?.expires_at
-          ? new Date(payload.expires_at)
-          : null;
-        const hasValidServerExpiry =
-          expiryFromServer instanceof Date &&
-          !Number.isNaN(expiryFromServer.getTime()) &&
-          expiryFromServer.getTime() > Date.now();
-
-        if (hasValidServerExpiry) {
-          localStorage.setItem(
-            OTP_SEND_TIME_KEY,
-            expiryFromServer.getTime().toString(),
-          );
-          restart(expiryFromServer);
-        } else {
-          const newTime = setNewOtpSendTime();
-          restart(newTime);
-        }
+        const expiry = resolveOtpExpiryTimestamp(payload);
+        restart(expiry);
 
         setStart(true);
         setLastOtpIsNew(

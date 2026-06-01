@@ -27,15 +27,9 @@ const ProtectedRoute = ({
   const router = useRouter();
   const { profile, isLoading: isLoadingProfile } = useAuthContext();
 
-  const phoneVerified = isLoadingProfile || profile?.parent_phone_verification;
+  const phoneVerified = profile?.parent_phone_verification;
 
-  // useEffect(() => {
-  //   if (!data && !isLoading && subscribed) {
-  //     router.push("/ErrorPage");
-  //   }
-  // }, [data, isLoading, router, subscribed]);
-
-  if (isLoading) {
+  if (isLoading || isLoadingProfile) {
     return (
       <div className="h-screen">
         <LoadingSpinner />

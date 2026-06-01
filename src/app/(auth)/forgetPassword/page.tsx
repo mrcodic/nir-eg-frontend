@@ -4,18 +4,14 @@ import CustomPhoneInput from "@/components/custom/CustomPhoneInput";
 import SmallSpinner from "@/components/custom/SmallSpinner";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { OTP_SEND_TIME_KEY } from "@/constants";
 import { mutateClient } from "@/helpers/post-client";
 import { useToast } from "@/hooks/use-toast";
 import AuthHeader from "@/layouts/AuthHeader";
 import { handleOtpError } from "@/lib/handle-otp-error";
+import { resolveOtpExpiryTimestamp } from "@/lib/otp-timer";
 import { forgetPasswordSchema } from "@/lib/schemas";
-import {
-  getUserPhoneFromStorage,
-  isOtpExpired,
-  presistUserPhone,
-  setNewOtpSendTime,
-} from "@/lib/utils";
+import { getUserPhoneFromStorage, presistUserPhone } from "@/lib/utils";
+import { OtpSendResponse } from "@/types/auth.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "nextjs-toploader/app";
@@ -38,57 +34,44 @@ const ForgetPasswordPage = () => {
     },
   });
 
-  const onSubmit = async (v) => {
+  const onSubmit = async (v: {
+    phone: { country: string; country_iso: string; phone: string };
+    recaptcha_token?: string;
+  }) => {
     try {
       const { phone, recaptcha_token } = v;
-      const response = await mutateClient("/forgot-password", {
+      const response = await mutateClient<OtpSendResponse>("/forgot-password", {
         body: {
           ...phone,
           recaptcha_token,
         },
       });
 
-      if (response.status == 200 || !!response.status) {
-        console.log(response?.data);
+      if (!!response.status) {
+        resolveOtpExpiryTimestamp(response?.data ?? null);
 
-        const { otpSendTime, isExpired } = isOtpExpired();
+        toast({
+          description: "تم إرسال كود التحقق",
+          icon: "success",
+        });
 
-        // new otp timestamp
-        if (isExpired) {
-          setNewOtpSendTime();
-
-          toast({
-            description: " بعتنالك otp عبر sms  ",
-            icon: "success",
-          });
-        } else {
-          // old otp timestamp
-          localStorage.setItem(
-            OTP_SEND_TIME_KEY,
-            otpSendTime.getTime().toString(),
-          );
-        }
-
-        router.push("/verify-otp?type=forget");
-
-        // localStorage.setItem("phone", v.phone);
         presistUserPhone(v.phone.phone, v.phone.country);
+        router.push("/verify-otp?type=forget");
       }
     } catch (err) {
-      console.log("بخقلثفو", err);
-      handleOtpError(err);
+      const errorMessage = handleOtpError(err);
+      form.setError("phone.phone", {
+        message: errorMessage,
+      });
     }
   };
 
   return (
-    <div className="">
+    <div>
       <AuthHeader
         title="نسيت كلمة السر"
-        description=" أدخل رقم الهاتف المسجل لدينا لتتمكن من إعادة تعيين كلمة سر جديدة"
+        description="أدخل رقم الهاتف المسجل لدينا لتتمكن من إعادة تعيين كلمة سر جديدة"
       />
-
-      <div className="bg-gray-light mt-[16px] h-px w-full" />
-      <div className="mt-[2px] h-px w-full bg-[#523412]" />
 
       <Form {...form}>
         <form
@@ -108,7 +91,7 @@ const ForgetPasswordPage = () => {
               ليس لديك حساب؟
             </span>
             <Link
-              href={"/register"}
+              href="/register"
               className="text-primary-800 border-gray-light rounded-md border px-4 text-sm font-bold underline"
             >
               إنشاء حساب
@@ -120,6 +103,7 @@ const ForgetPasswordPage = () => {
               form.setValue("recaptcha_token", token);
             }}
           />
+
           <div className="mt-8 flex">
             <Button
               type="submit"
@@ -138,4 +122,5 @@ const ForgetPasswordPage = () => {
     </div>
   );
 };
+
 export default ForgetPasswordPage;

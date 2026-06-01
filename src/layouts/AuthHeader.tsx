@@ -9,23 +9,27 @@ function AuthHeader({
   description: string | ReactNode;
 }) {
   return (
-    <div className="flex gap-4">
-      <Image
-        src="/assets/books-colored.svg"
-        className="size-[38px]"
-        width={38}
-        height={38}
-        alt="books"
-      />
-      <div>
-        <h3 className="text-2xl font-bold">{title}</h3>
-        {typeof description === "string" ? (
-          <p className="font-bold mt-1 text-gray-dark">{description}</p>
-        ) : (
-          description
-        )}
+    <>
+      <div className="flex gap-4">
+        <Image
+          src="/assets/books-colored.svg"
+          className="size-[38px]"
+          width={38}
+          height={38}
+          alt="books"
+        />
+        <div>
+          <h3 className="text-xl font-bold sm:text-2xl">{title}</h3>
+          {typeof description === "string" ? (
+            <p className="text-gray-dark mt-1 font-bold">{description}</p>
+          ) : (
+            description
+          )}
+        </div>
       </div>
-    </div>
+
+      <div className="border-gray-light mt-4 h-1 w-full border border-double border-x-transparent" />
+    </>
   );
 }
 

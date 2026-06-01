@@ -20,9 +20,10 @@ import {
 } from "@/components/ui/form";
 import { OTP_SEND_TIME_KEY } from "@/constants";
 import { useToast } from "@/hooks/use-toast";
-import useOtp from "@/modules/auth/hooks/useOtp";
+import { useMounted } from "@/hooks/useMounted";
 import { getOtpVerifyErrorMessage } from "@/lib/handle-otp-error";
 import { otpSchema } from "@/lib/schemas";
+import useOtp from "@/modules/auth/hooks/useOtp";
 import { verifyAuthOtpCode } from "@/services/auth.service";
 import { OtpSendResponse } from "@/types/auth.types";
 
@@ -59,6 +60,8 @@ export default function OtpVerifyForm({
   const [inlineError, setInlineError] = useState("");
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [pendingSuccessAction, setPendingSuccessAction] = useState(false);
+
+  const isMounted = useMounted();
 
   const form = useForm<z.infer<typeof otpSchema>>({
     resolver: zodResolver(otpSchema),
@@ -100,7 +103,9 @@ export default function OtpVerifyForm({
         }
 
         setInlineError("");
+
         await verifyAuthOtpCode({ phone, otp_code: data.otp_code ?? "" });
+
         localStorage.removeItem(OTP_SEND_TIME_KEY);
         setPendingSuccessAction(true);
         setShowSuccessModal(true);
@@ -144,12 +149,18 @@ export default function OtpVerifyForm({
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <div>
-            <FormLabel className="mb-2 block text-xl">
-              {start ? "أدخل رمز التأكيد" : "قم بارسال رمز التاكيد"}
+            <FormLabel className="mb-2 block text-lg sm:text-xl">
+              {isMounted && start
+                ? "أدخل رمز التأكيد"
+                : "قم بارسال رمز التاكيد"}
             </FormLabel>
+
             {inlineError && (
-              <p className="text-sm font-medium text-red-500">{inlineError}</p>
+              <p className="my-2 text-sm font-medium text-red-500">
+                {inlineError}
+              </p>
             )}
+
             <div className="flex justify-center" dir="ltr">
               <FormField
                 control={form.control}
@@ -171,7 +182,9 @@ export default function OtpVerifyForm({
             </div>
           </div>
 
-          {start && <CountDownTimerUI minutes={minutes} seconds={seconds} />}
+          {isMounted && start && (
+            <CountDownTimerUI minutes={minutes} seconds={seconds} />
+          )}
 
           <button
             type="button"
@@ -187,8 +200,8 @@ export default function OtpVerifyForm({
               const isNew = response?.data?.is_new ?? response?.is_new ?? null;
               onOtpSent?.({ isNew, response });
             }}
-            disabled={start || resending}
-            className="text-secondary mx-auto mt-4 flex cursor-pointer items-center gap-1 text-center text-base font-bold underline disabled:cursor-not-allowed disabled:opacity-60"
+            disabled={!isMounted || start || resending}
+            className="text-secondary mx-auto mt-4 flex cursor-pointer items-center gap-1 text-center text-base font-bold underline disabled:cursor-not-allowed disabled:opacity-40"
           >
             أعد الإرسال {resending && <SmallSpinner className="size-4" />}
           </button>

@@ -82,8 +82,6 @@ const AuthPage = () => {
         description=" أدخل رقم الهاتف المسجل لدينا و كلمة السر لتتمكن من الدخول لحسابك"
       />
 
-      <div className="bg-gray-light mt-2 h-px w-full" />
-
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="mt-10 w-full">
           <CustomPhoneInput

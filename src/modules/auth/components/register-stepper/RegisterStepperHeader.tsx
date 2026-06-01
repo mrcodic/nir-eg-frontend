@@ -33,8 +33,6 @@ export default function RegisterStepperHeader({
         }
       />
 
-      <div className="bg-gray-light mt-2 h-px w-full" />
-
       <StepperHeader className="my-12" currentStep={step - 1} totalSteps={3} />
     </>
   );

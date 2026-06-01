@@ -44,9 +44,6 @@ export default function VerifyOtpPage() {
         }
       />
 
-      <div className="bg-gray-light mt-4 h-px w-full" />
-      <div className="mt-0.5 h-px w-full bg-[#523412]" />
-
       <div className="mt-10 w-full">
         <OtpVerifyForm
           phone={phone}

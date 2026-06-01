@@ -8,7 +8,7 @@ import { TaskAnswerResult } from "@/types/quiz.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 
@@ -58,12 +58,13 @@ export function useLessonTimedQuiz(lessonData: ILesson) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [result, setResult] = useState<TaskAnswerResult | null>(null);
   const [handledQuizIds, setHandledQuizIds] = useState<number[]>([]);
+  const lastSeenSecondRef = useRef<number | null>(null);
 
   const formQuestions = useWatch({ control: form.control, name: "questions" });
 
   const classroomId = Number(params.classroomId);
   const roomId = Number(params.room);
-  const currentMinute = Math.floor((currentTime ?? 0) / 60);
+  const currentSecond = Math.max(0, Math.floor(currentTime ?? 0));
 
   const availableQuizzes = useMemo(
     () =>
@@ -225,23 +226,36 @@ export function useLessonTimedQuiz(lessonData: ILesson) {
 
   useEffect(() => {
     setHandledQuizIds([]);
+    lastSeenSecondRef.current = null;
     closeAll();
   }, [closeAll, lessonData.id]);
 
   useEffect(() => {
     if (open || isLoading || isSubmitting) return;
     if (!isPlaying) return;
-    if (currentTime < 0) return;
+    if (currentSecond < 0) return;
 
-    const dueQuiz = availableQuizzes.find(
-      (quiz) => !handledQuizIds.includes(quiz.id) && currentMinute >= quiz.time,
-    );
+    const previousSecond = lastSeenSecondRef.current;
+    lastSeenSecondRef.current = currentSecond;
+
+    // Bootstrap sample: wait for the next tick to compute a real crossing.
+    if (previousSecond === null) return;
+
+    // Startup resume jump guard (e.g. 0s -> 300s from remembered position):
+    // don't retro-trigger timed quizzes that were in the skipped range.
+    if (currentSecond - previousSecond > 10) return;
+
+    const dueQuiz = availableQuizzes.find((quiz) => {
+      if (handledQuizIds.includes(quiz.id)) return false;
+      const triggerSecond = quiz.time === 0 ? 1 : quiz.time * 60;
+      return previousSecond < triggerSecond && currentSecond >= triggerSecond;
+    });
     if (!dueQuiz) return;
     pause?.();
     loadQuizQuestions(dueQuiz.id);
   }, [
     availableQuizzes,
-    currentMinute,
+    currentSecond,
     handledQuizIds,
     isLoading,
     isSubmitting,
@@ -249,7 +263,6 @@ export function useLessonTimedQuiz(lessonData: ILesson) {
     loadQuizQuestions,
     open,
     pause,
-    currentTime,
   ]);
 
   const toggleAnswer = useCallback(

@@ -25,6 +25,8 @@ export type OtpVerifyErrorResponse = {
     | {
         attempts_remaining?: number;
         locked_for_minutes?: number;
+        max_per_day?: number;
+        used_today?: number;
       }
     | null;
   errors: Record<string, string[]> | null;
