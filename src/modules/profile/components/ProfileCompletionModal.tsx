@@ -205,7 +205,7 @@ export default function ProfileCompletionModal() {
                 <ScrollArea
                   dir="rtl"
                   className={cn(
-                    "w-full [&:has([data-state=visible])]:pe-2",
+                    "w-full",
                     isStepper
                       ? "mt-6 **:data-radix-scroll-area-viewport:max-h-[min(48dvh,calc(100dvh-430px))]"
                       : "**:data-radix-scroll-area-viewport:max-h-[min(52dvh,calc(100dvh-330px))]",

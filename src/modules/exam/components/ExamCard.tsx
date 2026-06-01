@@ -1,11 +1,11 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import { IExamCard } from "@/types";
-import { getRemainingTimeArabic } from "@/utils/clientFun";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import StudentScoreResult from "./StudentScoreResult";
 
 const parseApiDate = (value?: string) => {
   if (!value) return null;
@@ -44,25 +44,6 @@ type Props = {
   isPreviousExam?: boolean;
 };
 
-const ExamStatusBadge = ({ expiresAt }: { expiresAt: string }) => {
-  const isExpired = new Date(expiresAt) < new Date();
-
-  return (
-    <div className="absolute top-2 left-2 rounded-lg border-gray-100">
-      <div
-        className={cn(
-          "flex items-center gap-2 rounded-lg px-4 py-1",
-          isExpired ? "bg-[#B75050]" : "bg-[#D9B45C]",
-        )}
-      >
-        <span className="text-[12px] font-bold text-white">
-          {isExpired ? "انتهى الامتحان" : getRemainingTimeArabic(expiresAt)}
-        </span>
-      </div>
-    </div>
-  );
-};
-
 const ExamCard = ({ exam }: Props) => {
   const { classroomId } = useParams();
 
@@ -89,91 +70,77 @@ const ExamCard = ({ exam }: Props) => {
   }
 
   return (
-    <div className="border-primary-800 relative flex flex-wrap gap-2.5 gap-y-4 rounded-xl border p-2">
-      <ExamStatusBadge expiresAt={exam.expires_at} />
+    <div className="border-gray-light relative flex flex-wrap gap-2.5 gap-y-4 rounded-xl border p-4 shadow-sm">
+      {/* <ExamStatusBadge expiresAt={exam.expires_at} /> */}
 
-      <div className="flex grow items-start gap-2.5">
-        <img
-          className="size-14 self-start sm:size-[72px]"
-          src="/assets/ExamsColor.svg"
-          alt="exam icon"
-        />
-
-        <div className="grow max-sm:pt-8">
-          <div className="sm:pl-6">
-            <h3 className="text-[18px] font-bold text-black sm:pe-28">
-              {exam.title}
-            </h3>
-            <div className="bg-secondary my-4 h-px" />
+      <div className="grow">
+        <div className="flex flex-wrap justify-between gap-x-6 gap-y-4">
+          <div className="flex gap-6">
+            <Image
+              width={32}
+              height={32}
+              className="size-8 self-start"
+              src="/assets/icons/exam-fill.svg"
+              alt="exam icon"
+            />
+            <h3 className="text-lg font-bold text-black">{exam.title}</h3>
           </div>
 
-          <div className="flex flex-wrap items-center justify-between gap-1">
-            {exam.duration && (
-              <div className="flex gap-2">
-                <img className="h-6 w-6" src="/assets/time.svg" alt="time" />
-                <span className="text-sm font-medium">
-                  مدة الامتحان:
-                  <strong className="ms-1">{exam.duration} دقيقة</strong>
-                </span>
-              </div>
-            )}
+          <div className="ms-auto flex w-fit flex-wrap items-end gap-2 empty:hidden">
+            {ctaLabel &&
+              (ctaHref ? (
+                <Link href={ctaHref}>
+                  <Button className="h-8">
+                    <span>{ctaLabel}</span>
+                  </Button>
+                </Link>
+              ) : (
+                <div className="flex h-8 shrink-0 items-center gap-2 rounded-lg border border-black px-3 text-sm font-bold text-black">
+                  {ctaLabel}
+                </div>
+              ))}
 
-            {exam.created_at && (
-              <div className="flex gap-2">
-                <img
-                  className="h-6 w-6"
-                  src="/assets/calendar.svg"
-                  alt="calendar"
-                />
-                <span className="text-[14px] font-medium">
-                  تاريخ الامتحان:
-                  <strong className="ms-1">
-                    {formatArabicDate(exam.created_at)}
-                  </strong>
-                </span>
-              </div>
+            {exam.score_ratio && (
+              <StudentScoreResult score={exam.score} pass={exam.passed} />
             )}
           </div>
         </div>
-      </div>
 
-      <div className="flex w-fit flex-wrap items-end gap-2">
-        {ctaLabel &&
-          (ctaHref ? (
-            <Link
-              href={ctaHref}
-              className="bg-primary border-secondary flex h-11 shrink-0 items-center gap-2 rounded-lg border px-2 py-2 text-white"
-            >
-              <span>{ctaLabel}</span>
-              <img
-                src="/assets/LeftArrowColor.svg"
-                className="size-5"
-                alt="arrow"
+        <div className="border-gray-light mt-4 grid grid-cols-1 items-center justify-between gap-1 border-t pt-2 empty:hidden sm:grid-cols-2">
+          {exam.duration && (
+            <div className="flex gap-2">
+              <Image
+                width={24}
+                height={24}
+                className="h-6 w-6"
+                src="/assets/time.svg"
+                alt="time"
               />
-            </Link>
-          ) : (
-            <div className="flex h-11 shrink-0 items-center gap-2 rounded-lg border border-black px-3 font-bold text-black">
-              {ctaLabel}
+              <span className="text-sm font-medium">
+                مدة الامتحان:
+                <strong className="ms-1">{exam.duration} دقيقة</strong>
+              </span>
             </div>
-          ))}
+          )}
 
-        {exam.score_ratio && (
-          <div className="flex h-11 shrink-0 items-center gap-2 rounded-lg border border-black px-3 font-bold">
-            <Image
-              src={
-                exam.passed ? "/assets/CorrectColor.svg" : "/assets/Close2.svg"
-              }
-              width={20}
-              height={20}
-              alt={exam.passed ? "ناجح" : "راسب"}
-            />
-            <span
-              className={cn(exam.passed ? "text-[#1EAD7B]" : "text-[#B75050]")}
-            >
-              {exam.score_ratio} درجة
-            </span>
-          </div>
-        )}
+          {exam.created_at && (
+            <div className="flex gap-2">
+              <Image
+                width={24}
+                height={24}
+                className="h-6 w-6"
+                src="/assets/calendar.svg"
+                alt="calendar"
+              />
+              <span className="text-[14px] font-medium">
+                تاريخ الامتحان:
+                <strong className="ms-1">
+                  {formatArabicDate(exam.created_at)}
+                </strong>
+              </span>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

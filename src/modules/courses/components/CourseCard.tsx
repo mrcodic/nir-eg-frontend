@@ -1,19 +1,19 @@
 "use client";
 
-import { useAuthContext } from "@/context/auth-context";
-import { useModal } from "@/context/ModalProvider";
-import { cn } from "@/lib/utils";
-import { CourseType } from "@/types";
-import { motion } from "framer-motion";
-import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "nextjs-toploader/app";
-import SaleBubble from "@/modules/payment/components/sale-bubble";
 import { PaymentModel } from "@/components/modals/PaymentModel";
 import { Button } from "@/components/ui/button";
 import DataWithLabel from "@/components/ui/DataWithLabel";
 import PriceBubbles from "@/components/ui/price-bubble";
 import SubbedBadge from "@/components/ui/SubbedBadge";
+import { useAuthContext } from "@/context/auth-context";
+import { useModal } from "@/context/ModalProvider";
+import { cn } from "@/lib/utils";
+import SaleBubble from "@/modules/payment/components/sale-bubble";
+import { CourseType } from "@/types";
+import { motion } from "framer-motion";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "nextjs-toploader/app";
 
 /* ----------------------------------------
  * Animation Variants (shared parent → child)
@@ -194,20 +194,12 @@ const CourseCard = ({
                 </Button>
               )}
 
-            {!isNewCourse && (
-              <Button
-                onClick={() => router.push(`/bundles/${courseDetails?.id}`)}
-              >
-                عرض المحتوى
-              </Button>
-            )}
-
-            {isNewCourse && !!profile && (
+            {!!profile && (
               <Link
                 href={`/bundles/${courseDetails?.id}`}
                 className="inline-block"
               >
-                <Button variant="secondary" className="w-full">
+                <Button variant="outline-primary" className="w-full">
                   الدخول للكورس
                 </Button>
               </Link>

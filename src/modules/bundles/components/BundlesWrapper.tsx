@@ -45,6 +45,8 @@ const BundlesWrapper = async ({
 
   const isMultiGrid = bundles?.length > 1 && ITEMS_PER_PAGE > 1;
 
+  console.log("bundles data :", bundlesData);
+
   return (
     <div className="wrapper">
       <RoomHeader

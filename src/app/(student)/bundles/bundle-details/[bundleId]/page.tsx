@@ -59,19 +59,22 @@ const BundleDetails = async ({
         <div className="flex flex-wrap items-center justify-between gap-4">
           <h2 className="text-32 font-bold max-sm:w-full">{bundle?.name}</h2>
 
-          <BundlePurchaseButton
-            profile={profile}
-            bundle={bundle}
-            className="ms-auto h-9 w-full max-w-24"
-          />
+          <div className="ms-auto flex grow flex-col items-end gap-3">
+            <div className="flex w-full flex-wrap justify-end gap-3">
+              <BundlePurchaseButton
+                profile={profile}
+                bundle={bundle}
+                className="ms-auto h-9 w-full max-w-24"
+              />
 
-          <div className="flex flex-col items-end gap-3">
-            <PriceBubbles
-              price={bundle?.price}
-              sale={bundle?.sale}
-              numberClassName="text-xl"
-              currencyClassName="text-base mt-auto"
-            />
+              <PriceBubbles
+                price={bundle?.price}
+                sale={bundle?.sale}
+                className="ms-0 w-fit"
+                numberClassName="text-xl"
+                currencyClassName="text-base mt-auto "
+              />
+            </div>
 
             {bundle?.sale?.duration && (
               <RemainingDuration
