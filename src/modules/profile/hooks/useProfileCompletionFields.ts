@@ -1,11 +1,12 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 
 import { useAuthContext } from "@/context/auth-context";
 import {
   buildProfileCompletionDefaults,
   ProfileCompletionValues,
+  SUPPORTED_FIELD_TYPES,
 } from "@/helpers/profile-completion.helpers";
 import { sortDynamicProfileFields } from "@/helpers/profile-fields-order";
 import {
@@ -19,17 +20,27 @@ type LoadResult = {
   defaults: ProfileCompletionValues;
 } | null;
 
-export function useProfileCompletionFields() {
+export function useProfileCompletionFields({
+  onSuccess,
+  onError,
+}: {
+  onSuccess?: () => void;
+  onError?: () => void;
+}) {
   const { profile, token } = useAuthContext();
 
-  const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [fields, setFields] = useState<DynamicProfileField[]>([]);
+
+  const filteredFields = useMemo(
+    () => fields.filter((f) => f.enabled && SUPPORTED_FIELD_TYPES.has(f.type)),
+    [fields],
+  );
 
   // Prevent re-fetching for the same profile within a session
   const skipForSessionRef = useRef<string | null>(null);
 
-  const load = async (): Promise<LoadResult> => {
+  const loadProfileFields = async (): Promise<LoadResult> => {
     if (!profile?.id || !profile?.phone || !token) return null;
     if (skipForSessionRef.current === String(profile.id)) return null;
 
@@ -44,7 +55,7 @@ export function useProfileCompletionFields() {
       if (!serverFields.length) {
         skipForSessionRef.current = String(profile.id);
         setFields([]);
-        setOpen(false);
+
         return null;
       }
 
@@ -64,16 +75,23 @@ export function useProfileCompletionFields() {
         prefillStudent,
       );
       setFields(serverFields);
-      setOpen(true);
+      onSuccess?.();
 
       return { fields: serverFields, defaults };
     } catch {
-      setOpen(false);
+      onError?.();
       return null;
     } finally {
       setIsLoading(false);
     }
   };
 
-  return { open, setOpen, isLoading, fields, load, profile, token };
+  return {
+    isLoading,
+    fields,
+    loadProfileFields,
+    profile,
+    token,
+    filteredFields,
+  };
 }

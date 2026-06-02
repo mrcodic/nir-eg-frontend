@@ -109,7 +109,7 @@ const QuizCard = memo(function QuizCard({
   return (
     <div className="border-gray-light mt-4 flex items-center justify-between rounded-lg border bg-white px-2 py-2 shadow-sm">
       <Image
-        src="/assets/exam-fill.svg"
+        src="/assets/icons/exam-fill.svg"
         className="size-6"
         width={24}
         height={24}

@@ -42,7 +42,7 @@ function RoomFileDownloadLink({
         <Image
           width={28}
           height={28}
-          className="size-7 bg-white"
+          className="size-7"
           src="/assets/files-fill.svg"
           alt="file icon"
         />

@@ -2,7 +2,7 @@ import LinkLocked from "@/layouts/LinkLocked";
 import Link from "next/link";
 
 const mapTypeToIcon = {
-  exam: "/assets/exam-fill.svg",
+  exam: "/assets/icons/exam-fill.svg",
   ass: "/assets/assignment-fill.svg",
   attach: "/assets/files-fill.svg",
 };
@@ -33,7 +33,7 @@ function RoomDropDownQuiz({
     <div className="bg-background border-gray-light flex justify-between rounded-md border p-2">
       <div className="flex items-center gap-2 font-bold">
         <img
-          className="h-[28px] w-[28px] bg-white text-black"
+          className="h-[28px] w-[28px] text-black"
           src={mapTypeToIcon[type]}
         />
         <span>{item?.title}</span>

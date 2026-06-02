@@ -1,9 +1,20 @@
 import { AuthErrorCode } from "./api-errors.types";
 
 export type OtpSendPayload = {
-  is_new: boolean;
+  tenant_id?: string;
+  otp_id?: number;
+  is_new?: boolean;
   expires_at: string;
   otp_code?: string;
+  sms_message?: string;
+  provider?: {
+    code?: string;
+    SMSID?: string;
+    cost?: string;
+  } | null;
+  max_per_month?: number;
+  used_this_month?: number;
+  remaining_this_month?: number;
 };
 
 export type OtpSendResponse = {
@@ -23,10 +34,16 @@ export type OtpVerifyErrorResponse = {
   code: AuthErrorCode | string;
   data:
     | {
+        tenant_id?: string;
         attempts_remaining?: number;
         locked_for_minutes?: number;
         max_per_day?: number;
         used_today?: number;
+        max_per_month?: number;
+        used_this_month?: number;
+        remaining_this_month?: number;
+        cooldown_remaining_sec?: number;
+        cooldown_expires_at?: string;
       }
     | null;
   errors: Record<string, string[]> | null;

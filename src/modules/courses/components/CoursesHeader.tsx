@@ -1,14 +1,14 @@
 "use client";
 
-import { useAuthContext } from "@/context/auth-context";
-import { cn } from "@/lib/utils";
-import { ICourseDetails } from "@/types";
-import { useMemo } from "react";
-import PriceBadge from "@/modules/payment/components/PriceBadge";
-import CourseInfoBadge from "./CourseInfoBadge";
 import GroupJoinBadge from "@/components/shared/GroupJoinBadge";
 import DataWithLabel from "@/components/ui/DataWithLabel";
 import SubbedBadge from "@/components/ui/SubbedBadge";
+import { useAuthContext } from "@/context/auth-context";
+import { cn } from "@/lib/utils";
+import PriceBadge from "@/modules/payment/components/PriceBadge";
+import { ICourseDetails } from "@/types";
+import { useMemo } from "react";
+import CourseInfoBadge from "./CourseInfoBadge";
 
 const CoursesHeader = ({ details }: { details: ICourseDetails }) => {
   const { profile } = useAuthContext();
@@ -63,7 +63,7 @@ const CoursesHeader = ({ details }: { details: ICourseDetails }) => {
               <CourseInfoBadge
                 value={details?.total_quizzes_count}
                 text="امتحان"
-                icon="/assets/exam-fill.svg"
+                icon="/assets/icons/exam-fill.svg"
               />
               <CourseInfoBadge
                 value={details?.total_assignm_count}

@@ -20,7 +20,6 @@ import StepperHeader from "@/components/ui/stepper-header";
 import {
   buildProfileCompletionSchema,
   ProfileCompletionValues,
-  SUPPORTED_FIELD_TYPES,
 } from "@/helpers/profile-completion.helpers";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
@@ -90,14 +89,13 @@ function FormActions({
 
 export default function ProfileCompletionModal() {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [open, setOpen] = useState(false);
 
-  const { open, setOpen, isLoading, fields, load, profile, token } =
-    useProfileCompletionFields();
-
-  const filteredFields = useMemo(
-    () => fields.filter((f) => f.enabled && SUPPORTED_FIELD_TYPES.has(f.type)),
-    [fields],
-  );
+  const { isLoading, filteredFields, loadProfileFields, profile, token } =
+    useProfileCompletionFields({
+      onSuccess: () => setOpen(true),
+      onError: () => setOpen(false),
+    });
 
   const dynamicSchema = useMemo(
     () => buildProfileCompletionSchema(filteredFields),
@@ -134,7 +132,7 @@ export default function ProfileCompletionModal() {
       return;
     }
 
-    void load().then((result) => {
+    void loadProfileFields().then((result) => {
       if (!result) return;
       resetStep();
       form.reset(result.defaults);
@@ -156,7 +154,7 @@ export default function ProfileCompletionModal() {
     });
   });
 
-  if (!token) return null;
+  if (!profile) return null;
 
   return (
     <>
@@ -234,11 +232,13 @@ export default function ProfileCompletionModal() {
         </DialogContent>
       </Dialog>
 
-      <SuccessFeedbackModal
-        open={showSuccessModal}
-        onOpenChange={setShowSuccessModal}
-        message="تم تأكيد بياناتك بنجاح"
-      />
+      {showSuccessModal && (
+        <SuccessFeedbackModal
+          open={showSuccessModal}
+          onOpenChange={setShowSuccessModal}
+          message="تم تأكيد بياناتك بنجاح"
+        />
+      )}
     </>
   );
 }

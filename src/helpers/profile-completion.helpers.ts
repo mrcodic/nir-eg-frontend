@@ -1,4 +1,4 @@
-import { phoneSchema } from "@/lib/schemas";
+import { optionalPhoneSchema, phoneSchema } from "@/lib/schemas";
 import { DynamicProfileField } from "@/types/auth.types";
 import { z } from "zod";
 
@@ -113,19 +113,20 @@ export const buildProfileCompletionDefaults = (
   return defaults;
 };
 
+const toStringPreprocess = (value: unknown) => {
+  if (value === null || value === undefined) return "";
+  return String(value);
+};
+
 export const buildProfileCompletionSchema = (fields: DynamicProfileField[]) => {
   const shape: Record<string, z.ZodTypeAny> = {};
-  const toStringPreprocess = (value: unknown) => {
-    if (value === null || value === undefined) return "";
-    return String(value);
-  };
 
   fields.forEach((field) => {
     if (!field.enabled || !SUPPORTED_FIELD_TYPES.has(field.type)) return;
     if (field.key === "avatar") return;
 
     if (field.type === "phone") {
-      shape[field.key] = field.required ? phoneSchema : phoneSchema.optional();
+      shape[field.key] = field.required ? phoneSchema : optionalPhoneSchema;
       return;
     }
 
@@ -160,7 +161,7 @@ export const buildProfileCompletionSchema = (fields: DynamicProfileField[]) => {
       shape[field.key] = field.required
         ? z
             .array(attachmentEntrySchema)
-            .min(1, `${field.label} مطلوب`)
+            .min(1, `الرجاء رفع ${field.label} هنا`)
             .max(maxFiles, `الحد الأقصى ${maxFiles} ملفات`)
         : z
             .array(attachmentEntrySchema)
@@ -179,7 +180,12 @@ export const buildProfileCompletionSchema = (fields: DynamicProfileField[]) => {
             toStringPreprocess,
             z.string().min(1, `${field.label} مطلوب`),
           )
-        : z.preprocess(toStringPreprocess, z.string().optional());
+        : z.preprocess((value) => {
+            if (value === null || value === undefined || value === "") {
+              return undefined;
+            }
+            return String(value);
+          }, z.string().optional());
       return;
     }
 
@@ -189,20 +195,35 @@ export const buildProfileCompletionSchema = (fields: DynamicProfileField[]) => {
             .string()
             .min(1, `${field.label} مطلوب`)
             .email("بريد إلكتروني غير صالح")
-        : z.string().optional();
+        : z.preprocess((value) => {
+            if (value === null || value === undefined || value === "") {
+              return undefined;
+            }
+            return String(value);
+          }, z.string().email("بريد إلكتروني غير صالح").optional());
       return;
     }
 
     if (field.type === "date") {
       shape[field.key] = field.required
         ? z.string().min(1, `${field.label} مطلوب`)
-        : z.string().optional();
+        : z.preprocess((value) => {
+            if (value === null || value === undefined || value === "") {
+              return undefined;
+            }
+            return String(value);
+          }, z.string().optional());
       return;
     }
 
     shape[field.key] = field.required
       ? z.string().min(1, `${field.label} مطلوب`)
-      : z.string().optional();
+      : z.preprocess((value) => {
+          if (value === null || value === undefined || value === "") {
+            return undefined;
+          }
+          return String(value);
+        }, z.string().optional());
   });
 
   return z.object(shape);

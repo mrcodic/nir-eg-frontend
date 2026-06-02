@@ -8,6 +8,7 @@ import { mutateClient } from "@/helpers/post-client";
 import { useToast } from "@/hooks/use-toast";
 import AuthHeader from "@/layouts/AuthHeader";
 import { handleOtpError } from "@/lib/handle-otp-error";
+import { getOtpSendSuccessMessage } from "@/lib/otp-success";
 import { resolveOtpExpiryTimestamp } from "@/lib/otp-timer";
 import { forgetPasswordSchema } from "@/lib/schemas";
 import { getUserPhoneFromStorage, presistUserPhone } from "@/lib/utils";
@@ -47,11 +48,11 @@ const ForgetPasswordPage = () => {
         },
       });
 
-      if (!!response.status) {
+      if (response.status) {
         resolveOtpExpiryTimestamp(response?.data ?? null);
 
         toast({
-          description: "تم إرسال كود التحقق",
+          description: getOtpSendSuccessMessage(response),
           icon: "success",
         });
 
@@ -124,3 +125,4 @@ const ForgetPasswordPage = () => {
 };
 
 export default ForgetPasswordPage;
+

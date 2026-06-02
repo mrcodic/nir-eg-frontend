@@ -227,7 +227,9 @@ export default function ProfileAttachmentsField<
         )}
 
         <div className="flex flex-1 flex-col gap-2">
-          <FormLabel>{label}</FormLabel>
+          <FormLabel aria-invalid={!!controller.fieldState.error?.message}>
+            {label}
+          </FormLabel>
 
           {!reachedMaxFiles ? (
             <>

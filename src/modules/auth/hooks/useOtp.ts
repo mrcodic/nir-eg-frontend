@@ -3,7 +3,8 @@
 import { OTP_SEND_TIME_KEY } from "@/constants";
 import { AUTH_ERROR_CODES } from "@/constants/error-codes";
 import { useToast } from "@/hooks/use-toast";
-import { handleOtpError } from "@/lib/handle-otp-error";
+import { getOtpCooldownSeconds, handleOtpError } from "@/lib/handle-otp-error";
+import { getOtpSendSuccessMessage } from "@/lib/otp-success";
 import { isOtpExpired, resolveOtpExpiryTimestamp } from "@/lib/otp-timer";
 import { sendAuthOtpCode } from "@/services/auth.service";
 import { isAxiosError } from "axios";
@@ -52,7 +53,7 @@ function useOtp() {
 
         if (res.status && res.code === AUTH_ERROR_CODES.OTP_SENT) {
           toast({
-            description: "بعتنالك otp تاني",
+            description: getOtpSendSuccessMessage(res, "بعتنالك OTP تاني"),
             icon: "success",
           });
         }
@@ -61,12 +62,15 @@ function useOtp() {
       } catch (error) {
         handleOtpError(error);
 
-        if (isAxiosError(error) && error.status === 405) {
+        if (
+          isAxiosError(error) &&
+          (error.response?.status === 405 ||
+            error.response?.data?.code === AUTH_ERROR_CODES.OTP_COOLDOWN)
+        ) {
+          const remainingSec = getOtpCooldownSeconds(error);
           const newTimeStamp =
             Date.now() +
-            (error?.response?.data?.error?.data?.cooldown_remaining_sec ||
-              error?.response?.data?.data?.cooldown_remaining_sec ||
-              60) *
+            (remainingSec ?? 60) *
               1000;
 
           restart(new Date(newTimeStamp));

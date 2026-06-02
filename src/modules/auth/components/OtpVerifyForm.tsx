@@ -21,7 +21,7 @@ import {
 import { OTP_SEND_TIME_KEY } from "@/constants";
 import { useToast } from "@/hooks/use-toast";
 import { useMounted } from "@/hooks/useMounted";
-import { getOtpVerifyErrorMessage } from "@/lib/handle-otp-error";
+import { getOtpErrorMessage } from "@/lib/handle-otp-error";
 import { otpSchema } from "@/lib/schemas";
 import useOtp from "@/modules/auth/hooks/useOtp";
 import { verifyAuthOtpCode } from "@/services/auth.service";
@@ -110,7 +110,7 @@ export default function OtpVerifyForm({
         setPendingSuccessAction(true);
         setShowSuccessModal(true);
       } catch (e: unknown) {
-        const msg = getOtpVerifyErrorMessage(e);
+        const msg = getOtpErrorMessage(e);
         setInlineError(msg);
         onError?.(msg);
         toast({ description: msg, icon: "error" });

@@ -83,17 +83,16 @@ const checkPhoneForCountryCode = (
   return true;
 };
 
-const phoneSchemaBase = z.object({
-  country: z.string().min(1, "يجب اختيار كود الدولة"),
-  country_iso: z.string().optional(),
-  phone: z
-    .string()
-    .min(1, "رقم هاتف الطالب مطلوب")
-    .refine((val) => val && !val.startsWith("+"), "لا تدخل كود الدولة هنا"),
-});
-
-export const phoneSchema = phoneSchemaBase.superRefine(
-  ({ phone, country_iso, country }, ctx) => {
+export const phoneSchema = z
+  .object({
+    country: z.string().min(1, "يجب اختيار كود الدولة"),
+    country_iso: z.string().optional(),
+    phone: z
+      .string()
+      .min(1, "رقم الهاتف مطلوب")
+      .refine((val) => val && !val.startsWith("+"), "لا تدخل كود الدولة هنا"),
+  })
+  .superRefine(({ phone, country_iso, country }, ctx) => {
     if (country_iso) {
       // custome validations
       phoneEgValidator({
@@ -118,8 +117,37 @@ export const phoneSchema = phoneSchemaBase.superRefine(
         path: ["phone"],
       });
     }
-  },
-);
+  });
+
+export const optionalPhoneSchema = z
+  .object({
+    country: z.string().optional(),
+    country_iso: z.string().optional(),
+    phone: z.string().optional(),
+  })
+  .superRefine((value, ctx) => {
+    const phone = value.phone?.trim() ?? "";
+    const country = value.country?.trim() ?? "";
+    const countryIso = value.country_iso?.trim() ?? "";
+
+    if (!phone) {
+      return;
+    }
+
+    const result = phoneSchema.safeParse({
+      country,
+      country_iso: countryIso,
+      phone,
+    });
+
+    if (result.success) {
+      return;
+    }
+
+    for (const issue of result.error.issues) {
+      ctx.addIssue(issue);
+    }
+  });
 
 export const registerSchema = z
   .object({
