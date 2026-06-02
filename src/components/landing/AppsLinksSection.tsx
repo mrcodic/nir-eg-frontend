@@ -104,7 +104,10 @@ function AppsLinksSection() {
                   variants={buttonVariants}
                   whileHover={{ scale: 1.1 }}
                 >
-                  <Link href="#">
+                  <Link
+                    href={process.env.NEXT_PUBLIC_GOOGLE_PLAY_LINK || "#"}
+                    target="_blank"
+                  >
                     <Image
                       src="/assets/Google Play.svg"
                       alt="google play"
@@ -118,7 +121,10 @@ function AppsLinksSection() {
                   variants={buttonVariants}
                   whileHover={{ scale: 1.1 }}
                 >
-                  <Link href="#">
+                  <Link
+                    href={process.env.NEXT_PUBLIC_APP_STORE_LINK || "#"}
+                    target="_blank"
+                  >
                     <Image
                       src="/assets/apple.svg"
                       alt="apple link"

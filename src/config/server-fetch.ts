@@ -1,8 +1,24 @@
 import reactCache from "@/config/reactCache";
 import { IGetDataOptions } from "@/types/services.types";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
+import { cache } from "react";
 import "server-only";
 import CustomError from "./CustomError";
+
+const getClientIp = cache(async (): Promise<string | null> => {
+  const h = await headers();
+
+  const ip =
+    h.get("cf-connecting-ip") ??
+    h.get("x-forwarded-for")?.split(",")[0].trim() ??
+    h.get("x-real-ip") ??
+    null;
+
+  const LOOPBACK = new Set(["::1", "127.0.0.1"]);
+  if (!ip || LOOPBACK.has(ip)) return null;
+
+  return ip;
+});
 
 const fetcherServer = async <T>(
   { queryKey: [endpoint], next, cache }: IGetDataOptions,
@@ -25,9 +41,18 @@ const fetcherServer = async <T>(
 
   try {
     const fullUrl = `${process.env.NEXT_PUBLIC_BASE_URL}${endpoint.startsWith("/") ? endpoint : `/${endpoint}`}`;
+
+    const clientIp = await getClientIp();
+
     const res = await fetch(fullUrl, {
       headers: {
         Accept: "application/json",
+        ...(clientIp
+          ? {
+              "X-Forwarded-For": clientIp,
+              "X-Real-IP": clientIp,
+            }
+          : {}),
         ...(authenticated ? { Authorization: `Bearer ${token}` } : {}),
       },
       credentials: "include",
