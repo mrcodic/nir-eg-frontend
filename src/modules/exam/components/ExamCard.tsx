@@ -1,43 +1,12 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { formatApiDate } from "@/helpers/format-api-date";
 import { IExamCard } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import StudentScoreResult from "./StudentScoreResult";
-
-const parseApiDate = (value?: string) => {
-  if (!value) return null;
-
-  // "2026 Jan 22"
-  if (/^\d{4}\s[A-Za-z]{3}\s\d{2}$/.test(value)) {
-    const d = new Date(`${value} 00:00:00 UTC`);
-    return Number.isNaN(d.getTime()) ? null : d;
-  }
-
-  // "2026-01-25 09:42:40"
-  if (/^\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}$/.test(value)) {
-    const d = new Date(value.replace(" ", "T") + "Z");
-    return Number.isNaN(d.getTime()) ? null : d;
-  }
-
-  // ISO or fallback
-  const d = new Date(value);
-  return Number.isNaN(d.getTime()) ? null : d;
-};
-
-const formatArabicDate = (value?: string) => {
-  const date = parseApiDate(value);
-  if (!date) return "";
-
-  return new Intl.DateTimeFormat("ar-EG", {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  }).format(date);
-};
 
 type Props = {
   exam: IExamCard;
@@ -47,10 +16,9 @@ type Props = {
 const ExamCard = ({ exam }: Props) => {
   const { classroomId } = useParams();
 
-  // const isPendingReview = exam.completed && !exam.score_ratio;
   const isPendingReview = exam.review_pending;
   const isExpired = new Date(exam.expires_at) < new Date();
-  const isCompleted = exam.completed && exam?.score_ratio;
+  const isCompleted = exam.completed && exam.score_ratio;
 
   let ctaLabel: string | null = null;
   let ctaHref: string | null = null;
@@ -65,14 +33,12 @@ const ExamCard = ({ exam }: Props) => {
   } else if (!isExpired && (!isCompleted || exam.retake)) {
     ctaLabel = isCompleted ? "اعادة الامتحان" : "الذهاب للامتحان";
     ctaHref = `/bundles/${classroomId}/general-exams/${exam.id}`;
-  } else if (isCompleted && !exam?.retake) {
+  } else if (isCompleted && !exam.retake) {
     ctaLabel = "قمت بحل الامتحان";
   }
 
   return (
     <div className="border-gray-light relative flex flex-wrap gap-2.5 gap-y-4 rounded-xl border p-4 shadow-sm">
-      {/* <ExamStatusBadge expiresAt={exam.expires_at} /> */}
-
       <div className="grow">
         <div className="flex flex-wrap justify-between gap-x-6 gap-y-4">
           <div className="flex gap-6">
@@ -135,7 +101,13 @@ const ExamCard = ({ exam }: Props) => {
               <span className="text-[14px] font-medium">
                 تاريخ الامتحان:
                 <strong className="ms-1">
-                  {formatArabicDate(exam.created_at)}
+                  {formatApiDate(exam.created_at, {
+                    weekday: "long",
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                    fallback: "",
+                  })}
                 </strong>
               </span>
             </div>

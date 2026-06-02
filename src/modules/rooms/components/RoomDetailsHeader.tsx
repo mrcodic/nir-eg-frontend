@@ -6,37 +6,25 @@ import CustomImage from "@/components/ui/CustomImage";
 import DataWithLabel from "@/components/ui/DataWithLabel";
 import SubbedBadge from "@/components/ui/SubbedBadge";
 import { useModal } from "@/context/ModalProvider";
+import { formatApiDateShort } from "@/helpers/format-api-date";
 import CourseInfoBadge from "@/modules/courses/components/CourseInfoBadge";
 import PriceBadge from "@/modules/payment/components/PriceBadge";
-import { IRoomData, IRoomDetails } from "@/types";
-import { DateTime } from "luxon";
-import Image from "next/image";
+import { IRoomDetails } from "@/types";
 import Link from "next/link";
 
-function formatRoomDate(value?: string) {
-  if (!value) return "--";
-
-  const date = DateTime.fromISO(value);
-  if (!date.isValid) return value;
-
-  return date.toFormat("dd/MM/yyyy");
-}
-
 export default function RoomDetailsHeader({
-  room,
   data,
   classroomId,
   isRoomPurchasable,
   isRoomPurchased,
 }: {
-  room: IRoomData;
   data: IRoomDetails;
   classroomId: string;
   isRoomPurchasable: boolean;
   isRoomPurchased: boolean;
 }) {
-  const { lessons, quizzes, assignments, attachments } = data;
   const modal = useModal();
+  const { lessons, quizzes, assignments, attachments, room } = data;
 
   return (
     <div className="bg-primary-radial relative">
@@ -92,8 +80,8 @@ export default function RoomDetailsHeader({
                     aria-label="اشترك الآن فى هذه الحصة"
                     role="button"
                     className="bg-primary text-primary-foreground hover:bg-primary/80 flex h-8 cursor-pointer items-center justify-center rounded-lg px-4 py-2 text-center transition-colors"
-                    onClick={(e) => {
-                      e.stopPropagation();
+                    onClick={(event) => {
+                      event.stopPropagation();
 
                       modal.setDialogContent(
                         <PaymentModel
@@ -129,7 +117,7 @@ export default function RoomDetailsHeader({
               src={room?.thumbnail}
               width={72}
               height={72}
-              fallback={"/assets/grade-placeholder.png"}
+              fallback="/assets/grade-placeholder.png"
               alt={room?.title}
               className="size-18 rounded-xl"
             />
@@ -149,46 +137,31 @@ export default function RoomDetailsHeader({
             labelClassName="text-xs text-gray-light"
             dataClassName="text-sm text-white"
             icon={
-              <Image
-                src="/assets/videos-fill.svg"
-                width={20}
-                height={20}
-                className="size-5"
-                alt="lesson"
+              <div
+                style={{
+                  maskImage: 'url("/assets/videos-fill.svg")',
+                  maskRepeat: "no-repeat",
+                  maskSize: "contain",
+                }}
+                className="bg-primary-800 size-5"
               />
             }
           />
 
-          {/* <DataWithLabel
-            className="gap-1"
-            label="مدة الكورس"
-            data={room?.duration || "--"}
-            labelClassName="text-xs text-gray-light"
-            dataClassName="text-sm text-white"
-            icon={
-              <Image
-                src="/assets/time.svg"
-                width={20}
-                height={20}
-                className="size-5"
-                alt="time"
-              />
-            }
-          /> */}
-
           <DataWithLabel
             className="gap-1"
             label="تاريخ الإضافة"
-            data={formatRoomDate(room?.created_at)}
+            data={formatApiDateShort(room?.created_at)}
             labelClassName="text-xs text-gray-light"
             dataClassName="text-sm text-white"
             icon={
-              <Image
-                src="/assets/calendar.svg"
-                width={20}
-                height={20}
-                className="size-5"
-                alt="calendar"
+              <div
+                style={{
+                  maskImage: 'url("/assets/calendar.svg")',
+                  maskRepeat: "no-repeat",
+                  maskSize: "contain",
+                }}
+                className="bg-primary-800 size-5"
               />
             }
           />

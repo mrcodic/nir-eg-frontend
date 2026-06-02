@@ -61,7 +61,6 @@ export default function RoomDetailsPage() {
       <div className="mt-20">
         <Animate preset="slideDown">
           <RoomDetailsHeader
-            room={room}
             data={data}
             classroomId={classroomId}
             isRoomPurchasable={isRoomPurchasable}
