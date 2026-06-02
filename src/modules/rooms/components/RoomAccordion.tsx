@@ -9,6 +9,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
 import { useModal } from "@/context/ModalProvider";
 import PriceBadge from "@/modules/payment/components/PriceBadge";
 import LessonRoomCard from "@/modules/rooms/components/LessonRoomCard";
@@ -65,7 +66,7 @@ const RoomAccordion = ({
             />
 
             <div className="w-full flex-1">
-              <div className="flex w-full flex-wrap items-center justify-between gap-y-2 sm:pl-6">
+              <div className="flex w-full flex-wrap items-center justify-between gap-y-2">
                 <h3 className="line-clamp-2 text-start text-base font-bold text-black sm:text-lg">
                   {room?.title}
                 </h3>
@@ -126,9 +127,8 @@ const RoomAccordion = ({
                     onClick={(e) => {
                       e.stopPropagation();
                     }}
-                    className="bg-primary-800 hover:bg-primary-700 rounded-lg px-3 py-2 text-sm font-bold text-white transition-colors"
                   >
-                    تفاصيل الحصة
+                    <Button className="h-8 rounded-lg">تفاصيل الحصة</Button>
                   </Link>
 
                   {isRoomPurchased && (

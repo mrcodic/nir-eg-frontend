@@ -36,7 +36,7 @@ function RoomDropDownQuiz({
           className="h-[28px] w-[28px] text-black"
           src={mapTypeToIcon[type]}
         />
-        <span>{item?.title}</span>
+        <span className="line-clamp-1">{item?.title}</span>
       </div>
 
       {subscribe && verify && (

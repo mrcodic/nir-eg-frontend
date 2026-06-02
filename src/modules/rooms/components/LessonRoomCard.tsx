@@ -33,7 +33,7 @@ const LessonRoomCard = ({
   const router = useRouter();
 
   return (
-    <div className="border-gray-light bg-background flex items-start justify-between rounded-lg border p-2">
+    <div className="border-gray-light bg-background flex items-start justify-between gap-2 rounded-lg border p-2 max-sm:flex-col">
       <div className="flex gap-4 pt-1">
         <Image
           src="/assets/videos-fill.svg"
@@ -81,7 +81,7 @@ const LessonRoomCard = ({
       {subscribe && verify && (
         <Button
           disabled={locked}
-          className="h-9 w-full max-w-28 cursor-pointer py-1 max-sm:text-sm sm:max-w-32"
+          className="ms-auto h-9 w-full max-w-28 cursor-pointer py-1 max-sm:text-sm sm:max-w-32"
           onClick={async () => {
             if (locked) return;
 

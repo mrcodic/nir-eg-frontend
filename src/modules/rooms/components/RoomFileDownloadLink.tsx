@@ -34,7 +34,7 @@ function RoomFileDownloadLink({
   return (
     <div
       key={index}
-      className="bg-background border-gray-light flex justify-between rounded-md border p-2"
+      className="bg-background border-gray-light flex justify-between gap-2 rounded-md border p-2"
     >
       <div className="flex items-center gap-2 font-bold">
         <Image
@@ -44,7 +44,7 @@ function RoomFileDownloadLink({
           src="/assets/files-fill.svg"
           alt="file icon"
         />
-        <span>{attachment.name}</span>
+        <span className="line-clamp-1">{attachment.name}</span>
       </div>
 
       {subscribe && verify && (
