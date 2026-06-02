@@ -46,22 +46,29 @@ export type OtpVerifyFormProps = {
 export default function OtpVerifyForm({
   phone,
   onSuccess,
-  autoSubmit = false,
+  autoSubmit = true,
   submitLabel = "تأكيد",
   footer,
   onError,
   onOtpSent,
 }: OtpVerifyFormProps) {
   const { toast } = useToast();
-  const { sendOtp, start, minutes, seconds, resending, isExpired } = useOtp();
+  const isMounted = useMounted();
 
   const isAutoSubmitting = useRef(false);
   const initialSend = useRef(false);
+
   const [inlineError, setInlineError] = useState("");
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [pendingSuccessAction, setPendingSuccessAction] = useState(false);
 
-  const isMounted = useMounted();
+  const { sendOtp, start, minutes, seconds, resending, isExpired } = useOtp({
+    onError: (msg) => {
+      setInlineError(msg);
+      onError?.(msg);
+      toast({ description: msg, icon: "error" });
+    },
+  });
 
   const form = useForm<z.infer<typeof otpSchema>>({
     resolver: zodResolver(otpSchema),
@@ -220,13 +227,15 @@ export default function OtpVerifyForm({
         </form>
       </Form>
 
-      <SuccessFeedbackModal
-        open={showSuccessModal}
-        onOpenChange={(open) => {
-          void handleSuccessModalChange(open);
-        }}
-        message="تم التحقق من رقم جوالك بنجاح"
-      />
+      {showSuccessModal && (
+        <SuccessFeedbackModal
+          open={showSuccessModal}
+          onOpenChange={(open) => {
+            void handleSuccessModalChange(open);
+          }}
+          message="تم التحقق من رقم جوالك بنجاح"
+        />
+      )}
     </>
   );
 }

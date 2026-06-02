@@ -121,7 +121,7 @@ const CourseDetails = ({ details, profile }: Props) => {
               <TabsTrigger
                 key={index}
                 value={tab.value}
-                className={`group data-[state=active]:bg-primary-800 border-primary-800 text-primary hover:bg-primary-50 flex min-w-24 cursor-pointer items-center gap-2 rounded-lg border bg-white px-px py-1 data-[state=active]:text-white md:p-2`}
+                className={`group data-[state=active]:bg-primary-800 border-primary-800 text-primary hover:bg-primary-50 flex min-w-24 cursor-pointer items-center gap-2 rounded-lg border bg-white px-px py-1 hover:shadow-sm data-[state=active]:text-white md:p-2`}
               >
                 <span
                   className="bg-primary size-6 transition-colors duration-300 group-data-[state=active]:bg-white"

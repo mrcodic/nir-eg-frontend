@@ -11,7 +11,7 @@ import { isAxiosError } from "axios";
 import { useCallback, useState } from "react";
 import { useTimer } from "react-timer-hook";
 
-function useOtp() {
+function useOtp({ onError }: { onError?: (message: string) => void } = {}) {
   const { otpSendTime, isExpired } = isOtpExpired();
   const [resending, setResending] = useState(false);
   const [lastOtpIsNew, setLastOtpIsNew] = useState<boolean | null>(null);
@@ -60,7 +60,9 @@ function useOtp() {
 
         return res;
       } catch (error) {
-        handleOtpError(error);
+        const msg = handleOtpError(error);
+
+        onError?.(msg);
 
         if (
           isAxiosError(error) &&
@@ -68,10 +70,7 @@ function useOtp() {
             error.response?.data?.code === AUTH_ERROR_CODES.OTP_COOLDOWN)
         ) {
           const remainingSec = getOtpCooldownSeconds(error);
-          const newTimeStamp =
-            Date.now() +
-            (remainingSec ?? 60) *
-              1000;
+          const newTimeStamp = Date.now() + (remainingSec ?? 60) * 1000;
 
           restart(new Date(newTimeStamp));
           setStart(true);
@@ -82,7 +81,7 @@ function useOtp() {
         setResending(false);
       }
     },
-    [restart, toast],
+    [onError, restart, toast],
   );
 
   return {

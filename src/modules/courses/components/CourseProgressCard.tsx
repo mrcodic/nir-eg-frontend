@@ -2,12 +2,7 @@ import Image from "next/image";
 
 function CourseProgressCard({ progress = 0 }: { progress: number }) {
   return (
-    <div
-      style={{
-        boxShadow: "0px 2px 10px 4px rgba(157, 130, 66, 0.20)",
-      }}
-      className="border-primary-800 bg-background relative z-10 mx-auto -mt-8 flex w-full max-w-[min(85%,760px)] flex-wrap items-center gap-x-4 gap-y-1 rounded-lg border px-6 py-3 font-bold whitespace-nowrap max-md:justify-center md:gap-x-6 md:px-10 md:py-8 md:text-2xl"
-    >
+    <div className="border-primary-800 bg-background relative z-10 mx-auto -mt-8 flex w-full max-w-[min(85%,760px)] flex-wrap items-center gap-x-4 gap-y-1 rounded-lg border px-6 py-3 font-bold whitespace-nowrap shadow-md max-md:justify-center md:gap-x-6 md:px-10 md:py-8 md:text-2xl">
       <Image
         width={48}
         height={48}
@@ -30,7 +25,7 @@ function CourseProgressCard({ progress = 0 }: { progress: number }) {
           <span>{progress}</span>
         </h3>
       </div>
-      <p className="text-primary-800 inline-block">من الكورس</p>
+      <p className="text-primary-800 inline-block">من محتوى الكورس</p>
     </div>
   );
 }

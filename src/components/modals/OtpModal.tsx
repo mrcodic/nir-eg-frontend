@@ -4,10 +4,10 @@ import SmallSpinner from "@/components/custom/SmallSpinner";
 import { Button } from "@/components/ui/button";
 import { DialogClose, DialogFooter } from "@/components/ui/dialog";
 import { useModal } from "@/context/ModalProvider";
+import OtpVerifyForm from "@/modules/auth/components/OtpVerifyForm";
 import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import OtpVerifyForm from "@/modules/auth/components/OtpVerifyForm";
 
 export default function OtpModal({ phone }: { phone: string }) {
   const queryClient = useQueryClient();
@@ -47,7 +47,6 @@ export default function OtpModal({ phone }: { phone: string }) {
       <OtpVerifyForm
         phone={phone}
         onSuccess={handleSuccess}
-        autoSubmit
         footer={({ isSubmitting, isStart }) => (
           <DialogFooter className="mt-16 flex w-full items-center justify-start gap-6">
             <Button
