@@ -12,7 +12,7 @@ type Props = {
   room: any;
   subscribe: boolean;
   verify: boolean;
-  lock_after: number;
+  locked: boolean;
   index: number;
 };
 
@@ -21,7 +21,7 @@ function RoomFileDownloadLink({
   room,
   subscribe,
   verify,
-  lock_after,
+  locked,
   index,
 }: Props) {
   const { handleDownload, isDownloading } = useFileDownload({
@@ -29,9 +29,7 @@ function RoomFileDownloadLink({
   });
 
   const isLocked =
-    room?.locked_to_pass ||
-    room?.latest_room?.locked_to_pass ||
-    lock_after === 0;
+    room?.locked_to_pass || room?.latest_room?.locked_to_pass || locked;
 
   return (
     <div

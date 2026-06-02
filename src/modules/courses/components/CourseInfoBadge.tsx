@@ -5,7 +5,7 @@ function CourseInfoBadge({
   text,
   icon,
 }: {
-  value: string | number;
+  value: string | number | undefined;
   text: string;
   icon: string;
 }) {
@@ -24,7 +24,10 @@ function CourseInfoBadge({
         </span>
       </div>
 
-      <span className="text-primary-800 text-28 h-11 font-bold"> {value}</span>
+      <span className="text-primary-800 text-28 h-11 font-bold">
+        {" "}
+        {value || 0}
+      </span>
     </div>
   );
 }

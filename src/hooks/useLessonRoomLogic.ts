@@ -1,12 +1,9 @@
-import { getClientPrivateData } from "@/helpers/client-fetch";
 import { mutateClient } from "@/helpers/post-client";
 import { getActionErrorMeta } from "@/lib/errorCodes";
+import { useRoomDetailsData } from "@/modules/rooms/hooks/useRoomDetailsData";
 import { useVideoPlayerStore } from "@/store/videoPlayerStore";
-import { ApiResponse, IRoomDetails, LessonVideoType } from "@/types";
-import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useQueryState } from "nuqs";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 export interface IOtpViewStatus {
   used: number;
@@ -40,92 +37,47 @@ const initOtpStatus: OtpStatus = {
 function useLessonRoomLogic({
   classroomId,
   roomId,
+  lessonId,
 }: {
   classroomId: string;
   roomId: string;
+  lessonId: string;
 }) {
-  // ✅ FIX #2 — Explicit types instead of inferring `null` forever
+  const { roomDetails, isLoadingRoomDetails } = useRoomDetailsData({
+    classroomId,
+    roomId,
+  });
+
   const [otpData, setOtpData] = useState<OtpData | null>(null);
   const [otpStatus, setOtpStatus] = useState<OtpStatus>(initOtpStatus);
-  const [selectedVideoType, setSelectedVideoType] =
-    useState<LessonVideoType | null>(null);
-  const [lessonId, setLessonId] = useState<number | null>(null); // ✅ FIX #2
 
-  const initLessonIdRef = useRef(false);
+  const selectedLesson = useMemo(() => {
+    const parsedLessonId = Number(lessonId);
+    if (!Number.isFinite(parsedLessonId)) return null;
 
-  const [videoId, setVideoId] = useQueryState("video_id", {
-    defaultValue: "",
-    history: "replace",
-    shallow: true,
-    clearOnDefault: true,
-    parse: (v) => (v === "undefined" || v === "null" ? "" : v),
-    serialize: (v) => (v === "undefined" || v === "null" ? "" : v),
-  });
-
-  const [videoUrl, setVideoUrl] = useQueryState("video_url", {
-    defaultValue: "",
-    history: "replace",
-    shallow: true,
-    clearOnDefault: true,
-    parse: (v) =>
-      v === "undefined" || v === "null" ? "" : decodeURIComponent(v),
-    serialize: (v) =>
-      v === "undefined" || v === "null" ? "" : encodeURIComponent(v),
-  });
-
-  const hasVideoId =
-    videoId && videoId !== "" && videoId !== "null" && videoId !== "undefined";
-
-  const { data, isLoading: isLoadingLesson } = useQuery({
-    queryFn: getClientPrivateData as () => Promise<ApiResponse<IRoomDetails>>,
-    queryKey: [`/students/get-lessons/${roomId}?classroom_id=${classroomId}`],
-  });
-
-  console.log("lesssons data : ", data);
-  const videoCompleted = useMemo(() => {
     return (
-      videoId &&
-      data?.body?.lessons?.find((lesson) => lesson?.video_id === videoId)
-        ?.completed
+      roomDetails?.body?.lessons?.find((lesson) => lesson.id === parsedLessonId) ??
+      null
     );
-  }, [data, videoId]);
+  }, [lessonId, roomDetails?.body?.lessons]);
 
-  const selectedLesson = useMemo(
-    () => data?.body?.lessons?.find((lesson) => lesson.id === lessonId),
-    [data?.body?.lessons, lessonId],
-  );
+  const selectedVideoType = selectedLesson?.video_type ?? null;
+  const videoCompleted = Boolean(selectedLesson?.completed);
+  const videoId =
+    selectedVideoType && selectedVideoType !== "youtube"
+      ? selectedLesson?.video_id ?? ""
+      : "";
+  const videoUrl =
+    selectedVideoType === "youtube" ? selectedLesson?.video_link ?? "" : "";
 
-  const handleLessonSelect = useCallback(
-    (vid: string, lessId: number, type: LessonVideoType) => {
-      if (lessId === lessonId) return;
-
-      if (type === "youtube") {
-        setVideoUrl(vid);
-        setVideoId(null);
-      } else {
-        setVideoId(vid);
-        setVideoUrl(null);
-      }
-
-      setLessonId(lessId);
-      setSelectedVideoType(type);
-      setOtpData(null);
-      setOtpStatus(initOtpStatus);
-      useVideoPlayerStore.getState().setCurrentTime(0);
-      useVideoPlayerStore.getState().setIsPlaying(false);
-    },
-    [lessonId, setVideoId, setVideoUrl],
-  );
-
-  // ✅ FIX #8 — `vid` explicitly typed as string
   const fetchOtpAndViews = useCallback(
-    async (vid: string) => {
+    async (selectedVideoId: string) => {
       setOtpStatus({ loading: true, error: false });
 
       try {
         const res = await mutateClient("/video/otp", {
           body: {
-            video_id: vid,
+            video_id: selectedVideoId,
             classroom_id: classroomId,
             room_id: roomId,
           },
@@ -149,8 +101,6 @@ function useLessonRoomLogic({
 
         setOtpStatus({ loading: false, error: false });
       } catch (error) {
-        console.error("❌ OTP fetch failed", error);
-
         const errorStatus = axios.isAxiosError(error) && error.response?.status;
         const apiCode = axios.isAxiosError(error)
           ? error.response?.data?.code
@@ -159,7 +109,6 @@ function useLessonRoomLogic({
         if (errorStatus === 403) {
           const meta = getActionErrorMeta(errorStatus, apiCode);
 
-          // VIDEO_BANDWIDTH_EXCEEDED / STORAGE_BANDWIDTH_EXCEEDED → show message
           if (apiCode === 410 || apiCode === 415) {
             setOtpStatus({
               loading: false,
@@ -178,66 +127,41 @@ function useLessonRoomLogic({
   );
 
   useEffect(() => {
+    setOtpData(null);
+    setOtpStatus(initOtpStatus);
+    useVideoPlayerStore.getState().setCurrentTime(0);
+    useVideoPlayerStore.getState().setIsPlaying(false);
+  }, [lessonId]);
+
+  useEffect(() => {
+    if (!selectedLesson) return;
+
+    if (selectedVideoType === "youtube") {
+      setOtpData(null);
+      setOtpStatus({ loading: false, error: false });
+      return;
+    }
+
     if (
-      hasVideoId &&
       (selectedVideoType === "cipher" || selectedVideoType === "bunny") &&
+      videoId &&
       !otpData
     ) {
       fetchOtpAndViews(videoId);
     }
-  }, [fetchOtpAndViews, otpData, selectedVideoType, videoId, hasVideoId]);
-
-  useEffect(() => {
-    if (!data || initLessonIdRef.current) return;
-
-    if (videoId) {
-      const lesson = data.body.lessons.find((l) => l.video_id === videoId);
-      if (lesson) {
-        setLessonId(lesson.id);
-        setSelectedVideoType(lesson.video_type);
-        initLessonIdRef.current = true;
-      }
-      return;
-    }
-
-    if (videoUrl) {
-      const lesson = data.body.lessons.find((l) => l.video_link === videoUrl);
-      if (lesson) {
-        setLessonId(lesson.id);
-        setSelectedVideoType(lesson.video_type);
-        initLessonIdRef.current = true;
-      }
-      return;
-    }
-
-    const first = data.body.lessons[0];
-    if (!first) return;
-    useVideoPlayerStore.getState().setCurrentTime(0);
-    useVideoPlayerStore.getState().setIsPlaying(false);
-
-    if (first.video_type === "youtube") {
-      setVideoUrl(first.video_link);
-    } else {
-      setVideoId(first.video_id);
-    }
-
-    setLessonId(first.id);
-    setSelectedVideoType(first.video_type);
-    initLessonIdRef.current = true;
-  }, [data, videoId, videoUrl, setVideoUrl, setVideoId]);
+  }, [fetchOtpAndViews, otpData, selectedLesson, selectedVideoType, videoId]);
 
   return {
-    otpData,
-    otpStatus,
-    lessonId,
-    videoCompleted,
+    lessonData: roomDetails,
+    isLoadingLesson: isLoadingRoomDetails,
+    lessonId: selectedLesson?.id ?? null,
     selectedLesson,
-    handleLessonSelect,
-    isLoadingLesson,
-    lessonData: data,
-    videoUrl,
+    otpData,
     videoId,
+    videoUrl,
+    otpStatus,
     selectedVideoType,
+    videoCompleted,
   };
 }
 

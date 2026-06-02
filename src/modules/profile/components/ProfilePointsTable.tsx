@@ -1,14 +1,14 @@
-// src/components/ProfilePointsTable.tsx
 "use client";
+
+import Image from "next/image";
+import Link from "next/link";
+import { useState } from "react";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { createColumnHelper } from "@tanstack/react-table";
 
 import CustomTableUI from "@/components/tables/CustomTableUI";
 import { getClientPrivateData } from "@/helpers/client-fetch";
 import type { IPagination, LessonVideoType } from "@/types";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { createColumnHelper } from "@tanstack/react-table";
-import Image from "next/image";
-import Link from "next/link";
-import { useState } from "react";
 
 type IPointTypes = "درس" | "كورس" | "حصة" | "واجب" | "امتحان" | "كويز";
 
@@ -34,7 +34,7 @@ export const generatePointHref = (row: Row): string => {
 
   switch (row.type) {
     case "درس":
-      return `${base}/${row.room_id}?${row?.video_type === "youtube" ? `video_url=${row.video_link}` : `video_id=${row.video_id}`}`;
+      return `${base}/${row.room_id}/${row.id}`;
     case "كورس":
       return base;
     case "حصة":
@@ -59,7 +59,7 @@ const columns = [
     ),
     cell: (info) => (
       <div className="flex max-w-[200px] gap-1 truncate p-2 text-base font-medium md:max-w-[250px]">
-        <p className="">{info.getValue()}</p>
+        <p>{info.getValue()}</p>
 
         {info?.row?.original?.is_classroom_expired ? (
           <span className="truncate font-bold">
@@ -159,9 +159,10 @@ function ProfilePointsTable() {
       pageCount={pageCount}
       isLoading={isLoading}
       isPlaceholderData={isPlaceholderData}
-      errorMessage={"لا يوجد نقاط بعد"}
+      errorMessage="لا يوجد نقاط بعد"
     />
   );
 }
 
 export default ProfilePointsTable;
+

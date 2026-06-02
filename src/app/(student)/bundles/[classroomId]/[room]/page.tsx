@@ -1,192 +1,205 @@
 "use client";
 
-import VideoBanners from "@/components/banners/VideoBanners";
+import { Animate } from "@/components/shared/Animate";
+import Empty from "@/components/shared/Empty";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
-import { useAuthContext } from "@/context/auth-context";
-import useLessonRoomLogic from "@/hooks/useLessonRoomLogic";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import ProtectedRoute from "@/layouts/ProtectedRoute";
-import LessonTimedQuiz from "@/modules/rooms/components/LessonTimedQuiz";
-import RoomSideContent from "@/modules/rooms/components/RoomSideContent";
-import DisableDevTools from "@/modules/video/components/DisableDivTools";
-import VideoError from "@/modules/video/components/VideoError";
-import YoutubeVideoPlayer from "@/modules/video/components/YoutubeVideoPlayer";
-import dynamic from "next/dynamic";
-import { redirect, useParams } from "next/navigation";
-import { Suspense } from "react";
+import LessonRoomCard from "@/modules/rooms/components/LessonRoomCard";
+import RoomDetailsHeader from "@/modules/rooms/components/RoomDetailsHeader";
+import RoomDropDownQuiz from "@/modules/rooms/components/RoomDropDownQuiz";
+import RoomFileDownloadLink from "@/modules/rooms/components/RoomFileDownloadLink";
+import RoomFloatingCards from "@/modules/rooms/components/RoomFloatingCards";
+import RoomHeader from "@/modules/rooms/components/RoomHeader";
+import { useRoomDetailsData } from "@/modules/rooms/hooks/useRoomDetailsData";
+import { useParams } from "next/navigation";
 
-const Community = dynamic(
-  () => import("@/modules/community/components/Community"),
-  {
-    ssr: false,
-  },
-);
-const VideoCipher = dynamic(
-  () => import("@/modules/video/components/VideoCipher"),
-  {
-    ssr: false,
-  },
-);
-const VideoBunny = dynamic(
-  () => import("@/modules/video/components/VideoBunny"),
-  {
-    ssr: false,
-  },
-);
+export default function RoomDetailsPage() {
+  const params = useParams();
+  const classroomId = params.classroomId?.toString() ?? "";
+  const roomId = params.room?.toString() ?? "";
 
-const RoomLecturePage = () => {
-  const { classroomId: classroomId, room } = useParams();
-
-  const { profile } = useAuthContext();
-
-  const {
-    lessonData,
-    isLoadingLesson,
-    lessonId,
-    handleLessonSelect,
-    videoCompleted,
-    selectedLesson,
-    otpData,
-    videoId,
-    videoUrl,
-    otpStatus,
-    selectedVideoType,
-  } = useLessonRoomLogic({
-    classroomId: classroomId?.toString(),
-    roomId: room?.toString(),
+  const { roomDetails, isLoadingRoomDetails } = useRoomDetailsData({
+    classroomId,
+    roomId,
   });
 
-  if (
-    lessonData?.body?.is_subscriped &&
-    lessonData?.body?.lessons?.length === 0
-  ) {
-    redirect(`/bundles/${classroomId}`);
-  }
+  const data = roomDetails?.body;
+  const room = data?.room;
+  const quizzes = data?.quizzes ?? [];
+  const assignments = data?.assignments ?? [];
+  const lessons = data?.lessons ?? [];
+  const attachments = data?.attachments ?? [];
 
-  const viewCount = otpData?.viewsStats;
-  const lockedByViewLimit = otpData?.lockedByViewLimit;
-  const lockedToPass = !!lessonData?.body?.locked_to_pass;
-  const activeVideoType = selectedVideoType ?? (videoUrl ? "youtube" : null);
-  const requiresOtpVideo =
-    activeVideoType === "cipher" || activeVideoType === "bunny";
+  const lockAfter = data && "lock_after" in data ? data.lock_after : null;
 
-  const communityAvailable =
-    profile?.type !== 3 &&
-    !(lockedToPass || !!lockedByViewLimit) &&
-    !!selectedLesson?.access_comment;
+  const isRoomPurchasable =
+    data &&
+    "lock_after" in data &&
+    lockAfter !== null &&
+    Number(lockAfter) === 0;
+
+  const isRoomPurchased =
+    data &&
+    "lock_after" in data &&
+    lockAfter !== null &&
+    Number(lockAfter) !== 0;
+
+  const lockedToPass = data?.locked_to_pass;
 
   return (
-    <>
-      <ProtectedRoute
-        subscribed={lessonData?.body?.is_subscriped}
-        data={lessonData}
-        isLoading={isLoadingLesson}
-      >
-        {selectedLesson && requiresOtpVideo && (
-          <LessonTimedQuiz lessonData={selectedLesson} />
-        )}
+    <ProtectedRoute
+      subscribed={roomDetails?.body?.is_subscriped}
+      data={roomDetails}
+      isLoading={isLoadingRoomDetails}
+    >
+      <div className="mt-20">
+        <Animate preset="slideDown">
+          <RoomDetailsHeader
+            room={room}
+            data={data}
+            classroomId={classroomId}
+            isRoomPurchasable={isRoomPurchasable}
+            isRoomPurchased={isRoomPurchased}
+          />
+        </Animate>
 
-        <div className="wrapper mt-[110px]">
-          <div className="flex flex-col-reverse gap-6 py-8 lg:flex-row">
-            <div className="flex w-full lg:w-[min(35%,400px)]">
-              <RoomSideContent
-                data={lessonData?.body}
-                onLessonClick={handleLessonSelect}
-                locked={lessonData?.body?.locked_to_pass}
-                isLoading={isLoadingLesson}
-                activeLessonId={lessonId}
-              />
-            </div>
+        <Animate preset="fadeIn" delay={0.2}>
+          <RoomFloatingCards data={data} lockedToPass={lockedToPass} />
+        </Animate>
 
-            <div className="flex flex-1 flex-col lg:w-[calc(70%-1.5rem)]">
-              <div className="relative">
-                <VideoBanners
-                  requiresOtpVideo={requiresOtpVideo}
-                  viewCount={viewCount}
-                  lockedByViewLimit={lockedByViewLimit}
-                  lockedToPass={lockedToPass}
-                />
-
-                <div className="border-gray-light h-[300px] overflow-hidden rounded-lg border sm:h-[520px]">
-                  <Suspense
-                    fallback={
-                      <LoadingSpinner className="h-[300px] bg-white sm:h-[520px]" />
-                    }
-                  >
-                    {otpStatus?.loading ? (
-                      <LoadingSpinner className="h-[300px] bg-white sm:h-[520px]" />
-                    ) : otpStatus?.error ? (
-                      <VideoError
-                        message={
-                          lockedByViewLimit
-                            ? "لقد تجاوزت الحد الأقصى لعدد المشاهدات المسموح بها لهذا الدرس"
-                            : otpStatus?.message
-                        }
-                        src={lockedByViewLimit ? "/assets/Locked.png" : ""}
-                      />
-                    ) : activeVideoType === "youtube" && videoUrl ? (
-                      <YoutubeVideoPlayer videoUrl={videoUrl} />
-                    ) : activeVideoType === "bunny" && videoId ? (
-                      <VideoBunny
-                        key={videoId}
-                        response={otpData}
-                        videoId={videoId}
-                        roomId={Number(room)}
-                        classroomId={Number(classroomId)}
-                        lessonId={
-                          lessonId || lessonData?.body?.lessons?.[0]?.id
-                        }
-                        videoCompleted={videoCompleted}
-                        communityAvailable={communityAvailable}
-                      />
-                    ) : activeVideoType === "cipher" && videoId ? (
-                      <VideoCipher
-                        key={videoId}
-                        videoId={videoId}
-                        roomId={Number(room)}
-                        classroomId={Number(classroomId)}
-                        response={otpData}
-                        lessonId={
-                          lessonId || lessonData?.body?.lessons?.[0]?.id
-                        }
-                        videoCompleted={videoCompleted}
-                        communityAvailable={communityAvailable}
-                      />
-                    ) : (
-                      <VideoError message={"لا يوجد فيديو متاح"} />
-                    )}
-                  </Suspense>
-                </div>
-              </div>
-
-              <div className="border-gray-light mt-4 rounded-lg border p-2">
-                <h2 className="text-lg font-bold">
-                  {selectedLesson?.title || "--"}
-                </h2>
-
-                <hr className="border-gray-light my-2" />
-
-                <p className="text-gray-dark text-xs font-bold">
-                  {lessonData?.body?.room?.grade?.title || "--"}
-                </p>
-              </div>
-
-              <Suspense fallback={null}>
-                {communityAvailable && (
-                  <Community
-                    key={lessonId}
-                    locked={lockedToPass || !!lockedByViewLimit}
-                    lessonId={lessonId || lessonData?.body?.lessons?.[0]?.id}
-                    isYoutubeVideo={activeVideoType === "youtube"}
+        <div className="wrapper py-22">
+          {!room ? (
+            <LoadingSpinner />
+          ) : (
+            <Accordion
+              type="multiple"
+              defaultValue={["tasks", "videos", "files"]}
+              className="space-y-10"
+            >
+              <AccordionItem
+                value="tasks"
+                className="border-none bg-transparent p-0 shadow-none"
+              >
+                <AccordionTrigger className="py-0 hover:no-underline">
+                  <RoomHeader
+                    title="الامتحانات والواجبات"
+                    icon="/assets/assignment-colored.svg"
+                    className="mb-0"
                   />
-                )}
-              </Suspense>
-            </div>
-          </div>
-        </div>
-      </ProtectedRoute>
-      <DisableDevTools />
-    </>
-  );
-};
+                </AccordionTrigger>
 
-export default RoomLecturePage;
+                <AccordionContent className="pt-4 pb-0">
+                  {!quizzes.length && !assignments.length ? (
+                    <Empty text="لا توجد امتحانات" className="py-2" />
+                  ) : (
+                    <div className="space-y-3">
+                      {quizzes.map((quiz) => (
+                        <RoomDropDownQuiz
+                          key={`quiz-${quiz.id}`}
+                          item={quiz}
+                          room={room}
+                          classroomId={classroomId}
+                          subscribe={data.is_subscriped}
+                          verify={true || data.parent_phone_verification}
+                          locked={isRoomPurchasable}
+                          linkText="فتح الامتحان"
+                          type="exam"
+                        />
+                      ))}
+
+                      {assignments.map((assignment) => (
+                        <RoomDropDownQuiz
+                          key={`assignment-${assignment.id}`}
+                          item={assignment}
+                          room={room}
+                          classroomId={classroomId}
+                          subscribe={data.is_subscriped}
+                          verify={true || data.parent_phone_verification}
+                          locked={lockedToPass || isRoomPurchasable}
+                          linkText="فتح الواجب"
+                          type="ass"
+                        />
+                      ))}
+                    </div>
+                  )}
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem
+                value="videos"
+                className="border-none bg-transparent p-0 shadow-none"
+              >
+                <AccordionTrigger className="py-0 hover:no-underline">
+                  <RoomHeader
+                    title="فيديوهات الحصة"
+                    icon="/assets/videos-fill.svg"
+                    className="mb-0"
+                  />
+                </AccordionTrigger>
+
+                <AccordionContent className="pt-4 pb-0">
+                  {!lessons.length ? (
+                    <Empty text="لا توجد فيديوهات" className="py-2" />
+                  ) : (
+                    <div className="space-y-3">
+                      {lessons.map((lesson) => (
+                        <LessonRoomCard
+                          key={lesson.id}
+                          lesson={lesson}
+                          subscribe={data.is_subscriped}
+                          verify={true || data.parent_phone_verification}
+                          roomId={room.id}
+                          locked={lockedToPass || isRoomPurchasable}
+                          classroomId={classroomId}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem
+                value="files"
+                className="border-none bg-transparent p-0 shadow-none"
+              >
+                <AccordionTrigger className="py-0 hover:no-underline">
+                  <RoomHeader
+                    title="ملفات الحصة"
+                    icon="/assets/files-fill.svg"
+                    className="mb-0"
+                  />
+                </AccordionTrigger>
+
+                <AccordionContent className="pt-4 pb-0">
+                  {!attachments.length ? (
+                    <Empty text="لا توجد ملفات" className="py-2" />
+                  ) : (
+                    <div className="space-y-3">
+                      {attachments.map((attachment, index) => (
+                        <RoomFileDownloadLink
+                          key={attachment.url ?? `attachment-${index}`}
+                          attachment={attachment}
+                          room={room}
+                          subscribe={data.is_subscriped}
+                          verify={true || data.parent_phone_verification}
+                          locked={isRoomPurchasable}
+                          index={index}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          )}
+        </div>
+      </div>
+    </ProtectedRoute>
+  );
+}

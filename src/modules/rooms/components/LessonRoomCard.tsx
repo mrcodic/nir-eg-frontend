@@ -1,30 +1,47 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { ILesson } from "@/types";
 import { convertMinutes } from "@/utils/clientFun";
 import { Lock } from "lucide-react";
+import Image from "next/image";
 import { useRouter } from "nextjs-toploader/app";
-import { Button } from "@/components/ui/button";
+
+type Props = {
+  lesson: ILesson;
+  subscribe: boolean;
+  verify?: boolean;
+  roomId: string | number;
+  locked?: boolean;
+  classroomId: string | number;
+};
 
 const LessonRoomCard = ({
   lesson,
   subscribe,
-  verify,
+  verify = true,
   roomId,
   locked,
   classroomId,
-}) => {
+}: Props) => {
   const router = useRouter();
 
   return (
     <div className="border-gray-light bg-background flex items-start justify-between rounded-lg border p-2">
       <div className="flex gap-4 pt-1">
-        <img src="/assets/videos-fill.svg" className="size-6" />
+        <Image
+          src="/assets/videos-fill.svg"
+          width={24}
+          height={24}
+          alt="video icon"
+          className="size-6"
+        />
 
         <div>
           <h3 className="text-sm font-bold text-black md:text-base">
@@ -38,7 +55,13 @@ const LessonRoomCard = ({
 
           {lesson.duration && (
             <div className="mt-4 flex items-center gap-2 whitespace-nowrap">
-              <img src="/assets/time.svg" className="size-6" />
+              <Image
+                src="/assets/time.svg"
+                width={24}
+                height={24}
+                alt="time icon"
+                className="size-6"
+              />
               <div className="flex gap-1 text-black">
                 <span className="inline-block text-sm font-bold">
                   مدة الفيديو:
@@ -62,13 +85,7 @@ const LessonRoomCard = ({
           onClick={async () => {
             if (locked) return;
 
-            router.push(
-              `/bundles/${classroomId}/${roomId}?${
-                lesson?.video_type === "youtube"
-                  ? `video_url=${encodeURIComponent(lesson?.video_link)}`
-                  : `video_id=${lesson?.video_id || lesson?.video_id}`
-              }`,
-            );
+            router.push(`/bundles/${classroomId}/${roomId}/${lesson?.id}`);
           }}
         >
           {!locked ? (

@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useTenant } from "@/context/TenantProvider";
 import { cn } from "@/lib/utils";
-import { IRoomDetails, LessonVideoType } from "@/types";
+import { IRoomDetails } from "@/types";
 import { ChevronRight, Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
@@ -24,11 +24,7 @@ import {
 
 type RoomSideContentProps = {
   data: IRoomDetails | undefined;
-  onLessonClick?: (
-    videoId: string,
-    lessonId: number,
-    videoType: LessonVideoType,
-  ) => void;
+  onLessonClick?: (url: string) => void;
   locked: boolean;
   isLoading: boolean;
   className?: string;
@@ -151,18 +147,10 @@ const RoomSideContent = ({
                     onClick={() =>
                       onLessonClick
                         ? onLessonClick(
-                            lesson?.video_type === "youtube"
-                              ? lesson?.video_link
-                              : lesson?.video_id,
-                            lesson?.id,
-                            lesson?.video_type,
+                            `/bundles/${classroomId}/${data.room.id}/${lesson.id}`,
                           )
                         : router.push(
-                            `/bundles/${classroomId}/${data.room.id}?${
-                              lesson?.video_type === "youtube"
-                                ? `video_url=${encodeURIComponent(lesson?.video_link)}`
-                                : `video_id=${lesson?.video_id}`
-                            }`,
+                            `/bundles/${classroomId}/${data.room.id}/${lesson.id}`,
                           )
                     }
                   />

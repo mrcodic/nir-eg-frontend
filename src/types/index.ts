@@ -375,7 +375,7 @@ export interface LatestRoom {
   classroom?: string;
   id: number;
   is_subscriped?: boolean;
-  latest_room?: RoomData | null;
+  latest_room?: IRoomData | null;
   parent_phone_verification?: boolean;
   student_phone_verification?: boolean;
   [key: string]: unknown;
@@ -412,7 +412,7 @@ export interface CourseType {
   updated_at: string;
 }
 
-interface Assignment {
+export interface IAssignment {
   completed: boolean;
   id: number;
   retake: boolean;
@@ -456,7 +456,7 @@ export interface Attachment {
   url: string;
 }
 
-export interface RoomData {
+export interface IRoomData {
   id: number;
   room_key?: string;
   title?: string;
@@ -464,12 +464,14 @@ export interface RoomData {
   description: string;
   duration: string;
 
-  assignments: Assignment[];
+  assignments: IAssignment[];
   attachments: Attachment[];
   lessons: ILesson[];
   quizzes: (QuizItem | QuizObject)[];
 
   grade?: Grade;
+
+  thumbnail?: string;
 
   exam_count: number;
   exams_count?: number;
@@ -494,13 +496,14 @@ export interface RoomData {
 }
 
 export interface IRoomDetails {
-  assignments: Assignment[];
+  attachments: Attachment[] | null;
+  assignments: IAssignment[] | null;
   is_subscriped: boolean;
-  lessons: ILesson[];
+  lessons: ILesson[] | null;
   locked_to_pass: boolean;
   parent_phone_verification: boolean;
-  quizzes: QuizItem[];
-  room: RoomData;
+  quizzes: QuizItem[] | null;
+  room: IRoomData;
   student_phone_verification: boolean;
   subscription_type: string;
 }
@@ -549,7 +552,7 @@ export interface ICourseDetails {
 
   progress: number;
 
-  rooms: RoomData[];
+  rooms: IRoomData[];
 
   subscription_type: string;
 

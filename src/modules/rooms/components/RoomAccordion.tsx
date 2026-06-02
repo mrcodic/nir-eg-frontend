@@ -14,8 +14,9 @@ import PriceBadge from "@/modules/payment/components/PriceBadge";
 import LessonRoomCard from "@/modules/rooms/components/LessonRoomCard";
 import RoomDropDownQuiz from "@/modules/rooms/components/RoomDropDownQuiz";
 import RoomFileDownloadLink from "@/modules/rooms/components/RoomFileDownloadLink";
-import { RoomData } from "@/types";
+import { IRoomData } from "@/types";
 import Image from "next/image";
+import Link from "next/link";
 
 const RoomAccordion = ({
   isProfile,
@@ -27,7 +28,7 @@ const RoomAccordion = ({
   tasksEnabled = true,
 }: {
   isProfile?: boolean;
-  room: RoomData;
+  room: IRoomData;
   subscribe?: boolean;
   verify?: boolean;
   courseName?: string;
@@ -119,12 +120,24 @@ const RoomAccordion = ({
                   </h3>
                 </div>
 
-                {isRoomPurchased && (
-                  <RoomExpireBadge
-                    lock_after={lock_after}
-                    className="ms-auto"
-                  />
-                )}
+                <div className="ms-auto flex flex-col items-end gap-2">
+                  <Link
+                    href={`/bundles/${classroomId}/${room?.id}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                    }}
+                    className="bg-primary-800 hover:bg-primary-700 rounded-lg px-3 py-2 text-sm font-bold text-white transition-colors"
+                  >
+                    تفاصيل الحصة
+                  </Link>
+
+                  {isRoomPurchased && (
+                    <RoomExpireBadge
+                      lock_after={lock_after}
+                      className="ms-auto"
+                    />
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -203,7 +216,7 @@ const RoomAccordion = ({
                     room={room}
                     subscribe={subscribe || room?.is_subscriped}
                     verify={verify || room?.parent_phone_verification}
-                    lock_after={lock_after}
+                    locked={isRoomPurchasable}
                     index={index}
                   />
                 );
