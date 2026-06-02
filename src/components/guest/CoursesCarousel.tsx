@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/carousel";
 import { getServerData } from "@/helpers/server-fetch";
 import { ChevronLeft } from "lucide-react";
-import Image from "next/image";
+import CustomImage from "../ui/CustomImage";
 import PriceBubbles from "../ui/price-bubble";
 import SectionTitle from "./SectionTitle";
 
@@ -53,10 +53,11 @@ async function CoursesCarousel() {
                 <div className="group cursor-pointer">
                   {/* Image Placeholder */}
                   <div className="relative mb-4 h-56 w-full overflow-hidden rounded-xl bg-gray-200 transition-colors hover:bg-gray-300">
-                    <Image
+                    <CustomImage
                       src={course?.image}
                       alt="course image"
                       fill
+                      fallback="/assets/grade-placeholder.png"
                       className="object-cover transition-all group-hover:scale-105"
                     />
                   </div>

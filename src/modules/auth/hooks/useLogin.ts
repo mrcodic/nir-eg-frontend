@@ -1,33 +1,35 @@
 "use client";
 
-import { QueryClient } from "@tanstack/react-query";
 import Cookies from "js-cookie";
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { z } from "zod";
 
+import { useAuthContext } from "@/context/auth-context";
 import { openDesktopAuthDeeplink } from "@/helpers/auth-deeplink";
+import { useToast } from "@/hooks/use-toast";
 import { loginSchema } from "@/lib/schemas";
 import { presistUserPhone } from "@/lib/utils";
 import { loginWithPhonePassword } from "@/services/auth.service";
 import { saveCookie } from "@/utils/api";
+import { useQueryClient } from "@tanstack/react-query";
+import { useRouter, useSearchParams } from "next/navigation";
 
 type UseLoginParams = {
-  router: AppRouterInstance;
-  queryClient: QueryClient;
-  redirectPath: string | null;
-  setToken: (token: string) => void;
-  onPhoneNotVerified: (phone: string) => void;
-  onErrorToast: (message: string) => void;
+  onPhoneNotVerified: () => void;
 };
 
-export function useLogin({
-  router,
-  queryClient,
-  redirectPath,
-  setToken,
-  onPhoneNotVerified,
-  onErrorToast,
-}: UseLoginParams) {
+export function useLogin({ onPhoneNotVerified }: UseLoginParams) {
+  const { toast } = useToast();
+  const router = useRouter();
+  const queryClient = useQueryClient();
+
+  const { setToken } = useAuthContext();
+
+  const searchParams = useSearchParams();
+  const redirectSearch = searchParams.get("redirect");
+  const redirectPath = redirectSearch
+    ? decodeURIComponent(redirectSearch)
+    : null;
+
   const onSubmit = async (values: z.infer<typeof loginSchema>) => {
     try {
       const { phone, ...rest } = values;
@@ -46,7 +48,14 @@ export function useLogin({
 
       setToken(response?.access_token);
       presistUserPhone(phone.phone, phone.country);
-      openDesktopAuthDeeplink(response);
+      openDesktopAuthDeeplink(response, {
+        onFailure: () => {
+          toast({
+            description: "تعذر فتح تطبيق سطح المكتب. تأكد أنه مثبت على الجهاز.",
+            icon: "error",
+          });
+        },
+      });
 
       if (response?.student?.type === 3 && response?.student?.has_center) {
         router.push(redirectPath || `bundles/${response?.student?.center_id}`);
@@ -54,29 +63,46 @@ export function useLogin({
       }
 
       if (response?.student?.type === 4 || response?.student?.type === 5) {
-        router.push(redirectPath || `bundles?grade=${response?.student?.grade}`);
+        router.push(
+          redirectPath || `bundles?grade=${response?.student?.grade}`,
+        );
         return;
       }
 
-      if (response?.student?.type === 3 && response?.student?.has_center === false) {
+      if (
+        response?.student?.type === 3 &&
+        response?.student?.has_center === false
+      ) {
         router.push(redirectPath || "profile");
       }
     } catch (err: unknown) {
       const error = err as {
         status?: number;
-        response?: { error?: { message?: string }; data?: { message?: string } };
+        response?: {
+          error?: { message?: string };
+          data?: { message?: string };
+        };
       };
 
       if (error?.status === 409) {
-        onPhoneNotVerified(values.phone.phone);
+        localStorage.setItem("phone", values.phone.phone);
+        toast({
+          icon: "error",
+          description: "رقم الهاتف غير مفعل",
+        });
+        onPhoneNotVerified();
         return;
       }
 
-      onErrorToast(
-        error?.status !== 500
-          ? error?.response?.error?.message || error?.response?.data?.message || "حدث خطأ ما"
-          : "حدث خطاء ما اثناء تسجيل الدخول",
-      );
+      toast({
+        description:
+          error?.status !== 500
+            ? error?.response?.error?.message ||
+              error?.response?.data?.message ||
+              "حدث خطأ ما"
+            : "حدث خطاء ما اثناء تسجيل الدخول",
+        icon: "error",
+      });
     }
   };
 

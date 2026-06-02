@@ -1,6 +1,7 @@
 import { getServerData } from "@/helpers/server-fetch";
 import { Grade } from "@/types";
 import Link from "next/link";
+import CustomImage from "../ui/CustomImage";
 import SectionTitle from "./SectionTitle";
 
 const GradesSectionTwo = async () => {
@@ -15,15 +16,25 @@ const GradesSectionTwo = async () => {
     <section id="grades" className="scroll-m-32">
       <SectionTitle title="الكورسات" />
 
-      <div className="mt-8 grid grid-cols-1 justify-items-center gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-8 grid grid-cols-1 justify-items-center gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {grades?.data?.map((grade) => (
           <Link
             href={`/bundles?grade=${grade.id}`}
             key={grade.id}
-            className="group w-full cursor-pointer overflow-hidden max-md:max-w-96"
+            className="group w-full max-w-[300px] cursor-pointer overflow-hidden md:max-w-[500px]"
           >
             {/* Image Placeholder */}
-            <div className="h-64 w-full rounded-xl bg-gray-300 transition-all hover:bg-gray-400"></div>
+            <div className="relative h-64 w-full overflow-hidden rounded-xl transition-all hover:bg-gray-400">
+              <CustomImage
+                src={grade?.image || "/assets/grade-placeholder.png"}
+                fill
+                fallback="/assets/grade-placeholder.png"
+                className="-z-1"
+                alt="grade type image"
+                fetchPriority="high"
+                loading="eager"
+              />
+            </div>
 
             {/* Footer */}
             <div className="bg-primary-800 group-hover:bg-primary-800/90 mt-6 rounded-xl p-4 text-white transition-colors">

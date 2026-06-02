@@ -1,7 +1,7 @@
 import { TenantLandingResponse } from "@/types/tenant.types";
 import Image from "next/image";
-import { Button } from "../ui/button";
 import Link from "next/link";
+import { Button } from "../ui/button";
 
 function StartWithUsNow({
   content,
@@ -24,7 +24,28 @@ function StartWithUsNow({
       </div>
 
       {/* <div className=" mt-8 rounded-lg bg-[url('/assets/bg/bg-vector.png'),radial-gradient(79.17%_79.17%_at_20.83%_69.6%,#20364e_0%,#0d2237_100%)] bg-no-repeat bg-bottom min-h-80 relative p-10 flex gap-6 lg:pe-72"> */}
-      <div className="relative mt-8 flex min-h-80 gap-6 rounded-lg bg-[url('/assets/bg/bg-vector.png'),var(--gradient-primary-radial)] bg-bottom bg-no-repeat p-10 max-[360px]:pb-20 lg:pe-72">
+      <div className="bg-primary-radial relative mt-8 flex min-h-80 gap-6 rounded-lg bg-bottom bg-no-repeat p-10 max-[360px]:pb-20 lg:pe-72">
+        <div
+          className="bg-primary absolute bottom-0 left-0 h-1/2 w-4/5 bg-bottom bg-no-repeat"
+          style={{
+            maskImage:
+              "url('/assets/bg/bg-vector.png'), linear-gradient(to right, black 0%, black 75%, transparent 90%)",
+            WebkitMaskImage:
+              "url('/assets/bg/bg-vector.png'), linear-gradient(to right, black 0%, black 75%, transparent 90%)",
+
+            maskComposite: "intersect",
+            WebkitMaskComposite: "source-in",
+
+            maskRepeat: "no-repeat",
+            WebkitMaskRepeat: "no-repeat",
+
+            maskPosition: "top left",
+            WebkitMaskPosition: "top left",
+
+            maskSize: "cover",
+            WebkitMaskSize: "cover",
+          }}
+        />
         <div className="relative z-10 flex h-full w-fit max-w-[524px] flex-col justify-center gap-10 text-white">
           <div className="space-y-2">
             <h4 className="text-32 font-bold">انضم لأكثر من 5000 طالب</h4>

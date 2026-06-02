@@ -17,24 +17,17 @@ import { loginSchema } from "@/lib/schemas";
 import { getUserPhoneFromStorage } from "@/lib/utils";
 import { useLogin } from "@/modules/auth/hooks/useLogin";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 
 const AuthPage = () => {
   const router = useRouter();
   const { toast } = useToast();
-  const queryClient = useQueryClient();
 
   const [verify, setVerify] = useState(false);
-  const { setToken, profile } = useAuthContext();
 
-  const searchParams = useSearchParams();
-  const redirectSearch = searchParams.get("redirect");
-  const redirectPath = redirectSearch
-    ? decodeURIComponent(redirectSearch)
-    : null;
+  const { profile } = useAuthContext();
 
   const form = useForm({
     resolver: zodResolver(loginSchema),
@@ -50,20 +43,8 @@ const AuthPage = () => {
   });
 
   const { onSubmit } = useLogin({
-    router,
-    queryClient,
-    redirectPath,
-    setToken,
-    onPhoneNotVerified: (phone) => {
-      localStorage.setItem("phone", phone);
-      toast({
-        icon: "error",
-        description: "رقم الهاتف غير مفعل",
-      });
+    onPhoneNotVerified: () => {
       setVerify(true);
-    },
-    onErrorToast: (message) => {
-      toast({ description: message, icon: "error" });
     },
   });
 
