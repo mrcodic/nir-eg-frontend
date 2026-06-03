@@ -19,7 +19,7 @@ function BookQuantity({
   buttonClassName?: string;
   textClassName?: string;
 }) {
-  const { decrementQuantity, incrementQuantity, getItemQuantity, items } =
+  const { decrementQuantity, incrementQuantity, getItemQuantity } =
     useCartStore((state) => state);
 
   const quantity = getItemQuantity(book.id);
@@ -28,7 +28,7 @@ function BookQuantity({
     () =>
       debounce((id: string) => {
         incrementQuantity(id);
-      }, 300),
+      }, 150),
     [incrementQuantity],
   );
 
@@ -36,7 +36,7 @@ function BookQuantity({
     () =>
       debounce((id: string) => {
         decrementQuantity(id);
-      }, 300),
+      }, 150),
     [decrementQuantity],
   );
 

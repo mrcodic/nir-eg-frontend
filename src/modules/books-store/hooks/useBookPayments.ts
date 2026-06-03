@@ -1,8 +1,8 @@
-import { paymentTypesBooks } from "@/constants";
 import { useCartStore } from "@/context/BooksStoreProvider";
 import { useModal } from "@/context/ModalProvider";
 import { mutateClient } from "@/helpers/post-client";
 import { useToast } from "@/hooks/use-toast";
+import usePaymentsTypesFiltered from "@/modules/payment/hooks/usePaymentsTypesFiltered";
 import { paymentType, PricingResponse } from "@/types";
 import { redirectUrl } from "@/utils/clientFun";
 import { useRouter } from "next/navigation";
@@ -34,32 +34,9 @@ export const useBookPayment = ({
   const [coupon, setCoupon] = useState<PricingResponse | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const paymentTypes = paymentTypesBooks;
-
-  // // Handle payment success/failure messages (popup window)
-  // useEffect(() => {
-  //   if (!asModal) return;
-
-  //   const handleMessage = (event: MessageEvent) => {
-  //     if (event.origin !== window.location.origin) return;
-  //     if (event.data === 200) {
-  //       setOpen?.(false);
-  //       toast({
-  //         description: "تم الدفع بنجاح",
-  //         icon: "success",
-  //       });
-  //       router.push(`/books`);
-  //     } else if (event.data === 500) {
-  //       toast({
-  //         description: "حصل مشكله اثناء الدفع",
-  //         icon: "error",
-  //       });
-  //     }
-  //   };
-
-  //   window.addEventListener("message", handleMessage);
-  //   return () => window.removeEventListener("message", handleMessage);
-  // }, [asModal, bookId, router, setOpen, toast]);
+  const { paymentTypes, isLoading: isLoadingFilter } = usePaymentsTypesFiltered(
+    { isBookStore: true },
+  );
 
   // Initialize payment method value
   useEffect(() => {
@@ -119,7 +96,7 @@ export const useBookPayment = ({
   return {
     paymentMethodValue,
     setPaymentMethodValue,
-    loading,
+    loading: loading || isLoadingFilter,
     paymentTypes,
     handleCheckout,
     coupon,

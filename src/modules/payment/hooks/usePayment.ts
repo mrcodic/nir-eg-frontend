@@ -36,14 +36,8 @@ export const usePayment = ({
   const [coupon, setCoupon] = useState<PricingResponse | null>(null);
   const [loading, setLoading] = useState(false);
 
-  // Fetch user data for modal mode
-
-  const { paymentTypes, isLoading: isLoadingFilter } = usePaymentsTypesFiltered(
-    {
-      asModal,
-      userType: profile?.type,
-    },
-  );
+  const { paymentTypes, isLoading: isLoadingFilter } =
+    usePaymentsTypesFiltered();
 
   // Initialize payment method value
   useEffect(() => {

@@ -1,7 +1,12 @@
-import { paymentTypesCenter, paymentTypesOnline } from "@/constants";
+import {
+  paymentTypesBooks,
+  paymentTypesCenter,
+  paymentTypesOnline,
+} from "@/constants";
+import { useAuthContext } from "@/context/auth-context";
 import { getClientPrivateData } from "@/helpers/client-fetch";
 import { useQuery } from "@tanstack/react-query";
-import { useCallback, useMemo } from "react";
+import { useMemo } from "react";
 
 type PaymentFilter = {
   hide_fawry: number;
@@ -10,49 +15,44 @@ type PaymentFilter = {
   hide_visa: number;
 };
 
+export const filterPaymentMethods = (
+  paymentMethods: typeof paymentTypesOnline,
+  filter: PaymentFilter,
+) => {
+  if (!filter) return paymentMethods;
+
+  return paymentMethods.filter((item) => !filter[item.filter]);
+};
+
 function usePaymentsTypesFiltered({
-  asModal = false,
-  userType = 4,
-  isCodeCenter = false,
-}: {
-  asModal?: boolean;
-  userType?: number;
-  isCodeCenter?: boolean;
-}) {
-  const { data, isLoading } = useQuery({
+  isBookStore,
+}: { isBookStore?: boolean } = {}) {
+  const { profile } = useAuthContext();
+
+  const userType = profile?.type;
+
+  const { data, isLoading } = useQuery<{ data: PaymentFilter | null }>({
     queryKey: ["settings/general"],
     queryFn: getClientPrivateData,
   });
 
   // helper: apply filter for userType === 4 (online user)
-  const filterOnlineTypes = useCallback(
-    (list: typeof paymentTypesOnline) => {
-      if (!data) return list;
-
-      return list.filter((item) => !data[item.filter]);
-    },
-    [data],
-  );
 
   // Determine payment types based on mode and user type
   const paymentTypes = useMemo(() => {
-    if (isLoading && userType === 4) return [];
-    if (asModal) {
-      if (userType === 4) {
-        return filterOnlineTypes(paymentTypesOnline);
-      } else if (userType === 3 || userType === 5) {
-        return paymentTypesCenter;
-      }
-      return [];
+    if (isLoading || !profile || !data?.data) return [];
+    if (userType === 4) {
+      return filterPaymentMethods(
+        isBookStore ? paymentTypesBooks : paymentTypesOnline,
+        data?.data,
+      );
     } else {
-      return isCodeCenter || userType === 3
-        ? paymentTypesCenter
-        : filterOnlineTypes(paymentTypesOnline);
+      return isBookStore ? paymentTypesBooks : paymentTypesCenter;
     }
-  }, [isLoading, userType, isCodeCenter, asModal, filterOnlineTypes]);
+  }, [isLoading, profile, userType, data?.data, isBookStore]);
 
   return {
-    paymentFilter: data?.data as unknown as PaymentFilter | null,
+    paymentFilter: data?.data,
     isLoading,
     paymentTypes,
   };
