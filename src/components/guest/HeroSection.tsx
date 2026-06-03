@@ -31,11 +31,11 @@ function HeroSection({
         {content?.image && (
           <Image
             src={content?.image}
-            fill
             alt="hero image"
             className="object-cover"
             fetchPriority="high"
             loading="eager"
+            fill
           />
         )}
       </div>

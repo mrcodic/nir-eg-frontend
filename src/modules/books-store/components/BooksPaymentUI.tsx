@@ -46,7 +46,7 @@ export const BooksPaymentUI: React.FC<PaymentUIProps> = ({
     <>
       {loading && (
         <div className="absolute top-0 left-0 z-30 h-full w-full bg-black/40">
-          <LoadingSpinner />
+          <LoadingSpinner className="min-h-0" />
         </div>
       )}
 

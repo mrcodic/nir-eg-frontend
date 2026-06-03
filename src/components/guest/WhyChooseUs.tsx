@@ -1,7 +1,7 @@
 import { TenantLandingResponse } from "@/types/tenant.types";
-import Image from "next/image";
-import { Card, CardContent, CardHeader } from "../ui/card";
 import UnderlineStyle from "../shared/UnderlineStyle";
+import { Card, CardContent, CardHeader } from "../ui/card";
+import CustomImage from "../ui/CustomImage";
 
 function WhyChooseUs({
   content,
@@ -27,8 +27,9 @@ function WhyChooseUs({
           >
             <CardHeader className="mb-6 items-center pb-0">
               {card?.image ? (
-                <Image
+                <CustomImage
                   src={card?.image}
+                  fallback="/assets/gifs/stars.gif"
                   width={56}
                   height={56}
                   alt="icon"

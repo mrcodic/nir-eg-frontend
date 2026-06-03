@@ -1,7 +1,7 @@
 import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
+import CustomImage from "@/components/ui/CustomImage";
 import { Book } from "@/types/books.types";
 import { motion } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
 import BookCardBadge, { BookBadgeVariants } from "./BookCardBadge";
 import BookCartAddRemove from "./BookCartAddRemove";
@@ -55,11 +55,12 @@ const BookCard = ({ book }: { book: Book }) => {
           side="tr"
         />
 
-        <Image
+        <CustomImage
           src={book?.image || "/assets/book.svg"}
           alt="book"
+          fallback="/assets/book.svg"
           fill
-          className="z-[1] rounded-lg object-cover transition-all group-hover:scale-105"
+          className="z-1 rounded-lg object-cover transition-all group-hover:scale-105"
         />
       </MotionLink>
 
