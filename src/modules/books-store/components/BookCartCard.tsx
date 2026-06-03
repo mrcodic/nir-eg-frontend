@@ -1,8 +1,8 @@
+import CustomImage from "@/components/ui/CustomImage";
 import DataWithLabel from "@/components/ui/DataWithLabel";
-import { CartItem } from "@/store/booksCartStore";
 import { cn, formatCurrency } from "@/lib/utils";
+import { CartItem } from "@/store/booksCartStore";
 import { Trash } from "lucide-react";
-import Image from "next/image";
 import BookQuantity from "./BookQuantity";
 import RemoveFromCart from "./RemoveFromCart";
 
@@ -16,7 +16,12 @@ function BookCartCard({
   return (
     <div className={cn("flex items-center gap-6 pt-6 pb-3", className)}>
       <div className="bg-background relative aspect-square size-24">
-        <Image src={"/assets/book.svg"} alt="book" fill />
+        <CustomImage
+          src={item?.image}
+          fallback="/assets/book.svg"
+          alt="book"
+          fill
+        />
       </div>
 
       <div className="w-full space-y-4">

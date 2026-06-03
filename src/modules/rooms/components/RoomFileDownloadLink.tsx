@@ -2,6 +2,7 @@
 
 import useFileDownload from "@/hooks/useFileDownload";
 import LinkLocked from "@/layouts/LinkLocked";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 
 type Props = {
@@ -14,6 +15,7 @@ type Props = {
   verify: boolean;
   locked: boolean;
   index: number;
+  className?: string;
 };
 
 function RoomFileDownloadLink({
@@ -23,6 +25,7 @@ function RoomFileDownloadLink({
   verify,
   locked,
   index,
+  className,
 }: Props) {
   const { handleDownload, isDownloading } = useFileDownload({
     attachment,
@@ -34,7 +37,10 @@ function RoomFileDownloadLink({
   return (
     <div
       key={index}
-      className="bg-background border-gray-light flex justify-between gap-2 rounded-md border p-2"
+      className={cn(
+        "bg-background border-gray-light flex justify-between gap-2 rounded-md border p-2",
+        className,
+      )}
     >
       <div className="flex items-center gap-2 font-bold">
         <Image

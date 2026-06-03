@@ -1,6 +1,9 @@
-import { NextResponse } from "next/server";
-import { extractTenantFromHostServer } from "@/helpers/server-utils";
+import {
+  extractTenantFromHostServer,
+  getClientIp,
+} from "@/helpers/server-utils";
 import { getCookie } from "@/utils/api";
+import { NextResponse } from "next/server";
 
 export async function GET(req) {
   const { searchParams } = new URL(req.url);
@@ -17,15 +20,23 @@ export async function GET(req) {
   }
 
   try {
-    const { host } = await extractTenantFromHostServer();
-
-    const token = await getCookie();
+    const [{ host }, clientIp, token] = await Promise.all([
+      extractTenantFromHostServer(),
+      getClientIp(),
+      getCookie(),
+    ]);
 
     const response = await fetch(targetUrl, {
       method: "GET",
       headers: {
         "Cache-Control": "no-cache",
         "X-Tenant-Domain": host,
+        ...(clientIp
+          ? {
+              "X-Forwarded-For": clientIp,
+              "X-Real-IP": clientIp,
+            }
+          : {}),
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
     });

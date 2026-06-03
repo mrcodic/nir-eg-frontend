@@ -22,7 +22,7 @@ import Link from "next/link";
 const RoomAccordion = ({
   isProfile,
   room,
-  subscribe,
+  isSubscribed,
   verify,
   courseName,
   classroomId,
@@ -30,7 +30,7 @@ const RoomAccordion = ({
 }: {
   isProfile?: boolean;
   room: IRoomData;
-  subscribe?: boolean;
+  isSubscribed?: boolean;
   verify?: boolean;
   courseName?: string;
   classroomId: string;
@@ -73,7 +73,7 @@ const RoomAccordion = ({
 
                 <div className="ms-auto flex flex-col gap-2">
                   {!isProfile &&
-                    subscribe &&
+                    isSubscribed &&
                     (lock_after == null || Number(lock_after) !== 0) && (
                       <RoomProgressBadge progress={room?.progress || 0} />
                     )}
@@ -121,15 +121,17 @@ const RoomAccordion = ({
                   </h3>
                 </div>
 
-                <div className="ms-auto flex flex-col items-end gap-2">
-                  <Link
-                    href={`/bundles/${classroomId}/${room?.id}`}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                    }}
-                  >
-                    <Button className="h-8 rounded-lg">تفاصيل الحصة</Button>
-                  </Link>
+                <div className="ms-auto flex flex-col items-end gap-2 empty:hidden">
+                  {isSubscribed && (
+                    <Link
+                      href={`/bundles/${classroomId}/${room?.id}`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                      }}
+                    >
+                      <Button className="h-8 rounded-lg">تفاصيل الحصة</Button>
+                    </Link>
+                  )}
 
                   {isRoomPurchased && (
                     <RoomExpireBadge
@@ -181,10 +183,10 @@ const RoomAccordion = ({
                 return (
                   <RoomDropDownQuiz
                     key={"quiz-" + quiz.id}
-                    item={quiz}
+                    task={quiz}
                     room={room}
                     classroomId={classroomId}
-                    subscribe={subscribe || room?.is_subscriped}
+                    subscribe={isSubscribed || room?.is_subscriped}
                     verify={verify}
                     locked={lock_after == 0}
                     linkText="فتح الكويز"
@@ -198,7 +200,7 @@ const RoomAccordion = ({
                 <LessonRoomCard
                   key={index}
                   lesson={lesson}
-                  subscribe={subscribe || room?.is_subscriped}
+                  subscribe={isSubscribed || room?.is_subscriped}
                   verify={verify || room?.parent_phone_verification}
                   roomId={room?.id}
                   locked={room?.locked_to_pass || lock_after == 0}
@@ -214,7 +216,7 @@ const RoomAccordion = ({
                     key={index}
                     attachment={attachment}
                     room={room}
-                    subscribe={subscribe || room?.is_subscriped}
+                    subscribe={isSubscribed || room?.is_subscriped}
                     verify={verify || room?.parent_phone_verification}
                     locked={isRoomPurchasable}
                     index={index}
@@ -228,10 +230,10 @@ const RoomAccordion = ({
                 return (
                   <RoomDropDownQuiz
                     key={"ass-" + ass.id}
-                    item={ass}
+                    task={ass}
                     room={room}
                     classroomId={classroomId}
-                    subscribe={subscribe || room?.is_subscriped}
+                    subscribe={isSubscribed || room?.is_subscriped}
                     verify={verify || room?.parent_phone_verification}
                     locked={room?.locked_to_pass || lock_after == 0}
                     linkText="فتح الواجب"

@@ -1,16 +1,16 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import RoomAccordion from "@/modules/rooms/components/RoomAccordion";
-import { ApiResponse, LatestRoom } from "@/types";
 import Empty from "@/components/shared/Empty";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
-import { getClientPrivateData } from "@/helpers/client-fetch";
-import { useQuery } from "@tanstack/react-query";
-import { useAuthContext } from "@/context/auth-context";
 import { Button } from "@/components/ui/button";
+import { useAuthContext } from "@/context/auth-context";
 import { useTenant } from "@/context/TenantProvider";
+import { getClientPrivateData } from "@/helpers/client-fetch";
+import RoomAccordion from "@/modules/rooms/components/RoomAccordion";
+import { ApiResponse, LatestRoom } from "@/types";
+import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
+import { useMemo, useState } from "react";
 
 const VISIBLE_ROOMS_COUNT = 3;
 
@@ -47,7 +47,7 @@ function ProfileRoomsWrapper() {
               isProfile
               room={room.latest_room}
               verify={true || profile?.parent_phone_verification}
-              subscribe={room.is_subscriped}
+              isSubscribed={room.is_subscriped}
               courseName={room.classroom}
               classroomId={String(room?.id)}
               tasksEnabled={features?.quizzes}
@@ -60,7 +60,9 @@ function ProfileRoomsWrapper() {
                 <Button
                   variant="outline"
                   className="w-fit"
-                  onClick={() => setVisibleCount((prev) => prev + VISIBLE_ROOMS_COUNT)}
+                  onClick={() =>
+                    setVisibleCount((prev) => prev + VISIBLE_ROOMS_COUNT)
+                  }
                 >
                   عرض المزيد
                 </Button>

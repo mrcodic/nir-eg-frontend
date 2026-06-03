@@ -156,9 +156,9 @@ const CourseDetails = ({ details, profile }: Props) => {
                       <RoomAccordion
                         key={index}
                         room={room}
-                        subscribe={
-                          details?.is_subscriped ||
-                          details?.subscription_type === "حصة"
+                        isSubscribed={
+                          details?.is_subscriped
+                          // || details?.subscription_type === "حصة"
                         }
                         verify={true || profile?.parent_phone_verification}
                         classroomId={classroomId.toString()}

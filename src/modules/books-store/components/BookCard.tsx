@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
-import BookCardBadge from "./BookCardBadge";
+import BookCardBadge, { BookBadgeVariants } from "./BookCardBadge";
 import BookCartAddRemove from "./BookCartAddRemove";
 import BuyBookTrigger from "./BuyBookTrigger";
 
@@ -27,11 +27,11 @@ const BookCard = ({ book }: { book: Book }) => {
         opacity: 1,
         y: 0,
       }}
-      className="bg-transparent h-full flex flex-col group border-none shadow-none"
+      className="group flex h-full flex-col border-none bg-transparent shadow-none"
     >
       <MotionLink
         href={"/books/" + book?.id}
-        className="h-[200px]  relative flex items-center  bg-[#FBF6F0]  justify-center w-full rounded-lg overflow-hidden "
+        className="border-gray-light relative z-1 flex h-[200px] w-full items-center justify-center overflow-hidden rounded-lg border"
         initial={{
           opacity: 0,
           y: "100%",
@@ -51,7 +51,7 @@ const BookCard = ({ book }: { book: Book }) => {
         {notAvailable && <BookCardBadge text="غير متاح حاليًا" />}
 
         <BookCardBadge
-          variant={`grade-${book?.grade_id}`}
+          variant={`grade-${book?.grade_id || "1"}` as BookBadgeVariants}
           text={book?.grade_name}
           side="tr"
         />
@@ -59,14 +59,13 @@ const BookCard = ({ book }: { book: Book }) => {
         <Image
           src={book?.image || "/assets/book.svg"}
           alt="book"
-          width={160}
-          height={160}
-          className="group-hover:scale-105 transition-all rounded-lg z-[1]"
+          fill
+          className="z-[1] rounded-lg object-cover transition-all group-hover:scale-105"
         />
       </MotionLink>
 
       <div
-        className={`relative  p-4 mx-auto -top-2 grow rounded-[8px] bg-white w-[95%]    border shadow-sm border-[#D9B45C]`}
+        className={`border-secondary relative -top-2 z-2 mx-auto w-[95%] grow rounded-xl border bg-white p-4 shadow-sm`}
       >
         <div className="flex flex-col gap-y-4">
           <CardTitle className="text-xl">{book?.name}</CardTitle>
@@ -76,11 +75,11 @@ const BookCard = ({ book }: { book: Book }) => {
         </div>
 
         {notAvailable ? (
-          <CardFooter className="justify-center p-0 mt-4">
+          <CardFooter className="mt-4 justify-center p-0">
             غير متاح حاليًا
           </CardFooter>
         ) : (
-          <CardFooter className="justify-center p-0 mt-4 flex-wrap gap-x-4 gap-y-2 mx-auto">
+          <CardFooter className="mx-auto mt-4 flex-wrap justify-center gap-x-4 gap-y-2 p-0">
             <Suspense>
               <BuyBookTrigger
                 id={book?.id}

@@ -141,7 +141,7 @@ export const createCartStore = (initState?: Partial<CartState>) => {
           // Optimistic update
           set((state) => {
             const existingItem = state.items.find(
-              (item) => item.id === book.id,
+              (item) => String(item.id) === String(book.id),
             );
             if (existingItem) {
               existingItem.quantity += 1;
@@ -339,7 +339,8 @@ export const createCartStore = (initState?: Partial<CartState>) => {
         checkIfItemExists: (id) => get().items.find((item) => item.id === id),
 
         getItemQuantity: (id) =>
-          get()?.items.find((item) => item.id === id)?.quantity || 0,
+          get()?.items.find((item) => String(item.id) === String(id))
+            ?.quantity || 0,
       })),
       {
         name: "cart-storage",

@@ -56,19 +56,19 @@ function useLessonRoomLogic({
     if (!Number.isFinite(parsedLessonId)) return null;
 
     return (
-      roomDetails?.body?.lessons?.find((lesson) => lesson.id === parsedLessonId) ??
+      roomDetails?.lessons?.find((lesson) => lesson.id === parsedLessonId) ??
       null
     );
-  }, [lessonId, roomDetails?.body?.lessons]);
+  }, [lessonId, roomDetails?.lessons]);
 
   const selectedVideoType = selectedLesson?.video_type ?? null;
   const videoCompleted = Boolean(selectedLesson?.completed);
   const videoId =
     selectedVideoType && selectedVideoType !== "youtube"
-      ? selectedLesson?.video_id ?? ""
+      ? (selectedLesson?.video_id ?? "")
       : "";
   const videoUrl =
-    selectedVideoType === "youtube" ? selectedLesson?.video_link ?? "" : "";
+    selectedVideoType === "youtube" ? (selectedLesson?.video_link ?? "") : "";
 
   const fetchOtpAndViews = useCallback(
     async (selectedVideoId: string) => {
@@ -152,7 +152,7 @@ function useLessonRoomLogic({
   }, [fetchOtpAndViews, otpData, selectedLesson, selectedVideoType, videoId]);
 
   return {
-    lessonData: roomDetails,
+    roomDetails,
     isLoadingLesson: isLoadingRoomDetails,
     lessonId: selectedLesson?.id ?? null,
     selectedLesson,

@@ -4,7 +4,6 @@ import { extractTenantFromHostServer } from "@/helpers/server-utils";
 import { getCookie } from "@/utils/api";
 import axios from "axios";
 import { revalidatePath } from "next/cache";
-import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { cookies, headers } from "next/headers";
 import { NextResponse } from "next/server";
 

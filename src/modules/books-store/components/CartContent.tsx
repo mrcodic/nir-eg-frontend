@@ -33,7 +33,7 @@ function CartContent() {
       <h1 className="text-32 text-primary-800 font-bold">السلة</h1>
 
       <div className="grid grid-cols-12 items-start gap-y-16 lg:gap-6">
-        <div className="col-span-12 divide-y-2 divide-gray-300 overflow-y-auto max-lg:max-h-[max(calc(100vh-300px),300px)] max-lg:pe-4 lg:col-span-7">
+        <div className="col-span-12 divide-y-2 divide-gray-300 overflow-y-auto max-lg:max-h-[max(calc(100vh-300px),300px)] max-lg:pe-4 lg:col-span-6">
           {items.map((item) => (
             <BookCartCard key={item.id} item={item} className="pt-4 pb-4" />
           ))}

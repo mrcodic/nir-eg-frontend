@@ -19,6 +19,7 @@ function MarkVideoCompleted({
   lessonId,
 }: Props) {
   const [isLoading, setIsLoading] = useState(false);
+
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -37,14 +38,6 @@ function MarkVideoCompleted({
           classroom_id: Number(classroomId),
         },
       });
-      // await axios.post(
-      //   `/api?url=students/lesson/store_completed&paths=/bundles/[classroomId]`,
-      //   {
-      //     room_id: Number(roomId),
-      //     lesson_id: Number(lessonId),
-      //     classroom_id: Number(classroomId),
-      //   },
-      // );
 
       // invalidate lesson data to refresh completed status
 

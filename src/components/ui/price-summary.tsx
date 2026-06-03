@@ -14,24 +14,18 @@ function PriceSummary({
 }) {
   return (
     <div className={cn("space-y-6", className)}>
-      {/* <DataLabel
-        text="السعر"
-        value={formatCurrency(totalPrice)}
-        className="justify-between text-sm sm:text-lg font-bold"
-      /> */}
-
       {!!couponDiscount && (
         <DataLabel
           text="الخصم"
           value={formatCurrency(couponDiscount)}
-          className="justify-between text-sm sm:text-lg font-bold"
+          className="justify-between text-sm font-bold sm:text-lg"
         />
       )}
 
       <DataLabel
         text="إجمالي السعر"
         value={formatCurrency(finalPrice)}
-        className="justify-between text-sm sm:text-lg font-bold"
+        className="justify-between text-sm font-bold sm:text-lg"
       />
     </div>
   );

@@ -21,12 +21,12 @@ function StudentRankCard() {
                   WebkitTextStrokeWidth: 1,
                   WebkitTextStrokeColor: "#d9b45c",
                 }}
-                className="textStroke absolute -top-[4px] z-0 flex items-center text-[28px]"
+                className="textStroke text-28 absolute -top-[4px] z-0 flex items-center"
               >
                 {" "}
                 --
               </h3>
-              <h3 className="text-primary absolute z-10 flex items-center text-[28px]">
+              <h3 className="text-primary text-28 absolute z-10 flex items-center">
                 --
               </h3>
             </div>

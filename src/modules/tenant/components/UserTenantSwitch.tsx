@@ -23,7 +23,7 @@ import {
 } from "@/helpers/tenant.helpers";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
-import { SwitchTenantResponse, UserTenant } from "@/types/tenant.types";
+import { UserTenant } from "@/types/tenant.types";
 import Image from "next/image";
 import useSwitchTenant from "../hooks/useSwitchTenant";
 import useTenants from "../hooks/useTenants";
@@ -31,13 +31,14 @@ import useTenants from "../hooks/useTenants";
 export default function UserTenantSwitch() {
   const { toast } = useToast();
   const { tenants, isLoading, error } = useTenants();
-  const { mutateAsync, isPending } = useSwitchTenant();
+  const { mutateAsync: switchTenant, isPending } = useSwitchTenant();
 
   const [open, setOpen] = useState(false);
   const [selectedTenantId, setSelectedTenantId] = useState("");
 
   const sortedTenants = useMemo(() => {
     const { subdomain } = extractTenantFromHost();
+
     return [...tenants].sort((a, b) => {
       if (a.slug === subdomain) return -1;
       if (b.slug === subdomain) return 1;
@@ -47,7 +48,7 @@ export default function UserTenantSwitch() {
 
   async function handleSwitchTenant(tenantId: string) {
     try {
-      const response = (await mutateAsync(tenantId)) as SwitchTenantResponse;
+      const response = await switchTenant(tenantId);
 
       const targetTenant = tenants.find(
         (tenant) => tenant.tenant_id === tenantId,

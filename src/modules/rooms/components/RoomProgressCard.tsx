@@ -1,12 +1,12 @@
 import Image from "next/image";
 
-function CourseProgressCard({ progress = 0 }: { progress: number }) {
+export default function RoomProgressCard({ progress }: { progress: number }) {
   return (
-    <div className="border-primary-800 bg-background relative z-10 mx-auto -mt-8 flex w-full max-w-[min(85%,760px)] flex-wrap items-center gap-x-4 gap-y-1 rounded-lg border px-6 py-3 font-bold whitespace-nowrap shadow-md max-md:justify-center md:gap-x-6 md:py-8 md:text-2xl">
+    <div className="border-primary-800 bg-background flex w-full flex-wrap items-center gap-x-4 gap-y-1 rounded-lg border px-6 py-3 font-bold whitespace-nowrap shadow-md max-md:justify-center md:gap-x-6 md:py-8 md:text-2xl">
       <Image
         width={48}
         height={48}
-        src="../assets/star-colored.svg"
+        src="/assets/star-colored.svg"
         className="size-12"
         alt="star icon"
       />
@@ -25,9 +25,7 @@ function CourseProgressCard({ progress = 0 }: { progress: number }) {
           <span>{progress}</span>
         </h3>
       </div>
-      <p className="text-primary-800 inline-block">من محتوى الكورس</p>
+      <p className="text-primary-800 inline-block">من محتوى الحصة</p>
     </div>
   );
 }
-
-export default CourseProgressCard;

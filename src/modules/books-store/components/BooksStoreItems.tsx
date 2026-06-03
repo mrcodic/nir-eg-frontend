@@ -3,9 +3,9 @@
 import Empty from "@/components/shared/Empty";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import PaginationComponent from "@/components/shared/Pagination";
-import RoomHeader from "@/modules/rooms/components/RoomHeader";
 import { getClientData } from "@/helpers/client-fetch";
 import { cn } from "@/lib/utils";
+import RoomHeader from "@/modules/rooms/components/RoomHeader";
 import { IPagination } from "@/types";
 import { Book } from "@/types/books.types";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
@@ -24,6 +24,7 @@ function BooksStoreItems({
   booksClassName?: string;
 }) {
   const [page, setPage] = useState(1);
+
   const { data, error, isLoading, isPlaceholderData } = useQuery({
     queryKey: [`books-items`, page],
     queryFn: () =>
@@ -34,11 +35,9 @@ function BooksStoreItems({
     placeholderData: keepPreviousData,
   });
 
-  console.log("books data :", data, error);
-
   if (isLoading) return <LoadingSpinner />;
 
-  if (error) return <Empty isError />;
+  if (error) return <Empty isError text="حدث خطأ ما اثناء عرض الكتب" />;
 
   return (
     <section className={className}>

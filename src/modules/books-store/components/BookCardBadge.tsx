@@ -14,14 +14,17 @@ const sides = {
   bl: "bottom-2 left-2",
 };
 
+export type BookBadgeVariants = keyof typeof variants;
+export type BookBadgeSides = keyof typeof sides;
+
 const BookCardBadge = ({
   variant = "out-of-stock",
   side = "tl",
   className,
   text,
 }: {
-  variant?: keyof typeof variants;
-  side?: keyof typeof sides;
+  variant?: BookBadgeVariants;
+  side?: BookBadgeSides;
   className?: string;
   text: string;
 }) => {

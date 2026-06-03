@@ -1,4 +1,6 @@
 import LinkLocked from "@/layouts/LinkLocked";
+import { cn } from "@/lib/utils";
+import Image from "next/image";
 import Link from "next/link";
 
 const mapTypeToIcon = {
@@ -8,7 +10,7 @@ const mapTypeToIcon = {
 };
 
 function RoomDropDownQuiz({
-  item,
+  task,
   room,
   classroomId,
   subscribe,
@@ -16,8 +18,9 @@ function RoomDropDownQuiz({
   locked,
   linkText,
   type,
+  className,
 }: {
-  item: {
+  task: {
     id: number;
     title?: string | null;
   };
@@ -28,15 +31,24 @@ function RoomDropDownQuiz({
   locked: any;
   linkText: any;
   type: "exam" | "ass" | "attach";
+  className?: string;
 }) {
   return (
-    <div className="bg-background border-gray-light flex justify-between rounded-md border p-2">
+    <div
+      className={cn(
+        "bg-background border-gray-light flex justify-between rounded-md border p-2",
+        className,
+      )}
+    >
       <div className="flex items-center gap-2 font-bold">
-        <img
-          className="h-[28px] w-[28px] text-black"
+        <Image
+          className="h-7 w-7"
           src={mapTypeToIcon[type]}
+          width={28}
+          height={28}
+          alt={type}
         />
-        <span className="line-clamp-1">{item?.title}</span>
+        <span className="line-clamp-1">{task?.title}</span>
       </div>
 
       {subscribe && verify && (
@@ -44,7 +56,7 @@ function RoomDropDownQuiz({
           <Link
             href={`/bundles/${classroomId}/${
               room?.latest_room?.id || room?.id
-            }/${type === "ass" ? "assignment" : "exams"}/${item.id}`}
+            }/${type === "ass" ? "assignment" : "exams"}/${task.id}`}
             className="w-full text-center"
           >
             {linkText}

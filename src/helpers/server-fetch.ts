@@ -3,32 +3,11 @@ import "server-only";
 
 import CustomError from "@/lib/customError";
 import { FetchOptions, IGetDataOptions } from "@/types/helpers.types";
-import { cookies, headers } from "next/headers";
+import { cookies } from "next/headers";
 import { buildApiUrl } from "./fetch-utils";
 import reactCache from "./reactCache";
 import { handleServerFetchError } from "./server-error-handler";
-import { extractTenantFromHostServer } from "./server-utils";
-import { cache } from "react";
-
-// ---------------------------------------------------------------------------
-// Reads the real visitor IP from Next.js incoming request headers.
-// x-forwarded-for can be a comma-chain when behind multiple proxies —
-// the first entry is always the original client.
-// ---------------------------------------------------------------------------
-const getClientIp = cache(async (): Promise<string | null> => {
-  const h = await headers();
-
-  const ip =
-    h.get("cf-connecting-ip") ??
-    h.get("x-forwarded-for")?.split(",")[0].trim() ??
-    h.get("x-real-ip") ??
-    null;
-
-  const LOOPBACK = new Set(["::1", "127.0.0.1"]);
-  if (!ip || LOOPBACK.has(ip)) return null;
-
-  return ip;
-});
+import { extractTenantFromHostServer, getClientIp } from "./server-utils";
 
 export async function fetchServer<T>({
   queryKey: [endpoint],

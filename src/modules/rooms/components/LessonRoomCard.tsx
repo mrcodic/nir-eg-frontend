@@ -7,6 +7,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
 import { ILesson } from "@/types";
 import { convertMinutes } from "@/utils/clientFun";
 import { Lock } from "lucide-react";
@@ -20,6 +21,7 @@ type Props = {
   roomId: string | number;
   locked?: boolean;
   classroomId: string | number;
+  className?: string;
 };
 
 const LessonRoomCard = ({
@@ -29,11 +31,17 @@ const LessonRoomCard = ({
   roomId,
   locked,
   classroomId,
+  className,
 }: Props) => {
   const router = useRouter();
 
   return (
-    <div className="border-gray-light bg-background flex items-start justify-between gap-2 rounded-lg border p-2 max-sm:flex-col">
+    <div
+      className={cn(
+        "border-gray-light bg-background flex items-start justify-between gap-2 rounded-lg border p-2 max-sm:flex-col",
+        className,
+      )}
+    >
       <div className="flex gap-4 pt-1">
         <Image
           src="/assets/videos-fill.svg"

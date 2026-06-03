@@ -2,7 +2,7 @@ import LoadingSpinner from "@/components/shared/LoadingSpinner";
 
 function loading() {
   return (
-    <div className="flex h-screen items-center justify-center">
+    <div className="section--style">
       <LoadingSpinner />
     </div>
   );

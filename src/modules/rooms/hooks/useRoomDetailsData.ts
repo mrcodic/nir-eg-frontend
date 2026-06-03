@@ -18,8 +18,7 @@ export function useRoomDetailsData({
   });
 
   return {
-    roomDetails: query.data,
+    roomDetails: query.data?.body,
     isLoadingRoomDetails: query.isLoading,
   };
 }
-

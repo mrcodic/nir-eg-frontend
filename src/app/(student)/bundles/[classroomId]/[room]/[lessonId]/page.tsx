@@ -7,10 +7,10 @@ import { Suspense } from "react";
 import VideoBanners from "@/components/banners/VideoBanners";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import { useAuthContext } from "@/context/auth-context";
-import useLessonRoomLogic from "@/hooks/useLessonRoomLogic";
 import ProtectedRoute from "@/layouts/ProtectedRoute";
 import LessonTimedQuiz from "@/modules/rooms/components/LessonTimedQuiz";
 import RoomSideContent from "@/modules/rooms/components/RoomSideContent";
+import useLessonRoomLogic from "@/modules/rooms/hooks/useLessonRoomLogic";
 import DisableDevTools from "@/modules/video/components/DisableDivTools";
 import VideoError from "@/modules/video/components/VideoError";
 import YoutubeVideoPlayer from "@/modules/video/components/YoutubeVideoPlayer";
@@ -45,7 +45,7 @@ export default function LessonPlayerPage() {
   const { profile } = useAuthContext();
 
   const {
-    lessonData,
+    roomDetails,
     isLoadingLesson,
     lessonId,
     videoCompleted,
@@ -61,16 +61,13 @@ export default function LessonPlayerPage() {
     lessonId: lessonParamId,
   });
 
-  if (
-    lessonData?.body?.is_subscriped &&
-    lessonData?.body?.lessons?.length === 0
-  ) {
+  if (roomDetails?.is_subscriped && roomDetails?.lessons?.length === 0) {
     redirect(`/bundles/${classroomId}`);
   }
 
   const viewCount = otpData?.viewsStats;
   const lockedByViewLimit = otpData?.lockedByViewLimit;
-  const lockedToPass = !!lessonData?.body?.locked_to_pass;
+  const lockedToPass = !!roomDetails?.locked_to_pass;
   const activeVideoType = selectedVideoType ?? (videoUrl ? "youtube" : null);
   const requiresOtpVideo =
     activeVideoType === "cipher" || activeVideoType === "bunny";
@@ -80,13 +77,13 @@ export default function LessonPlayerPage() {
     !(lockedToPass || !!lockedByViewLimit) &&
     !!selectedLesson?.access_comment;
 
-  console.log(lessonData);
+  console.log(roomDetails);
 
   return (
     <>
       <ProtectedRoute
-        subscribed={lessonData?.body?.is_subscriped}
-        data={lessonData}
+        subscribed={roomDetails?.is_subscriped}
+        data={roomDetails}
         isLoading={isLoadingLesson}
       >
         {selectedLesson && requiresOtpVideo && (
@@ -97,7 +94,7 @@ export default function LessonPlayerPage() {
           <div className="flex flex-col-reverse gap-6 py-8 lg:flex-row">
             <div className="flex w-full lg:w-[min(35%,400px)]">
               <RoomSideContent
-                data={lessonData?.body}
+                data={roomDetails}
                 locked={lockedToPass}
                 isLoading={isLoadingLesson}
                 activeLessonId={lessonId ?? undefined}
@@ -140,9 +137,7 @@ export default function LessonPlayerPage() {
                         videoId={videoId}
                         roomId={Number(room)}
                         classroomId={Number(classroomId)}
-                        lessonId={
-                          lessonId || lessonData?.body?.lessons?.[0]?.id
-                        }
+                        lessonId={lessonId || roomDetails?.lessons?.[0]?.id}
                         videoCompleted={videoCompleted}
                         communityAvailable={communityAvailable}
                       />
@@ -153,9 +148,7 @@ export default function LessonPlayerPage() {
                         roomId={Number(room)}
                         classroomId={Number(classroomId)}
                         response={otpData}
-                        lessonId={
-                          lessonId || lessonData?.body?.lessons?.[0]?.id
-                        }
+                        lessonId={lessonId || roomDetails?.lessons?.[0]?.id}
                         videoCompleted={videoCompleted}
                         communityAvailable={communityAvailable}
                       />
@@ -174,7 +167,7 @@ export default function LessonPlayerPage() {
                 <hr className="border-gray-light my-2" />
 
                 <p className="text-gray-dark text-xs font-bold">
-                  {lessonData?.body?.room?.grade?.title || "--"}
+                  {roomDetails?.room?.grade?.title || "--"}
                 </p>
               </div>
 
@@ -183,7 +176,7 @@ export default function LessonPlayerPage() {
                   <Community
                     key={lessonId}
                     locked={lockedToPass || !!lockedByViewLimit}
-                    lessonId={lessonId || lessonData?.body?.lessons?.[0]?.id}
+                    lessonId={lessonId || roomDetails?.lessons?.[0]?.id}
                     isYoutubeVideo={activeVideoType === "youtube"}
                   />
                 )}

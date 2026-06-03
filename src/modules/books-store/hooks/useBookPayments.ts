@@ -69,20 +69,12 @@ export const useBookPayment = ({
     }
   }, [paymentTypes]);
 
-  // Cleanup loading state
-  // useEffect(() => {
-  //   return () => {
-  //     setLoading(false);
-  //   };
-  // }, []);
-
   const handleCheckout = async () => {
     let response;
 
     setLoading(true);
 
     try {
-      // const endpoint = "/api?url=/payments/fawry/checkout";
       const endpoint = "/cart/pay";
 
       const [success_url, failure_url] = redirectUrl(

@@ -1,4 +1,24 @@
 import { headers } from "next/headers";
+import { cache } from "react";
+
+// ---------------------------------------------------------------------------
+// Reads the real visitor IP from Next.js incoming request headers.
+// x-forwarded-for can be a comma-chain when behind multiple proxies —
+// the first entry is always the original client.
+export const getClientIp = cache(async (): Promise<string | null> => {
+  const h = await headers();
+
+  const ip =
+    h.get("cf-connecting-ip") ??
+    h.get("x-forwarded-for")?.split(",")[0].trim() ??
+    h.get("x-real-ip") ??
+    null;
+
+  const LOOPBACK = new Set(["::1", "127.0.0.1"]);
+  if (!ip || LOOPBACK.has(ip)) return null;
+
+  return ip;
+});
 
 const NIR_ROOT_DOMAIN =
   process.env.NODE_ENV === "production"
@@ -25,9 +45,20 @@ export async function extractTenantFromHostServer() {
   // Custom domain — resolve slug via central API
   try {
     const url = `${RESOLVE_TENANT_API}?host=${encodeURIComponent(cleanHost)}`;
+
+    const clientIp = await getClientIp();
+
     const res = await fetch(url, {
+      headers: {
+        Accept: "application/json",
+        ...(clientIp
+          ? {
+              "X-Forwarded-For": clientIp,
+              "X-Real-IP": clientIp,
+            }
+          : {}),
+      },
       cache: "no-store",
-      headers: { Accept: "application/json" },
     });
 
     if (!res.ok) {

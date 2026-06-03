@@ -20,7 +20,9 @@ const QuestionHeader = ({
       {error &&
         (multiCorrect ? (
           <p className="ms-auto text-xs text-red-700">
-            لم تقم بالإجابة على جميع الاسئلة
+            {isSubQuestion
+              ? "يوجد اكثر من اجابة لهذا السؤال"
+              : "لم تقم بالإجابة على جميع الاسئلة"}
           </p>
         ) : (
           <p className="ms-auto text-xs text-red-700">

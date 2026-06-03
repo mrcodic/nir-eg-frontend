@@ -2,7 +2,9 @@ import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import { Label } from "@/components/ui/label";
 import PriceBubbles from "@/components/ui/price-bubble";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useCartStore } from "@/context/BooksStoreProvider";
+import PaymentCoupon from "@/modules/payment/components/PaymentCoupon";
 import PriceBadge from "@/modules/payment/components/PriceBadge";
 import { CourseType, paymentType, PricingResponse } from "@/types";
 import Image from "next/image";
@@ -44,21 +46,21 @@ export const BooksPaymentUI: React.FC<PaymentUIProps> = ({
   return (
     <>
       {loading && (
-        <div className="absolute top-0 left-0 z-50 h-full w-full bg-black/40">
+        <div className="absolute top-0 left-0 z-30 h-full w-full bg-black/40">
           <LoadingSpinner />
         </div>
       )}
 
       {isSingleBook && (
         <>
-          <div className="mt-[16px] flex items-center gap-[12px]">
-            <img src="/assets/PaymentColor.svg" className="h-[24px] w-[24px]" />
+          <div className="mt-4 flex items-center gap-3">
+            <img src="/assets/PaymentColor.svg" className="h-6 w-6" />
             <span className="text-[18px] font-bold text-black">
               اختر طريقة الدفع
             </span>
           </div>
 
-          <div className="bg-gray-light my-[12px] h-px w-full" />
+          <div className="bg-gray-light my-3 h-px w-full" />
         </>
       )}
 
@@ -89,20 +91,20 @@ export const BooksPaymentUI: React.FC<PaymentUIProps> = ({
           </div>
         )}
 
-        {/* {hasPaymentMethods && (
+        {hasPaymentMethods && (
           <PaymentCoupon
             coupon={coupon}
             setCoupon={setCoupon}
             bookId={isSingleBook && bookId}
-            className={isSingleBook ? "mt-2 " : ""}
+            className={isSingleBook ? "mt-2" : "mb-4"}
           />
-        )} */}
+        )}
 
         {!isSingleBook && <CartCheckoutPriceDetails />}
       </div>
 
-      {paymentMethodValue === paymentType.fawerypay && (
-        <span className="mb-2 text-sm font-bold text-red-600">
+      {!isLoadingCart && paymentMethodValue === paymentType.fawerypay && (
+        <span className="mb-3 text-sm font-bold text-red-600">
           <Image
             src={"/assets/icons/WarningColor.svg"}
             width={30}
@@ -117,7 +119,15 @@ export const BooksPaymentUI: React.FC<PaymentUIProps> = ({
       )}
 
       {isLoadingCart ? (
-        <LoadingSpinner />
+        <div className="space-y-5">
+          <Skeleton className="bg-background h-12.5 rounded-xl" />
+          <Skeleton className="bg-background h-12.5 rounded-xl" />
+          {paymentMethodValue !== paymentType.code && (
+            <>
+              <Skeleton className="bg-background h-12.5 rounded-xl" />
+            </>
+          )}
+        </div>
       ) : hasPaymentMethods ? (
         <RadioGroup
           value={paymentMethodValue}

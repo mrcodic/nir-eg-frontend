@@ -1,9 +1,9 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { CartItem } from "@/store/booksCartStore";
 import { useCartStore } from "@/context/BooksStoreProvider";
 import { cn } from "@/lib/utils";
+import { CartItem } from "@/store/booksCartStore";
 import { debounce } from "lodash";
 import { Minus, Plus } from "lucide-react";
 import { useCallback, useMemo } from "react";
@@ -19,7 +19,7 @@ function BookQuantity({
   buttonClassName?: string;
   textClassName?: string;
 }) {
-  const { decrementQuantity, incrementQuantity, getItemQuantity } =
+  const { decrementQuantity, incrementQuantity, getItemQuantity, items } =
     useCartStore((state) => state);
 
   const quantity = getItemQuantity(book.id);
@@ -58,12 +58,10 @@ function BookQuantity({
         )}
         onClick={() => debouncedDecrement(book.id)}
       >
-        <Minus className="size-5 stroke-[#121212]" />
+        <Minus className="size-5 stroke-black" />
       </Button>
 
-      <span className={cn("text-[28px] font-bold", textClassName)}>
-        {quantity}
-      </span>
+      <span className={cn("text-28 font-bold", textClassName)}>{quantity}</span>
 
       <Button
         className={cn(
@@ -72,7 +70,7 @@ function BookQuantity({
         )}
         onClick={() => debouncedIncrement(book.id)}
       >
-        <Plus className="size-5 stroke-[#121212]" />
+        <Plus className="size-5 stroke-black" />
       </Button>
     </div>
   );

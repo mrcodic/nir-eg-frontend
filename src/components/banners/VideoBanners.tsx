@@ -1,6 +1,5 @@
+import { IOtpViewStatus } from "@/modules/rooms/hooks/useLessonRoomLogic";
 import StackedBanners, { StackedBannerItem } from "./StackedBanners";
-import { IOtpViewStatus } from "@/hooks/useLessonRoomLogic";
-import React from "react";
 
 export default function VideoBanners({
   requiresOtpVideo,

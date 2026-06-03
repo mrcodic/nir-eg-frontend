@@ -1,6 +1,5 @@
 "use client";
 
-import RoomProgressBadge from "@/components/cards/RoomProgressBadge";
 import { PaymentModel } from "@/components/modals/PaymentModel";
 import CustomImage from "@/components/ui/CustomImage";
 import DataWithLabel from "@/components/ui/DataWithLabel";
@@ -10,6 +9,7 @@ import { formatApiDateShort } from "@/helpers/format-api-date";
 import CourseInfoBadge from "@/modules/courses/components/CourseInfoBadge";
 import PriceBadge from "@/modules/payment/components/PriceBadge";
 import { IRoomDetails } from "@/types";
+import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 
 export default function RoomDetailsHeader({
@@ -63,55 +63,44 @@ export default function RoomDetailsHeader({
           </div>
 
           <div className="flex flex-col items-start gap-3">
-            {data?.is_subscriped || (!isRoomPurchasable && isRoomPurchased) ? (
-              <SubbedBadge />
-            ) : null}
+            {isRoomPurchasable && (
+              <div className="ms-auto flex w-full flex-col gap-x-4 gap-y-2 md:flex-row">
+                <div
+                  aria-label="اشترك الآن فى هذه الحصة"
+                  role="button"
+                  className="bg-primary text-primary-foreground hover:bg-primary/80 flex h-8 cursor-pointer items-center justify-center rounded-lg px-4 py-2 text-center transition-colors"
+                  onClick={(event) => {
+                    event.stopPropagation();
 
-            <div className="ms-auto flex flex-col gap-2">
-              {data?.is_subscriped &&
-                (data?.lock_after == null ||
-                  Number(data?.lock_after) !== 0) && (
-                  <RoomProgressBadge progress={room?.progress || 0} />
-                )}
+                    modal.setDialogContent(
+                      <PaymentModel
+                        roomId={room?.id}
+                        courseId={classroomId}
+                        price={room?.price}
+                      />,
+                    );
 
-              {isRoomPurchasable && (
-                <div className="ms-auto flex w-full flex-col gap-x-4 gap-y-2 md:flex-row">
-                  <div
-                    aria-label="اشترك الآن فى هذه الحصة"
-                    role="button"
-                    className="bg-primary text-primary-foreground hover:bg-primary/80 flex h-8 cursor-pointer items-center justify-center rounded-lg px-4 py-2 text-center transition-colors"
-                    onClick={(event) => {
-                      event.stopPropagation();
-
-                      modal.setDialogContent(
-                        <PaymentModel
-                          roomId={room?.id}
-                          courseId={classroomId}
-                          price={room?.price}
-                        />,
-                      );
-
-                      modal.openModal();
-                    }}
-                  >
-                    اشترك الآن
-                  </div>
-
-                  <PriceBadge className="h-8" price={room?.price} />
+                    modal.openModal();
+                  }}
+                >
+                  اشترك الآن
                 </div>
-              )}
-            </div>
+
+                <PriceBadge className="h-8" price={room?.price} />
+              </div>
+            )}
 
             <Link
               href={`/bundles/${classroomId}`}
-              className="border-secondary text-secondary hover:bg-secondary rounded-lg border px-4 py-2 text-sm font-bold transition-colors hover:text-white"
+              className="border-secondary text-secondary hover:bg-secondary flex items-center gap-2 rounded-lg border px-4 py-2 text-sm font-bold transition-colors hover:text-white"
             >
               العودة للكورس
+              <ChevronLeft size={16} />
             </Link>
           </div>
         </div>
 
-        <div className="mt-12 flex items-start justify-between gap-4">
+        <div className="mt-12 flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-6">
             <CustomImage
               src={room?.thumbnail}
@@ -125,9 +114,19 @@ export default function RoomDetailsHeader({
               {room?.title || "--"}
             </h1>
           </div>
+
+          {data?.is_subscriped || (!isRoomPurchasable && isRoomPurchased) ? (
+            <SubbedBadge />
+          ) : null}
         </div>
 
-        <div className="bg-gray-light my-4 h-px w-full" />
+        <div className="bg-gray-light my-3 h-px w-full" />
+
+        {room?.description && (
+          <h3 className="text-gray-light mb-6 line-clamp-3 text-sm empty:hidden md:text-xl">
+            {room?.description}
+          </h3>
+        )}
 
         <div className="flex flex-wrap gap-8">
           <DataWithLabel

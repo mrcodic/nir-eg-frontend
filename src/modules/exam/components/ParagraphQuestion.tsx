@@ -68,7 +68,7 @@ const ParagraphQuestion = ({
       <QuestionHeader
         index={index}
         error={hasUnansweredSubQuestion || notFullyAnsweredQuestions}
-        multiCorrect
+        multiCorrect={question?.related_questions?.length > 1}
       />
 
       <div dir="rtl" className="space-y-2">

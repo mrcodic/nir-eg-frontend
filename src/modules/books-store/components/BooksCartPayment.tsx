@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { useBookPayment } from "../hooks/useBookPayments";
 import { BooksPaymentUI } from "./BooksPaymentUI";
 
@@ -15,7 +16,7 @@ const BooksCartPayment = () => {
   } = useBookPayment({ asModal: false });
 
   return (
-    <div className=" relative md:text-2xl font-bold  flex flex-col  lg:col-span-5 col-span-12  border p-6 border-primary-800 rounded-lg ">
+    <div className="border-primary-800 relative col-span-12 flex flex-col rounded-lg border p-6 font-bold md:text-2xl lg:col-span-5 lg:col-start-8">
       <BooksPaymentUI
         paymentMethodValue={paymentMethodValue}
         setPaymentMethodValue={setPaymentMethodValue}
@@ -26,12 +27,9 @@ const BooksCartPayment = () => {
       />
 
       {paymentTypes.length > 0 && (
-        <button
-          onClick={handleCheckout}
-          className="bg-primary cursor-pointer mt-10 text-center border border-gray-light flex items-center justify-center h-10 rounded-lg w-full text-sm font-bold p-2 text-white"
-        >
+        <Button onClick={handleCheckout} className="mt-10 text-lg font-bold">
           دفع
-        </button>
+        </Button>
       )}
     </div>
   );
