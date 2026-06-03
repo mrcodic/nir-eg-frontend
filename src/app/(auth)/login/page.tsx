@@ -11,7 +11,6 @@ import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useAuthContext } from "@/context/auth-context";
-import { useToast } from "@/hooks/use-toast";
 import AuthHeader from "@/layouts/AuthHeader";
 import { loginSchema } from "@/lib/schemas";
 import { getUserPhoneFromStorage } from "@/lib/utils";
@@ -23,7 +22,6 @@ import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 
 const AuthPage = () => {
   const router = useRouter();
-  const { toast } = useToast();
 
   const [verify, setVerify] = useState(false);
 
@@ -81,7 +79,7 @@ const AuthPage = () => {
             type="password"
           />
 
-          <div className="text-primary-800 mt-1 inline-block w-full text-left font-medium underline">
+          <div className="text-primary-800 mt-1 inline-block w-full text-left text-sm font-medium underline">
             <Link href={"/forgetPassword"}>نسيت كلمة السر؟</Link>
           </div>
 

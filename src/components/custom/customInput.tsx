@@ -1,3 +1,4 @@
+import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { memo, useState } from "react";
 import { Control } from "react-hook-form";
 import { FormControl, FormField, FormLabel, FormMessage } from "../ui/form";
@@ -62,12 +63,17 @@ const CustomInput = ({
             </FormControl>
 
             {type === "password" && (
-              <img
+              <button
+                type="button"
                 onClick={() => setChangeHidePassword(!changeHidePassword)}
-                src={changeHidePassword ? "/assets/eye.svg" : "/assets/eye.svg"}
-                alt="icon"
                 className="absolute bottom-3 left-3 size-5 cursor-pointer"
-              />
+              >
+                {changeHidePassword ? (
+                  <EyeIcon className="size-5" />
+                ) : (
+                  <EyeOffIcon className="size-5" />
+                )}
+              </button>
             )}
           </div>
 

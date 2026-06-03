@@ -15,10 +15,10 @@ import Image from "next/image";
 import { memo, useMemo, useState } from "react";
 
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { useVideoPlayerStore } from "@/store/videoPlayerStore";
 import FilterControls from "./FilterControls";
 import MessageInput from "./MessageInput";
 import UserMessage from "./UserMessage";
-import { useVideoPlayerStore } from "@/store/videoPlayerStore";
 
 const TIME_MARGIN = 300;
 const ITEMS_PER_PAGE = 10;
@@ -32,7 +32,7 @@ type CommunityProps = {
 const Community = ({ lessonId, locked, isYoutubeVideo }: CommunityProps) => {
   const [filterMode, setFilterMode] = useState<"all" | "current">("current");
   const [currentPage, setCurrentPage] = useState(1);
-  const [isMobile] = useMediaQuery("(max-width: 1024px)");
+  const [isMobile] = useMediaQuery("(max-width: 1023px)");
 
   const { currentTime } = useVideoPlayerStore();
 
