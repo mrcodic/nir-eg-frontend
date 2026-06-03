@@ -47,7 +47,7 @@ export default function OtpVerifyForm({
   phone,
   onSuccess,
   autoSubmit = true,
-  submitLabel = "تأكيد",
+  submitLabel = "إرسال رمز التأكد",
   footer,
   onError,
   onOtpSent,

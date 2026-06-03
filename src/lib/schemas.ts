@@ -218,7 +218,7 @@ export const loginSchema = z.object({
 });
 
 export const otpSchema = z.object({
-  otp_code: z.string().min(6, "OTP ادخل ال"),
+  otp_code: z.string().min(6, "ادخل رمز التأكد"),
   phone: z.string(),
   recaptcha_token: z.string().optional(),
 });

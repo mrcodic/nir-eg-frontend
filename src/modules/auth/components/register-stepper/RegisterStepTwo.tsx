@@ -11,12 +11,13 @@ type Props = {
 
 export default function RegisterStepTwo({ form }: Props) {
   return (
-    <div className="grid grid-cols-1 items-start gap-x-6 gap-y-8">
+    <div className="grid grid-cols-1 items-start gap-x-6 gap-y-8 md:grid-cols-2">
       <DynamicSelect
         name="grade_id"
         control={form.control}
         label="الصف"
         queryKey="/grades"
+        className="md:col-span-2"
       />
 
       <CustomInput

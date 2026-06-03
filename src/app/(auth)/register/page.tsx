@@ -105,17 +105,6 @@ const RegisterPage = () => {
             )}
 
             <div className="flex gap-2">
-              {step === 2 && (
-                <Button
-                  type="button"
-                  variant="secondary"
-                  className="w-1/3"
-                  onClick={() => setStep(1)}
-                >
-                  السابق
-                </Button>
-              )}
-
               {step === 1 ? (
                 <Button
                   type="button"
@@ -147,6 +136,17 @@ const RegisterPage = () => {
                   ) : (
                     <SmallSpinner className="text-white" />
                   )}
+                </Button>
+              )}
+
+              {step === 2 && (
+                <Button
+                  type="button"
+                  variant="secondary"
+                  className="w-1/4"
+                  onClick={() => setStep(1)}
+                >
+                  السابق
                 </Button>
               )}
             </div>

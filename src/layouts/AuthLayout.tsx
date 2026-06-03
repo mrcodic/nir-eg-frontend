@@ -26,7 +26,23 @@ const AuthLayout = ({ children }: { children: ReactNode }) => {
         )}
       >
         <AuthImageSection />
-        <AuthMainContent>{children}</AuthMainContent>
+
+        <Animate
+          as="main"
+          preset="slideUp"
+          trigger="mount"
+          duration={0.6}
+          delay={0.15}
+          distance={72}
+          className={cn(
+            "relative z-10 mx-3 -mt-40 bg-white! px-4 py-8",
+            "max-lg:w-full max-lg:rounded-xl sm:px-5 sm:py-16",
+            "lg:mx-auto lg:mt-0 lg:w-[52%]",
+            "group-data-[template=landing-v3]/template:lg:mt-32",
+          )}
+        >
+          {children}
+        </Animate>
       </div>
     </GoogleReCaptchaProvider>
   );
@@ -34,53 +50,12 @@ const AuthLayout = ({ children }: { children: ReactNode }) => {
 
 export default AuthLayout;
 
-const AuthMainContent = ({ children }: { children: ReactNode }) => {
-  const sharedClassName = cn(
-    "relative z-10 mx-4 -mt-40 bg-white! px-3 py-8",
-    "max-lg:w-full max-lg:rounded-xl sm:px-5 sm:py-16",
-    "lg:mx-auto lg:mt-0 lg:w-[52%]",
-    "group-data-[template=landing-v3]/template:lg:mt-32",
-  );
-
-  return (
-    <>
-      {/* Mobile (< lg): slide up from below */}
-      <Animate
-        as="main"
-        preset="slideUp"
-        trigger="mount"
-        duration={0.6}
-        delay={0.15}
-        distance={72}
-        className={cn(sharedClassName, "lg:hidden")}
-        // aria-hidden so screen readers don't see the duplicate
-        aria-hidden="true"
-      >
-        {children}
-      </Animate>
-
-      {/* Desktop (>= lg): slide in from the right */}
-      <Animate
-        as="main"
-        preset="slideLeft"
-        trigger="mount"
-        duration={0.6}
-        delay={0.15}
-        distance={72}
-        className={cn(sharedClassName, "max-lg:hidden")}
-      >
-        {children}
-      </Animate>
-    </>
-  );
-};
-
 // ─── Image Section ────────────────────────────────────────────────────────────
 
 const AuthImageSection = () => {
   return (
     <MotionConfig reducedMotion="user">
-      <div className="bg-primary-radial relative flex w-full items-center justify-center overflow-hidden max-lg:h-[400px] lg:z-12 lg:w-[38%] lg:self-stretch">
+      <div className="bg-primary-radial relative flex w-full items-center justify-center overflow-hidden max-lg:h-[400px] lg:w-[38%] lg:self-stretch">
         {/* Background shape — fadeIn, no interaction */}
         <Animate
           preset="fadeIn"
@@ -95,11 +70,10 @@ const AuthImageSection = () => {
             height={200}
             alt=""
             aria-hidden="true"
-            // Decorative — lazy is fine (below the fold on mobile)
           />
         </Animate>
 
-        {/* Instructor photo — LCP element, always eager */}
+        {/* Instructor photo — LCP element */}
         <Animate
           preset="slideUp"
           trigger="mount"
@@ -113,6 +87,7 @@ const AuthImageSection = () => {
             className="relative object-contain object-top lg:object-cover"
             fill
             priority
+            fetchPriority="high"
             sizes="(max-width: 1023px) 100vw, 38vw"
           />
         </Animate>
@@ -123,7 +98,7 @@ const AuthImageSection = () => {
           preset="bounceIn"
           trigger="mount"
           delay={0.35}
-          className="absolute bottom-5 left-5 z-4 will-change-transform lg:w-[17.8%] lg:min-w-[89px]"
+          className="absolute bottom-5 left-5 z-4 w-[89px] will-change-transform lg:w-[17.8%] lg:min-w-[89px]"
         >
           <motion.div
             animate={{ y: [0, -10, 0, 6, 0], rotate: [0, -3, 0, 2, 0] }}
@@ -152,7 +127,7 @@ const AuthImageSection = () => {
           trigger="mount"
           delay={0.25}
           duration={0.5}
-          className="absolute bottom-1/2 left-1/8 z-4 will-change-transform lg:w-[19.6%] lg:min-w-[101px]"
+          className="absolute bottom-1/2 left-1/8 z-4 w-[101px] will-change-transform lg:w-[19.6%] lg:min-w-[101px]"
         >
           <motion.div
             animate={{
@@ -186,7 +161,7 @@ const AuthImageSection = () => {
           delay={0.3}
           duration={0.55}
           distance={36}
-          className="absolute top-1/8 right-1/8 z-4 will-change-transform lg:w-[22.6%] lg:min-w-[121px]"
+          className="absolute top-1/8 right-1/8 z-4 w-[121px] will-change-transform lg:w-[22.6%] lg:min-w-[121px]"
         >
           <motion.div
             animate={{ y: [0, -8, 0, -4, 0], rotate: [0, 5, 0, -3, 0] }}
@@ -216,7 +191,7 @@ const AuthImageSection = () => {
           delay={0.4}
           duration={0.55}
           distance={44}
-          className="absolute right-0 bottom-1/8 z-4 will-change-transform lg:w-[28.6%] lg:min-w-[161px]"
+          className="absolute right-0 bottom-1/8 z-4 w-[161px] will-change-transform lg:w-[28.6%] lg:min-w-[161px]"
         >
           <motion.div
             animate={{
