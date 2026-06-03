@@ -52,25 +52,19 @@ function BookQuantity({
   return (
     <div className={cn("flex w-fit items-center gap-8", className)}>
       <Button
-        className={cn(
-          "border-primary-800 size-11 border bg-[#F6EADE] hover:bg-[#F6EADE]",
-          buttonClassName,
-        )}
+        className={cn("border-primary-800 size-11 border", buttonClassName)}
         onClick={() => debouncedDecrement(book.id)}
       >
-        <Minus className="size-5 stroke-black" />
+        <Minus className="size-5 stroke-white" />
       </Button>
 
       <span className={cn("text-28 font-bold", textClassName)}>{quantity}</span>
 
       <Button
-        className={cn(
-          "border-primary-800 size-11 border bg-[#F6EADE] hover:bg-[#F6EADE]",
-          buttonClassName,
-        )}
+        className={cn("border-primary-800 size-11 border", buttonClassName)}
         onClick={() => debouncedIncrement(book.id)}
       >
-        <Plus className="size-5 stroke-black" />
+        <Plus className="size-5 stroke-white" />
       </Button>
     </div>
   );

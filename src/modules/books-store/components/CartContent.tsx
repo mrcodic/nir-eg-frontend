@@ -21,7 +21,7 @@ function CartContent() {
       >
         <Link
           href="/books"
-          className="bg-primary-800 flex h-10 w-full max-w-[364px] items-center justify-center px-6 text-white"
+          className="bg-primary-800 hover:bg-primary-800/80 flex h-10 w-full max-w-[364px] items-center justify-center px-6 text-white transition-all"
         >
           اذهب لمتجر الكتب
         </Link>

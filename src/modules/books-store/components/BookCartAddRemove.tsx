@@ -1,6 +1,7 @@
 "use client";
 
 import { useCartStore } from "@/context/BooksStoreProvider";
+import { useMounted } from "@/hooks/useMounted";
 import { cn } from "@/lib/utils";
 import { Book } from "@/types/books.types";
 import { ShoppingCart, Trash } from "lucide-react";
@@ -14,15 +15,16 @@ function BookCartAddRemove({
   book: Book;
   buttonClassName?: string;
 }) {
-  const { checkIfItemExists, items } = useCartStore((state) => state);
+  const isMounted = useMounted();
+  const { checkIfItemExists } = useCartStore((state) => state);
   const itemExists = checkIfItemExists(book?.id);
 
-  return itemExists ? (
+  return !isMounted || itemExists ? (
     <RemoveFromCart
       id={book?.id}
       className={cn(
-        "ps-2 pe-3 h-8 border bg-transparent text-red-700 border-red-700 rounded-xl hover:bg-red-700 hover:text-white",
-        buttonClassName
+        "h-8 rounded-xl border border-red-700 bg-transparent ps-2 pe-3 text-red-700 hover:bg-red-700 hover:text-white",
+        buttonClassName,
       )}
     >
       <Trash className="size-6" />
@@ -32,8 +34,8 @@ function BookCartAddRemove({
     <AddToCart
       book={book}
       className={cn(
-        "ps-2 pe-3 h-8 border bg-transparent text-primary-800 border-primary-800 rounded-xl hover:bg-primary-800 hover:text-white",
-        buttonClassName
+        "text-primary-800 border-primary-800 hover:bg-primary-800 h-8 rounded-xl border bg-transparent ps-2 pe-3 hover:text-white",
+        buttonClassName,
       )}
     >
       <ShoppingCart className="size-6" />

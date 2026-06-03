@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/sheet";
 import { useAuthContext } from "@/context/auth-context";
 import { useCartStore } from "@/context/BooksStoreProvider";
-import Image from "next/image";
+import { formatCurrency } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import BookCartCard from "./BookCartCard";
@@ -37,16 +37,26 @@ function NavCartButton() {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <button className="bg-background fixed bottom-4 left-4 z-[100] flex size-16 cursor-pointer items-center justify-center rounded-lg shadow-md">
+        <button
+          className="bg-primary-800 group/cart-btn border-gray-light fixed bottom-4 left-4 z-50 flex size-16 cursor-pointer items-center justify-center rounded-lg border shadow-md"
+          suppressHydrationWarning
+        >
           <CountBubble
             count={displayCount}
             className="size-5 pt-px text-xs font-bold"
           />
-          <Image
-            src="/assets/icons/cart.svg"
-            width={48}
-            height={48}
-            alt="cart button"
+          <div
+            className="group-hover/cart-btn:bg-primary-50 size-12 bg-white transition-all"
+            style={{
+              WebkitMaskImage: "url(/assets/icons/cart.svg)",
+              maskImage: "url(/assets/icons/cart.svg)",
+              WebkitMaskSize: "contain",
+              maskSize: "contain",
+              WebkitMaskRepeat: "no-repeat",
+              maskRepeat: "no-repeat",
+              WebkitMaskPosition: "center",
+              maskPosition: "center",
+            }}
           />
         </button>
       </SheetTrigger>
@@ -63,7 +73,7 @@ function NavCartButton() {
           {displayCount > 0 && (
             <button
               onClick={() => clearCart()}
-              className="ms-auto flex items-center gap-1 text-red-500 underline"
+              className="ms-auto flex cursor-pointer items-center gap-1 text-red-500 hover:underline"
             >
               حذف جميع المنتجات
             </button>
@@ -91,10 +101,10 @@ function NavCartButton() {
               ))}
             </div>
 
-            <div className="mt-6 space-y-6 border-t border-[#D9B45C] pt-2">
+            <div className="border-secondary mt-6 space-y-6 border-t pt-2">
               <DataWithLabel
                 label="اجمالي السعر"
-                data={getTotalPrice() + " جنية"}
+                data={formatCurrency(getTotalPrice())}
                 className="justify-between"
                 labelClassName="text-lg"
                 dataClassName="text-lg"
@@ -104,7 +114,7 @@ function NavCartButton() {
                 href={!!profile ? "/books/cart" : "/login?redirect=/books/cart"}
                 className="inline-block w-full"
               >
-                <SheetClose className="w-full rounded-lg bg-[#D9B45C] px-4 py-2 text-white">
+                <SheetClose className="bg-secondary hover:bg-secondary/90 w-full cursor-pointer rounded-lg px-4 py-2 text-white transition-all">
                   الانتقال للسلة
                 </SheetClose>
               </Link>

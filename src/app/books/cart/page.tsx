@@ -19,7 +19,12 @@ async function page() {
   return (
     <div className="section--style space-y-24">
       <CartContent />
-      <BooksStoreItems perPage={6} title="منتجات مشابهة" />
+      <BooksStoreItems
+        perPage={6}
+        title="منتجات مشابهة"
+        className="border-gray-light mt-12 border-t pt-12"
+        hideOnEmptyCart={true}
+      />
     </div>
   );
 }

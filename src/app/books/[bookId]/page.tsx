@@ -18,7 +18,10 @@ async function page({ params }: { params: Promise<{ bookId: string }> }) {
 
       <BookDetailsCard book={book?.data} />
 
-      <BooksStoreItems title="منتجات مشابهة" className="mt-24" />
+      <BooksStoreItems
+        title="منتجات مشابهة"
+        className="border-gray-light mt-12 border-t pt-12"
+      />
     </div>
   );
 }

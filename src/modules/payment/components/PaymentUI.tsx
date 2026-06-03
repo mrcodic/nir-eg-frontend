@@ -161,7 +161,14 @@ export const PaymentUI: React.FC<PaymentUIProps> = ({
                   htmlFor={payment.value}
                 >
                   {payment.icons.map((icon) => (
-                    <img key={icon} src={icon} className="h-8 object-contain" />
+                    <Image
+                      key={icon}
+                      src={icon}
+                      height={32}
+                      width={96}
+                      className="min-w-fit"
+                      alt="payment option icon"
+                    />
                   ))}
 
                   {payment.label && (

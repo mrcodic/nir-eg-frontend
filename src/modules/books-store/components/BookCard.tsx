@@ -3,7 +3,6 @@ import { Book } from "@/types/books.types";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { Suspense } from "react";
 import BookCardBadge, { BookBadgeVariants } from "./BookCardBadge";
 import BookCartAddRemove from "./BookCartAddRemove";
 import BuyBookTrigger from "./BuyBookTrigger";
@@ -80,13 +79,11 @@ const BookCard = ({ book }: { book: Book }) => {
           </CardFooter>
         ) : (
           <CardFooter className="mx-auto mt-4 flex-wrap justify-center gap-x-4 gap-y-2 p-0">
-            <Suspense>
-              <BuyBookTrigger
-                id={book?.id}
-                price={Number(book?.price)}
-                name={book?.name}
-              />
-            </Suspense>
+            <BuyBookTrigger
+              id={book?.id}
+              price={Number(book?.price)}
+              name={book?.name}
+            />
             <BookCartAddRemove book={book} />
           </CardFooter>
         )}

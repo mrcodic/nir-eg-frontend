@@ -4,7 +4,6 @@ import PriceBubbles from "@/components/ui/price-bubble";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useCartStore } from "@/context/BooksStoreProvider";
-import PaymentCoupon from "@/modules/payment/components/PaymentCoupon";
 import PriceBadge from "@/modules/payment/components/PriceBadge";
 import { CourseType, paymentType, PricingResponse } from "@/types";
 import Image from "next/image";
@@ -51,23 +50,10 @@ export const BooksPaymentUI: React.FC<PaymentUIProps> = ({
         </div>
       )}
 
-      {isSingleBook && (
-        <>
-          <div className="mt-4 flex items-center gap-3">
-            <img src="/assets/PaymentColor.svg" className="h-6 w-6" />
-            <span className="text-[18px] font-bold text-black">
-              اختر طريقة الدفع
-            </span>
-          </div>
-
-          <div className="bg-gray-light my-3 h-px w-full" />
-        </>
-      )}
-
       <div className={isSingleBook ? "mb-4" : "mb-10"}>
         {isSingleBook && (
           <div className="space-y-4">
-            <h4 className="text-lg font-bold sm:text-2xl">{name}</h4>
+            <h4 className="text-lg font-bold sm:text-xl">{name}</h4>
 
             <div className="bg-background flex items-center justify-between gap-3 rounded-lg p-2">
               <h5 className="font-bold text-black">السعر</h5>
@@ -91,31 +77,31 @@ export const BooksPaymentUI: React.FC<PaymentUIProps> = ({
           </div>
         )}
 
-        {hasPaymentMethods && (
+        {/* {hasPaymentMethods && (
           <PaymentCoupon
             coupon={coupon}
             setCoupon={setCoupon}
             bookId={isSingleBook && bookId}
             className={isSingleBook ? "mt-2" : "mb-4"}
           />
-        )}
+        )} */}
 
         {!isSingleBook && <CartCheckoutPriceDetails />}
       </div>
 
       {!isLoadingCart && paymentMethodValue === paymentType.fawerypay && (
-        <span className="mb-3 text-sm font-bold text-red-600">
+        <p className="mb-3 text-sm leading-6 font-bold text-red-600">
           <Image
             src={"/assets/icons/WarningColor.svg"}
-            width={30}
-            height={30}
+            width={24}
+            height={24}
             alt="warinng"
             className="ml-2 inline-block"
           />
           بعد ما تضغط &quot;التالي&quot;، هيتعرضلك كود الدفع. خده وادفعه في أقرب
           فرع فورى أو تطبيق فورى احتفظ بالايصال وفي خلال 30 دقيقة الباقه هتتفتح,
           مع العلم ان صلاحية الكود 7 ايام.
-        </span>
+        </p>
       )}
 
       {isLoadingCart ? (
@@ -146,19 +132,31 @@ export const BooksPaymentUI: React.FC<PaymentUIProps> = ({
                 htmlFor={payment.value}
                 className={`relative flex cursor-pointer overflow-hidden ${
                   paymentMethodValue === payment.value
-                    ? "border-[#023E3E]"
+                    ? "border-primary"
                     : "border-gray-light"
-                } bg-background z-0! items-center gap-[10px] space-x-2 rounded-lg border-2 p-2`}
+                } bg-background items-center gap-2.5 rounded-lg border-2 p-2`}
               >
                 <RadioGroupItem value={payment.value} id={payment.value} />
                 <Label
-                  className="flex items-center gap-6"
+                  className="flex w-full items-center gap-6"
                   htmlFor={payment.value}
                 >
                   {payment.icons.map((icon) => (
-                    <img key={icon} src={icon} />
+                    <Image
+                      key={icon}
+                      src={icon}
+                      height={32}
+                      width={96}
+                      className="min-w-fit"
+                      alt="payment option icon"
+                    />
                   ))}
-                  <span className="font-bold text-black">{payment.label}</span>
+
+                  {payment.label && (
+                    <span className="font-bold text-black">
+                      {payment.label}
+                    </span>
+                  )}
                 </Label>
                 {/* {payment.soon && (
                 <div className="bg-red-600 text-white px-8 absolute top-4 -left-5 -rotate-45 h-5 text-sm">

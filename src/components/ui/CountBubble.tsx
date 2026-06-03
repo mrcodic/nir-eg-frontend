@@ -10,8 +10,8 @@ function CountBubble({
   return (
     <span
       className={cn(
-        "bg-[#B75050] absolute -top-1 -right-1  text-center rounded-full p-1 pt-1.5 text-white size-5 text-[10px] flex items-center justify-center",
-        className
+        "bg-semantics-red absolute -top-1 -right-1 flex size-5 items-center justify-center rounded-full p-1 pt-1.5 text-center text-[10px] text-white",
+        className,
       )}
     >
       {count > 99 ? (
