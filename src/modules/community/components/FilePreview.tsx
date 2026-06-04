@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { FileText, ImagePlus, X } from "lucide-react";
+import { ImagePlus, X } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
@@ -109,7 +109,12 @@ export default function FilePreview({
             ) : (
               /* PDF / generic file */
               <div className="flex h-full flex-col items-center justify-center gap-1 p-2">
-                <FileText className="text-primary-700 size-8" />
+                <Image
+                  src="/assets/pdf.svg"
+                  width={32}
+                  height={32}
+                  alt="file icon"
+                />
                 <span className="line-clamp-2 text-center text-[9px] font-medium text-gray-600">
                   {file.name}
                 </span>
@@ -117,18 +122,18 @@ export default function FilePreview({
             )}
 
             {/* ── size badge ──────────────────────────────────────── */}
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-black/30 px-1 py-0.5">
+            {/* <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-black/30 px-1 py-0.5">
               <p className="truncate text-center text-[9px] text-white">
                 {humanSize(file.size)}
               </p>
-            </div>
+            </div> */}
           </div>
         </div>
       ))}
 
       {/* ── Add-more tile ─────────────────────────────────────────────────── */}
       <label
-        className="border-primary-300 text-primary-600 hover:bg-primary-50 flex size-20 cursor-pointer flex-col items-center justify-center gap-1 rounded-lg border-2 border-dashed bg-white transition-colors"
+        className="border-primary-300 text-primary-600 flex size-20 cursor-pointer flex-col items-center justify-center gap-1 rounded-lg border-2 border-dashed bg-white transition-colors hover:bg-gray-50"
         aria-label="Add more files"
       >
         <ImagePlus className="size-6" />

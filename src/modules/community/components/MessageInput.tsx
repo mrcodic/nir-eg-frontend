@@ -1,10 +1,11 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import VoiceMessageRecorder from "@/components/shared/VoiceMessageRecorder";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useVideoPlayerStore } from "@/store/videoPlayerStore";
 import { File } from "lucide-react";
+import Image from "next/image";
 import { useState } from "react";
 import useSendComment from "../hooks/useSendComment";
 import useSendReply from "../hooks/useSendReply";
@@ -18,6 +19,7 @@ type MessageInputProps = {
   commentId?: string | number;
   placeholder?: string;
   id?: string;
+  avatar?: string;
 };
 
 const MessageInput = ({
@@ -28,6 +30,7 @@ const MessageInput = ({
   commentId,
   placeholder,
   id,
+  avatar,
 }: MessageInputProps) => {
   const [text, setText] = useState("");
   const [files, setFiles] = useState([]);
@@ -77,12 +80,24 @@ const MessageInput = ({
           })}
         >
           <div
-            className={cn("flex items-center gap-2", {
+            className={cn("flex shrink-0 items-center gap-2", {
               "w-full": isRecorder,
             })}
           >
-            <label className="border-primary bg-background flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-md border">
-              <File className="size-5" />
+            <Image
+              unoptimized
+              src={avatar || "/assets/avatar-user.svg"}
+              className="size-11 rounded-lg"
+              onError={(e) => {
+                e.currentTarget.src = "/assets/avatar-user.svg";
+              }}
+              width={44}
+              height={44}
+              alt="avatar"
+            />
+
+            <label className="flex size-8 shrink-0 cursor-pointer items-center justify-center">
+              <File className="text-primary-800 size-6" />
 
               <input
                 type="file"

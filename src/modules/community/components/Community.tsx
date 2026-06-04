@@ -11,7 +11,6 @@ import { CommentsData } from "@/types";
 import { secondsToHms } from "@/utils/clientFun";
 import { AccordionContent } from "@radix-ui/react-accordion";
 import { useQuery } from "@tanstack/react-query";
-import Image from "next/image";
 import { memo, useMemo, useState } from "react";
 
 import { useMediaQuery } from "@/hooks/useMediaQuery";
@@ -84,18 +83,6 @@ const Community = ({ lessonId, locked, isYoutubeVideo }: CommunityProps) => {
           )}
 
           <div className="flex items-start gap-x-6 gap-y-2 max-sm:flex-wrap">
-            <Image
-              unoptimized
-              src={comments?.avatar || "/assets/avatar-user.svg"}
-              className="size-11 rounded-lg"
-              onError={(e) => {
-                e.currentTarget.src = "/assets/avatar-user.svg";
-              }}
-              width={44}
-              height={44}
-              alt="avatar"
-            />
-
             <div className="flex h-full grow flex-col gap-2 self-stretch">
               <div className="flex flex-wrap gap-2 md:hidden">
                 <p className="text-gray-dark text-xs font-medium">
@@ -108,6 +95,7 @@ const Community = ({ lessonId, locked, isYoutubeVideo }: CommunityProps) => {
 
               <MessageInput
                 id="community-input"
+                avatar={comments?.avatar}
                 lessonId={lessonId}
                 currentTime={currentTime}
                 className="grow"
@@ -122,7 +110,7 @@ const Community = ({ lessonId, locked, isYoutubeVideo }: CommunityProps) => {
       {comments?.data?.length > 0 ? (
         <div>
           <div className="my-3 flex flex-wrap items-center justify-between gap-2">
-            <h2 className="text-xs font-bold">ملاحظات الطلاب</h2>
+            <h2 className="text-sm font-bold">ملاحظات الطلاب</h2>
 
             {!isYoutubeVideo && (
               <FilterControls
@@ -138,9 +126,12 @@ const Community = ({ lessonId, locked, isYoutubeVideo }: CommunityProps) => {
             defaultValue={isMobile ? "" : "comments"}
             className="border-none"
           >
-            <AccordionItem value="comments" className="space-y-6">
+            <AccordionItem
+              value="comments"
+              className="border-b-gray-light space-y-6 rounded-none border-x-transparent border-t-transparent px-0"
+            >
               <AccordionTrigger className="py-0">
-                <div className="text-[11px] text-gray-600">
+                <div className="text-sm text-gray-600">
                   {filterMode === "all"
                     ? `عرض ${paginatedComments.length} من إجمالي ${comments.data.length} تعليق`
                     : `عرض ${paginatedComments.length} من ${filteredComments.length} تعليق (إجمالي ${comments.data.length})`}
@@ -148,7 +139,7 @@ const Community = ({ lessonId, locked, isYoutubeVideo }: CommunityProps) => {
               </AccordionTrigger>
 
               <AccordionContent>
-                <div className="mt-4 flex max-h-[700px] flex-col gap-4 overflow-y-auto">
+                <div className="mt-4 flex flex-col gap-4">
                   {paginatedComments.length > 0 ? (
                     paginatedComments.map((comment, index) => (
                       <div key={comment.id || index}>

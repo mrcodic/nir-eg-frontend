@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import { useVideoPlayerStore } from "@/store/videoPlayerStore";
 import { Mic, Pause, Play, StopCircle, Trash } from "lucide-react";
 import { useCallback, useEffect } from "react";
-import { VoiceVisualizer, useVoiceVisualizer } from "react-voice-visualizer";
+import { useVoiceVisualizer } from "react-voice-visualizer";
 
 const Timer = ({ duration }) => {
   const totalSeconds =
@@ -164,7 +164,7 @@ const VoiceMessageRecorder = ({ toggleRecorder, setAudios, isRecorder }) => {
 
   return (
     <div className="flex items-center gap-2">
-      <div className="voice-recorder-container flex grow items-center gap-4 max-sm:flex-wrap-reverse">
+      {/* <div className="voice-recorder-container flex grow items-center gap-4 empty:hidden max-sm:flex-wrap-reverse">
         <div
           id="waveform"
           className="hidden grow items-center justify-center rounded-xl"
@@ -183,7 +183,8 @@ const VoiceMessageRecorder = ({ toggleRecorder, setAudios, isRecorder }) => {
             isControlPanelShown={false}
           />
         </div>
-      </div>
+      </div> */}
+
       {(isRecordingInProgress || isAvailableRecordedAudio) && (
         <Timer
           duration={isRecordingInProgress ? recordingTime : duration * 1000}

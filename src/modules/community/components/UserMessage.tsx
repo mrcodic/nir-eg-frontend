@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import CustomImage from "@/components/ui/CustomImage";
 import { cn } from "@/lib/utils";
 import { convertDate, secondsToHms } from "@/utils/clientFun";
-import { ChevronDown, ChevronUp, X } from "lucide-react";
+import { ChevronDown, ChevronUp, Eye, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -50,12 +50,12 @@ const UserMessage = ({
       >
         <div className="flex w-full shrink-0 gap-2 px-2">
           <CustomImage
-            width={48}
-            height={48}
+            width={44}
+            height={44}
             src={avatar || "/assets/avatar-user.svg"}
             fallback="/assets/avatar-user.svg"
             alt="avatar"
-            className="size-10 shrink-0 sm:size-12"
+            className="size-11 shrink-0 rounded-lg sm:size-12"
           />
 
           <div
@@ -94,15 +94,24 @@ const UserMessage = ({
         </p>
 
         {comment?.images?.length > 0 && (
-          <div className="mr-12 flex flex-col gap-2">
+          <div className="mr-12 flex flex-wrap gap-2">
             {comment?.images?.map((image, index) => {
               return (
-                <Link target="_blank" key={index} href={image.url}>
+                <Link
+                  target="_blank"
+                  key={index}
+                  href={image.url}
+                  className="border-gray-light relative block aspect-square w-full max-w-[200px] grow overflow-hidden rounded-lg border"
+                >
+                  <div className="absolute inset-0 z-1 flex h-full w-full items-center justify-center bg-black/50 text-white transition-all hover:opacity-100 md:opacity-0">
+                    <Eye className="size-8 opacity-80 sm:size-10" />
+                  </div>
+
                   <Image
                     unoptimized
                     src={image.url}
-                    width={100}
-                    height={100}
+                    fill
+                    className="w-full object-cover"
                     alt="image"
                   />
                 </Link>
@@ -112,22 +121,22 @@ const UserMessage = ({
         )}
 
         {comment?.documents?.length > 0 && (
-          <div className="mr-12 flex flex-col gap-2">
+          <div className="mr-12 flex flex-wrap gap-2">
             {comment?.documents?.map((document, index) => {
               return (
                 <Link
                   key={index}
                   target="_blank"
-                  className="border-primary flex w-full items-center gap-2 rounded-lg border bg-white p-2 py-2 text-[12px] font-medium"
+                  className="border-gray-light flex w-full max-w-[300px] items-center gap-2 rounded-lg border bg-white p-2 py-2 text-xs font-medium transition-all hover:bg-gray-50"
                   href={document?.url}
                 >
                   <Image
-                    src="/assets/pdf-icon.svg"
+                    src="/assets/pdf.svg"
                     width={32}
                     height={32}
                     alt="document"
                   />
-                  <p>{document?.name}</p>
+                  <p className="line-clamp-1">{document?.name}</p>
                 </Link>
               );
             })}
@@ -205,19 +214,9 @@ const UserMessage = ({
               </button>
             </div>
 
-            <Image
-              unoptimized
-              src={avatar || "/assets/avatar-user.svg"}
-              className="size-11 rounded-lg"
-              width={44}
-              height={44}
-              alt="avatar"
-              onError={(e) => {
-                e.currentTarget.src = "/assets/avatar-user.svg";
-              }}
-            />
             <MessageInput
               lessonId={lessonId}
+              avatar={avatar}
               className="grow"
               commentId={comment.id}
               currentTime={currentTime}
