@@ -27,39 +27,39 @@ export function OTPNotVerifIed({ open, setOpen }: OTPNotVerifIedProps) {
         <DialogHeader className="text-center">
           <div className="mb-4 flex justify-center">
             <Image
-              src="/assets/notfError.svg"
+              src="/assets/bg/otp-illustration.png"
               alt="Warning"
-              width={60}
-              height={60}
+              width={200}
+              height={200}
               className="rounded-lg"
             />
           </div>
 
-          <DialogTitle className="text-center text-xl font-semibold text-red-600" />
+          <DialogTitle className="sr-only" />
           <DialogDescription className="text-xl text-black">
             محتاج تعمل تأكيد لرقم الموبايل من خلال ال otp
           </DialogDescription>
         </DialogHeader>
 
-        <DialogFooter className="mt-5 flex justify-between gap-5">
+        <DialogFooter className="flex gap-5">
           <DialogClose asChild>
             <Button
-              className="bg-primary-800 h-full w-[150px]"
+              className="h-full w-full"
               onClick={async () => {
                 const phone = localStorage.getItem("phone");
                 if (!phone) {
                   toast({
-                    description: "الرقم مش موجود ",
+                    description: "الرقم مش موجود , دخل الرقم تانى",
                     icon: "error",
                   });
-
+                  setOpen(false);
                   return;
                 }
 
                 router.push("/verify-otp?type=login");
               }}
             >
-              تأكيد
+              إرسال رمز التأكد
             </Button>
           </DialogClose>
         </DialogFooter>

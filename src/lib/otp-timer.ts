@@ -57,10 +57,14 @@ const parseServerExpiry = (raw?: string | null): Date | null => {
 
 export function resolveOtpExpiryTimestamp(payload?: ExpiryInput | null): Date {
   const expiryFromServer = parseServerExpiry(payload?.expires_at);
+  console.log("expiryFromServer : ", expiryFromServer);
+
   const hasValidServerExpiry =
     expiryFromServer instanceof Date &&
     !Number.isNaN(expiryFromServer.getTime()) &&
     expiryFromServer.getTime() > Date.now();
+
+  console.log("hasValidServerExpiry : ", hasValidServerExpiry);
 
   if (hasValidServerExpiry) {
     localStorage.setItem(

@@ -27,7 +27,7 @@ const ProtectedRoute = ({
   const router = useRouter();
   const { profile, isLoading: isLoadingProfile } = useAuthContext();
 
-  const phoneVerified = profile?.parent_phone_verification;
+  const phoneVerified = profile?.student_phone_verification;
 
   if (isLoading || isLoadingProfile) {
     return (

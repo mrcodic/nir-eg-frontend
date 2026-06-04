@@ -11,10 +11,13 @@ function CourseFloatingCards({
   classroomId: any;
   profile: IUser | null;
 }) {
-  // if (data?.body?.is_subscriped && !profile?.parent_phone_verification)
+  // if (data?.body?.is_subscriped && !profile?.student_phone_verification)
   //   return <CoursePhoneVerifyCard parentPhone={profile?.parent_phone} />;
 
-  if (data?.body?.is_subscriped && (profile?.parent_phone_verification || true))
+  if (
+    data?.body?.is_subscriped &&
+    (profile?.student_phone_verification || true)
+  )
     return <CourseProgressCard progress={data?.body?.progress || 0} />;
 
   if (!data?.body?.is_subscriped && data?.body?.subscription_type !== "حصة")

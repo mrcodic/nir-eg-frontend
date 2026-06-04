@@ -3,7 +3,7 @@
 import { OTP_SEND_TIME_KEY } from "@/constants";
 import { AUTH_ERROR_CODES } from "@/constants/error-codes";
 import { useToast } from "@/hooks/use-toast";
-import { getOtpCooldownSeconds, handleOtpError } from "@/lib/handle-otp-error";
+import { getOtpRemainingSeconds, handleOtpError } from "@/lib/handle-otp-error";
 import { getOtpSendSuccessMessage } from "@/lib/otp-success";
 import { isOtpExpired, resolveOtpExpiryTimestamp } from "@/lib/otp-timer";
 import { sendAuthOtpCode } from "@/services/auth.service";
@@ -69,7 +69,7 @@ function useOtp({ onError }: { onError?: (message: string) => void } = {}) {
           (error.response?.status === 405 ||
             error.response?.data?.code === AUTH_ERROR_CODES.OTP_COOLDOWN)
         ) {
-          const remainingSec = getOtpCooldownSeconds(error);
+          const remainingSec = getOtpRemainingSeconds(error);
           const newTimeStamp = Date.now() + (remainingSec ?? 60) * 1000;
 
           restart(new Date(newTimeStamp));

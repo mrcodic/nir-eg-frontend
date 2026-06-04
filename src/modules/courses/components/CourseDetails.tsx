@@ -163,7 +163,7 @@ const CourseDetails = ({ details, profile }: Props) => {
                           details?.is_subscriped
                           // || details?.subscription_type === "حصة"
                         }
-                        verify={true || profile?.parent_phone_verification}
+                        verify={true || profile?.student_phone_verification}
                         classroomId={classroomId.toString()}
                         tasksEnabled={features?.quizzes}
                       />

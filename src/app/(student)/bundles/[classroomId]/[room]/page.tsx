@@ -110,7 +110,7 @@ export default function RoomDetailsPage() {
                             classroomId={classroomId}
                             subscribe={roomDetails.is_subscriped}
                             verify={
-                              true || roomDetails.parent_phone_verification
+                              true || roomDetails.student_phone_verification
                             }
                             locked={isRoomPurchasable}
                             linkText="فتح الامتحان"
@@ -126,7 +126,7 @@ export default function RoomDetailsPage() {
                             classroomId={classroomId}
                             subscribe={roomDetails.is_subscriped}
                             verify={
-                              true || roomDetails.parent_phone_verification
+                              true || roomDetails.student_phone_verification
                             }
                             locked={lockedToPass || isRoomPurchasable}
                             linkText="فتح الواجب"
@@ -162,7 +162,7 @@ export default function RoomDetailsPage() {
                             lesson={lesson}
                             subscribe={roomDetails.is_subscriped}
                             verify={
-                              true || roomDetails.parent_phone_verification
+                              true || roomDetails.student_phone_verification
                             }
                             roomId={room.id}
                             locked={lockedToPass || isRoomPurchasable}
@@ -199,7 +199,7 @@ export default function RoomDetailsPage() {
                             room={room}
                             subscribe={roomDetails.is_subscriped}
                             verify={
-                              true || roomDetails.parent_phone_verification
+                              true || roomDetails.student_phone_verification
                             }
                             locked={isRoomPurchasable}
                             index={index}

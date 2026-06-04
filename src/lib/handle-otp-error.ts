@@ -4,6 +4,7 @@ import { OtpVerifyErrorResponse } from "@/types/auth.types";
 import { isAxiosError } from "axios";
 import { isOtpExpired, setNewOtpSendTime } from "./otp-timer";
 
+const OTP_SMS_FAILED_MESSAGE = "فشل ارسال رمز التحقق";
 const OTP_INVALID_MESSAGE = "رمز التأكيد غير صحيح";
 const OTP_NOT_FOUND_MESSAGE =
   "انتهت صلاحية رمز التحقق أو لم يتم إرساله. اطلب رمزًا جديدًا";
@@ -21,15 +22,32 @@ const getOtpErrorPayload = (
   return error.response?.data as OtpVerifyErrorResponse | undefined;
 };
 
-export const getOtpCooldownSeconds = (error: unknown): number | null => {
+export const getOtpRemainingSeconds = (error: unknown): number | null => {
   const payload = getOtpErrorPayload(error);
   const remainingSec =
-    payload?.data?.cooldown_remaining_sec ??
+    payload?.data?.expires_remaining_sec ??
     (isAxiosError(error)
-      ? error.response?.data?.error?.data?.cooldown_remaining_sec
+      ? error.response?.data?.error?.data?.expires_remaining_sec
       : undefined);
 
   return typeof remainingSec === "number" ? remainingSec : null;
+};
+
+const formatOtpRemainingTime = (remainingSec: number): string => {
+  const minutes = Math.floor(remainingSec / 60);
+  const seconds = remainingSec % 60;
+
+  const minutesText = minutes === 1 ? "دقيقة" : "دقايق";
+
+  if (remainingSec < 60) {
+    return `${remainingSec} ثانية`;
+  }
+
+  if (seconds === 0) {
+    return `${minutes} ${minutesText}`;
+  }
+
+  return `${minutes} ${minutesText} و ${seconds} ثانية`;
 };
 
 export const getOtpErrorMessage = (error: unknown): string => {
@@ -56,11 +74,6 @@ export const getOtpErrorMessage = (error: unknown): string => {
     return "تم قفل المحاولات. حاول مرة أخرى لاحقًا";
   }
 
-  if (code === AUTH_ERROR_CODES.OTP_COOLDOWN) {
-    const remainingSec = getOtpCooldownSeconds(error);
-    return `انتظر ${remainingSec ?? 60} ثانية حتى تستطيع ارسال otp مرة اخري`;
-  }
-
   if (code === AUTH_ERROR_CODES.OTP_DAILY_LIMIT) {
     const usedToday = payload?.data?.used_today;
     const maxPerDay = payload?.data?.max_per_day;
@@ -83,10 +96,7 @@ export const getOtpErrorMessage = (error: unknown): string => {
       return `${OTP_MONTHLY_LIMIT_MESSAGE} (${usedThisMonth}/${maxPerMonth}) - المتبقي هذا الشهر: ${remainingThisMonth}`;
     }
 
-    if (
-      typeof usedThisMonth === "number" &&
-      typeof maxPerMonth === "number"
-    ) {
+    if (typeof usedThisMonth === "number" && typeof maxPerMonth === "number") {
       return `${OTP_MONTHLY_LIMIT_MESSAGE} (${usedThisMonth}/${maxPerMonth})`;
     }
 
@@ -97,13 +107,20 @@ export const getOtpErrorMessage = (error: unknown): string => {
     return OTP_NOT_FOUND_MESSAGE;
   }
 
+  if (code === AUTH_ERROR_CODES.OTP_SMS_FAILED) {
+    return OTP_SMS_FAILED_MESSAGE;
+  }
+
   if (error.response?.status === 404) {
     return OTP_NOT_REGISTERED_PHONE_MESSAGE;
   }
 
-  if (error.response?.status === 405) {
-    const remainingSec = getOtpCooldownSeconds(error);
-    return `انتظر ${remainingSec ?? 60} ثانية حتى تستطيع ارسال otp مرة اخري`;
+  if (
+    error.response?.status === 405 ||
+    code === AUTH_ERROR_CODES.OTP_COOLDOWN
+  ) {
+    const remainingSec = getOtpRemainingSeconds(error);
+    return `انتظر ${formatOtpRemainingTime(remainingSec ?? 60)} حتى تستطيع ارسال otp مرة اخري`;
   }
 
   if (error.response?.status === 406) {
@@ -134,7 +151,7 @@ export const handleOtpError = (error: unknown): string => {
       getOtpErrorPayload(error)?.code === AUTH_ERROR_CODES.OTP_COOLDOWN)
   ) {
     const { isExpired } = isOtpExpired();
-    const remainingSec = getOtpCooldownSeconds(error);
+    const remainingSec = getOtpRemainingSeconds(error);
 
     if (isExpired) {
       setNewOtpSendTime({
@@ -152,4 +169,3 @@ export const handleOtpError = (error: unknown): string => {
 
   return description;
 };
-

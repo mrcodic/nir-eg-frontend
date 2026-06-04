@@ -63,13 +63,18 @@ const AuthImageSection = () => {
           duration={0.45}
           className="absolute inset-0"
         >
-          <Image
-            src="/assets/auth/auth-shape.webp"
-            className="absolute inset-x-0 top-auto bottom-0 z-1 h-4/7 w-full object-cover object-top-left lg:h-3/7"
-            width={500}
-            height={200}
-            alt=""
-            aria-hidden="true"
+          <div
+            style={{
+              maskImage: "url(/assets/auth/auth-shape.webp)",
+              WebkitMaskImage: "url(/assets/auth/auth-shape.webp)",
+              maskRepeat: "no-repeat",
+              WebkitMaskRepeat: "no-repeat",
+              maskSize: "cover",
+              WebkitMaskSize: "cover",
+              maskPosition: "top left",
+              WebkitMaskPosition: "top left",
+            }}
+            className="bg-primary-800/30 absolute inset-x-0 top-auto bottom-0 z-1 h-4/7 w-full object-cover object-top-left lg:h-3/7"
           />
         </Animate>
 

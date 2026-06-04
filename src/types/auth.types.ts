@@ -32,20 +32,21 @@ export type OtpVerifyErrorResponse = {
   status: false;
   message: string;
   code: AuthErrorCode | string;
-  data:
-    | {
-        tenant_id?: string;
-        attempts_remaining?: number;
-        locked_for_minutes?: number;
-        max_per_day?: number;
-        used_today?: number;
-        max_per_month?: number;
-        used_this_month?: number;
-        remaining_this_month?: number;
-        cooldown_remaining_sec?: number;
-        cooldown_expires_at?: string;
-      }
-    | null;
+  data: {
+    tenant_id?: string;
+    attempts_remaining?: number;
+    locked_for_minutes?: number;
+    max_per_day?: number;
+    used_today?: number;
+    max_per_month?: number;
+    used_this_month?: number;
+    remaining_this_month?: number;
+    cooldown_remaining_sec?: number;
+    cooldown_expires_at?: string;
+    expires_at?: string;
+    expires_remaining_sec?: number;
+    expires_remaining_minutes?: number;
+  } | null;
   errors: Record<string, string[]> | null;
 };
 
@@ -53,12 +54,10 @@ export type OtpVerifyResponse = {
   status: boolean;
   message: string;
   code: AuthErrorCode | string;
-  data:
-    | {
-        verified: boolean;
-        valid_until: string;
-      }
-    | null;
+  data: {
+    verified: boolean;
+    valid_until: string;
+  } | null;
   errors: Record<string, string[]> | null;
 };
 

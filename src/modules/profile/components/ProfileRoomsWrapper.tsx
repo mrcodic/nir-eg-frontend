@@ -46,7 +46,7 @@ function ProfileRoomsWrapper() {
               key={room.id}
               isProfile
               room={room.latest_room}
-              verify={true || profile?.parent_phone_verification}
+              verify={true || profile?.student_phone_verification}
               isSubscribed={room.is_subscriped}
               courseName={room.classroom}
               classroomId={String(room?.id)}

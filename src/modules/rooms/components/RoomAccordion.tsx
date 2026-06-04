@@ -201,7 +201,7 @@ const RoomAccordion = ({
                   key={index}
                   lesson={lesson}
                   subscribe={isSubscribed || room?.is_subscriped}
-                  verify={verify || room?.parent_phone_verification}
+                  verify={verify || room?.student_phone_verification}
                   roomId={room?.id}
                   locked={room?.locked_to_pass || lock_after == 0}
                   classroomId={classroomId}
@@ -217,7 +217,7 @@ const RoomAccordion = ({
                     attachment={attachment}
                     room={room}
                     subscribe={isSubscribed || room?.is_subscriped}
-                    verify={verify || room?.parent_phone_verification}
+                    verify={verify || room?.student_phone_verification}
                     locked={isRoomPurchasable}
                     index={index}
                   />
@@ -234,7 +234,7 @@ const RoomAccordion = ({
                     room={room}
                     classroomId={classroomId}
                     subscribe={isSubscribed || room?.is_subscriped}
-                    verify={verify || room?.parent_phone_verification}
+                    verify={verify || room?.student_phone_verification}
                     locked={room?.locked_to_pass || lock_after == 0}
                     linkText="فتح الواجب"
                     type="ass"

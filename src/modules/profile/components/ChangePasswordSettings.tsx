@@ -1,12 +1,12 @@
 import CustomInput from "@/components/custom/customInput";
-import Link from "next/link";
-import { LockKeyhole } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { LockKeyhole } from "lucide-react";
+import Link from "next/link";
 
 function ChangePasswordSettings({
   form,
@@ -60,7 +60,7 @@ function ChangePasswordSettings({
 
                 <Link
                   href="/forgetPassword"
-                  className="mt-3 inline-block cursor-pointer text-[12px] font-normal text-[#523412] underline"
+                  className="inline-block cursor-pointer text-xs font-normal text-black underline"
                 >
                   هل نسيت كلمة السر؟
                 </Link>
