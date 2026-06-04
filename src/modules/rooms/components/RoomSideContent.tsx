@@ -130,27 +130,27 @@ const RoomSideContent = ({
                 <div className="flex items-center gap-2">
                   <span>الدروس</span>
                   <span className="text-primary-800 text-xs">
-                    ({data.lessons.length})
+                    ({data?.lessons.length})
                   </span>
                 </div>
               </AccordionTrigger>
 
               <AccordionContent className="space-y-2 pt-2 pb-2">
-                {data.lessons.map((lesson) => (
+                {data?.lessons.map((lesson) => (
                   <LessonCard
                     key={lesson.id}
                     lesson={lesson}
                     locked={locked}
                     active={activeLessonId === lesson.id}
-                    roomId={data.room.id}
+                    roomId={data?.room.id}
                     classroomId={classroomId ?? ""}
                     onClick={() =>
                       onLessonClick
                         ? onLessonClick(
-                            `/bundles/${classroomId}/${data.room.id}/${lesson.id}`,
+                            `/bundles/${classroomId}/${data?.room.id}/${lesson.id}`,
                           )
                         : router.push(
-                            `/bundles/${classroomId}/${data.room.id}/${lesson.id}`,
+                            `/bundles/${classroomId}/${data?.room.id}/${lesson.id}`,
                           )
                     }
                   />
@@ -159,7 +159,7 @@ const RoomSideContent = ({
             </AccordionItem>
 
             {/* Quizzes Section */}
-            {hasTasksEnabled && !!data.quizzes?.length && (
+            {hasTasksEnabled && !!data?.quizzes?.length && (
               <AccordionItem
                 value="quizzes"
                 className={cn(
@@ -171,13 +171,13 @@ const RoomSideContent = ({
                   <div className="flex items-center gap-2">
                     <span>الكويزات</span>
                     <span className="text-primary-800 text-xs">
-                      ({data.quizzes.length})
+                      ({data?.quizzes.length})
                     </span>
                   </div>
                 </AccordionTrigger>
 
                 <AccordionContent className="space-y-2 pt-2 pb-2">
-                  {data.quizzes.map((quiz) => (
+                  {data?.quizzes.map((quiz) => (
                     <QuizCard
                       key={quiz.id}
                       quiz={quiz}
@@ -190,7 +190,7 @@ const RoomSideContent = ({
             )}
 
             {/* Assignments Section */}
-            {hasTasksEnabled && !!data.assignments?.length && (
+            {hasTasksEnabled && !!data?.assignments?.length && (
               <AccordionItem
                 value="assignments"
                 className={cn(
@@ -202,13 +202,13 @@ const RoomSideContent = ({
                   <div className="flex items-center gap-2">
                     <span>الواجبات</span>
                     <span className="text-primary-800 text-xs">
-                      ({data.assignments.length})
+                      ({data?.assignments.length})
                     </span>
                   </div>
                 </AccordionTrigger>
 
                 <AccordionContent className="space-y-2 pt-2 pb-2">
-                  {data.assignments.map((ass) => (
+                  {data?.assignments.map((ass) => (
                     <AssignmentCard
                       key={ass.id}
                       assignment={ass}
@@ -221,7 +221,7 @@ const RoomSideContent = ({
             )}
 
             {/* Attachments Section */}
-            {!!data.room.attachments?.length && (
+            {!!data?.room.attachments?.length && (
               <AccordionItem
                 value="attachments"
                 className={cn(
@@ -233,13 +233,13 @@ const RoomSideContent = ({
                   <div className="flex items-center gap-2">
                     <span>الملفات</span>
                     <span className="text-primary-800 text-xs">
-                      ({data.room.attachments.length})
+                      ({data?.room.attachments.length})
                     </span>
                   </div>
                 </AccordionTrigger>
 
                 <AccordionContent className="space-y-2 pt-2 pb-2">
-                  {data.room.attachments.map((attachment, index) => (
+                  {data?.room.attachments.map((attachment, index) => (
                     <AttachmentCard
                       key={attachment.url ?? `attachment-${index}`}
                       attachment={attachment}

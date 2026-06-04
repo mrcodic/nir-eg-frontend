@@ -28,7 +28,7 @@ export default function VideoBunny({
   videoCompleted,
   communityAvailable,
 }: VideoBunnyProps) {
-  const embedUrl = response?.embed_url?.replace("iframe", "player");
+  const embedUrl = response?.embed_url;
 
   const { iframeRef } = useBunnyPlayer({
     videoId,

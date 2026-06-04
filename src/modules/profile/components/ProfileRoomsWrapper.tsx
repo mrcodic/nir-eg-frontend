@@ -37,6 +37,8 @@ function ProfileRoomsWrapper() {
     return <LoadingSpinner />;
   }
 
+  console.log("latest rooms : ", rooms);
+
   return (
     <div className="mt-8">
       {rooms?.body?.length > 0 ? (
