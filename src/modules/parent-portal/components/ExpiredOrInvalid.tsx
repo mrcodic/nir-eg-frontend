@@ -1,6 +1,6 @@
 "use client";
 
-import { mutateClient } from "@/helpers/post-client";
+import { mutateClient } from "@/helpers/fetchers/post-client";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";

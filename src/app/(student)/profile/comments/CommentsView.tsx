@@ -1,10 +1,10 @@
 "use client";
 
+import CommentDetails from "@/components/modals/CommentDetails";
 import Empty from "@/components/shared/Empty";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
-import CommentDetails from "@/components/modals/CommentDetails";
 import PaginationComponent from "@/components/shared/Pagination";
-import { getClientPrivateData } from "@/helpers/client-fetch";
+import { getClientPrivateData } from "@/helpers/fetchers/client-fetch";
 import { cn } from "@/lib/utils";
 import Comment from "@/modules/community/components/Comment";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";

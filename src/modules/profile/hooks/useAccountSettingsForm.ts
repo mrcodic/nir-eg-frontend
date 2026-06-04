@@ -7,8 +7,8 @@ import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { useAuthContext } from "@/context/auth-context";
+import { mutateClient } from "@/helpers/fetchers/post-client";
 import { mapApiErrorsToForm } from "@/helpers/form-errors";
-import { mutateClient } from "@/helpers/post-client";
 import { buildProfileCompletionDefaults } from "@/helpers/profile-completion.helpers";
 import { sortDynamicProfileFields } from "@/helpers/profile-fields-order";
 import { useToast } from "@/hooks/use-toast";

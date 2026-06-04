@@ -35,8 +35,10 @@ src/
 │   └── ...                  # Other modules
 ├── context/                 # React Context + Zustand stores
 ├── helpers/                 # Utility functions
-│   ├── client-fetch.ts      # Client-side API calls
-│   ├── server-fetch.ts      # Server-side API calls
+│   ├── fetchers/            # API fetchers and request helpers
+│   │   ├── client-fetch.ts  # Client-side API calls
+│   │   ├── server-fetch.ts  # Server-side API calls
+│   │   └── ...              # Other fetch helpers
 │   └── ...                  # Other helpers
 ├── services/                # API service layer
 ├── hooks/                   # Custom React hooks
@@ -53,7 +55,7 @@ src/
 
 ```typescript
 // src/app/(student)/certificates/page.tsx
-import { getServerData } from '@/helpers/server-fetch';
+import { getServerData } from '@/helpers/fetchers/server-fetch';
 
 export default async function CertificatesPage() {
   // Server-side data fetching
@@ -115,7 +117,7 @@ export function CertificateCard({ certificate, className }: CertificateCardProps
 "use client";
 
 import { useQuery } from '@tanstack/react-query';
-import { getClientPrivateData } from '@/helpers/client-fetch';
+import { getClientPrivateData } from '@/helpers/fetchers/client-fetch';
 
 export function CoursesClient() {
   const { data, isLoading, error } = useQuery({
@@ -135,7 +137,7 @@ export function CoursesClient() {
 
 ```typescript
 // Server Component (default in app directory)
-import { getServerData } from '@/helpers/server-fetch';
+import { getServerData } from '@/helpers/fetchers/server-fetch';
 
 export default async function CoursesPage() {
   const data = await getServerData({
@@ -442,10 +444,10 @@ In `src/hooks/`:
 
 In `src/helpers/`:
 
-- `client-fetch.ts` - Client API calls
-- `server-fetch.ts` - Server API calls
-- `client-error-handler.ts` - Client error handling
-- `server-error-handler.ts` - Server error handling
+- `fetchers/client-fetch.ts` - Client API calls
+- `fetchers/server-fetch.ts` - Server API calls
+- `fetchers/client-error-handler.ts` - Client error handling
+- `fetchers/server-error-handler.ts` - Server error handling
 
 ### State Management
 

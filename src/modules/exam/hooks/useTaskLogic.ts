@@ -1,6 +1,6 @@
 import { useTaskContext } from "@/context/TaskProvider";
-import { getClientPrivateData } from "@/helpers/client-fetch";
-import { mutateClient } from "@/helpers/post-client";
+import { getClientPrivateData } from "@/helpers/fetchers/client-fetch";
+import { mutateClient } from "@/helpers/fetchers/post-client";
 import { useToast } from "@/hooks/use-toast";
 import { getTaskQuestions } from "@/services/task.service";
 import { useCallback, useEffect, useRef, useState } from "react";

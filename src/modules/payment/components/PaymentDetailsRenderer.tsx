@@ -1,6 +1,6 @@
 import PaymentBundlesForm from "@/components/forms/PaymentBundlesForm";
 import PaymentCenterCode from "@/components/forms/PaymentCenterCode";
-import { getServerData } from "@/helpers/server-fetch";
+import { getServerData } from "@/helpers/fetchers/server-fetch";
 import RoomPayment from "@/modules/payment/components/RoomPayment";
 
 export default async function PaymentDetailsRenderer({

@@ -1,4 +1,4 @@
-import { getClientData } from "@/helpers/client-fetch";
+import { getClientData } from "@/helpers/fetchers/client-fetch";
 
 import { useEffect, useMemo, useRef, useState } from "react";
 

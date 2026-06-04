@@ -1,4 +1,4 @@
-import { extractTenantFromHost } from "@/helpers/fetch-utils";
+import { extractTenantFromHost } from "@/helpers/fetchers/fetch-utils";
 
 export const getLocalStorage = (key) => {
   if (typeof window !== "undefined") {

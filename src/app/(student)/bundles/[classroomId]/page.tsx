@@ -1,5 +1,5 @@
 import { Animate } from "@/components/shared/Animate";
-import { getServerData } from "@/helpers/server-fetch";
+import { getServerData } from "@/helpers/fetchers/server-fetch";
 import ProtectedRoute from "@/layouts/ProtectedRoute";
 import CourseDetails from "@/modules/courses/components/CourseDetails";
 import CourseFloatingCards from "@/modules/courses/components/CourseFloatingCards";

@@ -5,7 +5,7 @@ import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import { Button } from "@/components/ui/button";
 import { useAuthContext } from "@/context/auth-context";
 import { useTenant } from "@/context/TenantProvider";
-import { getClientPrivateData } from "@/helpers/client-fetch";
+import { getClientPrivateData } from "@/helpers/fetchers/client-fetch";
 import RoomAccordion from "@/modules/rooms/components/RoomAccordion";
 import { ApiResponse, LatestRoom } from "@/types";
 import { useQuery } from "@tanstack/react-query";

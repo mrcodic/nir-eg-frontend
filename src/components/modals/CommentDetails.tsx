@@ -1,6 +1,6 @@
 "use client";
 
-import { getClientPrivateData } from "@/helpers/client-fetch";
+import { getClientPrivateData } from "@/helpers/fetchers/client-fetch";
 import { cn } from "@/lib/utils";
 import { Comment, IPagination } from "@/types";
 import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";

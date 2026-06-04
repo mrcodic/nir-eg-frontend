@@ -4,7 +4,7 @@ import CustomInput from "@/components/custom/customInput";
 import SmallSpinner from "@/components/custom/SmallSpinner";
 import { Form } from "@/components/ui/form";
 import { useAuthContext } from "@/context/auth-context";
-import { mutateClient } from "@/helpers/post-client";
+import { mutateClient } from "@/helpers/fetchers/post-client";
 import { useToast } from "@/hooks/use-toast";
 import { newPasswordSchema } from "@/lib/schemas";
 import { getLocalStorage } from "@/utils/clientFun";

@@ -1,7 +1,7 @@
 "use client";
 
 import Cookies from "js-cookie";
-import { getAuthFailureStrategy } from "./auth-policy";
+import { getAuthFailureStrategy } from "../auth-policy";
 
 function safeRedirect(path: string) {
   if (typeof window === "undefined") return;

@@ -1,7 +1,7 @@
 import {
   extractTenantFromHostServer,
   getClientIp,
-} from "@/helpers/server-utils";
+} from "@/helpers/fetchers/server-utils";
 import { getCookie } from "@/utils/api";
 import { NextResponse } from "next/server";
 

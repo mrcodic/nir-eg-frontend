@@ -1,4 +1,4 @@
-import { getServerData } from "@/helpers/server-fetch";
+import { getServerData } from "@/helpers/fetchers/server-fetch";
 import { getTenantSettingsServer } from "@/services/tenant.service";
 import { ApiResponse, IUser } from "@/types";
 import { redirect } from "next/navigation";

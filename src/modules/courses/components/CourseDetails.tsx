@@ -5,7 +5,10 @@ import InfiniteScroll from "@/components/shared/InfinteScroll";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTenant } from "@/context/TenantProvider";
-import { getClientData, getClientPrivateData } from "@/helpers/client-fetch";
+import {
+  getClientData,
+  getClientPrivateData,
+} from "@/helpers/fetchers/client-fetch";
 import ExamCard from "@/modules/exam/components/ExamCard";
 import RoomAccordion from "@/modules/rooms/components/RoomAccordion";
 import RoomHeader from "@/modules/rooms/components/RoomHeader";
@@ -171,7 +174,7 @@ const CourseDetails = ({ details, profile }: Props) => {
             }}
           ></InfiniteScroll>
         ) : (
-          <Empty text="لا يوجد محتوى بعد" />
+          <Empty text="لا يوجد حصص مضافة بعد" />
         )}
       </TabsContent>
 

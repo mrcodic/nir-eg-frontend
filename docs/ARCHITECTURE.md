@@ -61,7 +61,7 @@ graph LR
 **Server-side tenant extraction:**
 
 ```typescript
-// src/helpers/server-utils.ts
+// src/helpers/fetchers/server-utils.ts
 export async function extractTenantFromHostServer() {
   const headersList = await headers();
   const host = headersList.get("host") || "";
@@ -73,7 +73,7 @@ export async function extractTenantFromHostServer() {
 **Client-side tenant extraction:**
 
 ```typescript
-// src/helpers/fetch-utils.ts
+// src/helpers/fetchers/fetch-utils.ts
 export function extractTenantFromHost() {
   const host = window.location.host;
   const subdomain = host.split(".")[0];
@@ -136,8 +136,8 @@ export function CourseClient({ initialData }) {
 ```mermaid
 graph TB
     subgraph "Layer 1: Fetch Utilities"
-        ServerFetch[server-fetch.ts]
-        ClientFetch[client-fetch.ts]
+        ServerFetch[fetchers/server-fetch.ts]
+        ClientFetch[fetchers/client-fetch.ts]
     end
 
     subgraph "Layer 2: Services"
@@ -163,7 +163,7 @@ graph TB
 **Pattern:**
 
 ```typescript
-// src/helpers/server-fetch.ts
+// src/helpers/fetchers/server-fetch.ts
 import "server-only"; // Ensures server-only execution
 
 export async function fetchServer<T>({
@@ -207,7 +207,7 @@ export const getServerData = reactCache(
 **Pattern:**
 
 ```typescript
-// src/helpers/client-fetch.ts
+// src/helpers/fetchers/client-fetch.ts
 "use client";
 
 export async function fetchClient<T>({
@@ -282,7 +282,7 @@ src/modules/
 #### Server-Side Error Handling
 
 ```typescript
-// src/helpers/server-error-handler.ts
+// src/helpers/fetchers/server-error-handler.ts
 export function handleServerFetchError({ error, endpoint, host }) {
   if (error.status === 401) {
     redirect("/login");
@@ -300,7 +300,7 @@ export function handleServerFetchError({ error, endpoint, host }) {
 #### Client-Side Error Handling
 
 ```typescript
-// src/helpers/client-error-handler.ts
+// src/helpers/fetchers/client-error-handler.ts
 export function handleClientFetchError(error, endpoint) {
   if (error.status === 401) {
     window.location.href = "/login";
@@ -498,7 +498,7 @@ const nextConfig = {
 
 ```typescript
 import { Button } from "@/components/ui/button";
-import { getServerData } from "@/helpers/server-fetch";
+import { getServerData } from "@/helpers/fetchers/server-fetch";
 import { IUser } from "@/types";
 ```
 

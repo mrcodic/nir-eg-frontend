@@ -4,8 +4,8 @@ import "server-only";
 import CustomError from "@/lib/customError";
 import { FetchOptions, IGetDataOptions } from "@/types/helpers.types";
 import { cookies } from "next/headers";
+import reactCache from "../reactCache";
 import { buildApiUrl } from "./fetch-utils";
-import reactCache from "./reactCache";
 import { handleServerFetchError } from "./server-error-handler";
 import { extractTenantFromHostServer, getClientIp } from "./server-utils";
 

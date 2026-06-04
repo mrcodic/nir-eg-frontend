@@ -3,7 +3,7 @@
 import Empty from "@/components/shared/Empty";
 import InfiniteScroll from "@/components/shared/InfinteScroll";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
-import { getClientPrivateData } from "@/helpers/client-fetch";
+import { getClientPrivateData } from "@/helpers/fetchers/client-fetch";
 import { BooksOrder, CourseOrder } from "@/types";
 import { useEffect, useState } from "react";
 import BookOrderCard from "./BookOrderCard";

@@ -1,4 +1,4 @@
-import { getServerData } from "@/helpers/server-fetch";
+import { getServerData } from "@/helpers/fetchers/server-fetch";
 import RedirectToPortal from "./RedirectToPortal";
 
 type IRedirectData = {

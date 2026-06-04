@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { SimplePagination } from "@/components/ui/SimplePagination";
-import { getClientPrivateData } from "@/helpers/client-fetch";
+import { getClientPrivateData } from "@/helpers/fetchers/client-fetch";
 import { cn } from "@/lib/utils";
 import { NotificationsData } from "@/types";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";

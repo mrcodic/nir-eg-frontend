@@ -1,4 +1,7 @@
-import { buildApiUrl, extractTenantFromHost } from "@/helpers/fetch-utils";
+import {
+  buildApiUrl,
+  extractTenantFromHost,
+} from "@/helpers/fetchers/fetch-utils";
 import axios from "axios";
 import Cookies from "js-cookie";
 

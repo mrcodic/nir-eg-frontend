@@ -4,7 +4,7 @@ import Empty from "@/components/shared/Empty";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import PaginationComponent from "@/components/shared/Pagination";
 import { useCartStore } from "@/context/BooksStoreProvider";
-import { getClientData } from "@/helpers/client-fetch";
+import { getClientData } from "@/helpers/fetchers/client-fetch";
 import { cn } from "@/lib/utils";
 import RoomHeader from "@/modules/rooms/components/RoomHeader";
 import { IPagination } from "@/types";

@@ -86,7 +86,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 
-import { getClientPrivateData } from '@/helpers/client-fetch';
+import { getClientPrivateData } from '@/helpers/fetchers/client-fetch';
 import { cn } from '@/lib/utils';
 
 import type { Course } from '@/types';
@@ -176,7 +176,7 @@ import { CourseCard } from "@/components/CourseCard";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 
 // 4. Utilities and helpers
-import { getClientPrivateData } from "@/helpers/client-fetch";
+import { getClientPrivateData } from "@/helpers/fetchers/client-fetch";
 import { cn } from "@/lib/utils";
 
 // 5. Types

@@ -1,6 +1,9 @@
 "use client";
 
-import { getClientPrivateData, getClientData } from "@/helpers/client-fetch";
+import {
+  getClientData,
+  getClientPrivateData,
+} from "@/helpers/fetchers/client-fetch";
 import { useQuery } from "@tanstack/react-query";
 
 type ChildrenArgs = {

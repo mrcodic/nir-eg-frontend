@@ -1,4 +1,4 @@
-import { getClientData } from "@/helpers/client-fetch";
+import { getClientData } from "@/helpers/fetchers/client-fetch";
 import { useQuery } from "@tanstack/react-query";
 import { ComponentProps, memo, useMemo } from "react";
 import CustomSelect from "./customSelect";

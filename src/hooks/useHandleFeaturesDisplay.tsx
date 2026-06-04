@@ -1,5 +1,5 @@
 import { useModal } from "@/context/ModalProvider";
-import { getClientData } from "@/helpers/client-fetch";
+import { getClientData } from "@/helpers/fetchers/client-fetch";
 import dynamic from "next/dynamic";
 
 const NewFeaturesModal = dynamic(

@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { getClientPrivateData } from "@/helpers/client-fetch";
+import { getClientPrivateData } from "@/helpers/fetchers/client-fetch";
 import { cn } from "@/lib/utils";
 import { pdf } from "@react-pdf/renderer"; // Import pdf for blob generation
 import { useState } from "react";

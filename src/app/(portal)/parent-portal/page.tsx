@@ -1,4 +1,4 @@
-import { getServerData } from "@/helpers/server-fetch";
+import { getServerData } from "@/helpers/fetchers/server-fetch";
 import StudentSummary from "@/modules/parent-portal/components/StudentSummary";
 import type { Metadata } from "next";
 

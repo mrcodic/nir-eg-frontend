@@ -83,7 +83,7 @@ export function QueryProvider({ children }) {
 
 ```typescript
 import { useQuery } from '@tanstack/react-query';
-import { getClientPrivateData } from '@/helpers/client-fetch';
+import { getClientPrivateData } from '@/helpers/fetchers/client-fetch';
 
 export function CoursesPage() {
   const { data, isLoading, error, refetch } = useQuery({
@@ -374,7 +374,7 @@ export function CartButton() {
 
 import { createContext, useContext, useState, useCallback } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { getClientPrivateData } from '@/helpers/client-fetch';
+import { getClientPrivateData } from '@/helpers/fetchers/client-fetch';
 import Cookies from 'js-cookie';
 
 interface AuthContextType {

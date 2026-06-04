@@ -1,4 +1,4 @@
-import { getServerData } from "@/helpers/server-fetch";
+import { getServerData } from "@/helpers/fetchers/server-fetch";
 import { IFooterData } from "@/types/settings.types";
 
 const PrivacyPolicy = async () => {

@@ -1,6 +1,6 @@
 import { Animate } from "@/components/shared/Animate";
 import PaginationServer from "@/components/shared/PaginationServer";
-import { getServerData } from "@/helpers/server-fetch";
+import { getServerData } from "@/helpers/fetchers/server-fetch";
 import { cn } from "@/lib/utils";
 import RoomHeader from "@/modules/rooms/components/RoomHeader";
 import { Bundle, IUser } from "@/types";

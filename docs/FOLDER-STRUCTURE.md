@@ -338,13 +338,16 @@ nier-front/
     │   └── TenantProvider.tsx        # Tenant settings
     │
     ├── 📂 helpers/                   # 🛠️ UTILITY FUNCTIONS
-    │   ├── client-fetch.ts           # Client-side API calls
-    │   ├── client-error-handler.ts   # Client error handling
-    │   ├── server-fetch.ts           # Server-side API calls
-    │   ├── server-error-handler.ts   # Server error handling
-    │   ├── server-utils.ts           # Server utilities
+    │   ├── 📂 fetchers/              # API fetchers and request helpers
+    │   │   ├── client-fetch.ts       # Client-side API calls
+    │   │   ├── client-error-handler.ts # Client error handling
+    │   │   ├── fetch-utils.ts        # Shared fetch utilities
+    │   │   ├── post-client.ts        # Client-side mutations
+    │   │   ├── post-server.ts        # Server-side mutations
+    │   │   ├── server-fetch.ts       # Server-side API calls
+    │   │   ├── server-error-handler.ts # Server error handling
+    │   │   └── server-utils.ts       # Server utilities
     │   ├── tenant.helpers.ts         # Tenant utilities
-    │   ├── post-server.ts            # POST requests
     │   └── reactCache.ts             # React cache wrapper
     │
     ├── 📂 services/                  # 🔌 API SERVICE LAYER
@@ -432,6 +435,7 @@ React Context providers and Zustand stores for global state.
 ### `/src/helpers` - Utilities
 
 Helper functions for common tasks like API calls, error handling, and data transformation.
+Fetch-related helpers live under `src/helpers/fetchers/`.
 
 ### `/src/services` - API Layer
 
@@ -474,6 +478,7 @@ src/hooks/use[HookName].ts
 
 # Find a helper
 src/helpers/[helper-name].ts
+src/helpers/fetchers/[fetcher-name].ts
 
 # Find a type
 src/types/[types].ts

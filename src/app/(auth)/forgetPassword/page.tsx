@@ -4,7 +4,7 @@ import CustomPhoneInput from "@/components/custom/CustomPhoneInput";
 import SmallSpinner from "@/components/custom/SmallSpinner";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { mutateClient } from "@/helpers/post-client";
+import { mutateClient } from "@/helpers/fetchers/post-client";
 import { useToast } from "@/hooks/use-toast";
 import AuthHeader from "@/layouts/AuthHeader";
 import { handleOtpError } from "@/lib/handle-otp-error";
@@ -125,4 +125,3 @@ const ForgetPasswordPage = () => {
 };
 
 export default ForgetPasswordPage;
-

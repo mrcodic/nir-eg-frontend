@@ -1,4 +1,4 @@
-import { getServerData } from "@/helpers/server-fetch";
+import { getServerData } from "@/helpers/fetchers/server-fetch";
 import BundlesWrapper from "@/modules/bundles/components/BundlesWrapper";
 import BundlesWrapperSkeleton from "@/modules/bundles/components/BundlesWrapperSkeleton";
 import NewCourses from "@/modules/courses/components/NewCoursers";

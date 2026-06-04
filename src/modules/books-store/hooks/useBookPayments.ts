@@ -1,6 +1,6 @@
 import { useCartStore } from "@/context/BooksStoreProvider";
 import { useModal } from "@/context/ModalProvider";
-import { mutateClient } from "@/helpers/post-client";
+import { mutateClient } from "@/helpers/fetchers/post-client";
 import { useToast } from "@/hooks/use-toast";
 import usePaymentsTypesFiltered from "@/modules/payment/hooks/usePaymentsTypesFiltered";
 import { paymentType, PricingResponse } from "@/types";

@@ -124,7 +124,7 @@ nier-front/
 
 ```typescript
 // Server-side data fetching
-import { getServerData } from "@/helpers/server-fetch";
+import { getServerData } from "@/helpers/fetchers/server-fetch";
 
 const data = await getServerData({
   queryKey: ["/api/endpoint"],
@@ -133,7 +133,7 @@ const data = await getServerData({
 
 // Client-side data fetching with React Query
 import { useQuery } from "@tanstack/react-query";
-import { getClientPrivateData } from "@/helpers/client-fetch";
+import { getClientPrivateData } from "@/helpers/fetchers/client-fetch";
 
 const { data } = useQuery({
   queryKey: ["/api/endpoint"],
@@ -237,6 +237,6 @@ If you're an AI agent working with this codebase:
 
 ---
 
-**Last Updated**: 2026-02-04
+**Last Updated**: 2026-06-04
 **Next.js Version**: 15.5.9
 **Maintained by**: NIR Development Team

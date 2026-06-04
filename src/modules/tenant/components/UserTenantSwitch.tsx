@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
-import { extractTenantFromHost } from "@/helpers/fetch-utils";
+import { extractTenantFromHost } from "@/helpers/fetchers/fetch-utils";
 import {
   buildTargetOrigin,
   getSwitchTenantErrorMessage,

@@ -1,6 +1,6 @@
 "use client";
 
-import { getClientPrivateData } from "@/helpers/client-fetch";
+import { getClientPrivateData } from "@/helpers/fetchers/client-fetch";
 import CustomError from "@/lib/customError";
 import { quizSchema } from "@/lib/schemas";
 import { QuizStatus } from "@/types";

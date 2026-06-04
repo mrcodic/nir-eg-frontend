@@ -5,7 +5,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { getServerData } from "@/helpers/server-fetch";
+import { getServerData } from "@/helpers/fetchers/server-fetch";
 import { ChevronLeft } from "lucide-react";
 import CustomImage from "../ui/CustomImage";
 import PriceBubbles from "../ui/price-bubble";

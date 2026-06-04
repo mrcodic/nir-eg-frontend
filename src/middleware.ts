@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { extractTenantFromHostServer } from "./helpers/server-utils";
+import { extractTenantFromHostServer } from "./helpers/fetchers/server-utils";
 
 const PROTECTED_ROUTES = new Set([
   "/activities",

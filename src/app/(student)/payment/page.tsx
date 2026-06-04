@@ -1,4 +1,4 @@
-import { getServerData } from "@/helpers/server-fetch";
+import { getServerData } from "@/helpers/fetchers/server-fetch";
 import PayLabel from "@/modules/payment/components/PayLabel";
 import PaymentDetailsRenderer from "@/modules/payment/components/PaymentDetailsRenderer";
 

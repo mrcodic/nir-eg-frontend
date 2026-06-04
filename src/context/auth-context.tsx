@@ -1,6 +1,6 @@
 "use client";
 
-import { getClientPrivateData } from "@/helpers/client-fetch";
+import { getClientPrivateData } from "@/helpers/fetchers/client-fetch";
 import { IUser } from "@/types";
 import { deleteCookie } from "@/utils/api";
 import { useQuery } from "@tanstack/react-query";

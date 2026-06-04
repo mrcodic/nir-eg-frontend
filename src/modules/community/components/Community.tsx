@@ -6,7 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { getClientPrivateData } from "@/helpers/client-fetch";
+import { getClientPrivateData } from "@/helpers/fetchers/client-fetch";
 import { CommentsData } from "@/types";
 import { secondsToHms } from "@/utils/clientFun";
 import { AccordionContent } from "@radix-ui/react-accordion";

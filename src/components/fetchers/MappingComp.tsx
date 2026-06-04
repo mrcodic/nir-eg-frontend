@@ -1,15 +1,18 @@
 "use client";
 
+import Empty from "@/components/shared/Empty";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import { useAuthContext } from "@/context/auth-context";
-import { getClientPrivateData, getClientData } from "@/helpers/client-fetch";
+import {
+  getClientData,
+  getClientPrivateData,
+} from "@/helpers/fetchers/client-fetch";
 import {
   QueryKey,
   UndefinedInitialDataOptions,
   useQuery,
 } from "@tanstack/react-query";
 import { ComponentProps, ReactNode } from "react";
-import Empty from "@/components/shared/Empty";
-import LoadingSpinner from "@/components/shared/LoadingSpinner";
 
 type Props = {
   queryKey: string | QueryKey;

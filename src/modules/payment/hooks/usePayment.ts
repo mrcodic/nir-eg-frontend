@@ -1,6 +1,6 @@
 import { useAuthContext } from "@/context/auth-context";
 import { useModal } from "@/context/ModalProvider";
-import { mutateClient } from "@/helpers/post-client";
+import { mutateClient } from "@/helpers/fetchers/post-client";
 import { useToast } from "@/hooks/use-toast";
 import { paymentType, PricingResponse } from "@/types";
 import { redirectUrl } from "@/utils/clientFun";

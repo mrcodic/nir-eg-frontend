@@ -1,6 +1,6 @@
 "use client";
 
-import { getClientPrivateData } from "@/helpers/client-fetch";
+import { getClientPrivateData } from "@/helpers/fetchers/client-fetch";
 import { cn } from "@/lib/utils";
 import { IActivity, InnerPagination } from "@/types";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";

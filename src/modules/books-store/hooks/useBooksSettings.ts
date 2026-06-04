@@ -1,7 +1,7 @@
 // hooks/useBooksSettings.ts
-import { useQuery } from "@tanstack/react-query";
-import { getClientData } from "@/helpers/client-fetch";
+import { getClientData } from "@/helpers/fetchers/client-fetch";
 import { BookLinksSettings } from "@/types/books.types";
+import { useQuery } from "@tanstack/react-query";
 
 export function useBooksSettings() {
   const { data } = useQuery<{ data: BookLinksSettings }>({

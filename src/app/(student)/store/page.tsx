@@ -1,7 +1,7 @@
 import MappingFun from "@/components/fetchers/MappingFunc";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { getServerData } from "@/helpers/server-fetch";
+import { getServerData } from "@/helpers/fetchers/server-fetch";
 import PointsStoreCard from "@/modules/points-store/components/PointsStoreCard";
 import StudentPointsCard from "@/modules/profile/components/StudentPointsCard";
 import { IUser } from "@/types";

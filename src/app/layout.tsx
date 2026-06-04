@@ -10,7 +10,7 @@ import Announcement from "@/components/banners/Announcement";
 import UserModalsWrapper from "@/components/shared/UserModalsWrapper";
 import { TENANT_ERROR_CODES } from "@/constants/error-codes";
 import { TenantProvider } from "@/context/TenantProvider";
-import { getServerData } from "@/helpers/server-fetch";
+import { getServerData } from "@/helpers/fetchers/server-fetch";
 import { hexToHsl } from "@/helpers/tenant.helpers";
 import CustomError from "@/lib/customError";
 import { getTenantSettingsServer } from "@/services/tenant.service";

@@ -1,7 +1,7 @@
 "use client";
 
-import { getClientPrivateData } from "@/helpers/client-fetch";
-import { mutateClient } from "@/helpers/post-client";
+import { getClientPrivateData } from "@/helpers/fetchers/client-fetch";
+import { mutateClient } from "@/helpers/fetchers/post-client";
 import { TaskAnswerResponse, TaskQuestionsResponse } from "@/types/quiz.types";
 
 export async function getTaskQuestions(quizId: string | number) {

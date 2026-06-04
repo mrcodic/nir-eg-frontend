@@ -1,6 +1,6 @@
 import { useAuthContext } from "@/context/auth-context";
 import { useTenant } from "@/context/TenantProvider";
-import { getClientPrivateData } from "@/helpers/client-fetch";
+import { getClientPrivateData } from "@/helpers/fetchers/client-fetch";
 import { Coupon } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 

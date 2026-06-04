@@ -1,13 +1,16 @@
-import { buildApiUrl, extractTenantFromHost } from "@/helpers/fetch-utils";
+import {
+  buildApiUrl,
+  extractTenantFromHost,
+} from "@/helpers/fetchers/fetch-utils";
 import {
   AuthApiResponse,
   JoinPrefillResponse,
   LoginResponse,
   OtpSendResponse,
-  StudentProfileSettingsResponse,
   OtpVerifyResponse,
   StudentProfileCompletePayload,
   StudentProfileFieldsResponse,
+  StudentProfileSettingsResponse,
 } from "@/types/auth.types";
 import axios, { Method } from "axios";
 import Cookies from "js-cookie";

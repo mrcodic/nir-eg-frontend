@@ -1,6 +1,6 @@
 import BooksStoreItems from "@/modules/books-store/components/BooksStoreItems";
 
-import { getServerData } from "@/helpers/server-fetch";
+import { getServerData } from "@/helpers/fetchers/server-fetch";
 import { Book } from "@/types/books.types";
 import BookDetailsCard from "./BookDetailsCard";
 

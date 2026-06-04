@@ -1,6 +1,6 @@
-import { mutateClient } from "@/helpers/post-client";
-import { useMutation } from "@tanstack/react-query";
+import { mutateClient } from "@/helpers/fetchers/post-client";
 import { SwitchTenantResponse } from "@/types/tenant.types";
+import { useMutation } from "@tanstack/react-query";
 
 export default function useSwitchTenant() {
   return useMutation({

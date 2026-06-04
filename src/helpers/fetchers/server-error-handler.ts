@@ -1,8 +1,8 @@
 // helpers/server-error-handler.ts
 import CustomError from "@/lib/customError";
 import "server-only";
-import { getAuthFailureStrategy } from "./auth-policy";
-import { safeRedirectServer } from "./safe-redirect-server";
+import { getAuthFailureStrategy } from "../auth-policy";
+import { safeRedirectServer } from "../safe-redirect-server";
 
 export async function handleServerFetchError({
   error,

@@ -1,4 +1,4 @@
-import { getClientPrivateData } from "@/helpers/client-fetch";
+import { getClientPrivateData } from "@/helpers/fetchers/client-fetch";
 import { UserTenant } from "@/types/tenant.types";
 import { useQuery } from "@tanstack/react-query";
 

@@ -4,7 +4,7 @@ import {
   paymentTypesOnline,
 } from "@/constants";
 import { useAuthContext } from "@/context/auth-context";
-import { getClientPrivateData } from "@/helpers/client-fetch";
+import { getClientPrivateData } from "@/helpers/fetchers/client-fetch";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 

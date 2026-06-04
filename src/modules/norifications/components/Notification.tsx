@@ -1,10 +1,10 @@
-import { mutateClient } from "@/helpers/post-client";
+import { mutateClient } from "@/helpers/fetchers/post-client";
+import { cn } from "@/lib/utils";
 import { INotification } from "@/types";
 import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 import { formatTime, getHref, getTitle } from "../helpers";
-import { cn } from "@/lib/utils";
 
 const Notification = ({
   notification,

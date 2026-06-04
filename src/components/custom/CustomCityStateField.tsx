@@ -1,6 +1,6 @@
 "use client";
 
-import { getClientData } from "@/helpers/client-fetch";
+import { getClientData } from "@/helpers/fetchers/client-fetch";
 import { useQuery } from "@tanstack/react-query";
 import { memo, useCallback, useMemo, useState } from "react";
 import { UseFormReturn, useWatch } from "react-hook-form";

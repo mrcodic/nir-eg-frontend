@@ -1,13 +1,13 @@
 "use client";
 
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { createColumnHelper } from "@tanstack/react-table";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { createColumnHelper } from "@tanstack/react-table";
 
 import CustomTableUI from "@/components/tables/CustomTableUI";
-import { getClientPrivateData } from "@/helpers/client-fetch";
+import { getClientPrivateData } from "@/helpers/fetchers/client-fetch";
 import type { IPagination, LessonVideoType } from "@/types";
 
 type IPointTypes = "درس" | "كورس" | "حصة" | "واجب" | "امتحان" | "كويز";
@@ -165,4 +165,3 @@ function ProfilePointsTable() {
 }
 
 export default ProfilePointsTable;
-

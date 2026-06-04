@@ -1,6 +1,6 @@
 "use client";
 
-import { mutateClient } from "@/helpers/post-client";
+import { mutateClient } from "@/helpers/fetchers/post-client";
 import { paymentType } from "@/types";
 import { redirectUrl } from "@/utils/clientFun";
 import { useRouter, useSearchParams } from "next/navigation";

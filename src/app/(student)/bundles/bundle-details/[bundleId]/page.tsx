@@ -1,7 +1,7 @@
 import PriceBubbles from "@/components/ui/price-bubble";
 import RemainingDuration from "@/components/ui/RemainingDuration";
 import StyledText from "@/components/ui/StyledText";
-import { getServerData } from "@/helpers/server-fetch";
+import { getServerData } from "@/helpers/fetchers/server-fetch";
 import { formatCurrency } from "@/lib/utils";
 import BundleDetailsCard from "@/modules/bundles/components/BundleDetailsCard";
 import BundlePurchaseButton from "@/modules/bundles/components/BundlePurchaseButton";

@@ -1,6 +1,6 @@
 import { Animate } from "@/components/shared/Animate";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
-import { getServerData } from "@/helpers/server-fetch";
+import { getServerData } from "@/helpers/fetchers/server-fetch";
 import ProfileHeaderCard from "@/modules/profile/components/ProfileHeaderCard";
 import ProfileRoomsWrapper from "@/modules/profile/components/ProfileRoomsWrapper";
 import RoomHeader from "@/modules/rooms/components/RoomHeader";

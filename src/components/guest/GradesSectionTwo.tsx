@@ -1,4 +1,4 @@
-import { getServerData } from "@/helpers/server-fetch";
+import { getServerData } from "@/helpers/fetchers/server-fetch";
 import { Grade } from "@/types";
 import Link from "next/link";
 import CustomImage from "../ui/CustomImage";

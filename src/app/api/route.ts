@@ -1,6 +1,6 @@
 // app/api/register/route.ts
-import { buildApiUrl } from "@/helpers/fetch-utils";
-import { extractTenantFromHostServer } from "@/helpers/server-utils";
+import { buildApiUrl } from "@/helpers/fetchers/fetch-utils";
+import { extractTenantFromHostServer } from "@/helpers/fetchers/server-utils";
 import { getCookie } from "@/utils/api";
 import axios from "axios";
 import { revalidatePath } from "next/cache";

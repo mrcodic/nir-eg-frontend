@@ -1,4 +1,4 @@
-import { mutateClient } from "@/helpers/post-client";
+import { mutateClient } from "@/helpers/fetchers/post-client";
 import { QueryClient } from "@tanstack/react-query";
 
 // ── View logging ─────────────────────────────────────────────────────────────

@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/error-boundaries */
 import Empty from "@/components/shared/Empty";
-import { getServerData } from "@/helpers/server-fetch";
+import { getServerData } from "@/helpers/fetchers/server-fetch";
 import { IGetDataOptions } from "@/types/helpers.types";
 import get from "lodash/get";
 import { isDynamicServerError } from "next/dist/client/components/hooks-server-context";

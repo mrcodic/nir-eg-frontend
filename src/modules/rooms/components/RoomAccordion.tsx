@@ -9,7 +9,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Button } from "@/components/ui/button";
 import { useModal } from "@/context/ModalProvider";
 import PriceBadge from "@/modules/payment/components/PriceBadge";
 import LessonRoomCard from "@/modules/rooms/components/LessonRoomCard";
@@ -125,11 +124,12 @@ const RoomAccordion = ({
                   {isSubscribed && (
                     <Link
                       href={`/bundles/${classroomId}/${room?.id}`}
+                      className="bg-primary-800 hover:bg-primary-800/80 flex h-8 cursor-pointer items-center justify-center rounded-lg px-4 text-sm text-white"
                       onClick={(e) => {
                         e.stopPropagation();
                       }}
                     >
-                      <Button className="h-8 rounded-lg">تفاصيل الحصة</Button>
+                      تفاصيل الحصة
                     </Link>
                   )}
 

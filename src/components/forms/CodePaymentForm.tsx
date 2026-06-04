@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuthContext } from "@/context/auth-context";
-import { mutateClient } from "@/helpers/post-client";
+import { mutateClient } from "@/helpers/fetchers/post-client";
 import { useToast } from "@/hooks/use-toast";
 import PaymentWhatsappLink from "@/modules/payment/components/PaymentWhatsappLink";
 import { zodResolver } from "@hookform/resolvers/zod";

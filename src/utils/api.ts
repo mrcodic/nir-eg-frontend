@@ -1,6 +1,6 @@
 "use server";
 
-import { mutateServer } from "@/helpers/post-server";
+import { mutateServer } from "@/helpers/fetchers/post-server";
 import { cookies, headers } from "next/headers";
 // import "nprogress/nprogress.css";
 
