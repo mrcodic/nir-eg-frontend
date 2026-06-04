@@ -70,38 +70,29 @@ const Community = ({ lessonId, locked, isYoutubeVideo }: CommunityProps) => {
   return (
     <div className="mt-6">
       {!locked && (
-        <div className="flex flex-col gap-2">
-          {!isYoutubeVideo && (
-            <div className="ms-[68px] hidden flex-wrap gap-2 md:flex">
-              <p className="text-gray-dark text-xs font-medium">
-                سيتم كتابة ملاحظاتك في الدقيقة
-              </p>
-              <p className="text-xs font-bold text-[#523412]">
-                {secondsToHms(currentTime)}
-              </p>
-            </div>
-          )}
+        <div className="flex grow flex-col gap-2 self-stretch">
+          <p className="hidden flex-wrap justify-between gap-2 pe-[136px] text-base font-medium text-black md:ms-[132px] md:flex">
+            سيتم كتابة ملاحظاتك في الدقيقة{" "}
+            <span className="text-base font-bold text-black">
+              {secondsToHms(currentTime)}
+            </span>
+          </p>
 
-          <div className="flex items-start gap-x-6 gap-y-2 max-sm:flex-wrap">
-            <div className="flex h-full grow flex-col gap-2 self-stretch">
-              <div className="flex flex-wrap gap-2 md:hidden">
-                <p className="text-gray-dark text-xs font-medium">
-                  سيتم كتابة ملاحظاتك في الدقيقة
-                </p>
-                <p className="text-xs font-bold text-[#523412]">
+          <MessageInput
+            id="community-input"
+            avatar={comments?.avatar}
+            lessonId={lessonId}
+            currentTime={currentTime}
+            className="grow"
+            renderDescription={() => (
+              <p className="flex flex-wrap justify-between gap-2 pe-[72px] text-base font-medium text-black sm:pe-[136px] md:ms-[132px] md:hidden">
+                سيتم كتابة ملاحظاتك في الدقيقة{" "}
+                <span className="text-base font-bold text-black">
                   {secondsToHms(currentTime)}
-                </p>
-              </div>
-
-              <MessageInput
-                id="community-input"
-                avatar={comments?.avatar}
-                lessonId={lessonId}
-                currentTime={currentTime}
-                className="grow"
-              />
-            </div>
-          </div>
+                </span>
+              </p>
+            )}
+          />
         </div>
       )}
 

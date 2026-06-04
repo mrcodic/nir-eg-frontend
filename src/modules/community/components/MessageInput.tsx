@@ -20,6 +20,7 @@ type MessageInputProps = {
   placeholder?: string;
   id?: string;
   avatar?: string;
+  renderDescription?: () => React.ReactNode;
 };
 
 const MessageInput = ({
@@ -31,6 +32,7 @@ const MessageInput = ({
   placeholder,
   id,
   avatar,
+  renderDescription,
 }: MessageInputProps) => {
   const [text, setText] = useState("");
   const [files, setFiles] = useState([]);
@@ -124,6 +126,8 @@ const MessageInput = ({
               toggleRecorder={(val) => setIsRecorder(val)}
             />
           </div>
+
+          {renderDescription?.()}
 
           {/* {!isRecorder && ( */}
           <div className="flex w-full items-center gap-2">
