@@ -44,7 +44,7 @@ const LockedToPassCard = () => {
         className="size-7"
         alt="warning"
       />
-      <p className="text-sm font-bold">
+      <p className="text-sm font-bold whitespace-break-spaces">
         يجب أن تنجح في الكويز لتتمكن من عرض محتويات الحصة
       </p>
     </div>

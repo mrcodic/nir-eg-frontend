@@ -29,7 +29,7 @@ export default function RoomDetailsHeader({
   return (
     <div className="bg-primary-radial relative">
       <div
-        className="bg-primary-800 absolute inset-0 z-1"
+        className="bg-primary-800/50 absolute inset-0 z-1"
         style={{
           maskImage: "url(/assets/bg/bg.png)",
           maskRepeat: "no-repeat",
@@ -100,7 +100,7 @@ export default function RoomDetailsHeader({
           </div>
         </div>
 
-        <div className="mt-12 flex flex-wrap items-center justify-between gap-4">
+        <div className="mt-12 flex flex-wrap-reverse items-center justify-between gap-4">
           <div className="flex items-center gap-6">
             <CustomImage
               src={room?.thumbnail}
@@ -110,13 +110,13 @@ export default function RoomDetailsHeader({
               alt={room?.title}
               className="size-18 rounded-xl"
             />
-            <h1 className="text-2xl font-bold text-white">
+            <h1 className="line-clamp-1 text-base font-bold text-white md:text-2xl">
               {room?.title || "--"}
             </h1>
           </div>
 
           {data?.is_subscriped || (!isRoomPurchasable && isRoomPurchased) ? (
-            <SubbedBadge />
+            <SubbedBadge className="ms-auto" />
           ) : null}
         </div>
 

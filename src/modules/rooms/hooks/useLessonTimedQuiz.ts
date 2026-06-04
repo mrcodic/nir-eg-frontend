@@ -40,6 +40,7 @@ export function useLessonTimedQuiz(lessonData: ILesson) {
   const { toast } = useToast();
   const params = useParams();
   const queryClient = useQueryClient();
+
   const { currentTime, isPlaying, pause } = useVideoPlayerStore();
 
   const form = useForm<TimedQuizFormValues>({
@@ -247,8 +248,12 @@ export function useLessonTimedQuiz(lessonData: ILesson) {
 
     const dueQuiz = availableQuizzes.find((quiz) => {
       if (handledQuizIds.includes(quiz.id)) return false;
+      // if quiz time is 0 , then show it from 1st second
       const triggerSecond = quiz.time === 0 ? 1 : quiz.time * 60;
-      return previousSecond < triggerSecond && currentSecond >= triggerSecond;
+      // if quiz time is 1 , then show it from minute one till 1:59
+      const triggerCap = (quiz.time + 1) * 60 - 1;
+
+      return currentSecond <= triggerCap && currentSecond >= triggerSecond;
     });
     if (!dueQuiz) return;
     pause?.();

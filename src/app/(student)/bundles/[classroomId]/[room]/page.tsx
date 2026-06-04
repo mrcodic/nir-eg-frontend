@@ -90,7 +90,7 @@ export default function RoomDetailsPage() {
                 >
                   <AccordionTrigger className="py-0 hover:no-underline">
                     <RoomHeader
-                      title="الامتحانات والواجبات"
+                      title="الكويزات والواجبات"
                       icon="/assets/assignment-colored.svg"
                       className="mb-0"
                     />
@@ -98,7 +98,7 @@ export default function RoomDetailsPage() {
 
                   <AccordionContent className="pt-4 pb-0">
                     {!quizzes.length && !assignments.length ? (
-                      <Empty text="لا توجد امتحانات" className="py-2" />
+                      <Empty text="لا يوجد كويزات او واجبات" className="py-2" />
                     ) : (
                       <div className="space-y-3">
                         {quizzes.map((quiz) => (
