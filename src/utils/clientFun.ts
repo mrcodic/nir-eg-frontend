@@ -54,7 +54,7 @@ export function redirectUrl({
   let url = "";
 
   if (bundleId) {
-    url = `${redirectUrl}/bundles`;
+    url = `${redirectUrl}/bundles/bundle-details/${bundleId}`;
   } else if (courseId) {
     url = `${redirectUrl}/bundles/${courseId}`;
   } else if (bookId) {

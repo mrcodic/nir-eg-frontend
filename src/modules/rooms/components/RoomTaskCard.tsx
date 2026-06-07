@@ -71,6 +71,7 @@ function RoomTaskCard({
             pending={task?.pending}
             type={type === "assignment" ? "واجب" : "كويز"}
             badgeClassName="border"
+            className="min-w-0"
           />
         )}
       </div>
