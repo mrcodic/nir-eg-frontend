@@ -28,7 +28,7 @@ function RecentTenantCard({
 }) {
   return (
     <Card className="border-gray-light/70 bg-white shadow-sm">
-      <CardContent className="flex items-center gap-4 p-4">
+      <CardContent className="flex flex-wrap items-center gap-4 p-4">
         <div className="flex size-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl border bg-white">
           {tenant.logo ? (
             <Image
@@ -169,7 +169,7 @@ export default function DesktopTenantEntry() {
       </div>
 
       <div className="space-y-4">
-        <div className="flex items-center justify-between gap-3">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2 text-slate-700">
             <Clock3 className="size-4" />
             <h2 className="text-base font-bold">المنصات الأخيرة</h2>
