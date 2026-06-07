@@ -15,6 +15,7 @@ import CustomImage from "../ui/CustomImage";
 import LinkStyled from "./LinkStyled";
 import MobileDropDown from "./MobileDropDown";
 import NavUserMenu from "./NavUserMenu";
+import SwitchTenantButton from "./SwitchTenantButton";
 
 const NavCartButton = dynamic(
   () => import("@/modules/books-store/components/NavCartButton"),
@@ -113,6 +114,12 @@ const AuthNavBar = ({ profile }: { profile: IUser }) => {
             {pathname.startsWith("/books") &&
               !!features?.book_store &&
               !!shouldShowCart && <NavCartButton />}
+
+            <SwitchTenantButton
+              logoutOnSwitch
+              className="mobile:inline-flex hidden h-10 rounded-lg px-4"
+              label="منصة أخرى"
+            />
 
             <UserTenantSwitch />
 

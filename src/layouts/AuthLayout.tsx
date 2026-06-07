@@ -9,7 +9,13 @@ import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 
 // ─── Root Layout ──────────────────────────────────────────────────────────────
 
-const AuthLayout = ({ children }: { children: ReactNode }) => {
+const AuthLayout = ({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) => {
   return (
     <GoogleReCaptchaProvider
       reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
@@ -23,6 +29,7 @@ const AuthLayout = ({ children }: { children: ReactNode }) => {
         className={cn(
           "group mt-20 flex h-full min-h-[calc(100%-80px)] grow flex-wrap overflow-hidden",
           "group-data-[template=landing-v3]/template:mt-0 lg:items-start",
+          className,
         )}
       >
         <AuthImageSection />

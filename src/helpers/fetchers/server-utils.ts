@@ -1,10 +1,17 @@
-import { headers } from "next/headers";
+import {
+  SELECTED_TENANT_DOMAIN_TYPE_COOKIE,
+  SELECTED_TENANT_HOST_COOKIE,
+  SELECTED_TENANT_SLUG_COOKIE,
+} from "@/constants/tenant-session";
+import { cookies, headers } from "next/headers";
 import { cache } from "react";
+import {
+  extractStandardTenantSlug,
+  isRootHost,
+  normalizeHost,
+  RESOLVE_TENANT_API,
+} from "./tenant-resolution";
 
-// ---------------------------------------------------------------------------
-// Reads the real visitor IP from Next.js incoming request headers.
-// x-forwarded-for can be a comma-chain when behind multiple proxies —
-// the first entry is always the original client.
 export const getClientIp = cache(async (): Promise<string | null> => {
   const h = await headers();
 
@@ -20,54 +27,63 @@ export const getClientIp = cache(async (): Promise<string | null> => {
   return ip;
 });
 
-const NIR_ROOT_DOMAIN =
-  process.env.NODE_ENV === "production"
-    ? (process.env.NEXT_PUBLIC_ROOT_DOMAIN ?? "nir-edu.com")
-    : (process.env.NEXT_PUBLIC_DEV_DOMAIN ?? "localhost").replace(/:\d+$/, "");
-
-// Use the main admin domain — resolve-tenant is a public central endpoint
-const RESOLVE_TENANT_API =
-  "https://admin.nir-edu.com/api/v1/central/resolve-tenant";
-
 export async function extractTenantFromHostServer() {
   const host = (await headers()).get("host") ?? "";
   const cleanHost = host.replace(/:\d+$/, "");
 
-  // Standard nir-edu.com subdomain — extract slug directly, no API call needed
-  if (cleanHost.endsWith(NIR_ROOT_DOMAIN)) {
-    const [subdomain] = cleanHost.split(".");
+  const subdomain = extractStandardTenantSlug(cleanHost);
+  if (subdomain) {
     return {
       subdomain,
-      host: cleanHost.endsWith(NIR_ROOT_DOMAIN) ? host : cleanHost,
+      host,
     };
   }
 
-  // Custom domain — resolve slug via central API
-  try {
-    const url = `${RESOLVE_TENANT_API}?host=${encodeURIComponent(cleanHost)}`;
+  if (!isRootHost(cleanHost)) {
+    try {
+      const url = `${RESOLVE_TENANT_API}?host=${encodeURIComponent(cleanHost)}`;
+      const clientIp = await getClientIp();
 
-    const clientIp = await getClientIp();
+      const res = await fetch(url, {
+        headers: {
+          Accept: "application/json",
+          ...(clientIp
+            ? {
+                "X-Forwarded-For": clientIp,
+                "X-Real-IP": clientIp,
+              }
+            : {}),
+        },
+        cache: "no-store",
+      });
 
-    const res = await fetch(url, {
-      headers: {
-        Accept: "application/json",
-        ...(clientIp
-          ? {
-              "X-Forwarded-For": clientIp,
-              "X-Real-IP": clientIp,
-            }
-          : {}),
-      },
-      cache: "no-store",
-    });
+      if (!res.ok) {
+        return { subdomain: null, host: cleanHost };
+      }
 
-    if (!res.ok) {
+      const data = await res.json();
+      return { subdomain: data?.slug ?? null, host: cleanHost };
+    } catch {
       return { subdomain: null, host: cleanHost };
     }
-
-    const data = await res.json();
-    return { subdomain: data?.slug ?? null, host: cleanHost };
-  } catch {
-    return { subdomain: null, host: cleanHost };
   }
+
+  const cookieStore = await cookies();
+  const selectedSlug = cookieStore.get(SELECTED_TENANT_SLUG_COOKIE)?.value;
+  const selectedHost = cookieStore.get(SELECTED_TENANT_HOST_COOKIE)?.value;
+  const selectedDomainType = cookieStore.get(
+    SELECTED_TENANT_DOMAIN_TYPE_COOKIE,
+  )?.value;
+
+  if (selectedSlug) {
+    return {
+      subdomain: selectedSlug,
+      host:
+        selectedDomainType === "domain"
+          ? normalizeHost(selectedHost || cleanHost)
+          : selectedHost || host,
+    };
+  }
+
+  return { subdomain: null, host: cleanHost };
 }

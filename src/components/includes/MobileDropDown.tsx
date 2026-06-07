@@ -16,6 +16,7 @@ import { useCallback } from "react";
 import { StudentSelectCenterModal } from "../modals/StudentSelectCenterModal";
 import { useAuthContext } from "@/context/auth-context";
 import { useState } from "react";
+import SwitchTenantButton from "./SwitchTenantButton";
 
 function MobileDropDown({ studentLinks }) {
   const { profile } = useAuthContext();
@@ -77,6 +78,12 @@ function MobileDropDown({ studentLinks }) {
               <DropdownMenuItem>{studentLink.title}</DropdownMenuItem>
             </Link>
           ))}
+
+          <SwitchTenantButton
+            logoutOnSwitch
+            className="mt-4 h-11 w-full rounded-[10px]"
+            label="اختيار منصة أخرى"
+          />
         </div>
       </DropdownMenuContent>
     </DropdownMenu>

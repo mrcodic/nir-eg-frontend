@@ -11,6 +11,7 @@ const PROTECTED_ROUTES = new Set([
 ]);
 
 const AUTH_ROUTES = new Set(["/login", "/register"]);
+const DESKTOP_BOOTSTRAP_PREFIX = "/desktop";
 
 function isRouteMatch(pathname: string, routes: Set<string>) {
   return [...routes].some(
@@ -18,8 +19,15 @@ function isRouteMatch(pathname: string, routes: Set<string>) {
   );
 }
 
+function isDesktopBootstrapPath(pathname: string) {
+  return (
+    pathname === DESKTOP_BOOTSTRAP_PREFIX ||
+    pathname.startsWith(`${DESKTOP_BOOTSTRAP_PREFIX}/`)
+  );
+}
+
 export async function middleware(request: NextRequest) {
-  const pathname = request.nextUrl.pathname.replace(/\/$/, "");
+  const pathname = request.nextUrl.pathname.replace(/\/$/, "") || "/";
 
   if (
     pathname.startsWith("/_next") ||
@@ -29,27 +37,34 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-pathname", request.nextUrl.pathname);
+
+  if (!isDesktopBootstrapPath(pathname)) {
+    const { subdomain } = await extractTenantFromHostServer();
+    if (!subdomain) {
+      const desktopUrl = new URL("/desktop", request.url);
+      return NextResponse.redirect(desktopUrl, {
+        request: { headers: requestHeaders },
+      });
+    }
+  }
+
   const token = request.cookies.get("nir_token")?.value;
   const isProtected = isRouteMatch(pathname, PROTECTED_ROUTES);
 
   if (isProtected && !token) {
-    const { host } = await extractTenantFromHostServer();
-    const res = new NextResponse(null, { status: 307 });
-    res.headers.set("Location", `${host}/login`);
-    return res;
+    return NextResponse.redirect(new URL("/login", request.url), {
+      request: { headers: requestHeaders },
+    });
   }
 
   const isAuthRoute = isRouteMatch(pathname, AUTH_ROUTES);
-
   if (isAuthRoute && token) {
-    const { host } = await extractTenantFromHostServer();
-    const res = new NextResponse(null, { status: 307 });
-    res.headers.set("Location", `${host}/`);
-    return res;
+    return NextResponse.redirect(new URL("/", request.url), {
+      request: { headers: requestHeaders },
+    });
   }
-
-  const requestHeaders = new Headers(request.headers);
-  requestHeaders.set("x-pathname", request.nextUrl.pathname);
 
   return NextResponse.next({ request: { headers: requestHeaders } });
 }

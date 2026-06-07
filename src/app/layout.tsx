@@ -1,13 +1,11 @@
 import "./globals.css";
 
+import Announcement from "@/components/banners/Announcement";
 import NavTopbar from "@/components/custom/NavTopbar";
 import Footer from "@/components/includes/Footer";
 import NavbarWrapper from "@/components/includes/NavbarWrapper";
-import { Toaster } from "@/components/ui/toaster";
-import Providers from "./providers";
-
-import Announcement from "@/components/banners/Announcement";
 import UserModalsWrapper from "@/components/shared/UserModalsWrapper";
+import { Toaster } from "@/components/ui/toaster";
 import { TENANT_ERROR_CODES } from "@/constants/error-codes";
 import { TenantProvider } from "@/context/TenantProvider";
 import { getServerData } from "@/helpers/fetchers/server-fetch";
@@ -15,6 +13,7 @@ import { hexToHsl } from "@/helpers/tenant.helpers";
 import CustomError from "@/lib/customError";
 import { getTenantSettingsServer } from "@/services/tenant.service";
 import { ApiResponse, IUser } from "@/types";
+import { headers } from "next/headers";
 import { Metadata } from "next";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { Almarai } from "next/font/google";
@@ -22,7 +21,9 @@ import Script from "next/script";
 import { Suspense } from "react";
 import CustomGlobalError from "./CustomGlobalError";
 import NotFoundTenant from "./NotFoundTenant";
+import Providers from "./providers";
 import SuspendedTenant from "./SuspendedTenant";
+import QueryProvider from "@/layouts/QueryProvider";
 
 const almarai = Almarai({
   subsets: ["arabic"],
@@ -31,8 +32,41 @@ const almarai = Almarai({
 
 const isProd = process.env.NODE_ENV === "production";
 const devDomain = process.env.NEXT_PUBLIC_DEV_DOMAIN ?? "localhost:3000";
+const DESKTOP_ROUTE_PREFIX = "/desktop";
+
+function isDesktopBootstrapPath(pathname: string) {
+  return pathname === DESKTOP_ROUTE_PREFIX || pathname.startsWith("/desktop/");
+}
+
+function SharedScripts() {
+  return (
+    <>
+      <Script
+        src="https://player.vdocipher.com/v2/api.js"
+        strategy="afterInteractive"
+      />
+      <Script
+        src="https://assets.mediadelivery.net/playerjs/player-0.1.0.min.js"
+        strategy="afterInteractive"
+      />
+    </>
+  );
+}
 
 export async function generateMetadata(): Promise<Metadata> {
+  const pathname = (await headers()).get("x-pathname") ?? "/";
+
+  if (isDesktopBootstrapPath(pathname)) {
+    return {
+      title: "NIR Desktop",
+      description: "اختر منصتك ثم تابع تسجيل الدخول",
+      robots: {
+        index: false,
+        follow: false,
+      },
+    };
+  }
+
   const tenant = await getTenantSettingsServer();
 
   const siteUrl =
@@ -41,26 +75,21 @@ export async function generateMetadata(): Promise<Metadata> {
       : `${isProd ? "https" : "http"}://${tenant.slug}.${isProd ? process.env.NEXT_PUBLIC_ROOT_DOMAIN : devDomain}`;
 
   const metadataBase = new URL(siteUrl);
-
   const title = tenant.site_name;
   const description =
     tenant.notes?.trim() ||
     "منصة تعليمية متكاملة لتطوير مهاراتك بأسلوب حديث وفعّال.";
-
   const favicon = tenant.favicon || "/favicon.ico";
   const ogImage = tenant.cover || tenant.logo || "/icon.svg";
 
   return {
     metadataBase,
-
     title,
     description,
-
     icons: {
       icon: favicon,
       apple: favicon,
     },
-
     openGraph: {
       type: "website",
       title,
@@ -77,14 +106,12 @@ export async function generateMetadata(): Promise<Metadata> {
         },
       ],
     },
-
     twitter: {
       card: "summary_large_image",
       title,
       description,
       images: [ogImage],
     },
-
     robots: {
       index: true,
       follow: true,
@@ -92,7 +119,32 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function Layout({ children }) {
+export default async function Layout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const pathname = (await headers()).get("x-pathname") ?? "/";
+
+  if (isDesktopBootstrapPath(pathname)) {
+    return (
+      <html lang="ar" dir="rtl">
+        <body
+          className={`${almarai.className} flex min-h-screen flex-col antialiased`}
+          suppressHydrationWarning
+          dir="rtl"
+        >
+          <QueryProvider>
+            <main className="flex min-h-screen grow flex-col">{children}</main>
+          </QueryProvider>
+
+          <Toaster />
+          <SharedScripts />
+        </body>
+      </html>
+    );
+  }
+
   let tenantSettings: Awaited<ReturnType<typeof getTenantSettingsServer>>;
 
   try {
@@ -103,28 +155,29 @@ export default async function Layout({ children }) {
     }
 
     if (e instanceof CustomError) {
-      if (e.code === TENANT_ERROR_CODES.TENANT_SUSPENDED)
+      if (e.code === TENANT_ERROR_CODES.TENANT_SUSPENDED) {
         return <SuspendedTenant />;
-      if (e.code === TENANT_ERROR_CODES.TENANT_NOT_FOUND)
+      }
+      if (e.code === TENANT_ERROR_CODES.TENANT_NOT_FOUND) {
         return <NotFoundTenant />;
+      }
       return <CustomGlobalError error={e} />;
-    } else {
-      const error = new CustomError(
-        "UNEXPECTED",
-        (e as any)?.status || 500,
-        "UNEXPECTED",
-      );
-      return <CustomGlobalError error={error} />;
     }
+
+    const error = new CustomError(
+      "UNEXPECTED",
+      (e as { status?: number })?.status || 500,
+      "UNEXPECTED",
+    );
+    return <CustomGlobalError error={error} />;
   }
 
   const profile = await getServerData<ApiResponse<IUser | null>>({
-    queryKey: [`/students/profile`],
+    queryKey: ["/students/profile"],
     isAuth: true,
   });
 
   const hslFromHex = hexToHsl(tenantSettings.primary_color);
-
   const cssVars =
     hslFromHex && hslFromHex.split(" ").length === 3
       ? ({
@@ -157,6 +210,7 @@ export default async function Layout({ children }) {
             __html: `window.__TENANT_SLUG__ = ${JSON.stringify(tenantSettings.slug ?? "")};`,
           }}
         />
+
         <TenantProvider value={publicTenant}>
           <>
             <NavTopbar primary={tenantSettings.primary_color} />
@@ -185,15 +239,7 @@ export default async function Layout({ children }) {
         </TenantProvider>
 
         <Toaster />
-
-        <Script
-          src="https://player.vdocipher.com/v2/api.js"
-          strategy="afterInteractive"
-        />
-        <Script
-          src="https://assets.mediadelivery.net/playerjs/player-0.1.0.min.js"
-          strategy="afterInteractive"
-        />
+        <SharedScripts />
       </body>
     </html>
   );

@@ -12,6 +12,7 @@ import { MenuIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import SwitchTenantButton from "./SwitchTenantButton";
 
 type NavLink = {
   href: string;
@@ -36,7 +37,7 @@ function GuestDropdown() {
     {
       href: "/#grades",
       label: "الصفوف الدراسية",
-      className: "md:hidden",
+      className: "lg:hidden",
 
       icon: { src: "/assets/books-colored.svg", alt: "books-colored icon" },
     },
@@ -45,7 +46,7 @@ function GuestDropdown() {
           {
             href: "/books",
             label: "الكتب",
-            className: "md:hidden",
+            className: "lg:hidden",
 
             icon: {
               src: "/assets/icons/BookColor.svg",
@@ -58,14 +59,14 @@ function GuestDropdown() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="mobile:hidden flex size-10 items-center justify-center rounded-lg bg-white px-1 shadow-md">
+      <DropdownMenuTrigger className="flex size-10 items-center justify-center rounded-lg bg-white px-1 shadow-md xl:hidden">
         <MenuIcon size={24} />
       </DropdownMenuTrigger>
 
       <DropdownMenuContent
         sideOffset={18}
         className={cn(
-          "mobile:hidden bg-primary-50 rounded-t-none border-transparent group-data-[template=landing-v3]/template:mt-2 group-data-[template=landing-v3]/template:bg-transparent group-data-[template=landing-v3]/template:px-4 sm:group-data-[template=landing-v3]/template:px-5",
+          "bg-primary-50 rounded-t-none border-transparent group-data-[template=landing-v3]/template:mt-2 group-data-[template=landing-v3]/template:bg-transparent group-data-[template=landing-v3]/template:px-4 sm:group-data-[template=landing-v3]/template:px-5 xl:hidden",
           "border-b-gray-light border-b",
         )}
       >
@@ -84,9 +85,9 @@ function GuestDropdown() {
               >
                 {icon && (
                   <Image
-                    width={32}
-                    height={32}
-                    className="h-8 w-8"
+                    width={24}
+                    height={24}
+                    className="size-6"
                     src={icon.src}
                     alt={icon.alt}
                   />
@@ -95,6 +96,11 @@ function GuestDropdown() {
               </Link>
             </DropdownMenuItem>
           ))}
+
+          <SwitchTenantButton
+            className="mx-auto w-full rounded-[10px] font-bold"
+            label="اختيار منصة أخرى"
+          />
         </div>
       </DropdownMenuContent>
     </DropdownMenu>

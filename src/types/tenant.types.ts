@@ -140,3 +140,34 @@ export type SwitchTenantResponse = {
   active_tenant?: SwitchTenantActiveTenant;
   message?: string;
 };
+
+export type DesktopTenantRecord = {
+  slug: string;
+  host: string;
+  domain_type: "subdomain" | "domain";
+  name: string;
+  brand_name: string | null;
+  site_name: string;
+  logo: string;
+  primary_color: string;
+  last_used_at: string;
+};
+
+export type TenantInviteResolutionResponse = {
+  status: "valid" | "invalid" | string;
+  tenant?: {
+    id: string;
+    name: string;
+    slug: string;
+    primary_color: string;
+    domain?: string | null;
+    domain_type?: "subdomain" | "domain";
+  } | null;
+  invite?: {
+    code: string;
+    type: string;
+    expires_at: string | null;
+    max_uses: number | null;
+    used_count: number;
+  } | null;
+};

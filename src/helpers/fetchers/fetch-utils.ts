@@ -1,34 +1,22 @@
 import CustomError from "@/lib/customError";
-
-// Cache resolved tenant slug for custom domains (client-side)
-let _cachedTenantSlug: string | null = null;
-
-const NIR_ROOT_DOMAIN =
-  process.env.NODE_ENV === "production"
-    ? (process.env.NEXT_PUBLIC_ROOT_DOMAIN ?? "nir-edu.com")
-    : (process.env.NEXT_PUBLIC_DEV_DOMAIN ?? "localhost").replace(/:\d+$/, "");
+import { extractStandardTenantSlug } from "./tenant-resolution";
 
 export function extractTenantFromHost() {
   if (typeof window === "undefined") return { subdomain: "", host: "" };
+
   const host = window.location.host;
   const cleanHost = host.replace(/:\d+$/, "");
 
-  // Standard nir-edu.com subdomain — extract directly
-  if (cleanHost.endsWith(NIR_ROOT_DOMAIN)) {
-    const [subdomain] = cleanHost.split(".");
+  const subdomain = extractStandardTenantSlug(cleanHost);
+  if (subdomain) {
     return {
       subdomain,
-      host: cleanHost.endsWith(NIR_ROOT_DOMAIN) ? host : cleanHost,
+      host,
     };
   }
 
-  // Custom domain — use server-injected slug
   const slug = (window as any).__TENANT_SLUG__ ?? "";
   return { subdomain: slug, host: cleanHost };
-}
-
-export function setTenantSlug(slug: string) {
-  _cachedTenantSlug = slug;
 }
 
 export function buildTenantApiBase(tenant: string) {

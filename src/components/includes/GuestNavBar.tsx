@@ -7,6 +7,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import CustomImage from "../ui/CustomImage";
 import GuestDropdown from "./GuestDropdown";
+import SwitchTenantButton from "./SwitchTenantButton";
 
 const GuestNavBar = () => {
   const pathname = usePathname();
@@ -55,7 +56,7 @@ const GuestNavBar = () => {
               />
             </Link>
 
-            <nav className="hidden gap-2 md:flex">
+            <nav className="hidden gap-2 lg:flex">
               {guestLinks.map((link) => (
                 <Link
                   key={link.href}
@@ -81,11 +82,14 @@ const GuestNavBar = () => {
             </nav>
           </div>
 
-          <div className="flex gap-3">
-            <GuestDropdown />
-          </div>
+          <GuestDropdown />
 
-          <div className="mobile:gap-6 mobile:flex hidden gap-4">
+          <div className="hidden gap-4 xl:flex xl:gap-6">
+            <SwitchTenantButton
+              className="mobile:text-base mobile:w-[170px] h-auto w-[135px] rounded-[10px] p-2 text-sm font-bold lg:text-lg"
+              label="منصة أخرى"
+            />
+
             <Link
               href={"/login"}
               className="mobile:text-base hover:bg-secondary-hover text-secondary border-secondary mobile:w-[170px] flex w-[135px] items-center justify-between gap-1 rounded-[10px] border bg-transparent p-2 text-center text-sm font-bold transition-all lg:text-lg"

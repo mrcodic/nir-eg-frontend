@@ -63,6 +63,7 @@ export function normalizeDomain(domain: string | null | undefined): string {
 
 export function buildTargetOrigin(tenant: UserTenant): string {
   const isProd = process.env.NODE_ENV === "production";
+  const devDomain = process.env.NEXT_PUBLIC_DEV_DOMAIN ?? "localhost:3000";
 
   if (tenant.domain_type === "domain") {
     const domain = normalizeDomain(tenant.domain);
@@ -74,15 +75,24 @@ export function buildTargetOrigin(tenant: UserTenant): string {
     return `https://${domain}`;
   }
 
-  const currentHost = window.location.host;
-  const hostWithoutPort = currentHost.replace(/:\d+$/, "");
-  const portMatch = currentHost.match(/:\d+$/);
-  const port = portMatch ? portMatch[0] : "";
-  const hostParts = hostWithoutPort.split(".");
-  const baseHost =
-    hostParts.length > 1 ? hostParts.slice(1).join(".") : hostWithoutPort;
+  const normalizedDevDomain = normalizeDomain(devDomain);
 
-  return `http://${tenant.slug}.${baseHost}${port}`;
+  return `http://${tenant.slug}.${normalizedDevDomain}`;
+}
+
+export function buildDesktopEntryUrl(pathname: string = "/desktop"): string {
+  const isProd = process.env.NODE_ENV === "production";
+  const devDomain = process.env.NEXT_PUBLIC_DEV_DOMAIN ?? "localhost:3000";
+  const normalizedPath = pathname.startsWith("/") ? pathname : `/${pathname}`;
+
+  if (isProd) {
+    const rootDomain = normalizeDomain(
+      process.env.NEXT_PUBLIC_ROOT_DOMAIN ?? "nir-edu.com",
+    );
+    return `https://${rootDomain}${normalizedPath}`;
+  }
+
+  return `http://${normalizeDomain(devDomain)}${normalizedPath}`;
 }
 
 export function getSwitchTenantErrorMessage(error: unknown): string {
