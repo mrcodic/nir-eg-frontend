@@ -4,20 +4,24 @@ import { ReactNode } from "react";
 function AuthHeader({
   title,
   description,
+  showIcon = true,
 }: {
   title: string;
   description: string | ReactNode;
+  showIcon?: boolean;
 }) {
   return (
     <>
       <div className="flex gap-4">
-        <Image
-          src="/assets/books-colored.svg"
-          className="size-[38px]"
-          width={38}
-          height={38}
-          alt="books"
-        />
+        {showIcon && (
+          <Image
+            src="/assets/books-colored.svg"
+            className="size-[38px]"
+            width={38}
+            height={38}
+            alt="books"
+          />
+        )}
         <div>
           <h3 className="text-xl font-bold sm:text-2xl">{title}</h3>
           {typeof description === "string" ? (

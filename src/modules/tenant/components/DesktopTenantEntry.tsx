@@ -100,8 +100,9 @@ export default function DesktopTenantEntry() {
     <section className="mx-auto flex w-full max-w-3xl flex-col gap-8 py-6 lg:py-16">
       <div className="space-y-8">
         <AuthHeader
-          title="تسجيل الدخول"
-          description=" أدخل رقم الهاتف المسجل لدينا و كلمة السر لتتمكن من الدخول لحسابك"
+          title="أهلا بيك فى نير👋 "
+          description="علشان تبدأ , انضم لمنصة مدرسك."
+          showIcon={false}
         />
 
         <div className="space-y-6">
