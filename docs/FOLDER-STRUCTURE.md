@@ -299,7 +299,7 @@ nier-front/
     │       ├── OfferModelWrapper.tsx
     │       ├── Pagination.tsx
     │       ├── RoomAccordion.tsx
-    │       ├── RoomDropDownQuiz.tsx
+    │       ├── RoomTaskCard.tsx
     │       ├── RoomFileDownloadLink.tsx
     │       ├── RoomHeader.tsx
     │       ├── RoomSideContent.tsx

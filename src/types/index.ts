@@ -136,6 +136,7 @@ export interface QuizItem {
   show_answer?: number | boolean;
   timer?: string | number | null;
   user_id?: number | null;
+  pending?: boolean;
   [key: string]: unknown;
 }
 
@@ -419,6 +420,8 @@ export interface IAssignment {
   score: number | null;
   show_answer: boolean;
   title: string;
+  result?: boolean;
+  pending?: boolean;
 }
 
 export interface ILesson {

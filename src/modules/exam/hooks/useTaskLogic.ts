@@ -147,17 +147,17 @@ export const useTaskLogic = (
     }
   }, [success, start?.score_ratio, start?.result]);
 
-  useEffect(() => {
-    if ((success || fail) && !start?.score_ratio && !start?.review_pending) {
-      retakeExamLogic();
-    }
-  }, [
-    success,
-    fail,
-    start?.score_ratio,
-    start?.review_pending,
-    retakeExamLogic,
-  ]);
+  // useEffect(() => {
+  //   if ((success || fail) && !start?.score_ratio && !start?.review_pending) {
+  //     retakeExamLogic();
+  //   }
+  // }, [
+  //   success,
+  //   fail,
+  //   start?.score_ratio,
+  //   start?.review_pending,
+  //   retakeExamLogic,
+  // ]);
 
   // ================= INITIALIZATION =================
   useEffect(() => {
@@ -166,11 +166,11 @@ export const useTaskLogic = (
     const initializeQuiz = async () => {
       isInit.current = true;
 
-      const shouldStart = shouldStartQuiz(start);
+      const shouldStart = shouldStartQuiz?.(start);
 
       // 1) should start solving the task
-      if (shouldStart.start) {
-        if (shouldStart.type === "fresh" && onConfirmRequired) {
+      if (shouldStart?.start) {
+        if (shouldStart?.type === "fresh" && onConfirmRequired) {
           // Pause — wait for the user to confirm before fetching questions
           setAwaitingConfirm(true);
           onConfirmRequired();
@@ -200,12 +200,18 @@ export const useTaskLogic = (
       } else {
         onInitialize?.(false);
 
+        // success or review pending
         if ((start?.result && !fail) || start?.review_pending) {
           setSuccess(true);
           setFail(false);
-        } else {
+          // fail
+        } else if (!start?.result && start?.score_ratio) {
           setFail(true);
           setSuccess(false);
+        }
+
+        if (!start?.score_ratio && !start?.score && !start?.review_pending) {
+          retakeExamLogic();
         }
       }
     };
@@ -220,6 +226,7 @@ export const useTaskLogic = (
     fail,
     setData,
     showAnswers,
+    retakeExamLogic,
   ]);
 
   return {

@@ -184,7 +184,7 @@ const AssignmentCard = memo(function AssignmentCard({
   return (
     <div className="border-gray-light mt-4 flex items-center justify-between gap-2 rounded-lg border bg-white px-2 py-2 shadow-sm">
       <Image
-        src="/assets/assignment-fill.svg"
+        src="/assets/icons/assignment-fill.svg"
         className="size-6"
         width={24}
         height={24}

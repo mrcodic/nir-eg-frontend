@@ -53,7 +53,7 @@ export default function RoomDetailsHeader({
             <CourseInfoBadge
               value={assignments?.length}
               text="واجب"
-              icon="/assets/assignment-fill.svg"
+              icon="/assets/icons/assignment-fill.svg"
             />
             <CourseInfoBadge
               value={attachments?.length}

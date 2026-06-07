@@ -12,10 +12,10 @@ import {
 import ProtectedRoute from "@/layouts/ProtectedRoute";
 import LessonRoomCard from "@/modules/rooms/components/LessonRoomCard";
 import RoomDetailsHeader from "@/modules/rooms/components/RoomDetailsHeader";
-import RoomDropDownQuiz from "@/modules/rooms/components/RoomDropDownQuiz";
 import RoomFileDownloadLink from "@/modules/rooms/components/RoomFileDownloadLink";
 import RoomFloatingCards from "@/modules/rooms/components/RoomFloatingCards";
 import RoomHeader from "@/modules/rooms/components/RoomHeader";
+import RoomTaskCard from "@/modules/rooms/components/RoomTaskCard";
 import { useRoomDetailsData } from "@/modules/rooms/hooks/useRoomDetailsData";
 import { useParams } from "next/navigation";
 
@@ -37,18 +37,8 @@ export default function RoomDetailsPage() {
 
   const lockAfter =
     roomDetails && "lock_after" in roomDetails ? roomDetails.lock_after : null;
-
-  const isRoomPurchasable =
-    roomDetails &&
-    "lock_after" in roomDetails &&
-    lockAfter !== null &&
-    Number(lockAfter) === 0;
-
-  const isRoomPurchased =
-    roomDetails &&
-    "lock_after" in roomDetails &&
-    lockAfter !== null &&
-    Number(lockAfter) !== 0;
+  const isRoomPurchasable = lockAfter !== null && Number(lockAfter) === 0;
+  const isRoomPurchased = lockAfter !== null && Number(lockAfter) !== 0;
 
   const lockedToPass = roomDetails?.locked_to_pass;
 
@@ -102,7 +92,7 @@ export default function RoomDetailsPage() {
                     ) : (
                       <div className="space-y-3">
                         {quizzes.map((quiz) => (
-                          <RoomDropDownQuiz
+                          <RoomTaskCard
                             key={`quiz-${quiz.id}`}
                             className="bg-transparent"
                             task={quiz}
@@ -119,8 +109,9 @@ export default function RoomDetailsPage() {
                         ))}
 
                         {assignments.map((assignment) => (
-                          <RoomDropDownQuiz
+                          <RoomTaskCard
                             key={`assignment-${assignment.id}`}
+                            className="bg-transparent"
                             task={assignment}
                             room={room}
                             classroomId={classroomId}
@@ -130,7 +121,7 @@ export default function RoomDetailsPage() {
                             }
                             locked={lockedToPass || isRoomPurchasable}
                             linkText="فتح الواجب"
-                            type="ass"
+                            type="assignment"
                           />
                         ))}
                       </div>

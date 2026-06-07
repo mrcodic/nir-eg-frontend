@@ -68,7 +68,7 @@ const CoursesHeader = ({ details }: { details: ICourseDetails }) => {
               <CourseInfoBadge
                 value={details?.total_assignm_count}
                 text="واجب"
-                icon="/assets/assignment-fill.svg"
+                icon="/assets/icons/assignment-fill.svg"
               />
               <CourseInfoBadge
                 value={details?.totalMaterialCount}

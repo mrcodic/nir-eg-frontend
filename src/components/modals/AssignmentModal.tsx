@@ -70,7 +70,7 @@ const AssignmentModal = ({
 
               <div className="mt-2 flex flex-wrap items-center justify-between gap-3">
                 <span className="inline-block text-base font-bold">
-                  عمل رائع، حصلت على
+                  عمل رائع، قمت بحل الواجب
                 </span>
                 <StudentScoreResult
                   score={start?.score}

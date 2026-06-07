@@ -12,11 +12,11 @@ import {
 import { useModal } from "@/context/ModalProvider";
 import PriceBadge from "@/modules/payment/components/PriceBadge";
 import LessonRoomCard from "@/modules/rooms/components/LessonRoomCard";
-import RoomDropDownQuiz from "@/modules/rooms/components/RoomDropDownQuiz";
 import RoomFileDownloadLink from "@/modules/rooms/components/RoomFileDownloadLink";
 import { IRoomData } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
+import RoomTaskCard from "./RoomTaskCard";
 
 const RoomAccordion = ({
   isProfile,
@@ -181,7 +181,7 @@ const RoomAccordion = ({
               room?.quizzes &&
               (room?.quizzes).map((quiz) => {
                 return (
-                  <RoomDropDownQuiz
+                  <RoomTaskCard
                     key={"quiz-" + quiz.id}
                     task={quiz}
                     room={room}
@@ -191,6 +191,24 @@ const RoomAccordion = ({
                     locked={lock_after == 0}
                     linkText="فتح الكويز"
                     type="exam"
+                  />
+                );
+              })}
+
+            {tasksEnabled &&
+              room?.assignments &&
+              (room?.assignments).map((ass) => {
+                return (
+                  <RoomTaskCard
+                    key={"ass-" + ass.id}
+                    task={ass}
+                    room={room}
+                    classroomId={classroomId}
+                    subscribe={isSubscribed || room?.is_subscriped}
+                    verify={verify || room?.student_phone_verification}
+                    locked={room?.locked_to_pass || lock_after == 0}
+                    linkText="فتح الواجب"
+                    type="assignment"
                   />
                 );
               })}
@@ -220,24 +238,6 @@ const RoomAccordion = ({
                     verify={verify || room?.student_phone_verification}
                     locked={isRoomPurchasable}
                     index={index}
-                  />
-                );
-              })}
-
-            {tasksEnabled &&
-              room?.assignments &&
-              (room?.assignments).map((ass) => {
-                return (
-                  <RoomDropDownQuiz
-                    key={"ass-" + ass.id}
-                    task={ass}
-                    room={room}
-                    classroomId={classroomId}
-                    subscribe={isSubscribed || room?.is_subscriped}
-                    verify={verify || room?.student_phone_verification}
-                    locked={room?.locked_to_pass || lock_after == 0}
-                    linkText="فتح الواجب"
-                    type="ass"
                   />
                 );
               })}
