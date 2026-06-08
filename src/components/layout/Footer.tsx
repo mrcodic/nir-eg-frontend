@@ -91,7 +91,8 @@ async function Footer() {
 
         <div className="w-full flex justify-center md:justify-between gap-y-4 gap-6 items-center flex-wrap-reverse">
           <p className="text-slate-600 font-bold text-sm">
-            © جميع الحقوق محفوظة لدى نَيِّر - Nir 2024
+            © جميع الحقوق محفوظة لدى نَيِّر -{" "}
+            <span>Nir {new Date().getFullYear()}</span>
           </p>
 
           <div className="flex items-center md:ms-auto max-sm:flex-wrap justify-center gap-x-2">
