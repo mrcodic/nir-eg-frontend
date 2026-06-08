@@ -39,9 +39,17 @@ export default function NotFoundTenant() {
       <body
         className={cn(
           almarai.className,
-          "text-foreground min-h-screen bg-white",
+          "text-foreground relative min-h-screen bg-white",
         )}
       >
+        <div
+          style={{
+            maskImage: "url(/assets/bg/bg-vector.png)",
+            maskRepeat: "no-repeat",
+            maskPosition: "bottom",
+          }}
+          className="bg-primary/2 absolute inset-x-0 bottom-0 -z-1 h-1/2 mask-cover lg:mask-contain"
+        />
         <main className="wrapper grid min-h-screen place-items-center py-8">
           <div className="w-full text-center">
             {/* Logo */}

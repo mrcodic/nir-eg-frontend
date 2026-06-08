@@ -5,9 +5,9 @@ import { DialogFooter } from "@/components/ui/dialog";
 import { usePayment } from "@/modules/payment/hooks/usePayment";
 import { CourseType } from "@/types";
 import { DialogClose } from "@radix-ui/react-dialog";
+import { Loader2 } from "lucide-react";
 import React from "react";
 import { PaymentUI } from "../../modules/payment/components/PaymentUI";
-import { Loader2 } from "lucide-react";
 
 interface PaymentModalProps {
   courseId?: string;
@@ -71,10 +71,7 @@ export const PaymentModel: React.FC<PaymentModalProps> = ({
         )}
 
         <DialogClose asChild>
-          <Button
-            className="border-gray-light hover:bg-gray-dark w-full text-black hover:text-white"
-            variant="outline"
-          >
+          <Button className="w-full" variant="outline-gray">
             إلغاء
           </Button>
         </DialogClose>

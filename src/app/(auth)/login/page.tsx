@@ -1,19 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import CustomInput from "@/components/custom/customInput";
 import CustomPhoneInput from "@/components/custom/CustomPhoneInput";
 import SmallSpinner from "@/components/custom/SmallSpinner";
 import { OTPNotVerifIed } from "@/components/modals/OTPNotVerifIed";
-import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useAuthContext } from "@/context/auth-context";
 import AuthHeader from "@/layouts/AuthHeader";
 import { loginSchema } from "@/lib/schemas";
-import { getUserPhoneFromStorage } from "@/lib/utils";
+import { cn, getUserPhoneFromStorage } from "@/lib/utils";
 import { useLogin } from "@/modules/auth/hooks/useLogin";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
@@ -22,10 +21,11 @@ import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 
 const AuthPage = () => {
   const router = useRouter();
+  const initialGuardPassed = useRef(false);
 
   const [verify, setVerify] = useState(false);
 
-  const { profile } = useAuthContext();
+  const { profile, isLoading } = useAuthContext();
 
   const form = useForm({
     resolver: zodResolver(loginSchema),
@@ -46,16 +46,22 @@ const AuthPage = () => {
     },
   });
 
+  // route guard
   useEffect(() => {
+    if (initialGuardPassed.current || isLoading) return;
     if (profile) {
       router.replace("/");
+    } else {
+      initialGuardPassed.current = true;
     }
-  }, [profile, router]);
-
-  if (profile) return <LoadingSpinner className="h-full min-h-[300px]" />;
+  }, [profile, router, isLoading]);
 
   return (
-    <div className="">
+    <div
+      className={cn({
+        "pointer-events-none animate-pulse": profile,
+      })}
+    >
       <AuthHeader
         title="تسجيل الدخول"
         description=" أدخل رقم الهاتف المسجل لدينا و كلمة السر لتتمكن من الدخول لحسابك"

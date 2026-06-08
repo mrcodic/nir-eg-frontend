@@ -60,12 +60,15 @@ export function useLogin({ onPhoneNotVerified }: UseLoginParams) {
         return;
       }
 
-      if (
-        response?.student?.type === 3 &&
-        response?.student?.has_center === false
-      ) {
-        router.push(redirectPath || "profile");
-      }
+      // if (
+      //   response?.student?.type === 3 &&
+      //   response?.student?.has_center === false
+      // ) {
+      //   router.push(redirectPath || "profile");
+      //   return;
+      // }
+
+      router.push(redirectPath || "/profile");
     } catch (err: unknown) {
       const error = err as {
         status?: number;
@@ -85,12 +88,13 @@ export function useLogin({ onPhoneNotVerified }: UseLoginParams) {
         return;
       }
 
+      const errMessage =
+        error?.response?.error?.message || error?.response?.data?.message;
+
       toast({
         description:
           error?.status !== 500
-            ? error?.response?.error?.message ||
-              error?.response?.data?.message ||
-              "حدث خطأ ما"
+            ? errMessage || "حدث خطأ ما"
             : "حدث خطاء ما اثناء تسجيل الدخول",
         icon: "error",
       });

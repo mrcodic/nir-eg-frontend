@@ -14,6 +14,7 @@ import { forgetPasswordSchema } from "@/lib/schemas";
 import { getUserPhoneFromStorage, presistUserPhone } from "@/lib/utils";
 import { OtpSendResponse } from "@/types/auth.types";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "nextjs-toploader/app";
 import { GoogleReCaptcha } from "react-google-recaptcha-v3";
@@ -74,11 +75,17 @@ const ForgetPasswordPage = () => {
         description="أدخل رقم الهاتف المسجل لدينا لتتمكن من إعادة تعيين كلمة سر جديدة"
       />
 
+      <div className="relative mx-auto aspect-square w-full max-w-[300px]">
+        <Image
+          src="/assets/bg/otp-illustration.png"
+          alt="Warning"
+          fill
+          className="rounded-lg object-contain"
+        />
+      </div>
+
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="mt-[40px] w-full"
-        >
+        <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 w-full">
           <CustomPhoneInput
             name="phone.phone"
             form={form}
