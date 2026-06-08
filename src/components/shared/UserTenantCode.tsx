@@ -14,7 +14,7 @@ export default function UserTenantCode({
     <button
       type="button"
       className={cn(
-        "text-primary bg-primary-50 min-h-9 w-fit flex-col items-center justify-center gap-4 rounded-sm px-3 py-2 text-sm",
+        "text-primary-800 bg-primary-50 min-h-9 w-fit flex-col items-center justify-center gap-4 rounded-sm px-3 py-2 text-sm",
         className,
       )}
       onClick={async (e) => {
