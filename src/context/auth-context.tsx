@@ -29,9 +29,11 @@ export const useAuthContext = () => {
 export const AuthContextProvider = ({
   children,
   profile,
+  enableProfileQuery = true,
 }: {
   children: React.ReactNode;
   profile: IUser | null;
+  enableProfileQuery?: boolean;
 }) => {
   const [token, setToken] = useState<undefined | string | null>(
     () => Cookies.get("nir_token") || undefined,
@@ -43,9 +45,9 @@ export const AuthContextProvider = ({
       const res = await getClientPrivateData({
         queryKey: ["/students/profile"],
       });
-      console.log("res profile", res);
       return res.body as unknown as IUser;
     },
+    enabled: enableProfileQuery,
     staleTime: 1000 * 60 * 10, //10 minutes cache
     initialData: profile,
   });

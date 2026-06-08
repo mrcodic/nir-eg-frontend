@@ -21,12 +21,14 @@ interface StackedBannersProps {
   banners: StackedBannerItem[];
   containerClassName?: string;
   onDismiss?: (id: string | number) => void;
+  showDismissButton?: boolean;
 }
 
 export default function StackedBanners({
   banners,
   containerClassName,
   onDismiss,
+  showDismissButton = true,
 }: StackedBannersProps) {
   const [dismissed, setDismissed] = useState<(string | number)[]>([]);
 
@@ -127,13 +129,15 @@ export default function StackedBanners({
               </div>
 
               {/* Close button */}
-              <button
-                aria-label="Close banner"
-                onClick={() => handleDismiss(banner.id)}
-                className="text-muted-foreground hover:bg-muted hover:text-foreground absolute top-1 left-1 cursor-pointer rounded-full p-1 transition"
-              >
-                <X size={16} />
-              </button>
+              {showDismissButton && (
+                <button
+                  aria-label="Close banner"
+                  onClick={() => handleDismiss(banner.id)}
+                  className="text-muted-foreground hover:bg-muted hover:text-foreground absolute top-1 left-1 cursor-pointer rounded-full p-1 transition"
+                >
+                  <X size={16} />
+                </button>
+              )}
             </motion.div>
           ))}
         </AnimatePresence>

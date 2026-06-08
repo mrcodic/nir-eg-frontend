@@ -4,7 +4,6 @@ import Cookies from "js-cookie";
 import { z } from "zod";
 
 import { useAuthContext } from "@/context/auth-context";
-import { openDesktopAuthDeeplink } from "@/helpers/auth-deeplink";
 import { useToast } from "@/hooks/use-toast";
 import { loginSchema } from "@/lib/schemas";
 import { presistUserPhone } from "@/lib/utils";
@@ -48,14 +47,6 @@ export function useLogin({ onPhoneNotVerified }: UseLoginParams) {
 
       setToken(response?.access_token);
       presistUserPhone(phone.phone, phone.country);
-      openDesktopAuthDeeplink(response, {
-        onFailure: () => {
-          toast({
-            description: "تعذر فتح تطبيق سطح المكتب. تأكد أنه مثبت على الجهاز.",
-            icon: "error",
-          });
-        },
-      });
 
       if (response?.student?.type === 3 && response?.student?.has_center) {
         router.push(redirectPath || `bundles/${response?.student?.center_id}`);

@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  RECENT_TENANTS_STORAGE_KEY,
   SELECTED_TENANT_DOMAIN_TYPE_COOKIE,
   SELECTED_TENANT_HOST_COOKIE,
   SELECTED_TENANT_SLUG_COOKIE,
@@ -169,19 +168,14 @@ export async function resolveDesktopTenant(
   return buildRecordFromTenantSettings(tenant, parsed.host, parsed.domainType);
 }
 
-export function getRecentDesktopTenants(): DesktopTenantRecord[] {
-  if (typeof window === "undefined") {
-    return [];
-  }
+export async function fetchDesktopTenantHistoryByPhone(
+  phone: string,
+): Promise<DesktopTenantRecord[]> {
+  void phone;
 
-  try {
-    const raw = localStorage.getItem(RECENT_TENANTS_STORAGE_KEY);
-    if (!raw) return [];
-    const parsed = JSON.parse(raw) as DesktopTenantRecord[];
-    return Array.isArray(parsed) ? parsed : [];
-  } catch {
-    return [];
-  }
+  // TODO: replace this placeholder with the central desktop history endpoint
+  // once the backend contract is available.
+  return [];
 }
 
 export function persistDesktopTenant(record: DesktopTenantRecord) {
@@ -197,36 +191,6 @@ export function persistDesktopTenant(record: DesktopTenantRecord) {
     sameSite: "lax",
     path: "/",
   });
-
-  if (typeof window === "undefined") {
-    return;
-  }
-
-  const recent = getRecentDesktopTenants().filter(
-    (tenant) => tenant.slug !== record.slug || tenant.host !== record.host,
-  );
-
-  localStorage.setItem(
-    RECENT_TENANTS_STORAGE_KEY,
-    JSON.stringify(
-      [{ ...record, last_used_at: new Date().toISOString() }, ...recent].slice(
-        0,
-        5,
-      ),
-    ),
-  );
-}
-
-export function removeRecentDesktopTenant(target: DesktopTenantRecord) {
-  if (typeof window === "undefined") {
-    return;
-  }
-
-  const next = getRecentDesktopTenants().filter(
-    (tenant) => tenant.slug !== target.slug || tenant.host !== target.host,
-  );
-
-  localStorage.setItem(RECENT_TENANTS_STORAGE_KEY, JSON.stringify(next));
 }
 
 export async function clearSelectedDesktopTenant() {
