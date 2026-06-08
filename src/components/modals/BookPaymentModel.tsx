@@ -53,16 +53,13 @@ export const BookPaymentModel: React.FC<PaymentModalProps> = ({
         isSingleBook
       />
 
-      <DialogFooter className="mx-auto mt-5 flex flex-row! flex-wrap justify-center gap-5 sm:justify-center">
-        <Button
-          onClick={handleCheckout}
-          className="bg-primary border-gray-light w-[148px] rounded-lg border p-2 text-sm font-bold text-white"
-        >
+      <DialogFooter className="mt-5 flex w-full flex-row! justify-center gap-5 max-sm:flex-wrap sm:justify-center sm:space-x-0">
+        <Button onClick={handleCheckout} className="w-full">
           دفع
         </Button>
 
         <DialogClose asChild>
-          <Button className="border-primary w-[148px] rounded-lg border bg-white p-2 text-sm font-bold text-black hover:text-white">
+          <Button className="w-full" variant="outline-gray">
             إلغاء
           </Button>
         </DialogClose>

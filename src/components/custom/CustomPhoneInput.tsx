@@ -50,7 +50,7 @@ const CustomPhoneInput = ({
           {label && (
             <FormLabel
               htmlFor={name}
-              className="text-gray-dark mb-2 flex cursor-text gap-4 font-medium transition-all"
+              className="mb-2 flex cursor-text gap-4 text-sm font-medium transition-all"
             >
               {iconSrc && (
                 <Image
