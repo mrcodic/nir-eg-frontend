@@ -28,8 +28,7 @@ export default function DesktopTenantHistorySection() {
   const stackedItems = useMemo<StackedBannerItem[]>(() => {
     return previewTenants.map((tenant) => ({
       id: `${tenant.slug}-${tenant.host}`,
-      className:
-        "rounded-[28px] border border-slate-200 bg-white px-0 py-0 shadow-[0_16px_35px_rgba(15,23,42,0.08)]",
+      className: "p-0 rounded-none bg-nono border-none shadow-none ",
       wrapperClassName: "w-full pe-0",
       content: (
         <HistoryTenantCard

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { extractTenantFromHostServer } from "./helpers/fetchers/server-utils";
 
 const PROTECTED_ROUTES = new Set([
   "/activities",
@@ -10,10 +11,18 @@ const PROTECTED_ROUTES = new Set([
 ]);
 
 const AUTH_ROUTES = new Set(["/login", "/register"]);
+const DESKTOP_BOOTSTRAP_PREFIX = "/desktop";
 
 function isRouteMatch(pathname: string, routes: Set<string>) {
   return [...routes].some(
     (route) => pathname === route || pathname.startsWith(`${route}/`),
+  );
+}
+
+function isDesktopBootstrapPath(pathname: string) {
+  return (
+    pathname === DESKTOP_BOOTSTRAP_PREFIX ||
+    pathname.startsWith(`${DESKTOP_BOOTSTRAP_PREFIX}/`)
   );
 }
 
@@ -49,10 +58,21 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  console.log(pathname);
+
+  if (!isDesktopBootstrapPath(pathname)) {
+    const { subdomain } = await extractTenantFromHostServer();
+    if (!subdomain) {
+      const desktopUrl = new URL("/desktop", request.url);
+      return NextResponse.redirect(desktopUrl);
+    }
+  }
+
   const token = request.cookies.get("nir_token")?.value;
 
   // Unauthenticated → protected route
   if (isRouteMatch(normalizedPath, PROTECTED_ROUTES) && !token) {
+    console.log("normalizedPath !token ", normalizedPath);
     const loginUrl = new URL("/login", getBaseUrl(request));
     loginUrl.searchParams.set("next", normalizedPath);
     return NextResponse.redirect(loginUrl, { status: 307 });
@@ -60,6 +80,7 @@ export async function middleware(request: NextRequest) {
 
   // Authenticated → auth route
   if (isRouteMatch(normalizedPath, AUTH_ROUTES) && token) {
+    console.log("normalizedPath  token ", normalizedPath);
     const homeUrl = new URL("/", getBaseUrl(request));
     return NextResponse.redirect(homeUrl, { status: 307 });
   }

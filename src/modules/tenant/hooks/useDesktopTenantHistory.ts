@@ -3,16 +3,35 @@
 import { useMemo, useState } from "react";
 
 import {
-  fetchDesktopTenantHistoryByPhone,
   navigateToDesktopTenantLogin,
   persistDesktopTenant,
 } from "@/helpers/fetchers/desktop-tenant-session";
 import { getUserPhoneFromStorage } from "@/lib/utils";
-import { DesktopTenantRecord } from "@/types/tenant.types";
-import { useQuery } from "@tanstack/react-query";
+import { DesktopTenantRecord, UserTenant } from "@/types/tenant.types";
+import useTenants from "./useTenants";
 
 function buildTenantKey(tenant: DesktopTenantRecord) {
   return `${tenant.slug}::${tenant.host}`;
+}
+
+function mapUserTenantToDesktopRecord(tenant: UserTenant): DesktopTenantRecord {
+  const domainType =
+    tenant.domain_type === "domain"
+      ? ("domain" as const)
+      : ("subdomain" as const);
+  const host = tenant.domain || tenant.slug;
+
+  return {
+    slug: tenant.slug,
+    host,
+    domain_type: domainType,
+    name: tenant.name,
+    brand_name: tenant.name,
+    site_name: tenant.name,
+    logo: tenant.logo || "",
+    primary_color: tenant.primary_color,
+    last_used_at: tenant.last_accessed_at || tenant.enrolled_at,
+  };
 }
 
 export function useDesktopTenantHistory() {
@@ -21,20 +40,18 @@ export function useDesktopTenantHistory() {
     () => getUserPhoneFromStorage().phone.trim(),
     [],
   );
-
-  const historyQuery = useQuery({
-    queryKey: ["desktop-tenant-history", historyPhone],
-    queryFn: async () => fetchDesktopTenantHistoryByPhone(historyPhone),
+  const { tenants, isLoading } = useTenants(historyPhone || undefined, {
     enabled: !!historyPhone,
-    staleTime: 1000 * 60 * 5,
   });
 
   const recentTenants = useMemo(() => {
     const hidden = new Set(hiddenTenantKeys);
-    const tenants = historyQuery.data ?? [];
+    const mappedTenants = tenants.map(mapUserTenantToDesktopRecord);
 
-    return tenants.filter((tenant) => !hidden.has(buildTenantKey(tenant)));
-  }, [hiddenTenantKeys, historyQuery.data]);
+    return mappedTenants.filter(
+      (tenant) => !hidden.has(buildTenantKey(tenant)),
+    );
+  }, [hiddenTenantKeys, tenants]);
 
   const connectRecentTenant = (tenant: DesktopTenantRecord) => {
     persistDesktopTenant(tenant);
@@ -47,12 +64,15 @@ export function useDesktopTenantHistory() {
     ]);
   };
 
+  console.log(historyPhone);
+
   return {
     recentTenants,
     connectRecentTenant,
     deleteRecentTenant,
     historyPhone,
     hasStoredPhone: !!historyPhone,
-    isLoadingHistory: historyQuery.isFetching,
+    hasApiHistory: recentTenants.length > 0,
+    isLoadingHistory: isLoading,
   };
 }
