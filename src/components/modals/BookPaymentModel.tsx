@@ -10,16 +10,12 @@ import { DialogClose } from "@radix-ui/react-dialog";
 import React from "react";
 
 interface PaymentModalProps {
-  open?: boolean;
-  setOpen?: (open: boolean) => void;
   name?: string;
   bookId: string;
   price?: number;
 }
 
 export const BookPaymentModel: React.FC<PaymentModalProps> = ({
-  open,
-  setOpen,
   bookId,
   name,
   price,
@@ -35,7 +31,6 @@ export const BookPaymentModel: React.FC<PaymentModalProps> = ({
   } = useBookPayment({
     bookId,
     asModal: true,
-    setOpen,
     isSingleBook: true,
   });
 
