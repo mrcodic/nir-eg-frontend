@@ -44,9 +44,17 @@ export default function CustomGlobalError({
       <body
         className={cn(
           almarai.className,
-          "bg-background text-foreground min-h-screen",
+          "bg-background text-foreground relative min-h-screen",
         )}
       >
+        <div
+          style={{
+            maskImage: "url(/assets/bg/bg-vector.png)",
+            maskRepeat: "no-repeat",
+            maskPosition: "bottom",
+          }}
+          className="bg-primary/2 absolute inset-x-0 bottom-0 -z-1 h-1/2 mask-cover lg:mask-contain"
+        />
         <main className="wrapper grid min-h-screen place-items-center">
           <div className="w-full max-w-md space-y-6 text-center">
             {/* Logo */}

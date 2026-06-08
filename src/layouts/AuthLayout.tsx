@@ -84,12 +84,12 @@ const AuthImageSection = () => {
           trigger="mount"
           duration={0.7}
           distance={48}
-          className="absolute inset-0 z-5"
+          className="absolute inset-x-0 bottom-0 z-5 h-full lg:h-4/5"
         >
           <Image
             src="/assets/auth/instructor-photo.webp"
             alt="Instructor"
-            className="relative object-contain object-top lg:object-cover"
+            className="relative object-contain object-top"
             fill
             priority
             fetchPriority="high"
