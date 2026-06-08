@@ -29,7 +29,9 @@ type ModalContextType = {
   openModal: (options?: { force?: boolean }) => void;
   closeModal: () => void;
   setDialogContent: Dispatch<SetStateAction<ReactNode | undefined>>;
-  setDialogContentProps: Dispatch<SetStateAction<DialogContentProps | null>>;
+  setDialogContentProps: Dispatch<
+    SetStateAction<(DialogContentProps & { hideClose?: boolean }) | null>
+  >;
   addSideElement: (node: ReactNode) => () => void;
   removeSideElement: () => void;
 };

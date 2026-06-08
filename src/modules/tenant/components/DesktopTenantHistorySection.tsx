@@ -51,6 +51,7 @@ export default function DesktopTenantHistorySection() {
     modal.setDialogContentProps({
       className:
         "w-[min(980px,calc(100vw-32px))] max-w-[980px] rounded-[32px] border-0 p-0 shadow-2xl",
+      hideClose: true,
     });
     modal.openModal({ force: true });
   };
@@ -91,7 +92,7 @@ export default function DesktopTenantHistorySection() {
           </CardContent>
         </Card>
       ) : stackedItems.length > 0 ? (
-        <div className="space-y-5">
+        <div className="space-y-8">
           <StackedBanners
             banners={stackedItems}
             containerClassName="px-2"
@@ -103,7 +104,7 @@ export default function DesktopTenantHistorySection() {
               <Button
                 type="button"
                 variant="outline-primary"
-                className="h-14 min-w-72 rounded-2xl text-2xl font-bold"
+                className="h-12 w-full max-w-[155px] rounded-xl text-sm font-bold"
                 onClick={openHistoryDialog}
               >
                 عرض المزيد
