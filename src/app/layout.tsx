@@ -2,7 +2,6 @@ import "./globals.css";
 
 import Announcement from "@/components/banners/Announcement";
 import NavTopbar from "@/components/custom/NavTopbar";
-import Footer from "@/components/includes/Footer";
 import NavbarWrapper from "@/components/includes/NavbarWrapper";
 import UserModalsWrapper from "@/components/shared/UserModalsWrapper";
 import { Toaster } from "@/components/ui/toaster";
@@ -10,20 +9,19 @@ import { TENANT_ERROR_CODES } from "@/constants/error-codes";
 import { TenantProvider } from "@/context/TenantProvider";
 import { getServerData } from "@/helpers/fetchers/server-fetch";
 import { hexToHsl } from "@/helpers/tenant.helpers";
+import QueryProvider from "@/layouts/QueryProvider";
 import CustomError from "@/lib/customError";
 import { getTenantSettingsServer } from "@/services/tenant.service";
 import { ApiResponse, IUser } from "@/types";
-import { headers } from "next/headers";
 import { Metadata } from "next";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { Almarai } from "next/font/google";
+import { headers } from "next/headers";
 import Script from "next/script";
-import { Suspense } from "react";
 import CustomGlobalError from "./CustomGlobalError";
 import NotFoundTenant from "./NotFoundTenant";
 import Providers from "./providers";
 import SuspendedTenant from "./SuspendedTenant";
-import QueryProvider from "@/layouts/QueryProvider";
 
 const almarai = Almarai({
   subsets: ["arabic"],
@@ -36,21 +34,6 @@ const DESKTOP_ROUTE_PREFIX = "/desktop";
 
 function isDesktopBootstrapPath(pathname: string) {
   return pathname === DESKTOP_ROUTE_PREFIX || pathname.startsWith("/desktop/");
-}
-
-function SharedScripts() {
-  return (
-    <>
-      <Script
-        src="https://player.vdocipher.com/v2/api.js"
-        strategy="afterInteractive"
-      />
-      <Script
-        src="https://assets.mediadelivery.net/playerjs/player-0.1.0.min.js"
-        strategy="afterInteractive"
-      />
-    </>
-  );
 }
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -139,7 +122,6 @@ export default async function Layout({
           </QueryProvider>
 
           <Toaster />
-          <SharedScripts />
         </body>
       </html>
     );
@@ -222,16 +204,6 @@ export default async function Layout({
                 {children}
               </main>
 
-              <Suspense
-                fallback={
-                  <footer
-                    key="placeholder-footer"
-                    className="bg-background h-80"
-                  />
-                }
-              >
-                <Footer />
-              </Suspense>
               <UserModalsWrapper />
               <Announcement />
             </Providers>
@@ -239,7 +211,15 @@ export default async function Layout({
         </TenantProvider>
 
         <Toaster />
-        <SharedScripts />
+
+        <Script
+          src="https://player.vdocipher.com/v2/api.js"
+          strategy="afterInteractive"
+        />
+        <Script
+          src="https://assets.mediadelivery.net/playerjs/player-0.1.0.min.js"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );

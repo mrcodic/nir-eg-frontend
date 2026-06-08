@@ -87,9 +87,7 @@ export default function DesktopTenantHistorySection() {
               لا يوجد رقم هاتف محفوظ بعد
             </p>
             <p className="max-w-md text-sm leading-7 text-slate-500">
-              هذا القسم مخصص لتطبيق سطح المكتب، لذلك سيعتمد على رقم الهاتف الذي
-              سيقوم التطبيق بحفظه بشكل مركزي ثم يجلب به سجل المنصات من الواجهة
-              البرمجية.
+              سيتم عرض المنصات الخاصة بك هنا بعد التسجيل لاول مره
             </p>
           </CardContent>
         </Card>
@@ -122,8 +120,7 @@ export default function DesktopTenantHistorySection() {
               لا توجد منصات محفوظة لهذا الرقم
             </p>
             <p className="max-w-md text-sm leading-7 text-slate-500">
-              سنعرض هنا فقط السجل القادم من الواجهة البرمجية الخاصة بتاريخ دخول
-              الطالب، ولا نعتمد الآن على أي حفظ محلي داخل المتصفح.
+              سيتم عرض المنصات الخاصة بك هنا بعد التسجيل لاول مره
             </p>
           </CardContent>
         </Card>

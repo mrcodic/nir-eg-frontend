@@ -44,9 +44,7 @@ export async function middleware(request: NextRequest) {
     const { subdomain } = await extractTenantFromHostServer();
     if (!subdomain) {
       const desktopUrl = new URL("/desktop", request.url);
-      return NextResponse.redirect(desktopUrl, {
-        request: { headers: requestHeaders },
-      });
+      return NextResponse.redirect(desktopUrl);
     }
   }
 
@@ -54,16 +52,12 @@ export async function middleware(request: NextRequest) {
   const isProtected = isRouteMatch(pathname, PROTECTED_ROUTES);
 
   if (isProtected && !token) {
-    return NextResponse.redirect(new URL("/login", request.url), {
-      request: { headers: requestHeaders },
-    });
+    return NextResponse.redirect(new URL("/login", request.url));
   }
 
   const isAuthRoute = isRouteMatch(pathname, AUTH_ROUTES);
   if (isAuthRoute && token) {
-    return NextResponse.redirect(new URL("/", request.url), {
-      request: { headers: requestHeaders },
-    });
+    return NextResponse.redirect(new URL("/", request.url));
   }
 
   return NextResponse.next({ request: { headers: requestHeaders } });
