@@ -40,7 +40,7 @@ export default function StepperHeader({
               type="button"
               onClick={() => onStepClick?.(stepIndex)}
               className={cn(
-                "flex size-10 items-center justify-center rounded-full text-lg font-bold transition-colors",
+                "relative flex size-10 items-center justify-center rounded-full text-lg font-bold transition-colors",
                 isDoneOrCurrent
                   ? "bg-primary-800 text-white"
                   : "bg-gray-light text-gray-dark",
@@ -48,6 +48,10 @@ export default function StepperHeader({
               aria-label={`Go to step ${stepNumber}`}
             >
               {stepNumber}
+
+              {idx === currentStep && (
+                <div className="bg-primary-800 absolute top-1.5 left-1.5 -z-1 size-7 animate-ping rounded-full" />
+              )}
             </button>
 
             {idx !== steps.length - 1 && (
