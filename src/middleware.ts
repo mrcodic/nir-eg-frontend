@@ -33,19 +33,41 @@ export async function middleware(request: NextRequest) {
   const isProtected = isRouteMatch(pathname, PROTECTED_ROUTES);
 
   if (isProtected && !token) {
-    const { host } = await extractTenantFromHostServer();
-    const res = new NextResponse(null, { status: 307 });
-    res.headers.set("Location", `${host}/login`);
-    return res;
+    try {
+      const { host } = await extractTenantFromHostServer();
+      const res = new NextResponse(null, { status: 307 });
+      res.headers.set("Location", `${host}/login`);
+      return res;
+    } catch (err) {
+      // return error in json format
+      const res = NextResponse.json(
+        {
+          error: err,
+        },
+        { status: 500 },
+      );
+      return res;
+    }
   }
 
   const isAuthRoute = isRouteMatch(pathname, AUTH_ROUTES);
 
   if (isAuthRoute && token) {
-    const { host } = await extractTenantFromHostServer();
-    const res = new NextResponse(null, { status: 307 });
-    res.headers.set("Location", `${host}/`);
-    return res;
+    try {
+      const { host } = await extractTenantFromHostServer();
+      const res = new NextResponse(null, { status: 307 });
+      res.headers.set("Location", `${host}/`);
+      return res;
+    } catch (err) {
+      // return error in json format
+      const res = NextResponse.json(
+        {
+          error: err,
+        },
+        { status: 500 },
+      );
+      return res;
+    }
   }
 
   const requestHeaders = new Headers(request.headers);
