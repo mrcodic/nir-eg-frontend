@@ -12,14 +12,12 @@ interface UsePaymentProps {
   bookId?: string | number;
   isSingleBook?: boolean;
   asModal?: boolean;
-  setOpen?: (open: boolean) => void;
 }
 
 export const useBookPayment = ({
   bookId,
   isSingleBook = false,
   asModal = false,
-  setOpen,
 }: UsePaymentProps) => {
   const router = useRouter();
   const { toast } = useToast();
@@ -89,7 +87,6 @@ export const useBookPayment = ({
 
     if (asModal) {
       modal.closeModal();
-      setOpen?.(false);
     }
   };
 
