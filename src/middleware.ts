@@ -40,12 +40,15 @@ export async function middleware(request: NextRequest) {
       return res;
     } catch (err) {
       // return error in json format
-      const res = NextResponse.json(
-        {
-          error: err,
-        },
-        { status: 500 },
+      const res = NextResponse.next();
+
+      res.headers.set(
+        "x-middleware-error",
+        err instanceof Error
+          ? `${err.name}: ${err.message}` // readable string, not JSON
+          : String(err),
       );
+
       return res;
     }
   }
@@ -59,13 +62,16 @@ export async function middleware(request: NextRequest) {
       res.headers.set("Location", `${host}/`);
       return res;
     } catch (err) {
-      // return error in json format
-      const res = NextResponse.json(
-        {
-          error: err,
-        },
-        { status: 500 },
+      // return error in headers key
+      const res = NextResponse.next();
+
+      res.headers.set(
+        "x-middleware-error",
+        err instanceof Error
+          ? `${err.name}: ${err.message}` // readable string, not JSON
+          : String(err),
       );
+
       return res;
     }
   }
