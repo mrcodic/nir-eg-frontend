@@ -34,6 +34,7 @@ function usePaymentsTypesFiltered({
   const { data, isLoading } = useQuery<{ data: PaymentFilter | null }>({
     queryKey: ["settings/general"],
     queryFn: getClientPrivateData,
+    enabled: userType === 4,
   });
 
   // helper: apply filter for userType === 4 (online user)

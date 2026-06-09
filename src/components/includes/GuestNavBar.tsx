@@ -40,7 +40,7 @@ const GuestNavBar = () => {
             "group-data-[template=landing-v3]/template:bg-background group-data-[template=landing-v3]/template:border-gray-light flex items-center justify-between gap-2 group-data-[template=landing-v3]/template:rounded-lg group-data-[template=landing-v3]/template:border group-data-[template=landing-v3]/template:p-4",
           )}
         >
-          <div className="mobile:gap-20 flex items-center gap-12 self-end font-bold">
+          <div className="mobile:gap-20 flex items-center gap-6 self-end font-bold lg:gap-12">
             <Link href={"/"}>
               <CustomImage
                 src={logo || "/logo.svg"}
@@ -48,7 +48,7 @@ const GuestNavBar = () => {
                 width={110}
                 height={48}
                 unoptimized
-                className="h-12 w-[110px] object-contain object-right"
+                className="h-12 w-fit object-contain object-right"
                 loading="eager"
                 fetchPriority="high"
                 alt="logo"

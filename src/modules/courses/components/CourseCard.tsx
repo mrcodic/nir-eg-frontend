@@ -2,6 +2,7 @@
 
 import { PaymentModel } from "@/components/modals/PaymentModel";
 import { Button } from "@/components/ui/button";
+import CustomImage from "@/components/ui/CustomImage";
 import DataWithLabel from "@/components/ui/DataWithLabel";
 import PriceBubbles from "@/components/ui/price-bubble";
 import SubbedBadge from "@/components/ui/SubbedBadge";
@@ -97,10 +98,11 @@ const CourseCard = ({
         variants={cardVariants}
         className="bg-background relative flex h-[232px] w-full justify-center overflow-hidden rounded-lg"
       >
-        <Image
+        <CustomImage
           src={courseDetails?.thumbnail || "/assets/grade-placeholder.png"}
           className="object-cover transition-all group-hover:scale-110 group-hover:opacity-80"
           fill
+          fallback="/assets/grade-placeholder.png"
           alt="course cover image"
           fetchPriority="high"
           loading="eager"

@@ -147,7 +147,7 @@ export const BooksPaymentUI: React.FC<PaymentUIProps> = ({
                       src={icon}
                       height={32}
                       width={96}
-                      className="min-w-fit"
+                      className="h-8 w-fit min-w-fit"
                       alt="payment option icon"
                     />
                   ))}

@@ -1,8 +1,8 @@
 import { cn } from "@/lib/utils";
 import { TenantLandingResponse } from "@/types/tenant.types";
-import Image from "next/image";
 import Link from "next/link";
 import { Button } from "../ui/button";
+import CustomImage from "../ui/CustomImage";
 
 function HeroSectionThree({
   content,
@@ -33,17 +33,15 @@ function HeroSectionThree({
 
         <div
           className={cn(
-            "mobile:max-w-[466px] bg-gray-light relative aspect-square w-full overflow-hidden rounded-2xl",
-            {
-              "bg-gray-light": !content?.image,
-            },
+            "mobile:max-w-[466px] relative aspect-square w-full overflow-hidden rounded-2xl",
           )}
         >
           {content?.image && (
-            <Image
+            <CustomImage
               src={content?.image}
               fill
               alt="hero image"
+              startWithFallback={false}
               className="object-cover"
               fetchPriority="high"
               loading="eager"

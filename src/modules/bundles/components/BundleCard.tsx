@@ -2,6 +2,7 @@
 
 import { PaymentModel } from "@/components/modals/PaymentModel";
 import { Button } from "@/components/ui/button";
+import CustomImage from "@/components/ui/CustomImage";
 import DataWithLabel from "@/components/ui/DataWithLabel";
 import PriceBubbles from "@/components/ui/price-bubble";
 import { useAuthContext } from "@/context/auth-context";
@@ -29,10 +30,11 @@ export default function BundleCard({
       })}
     >
       <div className="mobile:w-[270px] bg-background max-mobile:mx-auto relative aspect-square max-h-[270px] w-full overflow-hidden rounded-lg">
-        <Image
+        <CustomImage
           className="object-contain"
-          src={bundle?.cover || "/assets/grade-placeholder.png"}
+          src={bundle?.cover}
           fill
+          fallback="/assets/grade-placeholder.png"
           alt="bundle cover image"
           fetchPriority="high"
           loading="eager"

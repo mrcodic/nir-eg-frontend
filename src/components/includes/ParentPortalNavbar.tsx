@@ -12,7 +12,7 @@ function ParentPortalNavbar() {
             width={110}
             height={48}
             unoptimized
-            className="h-12 w-[110px] object-contain object-right"
+            className="h-12 w-fit object-contain object-right"
             loading="eager"
             fetchPriority="high"
             alt="logo"

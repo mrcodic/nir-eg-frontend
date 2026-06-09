@@ -2,6 +2,7 @@ import { TenantLandingResponse } from "@/types/tenant.types";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "../ui/button";
+import CustomImage from "../ui/CustomImage";
 
 function StartWithUsNow({
   content,
@@ -68,10 +69,11 @@ function StartWithUsNow({
         </div>
 
         <div className="absolute inset-y-0 left-0 h-full w-[200px] lg:w-[400px]">
-          <Image
+          <CustomImage
             src={content?.image2 || "/assets/bg/student-photo.png"}
+            fallback="/assets/bg/student-photo.png"
             fill
-            className="h-full w-fit object-contain object-bottom-left"
+            className="h-full w-fit object-contain object-bottom-left max-sm:opacity-70 max-sm:brightness-75"
             alt="student photo"
           />
         </div>

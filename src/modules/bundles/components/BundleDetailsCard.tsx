@@ -1,3 +1,4 @@
+import CustomImage from "@/components/ui/CustomImage";
 import DataWithLabel from "@/components/ui/DataWithLabel";
 import PriceBubbles from "@/components/ui/price-bubble";
 import { Bundle } from "@/types";
@@ -13,13 +14,14 @@ function BundleDetailsCard({
   return (
     <div className="flex gap-6 max-md:flex-col">
       <div className="border-gray-light relative aspect-square max-h-58 min-w-46 overflow-hidden rounded-lg border">
-        <Image
-          src={bundle?.cover || "/assets/grade-placeholder.png"}
-          fill
+        <CustomImage
+          src={bundle?.cover}
+          fallback="/assets/grade-placeholder.png"
           alt="bundle image"
           className="object-cover"
           fetchPriority="high"
           loading="eager"
+          fill
         />
       </div>
 
