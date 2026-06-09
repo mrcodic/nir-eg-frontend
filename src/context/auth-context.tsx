@@ -3,7 +3,7 @@
 import { getClientPrivateData } from "@/helpers/fetchers/client-fetch";
 import { IUser } from "@/types";
 import { deleteCookie } from "@/utils/api";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Cookies from "js-cookie";
 import { createContext, useCallback, useContext, useState } from "react";
 
@@ -35,6 +35,7 @@ export const AuthContextProvider = ({
   profile: IUser | null;
   enableProfileQuery?: boolean;
 }) => {
+  const queryClient = useQueryClient();
   const [token, setToken] = useState<undefined | string | null>(
     () => Cookies.get("nir_token") || undefined,
   );
@@ -54,11 +55,13 @@ export const AuthContextProvider = ({
 
   const logout = useCallback(async () => {
     setToken(null);
+    queryClient.removeQueries({ queryKey: ["/students/profile"] });
     localStorage.removeItem("timer");
     Cookies.remove("guest_token");
     Cookies.remove("nir_token");
+
     await deleteCookie("nir_token");
-  }, []);
+  }, [queryClient]);
 
   return (
     <AuthContext.Provider

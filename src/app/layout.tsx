@@ -155,8 +155,7 @@ export default async function Layout({
   }
 
   const profile = await getServerData<ApiResponse<IUser | null>>({
-    queryKey: ["/students/profile"],
-    isAuth: true,
+    queryKey: [`/students/profile`],
   });
 
   const hslFromHex = hexToHsl(tenantSettings.primary_color);

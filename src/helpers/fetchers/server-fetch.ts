@@ -13,7 +13,7 @@ export async function fetchServer<T>({
   queryKey: [endpoint],
   auth = false,
   optionalAuth = false,
-  cache = "default",
+  cache = "no-store",
   next,
 }: FetchOptions): Promise<T | null> {
   const { subdomain, host } = await extractTenantFromHostServer();
@@ -55,7 +55,10 @@ export async function fetchServer<T>({
       },
       credentials: "include",
       cache,
-      next,
+      next: {
+        ...next,
+        tags: [...(next?.tags ?? []), endpoint],
+      },
     });
 
     if (!res.ok) {

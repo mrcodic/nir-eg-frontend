@@ -72,8 +72,16 @@ export const useBookPayment = ({
 
       if (response?.payment_url) {
         router.push(response?.payment_url);
+        toast({
+          icon: "loading",
+          description: "جاري التوجه لبوابة الدفع",
+        });
       } else {
         throw new Error("حصل مشكله اثناء الدفع");
+      }
+
+      if (asModal && response?.payment_url) {
+        modal.closeModal();
       }
     } catch (e) {
       console.log(e);
@@ -83,10 +91,6 @@ export const useBookPayment = ({
       });
     } finally {
       setLoading(false);
-    }
-
-    if (asModal) {
-      modal.closeModal();
     }
   };
 

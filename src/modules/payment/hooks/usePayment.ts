@@ -3,6 +3,7 @@ import { useModal } from "@/context/ModalProvider";
 import { mutateClient } from "@/helpers/fetchers/post-client";
 import { useToast } from "@/hooks/use-toast";
 import { paymentType, PricingResponse } from "@/types";
+import { revalidateTagAction } from "@/utils/api";
 import { redirectUrl } from "@/utils/clientFun";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -82,13 +83,29 @@ export const usePayment = ({
           },
         });
 
+        if (isFree) {
+          await Promise.all([
+            revalidateTagAction("/students/classrooms"),
+            revalidateTagAction("/students/bundles"),
+          ]);
+          return;
+        }
+
         if (response?.payment_url) {
           const normalizedUrl = response?.payment_url.startsWith("http")
             ? response?.payment_url
             : `http://${response?.payment_url}`;
           router.push(normalizedUrl);
+          toast({
+            icon: "loading",
+            description: "جاري التوجه لبوابة الدفع",
+          });
         } else {
           throw new Error("حصل مشكله اثناء الدفع");
+        }
+
+        if (asModal && (response?.payment_url || isFree)) {
+          modal.closeModal();
         }
       } catch (e) {
         console.log(e);
@@ -110,24 +127,18 @@ export const usePayment = ({
         router.push(`/payment?bundleId=${bundleId}`);
       }
     }
-
-    if (asModal) {
-      setTimeout(() => {
-        modal.closeModal();
-      }, 1000);
-    }
   }, [
     loading,
     isFree,
     paymentMethodValue,
-    asModal,
     courseId,
     bundleId,
     coupon?.promo?.code,
+    asModal,
     router,
     toast,
-    roomId,
     modal,
+    roomId,
   ]);
 
   return {

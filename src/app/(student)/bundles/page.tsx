@@ -31,6 +31,7 @@ const BundlesPage = async ({
       <Suspense fallback={<BundlesWrapperSkeleton />}>
         <BundlesWrapper profile={profile} searchParams={searchParams} />
       </Suspense>
+
       <NewCourses profile={profile} searchParams={searchParams} />
     </div>
   );
