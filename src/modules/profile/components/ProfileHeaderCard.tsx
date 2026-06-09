@@ -32,7 +32,7 @@ function ProfileHeaderCard({ profileData }: { profileData: IUser }) {
 
   return (
     <motion.div
-      className="bg-background relative rounded-lg p-4"
+      className="bg-background relative rounded-lg p-4 shadow-md"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.2, duration: 0.3 }}

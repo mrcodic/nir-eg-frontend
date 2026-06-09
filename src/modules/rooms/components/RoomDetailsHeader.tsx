@@ -27,7 +27,7 @@ export default function RoomDetailsHeader({
   const { lessons, quizzes, assignments, attachments, room } = data;
 
   return (
-    <div className="bg-primary-radial relative">
+    <div className="bg-primary-radial relative group-data-[template=landing-v3]/template:pt-28">
       <div
         className="bg-primary-800/50 absolute inset-0 z-1"
         style={{

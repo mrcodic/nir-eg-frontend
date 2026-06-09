@@ -50,7 +50,7 @@ export default function RoomDetailsPage() {
       data={roomDetails}
       isLoading={isLoadingRoomDetails}
     >
-      <div className="mt-20">
+      <div className="mt-20 group-data-[template=landing-v3]/template:mt-0">
         <Animate preset="slideDown">
           <RoomDetailsHeader
             data={roomDetails}
