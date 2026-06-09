@@ -42,7 +42,7 @@ const CoursesHeader = ({ details }: { details: ICourseDetails }) => {
       )}
     >
       <div
-        className="bg-primary-800 absolute inset-0 z-1"
+        className="bg-primary-800 absolute inset-0 z-1 opacity-50"
         style={{
           maskImage: `url(/assets/bg/bg.png)`,
           maskRepeat: "no-repeat",

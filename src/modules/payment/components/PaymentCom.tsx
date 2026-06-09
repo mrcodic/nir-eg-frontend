@@ -61,10 +61,10 @@ const PaymentCom = ({
         isModal={false}
       />
       {paymentTypes.length > 0 && (
-        <div className="ms-auto mt-5 flex flex-row! justify-between gap-5">
+        <div className="mt-5 flex flex-row! justify-between gap-5 sm:ms-auto">
           <Button
             onClick={handleNextClick}
-            className="h-11 w-32 items-center [&>svg]:size-6"
+            className="h-11 w-full max-w-full items-center sm:w-32 [&>svg]:size-6"
           >
             {loading ? (
               <Loader2 className="animate-spin" />

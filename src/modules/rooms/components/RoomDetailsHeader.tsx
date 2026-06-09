@@ -29,7 +29,7 @@ export default function RoomDetailsHeader({
   return (
     <div className="bg-primary-radial relative group-data-[template=landing-v3]/template:pt-28">
       <div
-        className="bg-primary-800/50 absolute inset-0 z-1"
+        className="bg-primary-800 absolute inset-0 z-1 opacity-50"
         style={{
           maskImage: "url(/assets/bg/bg.png)",
           maskRepeat: "no-repeat",
