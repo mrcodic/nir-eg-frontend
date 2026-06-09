@@ -12,7 +12,6 @@ function HeroSectionTwo({
   main?: TenantLandingResponse["data"]["main"];
   features?: TenantLandingResponse["data"]["features"];
 }) {
-  console.log(features);
   return (
     <section className="max-mobile:flex-col flex items-center justify-between gap-x-20 gap-y-20 xl:gap-x-30.5">
       <div>
@@ -67,16 +66,14 @@ function HeroSectionTwo({
       <div
         className={cn(
           "mobile:max-w-5/12 mobile:h-[600px] relative h-[400px] w-full overflow-hidden rounded-2xl",
-          {
-            "bg-gray-light": !main?.image,
-          },
         )}
       >
         {main?.image && (
-          <Image
+          <CustomImage
             src={main?.image}
             fill
             alt="hero image"
+            startWithFallback={false}
             className="object-cover"
             fetchPriority="high"
             loading="eager"

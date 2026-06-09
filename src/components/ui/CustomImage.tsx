@@ -9,6 +9,7 @@ type AvatarProps = {
   size?: number;
   className?: string;
   fallback?: string;
+  startWithFallback?: boolean;
 };
 
 const DEFAULT_FALLBACK = "/assets/avatar-user.svg";
@@ -21,10 +22,13 @@ export default function CustomImage({
   size = 44,
   className = "",
   fallback = DEFAULT_FALLBACK,
+  startWithFallback = true,
   ...props
 }: AvatarProps & ImageProps) {
   // Always start with fallback so there's never a broken image flash
-  const [imgSrc, setImgSrc] = useState<string>(fallback);
+  const [imgSrc, setImgSrc] = useState<string>(
+    startWithFallback ? fallback : src,
+  );
 
   useEffect(() => {
     if (!src) {

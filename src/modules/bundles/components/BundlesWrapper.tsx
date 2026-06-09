@@ -28,6 +28,9 @@ const BundlesWrapper = async ({
   const bundlesData = await getServerData({
     queryKey: [api],
     isAuth: !!profile,
+    next: {
+      revalidate: 60 * 5,
+    },
   });
 
   const bundles = profile
@@ -57,6 +60,7 @@ const BundlesWrapper = async ({
       />
 
       <Animate
+        key={"bundles-" + page}
         as="div"
         className={cn("mt-8 grid gap-6", {
           "xl:grid-cols-2 xl:gap-10": isMultiGrid,
@@ -66,7 +70,7 @@ const BundlesWrapper = async ({
           visible: { transition: { staggerChildren: 0.1 } },
         }}
       >
-        {paginatedBundles?.map((bundle, index) => {
+        {paginatedBundles?.map((bundle) => {
           return (
             <Animate key={bundle.id} isChild preset="slideUp">
               <BundleCard bundle={bundle} isMultiGrid={isMultiGrid} />

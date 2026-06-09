@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/carousel";
 import { getServerData } from "@/helpers/fetchers/server-fetch";
 import { ChevronLeft } from "lucide-react";
+import Link from "next/link";
 import CustomImage from "../ui/CustomImage";
 import PriceBubbles from "../ui/price-bubble";
 import SectionTitle from "./SectionTitle";
@@ -50,7 +51,7 @@ async function CoursesCarousel() {
                 key={course.id}
                 className="basis-full pl-4 max-md:max-w-96 md:basis-1/2 xl:basis-1/3"
               >
-                <div className="group cursor-pointer">
+                <Link href={`/bundles`} className="group cursor-pointer">
                   {/* Image Placeholder */}
                   <div className="relative mb-4 h-56 w-full overflow-hidden rounded-xl bg-gray-200 transition-colors hover:bg-gray-300">
                     <CustomImage
@@ -80,7 +81,7 @@ async function CoursesCarousel() {
                       <PriceBubbles price={course.price} className="ms-auto" />
                     </div>
                   </div>
-                </div>
+                </Link>
               </CarouselItem>
             ))}
           </CarouselContent>

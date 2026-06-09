@@ -29,7 +29,7 @@ const Footer = async () => {
             <CustomImage
               src={footerSettings?.image || "/logo.svg"}
               fallback="/logo.svg"
-              className="h-12 w-[110px] object-contain object-right"
+              className="h-12 w-fit object-contain object-right"
               width={110}
               height={48}
               alt="logo"

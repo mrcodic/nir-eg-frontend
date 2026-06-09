@@ -3,6 +3,7 @@
 import { TenantLandingResponse } from "@/types/tenant.types";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import CustomImage from "../ui/CustomImage";
 import SectionTitle from "./SectionTitle";
 
 type OurNumbersTwoProps = {
@@ -24,7 +25,7 @@ function OurNumbersTwo({ variant = "default", numbers }: OurNumbersTwoProps) {
               key={index}
               initial="idle"
               whileHover="hover"
-              className="border-primary-800 relative flex flex-col items-center rounded-lg border bg-white pt-10 pb-6 shadow-sm transition-all hover:shadow-md dark:bg-slate-900"
+              className="border-primary-800 relative flex min-w-0 flex-col items-center rounded-lg border bg-white pt-10 pb-6 shadow-sm transition-all hover:shadow-md dark:bg-slate-900"
             >
               <div className="absolute -top-10">
                 <motion.div
@@ -42,8 +43,9 @@ function OurNumbersTwo({ variant = "default", numbers }: OurNumbersTwoProps) {
                   }}
                 >
                   {number?.image && (
-                    <Image
+                    <CustomImage
                       src={number?.image}
+                      fallback="/assets/auth/books-stacked.webp"
                       width={80}
                       height={80}
                       className="h-20 w-20 object-contain drop-shadow-md"
@@ -53,7 +55,7 @@ function OurNumbersTwo({ variant = "default", numbers }: OurNumbersTwoProps) {
                 </motion.div>
               </div>
 
-              <div className="mt-2 text-center">
+              <div className="mt-2 min-w-0 text-center">
                 <h2 className="text-4xl font-bold text-black dark:text-white">
                   {number?.number}
                 </h2>
