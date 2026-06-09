@@ -1,4 +1,5 @@
 import { useCartStore } from "@/context/BooksStoreProvider";
+import { useModal } from "@/context/ModalProvider";
 import { mutateClient } from "@/helpers/fetchers/post-client";
 import { useToast } from "@/hooks/use-toast";
 import usePaymentsTypesFiltered from "@/modules/payment/hooks/usePaymentsTypesFiltered";
@@ -16,9 +17,11 @@ interface UsePaymentProps {
 export const useBookPayment = ({
   bookId,
   isSingleBook = false,
+  asModal = false,
 }: UsePaymentProps) => {
   const router = useRouter();
   const { toast } = useToast();
+  const modal = useModal();
 
   const initialSelect = useRef(false);
 
@@ -75,6 +78,10 @@ export const useBookPayment = ({
         });
       } else {
         throw new Error("حصل مشكله اثناء الدفع");
+      }
+
+      if (asModal && response?.payment_url) {
+        modal.closeModal();
       }
     } catch (e) {
       console.log(e);

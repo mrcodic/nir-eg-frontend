@@ -1,4 +1,5 @@
 import { useAuthContext } from "@/context/auth-context";
+import { useModal } from "@/context/ModalProvider";
 import { mutateClient } from "@/helpers/fetchers/post-client";
 import { useToast } from "@/hooks/use-toast";
 import { paymentType, PricingResponse } from "@/types";
@@ -21,10 +22,12 @@ export const usePayment = ({
   courseId,
   bundleId,
   roomId,
+  asModal = false,
   isFree = false,
 }: UsePaymentProps) => {
   const router = useRouter();
   const { toast } = useToast();
+  const modal = useModal();
   const initialSelect = useRef(false);
 
   const { profile } = useAuthContext();
@@ -100,6 +103,10 @@ export const usePayment = ({
         } else {
           throw new Error("حصل مشكله اثناء الدفع");
         }
+
+        if (asModal && (response?.payment_url || isFree)) {
+          modal.closeModal();
+        }
       } catch (e) {
         console.log(e);
         toast({
@@ -127,8 +134,10 @@ export const usePayment = ({
     courseId,
     bundleId,
     coupon?.promo?.code,
+    asModal,
     router,
     toast,
+    modal,
     roomId,
   ]);
 
