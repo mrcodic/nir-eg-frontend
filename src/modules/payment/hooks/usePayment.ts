@@ -1,5 +1,4 @@
 import { useAuthContext } from "@/context/auth-context";
-import { useModal } from "@/context/ModalProvider";
 import { mutateClient } from "@/helpers/fetchers/post-client";
 import { useToast } from "@/hooks/use-toast";
 import { paymentType, PricingResponse } from "@/types";
@@ -22,12 +21,10 @@ export const usePayment = ({
   courseId,
   bundleId,
   roomId,
-  asModal = false,
   isFree = false,
 }: UsePaymentProps) => {
   const router = useRouter();
   const { toast } = useToast();
-  const modal = useModal();
   const initialSelect = useRef(false);
 
   const { profile } = useAuthContext();
@@ -96,6 +93,10 @@ export const usePayment = ({
             ? response?.payment_url
             : `http://${response?.payment_url}`;
           router.push(normalizedUrl);
+          toast({
+            icon: "loading",
+            description: "جاري التحويل لبوابة الدفع",
+          });
         } else {
           throw new Error("حصل مشكله اثناء الدفع");
         }
@@ -119,24 +120,16 @@ export const usePayment = ({
         router.push(`/payment?bundleId=${bundleId}`);
       }
     }
-
-    if (asModal) {
-      setTimeout(() => {
-        modal.closeModal();
-      }, 1000);
-    }
   }, [
     loading,
     isFree,
     paymentMethodValue,
-    asModal,
     courseId,
     bundleId,
     coupon?.promo?.code,
     router,
     toast,
     roomId,
-    modal,
   ]);
 
   return {

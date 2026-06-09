@@ -1,5 +1,4 @@
 import { useCartStore } from "@/context/BooksStoreProvider";
-import { useModal } from "@/context/ModalProvider";
 import { mutateClient } from "@/helpers/fetchers/post-client";
 import { useToast } from "@/hooks/use-toast";
 import usePaymentsTypesFiltered from "@/modules/payment/hooks/usePaymentsTypesFiltered";
@@ -17,11 +16,9 @@ interface UsePaymentProps {
 export const useBookPayment = ({
   bookId,
   isSingleBook = false,
-  asModal = false,
 }: UsePaymentProps) => {
   const router = useRouter();
   const { toast } = useToast();
-  const modal = useModal();
 
   const initialSelect = useRef(false);
 
@@ -72,6 +69,10 @@ export const useBookPayment = ({
 
       if (response?.payment_url) {
         router.push(response?.payment_url);
+        toast({
+          icon: "loading",
+          description: "جاري التحويل لبوابة الدفع",
+        });
       } else {
         throw new Error("حصل مشكله اثناء الدفع");
       }
@@ -83,10 +84,6 @@ export const useBookPayment = ({
       });
     } finally {
       setLoading(false);
-    }
-
-    if (asModal) {
-      modal.closeModal();
     }
   };
 

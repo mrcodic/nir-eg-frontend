@@ -1,5 +1,6 @@
-import axios from "axios";
+import axios, { isAxiosError } from "axios";
 import Cookies from "js-cookie";
+import { handleClientFetchError } from "./client-error-handler";
 import { buildApiUrl, extractTenantFromHost } from "./fetch-utils";
 
 export async function mutateClient<T = any>(
@@ -27,6 +28,11 @@ export async function mutateClient<T = any>(
     return res.data;
   } catch (error) {
     console.log("post data error ", endpoint, error);
-    throw error;
+
+    if (isAxiosError(error) && error.status === 401) {
+      handleClientFetchError(error, endpoint);
+    } else {
+      throw error;
+    }
   }
 }
