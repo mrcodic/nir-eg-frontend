@@ -58,7 +58,7 @@ export default function CustomTableUI({
   return (
     <div
       id="table"
-      className="border-gray-light relative mt-10 overflow-auto rounded-lg border bg-white bg-cover p-4"
+      className="border-gray-light relative mt-10 overflow-auto rounded-lg border bg-white bg-cover p-4 shadow-sm"
     >
       <Table
         className={cn("border-separate border-spacing-0 max-md:pe-1", {
