@@ -107,7 +107,7 @@ function NavNotifications() {
         <ScrollArea
           className={cn(
             "mt-2 mb-2 rounded-xl",
-            "group-data-[template=landing-v3]/template:**:data-radix-scroll-area-viewport::max-h-[min(630px,calc(100dvh-240px))] **:data-radix-scroll-area-viewport:max-h-[min(630px,calc(100dvh-190px))] **:data-radix-scroll-area-viewport:min-h-22",
+            "**:data-radix-scroll-area-viewport:max-h-[min(630px,calc(100dvh-190px))] **:data-radix-scroll-area-viewport:min-h-22 group-data-[template=landing-v3]/template:**:data-radix-scroll-area-viewport:max-h-[min(630px,calc(100dvh-220px))]",
             {
               "**:data-radix-scroll-area-viewport:max-h-[min(630px,calc(100dvh-120px))] group-data-[template=landing-v3]/template:**:data-radix-scroll-area-viewport:max-h-[min(630px,calc(100dvh-160px))]":
                 notifications?.meta?.last_page === 1,
