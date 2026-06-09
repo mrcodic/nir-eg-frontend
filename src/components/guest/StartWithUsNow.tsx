@@ -73,7 +73,7 @@ function StartWithUsNow({
             src={content?.image2 || "/assets/bg/student-photo.png"}
             fallback="/assets/bg/student-photo.png"
             fill
-            className="h-full w-fit object-contain object-bottom-left max-sm:opacity-70 max-sm:brightness-75"
+            className="h-full w-fit object-contain object-bottom-left max-sm:brightness-75"
             alt="student photo"
           />
         </div>

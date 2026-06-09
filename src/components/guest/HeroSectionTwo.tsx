@@ -1,3 +1,7 @@
+"use client";
+
+import { useAuthContext } from "@/context/auth-context";
+import { useMounted } from "@/hooks/useMounted";
 import { cn } from "@/lib/utils";
 import { TenantLandingResponse } from "@/types/tenant.types";
 import Image from "next/image";
@@ -12,12 +16,17 @@ function HeroSectionTwo({
   main?: TenantLandingResponse["data"]["main"];
   features?: TenantLandingResponse["data"]["features"];
 }) {
+  const isMounted = useMounted();
+  const { profile } = useAuthContext();
+
+  const hideJoinUs = isMounted && !!profile;
+
   return (
     <section className="max-mobile:flex-col flex items-center justify-between gap-x-20 gap-y-20 xl:gap-x-30.5">
       <div>
         <h1 className="text-32 font-bold">{main?.section_title}</h1>
 
-        <div className="mt-6 flex flex-wrap gap-4">
+        <div className="flex flex-wrap gap-4 empty:hidden">
           {features?.items?.map((feature, i) => (
             <div
               key={feature?.text || i}
@@ -37,29 +46,50 @@ function HeroSectionTwo({
         </div>
 
         <div className="mt-14 flex flex-wrap items-center gap-6">
-          <Link href="/register">
-            <Button>
-              <Image
-                src="/assets/launch-white.svg"
-                width={20}
-                height={20}
-                alt="join us icon"
-              />
-              اشترك معنا
-            </Button>
-          </Link>
-          <Link href="/login">
-            <Button variant="outline">
-              <Image
-                src="/assets/sign-out.svg"
-                width={20}
-                height={20}
-                alt="join us icon"
-                className="transition-all group-hover/btn:brightness-0 group-hover/btn:invert"
-              />
-              تسجيل دخول
-            </Button>
-          </Link>
+          {hideJoinUs ? (
+            <>
+              <Link href="/bundles">
+                <Button>
+                  <Image
+                    src="/assets/launch-white.svg"
+                    width={20}
+                    height={20}
+                    alt="join us icon"
+                  />
+                  تصفح الكورسات
+                </Button>
+              </Link>
+              <Link href="/subscriptions">
+                <Button variant="secondary">اشتراكاتك</Button>
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link href="/register">
+                <Button>
+                  <Image
+                    src="/assets/launch-white.svg"
+                    width={20}
+                    height={20}
+                    alt="join us icon"
+                  />
+                  اشترك معنا
+                </Button>
+              </Link>
+              <Link href="/login">
+                <Button variant="outline">
+                  <Image
+                    src="/assets/sign-out.svg"
+                    width={20}
+                    height={20}
+                    alt="join us icon"
+                    className="transition-all group-hover/btn:brightness-0 group-hover/btn:invert"
+                  />
+                  تسجيل دخول
+                </Button>
+              </Link>
+            </>
+          )}
         </div>
       </div>
 

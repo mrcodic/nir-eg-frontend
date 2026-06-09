@@ -1,3 +1,7 @@
+"use client";
+
+import { useAuthContext } from "@/context/auth-context";
+import { useMounted } from "@/hooks/useMounted";
 import { cn } from "@/lib/utils";
 import { TenantLandingResponse } from "@/types/tenant.types";
 import Link from "next/link";
@@ -9,6 +13,11 @@ function HeroSectionThree({
 }: {
   content: TenantLandingResponse["data"]["main"];
 }) {
+  const isMounted = useMounted();
+  const { profile } = useAuthContext();
+
+  const hideJoinUs = isMounted && !!profile;
+
   return (
     <section className="bg-primary-800 pt-[168px] pb-16">
       <div className="wrapper max-mobile:flex-col flex items-center justify-between gap-x-20 gap-y-20 xl:gap-x-30.5">
@@ -20,12 +29,12 @@ function HeroSectionThree({
           </p>
 
           <div className="mt-14 flex flex-wrap items-center gap-6">
-            <Link href="/register">
+            <Link href={hideJoinUs ? "/bundles" : "/register"}>
               <Button
                 variant="outline"
                 className="hover:text-primary-800 h-auto max-w-full border-white px-12 py-4 text-2xl font-bold text-white hover:border-white hover:bg-white"
               >
-                اشترك الان!
+                {hideJoinUs ? "تصفح الباقات" : "اشترك الان!"}
               </Button>
             </Link>
           </div>
