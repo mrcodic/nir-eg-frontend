@@ -14,8 +14,6 @@ type OurNumbersTwoProps = {
 function OurNumbersTwo({ variant = "default", numbers }: OurNumbersTwoProps) {
   if (!numbers?.items?.length) return null;
 
-  console.log(numbers);
-
   return (
     <section>
       <SectionTitle title={numbers?.section_title} />

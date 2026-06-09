@@ -1,5 +1,6 @@
 "use client";
 
+import { getQueryClient } from "@/lib/queryClient";
 import Cookies from "js-cookie";
 import { getAuthFailureStrategy } from "../auth-policy";
 
@@ -24,6 +25,9 @@ export function handleClientFetchError(error: any, endpoint: unknown): null {
 
   if (status === 401) {
     Cookies.remove("nir_token");
+    if (endpoint === "/students/profile") {
+      getQueryClient().removeQueries({ queryKey: ["/students/profile"] });
+    }
     if (strategy === "silent-null") return null;
     safeRedirect("/login");
     return null;
