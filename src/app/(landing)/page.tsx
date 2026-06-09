@@ -21,7 +21,7 @@ const LandingPage = async () => {
     throw new CustomError("tenant template not found", 404);
   }
 
-  return <TemplateOne data={content.data} />;
+  return <Template data={content.data} />;
 };
 
 export default LandingPage;
