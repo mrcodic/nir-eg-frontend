@@ -74,7 +74,7 @@ export const useBookPayment = ({
         router.push(response?.payment_url);
         toast({
           icon: "loading",
-          description: "جاري التحويل لبوابة الدفع",
+          description: "جاري التوجه لبوابة الدفع",
         });
       } else {
         throw new Error("حصل مشكله اثناء الدفع");
