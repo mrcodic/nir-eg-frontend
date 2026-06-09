@@ -3,6 +3,7 @@ import { useModal } from "@/context/ModalProvider";
 import { mutateClient } from "@/helpers/fetchers/post-client";
 import { useToast } from "@/hooks/use-toast";
 import { paymentType, PricingResponse } from "@/types";
+import { revalidateTagAction } from "@/utils/api";
 import { redirectUrl } from "@/utils/clientFun";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -81,6 +82,14 @@ export const usePayment = ({
             coupon: coupon?.promo?.code || null,
           },
         });
+
+        if (isFree) {
+          await Promise.all([
+            revalidateTagAction("/students/classrooms"),
+            revalidateTagAction("/students/bundles"),
+          ]);
+          return;
+        }
 
         if (response?.payment_url) {
           const normalizedUrl = response?.payment_url.startsWith("http")

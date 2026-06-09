@@ -1,11 +1,11 @@
 import MappingFun from "@/components/fetchers/MappingFunc";
+import { Animate } from "@/components/shared/Animate";
 import CourseSkeleton from "@/components/shared/CourseSkeleton";
 import PaginationServer from "@/components/shared/PaginationServer";
 import CourseCard from "@/modules/courses/components/CourseCard";
 import RoomHeader from "@/modules/rooms/components/RoomHeader";
 import { CourseType, IUser } from "@/types";
 import { Suspense } from "react";
-import { Animate } from "@/components/shared/Animate";
 
 const NewCourses = async ({
   profile,
@@ -39,7 +39,7 @@ const NewCourses = async ({
             requireAuth={!!profile}
             endPointOptions={{
               next: {
-                revalidate: 60 * 10,
+                revalidate: 60 * 5,
               },
             }}
             render={(data: { data: CourseType[] }) => {

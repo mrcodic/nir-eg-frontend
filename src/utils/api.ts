@@ -1,6 +1,7 @@
 "use server";
 
 import { mutateServer } from "@/helpers/fetchers/post-server";
+import { revalidateTag } from "next/cache";
 import { cookies, headers } from "next/headers";
 // import "nprogress/nprogress.css";
 
@@ -88,3 +89,7 @@ export const deleteCookie = async (name: string[] | string = "nir_token") => {
     });
   }
 };
+
+export async function revalidateTagAction(tag: string) {
+  revalidateTag(tag);
+}

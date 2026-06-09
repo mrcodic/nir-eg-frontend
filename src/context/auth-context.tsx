@@ -47,7 +47,7 @@ export const AuthContextProvider = ({
       console.log("res profile", res);
       return res.body as unknown as IUser;
     },
-    staleTime: 1000 * 60 * 10, //10 minutes cache
+    staleTime: 1000 * 60 * 2, //2 minutes cache
     initialData: profile,
   });
 

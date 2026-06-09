@@ -1,11 +1,11 @@
 "use client";
 
-import { useModal } from "@/context/ModalProvider";
-import { usePathname, useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import PayFail from "@/components/modals/PayFail";
 import { PaySuccess } from "@/components/modals/PaySuccess";
+import { useModal } from "@/context/ModalProvider";
+import { revalidateTagAction } from "@/utils/api";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 
 type Props = {
   successTitle?: string;
@@ -32,6 +32,11 @@ function PaymentStatusHandler({
         <PaySuccess title={successTitle} description={successDescription} />,
       );
       modal.openModal();
+
+      Promise.all([
+        revalidateTagAction("/students/classrooms"),
+        revalidateTagAction("/students/bundles"),
+      ]);
     } else if (payment == "failed") {
       modal.setDialogContent(
         <PayFail title={failTitle} description={failDescription} />,
