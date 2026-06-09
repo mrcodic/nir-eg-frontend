@@ -31,7 +31,7 @@ const GuestNavBar = () => {
   return (
     <header
       className={cn(
-        "border-secondary bg-background fixed top-0 left-0 z-30 flex h-20 w-full items-center border-b group-data-[template=landing-v3]/template:h-24 group-data-[template=landing-v3]/template:items-end group-data-[template=landing-v3]/template:border-none group-data-[template=landing-v3]/template:bg-transparent aria-hidden:pointer-events-auto! data-[aria-hidden='true']:pointer-events-auto! lg:group-data-[template=landing-v3]/template:h-28",
+        "border-secondary bg-background fixed top-0 left-0 z-30 flex h-20 w-full items-center border-b group-data-[template=landing-v3]/template:h-24 group-data-[template=landing-v3]/template:items-end group-data-[template=landing-v3]/template:border-none group-data-[template=landing-v3]/template:bg-transparent group-data-[template=landing-v3]/template:backdrop-blur-xs aria-hidden:pointer-events-auto! data-[aria-hidden='true']:pointer-events-auto! lg:group-data-[template=landing-v3]/template:h-28",
       )}
     >
       <div className="wrapper">

@@ -1,33 +1,6 @@
 import { TenantLandingResponse } from "@/types/tenant.types";
 import SectionTitle from "./SectionTitle";
 
-const features = [
-  {
-    title: "شرح مُبسط",
-    description: "فيديوهات شرح لكل مواضيع المنهج",
-  },
-  {
-    title: "امتحانات و كويزات",
-    description: "امتحانات دورية و كويز كل حصة",
-  },
-  {
-    title: "تقارير لولي الأمر",
-    description: "تقارير دورية لولي الأمر خلال التطبيق أو واتساب",
-  },
-  {
-    title: "المتجر و الهدايا",
-    description: "اجمع النقاط و استبدلها بهدايا مميزة من المتجر",
-  },
-  {
-    title: "النقاط و الترتيب",
-    description: "احصل على النقاط و ارفع ترتيبك بين زملائك",
-  },
-  {
-    title: "مجتمع طلاب",
-    description: "انضم لطلابنا من خلال جروب واتساب أو تليجرام",
-  },
-];
-
 function WhyJoinUs({
   content,
 }: {
