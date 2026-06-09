@@ -48,6 +48,8 @@ export function useLogin({ onPhoneNotVerified }: UseLoginParams) {
       setToken(response?.access_token);
       presistUserPhone(phone.phone, phone.country);
 
+      router.refresh();
+
       if (response?.student?.type === 3 && response?.student?.has_center) {
         router.push(redirectPath || `bundles/${response?.student?.center_id}`);
         return;
