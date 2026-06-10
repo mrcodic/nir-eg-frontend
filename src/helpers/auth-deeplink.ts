@@ -1,16 +1,14 @@
 import { extractTenantFromHost } from "@/helpers/fetchers/fetch-utils";
-import { LoginResponse } from "@/types/auth.types";
 
 type OpenDesktopAuthDeeplinkOptions = {
   onFailure?: () => void;
 };
 
-export function buildAuthDeeplink(response: LoginResponse): string | null {
-  const deeplinkToken = response?.deeplink_token;
+export function buildAuthDeeplink(deeplinkToken: string): string | null {
   if (!deeplinkToken) return null;
 
   const { subdomain } = extractTenantFromHost();
-  const tenantSlug = subdomain || response?.enrollments?.[0]?.slug;
+  const tenantSlug = subdomain;
   if (!tenantSlug) return null;
 
   const token = encodeURIComponent(deeplinkToken);
@@ -20,10 +18,10 @@ export function buildAuthDeeplink(response: LoginResponse): string | null {
 }
 
 export function openDesktopAuthDeeplink(
-  response: LoginResponse,
+  deeplinkToken: string,
   options: OpenDesktopAuthDeeplinkOptions = {},
 ): boolean {
-  const deeplink = buildAuthDeeplink(response);
+  const deeplink = buildAuthDeeplink(deeplinkToken);
   if (!deeplink || typeof window === "undefined") return false;
 
   const shouldOpen = window.confirm("Open the desktop application now?");

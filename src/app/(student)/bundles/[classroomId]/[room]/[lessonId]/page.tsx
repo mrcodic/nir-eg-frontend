@@ -8,11 +8,13 @@ import VideoBanners from "@/components/banners/VideoBanners";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import { useAuthContext } from "@/context/auth-context";
 import ProtectedRoute from "@/layouts/ProtectedRoute";
+import { cn } from "@/lib/utils";
 import LessonTimedQuiz from "@/modules/rooms/components/LessonTimedQuiz";
 import RoomSideContent from "@/modules/rooms/components/RoomSideContent";
 import useLessonRoomLogic from "@/modules/rooms/hooks/useLessonRoomLogic";
 import DisableDevTools from "@/modules/video/components/DisableDivTools";
 import VideoError from "@/modules/video/components/VideoError";
+import VideoNotPlayableOnWebsite from "@/modules/video/components/VideoNotPlayableOnWebsite";
 import YoutubeVideoPlayer from "@/modules/video/components/YoutubeVideoPlayer";
 
 const Community = dynamic(
@@ -72,12 +74,15 @@ export default function LessonPlayerPage() {
   const requiresOtpVideo =
     activeVideoType === "cipher" || activeVideoType === "bunny";
 
+  const isWebPlayable =
+    activeVideoType === "youtube" ||
+    selectedLesson?.video_target === "web" ||
+    selectedLesson?.video_target === "both";
+
   const communityAvailable =
     profile?.type !== 3 &&
     !(lockedToPass || !!lockedByViewLimit) &&
     !!selectedLesson?.access_comment;
-
-  console.log(roomDetails);
 
   return (
     <>
@@ -104,14 +109,23 @@ export default function LessonPlayerPage() {
 
             <div className="flex flex-1 flex-col lg:w-[calc(70%-1.5rem)]">
               <div className="relative">
-                <VideoBanners
-                  requiresOtpVideo={requiresOtpVideo}
-                  viewCount={viewCount}
-                  lockedByViewLimit={lockedByViewLimit}
-                  lockedToPass={lockedToPass}
-                />
+                {isWebPlayable && (
+                  <VideoBanners
+                    requiresOtpVideo={requiresOtpVideo}
+                    viewCount={viewCount}
+                    lockedByViewLimit={lockedByViewLimit}
+                    lockedToPass={lockedToPass}
+                  />
+                )}
 
-                <div className="border-gray-light h-[300px] overflow-hidden rounded-lg border sm:h-[520px]">
+                <div
+                  className={cn(
+                    "border-gray-light h-[300px] overflow-hidden rounded-lg border sm:h-[520px]",
+                    {
+                      "h-auto sm:h-auto": !isWebPlayable,
+                    },
+                  )}
+                >
                   <Suspense
                     fallback={
                       <LoadingSpinner className="h-[300px] bg-white sm:h-[520px]" />
@@ -128,6 +142,8 @@ export default function LessonPlayerPage() {
                         }
                         src={lockedByViewLimit ? "/assets/Locked.png" : ""}
                       />
+                    ) : !isWebPlayable ? (
+                      <VideoNotPlayableOnWebsite />
                     ) : activeVideoType === "youtube" && videoUrl ? (
                       <YoutubeVideoPlayer videoUrl={videoUrl} />
                     ) : activeVideoType === "bunny" && videoId ? (

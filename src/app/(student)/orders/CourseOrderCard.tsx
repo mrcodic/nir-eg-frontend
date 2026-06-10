@@ -12,7 +12,7 @@ function CourseOrderCard({ courseOrder }: { courseOrder: CourseOrder }) {
     <div className="flex flex-col gap-x-6 gap-y-4 md:flex-row">
       <div className="border-gray-light bg-background relative aspect-square rounded-lg border max-md:mx-auto max-md:h-[200px] max-md:w-full max-md:max-w-full md:w-[200px]">
         <CustomImage
-          className="absolute inset-4 rounded-lg object-contain object-center"
+          className="absolute inset-4 rounded-lg object-cover object-center"
           src={courseOrder?.model?.cover}
           fallback={"/assets/grade-placeholder.png"}
           alt="course cover"
