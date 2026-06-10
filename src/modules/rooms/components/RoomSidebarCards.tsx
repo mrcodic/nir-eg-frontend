@@ -118,8 +118,8 @@ const QuizCard = memo(function QuizCard({
       <h3 className="grow truncate text-sm font-bold">{quiz.title}</h3>
 
       <LinkLocked
-        locked={locked} // ✅ FIX #9 — prop is now correctly forwarded (was hardcoded false in parent)
-        className="bg-primary-800 flex size-9 shrink-0 items-center justify-center rounded-lg"
+        locked={locked}
+        className="bg-primary-800 flex size-9 min-w-auto shrink-0 items-center justify-center rounded-lg sm:min-w-auto"
       >
         <Link href={href}>
           <ChevronLeft className="size-5 stroke-white" />
@@ -133,7 +133,7 @@ const AttachmentCard = memo(function AttachmentCard({
   attachment,
   locked,
 }: {
-  attachment: Attachment; // ✅ FIX #11
+  attachment: Attachment;
   locked: boolean;
 }) {
   const { handleDownload, isDownloading } = useFileDownload({ attachment });
@@ -154,7 +154,7 @@ const AttachmentCard = memo(function AttachmentCard({
 
       <LinkLocked
         locked={locked}
-        className="bg-primary-800 flex size-9 shrink-0 items-center justify-center rounded-lg"
+        className="bg-primary-800 flex size-9 min-w-auto shrink-0 items-center justify-center rounded-lg sm:min-w-auto"
       >
         <button
           onClick={handleDownload}
@@ -195,7 +195,7 @@ const AssignmentCard = memo(function AssignmentCard({
 
       <LinkLocked
         locked={locked}
-        className="bg-primary-800 flex size-9 shrink-0 items-center justify-center rounded-lg"
+        className="bg-primary-800 flex size-9 min-w-auto shrink-0 items-center justify-center rounded-lg sm:min-w-auto"
       >
         <Link href={href}>
           <ChevronLeft className="size-5 stroke-white" />
