@@ -1,7 +1,8 @@
 "use client ";
 // components/InfiniteScroll.js
-import { useCallback, useEffect, useState } from "react";
+
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
+import { useCallback, useEffect, useState } from "react";
 
 const InfiniteScroll = ({ fetchData, pagination, render, initialData }) => {
   const [items, setItems] = useState(initialData || []);
@@ -52,10 +53,8 @@ const InfiniteScroll = ({ fetchData, pagination, render, initialData }) => {
         <div>
           <LoadingSpinner />
         </div>
-      )}{" "}
-      {/* Show a loading spinner */}
-      <div id="scroll-target" style={{ height: "20px" }}></div>{" "}
-      {/* Target for intersection observer */}
+      )}
+      <div id="scroll-target" style={{ height: "20px" }}></div>
     </div>
   );
 };

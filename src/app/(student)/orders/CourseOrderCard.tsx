@@ -1,6 +1,7 @@
 import DataLabel from "@/components/custom/DataLabel";
 import CustomImage from "@/components/ui/CustomImage";
 import { paymentTypesObj } from "@/constants";
+import { formatCurrency } from "@/lib/utils";
 import PaymentStatusBadge from "@/modules/payment/components/PaymentStatusBadge";
 import PriceBadge from "@/modules/payment/components/PriceBadge";
 import { CourseOrder } from "@/types";
@@ -23,7 +24,7 @@ function CourseOrderCard({ courseOrder }: { courseOrder: CourseOrder }) {
 
       <div className={`border-gray-light flex-1 rounded-lg border p-4`}>
         <div className="flex w-full flex-wrap items-center justify-between gap-x-6 gap-y-2">
-          <h2 className="text-sm font-bold text-black md:text-xl">
+          <h2 className="text-sm font-bold text-black md:text-lg">
             {courseOrder.model?.name}
             <p className="text-sm text-gray-500">
               {courseOrder.trasnsaction_id}
@@ -51,7 +52,9 @@ function CourseOrderCard({ courseOrder }: { courseOrder: CourseOrder }) {
         )}
 
         <div className="mt-4 flex flex-wrap items-center gap-x-8 gap-y-2">
-          <DataLabel text="السعر"> {courseOrder?.amount} جنية</DataLabel>
+          <DataLabel text="السعر">
+            {formatCurrency(courseOrder?.amount)}
+          </DataLabel>
 
           <DataLabel text="التاريخ">
             {" "}

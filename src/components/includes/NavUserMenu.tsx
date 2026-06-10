@@ -35,7 +35,7 @@ function NavUserMenu({
       <DropdownMenuTrigger className="shrink-0 focus-visible:outline-hidden">
         <CustomImage
           src={profile?.avatar}
-          className="border-primary-100 size-11 rounded-full border"
+          className="border-primary-100 hover:border-primary-800 size-11 rounded-full border"
           alt="user avatar"
           size={44}
         />

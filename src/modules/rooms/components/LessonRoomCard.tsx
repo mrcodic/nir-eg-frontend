@@ -97,14 +97,7 @@ const LessonRoomCard = ({
           }}
         >
           {!locked ? (
-            <>
-              <span>شاهد الفيديو</span>
-              {/* <img
-                src="/assets/LeftArrowColor.svg"
-                alt=""
-                className="size-6 md:hidden"
-              /> */}
-            </>
+            <span>شاهد الفيديو</span>
           ) : (
             <TooltipProvider>
               <Tooltip>

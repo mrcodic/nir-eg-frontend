@@ -124,12 +124,23 @@ const RoomAccordion = ({
                   {isSubscribed && (
                     <Link
                       href={`/bundles/${classroomId}/${room?.id}`}
-                      className="bg-primary-800 hover:bg-primary-800/80 flex h-8 cursor-pointer items-center justify-center rounded-lg px-4 text-sm text-white"
+                      className="bg-primary-800 hover:bg-primary-800/80 flex h-8 cursor-pointer items-center justify-center gap-2 rounded-lg px-4 text-sm text-white"
                       onClick={(e) => {
                         e.stopPropagation();
                       }}
                     >
                       تفاصيل الحصة
+                      <div
+                        style={{
+                          maskImage: "url(/assets/classrooms-fill.svg)",
+                          WebkitMaskImage: "url(/assets/classrooms-fill.svg)",
+                          maskSize: "contain",
+                          WebkitMaskSize: "contain",
+                          maskRepeat: "no-repeat",
+                          WebkitMaskRepeat: "no-repeat",
+                        }}
+                        className="h-4 w-4 bg-white"
+                      />
                     </Link>
                   )}
 
