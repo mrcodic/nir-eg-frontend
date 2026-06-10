@@ -18,7 +18,7 @@ function TemplateThree({ data }: { data: TenantLandingResponse["data"] }) {
         <Animate preset="fadeIn" delay={0.2}>
           <Followers followers={data?.social} />
         </Animate>
-        <div className="overflow-x-hidden">
+        <div className="overflow-x-clip">
           <Animate preset="slideRight" delay={0.4}>
             <WhyJoinUs content={data?.why} />
           </Animate>

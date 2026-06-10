@@ -11,6 +11,7 @@ import { loginWithPhonePassword } from "@/services/auth.service";
 import { saveCookie } from "@/utils/api";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
 
 type UseLoginParams = {
   onPhoneNotVerified: () => void;
@@ -20,6 +21,7 @@ export function useLogin({ onPhoneNotVerified }: UseLoginParams) {
   const { toast } = useToast();
   const router = useRouter();
   const queryClient = useQueryClient();
+  const [isLoading, setIsLoading] = useState(false);
 
   const { setToken } = useAuthContext();
 
@@ -31,6 +33,7 @@ export function useLogin({ onPhoneNotVerified }: UseLoginParams) {
 
   const onSubmit = async (values: z.infer<typeof loginSchema>) => {
     try {
+      setIsLoading(true);
       const { phone, ...rest } = values;
       const response = await loginWithPhonePassword({
         phone: phone.phone,
@@ -100,8 +103,10 @@ export function useLogin({ onPhoneNotVerified }: UseLoginParams) {
             : "حدث خطاء ما اثناء تسجيل الدخول",
         icon: "error",
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  return { onSubmit };
+  return { onSubmit, isLoading };
 }

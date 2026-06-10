@@ -1,19 +1,24 @@
 import DataLabel from "@/components/custom/DataLabel";
+import CustomImage from "@/components/ui/CustomImage";
 import { deliveryStatusArabic } from "@/constants";
+import { cn, formatCurrency } from "@/lib/utils";
+import PaymentStatusBadge from "@/modules/payment/components/PaymentStatusBadge";
 import { BooksOrder } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 import CartDetailsSideSheet from "./CartDetailsSideSheet";
-import PaymentStatusBadge from "@/modules/payment/components/PaymentStatusBadge";
+
+const imgWrapperClassname =
+  "border-gray-light bg-background relative aspect-square rounded-lg border max-md:mx-auto max-md:h-[200px] max-md:w-full max-md:max-w-full md:w-[200px] overflow-hidden";
 
 function BookOrderCard({ bookOrder }: { bookOrder: BooksOrder }) {
-  const isCart = bookOrder.type === "cart";
+  const isCart = bookOrder.type === "cart" || bookOrder?.items?.length > 1;
 
   const bookImage = (
-    <Image
-      className="absolute inset-4 h-[calc(100%-32px)] w-[calc(100%-32px)] rounded-lg object-contain object-center"
-      src={bookOrder?.items[0]?.book_image || "/assets/Course.svg"}
-      onError={(e) => (e.currentTarget.src = "/assets/Course.svg")}
+    <CustomImage
+      className="absolute inset-4 rounded-lg object-contain object-center transition-all duration-300"
+      src={bookOrder?.items[0]?.book_image}
+      fallback={"/assets/grade-placeholder.png"}
       alt="book image"
       fill
     />
@@ -22,38 +27,41 @@ function BookOrderCard({ bookOrder }: { bookOrder: BooksOrder }) {
   return (
     <div className="flex flex-col gap-6 md:flex-row">
       {isCart ? (
-        <div className="relative aspect-video rounded-[7.283px] bg-[#FBF6F0] max-md:mx-auto max-md:w-full max-md:max-w-[335px] md:w-[368px]">
-          {bookImage}
-        </div>
+        <div className={imgWrapperClassname}>{bookImage}</div>
       ) : (
         <Link
           href={`/books/${bookOrder?.items?.[0]?.book_id}`}
-          className="relative aspect-video rounded-[7.283px] bg-[#FBF6F0] max-md:mx-auto max-md:w-full max-md:max-w-[335px] md:w-[368px]"
+          className={cn(
+            imgWrapperClassname,
+            "hover:[&>img]:scale-110 hover:[&>img]:opacity-80",
+          )}
         >
           {bookImage}
         </Link>
       )}
 
-      <div className={`rounded-LG flex-1 p-4`}>
+      <div className={`border-gray-light flex-1 rounded-lg border p-4`}>
         <div className="flex w-full flex-wrap items-center justify-between gap-6">
           <h2 className="text-[14px] font-bold text-black md:text-[18px]">
             {isCart ? "عربة التسوق" : bookOrder.items[0]?.book_name}
             <p className="text-sm text-gray-500">{bookOrder?.order_number}</p>
           </h2>
 
-          <h2 className="flex flex-wrap items-center gap-1 font-bold">
-            حالة الدفع : <PaymentStatusBadge status={bookOrder.status} />
-          </h2>
+          <PaymentStatusBadge
+            status={bookOrder.payment_status}
+            variant="book"
+          />
         </div>
 
-        <div className="my-3 h-px w-full bg-[#D9B45C]" />
+        <div className="bg-gray-light my-3 h-px w-full" />
 
         <div className="flex flex-col">
-          <div className="flex items-center justify-between gap-4">
-            <h3 className="">
-              حالة الطلب:{" "}
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <h3 className="text-sm">
+              حالة التوصيل:{" "}
               <span className="ps-2 font-bold">
-                {deliveryStatusArabic[bookOrder?.delivery_status]}
+                {deliveryStatusArabic[bookOrder?.delivery_status] ||
+                  "قيد الانتظار"}
               </span>
             </h3>
 
@@ -61,7 +69,10 @@ function BookOrderCard({ bookOrder }: { bookOrder: BooksOrder }) {
             {isCart && <CartDetailsSideSheet bookOrder={bookOrder} />}
           </div>
           <div className="mt-4 flex flex-wrap items-center gap-8">
-            <DataLabel text="السعر"> {bookOrder.total_price} جنية</DataLabel>
+            <DataLabel text="السعر">
+              {formatCurrency(bookOrder.total_price)}
+            </DataLabel>
+
             {!isCart && (
               <DataLabel text="الكمية">
                 {bookOrder.items[0]?.quantity}
@@ -69,7 +80,6 @@ function BookOrderCard({ bookOrder }: { bookOrder: BooksOrder }) {
             )}
 
             <DataLabel text="التاريخ">
-              {" "}
               <div className="flex gap-10">
                 <span className="text-[#523412]">
                   {new Date(bookOrder?.created_at).toISOString().split("T")[0]}

@@ -50,14 +50,14 @@ function RoomTaskCard({
         <span className="line-clamp-1">{task?.title}</span>
       </div>
 
-      <div className="ms-auto flex items-center gap-6 empty:hidden">
+      <div className="ms-auto flex shrink-0 items-center gap-6 empty:hidden">
         {subscribe && verify && (
-          <LinkLocked locked={locked}>
+          <LinkLocked locked={locked} className="w-full grow py-1">
             <Link
               href={`/bundles/${classroomId}/${
                 room?.id
               }/${type === "assignment" ? "assignment" : "exams"}/${task.id}`}
-              className="w-full text-center"
+              className="block w-full"
             >
               {linkText}
             </Link>

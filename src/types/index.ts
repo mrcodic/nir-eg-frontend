@@ -184,12 +184,15 @@ export interface CourseOrder {
   model_type?: string;
 }
 
+export type BookPaymentStatus = "pending" | "paid" | "unpaid";
+
 export type BooksOrder = {
   type: "book" | "cart";
   items: BookItem[];
   order_number: string;
   created_at: string;
   status: paymentStatus;
+  payment_status: BookPaymentStatus;
   delivery_status: number;
   total_price: number;
 };

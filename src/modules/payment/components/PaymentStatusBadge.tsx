@@ -1,7 +1,15 @@
 import { paymentStatusArabic } from "@/constants";
 import { cn } from "@/lib/utils";
-import { paymentStatus } from "@/types";
+import { BookPaymentStatus, paymentStatus } from "@/types";
 import { Check, LucideLoaderCircle, X } from "lucide-react";
+
+type PaymentStatusBadgeVariant = "payment" | "book";
+
+type PaymentStatusBadgeProps = {
+  status: paymentStatus | BookPaymentStatus;
+  className?: string;
+  variant?: PaymentStatusBadgeVariant;
+};
 
 const statusClassName = {
   PAID: "bg-semantics-green-50 text-semantics-green",
@@ -21,23 +29,40 @@ const statusIcon = {
   default: <LucideLoaderCircle className="size-4 animate-spin" />,
 };
 
+const bookStatusMap: Record<BookPaymentStatus, paymentStatus> = {
+  pending: paymentStatus.pending,
+  paid: paymentStatus.paid,
+  unpaid: paymentStatus.unpaid,
+};
+
+function resolveStatus(
+  status: PaymentStatusBadgeProps["status"],
+  variant: PaymentStatusBadgeVariant,
+): paymentStatus {
+  if (variant === "book" && status in bookStatusMap) {
+    return bookStatusMap[status as BookPaymentStatus];
+  }
+
+  return status as paymentStatus;
+}
+
 function PaymentStatusBadge({
   status,
   className,
-}: {
-  status: paymentStatus;
-  className?: string;
-}) {
+  variant = "payment",
+}: PaymentStatusBadgeProps) {
+  const resolvedStatus = resolveStatus(status, variant);
+
   return (
     <div
       className={cn(
         "inline-flex h-8 items-center justify-center gap-2 rounded-lg px-2 py-1 text-sm font-bold",
-        statusClassName[status] || statusClassName.default,
+        statusClassName[resolvedStatus] || statusClassName.default,
         className,
       )}
     >
-      {statusIcon[status]}
-      {paymentStatusArabic[status] || paymentStatusArabic.default}
+      {statusIcon[resolvedStatus]}
+      {paymentStatusArabic[resolvedStatus] || paymentStatusArabic.default}
     </div>
   );
 }

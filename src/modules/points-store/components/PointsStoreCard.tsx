@@ -1,6 +1,7 @@
 "use client";
 
-import LoaderLottie from "@/components/shared/LoaderLottie";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
+import { Button } from "@/components/ui/button";
 import { useModal } from "@/context/ModalProvider";
 import { useToast } from "@/hooks/use-toast";
 import BuyPointsItemModal from "@/modules/points-store/components/BuyPointsItemModal";
@@ -8,7 +9,6 @@ import { Heart } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Button } from "../../../components/ui/button";
 
 const PointsStoreCard = ({ storeItem }) => {
   const router = useRouter();
@@ -103,7 +103,7 @@ const PointsStoreCard = ({ storeItem }) => {
 
             <Button className="group w-full grow" variant="outline">
               {loadingFav ? (
-                <LoaderLottie className="size-6" />
+                <LoadingSpinner className="size-6" />
               ) : (
                 <Heart className="size-6 group-hover:fill-white" />
               )}

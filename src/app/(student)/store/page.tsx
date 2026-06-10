@@ -5,6 +5,7 @@ import { getServerData } from "@/helpers/fetchers/server-fetch";
 import PointsStoreCard from "@/modules/points-store/components/PointsStoreCard";
 import StudentPointsCard from "@/modules/profile/components/StudentPointsCard";
 import { IUser } from "@/types";
+import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
 const tabs = [
@@ -47,6 +48,8 @@ const mapTabsToEndpoints = {
 };
 
 const StorePage = async () => {
+  redirect("/");
+
   const profileData = await getServerData<{ body: IUser }>({
     queryKey: ["/students/profile"],
   });

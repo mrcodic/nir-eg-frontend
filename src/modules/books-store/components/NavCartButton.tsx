@@ -32,7 +32,8 @@ function NavCartButton() {
 
   const displayCount = isCartHydrated ? getTotalItems() : 0;
 
-  if (!pathname.startsWith("/books")) return null;
+  if (!pathname.startsWith("/books") || pathname.startsWith("/books/cart"))
+    return null;
 
   return (
     <Sheet>
@@ -43,7 +44,7 @@ function NavCartButton() {
         >
           <CountBubble
             count={displayCount}
-            className="size-5 pt-px text-xs font-bold"
+            className="size-5 text-xs font-bold"
           />
           <div
             className="group-hover/cart-btn:bg-primary-50 size-12 bg-white transition-all"

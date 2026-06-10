@@ -10,7 +10,7 @@ function CountBubble({
   return (
     <span
       className={cn(
-        "bg-semantics-red absolute -top-1 -right-1 flex size-5 items-center justify-center rounded-full p-1 pt-1.5 text-center text-[10px] text-white",
+        "bg-semantics-red absolute -top-1 -right-1 flex size-5 items-center justify-center rounded-full p-1 text-center text-[10px] text-white",
         className,
       )}
     >

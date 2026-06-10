@@ -40,7 +40,7 @@ const AuthPage = () => {
     },
   });
 
-  const { onSubmit } = useLogin({
+  const { onSubmit, isLoading: isLoadingLogin } = useLogin({
     onPhoneNotVerified: () => {
       setVerify(true);
     },
@@ -111,17 +111,20 @@ const AuthPage = () => {
             <Button
               type="submit"
               className="ms-auto w-full max-w-40"
-              disabled={form.formState.isSubmitting}
+              disabled={
+                form.formState.isSubmitting || isLoadingLogin || !!profile
+              }
             >
-              {!form.formState.isSubmitting ? (
-                " تسجيل دخول"
-              ) : (
+              {form.formState.isSubmitting || isLoadingLogin || profile ? (
                 <SmallSpinner className="text-white" />
+              ) : (
+                "تسجيل دخول"
               )}
             </Button>
           </div>
         </form>
       </Form>
+
       {verify && <OTPNotVerifIed open={verify} setOpen={setVerify} />}
     </div>
   );

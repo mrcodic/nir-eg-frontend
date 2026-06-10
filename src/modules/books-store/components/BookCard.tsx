@@ -58,7 +58,7 @@ const BookCard = ({ book }: { book: Book }) => {
         <CustomImage
           src={book?.image || "/assets/book.svg"}
           alt="book"
-          fallback="/assets/book.svg"
+          fallback="/assets/grade-placeholder.png"
           fill
           className="z-1 rounded-lg object-cover transition-all group-hover:scale-105"
         />
