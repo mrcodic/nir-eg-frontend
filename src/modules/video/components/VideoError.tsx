@@ -20,7 +20,9 @@ export default function VideoError({
       </div>
 
       <div className="flex flex-col items-center gap-2">
-        <p className="text-lg font-bold">{message || "حدث خطأ ما"}</p>
+        <p className="text-center font-bold sm:text-lg">
+          {message || "حدث خطأ ما"}
+        </p>
       </div>
     </div>
   );

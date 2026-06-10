@@ -270,6 +270,7 @@ export interface CommentsData {
 }
 
 export type LessonVideoType = "youtube" | "cipher" | "bunny";
+export type LessonVideoTarget = "both" | "web" | "app";
 
 export interface INotification {
   id: string;
@@ -438,6 +439,7 @@ export interface ILesson {
   video_id?: string;
   video_link?: string;
   video_type: LessonVideoType;
+  video_target: LessonVideoTarget;
   quizzes?: {
     id: number;
     show_answer: number;

@@ -14,20 +14,6 @@ export default function VideoBanners({
 }) {
   const banners: StackedBannerItem[] = [];
 
-  if (requiresOtpVideo && viewCount) {
-    banners.push({
-      id: "otp",
-      className: "border-secondary bg-white text-black  p-1",
-      content: (
-        <p className="text-xs sm:text-xs">
-          عدد المشاهدات المسموح هو <strong>{viewCount.total_views}</strong>،
-          متبقي لك <strong>{viewCount.remaining}</strong> مشاهدة ويتم احتساب
-          المشاهدة بعد اول 15 دقيقة في الفيديو.
-        </p>
-      ),
-    });
-  }
-
   if (lockedToPass || !!lockedByViewLimit) {
     banners.push({
       id: "locked",
@@ -42,6 +28,20 @@ export default function VideoBanners({
           {!!lockedByViewLimit
             ? "لقد تجاوزت الحد الأقصى لعدد المشاهدات المسموح بها لهذا الدرس"
             : "يجب ان تقوم باجتياز الاختبار أولا"}
+        </p>
+      ),
+    });
+  }
+
+  if (requiresOtpVideo && viewCount) {
+    banners.push({
+      id: "otp",
+      className: "border-secondary bg-white text-black  p-1",
+      content: (
+        <p className="text-xs sm:text-xs">
+          عدد المشاهدات المسموح هو <strong>{viewCount.total_views}</strong>،
+          متبقي لك <strong>{viewCount.remaining}</strong> مشاهدة ويتم احتساب
+          المشاهدة بعد اول 15 دقيقة في الفيديو.
         </p>
       ),
     });

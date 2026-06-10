@@ -99,7 +99,10 @@ function useLessonRoomLogic({
           lockedByViewLimit: res?.views_used >= res?.total_views,
         });
 
-        setOtpStatus({ loading: false, error: false });
+        setOtpStatus({
+          loading: false,
+          error: res?.views_used >= res?.total_views,
+        });
       } catch (error) {
         const errorStatus = axios.isAxiosError(error) && error.response?.status;
         const apiCode = axios.isAxiosError(error)

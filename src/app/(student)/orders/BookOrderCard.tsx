@@ -16,7 +16,7 @@ function BookOrderCard({ bookOrder }: { bookOrder: BooksOrder }) {
 
   const bookImage = (
     <CustomImage
-      className="absolute inset-4 rounded-lg object-contain object-center transition-all duration-300"
+      className="absolute inset-4 rounded-lg object-cover object-center transition-all duration-300"
       src={bookOrder?.items[0]?.book_image}
       fallback={"/assets/grade-placeholder.png"}
       alt="book image"
