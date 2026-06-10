@@ -43,7 +43,8 @@ function CartDetailsSideSheet({ bookOrder }: { bookOrder: BooksOrder }) {
             </span>
 
             <span className="ms-auto flex flex-wrap items-center gap-1 font-bold">
-              حالة الدفع : <PaymentStatusBadge status={bookOrder.status} />
+              حالة الدفع :{" "}
+              <PaymentStatusBadge status={bookOrder.status} variant="book" />
             </span>
           </h2>
         </SheetHeader>

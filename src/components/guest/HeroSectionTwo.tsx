@@ -27,22 +27,24 @@ function HeroSectionTwo({
         <h1 className="text-32 font-bold">{main?.section_title}</h1>
 
         <div className="flex flex-wrap gap-4 empty:hidden">
-          {features?.items?.map((feature, i) => (
-            <div
-              key={feature?.text || i}
-              className="bg-background flex items-center gap-2 rounded-lg p-2 pe-3"
-            >
-              <CustomImage
-                className="h-6 w-6"
-                src={feature?.image}
-                fallback="/logo.svg"
-                width={24}
-                height={24}
-                alt={feature?.text}
-              />
-              <p>{feature?.text || "--"}</p>
-            </div>
-          ))}
+          {features?.items
+            ?.filter((f) => f?.text)
+            .map((feature, i) => (
+              <div
+                key={feature?.text || i}
+                className="bg-background flex items-center gap-2 rounded-lg p-2 pe-3"
+              >
+                <CustomImage
+                  className="h-6 w-6"
+                  src={feature?.image}
+                  fallback="/logo.svg"
+                  width={24}
+                  height={24}
+                  alt={feature?.text}
+                />
+                <p>{feature?.text || "--"}</p>
+              </div>
+            ))}
         </div>
 
         <div className="mt-14 flex flex-wrap items-center gap-6">
@@ -98,17 +100,15 @@ function HeroSectionTwo({
           "mobile:max-w-5/12 mobile:h-[600px] relative h-[400px] w-full overflow-hidden rounded-2xl",
         )}
       >
-        {main?.image && (
-          <CustomImage
-            src={main?.image}
-            fill
-            alt="hero image"
-            startWithFallback={false}
-            className="object-cover"
-            fetchPriority="high"
-            loading="eager"
-          />
-        )}
+        <CustomImage
+          src={main?.image}
+          fill
+          alt="hero image"
+          startWithFallback={false}
+          className="object-cover"
+          fetchPriority="high"
+          loading="eager"
+        />
       </div>
     </section>
   );

@@ -1,10 +1,10 @@
 import DataLabel from "@/components/custom/DataLabel";
 import { deliveryStatusArabic } from "@/constants";
+import PaymentStatusBadge from "@/modules/payment/components/PaymentStatusBadge";
 import { BooksOrder } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 import CartDetailsSideSheet from "./CartDetailsSideSheet";
-import PaymentStatusBadge from "@/modules/payment/components/PaymentStatusBadge";
 
 function BookOrderCard({ bookOrder }: { bookOrder: BooksOrder }) {
   const isCart = bookOrder.type === "cart";
@@ -42,7 +42,11 @@ function BookOrderCard({ bookOrder }: { bookOrder: BooksOrder }) {
           </h2>
 
           <h2 className="flex flex-wrap items-center gap-1 font-bold">
-            حالة الدفع : <PaymentStatusBadge status={bookOrder.status} />
+            حالة الدفع :{" "}
+            <PaymentStatusBadge
+              status={bookOrder.payment_status}
+              variant="book"
+            />
           </h2>
         </div>
 
