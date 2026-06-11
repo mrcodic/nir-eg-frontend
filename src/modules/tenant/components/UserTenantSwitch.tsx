@@ -32,6 +32,7 @@ export default function UserTenantSwitch() {
   const { toast } = useToast();
   const { tenants, isLoading, error } = useTenants();
   const { mutateAsync: switchTenant, isPending } = useSwitchTenant();
+  const [isSwitching, setIsSwitching] = useState(false);
 
   const [open, setOpen] = useState(false);
   const [selectedTenantId, setSelectedTenantId] = useState("");
@@ -70,7 +71,10 @@ export default function UserTenantSwitch() {
       const targetOrigin = buildTargetOrigin(normalizedTarget);
       const switchUrl = `${targetOrigin}/api/auth/switch?token=${encodeURIComponent(token)}&next=${encodeURIComponent("/")}`;
 
+      setIsSwitching(true);
+
       window.open(switchUrl, "_self", "noopener,noreferrer");
+
       toast({ icon: "loading", description: "جاري التحويل..." });
     } catch (switchError) {
       toast({
@@ -140,9 +144,12 @@ export default function UserTenantSwitch() {
                   return (
                     <div key={tenant.tenant_id} className="space-y-2">
                       <DropdownMenuItem
-                        onClick={() => setSelectedTenantId(tenant.tenant_id)}
+                        onClick={() => {
+                          if (isPending || isSwitching) return;
+                          setSelectedTenantId(tenant.tenant_id);
+                        }}
                         onSelect={(e) => e.preventDefault()}
-                        disabled={isCurrentTenant}
+                        disabled={isCurrentTenant || isPending || isSwitching}
                         className={cn(
                           "hover:bg-primary-50 focus:bg-primary-50 flex w-full cursor-pointer items-center gap-2 rounded-lg px-4 py-1.5 text-right transition-colors",
                           selected && "bg-primary-50",
@@ -187,13 +194,17 @@ export default function UserTenantSwitch() {
         {tenants.length > 0 && (
           <div className="mt-2 px-4 pb-2">
             <Button
-              disabled={isLoading || !selectedTenantId || isPending}
+              disabled={
+                isLoading || !selectedTenantId || isPending || isSwitching
+              }
               onClick={() => {
                 void handleSwitchTenant(selectedTenantId);
               }}
               className="h-8 w-full max-w-full rounded-lg px-2 text-sm font-bold"
             >
-              {isPending && <SmallSpinner className="size-4 text-white" />}
+              {(isPending || isSwitching) && (
+                <SmallSpinner className="size-4 text-white" />
+              )}
               تأكيد
             </Button>
           </div>

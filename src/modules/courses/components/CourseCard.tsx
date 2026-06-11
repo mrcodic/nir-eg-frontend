@@ -164,7 +164,7 @@ const CourseCard = ({
           {/* ---------- Actions ---------- */}
           <div
             className={cn(
-              "mt-auto grid grid-cols-1 gap-4 pt-4 min-[300px]:grid-cols-2",
+              "mt-auto grid grid-cols-1 gap-4 pt-2 min-[300px]:grid-cols-2",
               {
                 "min-[300px]:grid-cols-1": hasSingleButton,
               },
