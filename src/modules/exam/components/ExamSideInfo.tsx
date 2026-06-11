@@ -3,16 +3,17 @@ import { Button } from "@/components/ui/button";
 import { useTaskContext } from "@/context/TaskProvider";
 import { cn } from "@/lib/utils";
 import { QuizStatus } from "@/types";
+import { TaskQuestionPayload, TaskShowAnswersData } from "@/types/quiz.types";
 import { memo } from "react";
 import ExamPDFGenerator from "./ExamPDFGenerator";
 
 type Props = {
   start: QuizStatus;
-  data: any;
-  setShowRoom?: any;
+  data?: TaskQuestionPayload | TaskShowAnswersData;
+  setShowRoom?: (value: boolean) => void;
   defaultTitle?: string;
   startTimer?: boolean;
-  onComplete?: (data: any) => void;
+  onComplete?: (data: { completed: boolean }) => void;
 };
 
 function ExamSideInfo({
@@ -24,9 +25,10 @@ function ExamSideInfo({
   onComplete,
 }: Props) {
   const { taskId } = useTaskContext();
-  const isAnswered = start?.score_ratio && (!data || (data && data?.solution));
-
-  console.log("daa  : ", start);
+  console.log("ddddddd ", data);
+  const isAnswered =
+    start?.score_ratio &&
+    (!data || (data && (data as TaskShowAnswersData)?.solution));
 
   return (
     <div className="bg-background flex flex-col items-start justify-center rounded-lg p-4 md:min-w-[280px]">

@@ -1,6 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { getClientPrivateData } from "@/helpers/fetchers/client-fetch";
 import { cn } from "@/lib/utils";
+import {
+  TaskShowAnswersData,
+  TaskShowAnswersResponse,
+} from "@/types/quiz.types";
 import { pdf } from "@react-pdf/renderer";
 import { useState } from "react";
 import ExamPDF from "./ExamPdf";
@@ -17,7 +21,7 @@ const ExamPDFGenerator = ({
   className?: string;
 }) => {
   const [loading, setLoading] = useState(false);
-  const [examData, setExamData] = useState(null);
+  const [examData, setExamData] = useState<TaskShowAnswersData | null>(null);
 
   const handleDownload = async () => {
     if (loading || !taskId) {
@@ -30,15 +34,20 @@ const ExamPDFGenerator = ({
 
     if (!data) {
       try {
-        const res = await getClientPrivateData({
+        const res = await getClientPrivateData<TaskShowAnswersResponse>({
           queryKey: [`students/quiz/show/answers/${taskId}`],
         });
-        data = res.body;
+        data = res?.body ? { ...res.body, solution: true } : null;
         setExamData(data); // Cache the data for potential future clicks
-      } catch (err) {
+      } catch {
         setLoading(false);
         return; // Optionally handle error (e.g., show toast)
       }
+    }
+
+    if (!data) {
+      setLoading(false);
+      return;
     }
 
     try {
@@ -53,7 +62,7 @@ const ExamPDFGenerator = ({
       a.download = `TASK-${taskId}-${new Date().toDateString()}.pdf`;
       a.click();
       URL.revokeObjectURL(url);
-    } catch (err) {
+    } catch {
       // Optionally handle PDF generation error
     } finally {
       setLoading(false);
