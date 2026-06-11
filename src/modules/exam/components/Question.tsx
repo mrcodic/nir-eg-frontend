@@ -1,7 +1,6 @@
 "use client";
 
 import { FormField, FormItem } from "@/components/ui/form";
-import ReadingBorder from "@/components/ui/paragraph-borders";
 import { useTaskContext } from "@/context/TaskProvider";
 import { memo, useMemo } from "react";
 import { useFormState, useWatch } from "react-hook-form";
@@ -97,7 +96,7 @@ const Question = ({
 
         {isAnswer && question.explanation && (
           <div className="mt-2">
-            <ReadingBorder text="شرح الإجابة" />
+            <hr className="border-primary-100 my-6 h-px w-full" />
             <p
               className="break-all *:break-all"
               dangerouslySetInnerHTML={{

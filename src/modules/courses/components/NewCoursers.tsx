@@ -19,14 +19,17 @@ const NewCourses = async ({
 
   let api = profile
     ? `/students/classrooms`
-    : `/guest/classrooms/${params?.grade || 1}`;
+    : `/guest/classrooms/${params?.grade || profile?.grade || 1}`;
 
   return (
     <div className="wrapper">
       <RoomHeader
         className=""
         title={
-          profile?.grade_name ? `كورسات ${profile?.grade_name}` : "كورسات جديدة"
+          (Number(params?.grade) == profile?.grade || !params?.grade) &&
+          profile?.grade_name
+            ? `كورسات ${profile?.grade_name}`
+            : "كورسات جديدة"
         }
         icon="/assets/gifs/book-gif.gif"
       />
@@ -41,6 +44,7 @@ const NewCourses = async ({
               next: {
                 revalidate: 60 * 5,
               },
+              cache: "default",
             }}
             render={(data: { data: CourseType[] }) => {
               const allCourses = data?.data || [];

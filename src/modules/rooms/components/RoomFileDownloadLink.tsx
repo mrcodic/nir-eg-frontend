@@ -58,6 +58,7 @@ function RoomFileDownloadLink({
           <button
             role="button"
             onClick={handleDownload}
+            disabled={isDownloading}
             className="cursor-pointer text-sm font-medium"
           >
             {isDownloading ? "جاري التحميل..." : "تنزيل الملف"}

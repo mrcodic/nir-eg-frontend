@@ -242,7 +242,7 @@ const renderHtml = (html, customStylesheet = htmlStylesheet) => {
             objectPosition: "left",
             borderRadius: 5,
           }}
-        />
+        />,
       );
     }
 
@@ -251,7 +251,7 @@ const renderHtml = (html, customStylesheet = htmlStylesheet) => {
 
   const htmlWithoutImages = html.replace(
     /<img\s+[^>]*?src=["'][^"']+["'][^>]*?>/gi,
-    ""
+    "",
   );
 
   const imageComponents = extractImages(html);
@@ -303,8 +303,8 @@ const renderMCQQuestion = (question, index) => {
         const answerStyle = isCorrect
           ? successAnswer
           : isSelected
-          ? wrongAnswer
-          : null;
+            ? wrongAnswer
+            : null;
 
         return (
           <View key={answer.id} style={styles.answerOption}>
@@ -357,7 +357,7 @@ const renderParagraphQuestion = (question, index) => (
 
     <View style={styles.nestedQuestion}>
       {question.related_questions?.map((relatedQ, idx) =>
-        renderMCQQuestion(relatedQ, idx)
+        renderMCQQuestion(relatedQ, idx),
       )}
     </View>
 
@@ -410,7 +410,6 @@ const renderQuestion = (question, index) => {
 };
 
 const ExamPDF = ({ examData }) => {
-  console.log("examData , ", examData);
   return (
     <Document>
       <Page size="A4" style={styles.page}>
@@ -425,7 +424,7 @@ const ExamPDF = ({ examData }) => {
           </Text>
         </View>
         {examData?.questions?.map((question, index) =>
-          renderQuestion(question, index)
+          renderQuestion(question, index),
         )}
       </Page>
     </Document>

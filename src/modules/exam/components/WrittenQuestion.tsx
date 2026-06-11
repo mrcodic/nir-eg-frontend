@@ -1,7 +1,6 @@
 "use client";
 
 import { FormField, FormItem } from "@/components/ui/form";
-import ReadingBorder from "@/components/ui/paragraph-borders";
 import { Textarea } from "@/components/ui/textarea";
 import { useTaskContext } from "@/context/TaskProvider";
 import { cn } from "@/lib/utils";
@@ -172,6 +171,10 @@ const WrittenQuestion = ({ question, index, listRef }: Props) => {
               )}
 
               {(selectedFile || question?.essay?.attachments?.[0]) && (
+                <p className="text-xs font-bold">الصورة المرفقة:</p>
+              )}
+
+              {(selectedFile || question?.essay?.attachments?.[0]) && (
                 <Overview
                   file={selectedFile || question?.essay?.attachments?.[0]}
                   onClick={() =>
@@ -192,7 +195,8 @@ const WrittenQuestion = ({ question, index, listRef }: Props) => {
 
               {answered && question?.explanation && (
                 <div className="mt-2">
-                  <ReadingBorder text="شرح الإجابة" />
+                  <hr className="border-primary-100 my-4 h-px w-full" />
+                  <p className="mb-3 text-xs font-bold">شرح الإجابة:</p>
                   <p
                     className="break-all *:break-all"
                     dangerouslySetInnerHTML={{
@@ -223,7 +227,7 @@ const Overview = ({
   isAnswer: boolean;
 }) => {
   return (
-    <div className="border-primary-100 mt-2 flex w-full flex-col gap-2 rounded-xl border">
+    <div className="border-primary-100 mt-2 flex w-full flex-col gap-2 rounded-xl border bg-gray-50">
       <div className="flex items-center justify-between gap-4 p-2">
         <div className="flex w-full items-center gap-4">
           {isAnswer && file?.mime?.startsWith("image") ? (

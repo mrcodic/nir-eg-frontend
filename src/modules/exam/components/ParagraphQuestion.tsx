@@ -1,4 +1,3 @@
-import ReadingBorder from "@/components/ui/paragraph-borders";
 import { useTaskContext } from "@/context/TaskProvider";
 import { QuizQuestion } from "@/types";
 import { memo, useMemo } from "react";
@@ -94,7 +93,7 @@ const ParagraphQuestion = ({
 
         {isAnswer && question.explanation && (
           <div className="mt-2">
-            <ReadingBorder text="شرح الإجابة" />
+            <hr className="border-primary-100 my-6 h-px w-full" />
             <p
               className="break-all *:break-all"
               dangerouslySetInnerHTML={{

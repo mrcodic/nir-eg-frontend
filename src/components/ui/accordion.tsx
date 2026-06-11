@@ -9,18 +9,14 @@ import { cn } from "@/lib/utils";
 const Accordion = AccordionPrimitive.Root;
 interface AccordionItemProps extends React.ComponentPropsWithoutRef<
   typeof AccordionPrimitive.Item
-> {
-  isProfile?: boolean;
-}
+> {}
 interface AccordionTriggerProps extends React.ComponentPropsWithoutRef<
   typeof AccordionPrimitive.Trigger
-> {
-  isProfile?: boolean;
-}
+> {}
 const AccordionItem = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Item>,
   AccordionItemProps
->(({ className, isProfile, ...props }, ref) => (
+>(({ className, ...props }, ref) => (
   <AccordionPrimitive.Item
     ref={ref}
     className={cn(
@@ -36,7 +32,7 @@ AccordionItem.displayName = "AccordionItem";
 const AccordionTrigger = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Trigger>,
   AccordionTriggerProps
->(({ className, isProfile, children, ...props }, ref) => (
+>(({ className, children, ...props }, ref) => (
   <AccordionPrimitive.Header className={`mb-0 flex bg-white`}>
     <AccordionPrimitive.Trigger
       ref={ref}

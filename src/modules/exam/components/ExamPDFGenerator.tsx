@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { getClientPrivateData } from "@/helpers/fetchers/client-fetch";
 import { cn } from "@/lib/utils";
-import { pdf } from "@react-pdf/renderer"; // Import pdf for blob generation
+import { pdf } from "@react-pdf/renderer";
 import { useState } from "react";
 import ExamPDF from "./ExamPdf";
 

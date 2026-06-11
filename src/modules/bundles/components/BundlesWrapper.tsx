@@ -22,7 +22,7 @@ const BundlesWrapper = async ({
   if (profile) {
     api = "/students/bundles";
   } else {
-    api = `/guest/bundels?grade_id=${params?.grade || 1}`;
+    api = `/guest/bundels?grade_id=${params?.grade || profile?.grade || 1}`;
   }
 
   const bundlesData = await getServerData({
@@ -31,6 +31,7 @@ const BundlesWrapper = async ({
     next: {
       revalidate: 60 * 5,
     },
+    cache: "default",
   });
 
   const bundles = profile

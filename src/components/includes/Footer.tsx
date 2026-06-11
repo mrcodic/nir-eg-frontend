@@ -12,6 +12,7 @@ const Footer = async () => {
     next: {
       revalidate: 60 * 20,
     },
+    cache: "default",
   });
 
   const footerSettings = footerResponse?.data;
