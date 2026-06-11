@@ -107,6 +107,8 @@ const PassedModal = ({
                 {start?.show_answer && !start?.review_pending && (
                   <p className="inline-block">
                     - يمكنك تنزيل نموذج الإجابة بالكامل
+                    {start?.retake &&
+                      " , اذا قمت بذلك لن تتمكن من اعاده الامتحان"}
                   </p>
                 )}
               </div>

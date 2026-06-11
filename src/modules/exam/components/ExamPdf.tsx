@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 import {
   TaskAnswerOption,
   TaskChoiceAnswerQuestion,
@@ -158,6 +159,11 @@ const styles = StyleSheet.create({
     flexDirection: "row-reverse",
     alignItems: "center",
     gap: 6,
+  },
+  questionHeaderLeft: {
+    flexDirection: "row-reverse",
+    alignItems: "center",
+    gap: 4,
   },
   questionNumberBadge: {
     backgroundColor: COLORS.primary,
@@ -632,6 +638,7 @@ const RenderAnswerVideo = ({
 const renderMCQQuestion = (
   question: TaskChoiceAnswerQuestion,
   index: number,
+  isSubquestion: boolean = false,
 ) => {
   const isAnswered = question.answers?.some((answer) => answer.selected);
   const isMultiple = question.has_multi_correct;
@@ -652,35 +659,46 @@ const renderMCQQuestion = (
       {/* Header */}
       <View style={styles.questionHeader} wrap={false}>
         <View style={styles.questionHeaderRight}>
-          <View style={styles.questionNumberBadge}>
+          <View
+            style={[
+              styles.questionNumberBadge,
+              isSubquestion && { backgroundColor: COLORS.gray700 },
+            ]}
+          >
             <Text style={styles.questionNumberText}>سؤال {index + 1}</Text>
           </View>
-          <View style={styles.questionScoreBadge}>
-            <Text style={styles.questionScoreText}>{question.score} درجة</Text>
-          </View>
+          {!!question.score && question.score > 0 && (
+            <View style={styles.questionScoreBadge}>
+              <Text style={styles.questionScoreText}>
+                {question.score} درجة
+              </Text>
+            </View>
+          )}
         </View>
-        {!isAnswered ? (
-          <View style={styles.notAnsweredBadge}>
-            <Text style={styles.notAnsweredText}>
-              لم تقم بالاجابة على هذا السؤال
-            </Text>
-          </View>
-        ) : isCorrectAnswer ? (
-          <View style={styles.correctAnswerBadge}>
-            <Text style={styles.correctAnswerText}>إجابة صحيحة</Text>
-          </View>
-        ) : (
-          <View style={styles.wrongAnswerBadge}>
-            <Text style={styles.wrongAnswerText}>إجابة غير صحيحة</Text>
-          </View>
-        )}
-        {isMultiple && (
-          <View style={styles.multiCorrectBadge}>
-            <Text style={styles.multiCorrectText}>
-              هذا السؤال يحتوي على اكثر من اجابة
-            </Text>
-          </View>
-        )}
+        <View style={styles.questionHeaderLeft}>
+          {!isAnswered ? (
+            <View style={styles.notAnsweredBadge}>
+              <Text style={styles.notAnsweredText}>
+                لم تقم بالاجابة على هذا السؤال
+              </Text>
+            </View>
+          ) : isCorrectAnswer ? (
+            <View style={styles.correctAnswerBadge}>
+              <Text style={styles.correctAnswerText}>إجابة صحيحة</Text>
+            </View>
+          ) : (
+            <View style={styles.wrongAnswerBadge}>
+              <Text style={styles.wrongAnswerText}>إجابة غير صحيحة</Text>
+            </View>
+          )}
+          {isMultiple && (
+            <View style={styles.multiCorrectBadge}>
+              <Text style={styles.multiCorrectText}>
+                هذا السؤال يحتوي على اكثر من اجابة
+              </Text>
+            </View>
+          )}
+        </View>
       </View>
 
       {/* Body */}
@@ -734,7 +752,11 @@ const renderMCQQuestion = (
           const showStatusDot = isCorrect || isSelected;
 
           return (
-            <View key={answer.id} style={[styles.answerOption, optionStyle]}>
+            <View
+              key={answer.id}
+              style={[styles.answerOption, optionStyle]}
+              wrap={false}
+            >
               <View
                 style={[
                   styles.answerIndicator,
@@ -795,14 +817,19 @@ const renderParagraphQuestion = (
     {/* Header */}
     <View style={styles.questionHeader}>
       <View style={styles.questionHeaderRight}>
+        <View style={[styles.questionNumberBadge]}>
+          <Text style={styles.questionNumberText}>سؤال {index + 1}</Text>
+        </View>
         <View
           style={[styles.questionNumberBadge, { backgroundColor: COLORS.info }]}
         >
-          <Text style={styles.questionNumberText}>فقرة {index + 1}</Text>
+          <Text style={styles.questionNumberText}>فقرة</Text>
         </View>
-        <View style={styles.questionScoreBadge}>
-          <Text style={styles.questionScoreText}>{question.score} درجة</Text>
-        </View>
+        {!!question.score && question.score > 0 && (
+          <View style={styles.questionScoreBadge}>
+            <Text style={styles.questionScoreText}>{question.score} درجة</Text>
+          </View>
+        )}
       </View>
     </View>
 
@@ -816,7 +843,7 @@ const renderParagraphQuestion = (
       {/* Nested Questions */}
       <View style={styles.nestedQuestion}>
         {question.related_questions?.map((relatedQ, idx) =>
-          renderMCQQuestion(relatedQ, idx),
+          renderMCQQuestion(relatedQ, idx, true),
         )}
       </View>
 
@@ -838,17 +865,24 @@ const renderWrittenQuestion = (question: TaskEssayQuestion, index: number) => {
       {/* Header */}
       <View style={styles.questionHeader} wrap={false}>
         <View style={styles.questionHeaderRight}>
+          <View style={[styles.questionNumberBadge]}>
+            <Text style={styles.questionNumberText}>سؤال {index + 1}</Text>
+          </View>
           <View
             style={[
               styles.questionNumberBadge,
-              { backgroundColor: COLORS.gray700 },
+              { backgroundColor: COLORS.info },
             ]}
           >
-            <Text style={styles.questionNumberText}>سؤال {index + 1}</Text>
+            <Text style={styles.questionNumberText}>مقالى</Text>
           </View>
-          <View style={styles.questionScoreBadge}>
-            <Text style={styles.questionScoreText}>{question.score} درجة </Text>
-          </View>
+          {!!question.score && question.score > 0 && (
+            <View style={styles.questionScoreBadge}>
+              <Text style={styles.questionScoreText}>
+                {question.score} درجة
+              </Text>
+            </View>
+          )}
         </View>
 
         {/* Essay status */}
@@ -903,9 +937,9 @@ const renderWrittenQuestion = (question: TaskEssayQuestion, index: number) => {
             <Text style={styles.writtenAnswerHeaderText}>إجابة الطالب</Text>
           </View>
           <View style={styles.writtenAnswerBody}>
-            {question?.essay?.text ? (
+            {!!question?.essay?.text && question?.essay?.text !== "null" ? (
               <Text style={styles.writtenAnswerText}>
-                {question.essay.text}
+                {question.essay.text || ""}
               </Text>
             ) : (
               <Text style={styles.noAnswerText}>لم يتم تقديم إجابة</Text>
