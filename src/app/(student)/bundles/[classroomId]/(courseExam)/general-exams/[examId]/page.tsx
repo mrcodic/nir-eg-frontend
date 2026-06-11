@@ -29,9 +29,6 @@ const ExamPage = () => {
       <div
         className={cn(
           "wrapper mt-28 mb-[186px] flex h-[calc(100%-80px)] flex-col items-center gap-8 py-4 group-data-[template=landing-v3]/template:mt-32 md:items-start lg:flex-row",
-          // {
-          //   "mt-32": template == 3,
-          // },
         )}
       >
         <TaskSideBar

@@ -41,6 +41,7 @@ const NewCourses = async ({
               next: {
                 revalidate: 60 * 5,
               },
+              cache: "default",
             }}
             render={(data: { data: CourseType[] }) => {
               const allCourses = data?.data || [];

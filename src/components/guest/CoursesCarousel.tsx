@@ -6,6 +6,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { getServerData } from "@/helpers/fetchers/server-fetch";
+import { ApiResponse, IUser } from "@/types";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import CustomImage from "../ui/CustomImage";
@@ -23,12 +24,18 @@ interface ILandingCourse {
 }
 
 async function CoursesCarousel() {
-  const coursesResponse = await getServerData<{
-    data: { count: number; items: ILandingCourse[] };
-  }>({
-    queryKey: ["courses/home"],
-    isAuth: false,
-  });
+  const [coursesResponse, profile] = await Promise.all([
+    getServerData<{
+      data: { count: number; items: ILandingCourse[] };
+    }>({
+      queryKey: ["courses/home"],
+      optionalAuth: true,
+    }),
+    getServerData<ApiResponse<IUser | null>>({
+      queryKey: ["/students/profile"],
+    }),
+  ]);
+
   const currentYear = new Date().getFullYear();
 
   if (!coursesResponse?.data?.count) return null;
@@ -51,9 +58,12 @@ async function CoursesCarousel() {
                 key={course.id}
                 className="basis-full pl-4 max-md:max-w-96 md:basis-1/2 xl:basis-1/3"
               >
-                <Link href={`/bundles`} className="group cursor-pointer">
+                <Link
+                  href={!!profile?.body ? `/bundles/${course.id}` : `/bundles`}
+                  className="group cursor-pointer"
+                >
                   {/* Image Placeholder */}
-                  <div className="relative mb-4 h-56 w-full overflow-hidden rounded-xl bg-gray-200 transition-colors hover:bg-gray-300">
+                  <div className="relative mb-4 h-56 w-full overflow-hidden rounded-xl">
                     <CustomImage
                       src={course?.image}
                       alt="course image"

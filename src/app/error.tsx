@@ -15,7 +15,7 @@ export default function Error({
   const isProd = process.env.NODE_ENV === "production";
 
   return (
-    <AuthLayout img={"/assets/error.png"}>
+    <AuthLayout>
       <div className="form-layout wrapper flex items-center justify-center">
         <div className="card flex flex-col items-center justify-center space-y-10 bg-white/70">
           {!isProd && <p className="break-all">{error?.message}</p>}

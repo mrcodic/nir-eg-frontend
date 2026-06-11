@@ -67,7 +67,7 @@ const AnswerOption = ({
 
   const checkboxClass = useMemo(() => {
     if (answerState === "correct-selected")
-      return "bg-green-500 border-green-500";
+      return "bg-green-700 border-green-700";
     if (answerState === "incorrect-selected")
       return "bg-red-700 border-red-700";
     return "";

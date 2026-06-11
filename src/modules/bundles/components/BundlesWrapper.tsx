@@ -31,6 +31,7 @@ const BundlesWrapper = async ({
     next: {
       revalidate: 60 * 5,
     },
+    cache: "default",
   });
 
   const bundles = profile

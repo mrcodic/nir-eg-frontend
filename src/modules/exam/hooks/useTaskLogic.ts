@@ -3,6 +3,7 @@ import { getClientPrivateData } from "@/helpers/fetchers/client-fetch";
 import { mutateClient } from "@/helpers/fetchers/post-client";
 import { useToast } from "@/hooks/use-toast";
 import { getTaskQuestions } from "@/services/task.service";
+import { TaskShowAnswersResponse } from "@/types/quiz.types";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 export const useTaskLogic = (
@@ -88,7 +89,7 @@ export const useTaskLogic = (
   // ================= SHOW ANSWERS =================
   const showAnswers = useCallback(async () => {
     try {
-      const res = await getClientPrivateData({
+      const res = await getClientPrivateData<TaskShowAnswersResponse>({
         queryKey: [`students/quiz/show/answers/${taskId}`],
       });
 

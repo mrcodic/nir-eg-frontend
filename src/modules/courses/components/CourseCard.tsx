@@ -66,12 +66,12 @@ const CourseCard = ({
   const modal = useModal();
 
   const { profile } = useAuthContext();
-  const isOnline = profile?.type === 4;
 
+  const isOnline = profile?.type === 4;
   const isCodeCenterRoomType =
     profile?.type === 5 && courseDetails?.subscription_type === "حصة";
 
-  const isSingleButton =
+  const hasSingleButton =
     Number(
       isNewCourse && courseDetails?.subscription_type !== "حصة" && !isBundles,
     ) +
@@ -166,7 +166,7 @@ const CourseCard = ({
             className={cn(
               "mt-auto grid grid-cols-1 gap-4 pt-4 min-[300px]:grid-cols-2",
               {
-                "min-[300px]:grid-cols-1": isSingleButton,
+                "min-[300px]:grid-cols-1": hasSingleButton,
               },
             )}
           >

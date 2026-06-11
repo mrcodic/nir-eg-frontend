@@ -1,15 +1,19 @@
 import { CountdownTimer } from "@/components/shared/CountdownTimer";
 import { Button } from "@/components/ui/button";
+import { useTaskContext } from "@/context/TaskProvider";
 import { cn } from "@/lib/utils";
+import { QuizStatus } from "@/types";
+import { TaskQuestionPayload, TaskShowAnswersData } from "@/types/quiz.types";
 import { memo } from "react";
+import ExamPDFGenerator from "./ExamPDFGenerator";
 
 type Props = {
-  start: any;
-  data: any;
-  setShowRoom?: any;
+  start: QuizStatus;
+  data?: TaskQuestionPayload | TaskShowAnswersData;
+  setShowRoom?: (value: boolean) => void;
   defaultTitle?: string;
   startTimer?: boolean;
-  onComplete?: (data: any) => void;
+  onComplete?: (data: { completed: boolean }) => void;
 };
 
 function ExamSideInfo({
@@ -20,6 +24,12 @@ function ExamSideInfo({
   defaultTitle = "امتحان",
   onComplete,
 }: Props) {
+  const { taskId } = useTaskContext();
+  console.log("ddddddd ", data);
+  const isAnswered =
+    start?.score_ratio &&
+    (!data || (data && (data as TaskShowAnswersData)?.solution));
+
   return (
     <div className="bg-background flex flex-col items-start justify-center rounded-lg p-4 md:min-w-[280px]">
       <h2 className="border-gray-light w-full border-b pb-2 text-right text-[20px] font-bold break-all">
@@ -43,7 +53,7 @@ function ExamSideInfo({
         </div>
       )}
 
-      {start?.score_ratio && (!data || (data && data?.solution)) && (
+      {isAnswered && (
         <div className="mt-4 flex w-full flex-wrap items-center justify-center gap-1">
           <span className="inline-block text-lg font-bold text-black">
             حصلت على
@@ -85,7 +95,11 @@ function ExamSideInfo({
         </Button>
       )}
 
-      {startTimer && (
+      {isAnswered && (
+        <ExamPDFGenerator taskId={Number(taskId)} className="mt-4" />
+      )}
+
+      {!isAnswered && startTimer && (
         <div className="border-secondary text-40 relative mt-4 flex w-full flex-col gap-4 rounded-lg border bg-white p-4 text-center font-bold text-black">
           <p className="text-sm">باقي من وقت الامتحان</p>
           <CountdownTimer

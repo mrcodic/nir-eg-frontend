@@ -90,7 +90,7 @@ const QuestionTitle = ({ title, video, className }: Props) => {
       </div>
 
       {video && showVideo && (
-        <div className="relative w-full max-w-[360px]">
+        <div className="relative w-full max-w-[360px] pb-2">
           {isError ? (
             <div className="flex items-center gap-2 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
               <span>⚠️</span>

@@ -4,6 +4,7 @@ import { getClientPrivateData } from "@/helpers/fetchers/client-fetch";
 import CustomError from "@/lib/customError";
 import { quizSchema } from "@/lib/schemas";
 import { QuizStatus } from "@/types";
+import { TaskQuestionPayload, TaskShowAnswersData } from "@/types/quiz.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
 import { redirect, useParams } from "next/navigation";
@@ -43,8 +44,8 @@ interface TaskContextType {
   // data
   start: QuizStatus;
   isLoading: boolean;
-  data: any;
-  setData: (data: any) => void;
+  data?: TaskQuestionPayload | TaskShowAnswersData;
+  setData: (data?: TaskQuestionPayload | TaskShowAnswersData) => void;
 
   // UI state
   showRoom: boolean;
@@ -97,7 +98,7 @@ export const TaskProvider = ({ children, taskType = "exam" }) => {
 
   // ===== shared state =====
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [data, setData] = useState();
+  const [data, setData] = useState<TaskQuestionPayload | TaskShowAnswersData>();
   const [showRoom, setShowRoom] = useState(false);
   const [startExam, setStartExam] = useState(false);
   const [isCompleted, setCompleted] = useState(false);

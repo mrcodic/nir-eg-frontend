@@ -10,6 +10,7 @@ import ParagraphQuestion from "@/modules/exam/components/ParagraphQuestion";
 import Question from "@/modules/exam/components/Question";
 import WrittenQuestion from "@/modules/exam/components/WrittenQuestion";
 import { submitTaskAnswer } from "@/services/task.service";
+import { TaskShowAnswersData } from "@/types/quiz.types";
 import { useQueryClient } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
 import { useParams } from "next/navigation";
@@ -233,7 +234,7 @@ function TaskForm({
                       index={index}
                       listRef={listRef}
                       status={status}
-                      isAnswer={data.solution}
+                      isAnswer={(data as TaskShowAnswersData)?.solution}
                     />
                   ) : question.type === 3 ? (
                     <WrittenQuestion
@@ -249,7 +250,7 @@ function TaskForm({
                       index={index}
                       listRef={listRef}
                       status={status}
-                      isAnswer={data.solution}
+                      isAnswer={(data as TaskShowAnswersData)?.solution}
                     />
                   )}
                   {index < data.questions.length - 1 && (
@@ -281,7 +282,7 @@ function TaskForm({
         )}
       </form>
 
-      {data.solution && (
+      {(data as TaskShowAnswersData)?.solution && (
         <ExamPDFGenerator taskId={Number(taskId)} className="mt-8" />
       )}
     </Form>

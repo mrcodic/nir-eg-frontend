@@ -397,6 +397,7 @@ export interface Bundle {
   sale: Sale | null;
   created_at: string;
   updated_at: string | null;
+  is_subscriped?: boolean;
 }
 
 export interface CourseType {

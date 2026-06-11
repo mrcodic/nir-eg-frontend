@@ -70,19 +70,20 @@ const FailModal = ({
 
           <div className="border-gray-light mt-6 space-y-2 border-b pb-2">
             <p className="inline-block">
-              - رسبت في الامتحان و حصلت على{" "}
+              - رسبت في {type} و حصلت على{" "}
               <span className="font-bold">{start?.score_ratio}</span> درجة
             </p>
 
             {start?.show_answer && start?.retake && (
               <p className="inline-block">
-                - إذا قمت بعرض الإجابات مرة أخرى لن تتمكن من إعادة الامتحان
+                - إذا قمت بعرض الإجابات مرة أخرى لن تتمكن من إعادة {type}
               </p>
             )}
 
             {start?.show_answer && !start?.review_pending && (
               <p className="inline-block">
                 - يمكنك تنزيل نموذج الإجابة بالكامل
+                {start?.retake && ` , اذا قمت بذلك لن تتمكن من اعاده ${type}`}
               </p>
             )}
 
@@ -115,7 +116,7 @@ const FailModal = ({
                 className="h-11 w-full font-bold"
                 disabled={isLoadingRetake}
               >
-                {isLoadingRetake ? <SmallSpinner /> : "إعادة الامتحان"}
+                {isLoadingRetake ? <SmallSpinner /> : "إعادة {type}"}
               </Button>
             )}
 
