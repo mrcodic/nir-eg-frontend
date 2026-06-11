@@ -105,7 +105,7 @@ const BundleDetails = async ({
               key={classroom.id}
               isBundles={true}
               courseDetails={classroom}
-              isSubbed={isSubbed}
+              isSubbed={isSubbed || classroom?.isSubscribed}
             />
           ))}
         </div>
