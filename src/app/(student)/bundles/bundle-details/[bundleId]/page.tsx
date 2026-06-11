@@ -1,6 +1,7 @@
 import PriceBubbles from "@/components/ui/price-bubble";
 import RemainingDuration from "@/components/ui/RemainingDuration";
 import StyledText from "@/components/ui/StyledText";
+import SubbedBadge from "@/components/ui/SubbedBadge";
 import { getServerData } from "@/helpers/fetchers/server-fetch";
 import { formatCurrency } from "@/lib/utils";
 import BundleDetailsCard from "@/modules/bundles/components/BundleDetailsCard";
@@ -46,6 +47,9 @@ const BundleDetails = async ({
     Number(classroomsPrice) - Number(bundle?.price || 0),
     0,
   );
+  const isSubbed = bundle?.is_subscribed;
+
+  console.log("bundle : ", bundle);
 
   return (
     <div className="wrapper mt-[140px] mb-22">
@@ -60,23 +64,27 @@ const BundleDetails = async ({
           <h2 className="text-32 font-bold max-sm:w-full">{bundle?.name}</h2>
 
           <div className="ms-auto flex grow flex-col items-end gap-3">
-            <div className="flex w-full flex-wrap justify-end gap-3">
-              <BundlePurchaseButton
-                profile={profile}
-                bundle={bundle}
-                className="ms-auto h-9 w-full max-w-24"
-              />
+            {isSubbed ? (
+              <SubbedBadge />
+            ) : (
+              <div className="flex w-full flex-wrap justify-end gap-3">
+                <BundlePurchaseButton
+                  profile={profile}
+                  bundle={bundle}
+                  className="ms-auto h-9 w-full max-w-24"
+                />
 
-              <PriceBubbles
-                price={bundle?.price}
-                sale={bundle?.sale}
-                className="ms-0 w-fit"
-                numberClassName="text-xl"
-                currencyClassName="text-base mt-auto "
-              />
-            </div>
+                <PriceBubbles
+                  price={bundle?.price}
+                  sale={bundle?.sale}
+                  className="ms-0 w-fit"
+                  numberClassName="text-xl"
+                  currencyClassName="text-base mt-auto "
+                />
+              </div>
+            )}
 
-            {bundle?.sale?.duration && (
+            {!isSubbed && bundle?.sale?.duration && (
               <RemainingDuration
                 duration={`${bundle?.sale?.duration} ايام`}
                 text="الخصم متاح لمدة"
@@ -97,11 +105,12 @@ const BundleDetails = async ({
               key={classroom.id}
               isBundles={true}
               courseDetails={classroom}
+              isSubbed={isSubbed}
             />
           ))}
         </div>
 
-        {!!savedAmount && (
+        {!isSubbed && !!savedAmount && (
           <div className="bg-background border-primary-800 mx-auto mt-10 flex max-w-[780px] flex-col items-center gap-6 rounded-lg border p-4 text-center">
             <p className="text-xl font-bold">
               ستقوم بتوفير{" "}
