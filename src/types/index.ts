@@ -416,6 +416,7 @@ export interface CourseType {
   discountPrice?: string;
   created_at: string;
   updated_at: string;
+  isSubscribed?: boolean;
 }
 
 export interface IAssignment {
