@@ -6,6 +6,7 @@ import StackedBanners, {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useModal } from "@/context/ModalProvider";
+import { useMounted } from "@/hooks/useMounted";
 import { useDesktopTenantHistory } from "@/modules/tenant/hooks/useDesktopTenantHistory";
 import { Clock3, Globe } from "lucide-react";
 import { useMemo } from "react";
@@ -14,6 +15,8 @@ import HistoryTenantCard from "./HistoryTenantCard";
 
 export default function DesktopTenantHistorySection() {
   const modal = useModal();
+  const isMounted = useMounted();
+
   const {
     recentTenants,
     connectRecentTenant,
@@ -28,13 +31,14 @@ export default function DesktopTenantHistorySection() {
   const stackedItems = useMemo<StackedBannerItem[]>(() => {
     return previewTenants.map((tenant) => ({
       id: `${tenant.slug}-${tenant.host}`,
-      className: "p-0 rounded-none bg-nono border-none shadow-none ",
+      className: "p-0 rounded-none bg-transparent border-none shadow-none ",
       wrapperClassName: "w-full pe-0",
       content: (
         <HistoryTenantCard
           tenant={tenant}
           onConnect={() => connectRecentTenant(tenant)}
           onDelete={() => deleteRecentTenant(tenant)}
+          className="shadow-sm"
         />
       ),
     }));
@@ -53,7 +57,7 @@ export default function DesktopTenantHistorySection() {
         "w-[min(980px,calc(100vw-32px))] max-w-[980px] rounded-[32px] border-0 p-0 shadow-2xl",
       hideClose: true,
     });
-    modal.openModal({ force: true });
+    modal.openModal();
   };
 
   return (
@@ -65,21 +69,19 @@ export default function DesktopTenantHistorySection() {
         </div>
 
         <p className="text-sm text-slate-400">
-          {hasStoredPhone
+          {isMounted && hasStoredPhone
             ? `مرتبطة بآخر رقم محفوظ على التطبيق: ${historyPhone}`
             : "سيظهر سجل المنصات هنا بمجرد أن تسجل الدخول للمرة الأولى"}
         </p>
       </div>
 
-      {isLoadingHistory && (
+      {!isMounted || isLoadingHistory ? (
         <Card className="border-gray-light/80 rounded-[28px] bg-white">
           <CardContent className="py-8 text-center text-sm font-bold text-slate-500">
             جارٍ تحميل سجل المنصات...
           </CardContent>
         </Card>
-      )}
-
-      {!hasStoredPhone ? (
+      ) : !hasStoredPhone ? (
         <Card className="border-dashed border-slate-300 bg-slate-50/70">
           <CardContent className="flex flex-col items-center gap-3 py-10 text-center">
             <Globe className="text-primary-800/70 size-8" />
@@ -95,8 +97,9 @@ export default function DesktopTenantHistorySection() {
         <div className="space-y-8">
           <StackedBanners
             banners={stackedItems}
-            containerClassName="px-2"
             showDismissButton={false}
+            animateY={(index) => (index > 0 ? 17 : 0)}
+            animateScale={() => 1}
           />
 
           {recentTenants.length > 1 && (

@@ -22,6 +22,8 @@ interface StackedBannersProps {
   containerClassName?: string;
   onDismiss?: (id: string | number) => void;
   showDismissButton?: boolean;
+  animateY?: (index: number) => number;
+  animateScale?: (index: number) => number;
 }
 
 export default function StackedBanners({
@@ -29,6 +31,8 @@ export default function StackedBanners({
   containerClassName,
   onDismiss,
   showDismissButton = true,
+  animateY = (index) => (index > 0 ? 6 : 0),
+  animateScale = (index) => 1 - (index > 0 ? 1 : 0) * 0.02,
 }: StackedBannersProps) {
   const [dismissed, setDismissed] = useState<(string | number)[]>([]);
 
@@ -52,8 +56,8 @@ export default function StackedBanners({
               initial={{ opacity: 0, y: -40, scale: 0.95 }}
               animate={{
                 opacity: 1,
-                y: index > 0 ? 6 : 0,
-                scale: 1 - (index > 0 ? 1 : 0) * 0.02,
+                y: animateY(index),
+                scale: animateScale(index),
               }}
               exit={{
                 opacity: 0,

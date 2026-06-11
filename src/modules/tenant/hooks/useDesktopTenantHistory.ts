@@ -40,18 +40,22 @@ export function useDesktopTenantHistory() {
     () => getUserPhoneFromStorage().phone.trim(),
     [],
   );
+
   const { tenants, isLoading } = useTenants(historyPhone || undefined, {
     enabled: !!historyPhone,
   });
 
+  const mappedTenants = useMemo(() => {
+    return tenants.map(mapUserTenantToDesktopRecord);
+  }, [tenants]);
+
   const recentTenants = useMemo(() => {
     const hidden = new Set(hiddenTenantKeys);
-    const mappedTenants = tenants.map(mapUserTenantToDesktopRecord);
 
     return mappedTenants.filter(
       (tenant) => !hidden.has(buildTenantKey(tenant)),
     );
-  }, [hiddenTenantKeys, tenants]);
+  }, [hiddenTenantKeys, mappedTenants]);
 
   const connectRecentTenant = (tenant: DesktopTenantRecord) => {
     persistDesktopTenant(tenant);
@@ -64,7 +68,7 @@ export function useDesktopTenantHistory() {
     ]);
   };
 
-  console.log(historyPhone);
+  console.log(tenants);
 
   return {
     recentTenants,

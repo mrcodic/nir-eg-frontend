@@ -98,7 +98,7 @@ export default function DesktopPage() {
                 />
               </div>
               <p className="text-right text-sm text-slate-500">
-                يمكنك إدخال رابط المنصة الخاص بمدرستك
+                يمكنك إدخال رابط المنصة الخاص بمدرسك
               </p>
             </TabsContent>
           </Tabs>
