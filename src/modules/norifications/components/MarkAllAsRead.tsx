@@ -28,7 +28,7 @@ function MarkAllAsRead() {
   return (
     <button
       disabled={markedAll}
-      className="text-secondary text-[12px] hover:underline"
+      className="text-secondary text-xs hover:underline"
       onClick={markAllAsRead}
     >
       تحديد الكل كمقروء

@@ -16,7 +16,7 @@ const columns = [
     meta: {
       headerClassName: "w-1/4 ",
     },
-    header: () => <div className="w-full text-[18px] font-bold">الأنشطة</div>,
+    header: () => <div className="w-full text-lg font-bold">الأنشطة</div>,
     cell: (info) => (
       <div className="flex max-w-[300px] items-center truncate text-base font-medium">
         <p className="text-secondary truncate underline">{info.getValue()}</p>
@@ -27,7 +27,7 @@ const columns = [
     meta: {
       headerClassName: "w-10 ",
     },
-    header: () => <div className="w-[100px] text-[18px] font-bold">النوع</div>,
+    header: () => <div className="w-[100px] text-lg font-bold">النوع</div>,
     cell: (info) => (
       <div className="w-[100px] text-start text-base font-medium">
         {info.getValue()}
@@ -38,7 +38,7 @@ const columns = [
     // meta: {
     //   headerClassName: "w-1/4 ",
     // },
-    header: () => <div className="text-[18px] font-bold">الكورس</div>,
+    header: () => <div className="text-lg font-bold">الكورس</div>,
     cell: (info) => {
       const courseExpired = info.row.original.classroom_expired;
 
@@ -58,7 +58,7 @@ const columns = [
   }),
   columnHelper.accessor("created_at", {
     header: () => (
-      <div className="min-w-[110px] text-[18px] font-bold">التاريخ</div>
+      <div className="min-w-[110px] text-lg font-bold">التاريخ</div>
     ),
     cell: (info) => (
       <div className="w-[110px] text-start text-base font-medium">
@@ -68,7 +68,7 @@ const columns = [
   }),
   columnHelper.accessor("score", {
     header: () => (
-      <div className="min-w-[200px] text-[18px] font-bold">النتيجة</div>
+      <div className="min-w-[200px] text-lg font-bold">النتيجة</div>
     ),
     cell: (info) => {
       const row = info.row.original;

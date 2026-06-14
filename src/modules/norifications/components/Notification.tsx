@@ -56,7 +56,7 @@ const Notification = ({
           width={20}
           height={20}
         />
-        <span className="text-gray-dark text-[12px]">
+        <span className="text-gray-dark text-xs">
           {formatTime(notification.created_at)}
         </span>
 

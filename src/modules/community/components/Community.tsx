@@ -144,7 +144,7 @@ const Community = ({ lessonId, locked, isYoutubeVideo }: CommunityProps) => {
                       </div>
                     ))
                   ) : (
-                    <div className="py-8 text-center text-[12px] text-gray-500">
+                    <div className="py-8 text-center text-xs text-gray-500">
                       لا توجد تعليقات في هذا الوقت
                     </div>
                   )}

@@ -24,7 +24,7 @@ function SaleBubble({
             textShadow:
               "2px 0 #000,-2px 0 #000,0 2px #000,0 -2px #000,1px 1px #000,-1px -1px #000,1px -1px #000,-1px 1px #000",
           }}
-          className="flex flex-col text-center text-[14px] font-bold text-white"
+          className="flex flex-col text-center text-sm font-bold text-white"
         >
           <span className="text-xs">خصم</span>
           <span>

@@ -27,7 +27,7 @@ const PaymentCenterCode = ({ courseId, data, roomId }) => {
           className={`border-primary-800 min-h-48 w-full flex-1 rounded-lg border p-4`}
         >
           <div className="flex w-full justify-between gap-6">
-            <h2 className="text-[18px] font-bold text-black">{data?.title}</h2>
+            <h2 className="text-lg font-bold text-black">{data?.title}</h2>
 
             <PriceBubbles price={data?.price} sale={data?.sale} />
           </div>
@@ -81,7 +81,7 @@ const PaymentCenterCode = ({ courseId, data, roomId }) => {
                   </div>
                 </div>
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-gray-dark text-[12px]">متاح لمدة</span>
+                  <span className="text-gray-dark text-xs">متاح لمدة</span>
                   <span className="font-bold text-[#B75050] underline">
                     {data?.sale?.duration}
                     أيام

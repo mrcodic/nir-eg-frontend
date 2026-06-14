@@ -72,7 +72,7 @@ const CommentDetails = ({
           </h2>
           <div
             onClick={() => setOpen(false)}
-            className="absolute left-[40px]! cursor-pointer text-[18px] font-bold text-gray-500"
+            className="absolute left-[40px]! cursor-pointer text-lg font-bold text-gray-500"
           >
             ✕
           </div>
@@ -99,7 +99,7 @@ const CommentDetails = ({
                 e.preventDefault();
                 setShowDetailsCard(false);
               }}
-              className="absolute top-1 left-2 cursor-pointer text-sm text-[18px] font-bold text-gray-500"
+              className="absolute top-1 left-2 cursor-pointer text-lg text-sm font-bold text-gray-500"
             >
               ✕
             </button>

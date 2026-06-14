@@ -93,7 +93,7 @@ const RoomSideContent = ({
         />
 
         <div className="flex w-full flex-col gap-2">
-          <h1 className="line-clamp-1 text-[18px] font-bold">
+          <h1 className="line-clamp-1 text-lg font-bold">
             {data?.room?.title}
           </h1>
           <hr className="border-gray-light h-px w-full" />

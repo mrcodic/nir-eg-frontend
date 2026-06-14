@@ -55,7 +55,7 @@ const columnHelper = createColumnHelper<Row>();
 const columns = [
   columnHelper.accessor("name", {
     header: () => (
-      <div className="w-full px-2 py-3 text-[18px] font-bold">الأنشطة</div>
+      <div className="w-full px-2 py-3 text-lg font-bold">الأنشطة</div>
     ),
     cell: (info) => (
       <div className="flex max-w-[200px] gap-1 truncate p-2 text-base font-medium md:max-w-[250px]">
@@ -78,9 +78,7 @@ const columns = [
     ),
   }),
   columnHelper.accessor("type", {
-    header: () => (
-      <div className="w-[100px] px-2 text-[18px] font-bold">النوع</div>
-    ),
+    header: () => <div className="w-[100px] px-2 text-lg font-bold">النوع</div>,
     cell: (info) => (
       <div className="w-[100px] p-2 text-center text-base font-medium">
         {info?.getValue() || "-"}
@@ -89,7 +87,7 @@ const columns = [
   }),
   columnHelper.accessor("course", {
     header: () => (
-      <div className="w-[156px] px-2 text-[18px] font-bold">الكورس</div>
+      <div className="w-[156px] px-2 text-lg font-bold">الكورس</div>
     ),
     cell: (info) => (
       <div
@@ -102,7 +100,7 @@ const columns = [
   }),
   columnHelper.accessor("date", {
     header: () => (
-      <div className="min-w-[110px] px-2 text-[18px] font-bold">التاريخ</div>
+      <div className="min-w-[110px] px-2 text-lg font-bold">التاريخ</div>
     ),
     cell: (info) => (
       <div className="w-[110px] p-2 text-center text-base font-medium">
@@ -112,7 +110,7 @@ const columns = [
   }),
   columnHelper.accessor("value", {
     header: () => (
-      <div className="min-w-[110px] px-2 text-[18px] font-bold">النقاط</div>
+      <div className="min-w-[110px] px-2 text-lg font-bold">النقاط</div>
     ),
     cell: (info) => (
       <div className="flex w-full items-center justify-start gap-4 p-2">
