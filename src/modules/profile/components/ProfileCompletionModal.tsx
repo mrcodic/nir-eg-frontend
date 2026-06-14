@@ -54,7 +54,7 @@ function FormActions({
   const showNext = isStepper && !isLastStep;
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-3 pb-2">
       {showPrev && (
         <Button
           type="button"
@@ -161,7 +161,7 @@ export default function ProfileCompletionModal() {
       <Dialog open={open} onOpenChange={() => undefined}>
         <DialogContent
           hideClose
-          className="flex max-h-[90dvh] max-w-3xl flex-col overflow-hidden"
+          className="flex max-w-3xl flex-col pb-4"
           onEscapeKeyDown={(e) => e.preventDefault()}
           onInteractOutside={(e) => e.preventDefault()}
         >
@@ -203,13 +203,13 @@ export default function ProfileCompletionModal() {
                 <ScrollArea
                   dir="rtl"
                   className={cn(
-                    "w-full",
-                    isStepper
-                      ? "mt-6 **:data-radix-scroll-area-viewport:max-h-[min(48dvh,calc(100dvh-430px))]"
-                      : "**:data-radix-scroll-area-viewport:max-h-[min(52dvh,calc(100dvh-330px))]",
+                    "min-h-[150px] w-full overflow-y-auto",
+                    // isStepper
+                    //   ? "mt-6 **:data-radix-scroll-area-viewport:max-h-[min(48dvh,calc(100dvh-430px))]"
+                    //   : "**:data-radix-scroll-area-viewport:max-h-[min(52dvh,calc(100dvh-330px))]",
                   )}
                 >
-                  <div className="grid w-full grid-cols-1 gap-4 pb-6 md:grid-cols-2 max-md:[&_>_div]:col-span-2">
+                  <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-2 max-md:[&_>_div]:col-span-2">
                     <ProfileCompletionFields
                       form={form}
                       fields={isStepper ? currentStepFields : filteredFields}
