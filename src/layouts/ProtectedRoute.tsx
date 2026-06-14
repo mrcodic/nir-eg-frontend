@@ -14,6 +14,7 @@ type Props = {
   isLoading?: boolean;
   text?: string;
   verifyPhone?: boolean;
+  emptyMessage?: string;
 };
 
 const ProtectedRoute = ({
@@ -23,6 +24,7 @@ const ProtectedRoute = ({
   isLoading,
   text,
   verifyPhone = false,
+  emptyMessage = "",
 }: Props) => {
   const router = useRouter();
   const { profile, isLoading: isLoadingProfile } = useAuthContext();
@@ -47,7 +49,7 @@ const ProtectedRoute = ({
   if (!data) {
     return (
       <div className="h-screen">
-        <Empty text={" لا يوجد بيانات "} />
+        <Empty text={emptyMessage || " لا يوجد بيانات "} />
       </div>
     );
   }

@@ -437,6 +437,7 @@ export interface ILesson {
   description: string;
   duration: string;
   lesson_order: number;
+  grade?: string;
   title: string;
   video_id?: string;
   video_link?: string;

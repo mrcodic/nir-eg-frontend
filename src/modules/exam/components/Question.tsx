@@ -11,7 +11,7 @@ import QuestionTitle from "./QuestionTitle";
 type Props = {
   question: any;
   index: number;
-  status: boolean;
+  isShowingAnswers: boolean;
   listRef: React.MutableRefObject<HTMLDivElement[]>;
   isAnswer: boolean;
   isSubQuestion?: boolean;
@@ -20,7 +20,7 @@ type Props = {
 const Question = ({
   question,
   index,
-  status,
+  isShowingAnswers,
   listRef,
   isAnswer,
   isSubQuestion,
@@ -84,7 +84,7 @@ const Question = ({
                     key={answer.id}
                     answer={answer}
                     questionId={question.id}
-                    disabled={status}
+                    disabled={isShowingAnswers}
                     field={field}
                     isMultiple={question.has_multi_correct}
                   />

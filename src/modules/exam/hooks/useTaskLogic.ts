@@ -32,7 +32,7 @@ export const useTaskLogic = (
   const [fail, setFail] = useState(false);
   const [sure, setSure] = useState(false);
   const [resolver, setResolver] = useState<((v: boolean) => void) | null>(null);
-  const [status, setStatus] = useState(false);
+  const [isShowingAnswers, setIsShowingAnswers] = useState(false);
   const [isLoadingRetake, setIsLoadingRetake] = useState(false);
   const [awaitingConfirm, setAwaitingConfirm] = useState(false);
 
@@ -68,7 +68,7 @@ export const useTaskLogic = (
   // ================= CONFIRM START =================
   const proceedWithStart = useCallback(async () => {
     setAwaitingConfirm(false);
-    setStatus(false);
+    setIsShowingAnswers(false);
     onInitialize?.(true);
 
     try {
@@ -96,7 +96,7 @@ export const useTaskLogic = (
       if (res?.code === 200) {
         setSuccess(false);
         setFail(false);
-        setStatus(true);
+        setIsShowingAnswers(true);
 
         reset({
           quiz_id: taskId,
@@ -178,7 +178,7 @@ export const useTaskLogic = (
           return;
         }
 
-        setStatus(false);
+        setIsShowingAnswers(false);
         onInitialize?.(true);
 
         try {
@@ -240,7 +240,7 @@ export const useTaskLogic = (
     resolver,
     setResolver,
     data,
-    status,
+    isShowingAnswers,
     showAnswers,
     retake,
     handleClose,

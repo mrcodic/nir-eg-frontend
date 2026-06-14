@@ -9,9 +9,10 @@ import {
   ResultBanner,
   TargetGradeBanner,
 } from "@/modules/exam/components/ExamBanners";
-import TaskModalsWrapper from "@/modules/exam/components/TaskModalsWrapper";
 import StartExamDialog from "@/modules/exam/components/StartExamDialog";
+import TaskModalsWrapper from "@/modules/exam/components/TaskModalsWrapper";
 import { QuizStatus } from "@/types";
+import { TaskQuestionPayload, TaskShowAnswersData } from "@/types/quiz.types";
 import { memo } from "react";
 import TaskForm from "./TaskForm";
 
@@ -28,15 +29,11 @@ const ExamForm = ({ start, setStartExam, examType = "exam" }: Props) => {
   const { profile } = useAuthContext();
   const router = useRouter();
 
-  if (!examId) {
-    redirect("/ErrorPage?message=لم يتم العثور على الامتحان");
-  }
-
   const {
     success,
     fail,
     sure,
-    status,
+    isShowingAnswers,
     setSuccess,
     setFail,
     setResolver,
@@ -77,10 +74,11 @@ const ExamForm = ({ start, setStartExam, examType = "exam" }: Props) => {
       localStorage.removeItem(`timer-${examId}-${profile?.id}`);
       setStartExam(true);
     },
-    onConfirmRequired: () => {
-      // useTaskLogic will set awaitingConfirm = true; dialog renders below
-    },
   });
+
+  if (!examId) {
+    redirect("/ErrorPage?message=لم يتم العثور على الامتحان");
+  }
 
   return (
     <>
@@ -94,10 +92,14 @@ const ExamForm = ({ start, setStartExam, examType = "exam" }: Props) => {
         }}
       />
 
-      {!status && data?.score && <TargetGradeBanner score={data.score} />}
+      {!isShowingAnswers && (data as TaskQuestionPayload)?.score && (
+        <TargetGradeBanner
+          score={Number((data as TaskQuestionPayload)?.score)}
+        />
+      )}
 
-      {status && data?.details?.score && (
-        <ResultBanner score={data.details.score} />
+      {isShowingAnswers && (data as TaskShowAnswersData).details?.score && (
+        <ResultBanner score={(data as TaskShowAnswersData).details.score} />
       )}
 
       {start?.timer && <ExamTimerBanner timer={start.timer} />}
@@ -105,7 +107,7 @@ const ExamForm = ({ start, setStartExam, examType = "exam" }: Props) => {
       <TaskForm
         taskId={examId.toString()}
         setSure={setSure}
-        status={status}
+        isShowingAnswers={isShowingAnswers}
         setSuccess={setSuccess}
         setFail={setFail}
         setResolver={setResolver}

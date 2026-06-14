@@ -116,7 +116,7 @@ const FailModal = ({
                 className="h-11 w-full font-bold"
                 disabled={isLoadingRetake}
               >
-                {isLoadingRetake ? <SmallSpinner /> : "إعادة {type}"}
+                {isLoadingRetake ? <SmallSpinner /> : `إعادة ال${type}`}
               </Button>
             )}
 

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import CustomImage from "@/components/ui/CustomImage";
 import DataWithLabel from "@/components/ui/DataWithLabel";
 import PriceBubbles from "@/components/ui/price-bubble";
+import SubbedBadge from "@/components/ui/SubbedBadge";
 import { useAuthContext } from "@/context/auth-context";
 import { useModal } from "@/context/ModalProvider";
 import { cn } from "@/lib/utils";
@@ -45,7 +46,11 @@ export default function BundleCard({
         <div className="border-gray-light flex w-full items-center justify-between gap-6 border-b pb-3">
           <h2 className="mobile:text-2xl text-sm font-bold">{bundle.name}</h2>
 
-          <PriceBubbles price={bundle.price} sale={bundle.sale} />
+          {bundle?.is_subscribed === true ? (
+            <SubbedBadge />
+          ) : (
+            <PriceBubbles price={bundle.price} sale={bundle.sale} />
+          )}
         </div>
 
         <div className="mobile:text-base mobile:gap-2 mt-4 flex flex-col gap-1">
@@ -75,8 +80,8 @@ export default function BundleCard({
         </div>
 
         <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
-          {!bundle?.is_subscribed && (
-            <div className="flex w-full flex-wrap gap-x-6 gap-y-4 text-sm font-bold">
+          <div className="flex w-full flex-wrap gap-x-6 gap-y-4 text-sm font-bold">
+            {!bundle?.is_subscribed && (
               <Button
                 onClick={() => {
                   if (profile) {
@@ -97,24 +102,18 @@ export default function BundleCard({
               >
                 اشترك الآن
               </Button>
+            )}
 
-              <Button
-                onClick={() => {
-                  router.push(`/bundles/bundle-details/${bundle.id}`);
-                }}
-                variant="outline"
-                className="w-full max-w-[171px]"
-              >
-                عرض الباقة
-              </Button>
-            </div>
-          )}
-
-          {bundle?.is_subscribed === true && (
-            <div className="bg-primary mt-6 flex w-[116px] items-center justify-center rounded-lg border border-[#9D8242] py-1 text-sm font-bold text-white">
-              مشترك
-            </div>
-          )}
+            <Button
+              onClick={() => {
+                router.push(`/bundles/bundle-details/${bundle.id}`);
+              }}
+              variant="outline"
+              className="w-full max-w-[171px]"
+            >
+              عرض الباقة
+            </Button>
+          </div>
         </div>
       </div>
     </div>

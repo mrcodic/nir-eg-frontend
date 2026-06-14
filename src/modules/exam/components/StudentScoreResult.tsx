@@ -21,7 +21,7 @@ function StudentScoreResult({
   return (
     <div
       className={cn(
-        "relative flex min-w-[116px] shrink-0 gap-2 text-lg font-bold text-nowrap sm:text-xl",
+        "relative flex min-w-[123px] shrink-0 gap-2 text-lg font-bold text-nowrap sm:text-xl",
         className,
       )}
     >

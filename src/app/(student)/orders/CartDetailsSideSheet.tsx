@@ -50,7 +50,7 @@ function CartDetailsSideSheet({ bookOrder }: { bookOrder: BooksOrder }) {
           </h2>
         </SheetHeader>
 
-        <div className="flex flex-col">
+        <div className="flex h-full flex-col">
           <div className="border-gray-light mt-6 flex flex-wrap items-center gap-x-8 gap-y-4 border-b pb-4">
             <DataLabel text="السعر">
               {formatCurrency(bookOrder.total_price)}
@@ -77,7 +77,7 @@ function CartDetailsSideSheet({ bookOrder }: { bookOrder: BooksOrder }) {
           </div>
 
           {/* cart books (items) cards */}
-          <div className="mt-8 flex h-full max-h-[calc(100vh-400px)] min-h-[150px] flex-col gap-6 overflow-y-auto">
+          <div className="mt-8 flex h-full max-h-[calc(100vh-340px)] min-h-[150px] flex-col gap-6 overflow-y-auto">
             {bookOrder.items?.map((item) => (
               <div
                 key={item.id}

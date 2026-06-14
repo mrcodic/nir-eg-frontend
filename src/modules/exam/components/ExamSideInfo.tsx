@@ -25,7 +25,6 @@ function ExamSideInfo({
   onComplete,
 }: Props) {
   const { taskId } = useTaskContext();
-  console.log("ddddddd ", data);
   const isAnswered =
     start?.score_ratio &&
     (!data || (data && (data as TaskShowAnswersData)?.solution));

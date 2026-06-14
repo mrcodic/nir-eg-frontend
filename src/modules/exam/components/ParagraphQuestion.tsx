@@ -10,7 +10,7 @@ type Props = {
   question: QuizQuestion;
   index: number;
   listRef: React.MutableRefObject<HTMLDivElement[]>;
-  status: boolean;
+  isShowingAnswers: boolean;
   isAnswer: boolean;
 };
 
@@ -18,7 +18,7 @@ const ParagraphQuestion = ({
   question,
   index,
   listRef,
-  status,
+  isShowingAnswers,
   isAnswer,
 }: Props) => {
   const allQuestionsAnswers = useMemo(
@@ -83,7 +83,7 @@ const ParagraphQuestion = ({
               key={rq.id}
               question={rq}
               index={idx}
-              status={status}
+              isShowingAnswers={isShowingAnswers}
               listRef={listRef}
               isAnswer={isAnswer}
               isSubQuestion
