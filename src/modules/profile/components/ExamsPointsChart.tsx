@@ -48,7 +48,7 @@ const ExamsPointsChart = ({
 
   return (
     <div className="col-span-12 w-full lg:col-span-8 lg:col-start-5">
-      <h2 className="mb-6 text-[18px] font-bold">إحصائيات درجات الامتحان</h2>
+      <h2 className="mb-6 text-lg font-bold">إحصائيات درجات الامتحان</h2>
 
       <div className="mb-4 flex items-center gap-4">
         <div className="flex items-center gap-2">

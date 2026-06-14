@@ -15,7 +15,7 @@ const columnHelper = createColumnHelper<IPortalQuiz>();
 const columns = [
   columnHelper.accessor("title", {
     header: () => (
-      <div className="w-full px-2 py-3 text-[18px] font-bold">الأنشطة</div>
+      <div className="w-full px-2 py-3 text-lg font-bold">الأنشطة</div>
     ),
     cell: (info) => (
       <Link
@@ -27,9 +27,7 @@ const columns = [
     ),
   }),
   columnHelper.accessor("type_label", {
-    header: () => (
-      <div className="w-[100px] px-2 text-[18px] font-bold">النوع</div>
-    ),
+    header: () => <div className="w-[100px] px-2 text-lg font-bold">النوع</div>,
     cell: (info) => (
       <div className="w-[100px] p-2 text-center text-base font-medium">
         {info.getValue()}
@@ -38,7 +36,7 @@ const columns = [
   }),
   columnHelper.accessor("classroom", {
     header: () => (
-      <div className="w-[156px] px-2 text-[18px] font-bold">الكورس</div>
+      <div className="w-[156px] px-2 text-lg font-bold">الكورس</div>
     ),
     cell: (info) => (
       <div className="w-[156px] truncate p-2 text-center text-base font-medium">
@@ -48,7 +46,7 @@ const columns = [
   }),
   columnHelper.accessor("submitted_at", {
     header: () => (
-      <div className="min-w-[110px] px-2 text-[18px] font-bold">التاريخ</div>
+      <div className="min-w-[110px] px-2 text-lg font-bold">التاريخ</div>
     ),
     cell: (info) => (
       <div className="w-[110px] p-2 text-center text-base font-medium">
@@ -58,7 +56,7 @@ const columns = [
   }),
   columnHelper.accessor("score", {
     header: () => (
-      <div className="min-w-[200px] px-2 text-[18px] font-bold">النتيجة</div>
+      <div className="min-w-[200px] px-2 text-lg font-bold">النتيجة</div>
     ),
     cell: (info) => {
       const row = info.row.original;

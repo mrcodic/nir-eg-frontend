@@ -98,7 +98,7 @@ const ExamCard = ({ exam }: Props) => {
                 src="/assets/calendar.svg"
                 alt="calendar"
               />
-              <span className="text-[14px] font-medium">
+              <span className="text-sm font-medium">
                 تاريخ الامتحان:
                 <strong className="ms-1">
                   {formatApiDate(exam.created_at, {

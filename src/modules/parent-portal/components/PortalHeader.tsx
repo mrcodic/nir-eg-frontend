@@ -25,7 +25,7 @@ function PortalHeader({
               e.currentTarget.src = "/assets/avatar-user.svg";
             }}
           />
-          <h3 className="text-[18px] font-bold text-[#523412] md:text-[24px]">
+          <h3 className="text-lg font-bold text-[#523412] md:text-[24px]">
             {student?.name || "--"}
           </h3>
         </div>

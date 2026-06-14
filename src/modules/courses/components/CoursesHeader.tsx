@@ -85,7 +85,7 @@ const CoursesHeader = ({ details }: { details: ICourseDetails }) => {
           </div>
 
           <div className="mt-14 flex w-full justify-between">
-            <h2 className="md:text-28 text-[18px] text-white">
+            <h2 className="md:text-28 text-lg text-white">
               {details?.classroom}
             </h2>
 

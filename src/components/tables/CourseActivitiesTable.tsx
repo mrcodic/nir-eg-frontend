@@ -14,7 +14,7 @@ const columnHelper = createColumnHelper<IActivity>();
 const columns = [
   columnHelper.accessor("title", {
     header: () => (
-      <div className="block w-full min-w-[200px] px-2 py-3 text-[18px] font-bold first:ps-0">
+      <div className="block w-full min-w-[200px] px-2 py-3 text-lg font-bold first:ps-0">
         الأنشطة
       </div>
     ),
@@ -27,7 +27,7 @@ const columns = [
     },
   }),
   columnHelper.accessor("type", {
-    header: () => <div className="w-34 px-2 text-[18px] font-bold">النوع</div>,
+    header: () => <div className="w-34 px-2 text-lg font-bold">النوع</div>,
     cell: (info) => (
       <div className="w-34 p-2 text-start text-base font-medium">
         {info.getValue()}
@@ -35,9 +35,7 @@ const columns = [
     ),
   }),
   columnHelper.accessor("created_at", {
-    header: () => (
-      <div className="w-34 px-2 text-[18px] font-bold">التاريخ</div>
-    ),
+    header: () => <div className="w-34 px-2 text-lg font-bold">التاريخ</div>,
     cell: (info) => (
       <div className="w-34 p-2 text-start text-base font-medium">
         {info.getValue()}
@@ -46,7 +44,7 @@ const columns = [
   }),
   columnHelper.accessor("score", {
     header: () => (
-      <div className="w-[136px] px-2 text-[18px] font-bold">النتيجة</div>
+      <div className="w-[136px] px-2 text-lg font-bold">النتيجة</div>
     ),
     cell: (info) => {
       const row = info.row.original;

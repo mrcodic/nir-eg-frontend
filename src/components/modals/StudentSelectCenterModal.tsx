@@ -175,7 +175,7 @@ export function StudentSelectCenterModal() {
           </Popover>
 
           {form.formState.errors.center_id && (
-            <p className="text-[12px] text-red-500">من فضلك اختر السنتر</p>
+            <p className="text-xs text-red-500">من فضلك اختر السنتر</p>
           )}
 
           <DialogFooter className="mt-8 flex w-full flex-row flex-wrap items-center justify-center gap-x-6 gap-y-2 sm:justify-center">

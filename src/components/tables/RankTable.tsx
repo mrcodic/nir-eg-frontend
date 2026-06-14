@@ -21,7 +21,7 @@ const columnHelper = createColumnHelper<StudentRank>();
 
 const columns = [
   columnHelper.accessor("id", {
-    header: () => <div className="py-3 text-[18px] font-bold">الترتيب</div>,
+    header: () => <div className="py-3 text-lg font-bold">الترتيب</div>,
     cell: ({ row }) => (
       <div className="flex items-center justify-center p-2 text-base font-medium">
         <CustomNum num={row.index + 1} />
@@ -33,7 +33,7 @@ const columns = [
   }),
   columnHelper.accessor("name", {
     header: () => (
-      <div className="w-[200px] px-2 text-[18px] font-bold">الطالب</div>
+      <div className="w-[200px] px-2 text-lg font-bold">الطالب</div>
     ),
     cell: (info) => (
       <div className="flex w-[200px] items-center justify-start gap-6 p-2 text-center text-base font-medium">

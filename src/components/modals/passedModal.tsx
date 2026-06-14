@@ -82,11 +82,11 @@ const PassedModal = ({
                 <p className="inline-block text-lg font-bold text-black">
                   جارى تصحيح الامتحان
                 </p>
-                <p className="mt-6 text-[18px] font-medium">
+                <p className="mt-6 text-lg font-medium">
                   - ستتمكن من رؤية درجتك بعد الانتهاء من تصحيح الامتحان
                 </p>
                 {start?.show_answer && (
-                  <p className="mt-6 text-[18px] font-medium">
+                  <p className="mt-6 text-lg font-medium">
                     - ستتمكن من عرض اجاباتك بعد تصحيح الامتحان
                   </p>
                 )}

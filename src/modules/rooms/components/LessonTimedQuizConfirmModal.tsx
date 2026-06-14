@@ -29,7 +29,7 @@ export default function LessonTimedQuizConfirmModal({
       onOpenChange={(next) => (!next ? onCancel() : undefined)}
     >
       <DialogContent className="z-[1000003] max-w-lg rounded-lg bg-white shadow-lg">
-        <DialogTitle className="text-[18px] font-bold text-black">
+        <DialogTitle className="text-lg font-bold text-black">
           {isSkip
             ? "هل أنت متأكد من تخطي الاختبار؟"
             : "هل أنت متأكد من حفظ الإجابات؟"}

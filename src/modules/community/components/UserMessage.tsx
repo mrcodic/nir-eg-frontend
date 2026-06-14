@@ -76,12 +76,12 @@ const UserMessage = ({
               )}
             >
               {!isReply && comment.user.type !== "admin" && !isYoutubeVideo && (
-                <span className="text-gray-dark inline-block text-[12px] font-medium">
+                <span className="text-gray-dark inline-block text-xs font-medium">
                   {secondsToHms(comment.at_second)}
                 </span>
               )}
 
-              <span className="text-gray-dark ms-auto inline-block text-[12px] font-medium">
+              <span className="text-gray-dark ms-auto inline-block text-xs font-medium">
                 {convertDate(comment.created_at)}
               </span>
             </div>

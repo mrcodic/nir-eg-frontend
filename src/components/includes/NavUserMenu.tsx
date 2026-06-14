@@ -82,9 +82,7 @@ function NavUserMenu({
                 height={20}
                 alt="phone icon"
               />
-              <h3 className="text-gray-dark text-[12px] font-bold">
-                رقم الهاتف
-              </h3>
+              <h3 className="text-gray-dark text-xs font-bold">رقم الهاتف</h3>
             </div>
           </DropdownMenuItem>
 
