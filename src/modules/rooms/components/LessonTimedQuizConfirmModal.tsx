@@ -41,16 +41,18 @@ export default function LessonTimedQuizConfirmModal({
           </p>
         ) : (
           <>
-            <p className="mt-2 font-medium text-black">
-              - لن تتمكن من تغيير الإجابات بعد الإرسال
-            </p>
             {unansweredCount > 0 && (
               <p className="font-medium text-black">
                 - لم تجب على
-                <span className="px-1 text-red-600">{unansweredCount}</span>
+                <span className="px-1 text-red-600 underline underline-offset-2">
+                  {unansweredCount}
+                </span>
                 اسئلة
               </p>
             )}
+            <p className="mt-2 font-medium text-black">
+              - لن تتمكن من تغيير الإجابات بعد الإرسال
+            </p>
           </>
         )}
 

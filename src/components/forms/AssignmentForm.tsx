@@ -12,7 +12,7 @@ const AssignmentForm = ({ start }: { start: QuizStatus }) => {
     success,
     fail,
     sure,
-    status,
+    isShowingAnswers,
     setSuccess,
     setFail,
     setResolver,
@@ -24,7 +24,7 @@ const AssignmentForm = ({ start }: { start: QuizStatus }) => {
   } = useTaskLogic();
 
   if (!assignmentId) {
-    redirect("/ErrorPage?message=لم يتم العثور على واجب");
+    redirect("/ErrorPage?message=لم يتم العثور على هذا الواجب");
   }
 
   return (
@@ -32,7 +32,7 @@ const AssignmentForm = ({ start }: { start: QuizStatus }) => {
       <TaskForm
         taskId={assignmentId?.toString()}
         setSure={setSure}
-        status={status}
+        isShowingAnswers={isShowingAnswers}
         setSuccess={setSuccess}
         setFail={setFail}
         setResolver={setResolver}

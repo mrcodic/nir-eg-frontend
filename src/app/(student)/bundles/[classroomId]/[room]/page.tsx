@@ -49,6 +49,7 @@ export default function RoomDetailsPage() {
       subscribed={roomDetails?.is_subscriped}
       data={roomDetails}
       isLoading={isLoadingRoomDetails}
+      emptyMessage="لم يتم العثور على هذه الحصة"
     >
       <div className="mt-20 group-data-[template=landing-v3]/template:mt-0">
         <Animate preset="slideDown">

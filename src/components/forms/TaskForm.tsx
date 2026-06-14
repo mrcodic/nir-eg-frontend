@@ -23,7 +23,7 @@ import { ExamType } from "./ExamForm";
 type Props = {
   taskId: string | number;
   setSure: (v: boolean) => void;
-  status: boolean;
+  isShowingAnswers: boolean;
   setSuccess: (v: boolean) => void;
   setFail: (v: boolean) => void;
   setResolver: (v: any) => void;
@@ -34,7 +34,7 @@ type Props = {
 function TaskForm({
   taskId,
   setSure,
-  status,
+  isShowingAnswers,
   setSuccess,
   setFail,
   setResolver,
@@ -233,7 +233,7 @@ function TaskForm({
                       question={question}
                       index={index}
                       listRef={listRef}
-                      status={status}
+                      isShowingAnswers={isShowingAnswers}
                       isAnswer={(data as TaskShowAnswersData)?.solution}
                     />
                   ) : question.type === 3 ? (
@@ -249,7 +249,7 @@ function TaskForm({
                       question={question}
                       index={index}
                       listRef={listRef}
-                      status={status}
+                      isShowingAnswers={isShowingAnswers}
                       isAnswer={(data as TaskShowAnswersData)?.solution}
                     />
                   )}
@@ -262,7 +262,7 @@ function TaskForm({
           </div>
         </div>
 
-        {!status && (
+        {!isShowingAnswers && (
           <Button
             className="ms-auto mt-10 w-full max-w-[172px]"
             type="button"

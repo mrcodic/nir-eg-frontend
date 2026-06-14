@@ -257,7 +257,7 @@ const RoomAccordionTrigger = ({
             {isSubscribed && (
               <Link
                 href={`/bundles/${classroomId}/${room?.id}`}
-                className="bg-primary-800 hover:bg-primary-800/80 flex h-8 cursor-pointer items-center justify-center gap-2 rounded-lg px-4 text-sm text-white"
+                className="bg-primary-800 hover:bg-primary-800/80 flex min-h-8 cursor-pointer items-center justify-center gap-2 rounded-lg px-4 text-sm text-white"
                 onClick={(e) => {
                   e.stopPropagation();
                 }}

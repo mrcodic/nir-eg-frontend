@@ -26,7 +26,7 @@ const BundleDetails = async ({
   const profile = profileData?.body;
 
   if (!bundleId) {
-    return redirect("/ErrorPage?message=حدث خطأ اثناء البحث عن الباقة");
+    return redirect("/ErrorPage?message=لم يتم العثور على هذه الباقة");
   }
 
   const data = await getServerData<{ body: Bundle }>({
@@ -35,7 +35,7 @@ const BundleDetails = async ({
   });
 
   if (!data) {
-    return redirect("/ErrorPage?message=حدث خطأ اثناء البحث عن الباقة");
+    return redirect("/ErrorPage?message=لم يتم العثور على هذه الباقة");
   }
 
   const classroomsPrice = data?.body.classrooms.reduce((acc, classroom) => {
@@ -49,8 +49,6 @@ const BundleDetails = async ({
   );
   const isSubbed = bundle?.is_subscribed;
 
-  console.log("bundle : ", bundle);
-
   return (
     <div className="wrapper mt-[140px] mb-22">
       <RoomHeader
@@ -61,7 +59,7 @@ const BundleDetails = async ({
       />
       <div className="mt-8">
         <div className="flex flex-wrap items-center justify-between gap-4">
-          <h2 className="text-32 font-bold max-sm:w-full">{bundle?.name}</h2>
+          <h2 className="text-32 font-bold">{bundle?.name}</h2>
 
           <div className="ms-auto flex grow flex-col items-end gap-3">
             {isSubbed ? (
@@ -99,7 +97,7 @@ const BundleDetails = async ({
 
         <h5 className="mt-10 text-2xl font-bold">تحتوى الباقة على </h5>
 
-        <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-6 grid grid-cols-1 gap-x-4 gap-y-6 md:grid-cols-2 lg:grid-cols-3">
           {bundle?.classrooms.map((classroom) => (
             <CourseCard
               key={classroom.id}

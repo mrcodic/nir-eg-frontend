@@ -12,9 +12,9 @@ export const TargetGradeBanner = memo(({ score }: { score: number }) => {
         <Image src="/assets/info-fill.svg" width={24} height={24} alt="info" />
       }
       render={
-        <p className="text-sm font-bold">
+        <p className="text-sm">
           يجب أن تحصل على أكثر من{" "}
-          <span className="underline mx-1 text-primary-800"> %{score} </span> في
+          <span className="text-primary-800 mx-1 underline"> %{score} </span> في
           هذا الامتحان
         </p>
       }
@@ -33,12 +33,12 @@ export const ResultBanner = memo(({ score }: { score: number }) => {
         <Image src="/assets/info-fill.svg" width={24} height={24} alt="info" />
       }
       render={
-        <p className="flex  text-sm gap-2">
-          <span className=" font-medium">لقد حصلت على </span>
-          <span className="text-primary-800 font-bold inline-block">
+        <p className="flex gap-2 text-sm">
+          <span className="font-medium">لقد حصلت على </span>
+          <span className="text-primary-800 inline-block font-bold">
             {score}%
           </span>
-          <span className=" font-medium">فى هذا الامتحان</span>
+          <span className="font-medium">فى هذا الامتحان</span>
         </p>
       }
     />
@@ -56,9 +56,9 @@ export const ExamTimerBanner = memo(({ timer }: { timer: string }) => {
         <Image src="/assets/time-fill.svg" width={24} height={24} alt="time" />
       }
       render={
-        <p className="flex  text-sm gap-1 font-bold">
+        <p className="flex gap-1 text-sm font-bold">
           <span>وقت الامتحان</span>
-          <span className="text-primary-800 underline  inline-block">
+          <span className="text-primary-800 inline-block underline">
             {timer} دقيقة
           </span>
         </p>

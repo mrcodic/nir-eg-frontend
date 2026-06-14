@@ -84,12 +84,14 @@ export default function LessonPlayerPage() {
     !(lockedToPass || !!lockedByViewLimit) &&
     !!selectedLesson?.access_comment;
 
+  console.log("lesson data", selectedLesson);
   return (
     <>
       <ProtectedRoute
         subscribed={roomDetails?.is_subscriped}
         data={roomDetails}
         isLoading={isLoadingLesson}
+        emptyMessage="لم يتم العثور على بيانات هذه الحصة"
       >
         {selectedLesson && requiresOtpVideo && (
           <LessonTimedQuiz lessonData={selectedLesson} />
@@ -183,7 +185,7 @@ export default function LessonPlayerPage() {
                 <hr className="border-gray-light my-2" />
 
                 <p className="text-gray-dark text-xs font-bold">
-                  {roomDetails?.room?.grade?.title || "--"}
+                  {selectedLesson?.description || selectedLesson?.grade || "--"}
                 </p>
               </div>
 

@@ -167,8 +167,10 @@ const Community = ({ lessonId, locked, isYoutubeVideo }: CommunityProps) => {
           </Accordion>
         </div>
       ) : (
-        <div className="py-8 text-center text-[12px] text-gray-500">
-          لا توجد تعليقات , قم بكتابة أول تعليق
+        <div className="flex flex-col items-center gap-4 py-8">
+          <p className="text-center text-xs text-gray-500">
+            لا توجد تعليقات , قم بكتابة أول تعليق
+          </p>
         </div>
       )}
     </div>

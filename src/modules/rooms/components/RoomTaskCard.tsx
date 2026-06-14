@@ -35,7 +35,7 @@ function RoomTaskCard({
   return (
     <div
       className={cn(
-        "bg-background border-gray-light flex flex-wrap justify-between gap-2 rounded-md border p-2",
+        "bg-background border-gray-light flex w-full flex-wrap justify-between gap-2 rounded-md border p-2",
         className,
       )}
     >
@@ -50,9 +50,9 @@ function RoomTaskCard({
         <span className="line-clamp-1">{task?.title}</span>
       </div>
 
-      <div className="ms-auto flex shrink-0 items-center gap-6 empty:hidden">
+      <div className="ms-auto flex shrink-0 grow flex-wrap items-center justify-end gap-4 empty:hidden">
         {subscribe && verify && (
-          <LinkLocked locked={locked} className="w-full grow py-1">
+          <LinkLocked locked={locked} className="w-fit py-1">
             <Link
               href={`/bundles/${classroomId}/${
                 room?.id

@@ -2,6 +2,10 @@ import { ApiResponse, QuizQuestion } from "@/types";
 
 export type TaskQuestionPayload = {
   questions?: QuizQuestion[];
+  score?: string;
+  timer?: string;
+  is_subscribed: boolean;
+  questionsCount: number;
 };
 
 export type TaskAnswerOption = {

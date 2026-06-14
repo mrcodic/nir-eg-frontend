@@ -19,7 +19,7 @@ export default function TaskSideBar({
   return (
     <ScrollArea
       className={cn(
-        "relative! flex flex-col gap-4 overflow-y-auto pb-2 max-lg:w-full lg:sticky! lg:top-[85px] lg:max-h-[calc(100vh-90px)] lg:group-data-[template=landing-v3]/template:top-29 group-data-[template=landing-v3]/template:lg:max-h-[calc(100vh-126px)]",
+        "relative flex flex-col gap-4 overflow-y-auto rounded-xl pb-2 max-lg:w-full lg:sticky! lg:top-[85px] lg:max-h-[calc(100vh-90px)] lg:group-data-[template=landing-v3]/template:top-29 group-data-[template=landing-v3]/template:lg:max-h-[calc(100vh-126px)]",
         className,
       )}
       dir="rtl"
