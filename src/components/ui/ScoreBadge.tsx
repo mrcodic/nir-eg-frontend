@@ -22,6 +22,7 @@ const ScoreBadge = ({
           : pending
             ? "text-secondary bg-secondary-50 w-full"
             : "text-semantics-red bg-semantics-red-50",
+        type === "واجب" && "w-full",
         className,
       )}
     >

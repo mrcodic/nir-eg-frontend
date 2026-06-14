@@ -50,7 +50,7 @@ function RoomTaskCard({
         <span className="line-clamp-1">{task?.title}</span>
       </div>
 
-      <div className="ms-auto flex shrink-0 grow flex-wrap items-center justify-end gap-4 empty:hidden">
+      <div className="ms-auto flex shrink-0 grow flex-wrap items-center justify-end gap-4 empty:hidden max-[340px]:flex-col max-[340px]:items-end">
         {subscribe && verify && (
           <LinkLocked locked={locked} className="w-fit py-1">
             <Link
