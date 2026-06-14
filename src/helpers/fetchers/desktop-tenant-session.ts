@@ -21,6 +21,7 @@ import { buildApiUrl } from "./fetch-utils";
 import {
   buildCanonicalTenantHost,
   extractStandardTenantSlug,
+  isDesktopApp,
   normalizeHost,
   normalizeTenantInput,
   RESOLVE_TENANT_API,
@@ -206,6 +207,14 @@ export async function clearSelectedDesktopTenant() {
 }
 
 export function navigateToDesktopTenantLogin(record: DesktopTenantRecord) {
+  // In Electron, stay on 127.0.0.1:3000 — navigating to the real subdomain
+  // URL would trigger shell.openExternal() and open the system browser.
+  // Tenant context is carried by cookies set in persistDesktopTenant().
+  if (isDesktopApp()) {
+    window.location.assign("http://127.0.0.1:3000/login");
+    return;
+  }
+
   const targetOrigin = buildTargetOrigin({
     domain: record.host,
     domain_type: record.domain_type,

@@ -1,5 +1,6 @@
 import { UserTenant } from "@/types/tenant.types";
 import { isAxiosError } from "axios";
+import { isDesktopApp } from "./fetchers/tenant-resolution";
 
 export const mapTemplateToNumber = {
   "landing-v1": 1,
@@ -81,9 +82,15 @@ export function buildTargetOrigin(tenant: UserTenant): string {
 }
 
 export function buildDesktopEntryUrl(pathname: string = "/desktop"): string {
+  const normalizedPath = pathname.startsWith("/") ? pathname : `/${pathname}`;
+
+  // In Electron, always stay on 127.0.0.1:3000
+  if (isDesktopApp()) {
+    return `http://127.0.0.1:3000${normalizedPath}`;
+  }
+
   const isProd = process.env.NODE_ENV === "production";
   const devDomain = process.env.NEXT_PUBLIC_DEV_DOMAIN ?? "localhost:3000";
-  const normalizedPath = pathname.startsWith("/") ? pathname : `/${pathname}`;
 
   if (isProd) {
     const rootDomain = normalizeDomain(

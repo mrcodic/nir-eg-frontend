@@ -1,7 +1,12 @@
+export const NIR_PROD_DOMAIN =
+  process.env.NEXT_PUBLIC_ROOT_DOMAIN ?? "nir-edu.com";
+
+export const NIR_DEV_DOMAIN = (
+  process.env.NEXT_PUBLIC_DEV_DOMAIN ?? "localhost"
+).replace(/:\d+$/, "");
+
 export const NIR_ROOT_DOMAIN =
-  process.env.NODE_ENV === "production"
-    ? (process.env.NEXT_PUBLIC_ROOT_DOMAIN ?? "nir-edu.com")
-    : (process.env.NEXT_PUBLIC_DEV_DOMAIN ?? "localhost").replace(/:\d+$/, "");
+  process.env.NODE_ENV === "production" ? NIR_PROD_DOMAIN : NIR_DEV_DOMAIN;
 
 export const NIR_FULL_DOMAIN =
   process.env.NODE_ENV === "production"
@@ -17,23 +22,49 @@ export const RESOLVE_TENANT_CODE =
 export function normalizeHost(value: string): string {
   return value.trim().replace(/:\d+$/, "").toLowerCase();
 }
+export function isDesktopElectronHost(cleanHost: string): boolean {
+  return (
+    cleanHost === "127.0.0.1" ||
+    cleanHost === "localhost" ||
+    cleanHost.startsWith("127.0.0.1:") ||
+    cleanHost.startsWith("localhost:")
+  );
+}
 
 export function hasTenantSubdomain(cleanHost: string): boolean {
-  return cleanHost.endsWith(`.${NIR_ROOT_DOMAIN}`);
+  return (
+    cleanHost.endsWith(`.${NIR_PROD_DOMAIN}`) ||
+    cleanHost.endsWith(`.${NIR_DEV_DOMAIN}`)
+  );
 }
 
 export function extractStandardTenantSlug(cleanHost: string): string | null {
-  if (!hasTenantSubdomain(cleanHost)) {
-    return null;
+  const domains = [NIR_PROD_DOMAIN, NIR_DEV_DOMAIN];
+
+  for (const domain of domains) {
+    if (cleanHost.endsWith(`.${domain}`)) {
+      const slug = cleanHost.slice(0, -`.${domain}`.length).trim();
+      return slug || null;
+    }
   }
 
-  const suffix = `.${NIR_ROOT_DOMAIN}`;
-  const slug = cleanHost.slice(0, -suffix.length).trim();
-  return slug || null;
+  return null;
+}
+
+export function isDesktopApp(): boolean {
+  if (typeof window === "undefined") return false;
+  return (
+    window.location.hostname === "127.0.0.1" ||
+    window.location.hostname === "localhost" ||
+    navigator.userAgent.toLowerCase().includes("electron")
+  );
 }
 
 export function isRootHost(cleanHost: string): boolean {
-  return normalizeHost(cleanHost) === NIR_ROOT_DOMAIN;
+  return (
+    normalizeHost(cleanHost) === NIR_ROOT_DOMAIN ||
+    isDesktopElectronHost(cleanHost)
+  );
 }
 
 export function buildCanonicalTenantHost(slug: string): string {
