@@ -15,7 +15,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import StepperHeader from "@/components/ui/stepper-header";
 import {
   buildProfileCompletionSchema,
@@ -57,6 +56,7 @@ function FormActions({
     <div className="flex items-center gap-3 pb-2">
       {showPrev && (
         <Button
+          key="show-prev"
           type="button"
           variant="secondary"
           className="w-32"
@@ -69,6 +69,7 @@ function FormActions({
 
       {showNext ? (
         <Button
+          key="show-next"
           type="button"
           className="w-full"
           onClick={onNext}
@@ -77,7 +78,12 @@ function FormActions({
           التالي
         </Button>
       ) : (
-        <Button type="submit" className="w-full" disabled={isDisabled}>
+        <Button
+          key="submit"
+          type="submit"
+          className="w-full"
+          disabled={isDisabled}
+        >
           {isSubmitting ? <SmallSpinner className="text-white" /> : "تأكيد"}
         </Button>
       )}
@@ -200,14 +206,9 @@ export default function ProfileCompletionModal() {
                   />
                 )}
 
-                <ScrollArea
+                <div
                   dir="rtl"
-                  className={cn(
-                    "min-h-[150px] w-full overflow-y-auto",
-                    // isStepper
-                    //   ? "mt-6 **:data-radix-scroll-area-viewport:max-h-[min(48dvh,calc(100dvh-430px))]"
-                    //   : "**:data-radix-scroll-area-viewport:max-h-[min(52dvh,calc(100dvh-330px))]",
-                  )}
+                  className={cn("min-h-[150px] w-full overflow-y-auto")}
                 >
                   <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-2 max-md:[&_>_div]:col-span-2">
                     <ProfileCompletionFields
@@ -215,7 +216,7 @@ export default function ProfileCompletionModal() {
                       fields={isStepper ? currentStepFields : filteredFields}
                     />
                   </div>
-                </ScrollArea>
+                </div>
 
                 <FormActions
                   isStepper={isStepper}

@@ -1,10 +1,15 @@
 "use client";
 
-import ProfileCompletionModal from "@/modules/profile/components/ProfileCompletionModal";
 import { useAuthContext } from "@/context/auth-context";
 import useHandleFeaturesDisplay from "@/hooks/useHandleFeaturesDisplay";
 import useHandleOfferDisplay from "@/hooks/useHandleOfferDisplay";
-import { useEffect, useRef } from "react";
+import dynamic from "next/dynamic";
+import { Suspense, useEffect, useRef } from "react";
+
+const ProfileCompletionModal = dynamic(
+  () => import("@/modules/profile/components/ProfileCompletionModal"),
+  { ssr: false },
+);
 
 function UserModalsWrapper() {
   const { profile } = useAuthContext();
@@ -26,7 +31,15 @@ function UserModalsWrapper() {
     }
   }, [handleFeaturesDisplay, handleOfferDisplay, profile]);
 
-  return <ProfileCompletionModal />;
+  return (
+    profile &&
+    "profile_completed" in profile &&
+    profile?.profile_completed === false && (
+      <Suspense fallback={null}>
+        <ProfileCompletionModal />
+      </Suspense>
+    )
+  );
 }
 
 export default UserModalsWrapper;

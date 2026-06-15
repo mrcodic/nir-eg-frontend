@@ -47,6 +47,8 @@ export function useLogin({ onPhoneNotVerified }: UseLoginParams) {
 
       Cookies.remove("guest_token");
 
+      console.log("login user : ", response?.student);
+
       queryClient.setQueryData(["/students/profile"], response.student);
 
       setToken(response?.access_token);
