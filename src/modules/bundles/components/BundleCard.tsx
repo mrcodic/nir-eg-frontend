@@ -108,7 +108,7 @@ export default function BundleCard({
               onClick={() => {
                 router.push(`/bundles/bundle-details/${bundle.id}`);
               }}
-              variant="outline"
+              variant="outline-primary"
               className="w-full max-w-[171px]"
             >
               عرض الباقة

@@ -6,9 +6,10 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { ILesson } from "@/types";
 import { useLessonTimedQuiz } from "../hooks/useLessonTimedQuiz";
+import LessonTimedQuizAnswersView from "./LessonTimedQuizAnswersView";
 import LessonTimedQuizConfirmModal from "./LessonTimedQuizConfirmModal";
 import LessonTimedQuizQuestionView from "./LessonTimedQuizQuestionView";
-import LessonTimedQuizResultView from "./LessonTimedQuizResultView";
+import LessonTimedQuizScoreOverview from "./LessonTimedQuizScoreOverview";
 
 export default function LessonTimedQuiz({
   lessonData,
@@ -34,18 +35,16 @@ export default function LessonTimedQuiz({
             "blur-sm brightness-50": quiz.confirmOpen,
           })}
           overlayClassName="z-[1000002]"
-          hideClose={quiz.showResult}
+          hideClose={quiz.showResult || quiz.showingAnswers}
         >
           {quiz.isLoading ? (
             <div className="flex min-h-44 items-center justify-center">
               <SmallSpinner className="text-primary-800" />
             </div>
+          ) : quiz.showingAnswers ? (
+            <LessonTimedQuizAnswersView quiz={quiz} />
           ) : quiz.showResult ? (
-            <LessonTimedQuizResultView
-              passed={quiz.passed}
-              score={quiz.score}
-              onContinue={quiz.closeAll}
-            />
+            <LessonTimedQuizScoreOverview quiz={quiz} />
           ) : quiz.currentQuestion ? (
             <LessonTimedQuizQuestionView quiz={quiz} />
           ) : (

@@ -50,7 +50,6 @@ export type TaskParagraphAnswerQuestion = {
   answer_video: string | null;
   explanation: string | null;
   has_multi_correct: boolean | null;
-  answers: [];
   essay: null;
   related_questions: TaskChoiceAnswerQuestion[];
 };
@@ -63,7 +62,6 @@ export type TaskEssayQuestion = {
   answer_video: string | null;
   explanation: string | null;
   has_multi_correct: boolean | null;
-  answers: [];
   essay: TaskEssayAnswer | null;
 };
 
