@@ -2,12 +2,12 @@
 
 import { getClientPrivateData } from "@/helpers/fetchers/client-fetch";
 import { cn } from "@/lib/utils";
+import UserMessage from "@/modules/community/components/UserMessage";
 import { Comment, IPagination } from "@/types";
 import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import UserMessage from "../../modules/community/components/UserMessage";
 import LoadingSpinner from "../shared/LoadingSpinner";
 import { Dialog, DialogContent } from "../ui/dialog";
 import { SimplePagination } from "../ui/SimplePagination";

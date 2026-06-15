@@ -74,22 +74,20 @@ const LessonCard = memo(function LessonCard({
           </span>
         </div>
 
-        {!locked && (
+        {locked ? (
+          <Image
+            src="/assets/Locked.png"
+            width={48}
+            height={48}
+            className="absolute bottom-1 left-1 size-12 object-contain"
+            alt="lock image"
+          />
+        ) : (
           <MarkVideoCompleted
             isCompleted={lesson.completed}
             roomId={roomId}
             classroomId={classroomId}
             lessonId={lesson.id}
-          />
-        )}
-
-        {locked && (
-          <Image
-            src="/assets/Locked.png"
-            width={48}
-            height={48}
-            className="absolute bottom-1 left-1 size-12 bg-white/50 object-contain"
-            alt="lock image"
           />
         )}
       </div>
