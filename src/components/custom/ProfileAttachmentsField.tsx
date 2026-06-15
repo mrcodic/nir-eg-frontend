@@ -207,7 +207,7 @@ export default function ProfileAttachmentsField<
   );
 
   return (
-    <FormItem className="col-span-2 my-2">
+    <FormItem className="col-span-2 my-2 min-h-[128px]">
       <div className="flex flex-col items-start gap-6 sm:flex-row">
         <input {...getInputProps()} />
 
@@ -254,7 +254,7 @@ export default function ProfileAttachmentsField<
           {existingEntries.length > 0 && (
             <p className="text-muted-foreground text-xs">ملفات مرفوعة مسبقًا</p>
           )}
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 empty:hidden">
             {existingEntries.map((entry) => {
               const idx = entries.findIndex((item) => item === entry);
               const fileName =
@@ -294,7 +294,7 @@ export default function ProfileAttachmentsField<
               ملفات مضافة في الجلسة الحالية
             </p>
           )}
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 empty:hidden">
             {previews.map(({ entry, src }) => {
               const file = entry.file as File;
               const idx = entries.findIndex((item) => item === entry);

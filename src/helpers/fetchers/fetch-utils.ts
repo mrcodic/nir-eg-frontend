@@ -1,6 +1,9 @@
 import CustomError from "@/lib/customError";
 import { extractStandardTenantSlug } from "./tenant-resolution";
 
+// Cache resolved tenant slug for custom domains (client-side)
+let _cachedTenantSlug: string | null = null;
+
 export function extractTenantFromHost() {
   if (typeof window === "undefined") return { subdomain: "", host: "" };
 

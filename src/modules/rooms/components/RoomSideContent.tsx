@@ -14,7 +14,7 @@ import { IRoomDetails } from "@/types";
 import { ChevronRight, Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
-import { memo } from "react";
+import { memo, useEffect, useRef } from "react";
 import {
   AssignmentCard,
   AttachmentCard,
@@ -24,7 +24,6 @@ import {
 
 type RoomSideContentProps = {
   data: IRoomDetails | undefined;
-  onLessonClick?: (url: string) => void;
   locked: boolean;
   isLoading: boolean;
   className?: string;
@@ -33,22 +32,57 @@ type RoomSideContentProps = {
 
 const RoomSideContent = ({
   data,
-  onLessonClick,
   locked,
   className,
   isLoading,
   activeLessonId,
 }: RoomSideContentProps) => {
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const hasScrolledToActiveLessonRef = useRef(false);
   const params = useParams();
+  const { features } = useTenant();
+  const router = useRouter();
+
   const classroomId = Array.isArray(params.classroomId)
     ? params.classroomId[0]
     : params.classroomId;
   const room = Array.isArray(params.room) ? params.room[0] : params.room;
 
-  const { features } = useTenant();
-  const router = useRouter();
-
   const hasTasksEnabled = features?.quizzes;
+
+  useEffect(() => {
+    if (
+      isLoading ||
+      !data ||
+      !activeLessonId ||
+      hasScrolledToActiveLessonRef.current
+    ) {
+      return;
+    }
+
+    const viewport = scrollAreaRef.current?.querySelector<HTMLElement>(
+      "[data-radix-scroll-area-viewport]",
+    );
+    const activeLessonElement = document.getElementById(
+      `lesson-${activeLessonId}`,
+    );
+
+    if (!viewport || !activeLessonElement) {
+      return;
+    }
+
+    const viewportRect = viewport.getBoundingClientRect();
+    const lessonRect = activeLessonElement.getBoundingClientRect();
+    const nextScrollTop =
+      lessonRect.top - viewportRect.top + viewport.scrollTop - 16;
+
+    viewport.scrollTo({
+      top: Math.max(nextScrollTop, 0),
+      behavior: "auto",
+    });
+
+    hasScrolledToActiveLessonRef.current = true;
+  }, [activeLessonId, data, isLoading]);
 
   if (isLoading) {
     return (
@@ -116,7 +150,7 @@ const RoomSideContent = ({
         defaultValue={["lessons", "quizzes", "assignments", "attachments"]}
         className="mt-6 min-h-0 w-full flex-1"
       >
-        <ScrollArea dir="rtl" className="h-full min-h-0">
+        <ScrollArea ref={scrollAreaRef} dir="rtl" className="h-full min-h-0">
           <div className="border-gray-light space-y-4 rounded-lg border p-1">
             {/* Lessons Section */}
             <AccordionItem
@@ -144,15 +178,6 @@ const RoomSideContent = ({
                     active={activeLessonId === lesson.id}
                     roomId={data?.room.id}
                     classroomId={classroomId ?? ""}
-                    onClick={() =>
-                      onLessonClick
-                        ? onLessonClick(
-                            `/bundles/${classroomId}/${data?.room.id}/${lesson.id}`,
-                          )
-                        : router.push(
-                            `/bundles/${classroomId}/${data?.room.id}/${lesson.id}`,
-                          )
-                    }
                   />
                 ))}
               </AccordionContent>

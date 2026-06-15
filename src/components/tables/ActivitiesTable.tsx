@@ -19,7 +19,7 @@ const columns = [
     header: () => <div className="w-full text-lg font-bold">الأنشطة</div>,
     cell: (info) => (
       <div className="flex max-w-[300px] items-center truncate text-base font-medium">
-        <p className="text-secondary truncate underline">{info.getValue()}</p>
+        <p className="truncate">{info.getValue()}</p>
       </div>
     ),
   }),

@@ -13,6 +13,7 @@ import QueryProvider from "@/layouts/QueryProvider";
 import CustomError from "@/lib/customError";
 import { getTenantSettingsServer } from "@/services/tenant.service";
 import { ApiResponse, IUser } from "@/types";
+import { isProd } from "@/utils/isProd";
 import { Metadata } from "next";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { Almarai } from "next/font/google";
@@ -28,7 +29,6 @@ const almarai = Almarai({
   weight: ["400", "700"],
 });
 
-const isProd = process.env.NODE_ENV === "production";
 const devDomain = process.env.NEXT_PUBLIC_DEV_DOMAIN ?? "localhost:3000";
 const DESKTOP_ROUTE_PREFIX = "/desktop";
 

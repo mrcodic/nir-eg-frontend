@@ -5,7 +5,13 @@ import { IUser } from "@/types";
 import { deleteCookie } from "@/utils/api";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Cookies from "js-cookie";
-import { createContext, useCallback, useContext, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
 
 interface AuthContextType {
   token: string;
@@ -63,22 +69,21 @@ export const AuthContextProvider = ({
     await deleteCookie("nir_token");
   }, [queryClient]);
 
-  return (
-    <AuthContext.Provider
-      value={{
-        logout: logout,
-        token: token,
-        setToken,
-        profile: profileData,
-        isLoading,
-        grade: profileData?.grade && {
-          id: profileData?.grade,
-          name: profileData?.grade_name,
-        },
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
+  const value = useMemo(
+    () => ({
+      logout: logout,
+      token: token,
+      setToken,
+      profile: profileData,
+      isLoading,
+      grade: profileData?.grade && {
+        id: profileData?.grade,
+        name: profileData?.grade_name,
+      },
+    }),
+    [logout, token, profileData, isLoading],
   );
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 export default AuthContext;

@@ -41,7 +41,14 @@ export function useProfileCompletionFields({
   const skipForSessionRef = useRef<string | null>(null);
 
   const loadProfileFields = async (): Promise<LoadResult> => {
-    if (!profile?.id || !profile?.phone || !token) return null;
+    if (
+      !profile?.id ||
+      !profile?.phone ||
+      !token ||
+      profile.profile_completed === true
+    )
+      return null;
+
     if (skipForSessionRef.current === String(profile.id)) return null;
 
     setIsLoading(true);
@@ -51,6 +58,8 @@ export function useProfileCompletionFields({
       const serverFields = sortDynamicProfileFields(
         fieldsResponse?.data?.fields ?? [],
       );
+
+      console.log("server fields : ", serverFields);
 
       if (!serverFields.length) {
         skipForSessionRef.current = String(profile.id);

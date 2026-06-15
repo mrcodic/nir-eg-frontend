@@ -46,15 +46,19 @@ export function useLogin({ onPhoneNotVerified }: UseLoginParams) {
       await saveCookie(response?.access_token);
 
       Cookies.remove("guest_token");
-      queryClient.invalidateQueries({ queryKey: ["/students/profile"] });
+
+      console.log("login user : ", response?.student);
+
+      queryClient.setQueryData(["/students/profile"], response.student);
 
       setToken(response?.access_token);
       presistUserPhone(phone.phone, phone.country);
 
-      router.refresh();
+      // router.refresh();
 
+      // center student
       if (response?.student?.type === 3 && response?.student?.has_center) {
-        router.push(redirectPath || `bundles/${response?.student?.center_id}`);
+        router.push(`bundles/${response?.student?.center_id}`);
         return;
       }
 
@@ -64,14 +68,6 @@ export function useLogin({ onPhoneNotVerified }: UseLoginParams) {
         );
         return;
       }
-
-      // if (
-      //   response?.student?.type === 3 &&
-      //   response?.student?.has_center === false
-      // ) {
-      //   router.push(redirectPath || "profile");
-      //   return;
-      // }
 
       router.push(redirectPath || "/profile");
     } catch (err: unknown) {

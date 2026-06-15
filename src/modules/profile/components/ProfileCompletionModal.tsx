@@ -6,7 +6,6 @@ import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 
 import SmallSpinner from "@/components/custom/SmallSpinner";
-import SuccessFeedbackModal from "@/components/modals/SuccessFeedbackModal";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -15,13 +14,12 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import StepperHeader from "@/components/ui/stepper-header";
+import { useModal } from "@/context/ModalProvider";
 import {
   buildProfileCompletionSchema,
   ProfileCompletionValues,
 } from "@/helpers/profile-completion.helpers";
-import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { useProfileCompletionFields } from "../hooks/useProfileCompletionFields";
 import { useProfileCompletionStepper } from "../hooks/useProfileCompletionStepper";
@@ -54,9 +52,10 @@ function FormActions({
   const showNext = isStepper && !isLastStep;
 
   return (
-    <div className="flex items-center gap-3 pb-2">
+    <div className="flex shrink-0 items-center gap-3 pb-2">
       {showPrev && (
         <Button
+          key="show-prev"
           type="button"
           variant="secondary"
           className="w-32"
@@ -69,6 +68,7 @@ function FormActions({
 
       {showNext ? (
         <Button
+          key="show-next"
           type="button"
           className="w-full"
           onClick={onNext}
@@ -77,7 +77,12 @@ function FormActions({
           التالي
         </Button>
       ) : (
-        <Button type="submit" className="w-full" disabled={isDisabled}>
+        <Button
+          key="submit"
+          type="submit"
+          className="w-full"
+          disabled={isDisabled}
+        >
           {isSubmitting ? <SmallSpinner className="text-white" /> : "تأكيد"}
         </Button>
       )}
@@ -88,8 +93,11 @@ function FormActions({
 // ── Main component ───────────────────────────────────────────────────────────
 
 export default function ProfileCompletionModal() {
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [open, setOpen] = useState(false);
+
+  const modal = useModal();
+
+  const { isSubmitting, submit } = useProfileCompletionSubmit();
 
   const { isLoading, filteredFields, loadProfileFields, profile, token } =
     useProfileCompletionFields({
@@ -122,8 +130,6 @@ export default function ProfileCompletionModal() {
     goToStep,
   } = useProfileCompletionStepper({ form, fields: filteredFields });
 
-  const { isSubmitting, submit } = useProfileCompletionSubmit();
-
   // ── Effects ────────────────────────────────────────────────
   useEffect(() => {
     if (!profile?.id || !token) return;
@@ -149,7 +155,20 @@ export default function ProfileCompletionModal() {
       onServerFieldError: moveToStepByField,
       onSuccess: () => {
         setOpen(false);
-        setShowSuccessModal(true);
+        modal.setDialogContent(
+          <>
+            <Image
+              src={"/assets/gifs/confetti.gif"}
+              alt=""
+              width={56}
+              height={56}
+            />
+            <DialogTitle className="text-center text-base font-semibold">
+              تم تأكيد بياناتك بنجاح
+            </DialogTitle>
+          </>,
+        );
+        modal.openModal();
       },
     });
   });
@@ -157,88 +176,63 @@ export default function ProfileCompletionModal() {
   if (!profile) return null;
 
   return (
-    <>
-      <Dialog open={open} onOpenChange={() => undefined}>
-        <DialogContent
-          hideClose
-          className="flex max-w-3xl flex-col pb-4"
-          onEscapeKeyDown={(e) => e.preventDefault()}
-          onInteractOutside={(e) => e.preventDefault()}
-        >
-          <DialogHeader className="mb-2 gap-8">
-            <div className="relative mx-auto size-16">
-              <div className="bg-destructive absolute top-1/2 left-1/2 z-1 size-12 -translate-x-1/2 -translate-y-1/2 animate-ping rounded-full" />
-              <Image
-                src="/assets/icons/red-warn.svg"
-                alt="red warn"
-                fill
-                className="z-10"
-              />
-            </div>
-            <DialogTitle className="text-center text-xl">
-              يرجى استكمال بيانات ملفك الشخصي
-            </DialogTitle>
-          </DialogHeader>
+    <Dialog open={open} onOpenChange={() => undefined}>
+      <DialogContent hideClose className="max-w-3xl pb-4">
+        <DialogHeader className="mb-2 gap-8">
+          <div className="relative mx-auto size-16">
+            <div className="bg-destructive absolute top-1/2 left-1/2 z-1 size-12 -translate-x-1/2 -translate-y-1/2 animate-ping rounded-full" />
+            <Image
+              src="/assets/icons/red-warn.svg"
+              alt="red warn"
+              fill
+              className="z-10"
+            />
+          </div>
+          <DialogTitle className="text-center text-xl">
+            يرجى استكمال بيانات ملفك الشخصي
+          </DialogTitle>
+        </DialogHeader>
 
-          {isLoading ? (
-            <div className="flex min-h-40 items-center justify-center">
-              <SmallSpinner />
-            </div>
-          ) : (
-            <Form {...form}>
-              <form
-                className="flex min-h-0 flex-col gap-6"
-                onSubmit={isLastStep || !isStepper ? onSubmit : undefined}
-              >
-                {isStepper && (
-                  <StepperHeader
-                    currentStep={boundedCurrentStep}
-                    totalSteps={fieldSteps.length}
-                    onStepClick={(stepIndex) => {
-                      void goToStep(stepIndex);
-                    }}
-                  />
-                )}
-
-                <ScrollArea
-                  dir="rtl"
-                  className={cn(
-                    "min-h-[150px] w-full overflow-y-auto",
-                    // isStepper
-                    //   ? "mt-6 **:data-radix-scroll-area-viewport:max-h-[min(48dvh,calc(100dvh-430px))]"
-                    //   : "**:data-radix-scroll-area-viewport:max-h-[min(52dvh,calc(100dvh-330px))]",
-                  )}
-                >
-                  <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-2 max-md:[&_>_div]:col-span-2">
-                    <ProfileCompletionFields
-                      form={form}
-                      fields={isStepper ? currentStepFields : filteredFields}
-                    />
-                  </div>
-                </ScrollArea>
-
-                <FormActions
-                  isStepper={isStepper}
-                  isLastStep={isLastStep}
-                  boundedCurrentStep={boundedCurrentStep}
-                  isSubmitting={isSubmitting}
-                  isLoading={isLoading}
-                  onNext={() => void goNextStep()}
-                  onPrev={goPrevStep}
+        {isLoading ? (
+          <div className="flex min-h-40 items-center justify-center">
+            <SmallSpinner />
+          </div>
+        ) : (
+          <Form {...form}>
+            <form
+              className="flex flex-col gap-6"
+              onSubmit={isLastStep || !isStepper ? onSubmit : undefined}
+            >
+              {isStepper && (
+                <StepperHeader
+                  currentStep={boundedCurrentStep}
+                  totalSteps={fieldSteps.length}
+                  onStepClick={(stepIndex) => {
+                    void goToStep(stepIndex);
+                  }}
                 />
-              </form>
-            </Form>
-          )}
-        </DialogContent>
-      </Dialog>
+              )}
 
-      {showSuccessModal && (
-        <SuccessFeedbackModal
-          open={showSuccessModal}
-          onOpenChange={setShowSuccessModal}
-          message="تم تأكيد بياناتك بنجاح"
-        />
-      )}
-    </>
+              <div className="grid min-h-[150px] w-full grid-cols-1 gap-4 md:grid-cols-2 max-md:[&_>_div]:col-span-2">
+                <ProfileCompletionFields
+                  form={form}
+                  fields={isStepper ? currentStepFields : filteredFields}
+                />
+              </div>
+
+              <FormActions
+                isStepper={isStepper}
+                isLastStep={isLastStep}
+                boundedCurrentStep={boundedCurrentStep}
+                isSubmitting={isSubmitting}
+                isLoading={isLoading}
+                onNext={() => void goNextStep()}
+                onPrev={goPrevStep}
+              />
+            </form>
+          </Form>
+        )}
+      </DialogContent>
+    </Dialog>
   );
 }

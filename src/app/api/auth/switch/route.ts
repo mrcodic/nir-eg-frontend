@@ -1,3 +1,4 @@
+import { isProd } from "@/utils/isProd";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -23,7 +24,7 @@ export async function GET(request: NextRequest) {
   cookieStore.set("nir_token", token, {
     path: "/",
     sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
+    secure: isProd,
   });
 
   return NextResponse.redirect(new URL(safeNext, origin));
