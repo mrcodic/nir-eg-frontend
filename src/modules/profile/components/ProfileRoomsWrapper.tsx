@@ -1,8 +1,8 @@
 "use client";
 
 import Empty from "@/components/shared/Empty";
-import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import { Button } from "@/components/ui/button";
+import RoomAccordionSkeleton from "@/components/ui/RoomAccordionSkeleton";
 import { useAuthContext } from "@/context/auth-context";
 import { useTenant } from "@/context/TenantProvider";
 import { getClientPrivateData } from "@/helpers/fetchers/client-fetch";
@@ -34,7 +34,13 @@ function ProfileRoomsWrapper() {
   const canShowLess = visibleCount > VISIBLE_ROOMS_COUNT;
 
   if (isLoadingRooms) {
-    return <LoadingSpinner />;
+    return (
+      <div className="flex flex-col gap-4">
+        {Array.from({ length: 2 }, (_, i) => (
+          <RoomAccordionSkeleton key={i} />
+        ))}
+      </div>
+    );
   }
 
   console.log("latest rooms : ", rooms);

@@ -10,7 +10,6 @@ import { useEffect, useState } from "react";
 import UserMessage from "../../modules/community/components/UserMessage";
 import LoadingSpinner from "../shared/LoadingSpinner";
 import { Dialog, DialogContent } from "../ui/dialog";
-import { ScrollArea } from "../ui/scroll-area";
 import { SimplePagination } from "../ui/SimplePagination";
 
 interface CommentDetailsProps {
@@ -61,18 +60,18 @@ const CommentDetails = ({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent
         hideClose={true}
-        className="fixed inset-y-0! left-0! flex h-full! min-h-screen max-w-[800px]! translate-x-0! translate-y-0! flex-col gap-4 overflow-y-auto p-2 text-right sm:gap-8 sm:p-4 md:left-0!"
+        className="fixed inset-y-0! left-0! flex h-full! min-h-screen max-w-[800px]! translate-x-0! translate-y-0! flex-col gap-4 overflow-y-auto rounded-l-none! p-2 text-right sm:gap-6 sm:p-4 md:left-0!"
       >
         <DialogTitle className="hidden" />
         <DialogDescription className="hidden" />
 
-        <div className="border-gray-light flex h-[80px] w-full justify-between border-b-2 p-2">
-          <h2 className="text-sm font-bold text-black sm:text-lg">
+        <div className="border-gray-light flex w-full justify-between border-b-2 p-2 pb-4">
+          <h2 className="pe-4 text-sm font-bold text-black sm:text-lg">
             عرض الأسئلة والاستفسارات{" "}
           </h2>
           <div
             onClick={() => setOpen(false)}
-            className="absolute left-[40px]! cursor-pointer text-lg font-bold text-gray-500"
+            className="absolute left-5 cursor-pointer text-sm font-bold text-gray-500 sm:text-lg"
           >
             ✕
           </div>
@@ -106,12 +105,14 @@ const CommentDetails = ({
           </div>
         )}
 
-        <ScrollArea
+        <div
           dir="rtl"
-          type="always"
-          className={cn("flex min-h-[150px]! grow flex-col gap-2", {
-            "animate-pulse opacity-80": isPlaceholderData,
-          })}
+          className={cn(
+            "flex min-h-[150px]! grow flex-col gap-2 overflow-auto",
+            {
+              "animate-pulse opacity-80": isPlaceholderData,
+            },
+          )}
         >
           {isLoading ? (
             <LoadingSpinner />
@@ -129,7 +130,7 @@ const CommentDetails = ({
           ) : (
             <p>لا يوجد تعليقات</p>
           )}
-        </ScrollArea>
+        </div>
 
         <div className="flex flex-col gap-2">
           {data?.data?.length && !isLoading && (
