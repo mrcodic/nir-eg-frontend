@@ -169,16 +169,6 @@ export async function resolveDesktopTenant(
   return buildRecordFromTenantSettings(tenant, parsed.host, parsed.domainType);
 }
 
-export async function fetchDesktopTenantHistoryByPhone(
-  phone: string,
-): Promise<DesktopTenantRecord[]> {
-  void phone;
-
-  // TODO: replace this placeholder with the central desktop history endpoint
-  // once the backend contract is available.
-  return [];
-}
-
 export function persistDesktopTenant(record: DesktopTenantRecord) {
   Cookies.set(SELECTED_TENANT_SLUG_COOKIE, record.slug, {
     sameSite: "lax",
