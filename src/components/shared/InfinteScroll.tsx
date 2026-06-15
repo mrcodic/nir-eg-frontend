@@ -4,7 +4,21 @@
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import { useCallback, useEffect, useState } from "react";
 
-const InfiniteScroll = ({ fetchData, pagination, render, initialData }) => {
+type Props = {
+  fetchData: (page: number) => Promise<any[]>;
+  pagination: { last_page: number };
+  render: (items: any[]) => React.ReactNode;
+  initialData?: any[];
+  loadingComponent?: React.ReactNode;
+};
+
+const InfiniteScroll = ({
+  fetchData,
+  pagination,
+  render,
+  initialData,
+  loadingComponent,
+}: Props) => {
   const [items, setItems] = useState(initialData || []);
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(2);
@@ -48,12 +62,15 @@ const InfiniteScroll = ({ fetchData, pagination, render, initialData }) => {
 
   return (
     <div>
-      <div className="">{render(items)}</div>
-      {isLoading && (
-        <div>
-          <LoadingSpinner />
-        </div>
-      )}
+      <div>{render(items)}</div>
+      {isLoading &&
+        (!!loadingComponent ? (
+          loadingComponent
+        ) : (
+          <div>
+            <LoadingSpinner />
+          </div>
+        ))}
       <div id="scroll-target" style={{ height: "20px" }}></div>
     </div>
   );

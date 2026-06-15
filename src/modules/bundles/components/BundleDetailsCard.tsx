@@ -1,8 +1,50 @@
+import { Animate } from "@/components/shared/Animate";
 import CustomImage from "@/components/ui/CustomImage";
 import DataWithLabel from "@/components/ui/DataWithLabel";
 import PriceBubbles from "@/components/ui/price-bubble";
 import { Bundle } from "@/types";
+import type { Variants } from "framer-motion";
 import Image from "next/image";
+
+const containerVariants: Variants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.2,
+      delayChildren: 0.05,
+    },
+  },
+};
+
+const imageVariants: Variants = {
+  hidden: {
+    opacity: 0,
+    scale: 0.92,
+  },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 0.45,
+      ease: "easeOut",
+    },
+  },
+};
+
+const detailsVariants: Variants = {
+  hidden: {
+    opacity: 0,
+    x: 48,
+  },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      duration: 0.45,
+      ease: "easeOut",
+    },
+  },
+};
 
 function BundleDetailsCard({
   bundle,
@@ -12,8 +54,17 @@ function BundleDetailsCard({
   showPrice?: boolean;
 }) {
   return (
-    <div className="flex gap-6 max-md:flex-col">
-      <div className="border-gray-light relative aspect-square max-h-58 min-w-46 overflow-hidden rounded-lg border">
+    <Animate
+      className="flex gap-6 overflow-hidden max-md:flex-col"
+      preset="none"
+      variants={containerVariants}
+      trigger="mount"
+    >
+      <Animate
+        isChild
+        variants={imageVariants}
+        className="border-gray-light relative aspect-square max-h-58 min-w-46 overflow-hidden rounded-lg border"
+      >
         <CustomImage
           src={bundle?.cover}
           fallback="/assets/grade-placeholder.png"
@@ -23,9 +74,13 @@ function BundleDetailsCard({
           loading="eager"
           fill
         />
-      </div>
+      </Animate>
 
-      <div className="border-gray-light grow rounded-lg border p-4">
+      <Animate
+        isChild
+        variants={detailsVariants}
+        className="border-gray-light grow rounded-lg border p-4"
+      >
         <div className="flex items-center justify-between gap-4">
           <h4 className="text-2xl font-bold">{bundle?.name}</h4>
 
@@ -38,6 +93,7 @@ function BundleDetailsCard({
           <h4 className="text-gray-dark text-sm font-bold">
             تحتوي الباقة على التالي:
           </h4>
+
           <p className="text-base font-bold">
             {bundle.classrooms.map((classroom) => classroom.title).join(" و ")}
           </p>
@@ -60,8 +116,8 @@ function BundleDetailsCard({
             }
           />
         </div>
-      </div>
-    </div>
+      </Animate>
+    </Animate>
   );
 }
 

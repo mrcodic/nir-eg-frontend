@@ -34,6 +34,7 @@ export default function CommentsView() {
   const router = useRouter();
 
   const [page, setPage] = useState(1);
+
   const [courseId, setCourseId] = useState("");
   const [roomId, setRoomId] = useState("");
   const [lessonId, setLessonId] = useState("");
@@ -92,6 +93,7 @@ export default function CommentsView() {
     [comments?.data, selectedCommentLesson],
   );
 
+  console.log(comments);
   return (
     <div className="wrapper mt-[140px] mb-12">
       <div className="flex flex-col justify-between">

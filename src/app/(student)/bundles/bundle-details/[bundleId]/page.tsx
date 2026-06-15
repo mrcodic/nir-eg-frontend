@@ -1,3 +1,4 @@
+import { Animate } from "@/components/shared/Animate";
 import PriceBubbles from "@/components/ui/price-bubble";
 import RemainingDuration from "@/components/ui/RemainingDuration";
 import StyledText from "@/components/ui/StyledText";
@@ -9,7 +10,34 @@ import BundlePurchaseButton from "@/modules/bundles/components/BundlePurchaseBut
 import CourseCard from "@/modules/courses/components/CourseCard";
 import RoomHeader from "@/modules/rooms/components/RoomHeader";
 import { ApiResponse, Bundle, IUser } from "@/types";
+import { Variants } from "framer-motion";
 import { redirect } from "next/navigation";
+
+const containerVariants: Variants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.2,
+      delayChildren: 0.05,
+    },
+  },
+};
+
+const itemVariants: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 16,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.45,
+      staggerChildren: 0.08,
+      ease: "easeOut",
+    },
+  },
+};
 
 const BundleDetails = async ({
   params,
@@ -97,16 +125,20 @@ const BundleDetails = async ({
 
         <h5 className="mt-10 text-2xl font-bold">تحتوى الباقة على </h5>
 
-        <div className="mt-6 grid grid-cols-1 gap-x-4 gap-y-6 md:grid-cols-2 lg:grid-cols-3">
+        <Animate
+          variants={containerVariants}
+          className="mt-6 grid grid-cols-1 gap-x-4 gap-y-6 md:grid-cols-2 lg:grid-cols-3"
+        >
           {bundle?.classrooms.map((classroom) => (
             <CourseCard
               key={classroom.id}
               isBundles={true}
               courseDetails={classroom}
               isSubbed={isSubbed || classroom?.isSubscribed}
+              cardItemVariants={itemVariants}
             />
           ))}
-        </div>
+        </Animate>
 
         {!isSubbed && !!savedAmount && (
           <div className="bg-background border-primary-800 mx-auto mt-10 flex max-w-[780px] flex-col items-center gap-6 rounded-lg border p-4 text-center">

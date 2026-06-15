@@ -1,5 +1,4 @@
 import Empty from "@/components/shared/Empty";
-import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import {
   Table,
   TableBody,
@@ -17,6 +16,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Skeleton } from "../ui/skeleton";
 
 type Props = {
   data: any[];
@@ -88,14 +88,16 @@ export default function CustomTableUI({
 
         <TableBody>
           {isLoading ? (
-            <TableRow>
-              <TableCell colSpan={5} className="py-8 text-start">
-                <LoadingSpinner />
-              </TableCell>
-            </TableRow>
+            Array.from({ length: 5 }).map((_, i) => (
+              <TableRow key={i}>
+                <TableCell colSpan={5}>
+                  <Skeleton className="h-10" />
+                </TableCell>
+              </TableRow>
+            ))
           ) : data.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={5} className="py-8 text-start">
+              <TableCell colSpan={5} className="text-start">
                 <Empty text={errorMessage || "لا يوجد درجات بعد"} />
               </TableCell>
             </TableRow>

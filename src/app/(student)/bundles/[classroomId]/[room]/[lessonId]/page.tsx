@@ -142,7 +142,7 @@ export default function LessonPlayerPage() {
                             ? "لقد تجاوزت الحد الأقصى لعدد المشاهدات المسموح بها لهذا الدرس"
                             : otpStatus?.message
                         }
-                        src={lockedByViewLimit ? "/assets/Locked.png" : ""}
+                        src={lockedByViewLimit ? "/assets/lock.png" : ""}
                       />
                     ) : !isWebPlayable ? (
                       <VideoNotPlayableOnWebsite />

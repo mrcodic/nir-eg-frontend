@@ -3,6 +3,7 @@
 import Empty from "@/components/shared/Empty";
 import InfiniteScroll from "@/components/shared/InfinteScroll";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
+import RoomAccordionSkeleton from "@/components/ui/RoomAccordionSkeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTenant } from "@/context/TenantProvider";
 import {
@@ -76,18 +77,18 @@ const CourseDetails = ({ details, profile }: Props) => {
     retry: 1,
   });
 
-  const fetchMoreData = useCallback(
+  const fetchMoreRooms = useCallback(
     async (page = 1) => {
       const res = await getClientData({
         queryKey: [
           `/students/get-rooms/${classroomId}?page=${page}&per_page=10`,
         ],
-        isAuth: !!profile,
+        optionalAuth: true,
       });
 
       return res?.body?.rooms;
     },
-    [classroomId, profile],
+    [classroomId],
   );
 
   const hasExams =
@@ -100,13 +101,12 @@ const CourseDetails = ({ details, profile }: Props) => {
   const visibleTabs = useMemo(
     () =>
       CourseTabs.filter((tab) => {
-        if (tab.value === "exams") return hasExams;
         if (tab.value === "activities") return hasGradesEnabled;
         if (tab.value === "rank") return hasPointsEnabled;
 
         return true;
       }),
-    [hasExams, hasGradesEnabled, hasPointsEnabled],
+    [hasGradesEnabled, hasPointsEnabled],
   );
 
   return (
@@ -148,9 +148,16 @@ const CourseDetails = ({ details, profile }: Props) => {
 
         {details?.rooms?.length ? (
           <InfiniteScroll
-            fetchData={fetchMoreData}
+            fetchData={fetchMoreRooms}
             initialData={details?.rooms}
             pagination={details?.pagination}
+            loadingComponent={
+              <div className="mt-4 flex flex-col gap-4">
+                {Array.from({ length: 2 }, (_, i) => (
+                  <RoomAccordionSkeleton key={i} />
+                ))}
+              </div>
+            }
             render={(data) => {
               return (
                 <div className="flex flex-col gap-4">
@@ -205,7 +212,6 @@ const CourseDetails = ({ details, profile }: Props) => {
               <div className="mt-10">
                 <RoomHeader
                   title="الامتحانات السابقة"
-                  // icon="/assets/english-icon.svg"
                   icon="/assets/assignment-colored.svg"
                 />
                 <div className="flex flex-col gap-6">
