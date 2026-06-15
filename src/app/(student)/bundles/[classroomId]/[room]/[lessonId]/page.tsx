@@ -80,6 +80,7 @@ export default function LessonPlayerPage() {
     selectedLesson?.video_target === "both";
 
   const communityAvailable =
+    isWebPlayable &&
     profile?.type !== 3 &&
     !(lockedToPass || !!lockedByViewLimit) &&
     !!selectedLesson?.access_comment;
@@ -105,7 +106,6 @@ export default function LessonPlayerPage() {
                 locked={lockedToPass}
                 isLoading={isLoadingLesson}
                 activeLessonId={lessonId ?? undefined}
-                onLessonClick={(url) => router.replace(url)}
               />
             </div>
 

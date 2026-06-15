@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { useToast } from "./use-toast";
 
-const isProd = process.env.NODE_ENV === "production";
-
 function useFileDownload({
   attachment,
 }: {

@@ -1,12 +1,12 @@
 import CustomError from "@/lib/customError";
+import { isProd } from "@/utils/isProd";
 
 // Cache resolved tenant slug for custom domains (client-side)
 let _cachedTenantSlug: string | null = null;
 
-const NIR_ROOT_DOMAIN =
-  process.env.NODE_ENV === "production"
-    ? (process.env.NEXT_PUBLIC_ROOT_DOMAIN ?? "nir-edu.com")
-    : (process.env.NEXT_PUBLIC_DEV_DOMAIN ?? "localhost").replace(/:\d+$/, "");
+const NIR_ROOT_DOMAIN = isProd
+  ? (process.env.NEXT_PUBLIC_ROOT_DOMAIN ?? "nir-edu.com")
+  : (process.env.NEXT_PUBLIC_DEV_DOMAIN ?? "localhost").replace(/:\d+$/, "");
 
 export function extractTenantFromHost() {
   if (typeof window === "undefined") return { subdomain: "", host: "" };

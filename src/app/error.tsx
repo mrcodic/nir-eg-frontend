@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import AuthLayout from "@/layouts/AuthLayout";
+import { isProd } from "@/utils/isProd";
 import { useRouter } from "next/navigation";
 
 export default function Error({
@@ -12,7 +13,6 @@ export default function Error({
   reset: () => void;
 }) {
   const router = useRouter();
-  const isProd = process.env.NODE_ENV === "production";
 
   return (
     <AuthLayout>

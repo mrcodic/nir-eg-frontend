@@ -9,6 +9,7 @@ import { convertMinutes } from "@/utils/clientFun";
 import { ChevronLeft, Download, Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { memo } from "react";
 
 type Lesson = IRoomDetails["lessons"][number];
@@ -20,24 +21,27 @@ const LessonCard = memo(function LessonCard({
   lesson,
   active,
   locked,
-  onClick,
   roomId,
   classroomId,
 }: {
   lesson: Lesson;
   active: boolean;
   locked: boolean;
-  onClick?: () => void;
   roomId: number;
   classroomId: string;
 }) {
+  const router = useRouter();
+
   return (
     <div
       aria-disabled={locked || active}
       role="button"
+      id={`lesson-${lesson.id}`}
       onClick={() => {
         if (locked || active) return;
-        onClick?.();
+        router.replace(`/bundles/${classroomId}/${roomId}/${lesson.id}`, {
+          scroll: false,
+        });
       }}
       className={cn(
         "relative mt-4 cursor-pointer rounded-lg border px-2 py-2 aria-disabled:cursor-default",

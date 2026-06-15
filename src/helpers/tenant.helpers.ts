@@ -1,4 +1,5 @@
 import { UserTenant } from "@/types/tenant.types";
+import { isProd } from "@/utils/isProd";
 import { isAxiosError } from "axios";
 
 export const mapTemplateToNumber = {
@@ -62,8 +63,6 @@ export function normalizeDomain(domain: string | null | undefined): string {
 }
 
 export function buildTargetOrigin(tenant: UserTenant): string {
-  const isProd = process.env.NODE_ENV === "production";
-
   if (tenant.domain_type === "domain") {
     const domain = normalizeDomain(tenant.domain);
     return isProd ? `https://${domain}` : `http://${domain}`;

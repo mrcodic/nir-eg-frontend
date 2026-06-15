@@ -1,3 +1,4 @@
+import { isProd } from "@/utils/isProd";
 import { headers } from "next/headers";
 import { cache } from "react";
 
@@ -20,10 +21,9 @@ export const getClientIp = cache(async (): Promise<string | null> => {
   return ip;
 });
 
-const NIR_ROOT_DOMAIN =
-  process.env.NODE_ENV === "production"
-    ? (process.env.NEXT_PUBLIC_ROOT_DOMAIN ?? "nir-edu.com")
-    : (process.env.NEXT_PUBLIC_DEV_DOMAIN ?? "localhost").replace(/:\d+$/, "");
+const NIR_ROOT_DOMAIN = isProd
+  ? (process.env.NEXT_PUBLIC_ROOT_DOMAIN ?? "nir-edu.com")
+  : (process.env.NEXT_PUBLIC_DEV_DOMAIN ?? "localhost").replace(/:\d+$/, "");
 
 // Use the main admin domain — resolve-tenant is a public central endpoint
 const RESOLVE_TENANT_API =

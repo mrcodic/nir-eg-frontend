@@ -2,7 +2,7 @@
 
 import { mapTemplateToNumber } from "@/helpers/tenant.helpers";
 import { TenantFeatures } from "@/types/tenant.types";
-import { createContext, useContext } from "react";
+import { createContext, useContext, useMemo } from "react";
 
 export interface TenantPublic {
   name: string;
@@ -33,13 +33,16 @@ export function TenantProvider({
   value: TenantPublic;
   children: React.ReactNode;
 }) {
+  const providerValue = useMemo(
+    () => ({
+      ...value,
+      templateNumber: mapTemplateToNumber[value.landing_template],
+    }),
+    [value],
+  );
+
   return (
-    <TenantContext.Provider
-      value={{
-        ...value,
-        templateNumber: mapTemplateToNumber[value.landing_template],
-      }}
-    >
+    <TenantContext.Provider value={providerValue}>
       {children}
     </TenantContext.Provider>
   );
