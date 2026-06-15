@@ -2,6 +2,7 @@ import SmallSpinner from "@/components/custom/SmallSpinner";
 import { Button } from "@/components/ui/button";
 import { cn, numberToArabicOrdinal } from "@/lib/utils";
 import { Circle } from "lucide-react";
+import { useCallback } from "react";
 import { useLessonTimedQuiz } from "../hooks/useLessonTimedQuiz";
 
 type Props = {
@@ -13,16 +14,26 @@ export default function LessonTimedQuizQuestionView({ quiz }: Props) {
     currentQuestion: question,
     currentQuestionIndex: questionIndex,
     questions,
+    formQuestions,
     answeredQuestionIds,
-    selectedAnswers,
     isSubmitting,
     toggleAnswer: onPickAnswer,
     setCurrentQuestionIndex: onGoToQuestion,
     handleConfirm: onConfirm,
     handleSkip: onSkip,
-    goToNextQuestion,
-    goToPreviousQuestion,
   } = quiz;
+
+  const selectedAnswers = question
+    ? (formQuestions?.[String(question.id)] ?? [])
+    : [];
+
+  const goToNextQuestion = useCallback(() => {
+    onGoToQuestion(Math.min(questionIndex + 1, questions.length - 1));
+  }, [onGoToQuestion, questionIndex, questions.length]);
+
+  const goToPreviousQuestion = useCallback(() => {
+    onGoToQuestion(Math.max(questionIndex - 1, 0));
+  }, [onGoToQuestion, questionIndex]);
 
   if (!question) return null;
 

@@ -139,7 +139,7 @@ export default function LessonPlayerPage() {
                       <VideoError
                         message={
                           lockedByViewLimit
-                            ? "لقد تجاوزت الحد الأقصى لعدد المشاهدات المسموح بها لهذا الدرس"
+                            ? "لقد تجاوزت الحد الأقصى لعدد المشاهدات المسموح بها لهذا الدرس 🥺"
                             : otpStatus?.message
                         }
                         src={lockedByViewLimit ? "/assets/lock.png" : ""}

@@ -1,10 +1,12 @@
 "use client";
 
+import { getClientPrivateData } from "@/helpers/fetchers/client-fetch";
 import { useToast } from "@/hooks/use-toast";
 import { getTaskQuestions, submitTaskAnswer } from "@/services/task.service";
 import { useVideoPlayerStore } from "@/store/videoPlayerStore";
 import { ILesson, QuizQuestion } from "@/types";
-import { TaskAnswerResult } from "@/types/quiz.types";
+import type { TaskChoiceAnswerQuestion } from "@/types/quiz.types";
+import { TaskAnswerResult, TaskShowAnswersResponse } from "@/types/quiz.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
@@ -12,11 +14,14 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 
+// ─── Types & Schema ─────────────────────────────────────────────
+
 type TimedQuizFormValues = {
   quiz_id: string;
   skip?: number;
   questions: Record<string, string[]>;
 };
+
 type PendingAction = "submit" | "skip" | null;
 
 const timedQuizSchema = z.object({
@@ -24,6 +29,8 @@ const timedQuizSchema = z.object({
   skip: z.number().optional(),
   questions: z.record(z.array(z.string()).optional()),
 });
+
+// ─── Helpers ────────────────────────────────────────────────────
 
 const scoreFromResult = (result?: TaskAnswerResult): number => {
   if (!result) return 0;
@@ -36,12 +43,19 @@ const scoreFromResult = (result?: TaskAnswerResult): number => {
   return Number.isFinite(score) ? score : 0;
 };
 
+// ─── Hook ───────────────────────────────────────────────────────
+
 export function useLessonTimedQuiz(lessonData: ILesson) {
   const { toast } = useToast();
   const params = useParams();
   const queryClient = useQueryClient();
-
   const { currentTime, isPlaying, pause } = useVideoPlayerStore();
+
+  const classroomId = Number(params.classroomId);
+  const roomId = Number(params.room);
+  const currentSecond = Math.max(0, Math.floor(currentTime ?? 0));
+
+  // ─── Form ───────────────────────────────────────────────────
 
   const form = useForm<TimedQuizFormValues>({
     resolver: zodResolver(timedQuizSchema),
@@ -49,23 +63,36 @@ export function useLessonTimedQuiz(lessonData: ILesson) {
     defaultValues: { quiz_id: "", skip: 0, questions: {} },
   });
 
+  const formQuestions = useWatch({ control: form.control, name: "questions" });
+
+  // ─── State ──────────────────────────────────────────────────
+
+  // Dialog & confirm modal
   const [open, setOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [pendingAction, setPendingAction] = useState<PendingAction>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Quiz-taking
   const [activeQuizId, setActiveQuizId] = useState<number | null>(null);
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [result, setResult] = useState<TaskAnswerResult | null>(null);
+
+  // Loading
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Video trigger tracking
   const [handledQuizIds, setHandledQuizIds] = useState<number[]>([]);
   const lastSeenSecondRef = useRef<number | null>(null);
 
-  const formQuestions = useWatch({ control: form.control, name: "questions" });
+  // Show answers
+  const [showAnswersQuestions, setShowAnswersQuestions] = useState<
+    TaskChoiceAnswerQuestion[]
+  >([]);
+  const [isLoadingAnswers, setIsLoadingAnswers] = useState(false);
 
-  const classroomId = Number(params.classroomId);
-  const roomId = Number(params.room);
-  const currentSecond = Math.max(0, Math.floor(currentTime ?? 0));
+  // ─── Derived Values ─────────────────────────────────────────
 
   const availableQuizzes = useMemo(
     () =>
@@ -76,12 +103,17 @@ export function useLessonTimedQuiz(lessonData: ILesson) {
   );
 
   const currentQuestion = questions[currentQuestionIndex] ?? null;
-  const selectedAnswers = currentQuestion
-    ? (formQuestions?.[String(currentQuestion.id)] ?? [])
-    : [];
+
   const showResult = result !== null;
   const passed = Boolean(result?.result ?? result?.passed);
   const score = scoreFromResult(result ?? undefined);
+  const showingAnswers = showAnswersQuestions.length > 0;
+
+  const activeQuizShowAnswer = useMemo(() => {
+    if (!activeQuizId) return false;
+    const quiz = lessonData?.quizzes?.find((q) => q.id === activeQuizId);
+    return Boolean(quiz?.show_answer);
+  }, [activeQuizId, lessonData?.quizzes]);
 
   const questionProgress = useMemo(() => {
     const answeredQuestionIds = new Set<number>();
@@ -102,6 +134,8 @@ export function useLessonTimedQuiz(lessonData: ILesson) {
   const answeredQuestionIds = questionProgress.answeredQuestionIds;
   const unansweredCount = questionProgress.unanswered || 0;
 
+  // ─── Actions: Reset & Close ─────────────────────────────────
+
   const closeAll = useCallback(() => {
     setOpen(false);
     setConfirmOpen(false);
@@ -110,6 +144,7 @@ export function useLessonTimedQuiz(lessonData: ILesson) {
     setQuestions([]);
     setCurrentQuestionIndex(0);
     setActiveQuizId(null);
+    setShowAnswersQuestions([]);
     form.reset({ quiz_id: "", skip: 0, questions: {} });
   }, [form]);
 
@@ -123,6 +158,8 @@ export function useLessonTimedQuiz(lessonData: ILesson) {
     if (activeQuizId && !result) markHandled(activeQuizId);
     closeAll();
   }, [activeQuizId, closeAll, markHandled, result]);
+
+  // ─── Actions: Quiz Taking ──────────────────────────────────
 
   const loadQuizQuestions = useCallback(
     async (quizId: number) => {
@@ -160,6 +197,22 @@ export function useLessonTimedQuiz(lessonData: ILesson) {
     },
     [closeAll, form, markHandled, toast],
   );
+
+  const toggleAnswer = useCallback(
+    (questionId: number, answerId: string) => {
+      const fieldName = `questions.${questionId}` as const;
+      form.setValue(fieldName, [answerId], {
+        shouldDirty: true,
+        shouldTouch: true,
+        shouldValidate: true,
+      });
+    },
+    [form],
+  );
+
+
+
+  // ─── Actions: Submit & Confirm ─────────────────────────────
 
   const submitPayload = useCallback(
     async (skip: boolean) => {
@@ -225,6 +278,64 @@ export function useLessonTimedQuiz(lessonData: ILesson) {
     ],
   );
 
+  const handleConfirm = useCallback(async () => {
+    const isValid = await form.trigger();
+    if (!isValid) return;
+    setPendingAction("submit");
+    setConfirmOpen(true);
+  }, [form]);
+
+  const handleSkip = useCallback(() => {
+    setPendingAction("skip");
+    setConfirmOpen(true);
+  }, []);
+
+  const handleConfirmSubmit = useCallback(async () => {
+    setConfirmOpen(false);
+    if (pendingAction === "skip") {
+      await submitPayload(true);
+      setPendingAction(null);
+      return;
+    }
+    await submitPayload(false);
+    setPendingAction(null);
+  }, [pendingAction, submitPayload]);
+
+  // ─── Actions: Show Answers ─────────────────────────────────
+
+  const fetchShowAnswers = useCallback(async () => {
+    if (!activeQuizId) return;
+    setIsLoadingAnswers(true);
+    try {
+      const res = await getClientPrivateData<TaskShowAnswersResponse>({
+        queryKey: [`students/quiz/show/answers/${activeQuizId}`],
+      });
+
+      if (res?.code === 200 && res?.body?.questions?.length) {
+        const mcqAnswers = res.body.questions.filter(
+          (q) => q.type !== 2 && q.type !== 3,
+        );
+        setShowAnswersQuestions(mcqAnswers);
+      } else {
+        toast({
+          icon: "error",
+          description: "لا توجد إجابات متاحة لهذا الاختبار.",
+        });
+      }
+    } catch {
+      toast({
+        icon: "error",
+        description: "تعذر تحميل الإجابات، حاول مرة أخرى.",
+      });
+    } finally {
+      setIsLoadingAnswers(false);
+    }
+  }, [activeQuizId, toast]);
+
+
+
+  // ─── Effects: Video Trigger ────────────────────────────────
+
   useEffect(() => {
     setHandledQuizIds([]);
     lastSeenSecondRef.current = null;
@@ -270,75 +381,50 @@ export function useLessonTimedQuiz(lessonData: ILesson) {
     pause,
   ]);
 
-  const toggleAnswer = useCallback(
-    (questionId: number, answerId: string) => {
-      const fieldName = `questions.${questionId}` as const;
-      form.setValue(fieldName, [answerId], {
-        shouldDirty: true,
-        shouldTouch: true,
-        shouldValidate: true,
-      });
-    },
-    [form],
-  );
-
-  const handleConfirm = useCallback(async () => {
-    const isValid = await form.trigger();
-    if (!isValid) return;
-    setPendingAction("submit");
-    setConfirmOpen(true);
-  }, [form]);
-
-  const goToNextQuestion = useCallback(() => {
-    setCurrentQuestionIndex((prev) => Math.min(prev + 1, questions.length - 1));
-  }, [questions.length]);
-
-  const goToPreviousQuestion = useCallback(() => {
-    setCurrentQuestionIndex((prev) => Math.max(prev - 1, 0));
-  }, []);
-
-  const handleSkip = useCallback(() => {
-    setPendingAction("skip");
-    setConfirmOpen(true);
-  }, []);
-
-  const handleConfirmSubmit = useCallback(async () => {
-    setConfirmOpen(false);
-    if (pendingAction === "skip") {
-      await submitPayload(true);
-      setPendingAction(null);
-      return;
-    }
-    await submitPayload(false);
-    setPendingAction(null);
-  }, [pendingAction, submitPayload]);
+  // ─── Return ────────────────────────────────────────────────
 
   return {
+    // Form
     form,
+    formQuestions,
+
+    // Dialog & confirm
     open,
     setOpen,
     confirmOpen,
     setConfirmOpen,
     pendingAction,
+
+    // Loading
     isLoading,
     isSubmitting,
+
+    // Quiz-taking
     questions,
     currentQuestion,
     currentQuestionIndex,
     setCurrentQuestionIndex,
-    selectedAnswers,
+    answeredQuestionIds,
+    unansweredCount,
+
+    // Result
     showResult,
     passed,
     score,
-    unansweredCount,
-    answeredQuestionIds,
+
+    // Quiz-taking actions
     handleManualClose,
     toggleAnswer,
     handleConfirm,
-    goToNextQuestion,
-    goToPreviousQuestion,
     handleSkip,
     handleConfirmSubmit,
     closeAll,
+
+    // Show answers
+    activeQuizShowAnswer,
+    isLoadingAnswers,
+    showingAnswers,
+    showAnswersQuestions,
+    fetchShowAnswers,
   };
 }
