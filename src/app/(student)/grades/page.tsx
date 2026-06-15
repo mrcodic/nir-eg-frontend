@@ -16,6 +16,7 @@ const Grades = async () => {
       <Animate preset="slideDown">
         <RoomHeader title="الدرجات" icon="/assets/assignment-colored.svg" />
       </Animate>
+
       <Animate preset="slideUp" delay={0.2}>
         <ActivitiesTable />
       </Animate>

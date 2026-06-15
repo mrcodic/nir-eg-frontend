@@ -11,7 +11,7 @@ import { useModal } from "@/context/ModalProvider";
 import { cn } from "@/lib/utils";
 import SaleBubble from "@/modules/payment/components/sale-bubble";
 import { CourseType } from "@/types";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "nextjs-toploader/app";
@@ -55,12 +55,14 @@ const CourseCard = ({
   isBundles = false,
   isSubbed = false,
   standalone = false,
+  cardItemVariants,
 }: {
   courseDetails: CourseType;
   isNewCourse?: boolean;
   isBundles?: boolean;
   isSubbed?: boolean;
   standalone?: boolean;
+  cardItemVariants?: Variants;
 }) => {
   const router = useRouter();
   const modal = useModal();
@@ -82,7 +84,7 @@ const CourseCard = ({
   return (
     <motion.div
       className="group relative mx-auto flex h-full w-full max-w-[500px] flex-col items-center rounded-lg"
-      variants={cardVariants}
+      variants={cardItemVariants || cardVariants}
       {...(standalone && {
         initial: "hidden",
         whileInView: "visible",
