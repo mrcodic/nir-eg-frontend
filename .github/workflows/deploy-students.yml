@@ -11,12 +11,12 @@ jobs:
 
     steps:
       - name: Checkout frontend branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2 # ✅ Node 24-compatible
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v4.4.0 # ✅ Node 24-compatible
         with:
-          node-version: 20
+          node-version: 22 # ✅ LTS, runs on Node 24 runner
           cache: npm
 
       - name: Install dependencies
