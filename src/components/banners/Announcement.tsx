@@ -46,15 +46,19 @@ function Announcement() {
           icon: "/assets/announcement.svg",
           animateIcon: true,
           content: (
-            <div className="flex w-full flex-wrap items-center justify-between gap-5">
+            <div className="flex w-full flex-wrap items-center justify-between gap-5 max-sm:flex-col">
               <ScrollArea
                 dir="rtl"
-                className="h-full max-h-[50vh] flex-1 overflow-y-auto"
+                className="h-full max-h-[45vh] flex-1 overflow-y-auto"
               >
                 <p className="text-base leading-relaxed">{a.desc}</p>
               </ScrollArea>
+
               {a.file && (
-                <DownloadFileBtn attachment={{ name: a.name, url: a.file }} />
+                <DownloadFileBtn
+                  className="ms-auto"
+                  attachment={{ name: a.name, url: a.file }}
+                />
               )}
             </div>
           ),
@@ -63,11 +67,11 @@ function Announcement() {
   }, [announcements]);
 
   if (!bannerItems.length) return null;
-
+  // group-data-[template=landing-v3]/template:top-28
   return (
     <StackedBanners
       banners={bannerItems}
-      containerClassName="wrapper fixed top-20 left-1/2 -translate-x-1/2 z-40"
+      containerClassName="wrapper fixed top-20  left-1/2 -translate-x-1/2 z-40"
     />
   );
 }
