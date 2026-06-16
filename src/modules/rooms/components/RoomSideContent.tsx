@@ -1,5 +1,6 @@
 "use client";
 
+import SmallSpinner from "@/components/custom/SmallSpinner";
 import {
   Accordion,
   AccordionContent,
@@ -11,7 +12,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useTenant } from "@/context/TenantProvider";
 import { cn } from "@/lib/utils";
 import { IRoomDetails } from "@/types";
-import { ChevronRight, Loader2 } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { memo, useEffect, useRef } from "react";
@@ -28,6 +29,7 @@ type RoomSideContentProps = {
   isLoading: boolean;
   className?: string;
   activeLessonId?: number;
+  isTaskSideSheet?: boolean;
 };
 
 const RoomSideContent = ({
@@ -36,6 +38,7 @@ const RoomSideContent = ({
   className,
   isLoading,
   activeLessonId,
+  isTaskSideSheet,
 }: RoomSideContentProps) => {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const hasScrolledToActiveLessonRef = useRef(false);
@@ -92,7 +95,7 @@ const RoomSideContent = ({
           className,
         )}
       >
-        <Loader2 className="text-primary animate-spin" size={40} />
+        <SmallSpinner />
       </div>
     );
   }
@@ -101,11 +104,17 @@ const RoomSideContent = ({
     return (
       <div
         className={cn(
-          "border-gray-light sticky top-22 flex h-fit max-h-[max(calc(100vh-90px),600px)] min-h-96 w-full items-center justify-center overflow-y-auto rounded-lg border p-4 group-data-[template=landing-v3]/template:top-29",
+          "border-gray-light sticky top-22 flex h-fit max-h-[max(calc(100vh-90px),600px)] min-h-80 w-full flex-col items-center justify-center gap-6 overflow-y-auto rounded-lg border p-4 group-data-[template=landing-v3]/template:top-29",
           className,
         )}
       >
-        <p className="text-sm font-bold">لا يوجد بيانات</p>
+        <Image
+          src="/assets/bg/empty-2.png"
+          width={200}
+          height={200}
+          alt="no lessons"
+        />
+        <p className="text-sm font-bold">لا توجد بيانات حاليا</p>
       </div>
     );
 
@@ -113,6 +122,10 @@ const RoomSideContent = ({
     <div
       className={cn(
         "border-gray-light sticky top-22 flex min-h-0 w-full flex-col overflow-hidden rounded-lg border p-4 group-data-[template=landing-v3]/template:top-29 lg:h-[calc(100vh-90px)] lg:min-h-96 group-data-[template=landing-v3]/template:lg:h-[calc(100vh-140px)]",
+        {
+          "lg:h-[calc(100vh-10px)] group-data-[template=landing-v3]/template:lg:h-[calc(100vh-10px)]":
+            isTaskSideSheet,
+        },
         className,
       )}
     >

@@ -100,6 +100,7 @@ export default function DesktopTenantHistorySection() {
             showDismissButton={false}
             animateY={(index) => (index > 0 ? 17 : 0)}
             animateScale={() => 1}
+            showAllOnHover={false}
           />
 
           {recentTenants.length > 1 && (
