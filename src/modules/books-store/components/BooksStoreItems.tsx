@@ -1,8 +1,8 @@
 "use client";
 
 import Empty from "@/components/shared/Empty";
-import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import PaginationComponent from "@/components/shared/Pagination";
+import BookCardSkeleton from "@/components/ui/bookCardSkeleton";
 import { useCartStore } from "@/context/BooksStoreProvider";
 import { getClientData } from "@/helpers/fetchers/client-fetch";
 import { cn } from "@/lib/utils";
@@ -40,17 +40,19 @@ function BooksStoreItems({
     placeholderData: keepPreviousData,
   });
 
-  if (isLoading) return <LoadingSpinner />;
-
-  if (error) return <Empty isError text="حدث خطأ ما اثناء عرض الكتب" />;
-
   if (hideOnEmptyCart && getTotalItems() === 0) return null;
 
   return (
     <section className={className}>
       <RoomHeader icon={"/assets/books-colored.svg"} title={title || "الكتب"} />
 
-      {data?.data?.length ? (
+      {isLoading ? (
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <BookCardSkeleton key={i} />
+          ))}
+        </div>
+      ) : !!data?.data?.length ? (
         <BooksGrid
           books={data?.data}
           className={cn(
@@ -60,6 +62,8 @@ function BooksStoreItems({
               : "",
           )}
         />
+      ) : error ? (
+        <Empty isError text="حدث خطأ ما اثناء عرض الكتب" />
       ) : (
         <Empty
           text={
