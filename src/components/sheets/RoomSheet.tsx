@@ -28,7 +28,9 @@ export default function RoomSheet({ open, setOpen }) {
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetContent className="px-2">
         <SheetTitle className="sr-only" />
+
         <SheetDescription className="sr-only" />
+
         <RoomSideContent
           data={data?.body}
           locked={data?.body?.locked_to_pass}
