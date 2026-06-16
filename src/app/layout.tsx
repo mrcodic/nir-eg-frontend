@@ -1,8 +1,9 @@
 import "./globals.css";
 
-import Announcement from "@/components/banners/Announcement";
 import NavTopbar from "@/components/custom/NavTopbar";
 import NavbarWrapper from "@/components/includes/NavbarWrapper";
+import Providers from "./providers";
+
 import UserModalsWrapper from "@/components/shared/UserModalsWrapper";
 import { Toaster } from "@/components/ui/toaster";
 import { TENANT_ERROR_CODES } from "@/constants/error-codes";
@@ -16,13 +17,16 @@ import { ApiResponse, IUser } from "@/types";
 import { isProd } from "@/utils/isProd";
 import { Metadata } from "next";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
+import dynamic from "next/dynamic";
 import { Almarai } from "next/font/google";
 import { headers } from "next/headers";
 import Script from "next/script";
+import { Suspense } from "react";
 import CustomGlobalError from "./CustomGlobalError";
 import NotFoundTenant from "./NotFoundTenant";
-import Providers from "./providers";
 import SuspendedTenant from "./SuspendedTenant";
+
+const Announcement = dynamic(() => import("@/components/banners/Announcement"));
 
 const almarai = Almarai({
   subsets: ["arabic"],
@@ -206,7 +210,10 @@ export default async function Layout({
               </main>
 
               <UserModalsWrapper />
-              <Announcement />
+
+              <Suspense fallback={null}>
+                {profile && <Announcement profile={profile.body} />}
+              </Suspense>
             </Providers>
           </>
         </TenantProvider>
