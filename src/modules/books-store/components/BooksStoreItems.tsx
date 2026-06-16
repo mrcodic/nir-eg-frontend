@@ -2,7 +2,7 @@
 
 import Empty from "@/components/shared/Empty";
 import PaginationComponent from "@/components/shared/Pagination";
-import BookCardSkeleton from "@/components/ui/bookCardSkeleton";
+import BookCardSkeleton from "@/components/ui/BookCardSkeleton";
 import { useCartStore } from "@/context/BooksStoreProvider";
 import { getClientData } from "@/helpers/fetchers/client-fetch";
 import { cn } from "@/lib/utils";
