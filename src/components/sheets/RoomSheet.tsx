@@ -34,6 +34,7 @@ export default function RoomSheet({ open, setOpen }) {
           locked={data?.body?.locked_to_pass}
           className="static h-[calc(100vh-20px)] border-none pt-4 max-sm:px-0 lg:h-[calc(100vh-20px)]"
           isLoading={isLoading}
+          isTaskSideSheet
         />
       </SheetContent>
     </Sheet>

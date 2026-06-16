@@ -21,14 +21,17 @@ interface StackedBannersProps {
   banners: StackedBannerItem[];
   containerClassName?: string;
   onDismiss?: (id: string | number) => void;
+  showAllOnHover?: boolean;
 }
 
 export default function StackedBanners({
   banners,
   containerClassName,
   onDismiss,
+  showAllOnHover = true,
 }: StackedBannersProps) {
   const [dismissed, setDismissed] = useState<(string | number)[]>([]);
+  const [isHovered, setIsHovered] = useState(false);
 
   const handleDismiss = (id: string | number) => {
     setDismissed((prev) => [...prev, id]);
@@ -36,12 +39,24 @@ export default function StackedBanners({
   };
 
   const activeBanners = banners.filter((b) => !dismissed.includes(b.id));
+  const isExpanded = showAllOnHover && isHovered;
 
   if (!activeBanners.length) return null;
 
   return (
     <div className={cn("pointer-events-none z-30 pt-2", containerClassName)}>
-      <div className="relative overflow-visible">
+      <div
+        className={cn(
+          "relative overflow-visible",
+          showAllOnHover && "pointer-events-auto",
+        )}
+        onMouseEnter={() => {
+          if (showAllOnHover && activeBanners.length > 1) setIsHovered(true);
+        }}
+        onMouseLeave={() => {
+          if (showAllOnHover && activeBanners.length > 1) setIsHovered(false);
+        }}
+      >
         <AnimatePresence mode="popLayout">
           {activeBanners.map((banner, index) => (
             <motion.div
@@ -50,8 +65,8 @@ export default function StackedBanners({
               initial={{ opacity: 0, y: -40, scale: 0.95 }}
               animate={{
                 opacity: 1,
-                y: index > 0 ? 6 : 0,
-                scale: 1 - (index > 0 ? 1 : 0) * 0.02,
+                y: isExpanded ? 0 : index > 0 ? 6 : 0,
+                scale: isExpanded ? 1 : index > 0 ? 0.98 : 1,
               }}
               exit={{
                 opacity: 0,
@@ -68,14 +83,19 @@ export default function StackedBanners({
               }}
               style={{
                 zIndex: activeBanners.length - index,
-                position: index === 0 ? "relative" : "absolute",
+                position: isExpanded
+                  ? "relative"
+                  : index === 0
+                    ? "relative"
+                    : "absolute",
                 top: 0,
                 left: 0,
                 right: 0,
               }}
               className={cn(
-                "pointer-events-auto relative flex min-h-8 flex-wrap items-center justify-between gap-5 rounded-lg border p-4 text-sm font-bold shadow-lg",
+                "pointer-events-auto relative flex min-h-8 flex-wrap items-center justify-between gap-5 rounded-lg border p-4 text-sm font-bold shadow-md",
                 "border-primary bg-background text-black",
+                isExpanded && index > 0 && "mt-1",
                 banner.className,
               )}
             >
