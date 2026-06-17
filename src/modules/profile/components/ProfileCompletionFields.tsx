@@ -5,6 +5,7 @@ import CustomInput from "@/components/custom/customInput";
 import CustomPhoneInput from "@/components/custom/CustomPhoneInput";
 import CustomSelect from "@/components/custom/customSelect";
 import ProfileAttachmentsField from "@/components/custom/ProfileAttachmentsField";
+import { useAuthContext } from "@/context/auth-context";
 import { DynamicProfileField } from "@/types/auth.types";
 import { useMemo } from "react";
 import { UseFormReturn } from "react-hook-form";
@@ -25,6 +26,8 @@ const isFullWidthField = (field: DynamicProfileField) =>
 export default function ProfileCompletionFields<
   TValues extends Record<string, unknown>,
 >({ form, fields }: Props<TValues>) {
+  const { profile } = useAuthContext();
+
   const firstCityStateIndex = useMemo(
     () =>
       fields.findIndex(
@@ -123,6 +126,7 @@ export default function ProfileCompletionFields<
               label={field.label}
               options={options}
               className={colClass}
+              disabled={field.key === "student_type" && !!profile.type}
             />
           );
         }

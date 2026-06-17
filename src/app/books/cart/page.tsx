@@ -19,6 +19,7 @@ async function page() {
   return (
     <div className="section--style space-y-24">
       <CartContent />
+
       <BooksStoreItems
         perPage={6}
         title="منتجات مشابهة"

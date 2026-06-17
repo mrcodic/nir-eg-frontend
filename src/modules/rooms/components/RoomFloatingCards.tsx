@@ -61,6 +61,7 @@ const LockedToPassCard = () => {
 
 const RoomExpireCard = ({ lock_after }: { lock_after?: number }) => {
   if (!lock_after) return null;
+
   return (
     <div className="border-primary-800 bg-background flex w-full flex-wrap items-center gap-x-4 gap-y-1 rounded-lg border px-6 py-3 text-sm font-bold whitespace-nowrap shadow-md max-md:justify-center md:gap-x-6">
       <Image
@@ -72,12 +73,12 @@ const RoomExpireCard = ({ lock_after }: { lock_after?: number }) => {
       />
       <p className="whitespace-break-spaces">
         محتويات الحصة متاحة لمدة &nbsp;
-        {Math.floor(lock_after / 24) > 0 && (
-          <span className="text-primary-800 mr-1 underline underline-offset-4">
-            ( {Math.floor(lock_after / 24)}&nbsp;أيام &nbsp;
-            {Math.floor(lock_after % 24)} ساعة )
-          </span>
-        )}
+        <span className="text-primary-800 mr-1 underline underline-offset-4">
+          {Math.floor(lock_after / 24) > 0 && (
+            <>{Math.floor(lock_after / 24)}&nbsp;أيام &nbsp;</>
+          )}
+          {Math.floor(lock_after % 24)} ساعة
+        </span>
       </p>
     </div>
   );

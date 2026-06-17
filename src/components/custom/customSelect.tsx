@@ -25,6 +25,7 @@ type Props = {
   iconSrc?: string;
   options: { value: string; label: string }[];
   isLoading?: boolean;
+  disabled?: boolean;
 };
 
 const CustomSelect = ({
@@ -36,6 +37,7 @@ const CustomSelect = ({
   iconSrc,
   options,
   isLoading,
+  disabled,
 }: Props) => {
   return (
     <FormField
@@ -50,10 +52,12 @@ const CustomSelect = ({
                 dir="rtl"
                 onValueChange={field.onChange}
                 value={field.value !== undefined ? String(field.value) : ""}
+                disabled={disabled}
               >
                 <SelectTrigger
                   aria-invalid={!!fieldState.error}
-                  className="border-gray-light flex h-11 w-full cursor-pointer gap-2 text-sm shadow-xs transition-all hover:bg-neutral-100 aria-invalid:border-red-500"
+                  disabled={disabled}
+                  className="border-gray-light flex h-11 w-full cursor-pointer gap-2 text-sm shadow-xs transition-all hover:bg-neutral-100 disabled:hover:bg-white aria-invalid:border-red-500"
                 >
                   {iconSrc && (
                     <Image

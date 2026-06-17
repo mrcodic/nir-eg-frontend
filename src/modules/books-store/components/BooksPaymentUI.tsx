@@ -4,6 +4,7 @@ import PriceBubbles from "@/components/ui/price-bubble";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useCartStore } from "@/context/BooksStoreProvider";
+import PaymentCoupon from "@/modules/payment/components/PaymentCoupon";
 import PriceBadge from "@/modules/payment/components/PriceBadge";
 import { CourseType, paymentType, PricingResponse } from "@/types";
 import Image from "next/image";
@@ -77,14 +78,14 @@ export const BooksPaymentUI: React.FC<PaymentUIProps> = ({
           </div>
         )}
 
-        {/* {hasPaymentMethods && (
+        {hasPaymentMethods && (
           <PaymentCoupon
             coupon={coupon}
             setCoupon={setCoupon}
             bookId={isSingleBook && bookId}
             className={isSingleBook ? "mt-2" : "mb-4"}
           />
-        )} */}
+        )}
 
         {!isSingleBook && <CartCheckoutPriceDetails />}
       </div>

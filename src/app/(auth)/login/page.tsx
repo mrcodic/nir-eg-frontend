@@ -1,12 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 
 import CustomInput from "@/components/custom/customInput";
 import CustomPhoneInput from "@/components/custom/CustomPhoneInput";
 import SmallSpinner from "@/components/custom/SmallSpinner";
-import { OTPNotVerifIed } from "@/components/modals/OTPNotVerifIed";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useAuthContext } from "@/context/auth-context";
@@ -23,8 +22,6 @@ const AuthPage = () => {
   const router = useRouter();
   const initialGuardPassed = useRef(false);
 
-  const [verify, setVerify] = useState(false);
-
   const { profile, isLoading } = useAuthContext();
 
   const form = useForm({
@@ -40,11 +37,7 @@ const AuthPage = () => {
     },
   });
 
-  const { onSubmit, isLoading: isLoadingLogin } = useLogin({
-    onPhoneNotVerified: () => {
-      setVerify(true);
-    },
-  });
+  const { onSubmit, isLoading: isLoadingLogin } = useLogin();
 
   // route guard
   useEffect(() => {
@@ -124,8 +117,6 @@ const AuthPage = () => {
           </div>
         </form>
       </Form>
-
-      {verify && <OTPNotVerifIed open={verify} setOpen={setVerify} />}
     </div>
   );
 };

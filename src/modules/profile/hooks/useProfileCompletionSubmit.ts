@@ -9,6 +9,7 @@ import { mapApiErrorsToForm } from "@/helpers/form-errors";
 import { ProfileCompletionValues } from "@/helpers/profile-completion.helpers";
 import { useToast } from "@/hooks/use-toast";
 import { completeStudentProfile } from "@/services/auth.service";
+import { IUser } from "@/types";
 import {
   DynamicProfileField,
   ProfileAttachmentEntry,
@@ -104,7 +105,11 @@ type SubmitParams = {
 
 // ── Hook ────────────────────────────────────────────────────────────────────
 
-export function useProfileCompletionSubmit() {
+export function useProfileCompletionSubmit({
+  profile,
+}: {
+  profile: IUser | null;
+}) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const queryClient = useQueryClient();
   const { toast } = useToast();
@@ -120,6 +125,15 @@ export function useProfileCompletionSubmit() {
 
     try {
       const payload = buildSubmitPayload(fields, values);
+
+      if (!!profile && profile.type) {
+        // set the type as the user type to prevent any unexpected behavior
+        if (payload.payload instanceof FormData) {
+          payload.payload.append("type", String(profile.type));
+        } else {
+          payload.payload.type = profile.type;
+        }
+      }
       await completeStudentProfile(payload.payload);
 
       queryClient.invalidateQueries({ queryKey: ["/students/profile"] });

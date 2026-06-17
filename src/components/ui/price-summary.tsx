@@ -1,4 +1,5 @@
 import { cn, formatCurrency } from "@/lib/utils";
+import PriceBadge from "@/modules/payment/components/PriceBadge";
 import DataLabel from "../custom/DataLabel";
 
 function PriceSummary({
@@ -24,9 +25,10 @@ function PriceSummary({
 
       <DataLabel
         text="إجمالي السعر"
-        value={formatCurrency(finalPrice)}
         className="justify-between text-sm font-bold sm:text-lg"
-      />
+      >
+        <PriceBadge price={finalPrice} />
+      </DataLabel>
     </div>
   );
 }

@@ -13,7 +13,7 @@ export default function RoomBadge({
   return (
     <p
       className={cn(
-        "bg-background flex h-fit flex-wrap items-center justify-center gap-2 rounded-lg px-2 py-1 text-sm font-bold shadow-sm",
+        "bg-background flex h-fit flex-wrap items-center justify-center gap-2 rounded-lg px-2 py-1 text-xs font-bold shadow-sm sm:text-sm",
         className,
       )}
     >
