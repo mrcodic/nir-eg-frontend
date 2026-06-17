@@ -206,7 +206,7 @@ const RoomAccordionTrigger = ({
           <div className="ms-auto flex flex-col gap-2">
             {!isProfile &&
               isSubscribed &&
-              (lockAfter == null || Number(lockAfter) !== 0) && (
+              (!isRoomPurchasable || isRoomPurchased) && (
                 <RoomProgressBadge progress={room?.progress || 0} />
               )}
 
@@ -254,7 +254,7 @@ const RoomAccordionTrigger = ({
           </div>
 
           <div className="ms-auto flex flex-col items-end gap-2 empty:hidden">
-            {isSubscribed && (
+            {isSubscribed && (!isRoomPurchasable || isRoomPurchased) && (
               <Link
                 href={`/bundles/${classroomId}/${room?.id}`}
                 className="bg-primary-800 hover:bg-primary-800/80 flex min-h-8 cursor-pointer items-center justify-center gap-2 rounded-lg px-4 text-sm text-white"

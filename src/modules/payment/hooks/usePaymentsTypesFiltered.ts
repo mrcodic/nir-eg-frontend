@@ -41,8 +41,8 @@ function usePaymentsTypesFiltered({
 
   // Determine payment types based on mode and user type
   const paymentTypes = useMemo(() => {
-    if (isLoading || !profile || !data?.data) return [];
-    if (userType === 4) {
+    if (isLoading || !profile) return [];
+    if (userType === 4 && data?.data) {
       return filterPaymentMethods(
         isBookStore ? paymentTypesBooks : paymentTypesOnline,
         data?.data,

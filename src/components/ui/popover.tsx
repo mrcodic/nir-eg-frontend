@@ -49,12 +49,7 @@ const PopoverContent = React.forwardRef<
     );
 
     if (usePortal) {
-      return (
-        <PopoverPrimitive.Portal
-        >
-          {content}
-        </PopoverPrimitive.Portal>
-      );
+      return <PopoverPrimitive.Portal>{content}</PopoverPrimitive.Portal>;
     }
 
     return content;

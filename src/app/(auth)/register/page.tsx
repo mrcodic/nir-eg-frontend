@@ -58,7 +58,7 @@ const RegisterPage = () => {
 
   useEffect(() => {
     if (profile) {
-      router.replace("/");
+      router.replace("/bundles");
     }
   }, [profile, router]);
 

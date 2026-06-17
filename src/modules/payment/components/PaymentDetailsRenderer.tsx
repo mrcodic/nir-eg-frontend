@@ -30,6 +30,8 @@ export default async function PaymentDetailsRenderer({
   } else if (bundleId) {
     return <PaymentBundlesForm bundleId={bundleId} data={data?.body} />;
   } else if (roomId) {
-    return <RoomPayment roomId={roomId} courseId={courseId} data={data} />;
+    return (
+      <RoomPayment roomId={roomId} courseId={courseId} data={data?.body} />
+    );
   }
 }

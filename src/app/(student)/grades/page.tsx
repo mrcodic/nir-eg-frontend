@@ -8,7 +8,7 @@ const Grades = async () => {
   const tenantSettings = await getTenantSettingsServer();
 
   if (!tenantSettings?.features?.student_gradebook) {
-    return redirect("/");
+    redirect("/bundles");
   }
 
   return (

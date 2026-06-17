@@ -9,7 +9,7 @@ async function page() {
   const tenantSettings = await getTenantSettingsServer();
 
   if (!tenantSettings?.features?.book_store) {
-    return redirect("/");
+    return redirect("/bundles");
   }
 
   const booksSettings = await getServerData<{ data: BookLinksSettings }>({

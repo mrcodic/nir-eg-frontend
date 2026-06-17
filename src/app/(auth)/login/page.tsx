@@ -50,7 +50,7 @@ const AuthPage = () => {
   useEffect(() => {
     if (initialGuardPassed.current || isLoading) return;
     if (profile) {
-      router.replace("/");
+      router.replace("/bundles");
     } else {
       initialGuardPassed.current = true;
     }
