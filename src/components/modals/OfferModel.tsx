@@ -7,13 +7,14 @@ import { useToast } from "@/hooks/use-toast";
 import useCoupon from "@/hooks/useCoupon";
 import { DialogClose } from "@radix-ui/react-dialog";
 import Image from "next/image";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { FaSpinner } from "react-icons/fa";
 
 const OfferModel = () => {
   const { toast } = useToast();
   const modal = useModal();
   const { data, discountValue, isLoading, showCoupon } = useCoupon();
+  const codeInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     if (!showCoupon && !isLoading) {
@@ -31,6 +32,49 @@ const OfferModel = () => {
 
   if (!showCoupon) return null;
 
+  const copyToClipboard = async () => {
+    const value = String(data?.code ?? "").trim();
+
+    if (!value) {
+      throw new Error("لا يوجد كود لنسخه");
+    }
+
+    // execCommand MUST run synchronously within the user gesture.
+    // Do it first — before any await — then upgrade silently via clipboard API.
+    let execCommandSucceeded = false;
+
+    const input = document.createElement("input");
+    input.value = value;
+    input.style.cssText =
+      "position:fixed;top:0;left:0;opacity:0;pointer-events:none;";
+    document.body.appendChild(input);
+
+    try {
+      input.focus();
+      input.select();
+      input.setSelectionRange(0, value.length);
+      execCommandSucceeded = document.execCommand("copy");
+    } finally {
+      document.body.removeChild(input);
+    }
+
+    // Now try the modern API as a silent upgrade (it's async but doesn't
+    // need the gesture context on HTTPS when permission is already granted).
+    if (window.isSecureContext && navigator.clipboard?.writeText) {
+      try {
+        await navigator.clipboard.writeText(value);
+        return true; // modern API succeeded
+      } catch {
+        // clipboard API failed — fall through to execCommand result
+      }
+    }
+
+    if (!execCommandSucceeded) {
+      throw new Error("Fallback copy failed");
+    }
+
+    return true;
+  };
   return (
     <div>
       <Image
@@ -87,12 +131,13 @@ const OfferModel = () => {
             <Button
               onClick={async () => {
                 try {
-                  await navigator.clipboard.writeText(data?.code);
+                  await copyToClipboard();
                   toast({
                     icon: "success",
                     description: "تم نسخ الكود",
                   });
                 } catch (e) {
+                  console.log(e);
                   toast({
                     icon: "error",
                     description: "حصل خطأ اثناء نسخ الكود",

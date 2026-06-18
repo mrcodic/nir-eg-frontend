@@ -4,6 +4,7 @@ import { useAuthContext } from "@/context/auth-context";
 import { mutateClient } from "@/helpers/fetchers/post-client";
 import { useToast } from "@/hooks/use-toast";
 import PaymentWhatsappLink from "@/modules/payment/components/PaymentWhatsappLink";
+import { revalidateTagAction } from "@/utils/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
@@ -92,14 +93,14 @@ function CodePaymentForm({
 
       if (roomId) {
         queryClient.invalidateQueries({
-          queryKey: [`roomLessons`, roomId],
+          queryKey: [
+            `/students/get-lessons/${roomId}?classroom_id=${courseId}`,
+          ],
         });
       }
 
       if (bundleId) {
-        queryClient.invalidateQueries({
-          queryKey: [`bundleRooms`, courseId],
-        });
+        await revalidateTagAction("/students/bundles");
       }
 
       if (bundleId) {

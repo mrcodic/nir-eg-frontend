@@ -19,7 +19,12 @@ function UserModalsWrapper() {
   const isOpened = useRef(false);
 
   useEffect(() => {
-    if (profile && profile?.profile_completed === true && !isOpened.current) {
+    if (
+      profile &&
+      profile?.profile_completed === true &&
+      profile?.student_phone_verification &&
+      !isOpened.current
+    ) {
       handleFeaturesDisplay({
         onClose: () => {
           if (profile?.type === 4) {

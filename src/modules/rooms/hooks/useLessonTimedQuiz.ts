@@ -210,8 +210,6 @@ export function useLessonTimedQuiz(lessonData: ILesson) {
     [form],
   );
 
-
-
   // ─── Actions: Submit & Confirm ─────────────────────────────
 
   const submitPayload = useCallback(
@@ -244,7 +242,8 @@ export function useLessonTimedQuiz(lessonData: ILesson) {
         const resultPayload = response?.body ?? response?.data ?? null;
 
         markHandled(activeQuizId);
-        await queryClient.invalidateQueries({
+
+        queryClient.invalidateQueries({
           queryKey: [
             `/students/get-lessons/${roomId}?classroom_id=${classroomId}`,
           ],
@@ -331,8 +330,6 @@ export function useLessonTimedQuiz(lessonData: ILesson) {
       setIsLoadingAnswers(false);
     }
   }, [activeQuizId, toast]);
-
-
 
   // ─── Effects: Video Trigger ────────────────────────────────
 

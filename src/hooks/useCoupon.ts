@@ -27,7 +27,7 @@ function useCoupon() {
     isLoading,
     error,
     data: isOnline ? data?.data : null,
-    showCoupon: isOnline && data && data?.data?.show_promo,
+    showCoupon: !!isOnline && !!data && !!data?.data?.show_promo,
   };
 }
 

@@ -6,15 +6,24 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { useAuthContext } from "@/context/auth-context";
 import { useModal } from "@/context/ModalProvider";
 import { useToast } from "@/hooks/use-toast";
+import { presistUserPhone } from "@/lib/utils";
 import Image from "next/image";
 import { useRouter } from "nextjs-toploader/app";
 
-export function OTPNotVerifIed() {
+export function OTPNotVerifIed({
+  defaultPhone,
+  showLogout,
+}: {
+  defaultPhone?: { phone: string; country: string };
+  showLogout?: boolean;
+}) {
   const router = useRouter();
   const { toast } = useToast();
   const modal = useModal();
+  const { profile, logout } = useAuthContext();
 
   return (
     <>
@@ -31,22 +40,26 @@ export function OTPNotVerifIed() {
 
         <DialogTitle className="sr-only" />
         <DialogDescription className="text-center text-xl">
-          محتاج تعمل تأكيد لرقم الموبايل من خلال ال otp
+          محتاج تعمل تأكيد لرقم الموبايل من خلال ال OTP
         </DialogDescription>
       </DialogHeader>
 
-      <DialogFooter className="flex gap-5">
+      <DialogFooter className="flex items-center gap-5">
         <DialogClose asChild>
           <Button
             className="h-full w-full"
             onClick={async () => {
               const phone = localStorage.getItem("phone");
-              if (!phone) {
+              if (!phone && !defaultPhone) {
                 toast({
                   description: "الرقم مش موجود , دخل الرقم تانى",
                   icon: "error",
                 });
                 modal.closeModal();
+                return;
+              } else if (defaultPhone) {
+                presistUserPhone(defaultPhone.phone, defaultPhone.country);
+              } else {
                 return;
               }
 
@@ -56,6 +69,20 @@ export function OTPNotVerifIed() {
             إرسال رمز التأكد
           </Button>
         </DialogClose>
+        {!!profile && showLogout && (
+          <DialogClose asChild>
+            <Button
+              variant="destructive"
+              className="h-full w-full"
+              onClick={async () => {
+                logout();
+                window.location.href = "/login";
+              }}
+            >
+              تسجيل الخروج
+            </Button>
+          </DialogClose>
+        )}
       </DialogFooter>
     </>
   );

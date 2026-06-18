@@ -66,14 +66,11 @@ const ProtectedRoute = ({
           </Button>
         </Empty>
 
-        <PhoneVerificationAlertModal
-          initialOpen={true}
-          phone={profile?.parent_phone}
-        />
+        <PhoneVerificationAlertModal phone={profile?.phone} />
       </div>
     );
 
-  return <>{children}</>;
+  return children;
 };
 
 export default ProtectedRoute;

@@ -18,7 +18,7 @@ export function useRoomDetailsData({
           `/students/get-lessons/${roomId}?classroom_id=${classroomId}`,
         ],
       }) as unknown as ApiResponse<IRoomDetails>,
-    queryKey: [`roomLessons`, roomId],
+    queryKey: [`/students/get-lessons/${roomId}?classroom_id=${classroomId}`],
     enabled: Boolean(classroomId && roomId),
   });
 

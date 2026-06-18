@@ -8,8 +8,8 @@ import { useState } from "react";
 import { Dialog, DialogClose, DialogContent, DialogFooter } from "../ui/dialog";
 import OtpModal from "./OtpModal";
 
-export default function PhoneVerificationAlertModal({ initialOpen, phone }) {
-  const [open, setOpen] = useState(initialOpen);
+export default function PhoneVerificationAlertModal({ phone }) {
+  const [open, setOpen] = useState(true);
 
   const router = useRouter();
   const modal = useModal();

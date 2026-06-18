@@ -56,28 +56,30 @@ const GuestNavBar = () => {
             </Link>
 
             <nav className="hidden gap-2 md:flex">
-              {guestLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={cn(
-                    "mobile:text-base border-gray-light hidden cursor-pointer items-center justify-center gap-2 rounded-[10px] border p-2 text-sm transition-all md:flex",
-                    {
-                      "bg-primary-800 text-white": pathname === link.href,
-                      "bg-transparent": pathname !== link.href,
-                    },
-                  )}
-                >
-                  <Image
-                    width={32}
-                    height={32}
-                    className="size-8"
-                    src={link.icon}
-                    alt={link.text}
-                  />
-                  <h3>{link.text}</h3>
-                </Link>
-              ))}
+              {guestLinks
+                .filter((link) => link.show)
+                .map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={cn(
+                      "mobile:text-base border-gray-light hidden cursor-pointer items-center justify-center gap-2 rounded-[10px] border p-2 text-sm transition-all md:flex",
+                      {
+                        "bg-primary-800 text-white": pathname === link.href,
+                        "bg-transparent": pathname !== link.href,
+                      },
+                    )}
+                  >
+                    <Image
+                      width={32}
+                      height={32}
+                      className="size-8"
+                      src={link.icon}
+                      alt={link.text}
+                    />
+                    <h3>{link.text}</h3>
+                  </Link>
+                ))}
             </nav>
           </div>
 
