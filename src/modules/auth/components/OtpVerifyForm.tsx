@@ -27,6 +27,7 @@ import useOtp from "@/modules/auth/hooks/useOtp";
 import { verifyAuthOtpCode } from "@/services/auth.service";
 import { OtpSendResponse } from "@/types/auth.types";
 import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 
 export type OtpVerifyFormProps = {
   phone: string;
@@ -56,6 +57,7 @@ export default function OtpVerifyForm({
   const { toast } = useToast();
   const isMounted = useMounted();
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   const isAutoSubmitting = useRef(false);
   const initialSend = useRef(false);
@@ -115,7 +117,9 @@ export default function OtpVerifyForm({
 
         await verifyAuthOtpCode({ phone, otp_code: data.otp_code ?? "" });
 
-        queryClient.invalidateQueries({ queryKey: ["/student/profile"] });
+        // revalidate data
+        queryClient.invalidateQueries({ queryKey: ["/students/profile"] });
+        router.refresh();
 
         localStorage.removeItem(OTP_SEND_TIME_KEY);
         setPendingSuccessAction(true);
@@ -127,7 +131,7 @@ export default function OtpVerifyForm({
         toast({ description: msg, icon: "error" });
       }
     },
-    [phone, onError, toast, queryClient],
+    [phone, onError, toast, queryClient, router],
   );
 
   const otpValue = useWatch({ control: form.control, name: "otp_code" });
