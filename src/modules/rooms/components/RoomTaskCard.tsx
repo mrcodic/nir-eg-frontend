@@ -64,7 +64,7 @@ function RoomTaskCard({
           </LinkLocked>
         )}
 
-        {task?.score !== null && (
+        {typeof task?.score === "number" && task?.score !== null && (
           <StudentScoreResult
             score={Number(task?.score)}
             pass={!!task?.result}

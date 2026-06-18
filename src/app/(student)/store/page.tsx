@@ -48,7 +48,7 @@ const mapTabsToEndpoints = {
 };
 
 const StorePage = async () => {
-  redirect("/");
+  redirect("/bundles");
 
   const profileData = await getServerData<{ body: IUser }>({
     queryKey: ["/students/profile"],

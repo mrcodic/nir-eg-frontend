@@ -1,26 +1,25 @@
 "use client";
 
-import Cookies from "js-cookie";
-import { z } from "zod";
-
+import { OTPNotVerifIed } from "@/components/modals/OTPNotVerifIed";
 import { useAuthContext } from "@/context/auth-context";
+import { useModal } from "@/context/ModalProvider";
 import { useToast } from "@/hooks/use-toast";
 import { loginSchema } from "@/lib/schemas";
 import { presistUserPhone } from "@/lib/utils";
 import { loginWithPhonePassword } from "@/services/auth.service";
 import { saveCookie } from "@/utils/api";
 import { useQueryClient } from "@tanstack/react-query";
+import Cookies from "js-cookie";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
+import { z } from "zod";
 
-type UseLoginParams = {
-  onPhoneNotVerified: () => void;
-};
-
-export function useLogin({ onPhoneNotVerified }: UseLoginParams) {
+export function useLogin() {
   const { toast } = useToast();
+  const modal = useModal();
   const router = useRouter();
   const queryClient = useQueryClient();
+
   const [isLoading, setIsLoading] = useState(false);
 
   const { setToken } = useAuthContext();
@@ -80,12 +79,19 @@ export function useLogin({ onPhoneNotVerified }: UseLoginParams) {
       };
 
       if (error?.status === 409) {
-        localStorage.setItem("phone", values.phone.phone);
         toast({
           icon: "error",
           description: "رقم الهاتف غير مفعل",
         });
-        onPhoneNotVerified();
+        modal.setDialogContent(
+          <OTPNotVerifIed
+            defaultPhone={{
+              phone: values.phone.phone,
+              country: values.phone.country,
+            }}
+          />,
+        );
+        modal.openModal();
         return;
       }
 

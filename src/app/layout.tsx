@@ -4,6 +4,7 @@ import NavTopbar from "@/components/custom/NavTopbar";
 import NavbarWrapper from "@/components/includes/NavbarWrapper";
 import Providers from "./providers";
 
+import PhoneNotVerifiedGuard from "@/components/shared/PhoneNotVerifiedGuard";
 import UserModalsWrapper from "@/components/shared/UserModalsWrapper";
 import { Toaster } from "@/components/ui/toaster";
 import { TENANT_ERROR_CODES } from "@/constants/error-codes";
@@ -210,6 +211,8 @@ export default async function Layout({
               </main>
 
               <UserModalsWrapper />
+
+              <PhoneNotVerifiedGuard />
 
               <Suspense fallback={null}>
                 {profile && <Announcement profile={profile.body} />}

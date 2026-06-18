@@ -4,13 +4,11 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   const token = request.nextUrl.searchParams.get("token");
-  const nextParam = request.nextUrl.searchParams.get("next") ?? "/";
 
   if (!token) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  const safeNext = nextParam.startsWith("/") ? nextParam : "/";
   const hostHeader =
     request.headers.get("x-forwarded-host") ||
     request.headers.get("host") ||
@@ -27,5 +25,6 @@ export async function GET(request: NextRequest) {
     secure: isProd,
   });
 
-  return NextResponse.redirect(new URL(safeNext, origin));
+  // go to /bundles route
+  return NextResponse.redirect(new URL("/profile", origin));
 }

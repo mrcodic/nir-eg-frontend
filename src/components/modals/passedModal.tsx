@@ -100,7 +100,7 @@ const PassedModal = ({
 
                 {start?.retake && start?.show_answer && (
                   <p className="inline-block">
-                    - إذا قمت بعرض الإجابات مرة أخرى لن تتمكن من إعادة الامتحان
+                    - إذا قمت بعرض الإجابات لن تتمكن من إعادة الامتحان
                   </p>
                 )}
 

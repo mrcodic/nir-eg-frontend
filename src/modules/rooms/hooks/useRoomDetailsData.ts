@@ -12,7 +12,12 @@ export function useRoomDetailsData({
   roomId: string;
 }) {
   const query = useQuery({
-    queryFn: getClientPrivateData as () => Promise<ApiResponse<IRoomDetails>>,
+    queryFn: () =>
+      getClientPrivateData({
+        queryKey: [
+          `/students/get-lessons/${roomId}?classroom_id=${classroomId}`,
+        ],
+      }) as unknown as ApiResponse<IRoomDetails>,
     queryKey: [`/students/get-lessons/${roomId}?classroom_id=${classroomId}`],
     enabled: Boolean(classroomId && roomId),
   });

@@ -2,26 +2,15 @@
 
 import { Button } from "@/components/ui/button";
 import CustomImage from "@/components/ui/CustomImage";
-import { useToast } from "@/hooks/use-toast";
+import useCopy from "@/hooks/useCopy";
 import useCoupon from "@/hooks/useCoupon";
 import { CheckCheck, Copy } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
 
 function ProfileCoupon() {
-  const { toast } = useToast();
   const { data, isLoading, error, discountValue } = useCoupon();
-  const [isCopied, setIsCopied] = useState(false);
 
-  useEffect(() => {
-    let timer: NodeJS.Timeout;
-    if (isCopied) {
-      timer = setTimeout(() => {
-        setIsCopied(false);
-      }, 2000);
-    }
-    return () => clearTimeout(timer);
-  }, [isCopied]);
+  const { copied, copyToClipboard } = useCopy();
 
   if (isLoading || !data || error) return null;
 
@@ -73,38 +62,25 @@ function ProfileCoupon() {
             <p className="font-bold text-[#232027]">
               احصل على خصم {discountValue}
             </p>
-            <p className="text-gray-dark text-sm font-medium">
+            <p className="text-gray-dark line-clamp-2 text-sm font-medium">
               {data?.description || `خصم ${discountValue} على الكورس`}
             </p>
           </div>
         </div>
 
-        <div className="flex items-end gap-2 sm:ms-auto sm:gap-4">
+        <div className="flex items-end gap-2 sm:ms-auto">
           <p className="animate-promo-rotate-shake w-fit rounded-lg bg-[#1EAD7B] px-2 py-1 text-center font-bold break-all text-white uppercase">
             {data?.code}
           </p>
 
           <Button
             onClick={async () => {
-              try {
-                await navigator.clipboard.writeText(data?.code);
-                setIsCopied(true);
-                toast({
-                  description: "تم النسخ",
-                  icon: "success",
-                });
-              } catch (err) {
-                console.error("Failed to copy:", err);
-                toast({
-                  description: "لم يتم النسخ",
-                  icon: "error",
-                });
-              }
+              copyToClipboard(data?.code);
             }}
             className="bg-primary border-gray-light ms-auto size-8 rounded-lg border text-sm font-bold"
             size="icon"
           >
-            {isCopied ? <CheckCheck /> : <Copy />}
+            {copied ? <CheckCheck /> : <Copy />}
           </Button>
         </div>
       </div>

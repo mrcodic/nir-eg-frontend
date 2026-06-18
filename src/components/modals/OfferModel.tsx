@@ -3,17 +3,19 @@
 import { Button } from "@/components/ui/button";
 import { DialogFooter } from "@/components/ui/dialog";
 import { useModal } from "@/context/ModalProvider";
-import { useToast } from "@/hooks/use-toast";
+import useCopy from "@/hooks/useCopy";
 import useCoupon from "@/hooks/useCoupon";
 import { DialogClose } from "@radix-ui/react-dialog";
+import { Copy } from "lucide-react";
 import Image from "next/image";
 import { useEffect } from "react";
-import { FaSpinner } from "react-icons/fa";
+import SmallSpinner from "../custom/SmallSpinner";
 
 const OfferModel = () => {
-  const { toast } = useToast();
   const modal = useModal();
   const { data, discountValue, isLoading, showCoupon } = useCoupon();
+
+  const { copied, copyToClipboard } = useCopy();
 
   useEffect(() => {
     if (!showCoupon && !isLoading) {
@@ -23,8 +25,8 @@ const OfferModel = () => {
 
   if (isLoading) {
     return (
-      <div className="flex size-full min-h-[400px] items-center justify-center">
-        <FaSpinner className="text-primary-800 size-10 animate-spin" />
+      <div className="flex size-full min-h-[300px] items-center justify-center">
+        <SmallSpinner />
       </div>
     );
   }
@@ -86,22 +88,11 @@ const OfferModel = () => {
           <DialogFooter className="mx-auto mt-5 grid grid-cols-1 justify-center gap-5 sm:grid-cols-2">
             <Button
               onClick={async () => {
-                try {
-                  await navigator.clipboard.writeText(data?.code);
-                  toast({
-                    icon: "success",
-                    description: "تم نسخ الكود",
-                  });
-                } catch (e) {
-                  toast({
-                    icon: "error",
-                    description: "حصل خطأ اثناء نسخ الكود",
-                  });
-                }
+                copyToClipboard(data?.code);
               }}
               className="bg-primary border-gray-light w-full rounded-lg border p-2 text-sm font-bold text-white sm:w-[148px]"
             >
-              نسخ الكود
+              {copied ? "تم النسخ" : "نسخ الكود"} <Copy />
             </Button>
             <DialogClose asChild>
               <Button className="border-primary w-full rounded-lg border bg-white p-2 text-sm font-bold text-black hover:text-white sm:w-[148px]">

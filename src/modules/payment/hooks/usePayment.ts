@@ -126,6 +126,10 @@ export const usePayment = ({
       } else if (bundleId) {
         router.push(`/payment?bundleId=${bundleId}`);
       }
+
+      if (asModal) {
+        modal.closeModal();
+      }
     }
   }, [
     loading,

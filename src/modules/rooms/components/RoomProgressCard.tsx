@@ -1,6 +1,10 @@
 import Image from "next/image";
 
-export default function RoomProgressCard({ progress }: { progress: number }) {
+export default function RoomProgressCard({
+  progress = 0,
+}: {
+  progress?: number;
+}) {
   return (
     <div className="border-primary-800 bg-background flex w-full flex-wrap items-center gap-x-4 gap-y-1 rounded-lg border px-6 py-3 font-bold whitespace-nowrap shadow-md max-md:justify-center md:gap-x-6 md:py-8 md:text-2xl">
       <Image

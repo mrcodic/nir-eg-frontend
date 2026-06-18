@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { useAuthContext } from "@/context/auth-context";
 import AuthLayout from "@/layouts/AuthLayout";
 import { isProd } from "@/utils/isProd";
 import { useRouter } from "next/navigation";
@@ -13,6 +14,7 @@ export default function Error({
   reset: () => void;
 }) {
   const router = useRouter();
+  const { profile } = useAuthContext();
 
   return (
     <AuthLayout>
@@ -32,7 +34,7 @@ export default function Error({
 
             <div className="flex w-full flex-wrap gap-4">
               <Button
-                onClick={() => router.push("/")}
+                onClick={() => router.push(!!profile ? "/bundles" : "/")}
                 variant="outline-gray"
                 className="mx-auto w-[150px] border-2 sm:w-[200px]"
               >

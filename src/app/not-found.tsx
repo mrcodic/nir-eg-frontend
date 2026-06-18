@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { useAuthContext } from "@/context/auth-context";
 import AuthLayout from "@/layouts/AuthLayout";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -12,6 +13,7 @@ export default function Error({
   error: Error;
   reset: () => void;
 }) {
+  const { profile } = useAuthContext();
   const router = useRouter();
 
   return (
@@ -36,7 +38,7 @@ export default function Error({
 
         <div className="mt-4 flex w-full flex-wrap gap-4">
           <Button
-            onClick={() => router.push("/")}
+            onClick={() => router.push(!!profile ? "/bundles" : "/")}
             className="mx-auto w-full max-w-[200px]"
           >
             العودة للرئيسية

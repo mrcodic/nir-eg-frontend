@@ -7,6 +7,7 @@ import { Form } from "@/components/ui/form";
 import { useAuthContext } from "@/context/auth-context";
 import { useToast } from "@/hooks/use-toast";
 import { registerSchema } from "@/lib/schemas";
+import { presistUserPhone } from "@/lib/utils";
 import OtpVerifyForm from "@/modules/auth/components/OtpVerifyForm";
 import RegisterStepOne from "@/modules/auth/components/register-stepper/RegisterStepOne";
 import RegisterStepperHeader from "@/modules/auth/components/register-stepper/RegisterStepperHeader";
@@ -58,7 +59,7 @@ const RegisterPage = () => {
 
   useEffect(() => {
     if (profile) {
-      router.replace("/");
+      router.replace("/bundles");
     }
   }, [profile, router]);
 
@@ -77,9 +78,8 @@ const RegisterPage = () => {
           autoSubmit
           phone={form.getValues("phones.phone")}
           onSuccess={async () => {
-            localStorage.setItem("phone", form.getValues("phones.phone"));
-            localStorage.setItem(
-              "phone_code",
+            presistUserPhone(
+              form.getValues("phones.phone"),
               form.getValues("phones.country"),
             );
 

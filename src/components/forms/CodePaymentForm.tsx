@@ -4,15 +4,17 @@ import { useAuthContext } from "@/context/auth-context";
 import { mutateClient } from "@/helpers/fetchers/post-client";
 import { useToast } from "@/hooks/use-toast";
 import PaymentWhatsappLink from "@/modules/payment/components/PaymentWhatsappLink";
+import { revalidateTagAction } from "@/utils/api";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { Label } from "recharts";
 import { z } from "zod";
 import SmallSpinner from "../custom/SmallSpinner";
 import { Button } from "../ui/button";
 import { Form, FormField, FormItem, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
+import { Label } from "../ui/label";
 
 const formSchema = z.object({
   code: z.string().min(1, "الكود مطلوب"),
@@ -32,6 +34,7 @@ function CodePaymentForm({
   const { toast } = useToast();
   const router = useRouter();
   const { profile } = useAuthContext();
+  const queryClient = useQueryClient();
 
   const form = useForm({
     mode: "all",
@@ -88,10 +91,22 @@ function CodePaymentForm({
         icon: "success",
       });
 
+      if (roomId) {
+        queryClient.invalidateQueries({
+          queryKey: [
+            `/students/get-lessons/${roomId}?classroom_id=${courseId}`,
+          ],
+        });
+      }
+
+      if (bundleId) {
+        await revalidateTagAction("/students/bundles");
+      }
+
       if (bundleId) {
         router.push(`/bundles/bundle-details/${bundleId}`);
       } else {
-        router.push(`/bundles/${courseId}`);
+        router.push(`/bundles/${courseId}${roomId ? `/${roomId}` : ""}`);
       }
     } catch (e) {
       const errorMessage =
@@ -113,23 +128,26 @@ function CodePaymentForm({
   };
 
   return (
-    <div className="mx-auto mt-16 w-full max-w-[760px]">
+    <div className="mx-auto mt-10 w-full max-w-[760px]">
       <Form {...form}>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-1">
           <FormField
             control={control}
             name="code"
-            render={({ field }) => (
+            render={({ field, fieldState: { error } }) => (
               <FormItem className="border-primary-800 bg-background flex flex-col gap-1 rounded-lg border p-4">
-                <Label className="text-gray-dark">الكود</Label>
+                <Label aria-invalid={!!error} className="text-gray-dark">
+                  الكود
+                </Label>
 
                 <div className="flex w-full items-start gap-4 sm:gap-6">
                   <div className="flex-1">
                     <Input
                       type="text"
                       name="code"
-                      className=""
+                      aria-invalid={!!error}
                       placeholder="أدخل الكود"
+                      className="bg-white"
                       {...field}
                     />
 
@@ -152,7 +170,7 @@ function CodePaymentForm({
             )}
           />
 
-          <p className="text-lg font-bold">
+          <p className="text-base font-bold sm:text-lg">
             أدخل الكود لتتمكن من عرض محتوى الباقة
           </p>
         </form>

@@ -22,8 +22,9 @@ const BundlesPage = async ({
   const profile = profileData?.body;
   const isCenterUser = profile?.type === 3;
 
-  if (isCenterUser && !profile?.has_center) redirect("/profile");
-  if (isCenterUser && profile?.has_center)
+  if (isCenterUser && (!profile?.has_center || !profile?.center_id))
+    redirect("/profile");
+  if (isCenterUser && profile?.has_center && profile?.center_id)
     redirect(`/bundles/${profile?.center_id}`);
 
   return (

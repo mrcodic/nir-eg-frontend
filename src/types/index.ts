@@ -517,6 +517,7 @@ export interface IRoomDetails {
   room: IRoomData;
   student_phone_verification: boolean;
   subscription_type: string;
+  lock_after?: number | null;
 }
 
 export interface IPointsStoreItem {

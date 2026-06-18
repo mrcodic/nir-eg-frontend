@@ -25,9 +25,9 @@ function PriceBadge({
   return (
     <div
       className={cn(
-        "font-bold text-white py-0.5 px-2 h-fit  rounded-lg flex items-center justify-center gap-1",
+        "flex h-fit items-center justify-center gap-1 rounded-lg px-2 py-0.5 font-bold text-white",
         variants[variant],
-        className
+        className,
       )}
     >
       {formattedPrice == "0" ? (
@@ -36,8 +36,8 @@ function PriceBadge({
         <>
           <span
             className={cn(
-              variant === "crossed" ? "line-through " : "",
-              numberClassName
+              variant === "crossed" ? "line-through" : "",
+              numberClassName,
             )}
           >
             {formattedPrice}

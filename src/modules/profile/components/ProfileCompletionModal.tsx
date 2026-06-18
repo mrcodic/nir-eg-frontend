@@ -97,13 +97,13 @@ export default function ProfileCompletionModal() {
 
   const modal = useModal();
 
-  const { isSubmitting, submit } = useProfileCompletionSubmit();
-
   const { isLoading, filteredFields, loadProfileFields, profile, token } =
     useProfileCompletionFields({
       onSuccess: () => setOpen(true),
       onError: () => setOpen(false),
     });
+
+  const { isSubmitting, submit } = useProfileCompletionSubmit({ profile });
 
   const dynamicSchema = useMemo(
     () => buildProfileCompletionSchema(filteredFields),

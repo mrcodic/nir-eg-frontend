@@ -69,7 +69,7 @@ export default function UserTenantSwitch() {
       };
 
       const targetOrigin = buildTargetOrigin(normalizedTarget);
-      const switchUrl = `${targetOrigin}/api/auth/switch?token=${encodeURIComponent(token)}&next=${encodeURIComponent("/")}`;
+      const switchUrl = `${targetOrigin}/api/auth/switch?token=${encodeURIComponent(token)}`;
 
       setIsSwitching(true);
 

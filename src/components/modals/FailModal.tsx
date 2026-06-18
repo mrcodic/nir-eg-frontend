@@ -76,7 +76,7 @@ const FailModal = ({
 
             {start?.show_answer && start?.retake && (
               <p className="inline-block">
-                - إذا قمت بعرض الإجابات مرة أخرى لن تتمكن من إعادة {type}
+                - إذا قمت بعرض الإجابات لن تتمكن من إعادة {type}
               </p>
             )}
 

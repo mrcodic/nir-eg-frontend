@@ -102,7 +102,7 @@ function PaymentCoupon({
           onChange={(e) => setValue(e.target.value)}
           className="h-11 w-full grow ps-2 text-sm focus:outline-none"
           aria-invalid={couponState?.state === "error"}
-          placeholder="كود الخصم"
+          placeholder=" ادخل كود الخصم"
           disabled={loading}
         />
         <Button

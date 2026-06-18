@@ -38,7 +38,6 @@ function useHandleFeaturesDisplay() {
         onClose?.();
       }
     } catch (e) {
-      console.log("features error : ", e);
       onClose?.();
     }
   };

@@ -93,7 +93,7 @@ function ProfileHeaderCard({ profileData }: { profileData: IUser }) {
         (profileData?.has_center ? (
           <Link
             href={`/bundles/${profileData?.center_id}`}
-            className="bg-secondary group absolute -bottom-8 left-1/2 flex w-[242px] -translate-x-1/2 items-center justify-center gap-2 rounded-xl py-2.5 font-bold text-white md:-bottom-7"
+            className="bg-secondary group absolute -bottom-8 left-1/2 flex w-full max-w-[202px] -translate-x-1/2 items-center justify-center gap-2 rounded-xl py-2.5 font-bold text-white md:-bottom-7"
           >
             <span>اذهب للسنتر</span>
             <ChevronLeft className="transition-all duration-300 group-hover:-translate-x-2" />
@@ -104,7 +104,7 @@ function ProfileHeaderCard({ profileData }: { profileData: IUser }) {
               modal.setDialogContent(<StudentSelectCenterModal />);
               modal.openModal();
             }}
-            className="bg-secondary group absolute -bottom-8 left-1/2 flex w-[242px] -translate-x-1/2 cursor-pointer items-center justify-center gap-2 rounded-xl py-2.5 font-bold text-white md:-bottom-7"
+            className="bg-secondary group absolute -bottom-8 left-1/2 flex w-full max-w-[242px] -translate-x-1/2 cursor-pointer items-center justify-center gap-2 rounded-xl py-2.5 font-bold text-white md:-bottom-7"
           >
             <span>اشترك في سنتر</span>
             <ChevronLeft className="transition-all duration-300 group-hover:-translate-x-2" />
