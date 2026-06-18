@@ -18,7 +18,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "nextjs-toploader/app";
 import { useEffect, useState } from "react";
-import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 import { useForm } from "react-hook-form";
 
 const RegisterPage = () => {
@@ -41,7 +40,6 @@ const RegisterPage = () => {
       password: "",
       password_confirmation: "",
       grade_id: "",
-      recaptcha_token: "",
     },
   });
 
@@ -95,14 +93,6 @@ const RegisterPage = () => {
           <form className="w-full space-y-8">
             {step === 1 && <RegisterStepOne form={form} />}
             {step === 2 && <RegisterStepTwo form={form} />}
-
-            {step === 2 && (
-              <GoogleReCaptcha
-                onVerify={(token) => {
-                  form.setValue("recaptcha_token", token);
-                }}
-              />
-            )}
 
             <div className="flex gap-2">
               {step === 1 ? (

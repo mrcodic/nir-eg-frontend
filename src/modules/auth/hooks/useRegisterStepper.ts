@@ -6,10 +6,7 @@ import { FieldPath, UseFormReturn } from "react-hook-form";
 import { AUTH_ERROR_CODES } from "@/constants/error-codes";
 import { presistUserPhone } from "@/lib/utils";
 import { registerStudentAccount } from "@/services/auth.service";
-import {
-  RegisterFormValues,
-  RegisterStep,
-} from "@/types/register.types";
+import { RegisterFormValues, RegisterStep } from "@/types/register.types";
 
 const STEP_ONE_FIELDS: FieldPath<RegisterFormValues>[] = [
   "first_name",
@@ -62,7 +59,10 @@ export function useRegisterStepper({
   onAlreadyEnrolled,
 }: StepperDeps) {
   const validateBothSteps = async () => {
-    const isValid = await form.trigger([...STEP_ONE_FIELDS, ...STEP_TWO_FIELDS]);
+    const isValid = await form.trigger([
+      ...STEP_ONE_FIELDS,
+      ...STEP_TWO_FIELDS,
+    ]);
     if (!isValid) {
       const firstErrorField = Object.keys(form.formState.errors)[0] as
         | FieldPath<RegisterFormValues>
@@ -95,9 +95,6 @@ export function useRegisterStepper({
         grade_id: Number(values.grade_id),
         password: values.password,
         password_confirmation: values.password_confirmation,
-        ...(values.recaptcha_token
-          ? { recaptcha_token: values.recaptcha_token }
-          : {}),
       },
       phone: phones.phone,
       country: phones.country,

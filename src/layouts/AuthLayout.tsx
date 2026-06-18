@@ -5,7 +5,6 @@ import { cn } from "@/lib/utils";
 import { motion, MotionConfig } from "framer-motion";
 import Image from "next/image";
 import { ReactNode } from "react";
-import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 
 // ─── Root Layout ──────────────────────────────────────────────────────────────
 
@@ -17,41 +16,32 @@ const AuthLayout = ({
   className?: string;
 }) => {
   return (
-    <GoogleReCaptchaProvider
-      reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
-      scriptProps={{
-        async: true,
-        defer: true,
-        appendTo: "head",
-      }}
+    <div
+      className={cn(
+        "group mt-20 flex h-full min-h-[calc(100%-80px)] grow flex-wrap overflow-hidden",
+        "group-data-[template=landing-v3]/template:mt-0 lg:items-start",
+        className,
+      )}
     >
-      <div
+      <AuthImageSection />
+
+      <Animate
+        as="main"
+        preset="slideUp"
+        trigger="mount"
+        duration={0.6}
+        delay={0.15}
+        distance={72}
         className={cn(
-          "group mt-20 flex h-full min-h-[calc(100%-80px)] grow flex-wrap overflow-hidden",
-          "group-data-[template=landing-v3]/template:mt-0 lg:items-start",
-          className,
+          "relative z-10 mx-3 -mt-40 bg-white! px-4 py-8",
+          "max-lg:w-full max-lg:rounded-xl sm:px-5 sm:py-16",
+          "lg:mx-auto lg:mt-0 lg:w-[52%]",
+          "group-data-[template=landing-v3]/template:lg:mt-32",
         )}
       >
-        <AuthImageSection />
-
-        <Animate
-          as="main"
-          preset="slideUp"
-          trigger="mount"
-          duration={0.6}
-          delay={0.15}
-          distance={72}
-          className={cn(
-            "relative z-10 mx-3 -mt-40 bg-white! px-4 py-8",
-            "max-lg:w-full max-lg:rounded-xl sm:px-5 sm:py-16",
-            "lg:mx-auto lg:mt-0 lg:w-[52%]",
-            "group-data-[template=landing-v3]/template:lg:mt-32",
-          )}
-        >
-          {children}
-        </Animate>
-      </div>
-    </GoogleReCaptchaProvider>
+        {children}
+      </Animate>
+    </div>
   );
 };
 

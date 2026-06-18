@@ -17,7 +17,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "nextjs-toploader/app";
-import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 import { useForm } from "react-hook-form";
 
 const ForgetPasswordPage = () => {
@@ -32,20 +31,17 @@ const ForgetPasswordPage = () => {
         country_iso: getUserPhoneFromStorage().phone_iso,
         phone: getUserPhoneFromStorage().phone,
       },
-      recaptcha_token: "",
     },
   });
 
   const onSubmit = async (v: {
     phone: { country: string; country_iso: string; phone: string };
-    recaptcha_token?: string;
   }) => {
     try {
-      const { phone, recaptcha_token } = v;
+      const { phone } = v;
       const response = await mutateClient<OtpSendResponse>("/forgot-password", {
         body: {
           ...phone,
-          recaptcha_token,
         },
       });
 
@@ -105,12 +101,6 @@ const ForgetPasswordPage = () => {
               إنشاء حساب
             </Link>
           </div>
-
-          <GoogleReCaptcha
-            onVerify={(token) => {
-              form.setValue("recaptcha_token", token);
-            }}
-          />
 
           <div className="mt-8 flex">
             <Button

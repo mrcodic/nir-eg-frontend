@@ -203,7 +203,6 @@ export const registerSchema = z
     password_confirmation: z
       .string()
       .min(8, "تأكيد كلمة السر يجب أن يكون 8 أحرف على الأقل"),
-    recaptcha_token: z.string().optional(),
   })
   .refine((data) => data.password === data.password_confirmation, {
     message: "كلمتا السر غير متطابقتين",
@@ -214,18 +213,15 @@ export const loginSchema = z.object({
   phone: phoneSchema,
 
   password: z.string().min(8, "يجب أن تكون كلمة السر 8 أحرف على الأقل"),
-  recaptcha_token: z.string(),
 });
 
 export const otpSchema = z.object({
   otp_code: z.string().min(6, "ادخل رمز التأكد"),
   phone: z.string(),
-  recaptcha_token: z.string().optional(),
 });
 
 export const forgetPasswordSchema = z.object({
   phone: phoneSchema,
-  recaptcha_token: z.string().optional(),
 });
 
 export const newPasswordSchema = z
@@ -235,7 +231,6 @@ export const newPasswordSchema = z
       .string()
       .min(8, "يجب أن تكون كلمة السر 8 أحرف على الأقل"),
     phone: z.string(),
-    recaptcha_token: z.string().optional(),
   })
   .refine((data) => data?.password === data?.password_confirmation, {
     message: "كلمتا السر غير متطابقتين",

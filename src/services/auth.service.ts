@@ -61,7 +61,6 @@ export function loginWithPhonePassword(payload: {
   country: string;
   country_iso: string;
   password: string;
-  recaptcha_token?: string;
 }): Promise<LoginResponse> {
   return authRequest<LoginResponse>("/auth/login", "POST", payload);
 }

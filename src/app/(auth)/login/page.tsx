@@ -16,7 +16,6 @@ import { useLogin } from "@/modules/auth/hooks/useLogin";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 
 const AuthPage = () => {
   const router = useRouter();
@@ -33,7 +32,6 @@ const AuthPage = () => {
         phone: getUserPhoneFromStorage().phone,
       },
       password: "",
-      recaptcha_token: "",
     },
   });
 
@@ -93,12 +91,6 @@ const AuthPage = () => {
               إنشاء حساب
             </Link>
           </div>
-
-          <GoogleReCaptcha
-            onVerify={(token) => {
-              form.setValue("recaptcha_token", token);
-            }}
-          />
 
           <div className="mt-10 flex">
             <Button

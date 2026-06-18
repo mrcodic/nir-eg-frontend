@@ -16,7 +16,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "nextjs-toploader/app";
 import { useEffect, useRef, useState } from "react";
-import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 import { useForm } from "react-hook-form";
 
 const ResetPasswordPage = () => {
@@ -37,7 +36,6 @@ const ResetPasswordPage = () => {
       phone: savedPhone || "",
       password: "",
       password_confirmation: "",
-      recaptcha_token: "",
     },
   });
 
@@ -142,13 +140,6 @@ const ResetPasswordPage = () => {
               إنشاء حساب
             </Link>
           </div>
-
-          <GoogleReCaptcha
-            onVerify={(token) => {
-              // setToken(token);
-              form.setValue("recaptcha_token", token);
-            }}
-          />
 
           <button
             type="submit"
