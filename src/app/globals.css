@@ -24,6 +24,7 @@
   --animate-caret-blink: caret-blink 1.25s ease-out infinite;
   --animate-promo-rotate-shake: promo-rotate-shake 3s ease-in-out infinite;
   --animate-bell-ring: bell-ring 2s ease-in-out infinite;
+  --animate-shimmer-wave: shimmer-wave 1.6s ease-in-out infinite;
 
   /* ================
      SHADCN COLOR TOKENS
@@ -294,6 +295,15 @@
   20%,
   50% {
     opacity: 0;
+  }
+}
+
+@keyframes shimmer-wave {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
   }
 }
 

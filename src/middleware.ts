@@ -60,7 +60,7 @@ export async function middleware(request: NextRequest) {
 
   // Authenticated → auth route
   if (isRouteMatch(normalizedPath, AUTH_ROUTES) && token) {
-    const homeUrl = new URL("/bundles", getBaseUrl(request));
+    const homeUrl = new URL("/profile", getBaseUrl(request));
     return NextResponse.redirect(homeUrl, { status: 307 });
   }
 
