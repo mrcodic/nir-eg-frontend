@@ -152,9 +152,12 @@ export const getPhoneInfoFromCode = (code: string | number) => {
   };
 };
 
-export const presistUserPhone = (phone: string, countryCallingCode: string) => {
+export const presistUserPhone = (
+  phone: string,
+  countryCallingCode?: string,
+) => {
   localStorage.setItem("phone", phone);
-  localStorage.setItem("phone_code", countryCallingCode);
+  localStorage.setItem("phone_code", countryCallingCode || "+20");
 };
 
 export const getUserPhoneFromStorage = () => {

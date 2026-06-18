@@ -83,7 +83,14 @@ export function useLogin() {
           icon: "error",
           description: "رقم الهاتف غير مفعل",
         });
-        modal.setDialogContent(<OTPNotVerifIed />);
+        modal.setDialogContent(
+          <OTPNotVerifIed
+            defaultPhone={{
+              phone: values.phone.phone,
+              country: values.phone.country,
+            }}
+          />,
+        );
         modal.openModal();
         return;
       }

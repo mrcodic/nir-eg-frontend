@@ -53,14 +53,14 @@ export function OTPNotVerifIed({
             className="h-full w-full"
             onClick={async () => {
               const phone = localStorage.getItem("phone");
-              if (!phone && !defaultPhone) {
+              if (!phone && !defaultPhone?.phone) {
                 toast({
                   description: "الرقم مش موجود , دخل الرقم تانى",
                   icon: "error",
                 });
-                modal.closeModal();
+                logout();
                 return;
-              } else if (defaultPhone) {
+              } else if (defaultPhone?.phone) {
                 presistUserPhone(defaultPhone.phone, defaultPhone.country);
               } else {
                 return;

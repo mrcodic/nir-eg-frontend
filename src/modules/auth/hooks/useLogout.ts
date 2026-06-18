@@ -9,6 +9,7 @@ import { useCallback, useState } from "react";
 export default function useLogout() {
   const { setToken } = useAuthContext();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+
   const queryClient = useQueryClient();
   const modal = useModal();
   const pathname = usePathname();
