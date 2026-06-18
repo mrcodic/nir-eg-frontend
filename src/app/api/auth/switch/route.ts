@@ -26,5 +26,5 @@ export async function GET(request: NextRequest) {
   });
 
   // go to /bundles route
-  return NextResponse.redirect(new URL("/bundles", origin));
+  return NextResponse.redirect(new URL("/profile", origin));
 }

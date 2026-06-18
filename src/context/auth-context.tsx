@@ -2,20 +2,12 @@
 
 import { getClientPrivateData } from "@/helpers/fetchers/client-fetch";
 import { IUser } from "@/types";
-import { deleteCookie } from "@/utils/api";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import Cookies from "js-cookie";
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useMemo,
-  useState,
-} from "react";
+import { createContext, useContext, useMemo, useState } from "react";
 
 interface AuthContextType {
   token: string;
-  logout: () => Promise<void>;
   isLoading: boolean;
   setToken: (token: string) => void;
   profile: IUser | null;
@@ -39,7 +31,6 @@ export const AuthContextProvider = ({
   children: React.ReactNode;
   profile: IUser | null;
 }) => {
-  const queryClient = useQueryClient();
   const [token, setToken] = useState<undefined | string | null>(
     () => Cookies.get("nir_token") || undefined,
   );
@@ -57,19 +48,8 @@ export const AuthContextProvider = ({
     initialData: profile,
   });
 
-  const logout = useCallback(async () => {
-    setToken(null);
-    queryClient.removeQueries({ queryKey: ["/students/profile"] });
-    localStorage.removeItem("timer");
-    Cookies.remove("guest_token");
-    Cookies.remove("nir_token");
-
-    await deleteCookie("nir_token");
-  }, [queryClient]);
-
   const value = useMemo(
     () => ({
-      logout: logout,
       token: token,
       setToken,
       profile: profileData,
@@ -79,7 +59,7 @@ export const AuthContextProvider = ({
         name: profileData?.grade_name,
       },
     }),
-    [logout, token, profileData, isLoading],
+    [token, profileData, isLoading],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -10,8 +10,10 @@ import { useAuthContext } from "@/context/auth-context";
 import { useModal } from "@/context/ModalProvider";
 import { useToast } from "@/hooks/use-toast";
 import { presistUserPhone } from "@/lib/utils";
+import useLogout from "@/modules/auth/hooks/useLogout";
 import Image from "next/image";
 import { useRouter } from "nextjs-toploader/app";
+import SmallSpinner from "../custom/SmallSpinner";
 
 export function OTPNotVerifIed({
   defaultPhone,
@@ -23,7 +25,8 @@ export function OTPNotVerifIed({
   const router = useRouter();
   const { toast } = useToast();
   const modal = useModal();
-  const { profile, logout } = useAuthContext();
+  const { profile } = useAuthContext();
+  const { logout, isLoggingOut } = useLogout();
 
   return (
     <>
@@ -74,12 +77,12 @@ export function OTPNotVerifIed({
             <Button
               variant="destructive"
               className="h-full w-full"
+              disabled={isLoggingOut}
               onClick={async () => {
-                logout();
-                window.location.href = "/login";
+                await logout({ closeModal: false });
               }}
             >
-              تسجيل الخروج
+              تسجيل الخروج {isLoggingOut && <SmallSpinner />}
             </Button>
           </DialogClose>
         )}

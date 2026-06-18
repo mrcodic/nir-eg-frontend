@@ -3,7 +3,7 @@
 import { useAuthContext } from "@/context/auth-context";
 import { useModal } from "@/context/ModalProvider";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { OTPNotVerifIed } from "../modals/OTPNotVerifIed";
 
 export default function PhoneNotVerifiedGuard() {
@@ -12,12 +12,15 @@ export default function PhoneNotVerifiedGuard() {
   const { profile } = useAuthContext();
   const isOtpVerifyOpened = useRef(false);
 
-  const isVerifyOtpPage = pathname.includes("verify-otp");
+  const hideOtpInPages = useMemo(
+    () => ["/verify-otp", "/login"].some((path) => pathname.includes(path)),
+    [pathname],
+  );
 
   useEffect(() => {
     if (profile?.student_phone_verification) return;
 
-    if (!!profile && !profile?.student_phone_verification && !isVerifyOtpPage) {
+    if (!!profile && !profile?.student_phone_verification && !hideOtpInPages) {
       modal.setDialogContent(
         <OTPNotVerifIed
           defaultPhone={{
@@ -32,10 +35,10 @@ export default function PhoneNotVerifiedGuard() {
       });
       modal.openModal({ force: true, preventClose: true });
       isOtpVerifyOpened.current = true;
-    } else if (isVerifyOtpPage && !!profile && isOtpVerifyOpened.current) {
+    } else if (hideOtpInPages && !!profile && isOtpVerifyOpened.current) {
       modal.closeModal();
       isOtpVerifyOpened.current = false;
     }
-  }, [profile, modal, isVerifyOtpPage]);
+  }, [profile, modal, hideOtpInPages]);
   return null;
 }

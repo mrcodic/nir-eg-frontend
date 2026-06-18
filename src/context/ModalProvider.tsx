@@ -73,16 +73,9 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
 
   const openModal = useCallback(
     (options?: OpenModalOptions) => {
-      /**
-       * Keep your old force behavior exactly as it is.
-       */
-      console.log(
-        !options?.force &&
-          (profile?.profile_completed === false ||
-            !profile?.student_phone_verification),
-      );
       if (
         !options?.force &&
+        !!profile &&
         (profile?.profile_completed === false ||
           !profile?.student_phone_verification)
       )
@@ -91,7 +84,7 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
       setPreventClose(Boolean(options?.preventClose));
       setIsOpen(true);
     },
-    [profile?.profile_completed, profile?.student_phone_verification],
+    [profile],
   );
 
   const addSideElement = useCallback((node: ReactNode) => {
