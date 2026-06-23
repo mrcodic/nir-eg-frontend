@@ -127,9 +127,7 @@ export default function ProfileCompletionFields<
               label={field.label}
               options={options}
               className={colClass}
-              disabled={
-                isSettingsPage && field.key === "student_type" && !!profile.type
-              }
+              disabled={isSettingsPage && field.key === "student_type"}
             />
           );
         }

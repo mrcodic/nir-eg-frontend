@@ -20,6 +20,8 @@ import {
   buildProfileCompletionSchema,
   ProfileCompletionValues,
 } from "@/helpers/profile-completion.helpers";
+import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useProfileCompletionFields } from "../hooks/useProfileCompletionFields";
 import { useProfileCompletionStepper } from "../hooks/useProfileCompletionStepper";
@@ -94,6 +96,8 @@ function FormActions({
 
 export default function ProfileCompletionModal() {
   const [open, setOpen] = useState(false);
+  const router = useRouter();
+  const queryClient = useQueryClient();
 
   const modal = useModal();
 
@@ -155,6 +159,8 @@ export default function ProfileCompletionModal() {
       onServerFieldError: moveToStepByField,
       onSuccess: () => {
         setOpen(false);
+        router.refresh();
+        queryClient.invalidateQueries({ queryKey: ["/students/profile"] });
         modal.setDialogContent(
           <>
             <Image
