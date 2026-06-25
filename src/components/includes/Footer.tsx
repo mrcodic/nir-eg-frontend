@@ -71,7 +71,7 @@ const Footer = async () => {
           </Link>
         </div>
 
-        <div className="border-primary-800 flex flex-col items-center gap-1 border-t pt-4 text-center text-[10px]">
+        <div className="border-primary-800 flex flex-col items-center gap-1 border-t pt-4 text-center text-[11px]">
           <p>
             © جميع الحقوق محفوظة لدى نير - Nir-edu {new Date().getFullYear()} -
             المملوكة لشركة بكسبايت للبرمجة وتكنولوجيا المعلومات
