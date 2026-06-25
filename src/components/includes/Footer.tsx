@@ -10,7 +10,7 @@ const Footer = async () => {
     queryKey: ["settings/footer"],
     isAuth: false,
     next: {
-      revalidate: 60 * 20,
+      revalidate: 60 * 10,
     },
     cache: "default",
   });
@@ -83,7 +83,16 @@ const Footer = async () => {
               Pixbyte
             </a>
           </p>
-          <p>الرقم الموحد للسجل التجاري :  11090 06000 08549</p>
+          <p>
+            الرقم الموحد للسجل التجاري :  {" "}
+            <span
+              style={{
+                unicodeBidi: "plaintext",
+              }}
+            >
+              11090 06000 08549
+            </span>
+          </p>
         </div>
       </div>
     </footer>
