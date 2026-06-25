@@ -71,16 +71,16 @@ const Footer = async () => {
           </Link>
         </div>
 
-        <div className="border-primary-800 flex flex-col items-center gap-2 border-t pt-4 text-xs sm:text-sm">
+        <div className="border-primary-800 flex flex-col items-center gap-1 border-t pt-4 text-center text-[10px]">
           <p>
             © جميع الحقوق محفوظة لدى نير - Nir-edu {new Date().getFullYear()} -
-            تم التصميم والتطوير بواسطة بكسبايت للبرمجة وتكنولوجيا المعلومات
+            المملوكة لشركة بكسبايت للبرمجة وتكنولوجيا المعلومات
             <a
               target="_blank"
               href={"https://pixbyte.co/"}
               className="text-primary ms-1 font-bold underline"
             >
-              Pixbyte.co
+              Pixbyte
             </a>
           </p>
           <p>الرقم الموحد للسجل التجاري :  11090 06000 08549</p>
