@@ -53,25 +53,37 @@ const Footer = async () => {
         />
       </div>
 
-      <div className="wrapper mt-8 flex flex-wrap-reverse justify-between gap-8 text-center">
-        <div>
-          © جميع الحقوق محفوظة لدى نير - Nir 2026 - تم التصميم والتطوير بواسطة
-          <a
-            target="_blank"
-            href={"https://pixbyte.co/"}
-            className="text-primary ms-1 text-base font-bold underline"
-          >
-            Pixbyte.co
-          </a>
-        </div>
-
+      <div className="wrapper mt-8 flex flex-col gap-4 text-center">
         <div className="mobile:ms-auto max-mobile:w-full flex flex-wrap justify-center gap-x-6 gap-y-4 text-sm">
-          <Link href={"/terms"} className="flex items-center gap-4 underline">
+          <Link
+            href={"https://nir-edu.com/terms"}
+            className="flex items-center gap-4 underline"
+            target="_blank"
+          >
             الشروط و الأحكام
           </Link>
-          <Link href={"/privacy"} className="flex items-center gap-4 underline">
+          <Link
+            href={"https://nir-edu.com/privacy"}
+            className="flex items-center gap-4 underline"
+            target="_blank"
+          >
             سياسة الخصوصية
           </Link>
+        </div>
+
+        <div className="border-primary-800 flex flex-col items-center gap-2 border-t pt-4 text-xs sm:text-sm">
+          <p>
+            © جميع الحقوق محفوظة لدى نير - Nir-edu {new Date().getFullYear()} -
+            تم التصميم والتطوير بواسطة بكسبايت للبرمجة وتكنولوجيا المعلومات
+            <a
+              target="_blank"
+              href={"https://pixbyte.co/"}
+              className="text-primary ms-1 font-bold underline"
+            >
+              Pixbyte.co
+            </a>
+          </p>
+          <p>الرقم الموحد للسجل التجاري :  11090 06000 08549</p>
         </div>
       </div>
     </footer>

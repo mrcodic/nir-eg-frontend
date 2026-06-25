@@ -40,12 +40,12 @@ export async function fetchClient<T>({
 
     return res.json();
   } catch (error) {
-    console.error(
-      `Error in fetcher client for ${endpoint}:`,
-      auth,
-      error,
-      error.status,
-    );
+    // console.error(
+    //   `Error in fetcher client for ${endpoint}:`,
+    //   auth,
+    //   error,
+    //   error.status,
+    // );
     return handleClientFetchError(error, endpoint);
   }
 }

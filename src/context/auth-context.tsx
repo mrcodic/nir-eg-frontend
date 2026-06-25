@@ -41,7 +41,7 @@ export const AuthContextProvider = ({
       const res = await getClientPrivateData({
         queryKey: ["/students/profile"],
       });
-      console.log("res profile", res);
+      // console.log("res profile", res);
       return res.body as unknown as IUser;
     },
     staleTime: 1000 * 60 * 2, //2 minutes cache

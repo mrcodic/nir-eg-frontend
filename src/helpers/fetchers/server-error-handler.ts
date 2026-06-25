@@ -22,7 +22,7 @@ export async function handleServerFetchError({
 
   const strategy = getAuthFailureStrategy(endpoint);
 
-  console.log("server ->", endpoint, appError.status, appError.code);
+  // console.log("server ->", endpoint, appError.status, appError.code);
 
   if (appError.code === "UNAUTHORIZED" || appError.code === "FORBIDDEN") {
     if (strategy === "silent-null") {

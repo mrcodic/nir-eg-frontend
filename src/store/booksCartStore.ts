@@ -90,10 +90,10 @@ export const createCartStore = (initState?: Partial<CartState>) => {
             // Try to fetch cart from server
             const serverCart = await cartServices.fetchCart();
 
-            console.log(
-              "🛒 ~ initializeCart response ~ serverCart:",
-              serverCart,
-            );
+            // console.log(
+            //   "🛒 ~ initializeCart response ~ serverCart:",
+            //   serverCart,
+            // );
 
             set((state) => {
               // If server has items, use them
