@@ -144,7 +144,16 @@ async function Footer() {
                 Pixbyte
               </a>
             </p>
-            <p>الرقم الموحد للسجل التجاري :  11090 06000 08549</p>
+            <p>
+              الرقم الموحد للسجل التجاري :{" "}
+              <span
+                style={{
+                  unicodeBidi: "plaintext",
+                }}
+              >
+                11090 06000 08549
+              </span>
+            </p>
           </div>
         </div>
       </div>
