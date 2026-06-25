@@ -1,6 +1,7 @@
 import { getPublicData } from "@/config/client-fetch";
 import { footerLinks, navlinks } from "@/constants/navlinks";
 import { FooterData } from "@/types/type";
+import { MapPin } from "lucide-react";
 import Image from "next/image";
 import CustomLink from "../CustomLink";
 import SocialLinks from "../SocialLinks";
@@ -17,6 +18,8 @@ async function Footer() {
   } catch (error) {
     console.log("footer data error : ", error);
   }
+
+  console.log(footerData);
 
   return (
     // bg-[url('/assets/backgrounds/bg-vector.png')]
@@ -52,8 +55,31 @@ async function Footer() {
             />
 
             <div className="flex flex-col gap-4 flex-wrap">
+              {footerData?.address_1 && (
+                <a
+                  href={`https://maps.google.com/?q=${footerData?.address_1}`}
+                  target="_blank"
+                  className="flex items-center gap-4"
+                >
+                  <MapPin className="stroke-primary-800 size-5" />
+                  <span>{footerData?.address_1}</span>
+                </a>
+              )}
+              {footerData?.address_2 && (
+                <a
+                  href={`https://maps.google.com/?q=${footerData?.address_2}`}
+                  target="_blank"
+                  className="flex items-center gap-4"
+                >
+                  <MapPin className="stroke-primary-800 size-5" />
+                  <span>{footerData?.address_2}</span>
+                </a>
+              )}
               {footerData?.email && (
-                <div className="flex items-center gap-4">
+                <a
+                  href={`mailto:${footerData?.email}`}
+                  className="flex items-center gap-4"
+                >
                   <Image
                     src="/assets/email.svg"
                     width={20}
@@ -61,10 +87,13 @@ async function Footer() {
                     alt="email"
                   />
                   <span>{footerData?.email}</span>
-                </div>
+                </a>
               )}
               {footerData?.phone_sa && (
-                <div className="flex items-center gap-4">
+                <a
+                  href={`tel:${footerData?.phone_sa}`}
+                  className="flex items-center gap-4"
+                >
                   <Image
                     src="/assets/phone.svg"
                     width={20}
@@ -72,10 +101,13 @@ async function Footer() {
                     alt="phone"
                   />
                   <span dir="ltr">+{footerData?.phone_sa}</span>
-                </div>
+                </a>
               )}
               {footerData?.phone && (
-                <div className="flex items-center gap-4">
+                <a
+                  href={`tel:${footerData?.phone}`}
+                  className="flex items-center gap-4"
+                >
                   <Image
                     src="/assets/phone.svg"
                     width={20}
@@ -83,18 +115,13 @@ async function Footer() {
                     alt="email"
                   />
                   <span dir="ltr">+{footerData?.phone}</span>
-                </div>
+                </a>
               )}
             </div>
           </div>
         </div>
 
-        <div className="w-full flex justify-center md:justify-between gap-y-4 gap-6 items-center flex-wrap-reverse">
-          <p className="text-slate-600 font-bold text-sm">
-            © جميع الحقوق محفوظة لدى نَيِّر -{" "}
-            <span>Nir {new Date().getFullYear()}</span>
-          </p>
-
+        <div className="w-full flex  gap-y-4   flex-col">
           <div className="flex items-center md:ms-auto max-sm:flex-wrap justify-center gap-x-2">
             {footerLinks.map((link) => (
               <CustomLink
@@ -104,6 +131,20 @@ async function Footer() {
                 className="lg:text-sm md:text-sm"
               />
             ))}
+          </div>
+          <div className="border-primary-800 flex flex-col items-center gap-2 border-t pt-4 text-xs sm:text-sm">
+            <p>
+              © جميع الحقوق محفوظة لدى نير - Nir-edu {new Date().getFullYear()}{" "}
+              - تم التصميم والتطوير بواسطة بكسبايت للبرمجة وتكنولوجيا المعلومات
+              <a
+                target="_blank"
+                href={"https://pixbyte.co/"}
+                className="text-primary ms-1 font-bold underline"
+              >
+                Pixbyte.co
+              </a>
+            </p>
+            <p>الرقم الموحد للسجل التجاري :  11090 06000 08549</p>
           </div>
         </div>
       </div>

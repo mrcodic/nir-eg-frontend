@@ -10,6 +10,8 @@ export interface FooterData {
   phone_sa: string;
   email: string;
   socials: FooterSocials;
+  address_1: string;
+  address_2: string;
 }
 
 export interface FooterSocials {
