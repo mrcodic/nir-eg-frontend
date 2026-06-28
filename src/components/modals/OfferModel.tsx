@@ -93,6 +93,7 @@ const OfferModel = () => {
             >
               {copied ? "تم النسخ" : "نسخ الكود"} <Copy />
             </Button>
+
             <DialogClose asChild>
               <Button disabled={isLoading} variant="outline-primary">
                 إلغاء
