@@ -59,8 +59,6 @@ export function useProfileCompletionFields({
         fieldsResponse?.data?.fields ?? [],
       );
 
-      console.log("server fields : ", serverFields);
-
       if (!serverFields.length) {
         skipForSessionRef.current = String(profile.id);
         setFields([]);
@@ -68,7 +66,6 @@ export function useProfileCompletionFields({
         return null;
       }
 
-      // Prefill is optional — a failure here shouldn't block the modal
       let prefillStudent: Record<string, unknown> | null = null;
       try {
         const prefillResponse = await fetchTenantProfilePrefillByPhone(

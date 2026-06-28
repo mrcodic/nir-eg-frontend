@@ -9,7 +9,7 @@ export default function useCopy() {
     const textString = String(text);
 
     try {
-      if (navigator.clipboard?.writeText && window.isSecureContext) {
+      if (navigator.clipboard?.writeText) {
         await navigator.clipboard.writeText(textString);
       } else {
         const textarea = document.createElement("textarea");
