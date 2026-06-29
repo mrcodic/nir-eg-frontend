@@ -56,7 +56,10 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     metadataBase,
 
-    title,
+    title: {
+      default: title,
+      template: "%s | " + title,
+    },
     description,
 
     icons: {

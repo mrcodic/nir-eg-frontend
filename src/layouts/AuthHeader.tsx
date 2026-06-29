@@ -10,6 +10,10 @@ function AuthHeader({
 }) {
   return (
     <>
+      <title>{title}</title>
+      {typeof description === "string" && (
+        <meta name="description" content={description} />
+      )}
       <div className="flex gap-4">
         <Image
           src="/assets/books-colored.svg"

@@ -1,6 +1,12 @@
 import { getServerData } from "@/helpers/fetchers/server-fetch";
 import PayLabel from "@/modules/payment/components/PayLabel";
 import PaymentDetailsRenderer from "@/modules/payment/components/PaymentDetailsRenderer";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "الدفع",
+  description: "أكمل خطوات الدفع وتابع حالة عمليات الشراء والاشتراك.",
+};
 
 const getTitle = ({ bundleId, roomId }) => {
   return bundleId ? "باقة" : roomId ? "حصة" : "كورس";

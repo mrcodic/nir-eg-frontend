@@ -1,6 +1,12 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getTenantSettingsServer } from "@/services/tenant.service";
+import type { Metadata } from "next";
 import TransactionsList from "./TransactionsList";
+
+export const metadata: Metadata = {
+  title: "طلباتي",
+  description: "راجع طلباتك السابقة وحالة كل طلب داخل المنصة.",
+};
 
 export default async function Page({
   searchParams,

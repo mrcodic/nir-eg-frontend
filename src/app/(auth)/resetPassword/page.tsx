@@ -95,6 +95,9 @@ const ResetPasswordPage = () => {
 
   return (
     <div className="">
+      <title>إعادة تعيين كلمة السر</title>
+      <meta name="description" content="إعادة تعيين كلمة السر" />
+      
       <div className="flex gap-2">
         <img src="/assets/icons/LockColor.svg" className="h-[32px] w-[32px]" />
 

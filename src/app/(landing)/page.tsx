@@ -5,7 +5,13 @@ import { getServerData } from "@/helpers/fetchers/server-fetch";
 import CustomError from "@/lib/customError";
 import { getTenantContentServer } from "@/services/tenant.service";
 import { ApiResponse, IUser } from "@/types";
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
+
+export const metadata: Metadata = {
+  title: "الرئيسية",
+  description: "تصفح المنصة التعليمية واستكشف الباقات والدروس والخدمات المتاحة.",
+};
 
 const mapTemplate = {
   "landing-v1": TemplateOne,

@@ -26,6 +26,12 @@ const ExamPage = () => {
       subscribed={start?.is_subscribed}
       text={isTaskClosed ? "تم إغلاق الامتحان" : ""}
     >
+      <title>{start?.title}</title>
+      <meta
+        name="description"
+        content={`حل امتحان شامل ${start?.title || ""}`}
+      />
+
       <div
         className={cn(
           "wrapper mt-28 mb-[186px] flex h-[calc(100%-80px)] flex-col items-center gap-8 py-4 group-data-[template=landing-v3]/template:mt-32 md:items-start lg:flex-row",

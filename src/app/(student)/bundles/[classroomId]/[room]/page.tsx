@@ -51,6 +51,12 @@ export default function RoomDetailsPage() {
       isLoading={isLoadingRoomDetails}
       emptyMessage="لم يتم العثور على هذه الحصة"
     >
+      <title>{roomDetails?.room?.title}</title>
+      <meta
+        name="description"
+        content={`تفاصيل الحصة ${roomDetails?.room?.title || ""}`}
+      />
+
       <div className="mt-20 group-data-[template=landing-v3]/template:mt-0">
         <Animate preset="slideDown">
           <RoomDetailsHeader

@@ -1,8 +1,14 @@
 import { getServerData } from "@/helpers/fetchers/server-fetch";
 import { getTenantSettingsServer } from "@/services/tenant.service";
 import { ApiResponse, IUser } from "@/types";
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import CommentsView from "./CommentsView";
+
+export const metadata: Metadata = {
+  title: "التعليقات",
+  description: "تصفح تعليقاتك وتفاعلاتك داخل المنصة التعليمية.",
+};
 
 export default async function CommentsPage() {
   const [profileData, tenantSettings] = await Promise.all([

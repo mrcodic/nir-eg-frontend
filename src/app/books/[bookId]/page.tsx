@@ -2,7 +2,13 @@ import BooksStoreItems from "@/modules/books-store/components/BooksStoreItems";
 
 import { getServerData } from "@/helpers/fetchers/server-fetch";
 import { Book } from "@/types/books.types";
+import type { Metadata } from "next";
 import BookDetailsCard from "./BookDetailsCard";
+
+export const metadata: Metadata = {
+  title: "تفاصيل الكتاب",
+  description: "اطلع على تفاصيل الكتاب ومواصفاته وخيارات الشراء أو الطلب.",
+};
 
 async function page({ params }: { params: Promise<{ bookId: string }> }) {
   const bookId = (await params).bookId;

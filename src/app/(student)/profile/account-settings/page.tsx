@@ -69,6 +69,9 @@ const AccountSettings = () => {
 
   return (
     <div className="wrapper mt-[168px] mb-12">
+      <title>إعدادات الحساب</title>
+      <meta name="description" content="إعدادات الحساب" />
+
       <div className="border-gray-light mx-auto w-full rounded-lg border p-4 md:max-w-[792px]">
         <h1 className="text-xl font-bold">إعدادات الحساب</h1>
 

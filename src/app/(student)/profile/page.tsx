@@ -7,8 +7,14 @@ import RoomHeader from "@/modules/rooms/components/RoomHeader";
 import { getTenantSettingsServer } from "@/services/tenant.service";
 import { ApiResponse, IUser } from "@/types";
 import dynamic from "next/dynamic";
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import CenterSelectModalTrigger from "./CenterSelectModalTrigger";
+
+export const metadata: Metadata = {
+  title: "الملف الشخصي",
+  description: "راجع بيانات ملفك الشخصي وتقدمك الدراسي ومعلومات حسابك.",
+};
 
 const ProfilePointsTable = dynamic(
   () => import("@/modules/profile/components/ProfilePointsTable"),

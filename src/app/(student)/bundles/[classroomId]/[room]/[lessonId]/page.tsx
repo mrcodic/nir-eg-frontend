@@ -94,6 +94,11 @@ export default function LessonPlayerPage() {
         isLoading={isLoadingLesson}
         emptyMessage="لم يتم العثور على بيانات هذه الحصة"
       >
+        <title>{selectedLesson?.title}</title>
+        <meta
+          name="description"
+          content={`محتوى الحصة ${roomDetails?.room?.title} الدرس ${selectedLesson?.title || ""}`}
+        />
         {selectedLesson && requiresOtpVideo && (
           <LessonTimedQuiz lessonData={selectedLesson} />
         )}
