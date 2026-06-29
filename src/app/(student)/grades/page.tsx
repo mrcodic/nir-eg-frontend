@@ -6,8 +6,8 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
-  title: "الصفوف الدراسية",
-  description: "تصفح الصفوف الدراسية المتاحة وانتقل إلى المحتوى المناسب لك.",
+  title: "الدرجات",
+  description: "جميع الدرجات الخاصة بالمهام التى قام الطالب بحلها",
 };
 
 const Grades = async () => {
