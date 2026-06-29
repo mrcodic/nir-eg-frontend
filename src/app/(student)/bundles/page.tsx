@@ -3,8 +3,14 @@ import BundlesWrapper from "@/modules/bundles/components/BundlesWrapper";
 import BundlesWrapperSkeleton from "@/modules/bundles/components/BundlesWrapperSkeleton";
 import NewCourses from "@/modules/courses/components/NewCoursers";
 import { ApiResponse, IUser } from "@/types";
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
+
+export const metadata: Metadata = {
+  title: "الباقات",
+  description: "استكشف الباقات التعليمية المتاحة واختر ما يناسب مستواك واحتياجاتك.",
+};
 
 const BundlesPage = async ({
   searchParams,

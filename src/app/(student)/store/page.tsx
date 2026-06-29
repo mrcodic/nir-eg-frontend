@@ -5,8 +5,14 @@ import { getServerData } from "@/helpers/fetchers/server-fetch";
 import PointsStoreCard from "@/modules/points-store/components/PointsStoreCard";
 import StudentPointsCard from "@/modules/profile/components/StudentPointsCard";
 import { IUser } from "@/types";
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
+
+export const metadata: Metadata = {
+  title: "المتجر",
+  description: "استعرض منتجات المتجر والعناصر المتاحة للشراء داخل المنصة.",
+};
 
 const tabs = [
   {

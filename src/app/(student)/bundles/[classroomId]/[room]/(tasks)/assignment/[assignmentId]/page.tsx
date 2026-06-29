@@ -28,6 +28,9 @@ const AssignmentPage = () => {
         isTaskClosed ? "تم إغلاق الواجب" : "لم يعد مسموح بالوصول الى هذه الصفحة"
       }
     >
+      <title>{start?.title}</title>
+      <meta name="description" content={`حل  ${start?.title || ""}`} />
+
       <div
         className={cn(
           "wrapper mt-[110px] mb-[186px] flex flex-col items-center gap-8 py-4 lg:flex-row lg:items-start",

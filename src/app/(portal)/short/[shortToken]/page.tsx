@@ -1,5 +1,11 @@
 import { getServerData } from "@/helpers/fetchers/server-fetch";
+import type { Metadata } from "next";
 import RedirectToPortal from "./RedirectToPortal";
+
+export const metadata: Metadata = {
+  title: "التحقق من الرابط",
+  description: "جاري التحقق من الرابط المختصر وتحويلك إلى الوجهة المناسبة داخل المنصة.",
+};
 
 type IRedirectData = {
   data: {

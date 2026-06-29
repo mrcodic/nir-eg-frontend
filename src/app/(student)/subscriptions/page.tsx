@@ -1,4 +1,10 @@
 import SubbedCourses from "@/modules/courses/components/SubbedCourses";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "الاشتراكات",
+  description: "تابع اشتراكاتك الحالية والسابقة وحالة كل اشتراك.",
+};
 
 function page() {
   return (

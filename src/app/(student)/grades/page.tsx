@@ -2,7 +2,13 @@ import { Animate } from "@/components/shared/Animate";
 import ActivitiesTable from "@/components/tables/ActivitiesTable";
 import RoomHeader from "@/modules/rooms/components/RoomHeader";
 import { getTenantSettingsServer } from "@/services/tenant.service";
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
+
+export const metadata: Metadata = {
+  title: "الصفوف الدراسية",
+  description: "تصفح الصفوف الدراسية المتاحة وانتقل إلى المحتوى المناسب لك.",
+};
 
 const Grades = async () => {
   const tenantSettings = await getTenantSettingsServer();

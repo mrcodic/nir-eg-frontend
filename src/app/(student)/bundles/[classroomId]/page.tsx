@@ -5,7 +5,13 @@ import CourseDetails from "@/modules/courses/components/CourseDetails";
 import CourseFloatingCards from "@/modules/courses/components/CourseFloatingCards";
 import CoursesHeader from "@/modules/courses/components/CoursesHeader";
 import { ICourseDetails } from "@/types";
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
+
+export const metadata: Metadata = {
+  title: "تفاصيل الباقة",
+  description: "استعرض تفاصيل الباقة  والدروس والمحتوى المتاح لك.",
+};
 
 const classroomId = async ({ params }) => {
   const { classroomId } = await params;

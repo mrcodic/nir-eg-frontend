@@ -11,7 +11,14 @@ import CourseCard from "@/modules/courses/components/CourseCard";
 import RoomHeader from "@/modules/rooms/components/RoomHeader";
 import { ApiResponse, Bundle, IUser } from "@/types";
 import { Variants } from "framer-motion";
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
+
+export const metadata: Metadata = {
+  title: "تفاصيل الباقة",
+  description:
+    "اطلع على تفاصيل الباقة التعليمية ومحتواها وخيارات الاشتراك الخاصة بها.",
+};
 
 const containerVariants: Variants = {
   hidden: {},
@@ -104,7 +111,7 @@ const BundleDetails = async ({
                   price={bundle?.price}
                   sale={bundle?.sale}
                   className="ms-0 w-fit"
-                  numberClassName="text-xl"
+                  numberClassName="text-lg"
                   currencyClassName="text-base mt-auto "
                 />
               </div>
@@ -140,7 +147,7 @@ const BundleDetails = async ({
           ))}
         </Animate>
 
-        {!isSubbed && !!savedAmount && (
+        {!isSubbed && !!savedAmount && !!Number(bundle?.price) && (
           <div className="bg-background border-primary-800 mx-auto mt-10 flex max-w-[780px] flex-col items-center gap-6 rounded-lg border p-4 text-center">
             <p className="text-xl font-bold">
               ستقوم بتوفير{" "}
