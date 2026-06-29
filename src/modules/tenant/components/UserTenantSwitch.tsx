@@ -5,6 +5,7 @@ import { OctagonX, X } from "lucide-react";
 import { useMemo, useState } from "react";
 
 import SmallSpinner from "@/components/custom/SmallSpinner";
+import SwitchTenantButton from "@/components/includes/SwitchTenantButton";
 import { Button } from "@/components/ui/button";
 import CustomImage from "@/components/ui/CustomImage";
 import {
@@ -84,7 +85,13 @@ export default function UserTenantSwitch() {
     }
   }
 
-  if (tenants.length <= 1) return null;
+  if (tenants.length <= 1)
+    return (
+      <SwitchTenantButton
+        className="h-auto w-[105px] rounded-[10px] p-2 text-sm font-bold max-lg:hidden"
+        label="منصة أخرى"
+      />
+    );
 
   return (
     <DropdownMenu dir="rtl" modal={false} open={open} onOpenChange={setOpen}>

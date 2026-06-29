@@ -3,12 +3,12 @@
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import { useAuthContext } from "@/context/auth-context";
 import {
   clearSelectedDesktopTenant,
   navigateToDesktopEntry,
 } from "@/helpers/fetchers/desktop-tenant-session";
 import { cn } from "@/lib/utils";
+import useLogout from "@/modules/auth/hooks/useLogout";
 
 type SwitchTenantButtonProps = {
   logoutOnSwitch?: boolean;
@@ -31,7 +31,7 @@ export default function SwitchTenantButton({
   label = "تغيير المنصة",
   variant = "outline-primary",
 }: SwitchTenantButtonProps) {
-  const { logout } = useAuthContext();
+  const { logout } = useLogout();
   const [isPending, setIsPending] = useState(false);
 
   async function handleSwitchTenant() {

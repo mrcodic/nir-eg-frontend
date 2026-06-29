@@ -86,7 +86,7 @@ const AuthImageSection = () => {
           <Image
             src="/assets/auth/instructor-photo.webp"
             alt="Instructor"
-            className="relative object-contain object-top"
+            className="relative object-contain object-bottom"
             fill
             priority
             fetchPriority="high"

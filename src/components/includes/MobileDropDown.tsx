@@ -9,13 +9,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useAuthContext } from "@/context/auth-context";
+import { useModal } from "@/context/ModalProvider";
 import { cn } from "@/lib/utils";
 import { MenuIcon } from "lucide-react";
-import { useModal } from "@/context/ModalProvider";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { StudentSelectCenterModal } from "../modals/StudentSelectCenterModal";
-import { useAuthContext } from "@/context/auth-context";
-import { useState } from "react";
 import SwitchTenantButton from "./SwitchTenantButton";
 
 function MobileDropDown({ studentLinks }) {
@@ -45,7 +44,6 @@ function MobileDropDown({ studentLinks }) {
         sideOffset={18}
         className={cn(
           "mobile:hidden bg-background border-transparent px-0 group-data-[template=landing-v3]/template:bg-transparent group-data-[template=landing-v3]/template:px-4 sm:group-data-[template=landing-v3]/template:px-5",
-          "border-b-gray-light border-b",
           //    {
           //   "ms-4 w-[calc(100vw-32px)] sm:ms-[7.5vw] sm:w-[85vw] md:ms-[calc(10vw+16px)] md:w-[calc(80vw-32px)]":
           //     template == 3,
