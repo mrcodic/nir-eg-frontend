@@ -1,0 +1,124 @@
+"use client";
+
+import { useTenant } from "@/context/TenantProvider";
+import { cn } from "@/lib/utils";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import CustomImage from "../ui/CustomImage";
+import GuestDropdown from "./GuestDropdown";
+import SwitchTenantButton from "./SwitchTenantButton";
+
+const GuestNavBar = () => {
+  const pathname = usePathname();
+  const { logo, features } = useTenant();
+
+  const guestLinks = [
+    {
+      text: "الصفوف الدراسية",
+      href: "/#grades",
+      icon: "/assets/books-colored.svg",
+      show: true,
+    },
+    {
+      text: "الكتب",
+      href: "/books",
+      icon: "/assets/icons/BookColor.svg",
+      show: features?.book_store,
+    },
+  ];
+
+  return (
+    <header
+      className={cn(
+        "border-secondary bg-background fixed top-0 left-0 z-30 flex h-20 w-full items-center border-b group-data-[template=landing-v3]/template:h-24 group-data-[template=landing-v3]/template:items-end group-data-[template=landing-v3]/template:border-none group-data-[template=landing-v3]/template:bg-transparent group-data-[template=landing-v3]/template:backdrop-blur-xs aria-hidden:pointer-events-auto! data-[aria-hidden='true']:pointer-events-auto! lg:group-data-[template=landing-v3]/template:h-28",
+      )}
+    >
+      <div className="wrapper">
+        <div
+          className={cn(
+            "group-data-[template=landing-v3]/template:bg-background group-data-[template=landing-v3]/template:border-gray-light flex items-center justify-between gap-2 group-data-[template=landing-v3]/template:rounded-lg group-data-[template=landing-v3]/template:border group-data-[template=landing-v3]/template:p-4",
+          )}
+        >
+          <div className="mobile:gap-20 flex items-center gap-6 self-end font-bold lg:gap-12">
+            <Link href={"/"}>
+              <CustomImage
+                src={logo || "/logo.svg"}
+                fallback="/logo.svg"
+                width={110}
+                height={48}
+                unoptimized
+                className="h-12 w-fit object-contain object-right"
+                loading="eager"
+                fetchPriority="high"
+                alt="logo"
+                priority
+              />
+            </Link>
+
+            <nav className="hidden gap-2 lg:flex">
+              {guestLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={cn(
+                    "mobile:text-base border-gray-light hidden cursor-pointer items-center justify-center gap-2 rounded-[10px] border p-2 text-sm transition-all md:flex",
+                    {
+                      "bg-primary-800 text-white": pathname === link.href,
+                      "bg-transparent": pathname !== link.href,
+                    },
+                  )}
+                >
+                  <Image
+                    width={32}
+                    height={32}
+                    className="size-8"
+                    src={link.icon}
+                    alt={link.text}
+                  />
+                  <h3>{link.text}</h3>
+                </Link>
+              ))}
+            </nav>
+          </div>
+
+          <GuestDropdown />
+
+          <div className="hidden gap-4 xl:flex xl:gap-6">
+            <SwitchTenantButton
+              className="mobile:text-base mobile:w-[170px] h-auto w-[135px] rounded-[10px] p-2 text-sm font-bold lg:text-lg"
+              label="منصة أخرى"
+            />
+
+            <Link
+              href={"/login"}
+              className="mobile:text-base hover:bg-secondary-hover text-secondary border-secondary mobile:w-[170px] flex w-[135px] items-center justify-between gap-1 rounded-[10px] border bg-transparent p-2 text-center text-sm font-bold transition-all lg:text-lg"
+            >
+              <span
+                className="bg-secondary inline-block size-6"
+                style={{
+                  maskImage: "url(/assets/icons/sign-out.svg)",
+                  WebkitMaskImage: "url(/assets/icons/sign-out.svg)",
+                }}
+              />
+              تسجيل الدخول
+            </Link>
+            <Link
+              href="/register"
+              className="mobile:text-base bg-primary-800 after mobile:w-[159px] hover:bg-primary-800/90 flex w-[135px] items-center justify-between gap-1 rounded-[10px] p-2 text-center text-sm font-bold text-white transition-all after:w-0.5 lg:text-lg"
+            >
+              <Image
+                src="/assets/icons/add-user.svg"
+                width={24}
+                height={24}
+                alt="sign out"
+              />
+              إنشاء حساب
+            </Link>
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+};
+export default GuestNavBar;

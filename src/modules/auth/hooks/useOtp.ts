@@ -1,0 +1,100 @@
+"use client";
+
+import { OTP_SEND_TIME_KEY } from "@/constants";
+import { AUTH_ERROR_CODES } from "@/constants/error-codes";
+import { useToast } from "@/hooks/use-toast";
+import { getOtpRemainingSeconds, handleOtpError } from "@/lib/handle-otp-error";
+import { getOtpSendSuccessMessage } from "@/lib/otp-success";
+import { isOtpExpired, resolveOtpExpiryTimestamp } from "@/lib/otp-timer";
+import { sendAuthOtpCode } from "@/services/auth.service";
+import { isAxiosError } from "axios";
+import { useCallback, useState } from "react";
+import { useTimer } from "react-timer-hook";
+
+function useOtp({ onError }: { onError?: (message: string) => void } = {}) {
+  const { otpSendTime, isExpired } = isOtpExpired();
+  const [resending, setResending] = useState(false);
+  const [lastOtpIsNew, setLastOtpIsNew] = useState<boolean | null>(null);
+  const { toast } = useToast();
+
+  const [start, setStart] = useState(!isExpired);
+
+  const { minutes, restart, seconds } = useTimer({
+    expiryTimestamp: otpSendTime,
+    onExpire: () => {
+      setStart(false);
+      localStorage.removeItem(OTP_SEND_TIME_KEY);
+    },
+    autoStart: start,
+  });
+
+  const sendOtp = useCallback(
+    async (phone: string) => {
+      try {
+        if (typeof window === "undefined") return null;
+
+        setResending(true);
+
+        const res = await sendAuthOtpCode(phone);
+
+        const payload = res?.data ?? {
+          is_new: res?.is_new,
+          expires_at: res?.expires_at,
+          otp_code: res?.otp_code,
+        };
+
+        const expiry = resolveOtpExpiryTimestamp(payload);
+        restart(expiry);
+
+        setStart(true);
+        setLastOtpIsNew(
+          typeof payload?.is_new === "boolean" ? payload.is_new : null,
+        );
+
+        if (res.status && res.code === AUTH_ERROR_CODES.OTP_SENT) {
+          toast({
+            description: getOtpSendSuccessMessage(res, "بعتنالك OTP تاني"),
+            icon: "success",
+          });
+        }
+
+        return res;
+      } catch (error) {
+        const msg = handleOtpError(error);
+
+        onError?.(msg);
+
+        if (
+          isAxiosError(error) &&
+          (error.response?.status === 405 ||
+            error.response?.data?.code === AUTH_ERROR_CODES.OTP_COOLDOWN)
+        ) {
+          const remainingSec = getOtpRemainingSeconds(error);
+          const newTimeStamp = Date.now() + (remainingSec ?? 60) * 1000;
+
+          restart(new Date(newTimeStamp));
+          setStart(true);
+        }
+
+        return null;
+      } finally {
+        setResending(false);
+      }
+    },
+    [onError, restart, toast],
+  );
+
+  return {
+    sendOtp,
+    start,
+    setStart,
+    minutes,
+    seconds,
+    resending,
+    lastOtpIsNew,
+    otpSendTime,
+    isExpired,
+  };
+}
+
+export default useOtp;

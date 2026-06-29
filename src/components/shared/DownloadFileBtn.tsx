@@ -1,0 +1,31 @@
+import useFileDownload from "@/hooks/useFileDownload";
+import { Download } from "lucide-react";
+import SmallSpinner from "@/components/custom/SmallSpinner";
+import { Button } from "@/components/ui/button";
+
+function DownloadFileBtn({
+  attachment,
+}: {
+  attachment: { name: string; url: string };
+}) {
+  const { handleDownload, isDownloading } = useFileDownload({
+    attachment,
+  });
+
+  return (
+    <Button
+      disabled={isDownloading}
+      onClick={handleDownload}
+      className="flex items-center gap-2"
+    >
+      {isDownloading ? (
+        <SmallSpinner className="size-4 text-white" />
+      ) : (
+        <Download size={16} />
+      )}
+      نزل الملف من هنا
+    </Button>
+  );
+}
+
+export default DownloadFileBtn;

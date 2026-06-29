@@ -1,0 +1,476 @@
+@import "tailwindcss";
+/* You already use the animate plugin, so no need for `@import "tw-animate-css"` */
+@plugin "tailwindcss-animate";
+
+@custom-variant dark (&:is(.dark *));
+
+/* =========================
+   THEME TOKENS
+   (your theme + shadcn tokens)
+   ========================= */
+@theme {
+  --font-sans: var(--font-almarai-sans);
+
+  --color-accent-800: hsla(211, 42%, 22%, 1);
+
+  --color-semantics-red: hsla(0, 66%, 63%, 1);
+  --color-semantics-red-50: hsla(0, 66%, 94%, 1);
+  --color-semantics-green: hsla(101, 43%, 58%, 1);
+  --color-semantics-green-50: hsla(100, 43%, 92%, 1);
+  --color-semantics-green-dark: hsla(101, 31%, 52%, 1);
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+  --animate-caret-blink: caret-blink 1.25s ease-out infinite;
+  --animate-promo-rotate-shake: promo-rotate-shake 3s ease-in-out infinite;
+  --animate-bell-ring: bell-ring 2s ease-in-out infinite;
+
+  /* ================
+     SHADCN COLOR TOKENS
+     ================ */
+
+  /* These map to CSS vars we define in :root/.dark below.
+     They DO NOT overwrite your existing color values. */
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Custom Styles */
+
+  --color-foreground: oklch(0.145 0 0);
+  --color-custom-brown: var(--secondary-700, #523412);
+  --color-secondary: hsla(32, 92%, 52%, 1);
+  --color-secondary-50: hsla(32, 94%, 93%, 1);
+  --color-secondary-hover: hsl(30, 57%, 92%);
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --text-28: 28px;
+  --text-32: 32px;
+  --text-40: 40px;
+
+  --breakpoint-mobile: 1024px;
+
+  --drop-shadow-text: -1px 3px 1px hsla(32, 92%, 52%, 0.3);
+
+  --color-gray-light: hsla(210, 3%, 85%, 1);
+  --color-gray-dark: hsla(206, 7%, 28%, 1);
+  --color-black: hsla(0, 0%, 7%, 1);
+
+  /* TEMPLATE COLORS */
+
+  /* Base color */
+  --color-primary: hsl(var(--primary-h) var(--primary-s) var(--primary-l));
+
+  /* Foreground */
+  --color-primary-foreground: oklch(0.985 0 0);
+
+  /* Background (lighter, SAME color) */
+  --color-background: hsl(var(--primary-h) var(--primary-s) 95%);
+
+  /* Variants via lightness */
+  --color-primary-50: hsl(var(--primary-h) var(--primary-s) 95%);
+
+  --color-primary-100: hsl(var(--primary-h) var(--primary-s) 85%);
+
+  --color-primary-800: hsl(var(--primary-h) var(--primary-s) 50%);
+
+  /* Overlays stay separate */
+  --color-primary-overlay: var(--overlay-primary);
+  --background-color-overlay-primary: var(--overlay-primary);
+}
+
+/* =========================
+   BASE LAYER
+   (your base + shadcn vars + shadcn reset)
+   ========================= */
+
+@layer base {
+  :root {
+    /* your existing chart + radius tokens */
+    --chart-1: oklch(0.646 0.222 41.116);
+    --chart-2: oklch(0.6 0.118 184.704);
+    --chart-3: oklch(0.398 0.07 227.392);
+    --chart-4: oklch(0.828 0.189 84.429);
+    --chart-5: oklch(0.769 0.188 70.08);
+
+    --radius: 0.5rem;
+
+    /* =====================
+       SHADCN LIGHT MODE VARS
+       (using the palette from the snippet, but you can tweak)
+       ===================== */
+    --background: oklch(1 0 0);
+    --foreground: oklch(0.145 0 0);
+    --card: oklch(1 0 0);
+    --card-foreground: oklch(0.145 0 0);
+    --popover: oklch(1 0 0);
+    --popover-foreground: oklch(0.145 0 0);
+    --primary-foreground: oklch(0.985 0 0);
+    --secondary: oklch(0.97 0 0);
+    --secondary-foreground: oklch(0.205 0 0);
+    --muted: oklch(0.97 0 0);
+    --muted-foreground: oklch(0.556 0 0);
+    --accent: oklch(0.97 0 0);
+    --accent-foreground: oklch(0.205 0 0);
+    --destructive: oklch(0.577 0.245 27.325);
+    --destructive-foreground: oklch(0.577 0.245 27.325);
+    --border: oklch(0.922 0 0);
+    --input: oklch(0.922 0 0);
+    --ring: oklch(0.708 0 0);
+    --sidebar: oklch(0.985 0 0);
+    --sidebar-foreground: oklch(0.145 0 0);
+    --sidebar-primary: oklch(0.205 0 0);
+    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-accent: oklch(0.97 0 0);
+    --sidebar-accent-foreground: oklch(0.205 0 0);
+    --sidebar-border: oklch(0.922 0 0);
+    --sidebar-ring: oklch(0.708 0 0);
+
+    /* template default */
+    --primary-h: 206;
+    --primary-s: 58%;
+    --primary-l: 43%;
+
+    /* gradients */
+
+    --gradient-primary: linear-gradient(
+      135deg,
+      hsl(var(--primary-h) var(--primary-s) var(--primary-l)),
+      hsl(var(--primary-h) var(--primary-s) 75%)
+    );
+
+    --gradient-primary-dark: linear-gradient(
+      135deg,
+      hsl(var(--primary-h) var(--primary-s) 40%),
+      hsl(var(--primary-h) var(--primary-s) var(--primary-l))
+    );
+
+    --gradient-primary-soft: linear-gradient(
+      180deg,
+      hsl(var(--primary-h) var(--primary-s) 96%),
+      hsl(var(--primary-h) var(--primary-s) 88%)
+    );
+
+    --gradient-primary-radial: radial-gradient(
+      79.17% 79.17% at 20.83% 69.6%,
+      hsl(var(--primary-h) var(--primary-s) 20%),
+      hsl(var(--primary-h) var(--primary-s) 10%)
+    );
+
+    --gradient-primary-overlay: linear-gradient(
+      to bottom,
+      hsl(var(--primary-h) var(--primary-s) var(--primary-l) / 0.85),
+      hsl(var(--primary-h) var(--primary-s) var(--primary-l) / 0.3)
+    );
+
+    --gradient-primary-overlay-soft: linear-gradient(
+      180deg,
+      hsl(var(--primary-h) var(--primary-s) var(--primary-l) / 0.7) 0%,
+      hsl(var(--primary-h) var(--primary-s) var(--primary-l) / 0.56) 40.59%,
+      hsl(var(--primary-h) var(--primary-s) var(--primary-l) / 0.28) 106.39%
+    );
+  }
+
+  .dark {
+    /* your dark chart vars */
+    --chart-1: oklch(0.488 0.243 264.376);
+    --chart-2: oklch(0.696 0.17 162.48);
+    --chart-3: oklch(0.769 0.188 70.08);
+    --chart-4: oklch(0.627 0.265 303.9);
+    --chart-5: oklch(0.645 0.246 16.439);
+
+    /* shadcn dark palette */
+    --background: oklch(0.145 0 0);
+    --foreground: oklch(0.985 0 0);
+    --card: oklch(0.145 0 0);
+    --card-foreground: oklch(0.985 0 0);
+    --popover: oklch(0.145 0 0);
+    --popover-foreground: oklch(0.985 0 0);
+    --primary: oklch(0.985 0 0);
+    --primary-foreground: oklch(0.205 0 0);
+    --secondary: oklch(0.269 0 0);
+    --secondary-foreground: oklch(0.985 0 0);
+    --muted: oklch(0.269 0 0);
+    --muted-foreground: oklch(0.708 0 0);
+    --accent: oklch(0.269 0 0);
+    --accent-foreground: oklch(0.985 0 0);
+    --destructive: oklch(0.396 0.141 25.723);
+    --destructive-foreground: oklch(0.637 0.237 25.331);
+    --border: oklch(0.269 0 0);
+    --input: oklch(0.269 0 0);
+    --ring: oklch(0.439 0 0);
+    --sidebar: oklch(0.205 0 0);
+    --sidebar-foreground: oklch(0.985 0 0);
+    --sidebar-primary: oklch(0.488 0.243 264.376);
+    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-accent: oklch(0.269 0 0);
+    --sidebar-accent-foreground: oklch(0.985 0 0);
+    --sidebar-border: oklch(0.269 0 0);
+    --sidebar-ring: oklch(0.439 0 0);
+  }
+
+  /* your original border-color base rule */
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+
+  /* shadcn base reset, modified to NOT override your border-color */
+  * {
+    @apply outline-ring/50;
+  }
+
+  body {
+    @apply text-foreground font-sans;
+  }
+
+  .cards-grid {
+    @apply grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] justify-items-stretch gap-5 sm:grid-cols-[repeat(auto-fill,minmax(300px,1fr))];
+  }
+}
+
+/* =========================
+   KEYFRAMES (yours)
+   ========================= */
+
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+
+@keyframes caret-blink {
+  0%,
+  70%,
+  100% {
+    opacity: 1;
+  }
+  20%,
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes bell-ring {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  10% {
+    transform: rotate(15deg);
+  }
+  20% {
+    transform: rotate(-10deg);
+  }
+  30% {
+    transform: rotate(10deg);
+  }
+  40% {
+    transform: rotate(-10deg);
+  }
+  50% {
+    transform: rotate(5deg);
+  }
+  60% {
+    transform: rotate(-5deg);
+  }
+  70% {
+    transform: rotate(0);
+  }
+}
+
+@keyframes promo-rotate-shake {
+  0%,
+  72% {
+    transform: rotate(0deg) scale(1);
+    filter: drop-shadow(0 0 0 currentColor);
+    letter-spacing: 0em;
+  }
+  76% {
+    transform: rotate(-2deg) scale(1.01);
+    filter: drop-shadow(0 0 4px currentColor);
+  }
+  80% {
+    transform: rotate(2deg) scale(1.012);
+    filter: drop-shadow(0 0 8px currentColor);
+  }
+  84% {
+    transform: rotate(-1.4deg) scale(1.01);
+    filter: drop-shadow(0 0 6px currentColor);
+  }
+  88% {
+    transform: rotate(1deg) scale(1.008);
+    filter: drop-shadow(0 0 4px currentColor);
+  }
+  92% {
+    transform: rotate(-0.5deg) scale(1.005);
+    filter: drop-shadow(0 0 3px currentColor);
+  }
+  96% {
+    transform: rotate(0.25deg) scale(1.003);
+    filter: drop-shadow(0 0 2px currentColor);
+  }
+  100% {
+    transform: rotate(0deg) scale(1);
+    filter: drop-shadow(0 0 0 currentColor);
+    letter-spacing: 0em;
+  }
+}
+
+/* =========================
+   UTILITIES (yours)
+   ========================= */
+
+@utility wrapper {
+  @apply mx-auto w-full px-4 sm:w-[90%] md:w-[80%];
+}
+
+@layer utilities {
+  .bg-gradient-primary {
+    background: var(--gradient-primary);
+  }
+
+  .bg-gradient-primary-dark {
+    background: var(--gradient-primary-dark);
+  }
+
+  .bg-gradient-primary-soft {
+    background: var(--gradient-primary-soft);
+  }
+
+  .bg-primary-radial {
+    background: var(--gradient-primary-radial);
+  }
+
+  .bg-gradient-primary-overlay-soft {
+    background: var(--gradient-primary-overlay-soft);
+  }
+}
+
+@layer utilities {
+  body {
+    direction: rtl;
+    scroll-behavior: smooth;
+  }
+
+  .scroll-target {
+    scroll-margin-top: -500px !important;
+  }
+  .section--style {
+    @apply wrapper mt-[140px] mb-12;
+  }
+
+  .textStroke {
+    -webkit-text-fill-color: white;
+    -webkit-text-stroke-width: 0.8px;
+    -webkit-text-stroke-color: var(--primary);
+  }
+}
+
+@utility text-gradient-custom {
+  background-image: linear-gradient(90deg, #389ad6 30%, #0d2237 70%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility text-dark-radial {
+  background: radial-gradient(
+    79.17% 79.17% at 20.83% 69.6%,
+    #20364e 0%,
+    #0d2237 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@layer base {
+  strong,
+  b {
+    font-weight: bold;
+  }
+}
+
+.form-message {
+  @apply absolute right-0 -bottom-6 mt-2;
+}
+.form-link {
+  @apply mx-1 cursor-pointer text-[#d3a740] underline;
+}
+
+.tamper-wrapper {
+  position: relative;
+  width: 100%;
+  height: 520px;
+  overflow: hidden;
+}
+
+@media (max-width: 639px) {
+  .tamper-wrapper {
+    height: 300px;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: hsl(var(--primary-h) var(--primary-s) var(--primary-l));
+  border-radius: 999px;
+  border: 0.2px solid transparent;
+  background-clip: padding-box;
+}
