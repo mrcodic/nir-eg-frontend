@@ -6,7 +6,7 @@ import { useTaskContext } from "@/context/TaskProvider";
 import { cn } from "@/lib/utils";
 import { File, ImagePlus, Trash } from "lucide-react";
 import Image from "next/image";
-import { ChangeEvent, memo, useCallback } from "react";
+import { ChangeEvent, memo, useCallback, useEffect, useState } from "react";
 import { useFormContext, useFormState, useWatch } from "react-hook-form";
 import QuestionHeader from "./QuestionHeader";
 import QuestionTitle from "./QuestionTitle";
@@ -233,7 +233,7 @@ const Overview = ({
           {isAnswer && file?.mime?.startsWith("image") ? (
             <ImagePreview src={file.url} />
           ) : file?.type?.startsWith("image") ? (
-            <ImagePreview src={URL.createObjectURL(file)} />
+            <DraftImagePreview file={file} />
           ) : (
             <File className="h-6 w-6" />
           )}
@@ -265,3 +265,22 @@ const ImagePreview = ({ src }: { src: string }) => (
     />
   </div>
 );
+
+const DraftImagePreview = memo(({ file }: { file: File }) => {
+  const [previewUrl, setPreviewUrl] = useState("");
+
+  useEffect(() => {
+    const objectUrl = URL.createObjectURL(file);
+    setPreviewUrl(objectUrl);
+
+    return () => {
+      URL.revokeObjectURL(objectUrl);
+    };
+  }, [file]);
+
+  if (!previewUrl) return null;
+
+  return <ImagePreview src={previewUrl} />;
+});
+
+DraftImagePreview.displayName = "DraftImagePreview";

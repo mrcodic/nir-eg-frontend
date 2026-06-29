@@ -17,7 +17,7 @@ const ScoreBadge = ({
     <h3
       className={cn(
         "flex min-w-20 items-center justify-center rounded-lg px-2 py-1 text-sm font-bold",
-        passed || type === "واجب"
+        passed || (type === "واجب" && !pending)
           ? "text-semantics-green bg-semantics-green-50"
           : pending
             ? "text-secondary bg-secondary-50 w-full"
@@ -27,7 +27,7 @@ const ScoreBadge = ({
       )}
     >
       {text ||
-        (type === "واجب"
+        (type === "واجب" && !pending
           ? "تم الحل"
           : passed
             ? "ناجح"

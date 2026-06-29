@@ -64,11 +64,12 @@ function RoomTaskCard({
           </LinkLocked>
         )}
 
-        {typeof task?.score === "number" && task?.score !== null && (
+        {((typeof task?.score === "number" && task?.score !== null) ||
+          task?.review_pending) && (
           <StudentScoreResult
             score={Number(task?.score)}
             pass={!!task?.result}
-            pending={task?.pending}
+            pending={task?.review_pending || task?.pending}
             type={type === "assignment" ? "واجب" : "كويز"}
             badgeClassName="border"
             className="min-w-0"

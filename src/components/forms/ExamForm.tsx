@@ -11,6 +11,7 @@ import {
 } from "@/modules/exam/components/ExamBanners";
 import StartExamDialog from "@/modules/exam/components/StartExamDialog";
 import TaskModalsWrapper from "@/modules/exam/components/TaskModalsWrapper";
+import { useTaskDraftClear } from "@/modules/exam/hooks/useTaskDraftClear";
 import { QuizStatus } from "@/types";
 import { TaskQuestionPayload, TaskShowAnswersData } from "@/types/quiz.types";
 import { memo } from "react";
@@ -28,6 +29,12 @@ const ExamForm = ({ start, setStartExam, examType = "exam" }: Props) => {
   const { examId } = useParams();
   const { profile } = useAuthContext();
   const router = useRouter();
+
+  const { clearDraft } = useTaskDraftClear({
+    examType,
+    taskId: Number(examId),
+    userId: profile?.id,
+  });
 
   const {
     success,
@@ -47,30 +54,55 @@ const ExamForm = ({ start, setStartExam, examType = "exam" }: Props) => {
     proceedWithStart,
     cancelStart,
   } = useTaskLogic({
-    shouldStartQuiz: (start) => {
-      const nowTime = Date.now();
-      const storedTime = localStorage.getItem(`timer-${examId}-${profile?.id}`);
+    shouldStartQuiz: (start: QuizStatus) => {
+      const isMidSession =
+        !!start.start_timer &&
+        start.score_ratio === null &&
+        !start.answer_expired &&
+        !start?.review_pending;
 
-      const shouldStart =
-        !start.review_pending &&
-        (start.score === null || (storedTime && nowTime < Number(storedTime)));
+      const isFresh =
+        !start.start_timer &&
+        start.score_ratio === null &&
+        !start.answer_expired &&
+        !start?.review_pending;
+
+      const shouldStart = isFresh || isMidSession;
+
+      if (isFresh) {
+        clearDraft(); // new attempt, clear any stale draft
+      }
 
       return {
         start: shouldStart,
-        type: shouldStart
-          ? storedTime && nowTime < Number(storedTime)
-            ? "mid-session"
-            : "fresh"
-          : "no",
+        type: shouldStart ? (isMidSession ? "mid-session" : "fresh") : "no",
       };
     },
+    // shouldStartQuiz: (start) => {
+    //   const nowTime = Date.now();
+    //   const storedTime = localStorage.getItem(`timer-${examId}-${profile?.id}`);
+
+    //   const shouldStart =
+    //     !start.review_pending &&
+    //     (start.score === null || (storedTime && nowTime < Number(storedTime)));
+
+    //   return {
+    //     start: shouldStart,
+    //     type: shouldStart
+    //       ? storedTime && nowTime < Number(storedTime)
+    //         ? "mid-session"
+    //         : "fresh"
+    //       : "no",
+    //   };
+    // },
     onInitialize: (shouldStart) => {
       setStartExam(shouldStart);
       if (!shouldStart) {
         localStorage.removeItem(`timer-${examId}-${profile?.id}`);
       }
     },
-    onRetakeSuccess: () => {
+    onRetakeSuccess: async () => {
+      await clearDraft();
       localStorage.removeItem(`timer-${examId}-${profile?.id}`);
       setStartExam(true);
     },

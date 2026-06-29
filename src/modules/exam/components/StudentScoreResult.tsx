@@ -25,7 +25,9 @@ function StudentScoreResult({
         className,
       )}
     >
-      {type !== "واجب" && <ScorePercent score={score} passed={pass} />}
+      {type !== "واجب" && !pending && (
+        <ScorePercent score={score} passed={pass} />
+      )}
 
       <ScoreBadge
         passed={pass}

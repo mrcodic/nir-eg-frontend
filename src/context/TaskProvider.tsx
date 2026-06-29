@@ -44,6 +44,7 @@ interface TaskContextType {
   // data
   start: QuizStatus;
   isLoading: boolean;
+  isFetching: boolean;
   data?: TaskQuestionPayload | TaskShowAnswersData;
   setData: (data?: TaskQuestionPayload | TaskShowAnswersData) => void;
 
@@ -107,6 +108,7 @@ export const TaskProvider = ({ children, taskType = "exam" }) => {
   const {
     data: start,
     isLoading,
+    isFetching,
     error,
   } = useQuery<QuizStatus>({
     queryKey: [`/students/quiz/start`, taskId],
@@ -115,11 +117,11 @@ export const TaskProvider = ({ children, taskType = "exam" }) => {
         queryKey: [`/students/quiz/start/${taskId}`],
       });
 
-      console.log("start : ", res.body);
+      console.log("start query : ", res.body);
       return res.body;
     },
     enabled: !!taskId && features?.quizzes,
-    staleTime: 1000 * 30,
+    staleTime: 0,
     // refetchOnMount: false,
   });
 
@@ -140,6 +142,7 @@ export const TaskProvider = ({ children, taskType = "exam" }) => {
 
       start,
       isLoading,
+      isFetching,
       data,
       setData,
       reset,
@@ -167,6 +170,7 @@ export const TaskProvider = ({ children, taskType = "exam" }) => {
       trigger,
       start,
       isLoading,
+      isFetching,
       data,
       showRoom,
       startExam,

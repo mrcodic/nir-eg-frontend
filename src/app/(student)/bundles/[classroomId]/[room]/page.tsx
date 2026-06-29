@@ -104,7 +104,7 @@ export default function RoomDetailsPage() {
                               true || roomDetails.student_phone_verification
                             }
                             locked={isRoomPurchasable}
-                            linkText="فتح الامتحان"
+                            linkText="فتح الكويز"
                             type="exam"
                           />
                         ))}
