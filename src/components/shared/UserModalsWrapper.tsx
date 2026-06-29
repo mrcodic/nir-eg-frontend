@@ -19,12 +19,13 @@ function UserModalsWrapper() {
   const { handleFeaturesDisplay } = useHandleFeaturesDisplay();
   const { handleOfferDisplay } = useHandleOfferDisplay();
   const pathname = usePathname();
+  const isTaskPage = noModalPages.some((page) => pathname.includes(page));
 
   const isOpened = useRef(false);
 
   useEffect(() => {
     if (isOpened.current) return;
-    if (noModalPages.some((page) => pathname.includes(page))) return;
+    if (isTaskPage) return;
     if (
       profile &&
       profile?.profile_completed === true &&
@@ -39,12 +40,19 @@ function UserModalsWrapper() {
       });
       isOpened.current = true;
     }
-  }, [handleFeaturesDisplay, handleOfferDisplay, profile, pathname]);
+  }, [
+    handleFeaturesDisplay,
+    handleOfferDisplay,
+    profile,
+    pathname,
+    isTaskPage,
+  ]);
 
   return (
     profile &&
     "profile_completed" in profile &&
-    profile?.profile_completed === false && (
+    profile?.profile_completed === false &&
+    !isTaskPage && (
       <Suspense fallback={null}>
         <ProfileCompletionModal />
       </Suspense>
