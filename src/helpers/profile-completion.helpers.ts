@@ -21,6 +21,19 @@ export const SUPPORTED_FIELD_TYPES = new Set([
   "file",
 ]);
 
+const onlyLettersRegex = /^[\p{L}\s]+$/u;
+const onlyDigitsRegex = /^\d+$/;
+
+const LETTERS_ONLY_FIELD_KEYS = new Set([
+  "parent_name",
+  "father_name",
+  "mother_name",
+]);
+
+const DIGITS_ONLY_FIELD_KEYS = new Set(["national_id"]);
+
+const NATIONAL_ID_FIELD_KEYS = new Set(["national_id"]);
+
 const isTypeCompatible = (
   field: DynamicProfileField,
   incoming: unknown,
@@ -118,6 +131,54 @@ const toStringPreprocess = (value: unknown) => {
   return String(value);
 };
 
+const toOptionalTrimmedString = (value: unknown) => {
+  if (value === null || value === undefined || value === "") {
+    return undefined;
+  }
+
+  return String(value).trim();
+};
+
+const toRequiredTrimmedString = (value: unknown) => {
+  if (value === null || value === undefined) return "";
+  return String(value).trim();
+};
+
+const buildTextLikeSchema = (field: DynamicProfileField) => {
+  const baseSchema = field.required
+    ? z.preprocess(
+        toRequiredTrimmedString,
+        z.string().min(1, `${field.label} مطلوب`),
+      )
+    : z.preprocess(toOptionalTrimmedString, z.string().optional());
+
+  if (LETTERS_ONLY_FIELD_KEYS.has(field.key)) {
+    return baseSchema.refine(
+      (value) =>
+        value === undefined || value === "" || onlyLettersRegex.test(value),
+      `${field.label} يجب أن يحتوي على حروف فقط`,
+    );
+  }
+
+  if (DIGITS_ONLY_FIELD_KEYS.has(field.key)) {
+    return baseSchema
+      .refine(
+        (value) => value === undefined || value === "" || onlyDigitsRegex.test(value),
+        `${field.label} يجب أن يحتوي على أرقام فقط`,
+      )
+      .refine(
+        (value) =>
+          !NATIONAL_ID_FIELD_KEYS.has(field.key) ||
+          value === undefined ||
+          value === "" ||
+          value.length === 14,
+        "الرقم القومي يجب أن يتكون من 14 رقم",
+      );
+  }
+
+  return baseSchema;
+};
+
 export const buildProfileCompletionSchema = (fields: DynamicProfileField[]) => {
   const shape: Record<string, z.ZodTypeAny> = {};
 
@@ -191,39 +252,59 @@ export const buildProfileCompletionSchema = (fields: DynamicProfileField[]) => {
 
     if (field.type === "email") {
       shape[field.key] = field.required
-        ? z
-            .string()
-            .min(1, `${field.label} مطلوب`)
-            .email("بريد إلكتروني غير صالح")
+        ? z.preprocess(
+            toRequiredTrimmedString,
+            z
+              .string()
+              .min(1, `${field.label} مطلوب`)
+              .email("بريد إلكتروني غير صالح"),
+          )
         : z.preprocess((value) => {
             if (value === null || value === undefined || value === "") {
               return undefined;
             }
-            return String(value);
+            return String(value).trim();
           }, z.string().email("بريد إلكتروني غير صالح").optional());
       return;
     }
 
     if (field.type === "date") {
       shape[field.key] = field.required
-        ? z.string().min(1, `${field.label} مطلوب`)
+        ? z.preprocess(
+            toRequiredTrimmedString,
+            z
+              .string()
+              .min(1, `${field.label} مطلوب`)
+              .refine(
+                (value) => !Number.isNaN(Date.parse(value)),
+                "تاريخ غير صالح",
+              )
+              .refine(
+                (value) => new Date(value) <= new Date(),
+                "تاريخ الميلاد لا يمكن أن يكون في المستقبل",
+              ),
+          )
         : z.preprocess((value) => {
             if (value === null || value === undefined || value === "") {
               return undefined;
             }
-            return String(value);
-          }, z.string().optional());
+            return String(value).trim();
+          },
+          z
+            .string()
+            .refine(
+              (value) => Number.isNaN(Date.parse(value)) === false,
+              "تاريخ غير صالح",
+            )
+            .refine(
+              (value) => new Date(value) <= new Date(),
+              "تاريخ الميلاد لا يمكن أن يكون في المستقبل",
+            )
+            .optional());
       return;
     }
 
-    shape[field.key] = field.required
-      ? z.string().min(1, `${field.label} مطلوب`)
-      : z.preprocess((value) => {
-          if (value === null || value === undefined || value === "") {
-            return undefined;
-          }
-          return String(value);
-        }, z.string().optional());
+    shape[field.key] = buildTextLikeSchema(field);
   });
 
   return z.object(shape);
