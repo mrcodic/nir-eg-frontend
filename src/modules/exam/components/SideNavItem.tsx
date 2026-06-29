@@ -1,5 +1,6 @@
 import { isParagraphCorrect, isQuestionCorrect } from "@/lib/utils";
 import { memo, useMemo } from "react";
+import { useFormContext, useWatch } from "react-hook-form";
 import SideNavLink from "./SideNavLink";
 
 function isFieldAnswered({
@@ -36,21 +37,42 @@ function isFieldAnswered({
 const SideNavItem = function SideNavItem({
   question,
   index,
-  answers,
   isAnswer,
 }: {
   question: any;
   index: number;
-  answers: any;
   isAnswer: boolean;
 }) {
+  const { control } = useFormContext();
+  const watchNames =
+    question.type === 2
+      ? (question.related_questions?.map((rq: any) => `questions.${rq.id}`) ??
+          [])
+      : (`questions.${question.id}` as const);
+
+  const answers = useWatch({
+    control,
+    name: watchNames,
+  });
+
+  const normalizedAnswers =
+    question.type === 2 && Array.isArray(answers)
+      ? question.related_questions?.reduce(
+          (acc: Record<number, unknown>, rq: any, currentIndex: number) => {
+            acc[rq.id] = answers[currentIndex];
+            return acc;
+          },
+          {},
+        ) ?? {}
+      : { [question.id]: answers };
+
   const fieldAnswered = useMemo(() => {
     return isFieldAnswered({
       question,
-      answers,
+      answers: normalizedAnswers,
       isAnswer,
     });
-  }, [question, answers, isAnswer]);
+  }, [question, normalizedAnswers, isAnswer]);
 
   return (
     <SideNavLink

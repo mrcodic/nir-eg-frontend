@@ -106,7 +106,13 @@ export function useAccountSettingsForm() {
     )
       return;
     form.reset(defaultValues);
-  }, [settingsFieldsQuery.isSuccess, dynamicFields, profile]);
+  }, [
+    settingsFieldsQuery.isSuccess,
+    dynamicFields,
+    profile,
+    form,
+    defaultValues,
+  ]);
 
   const submit = form.handleSubmit(async (values) => {
     if (changePassword) {
@@ -163,9 +169,6 @@ export function useAccountSettingsForm() {
               entry !== null &&
               ("id" in entry || "file" in entry),
           );
-
-          console.log("dynamic files ", fileDynamicField);
-          console.log("attachments files ", attachments);
 
           attachments.forEach((attachment, index) => {
             if (attachment.id !== undefined) {

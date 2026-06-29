@@ -1,6 +1,7 @@
 "use client";
 
 import { Form } from "@/components/ui/form";
+import { useAuthContext } from "@/context/auth-context";
 import { useTaskContext } from "@/context/TaskProvider";
 import { useToast } from "@/hooks/use-toast";
 import { getActionErrorMeta } from "@/lib/errorCodes";
@@ -9,12 +10,13 @@ import ExamPDFGenerator from "@/modules/exam/components/ExamPDFGenerator";
 import ParagraphQuestion from "@/modules/exam/components/ParagraphQuestion";
 import Question from "@/modules/exam/components/Question";
 import WrittenQuestion from "@/modules/exam/components/WrittenQuestion";
+import { useTaskDraft } from "@/modules/exam/hooks/useTaskDraft";
 import { submitTaskAnswer } from "@/services/task.service";
 import { TaskShowAnswersData } from "@/types/quiz.types";
 import { useQueryClient } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
 import { useParams } from "next/navigation";
-import { memo, useCallback, useEffect, useRef } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef } from "react";
 import { useFormContext } from "react-hook-form";
 import SmallSpinner from "../custom/SmallSpinner";
 import { Button } from "../ui/button";
@@ -41,6 +43,7 @@ function TaskForm({
   onTaskSubmit,
   examType = "exam",
 }: Props) {
+  const { profile } = useAuthContext();
   const { toast } = useToast();
   const { classroomId: classroomId, room: roomId } = useParams();
   const autoSubmitTriggered = useRef<boolean>(false);
@@ -49,9 +52,11 @@ function TaskForm({
   const listRef = useRef<HTMLDivElement[]>([]);
 
   const form = useFormContext();
+
   const { getValues, trigger, reset } = form;
 
   const {
+    start,
     data,
     isLoading,
     isSubmitting,
@@ -59,6 +64,19 @@ function TaskForm({
     isCompleted,
     setCompleted,
   } = useTaskContext();
+
+  const allQuestions = useMemo(
+    () => (data?.questions ?? []) as { id: number; type: number }[],
+    [data?.questions],
+  );
+
+  const { clearDraft } = useTaskDraft({
+    examType,
+    taskId,
+    userId: profile?.id,
+    start,
+    questions: allQuestions,
+  });
 
   // ================= CONFIRM =================
   const saveConfirm = useCallback(() => {
@@ -164,8 +182,28 @@ function TaskForm({
         setFail(true);
       }
 
+      await clearDraft();
       onTaskSubmit?.();
     } catch (e: unknown) {
+      if (isAxiosError(e) && e.response?.status === 406) {
+        const body = e.response?.data?.body;
+
+        if (body?.answer_expired) {
+          await clearDraft();
+
+          setFail(true);
+          onTaskSubmit?.();
+
+          toast({
+            description:
+              e.response?.data?.message ||
+              "انتهى وقت الإجابة وتم احتساب الدرجة بصفر",
+            icon: "error",
+          });
+          return;
+        }
+      }
+
       const meta = isAxiosError(e)
         ? getActionErrorMeta(e.response?.status, e.response?.data?.code)
         : getActionErrorMeta(undefined, undefined);
@@ -191,6 +229,7 @@ function TaskForm({
     setFail,
     toast,
     setCompleted,
+    clearDraft,
   ]);
 
   // ================= AUTO SUBMIT =================

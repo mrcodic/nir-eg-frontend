@@ -40,6 +40,8 @@ export interface QuizStatus {
   title: string;
   total_score: number;
   total_score_denominator: number;
+  start_timer: string | null;
+  answer_expired: boolean | null;
 }
 
 export type QuizAnswer = {
@@ -108,36 +110,19 @@ export interface QuizObject {
 }
 
 export interface QuizItem {
+  completed: boolean;
   id: number;
-  quiz_id?: number;
-  title?: string;
-  type?: number;
-  created_at?: string;
-  updated_at?: string;
-  lock_after?: string | null;
-  price?: string | null;
-  question_bank_id?: string | number | null;
-  randomize_answer?: number | boolean;
-  randomize_question?: number | boolean;
-  add_to_instructor_calendar?: number | boolean;
-  add_to_student_calendar?: number | boolean;
-  classroom_id?: number | null;
-  force_show_answer?: number | boolean;
-  grade?: number | null;
-  result?: QuizResult | null;
-  showed?: number | boolean;
-  student_id?: number | null;
-  total_correct_answer?: string | number | null;
-  total_score?: number | string | null;
-  updated?: string;
-  retake?: number | boolean;
-  room_id?: number;
-  score?: number | string | null;
-  show_answer?: number | boolean;
-  timer?: string | number | null;
-  user_id?: number | null;
-  pending?: boolean;
-  [key: string]: unknown;
+  locked: boolean;
+  missed: boolean;
+  must_pass: boolean;
+  question_count: number;
+  result: boolean;
+  retake: boolean;
+  review_pending: boolean;
+  pending: boolean;
+  score: number;
+  show_answer: boolean;
+  title: string;
 }
 
 export interface IExamCard {
@@ -428,6 +413,7 @@ export interface IAssignment {
   title: string;
   result?: boolean;
   pending?: boolean;
+  review_pending?: boolean;
 }
 
 export interface ILesson {

@@ -94,6 +94,12 @@ const FailModal = ({
                   : "- لن تتمكن من عرض الاجابات حتى تنجح"}
               </p>
             )}
+
+            {start?.answer_expired && (
+              <p className="inline-block">
+                - لم تقم بتسليم الامتحان فى الوقت المحدد لذلك لم تحصل على درجات
+              </p>
+            )}
           </div>
 
           <div

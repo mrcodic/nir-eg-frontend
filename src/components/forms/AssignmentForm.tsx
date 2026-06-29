@@ -1,4 +1,6 @@
+import { useAuthContext } from "@/context/auth-context";
 import TaskModalsWrapper from "@/modules/exam/components/TaskModalsWrapper";
+import { useTaskDraftClear } from "@/modules/exam/hooks/useTaskDraftClear";
 import { useTaskLogic } from "@/modules/exam/hooks/useTaskLogic";
 import { QuizStatus } from "@/types";
 import { redirect, useParams } from "next/navigation";
@@ -7,6 +9,13 @@ import TaskForm from "./TaskForm";
 
 const AssignmentForm = ({ start }: { start: QuizStatus }) => {
   const { assignmentId } = useParams();
+  const { profile } = useAuthContext();
+
+  const { clearDraft } = useTaskDraftClear({
+    examType: "assignment",
+    taskId: assignmentId as string,
+    userId: profile?.id,
+  });
 
   const {
     success,
@@ -21,7 +30,11 @@ const AssignmentForm = ({ start }: { start: QuizStatus }) => {
     retake,
     handleClose,
     isLoadingRetake,
-  } = useTaskLogic();
+  } = useTaskLogic({
+    onRetakeSuccess: async () => {
+      await clearDraft();
+    },
+  });
 
   if (!assignmentId) {
     redirect("/ErrorPage?message=لم يتم العثور على هذا الواجب");

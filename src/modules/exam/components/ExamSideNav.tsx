@@ -1,20 +1,14 @@
 "use client";
 
 import { useTaskContext } from "@/context/TaskProvider";
-import { useWatch } from "react-hook-form";
 import SideNavItem from "./SideNavItem";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 function ExamSideNav() {
-  const { control, data } = useTaskContext();
+  const { data } = useTaskContext();
 
   const isAnswer = !!data?.solution;
   const questions = data?.questions ?? [];
-
-  const answers = useWatch({
-    control: control,
-    name: "questions",
-  });
 
   if (!questions.length) return null;
 
@@ -33,7 +27,6 @@ function ExamSideNav() {
               key={q.id}
               question={q}
               index={index}
-              answers={answers}
               isAnswer={isAnswer}
             />
           ))}

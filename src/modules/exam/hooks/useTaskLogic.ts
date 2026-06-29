@@ -15,17 +15,16 @@ export const useTaskLogic = (
     };
     onRetakeSuccess?: () => void;
     /** Called when the exam is about to start for the first time — pause until confirmed */
-    onConfirmRequired?: () => void;
   } = {},
 ) => {
   const { toast } = useToast();
   const isInit = useRef(false);
 
-  const { onInitialize, shouldStartQuiz, onRetakeSuccess, onConfirmRequired } =
-    options;
+  const { onInitialize, shouldStartQuiz, onRetakeSuccess } = options;
 
   // ✅ only stable values from context
-  const { taskId, start, data, setData, reset } = useTaskContext();
+  const { taskId, start, data, setData, reset, isLoading, isFetching } =
+    useTaskContext();
 
   // ===== local UI state =====
   const [success, setSuccess] = useState(false);
@@ -149,6 +148,7 @@ export const useTaskLogic = (
   // ================= INITIALIZATION =================
   useEffect(() => {
     if (isInit.current) return;
+    if (!start || isLoading || isFetching) return;
 
     const initializeQuiz = async () => {
       isInit.current = true;
@@ -157,10 +157,9 @@ export const useTaskLogic = (
 
       // 1) should start solving the task
       if (shouldStart?.start) {
-        if (shouldStart?.type === "fresh" && onConfirmRequired) {
+        if (shouldStart?.type === "fresh") {
           // Pause — wait for the user to confirm before fetching questions
           setAwaitingConfirm(true);
-          onConfirmRequired();
           return;
         }
 
@@ -207,11 +206,12 @@ export const useTaskLogic = (
     start,
     shouldStartQuiz,
     onInitialize,
-    onConfirmRequired,
     fail,
     setData,
     showAnswers,
     retakeExamLogic,
+    isLoading,
+    isFetching,
   ]);
 
   return {
