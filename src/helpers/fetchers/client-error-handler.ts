@@ -21,7 +21,7 @@ export function handleClientFetchError(error: any, endpoint: unknown): null {
   const status = error?.status ?? error?.response?.status;
   const strategy = getAuthFailureStrategy(endpoint);
 
-  console.log(endpoint, status);
+  // console.log(endpoint, status);
 
   if (status === 401) {
     Cookies.remove("nir_token");

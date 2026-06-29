@@ -25,7 +25,7 @@ export const useTaskLogic = (
     options;
 
   // ✅ only stable values from context
-  const { taskId, start, data, setData, reset, trigger } = useTaskContext();
+  const { taskId, start, data, setData, reset } = useTaskContext();
 
   // ===== local UI state =====
   const [success, setSuccess] = useState(false);
@@ -50,7 +50,7 @@ export const useTaskLogic = (
         quiz_id: taskId,
         questions: {},
       });
-      trigger();
+      // trigger();
 
       onRetakeSuccess?.();
     } catch (e: any) {
@@ -63,7 +63,7 @@ export const useTaskLogic = (
         icon: "error",
       });
     }
-  }, [taskId, setData, reset, trigger, onRetakeSuccess, toast]);
+  }, [taskId, setData, reset, onRetakeSuccess, toast]);
 
   // ================= CONFIRM START =================
   const proceedWithStart = useCallback(async () => {
@@ -72,9 +72,7 @@ export const useTaskLogic = (
     onInitialize?.(true);
 
     try {
-      const q = await getClientPrivateData({
-        queryKey: [`students/quiz/questions/${taskId}`],
-      });
+      const q = await getTaskQuestions(taskId);
       setData(q?.body);
     } catch (e) {
       console.log("get questions error:", e);
@@ -102,14 +100,14 @@ export const useTaskLogic = (
           quiz_id: taskId,
           questions: {},
         });
-        trigger();
+        // trigger();
 
         setData({ ...res?.body, solution: true });
       }
     } catch (e) {
       console.log("showAnswers error:", e);
     }
-  }, [taskId, setData, reset, trigger]);
+  }, [taskId, setData, reset]);
 
   // ================= RETAKE =================
   const retake = useCallback(async () => {
@@ -148,18 +146,6 @@ export const useTaskLogic = (
     }
   }, [success, start?.score_ratio, start?.result]);
 
-  // useEffect(() => {
-  //   if ((success || fail) && !start?.score_ratio && !start?.review_pending) {
-  //     retakeExamLogic();
-  //   }
-  // }, [
-  //   success,
-  //   fail,
-  //   start?.score_ratio,
-  //   start?.review_pending,
-  //   retakeExamLogic,
-  // ]);
-
   // ================= INITIALIZATION =================
   useEffect(() => {
     if (isInit.current) return;
@@ -182,9 +168,7 @@ export const useTaskLogic = (
         onInitialize?.(true);
 
         try {
-          const q = await getClientPrivateData({
-            queryKey: [`students/quiz/questions/${taskId}`],
-          });
+          const q = await getTaskQuestions(taskId);
           setData(q?.body);
         } catch (e) {
           console.log("get questions error:", e);

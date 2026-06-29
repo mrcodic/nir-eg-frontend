@@ -11,12 +11,12 @@ jobs:
 
     steps:
       - name: Checkout frontend branch
-        uses: actions/checkout@v4.2.2 # ✅ Node 24-compatible
+        uses: actions/checkout@v4.2.2
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4.4.0 # ✅ Node 24-compatible
+        uses: actions/setup-node@v4.4.0
         with:
-          node-version: 22 # ✅ LTS, runs on Node 24 runner
+          node-version: 20
           cache: npm
 
       - name: Install dependencies
@@ -45,7 +45,7 @@ jobs:
             pwd
             echo "SSH connection successful"
 
-      - name: Remove old .next from server
+      - name: Prepare server deploy directory
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -53,6 +53,7 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: 22
           script: |
+            set -e
             cd /home/nir/public_html/student.nir-edu.com
             rm -rf .next
             mkdir -p .next
@@ -64,11 +65,11 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: 22
-          source: ".next,public,package.json,package-lock.json,next.config.js"
+          source: ".next,public,package.json,package-lock.json,next.config.js,ecosystem.config.js"
           target: "/home/nir/public_html/student.nir-edu.com"
           overwrite: true
 
-      - name: Install production dependencies and reload PM2
+      - name: Install production dependencies and reload PM2 cluster
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -88,9 +89,17 @@ jobs:
 
             npm ci --omit=dev --cache /home/nir/.npm
 
-            pm2 describe student-nir-edu > /dev/null \
-              && PORT=3005 pm2 reload student-nir-edu --update-env \
-              || PORT=3005 pm2 start npm --name student-nir-edu -- start
+            # If old PM2 process exists as fork/npm, delete it once so ecosystem cluster can take over
+            if pm2 describe student-nir-edu > /dev/null 2>&1; then
+              MODE=$(pm2 jlist | node -e "let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{const a=JSON.parse(d);const p=a.find(x=>x.name==='student-nir-edu');console.log(p?.pm2_env?.exec_mode || '')})")
+              SCRIPT=$(pm2 jlist | node -e "let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{const a=JSON.parse(d);const p=a.find(x=>x.name==='student-nir-edu');console.log(p?.pm2_env?.pm_exec_path || '')})")
 
+              if [ "$MODE" != "cluster_mode" ] || echo "$SCRIPT" | grep -q "/npm$"; then
+                echo "Old fork/npm PM2 process detected. Recreating student-nir-edu as cluster..."
+                pm2 delete student-nir-edu
+              fi
+            fi
+
+            pm2 startOrReload ecosystem.config.js --update-env
             pm2 save --force
             pm2 status

@@ -82,7 +82,10 @@ const OfferModel = () => {
 
           <DialogFooter className="mx-auto mt-5 grid grid-cols-1 justify-center gap-5 sm:grid-cols-2">
             <Button
-              onClick={async () => {
+              type="button"
+              onClick={async (e) => {
+                e.stopPropagation();
+                console.log(data?.code);
                 copyToClipboard(data?.code);
               }}
               className="bg-primary border-gray-light w-full rounded-lg border p-2 text-sm font-bold text-white"
@@ -90,6 +93,7 @@ const OfferModel = () => {
             >
               {copied ? "تم النسخ" : "نسخ الكود"} <Copy />
             </Button>
+
             <DialogClose asChild>
               <Button disabled={isLoading} variant="outline-primary">
                 إلغاء

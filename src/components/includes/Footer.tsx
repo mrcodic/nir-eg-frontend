@@ -10,7 +10,7 @@ const Footer = async () => {
     queryKey: ["settings/footer"],
     isAuth: false,
     next: {
-      revalidate: 60 * 20,
+      revalidate: 60 * 10,
     },
     cache: "default",
   });
@@ -53,25 +53,46 @@ const Footer = async () => {
         />
       </div>
 
-      <div className="wrapper mt-8 flex flex-wrap-reverse justify-between gap-8 text-center">
-        <div>
-          © جميع الحقوق محفوظة لدى نير - Nir 2026 - تم التصميم والتطوير بواسطة
-          <a
-            target="_blank"
-            href={"https://pixbyte.co/"}
-            className="text-primary ms-1 text-base font-bold underline"
-          >
-            Pixbyte.co
-          </a>
-        </div>
-
+      <div className="wrapper mt-8 flex flex-col gap-4 text-center">
         <div className="mobile:ms-auto max-mobile:w-full flex flex-wrap justify-center gap-x-6 gap-y-4 text-sm">
-          <Link href={"/terms"} className="flex items-center gap-4 underline">
+          <Link
+            href={"https://nir-edu.com/terms"}
+            className="flex items-center gap-4 underline"
+            target="_blank"
+          >
             الشروط و الأحكام
           </Link>
-          <Link href={"/privacy"} className="flex items-center gap-4 underline">
+          <Link
+            href={"https://nir-edu.com/privacy"}
+            className="flex items-center gap-4 underline"
+            target="_blank"
+          >
             سياسة الخصوصية
           </Link>
+        </div>
+
+        <div className="border-primary-800 flex flex-col items-center gap-1 border-t pt-4 text-center text-[11px]">
+          <p>
+            © جميع الحقوق محفوظة لدى نير - Nir-edu {new Date().getFullYear()} -
+            المملوكة لشركة بكسبايت للبرمجة وتكنولوجيا المعلومات
+            <a
+              target="_blank"
+              href={"https://pixbyte.co/"}
+              className="text-primary ms-1 font-bold underline"
+            >
+              Pixbyte
+            </a>
+          </p>
+          <p>
+            الرقم الموحد للسجل التجاري :  {" "}
+            <span
+              style={{
+                unicodeBidi: "plaintext",
+              }}
+            >
+              11090 06000 08549
+            </span>
+          </p>
         </div>
       </div>
     </footer>

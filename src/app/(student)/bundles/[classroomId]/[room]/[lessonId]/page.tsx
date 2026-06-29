@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { redirect, useParams, useRouter } from "next/navigation";
+import { redirect, useParams } from "next/navigation";
 import { Suspense } from "react";
 
 import VideoBanners from "@/components/banners/VideoBanners";
@@ -38,7 +38,6 @@ const VideoBunny = dynamic(
 
 export default function LessonPlayerPage() {
   const params = useParams();
-  const router = useRouter();
 
   const classroomId = params.classroomId?.toString() ?? "";
   const room = params.room?.toString() ?? "";
@@ -86,6 +85,7 @@ export default function LessonPlayerPage() {
     !!selectedLesson?.access_comment;
 
   console.log("lesson data", selectedLesson);
+
   return (
     <>
       <ProtectedRoute

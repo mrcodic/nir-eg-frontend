@@ -112,6 +112,7 @@ const AccountSettings = () => {
                     <ProfileCompletionFields
                       form={form}
                       fields={dynamicFields}
+                      isSettingsPage
                     />
 
                     {profile?.type === 3 && (

@@ -84,6 +84,8 @@ export default function UserTenantSwitch() {
     }
   }
 
+  if (tenants.length <= 1) return null;
+
   return (
     <DropdownMenu dir="rtl" modal={false} open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger className="border-primary-100 group hover:bg-primary-800 relative flex size-10 shrink-0 cursor-pointer items-center justify-center rounded-lg border transition-all focus:outline-hidden disabled:pointer-events-auto disabled:hover:bg-transparent">

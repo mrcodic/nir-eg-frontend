@@ -13,6 +13,7 @@ import { UseFormReturn } from "react-hook-form";
 type Props<TValues extends Record<string, unknown>> = {
   form: UseFormReturn<TValues>;
   fields: DynamicProfileField[];
+  isSettingsPage?: boolean;
 };
 
 /** Fields that occupy a full row on their own — never candidates for the odd-last rule */
@@ -25,7 +26,7 @@ const isFullWidthField = (field: DynamicProfileField) =>
 
 export default function ProfileCompletionFields<
   TValues extends Record<string, unknown>,
->({ form, fields }: Props<TValues>) {
+>({ form, fields, isSettingsPage }: Props<TValues>) {
   const { profile } = useAuthContext();
 
   const firstCityStateIndex = useMemo(
@@ -126,7 +127,7 @@ export default function ProfileCompletionFields<
               label={field.label}
               options={options}
               className={colClass}
-              disabled={field.key === "student_type" && !!profile.type}
+              disabled={isSettingsPage && field.key === "student_type"}
             />
           );
         }

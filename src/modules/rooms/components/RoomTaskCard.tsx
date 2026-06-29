@@ -25,10 +25,10 @@ function RoomTaskCard({
   task: QuizItem | IAssignment;
   room: IRoomData;
   classroomId: any;
-  subscribe: any;
-  verify: any;
-  locked: any;
-  linkText: any;
+  subscribe: boolean;
+  verify?: boolean;
+  locked?: boolean;
+  linkText: string;
   type: "exam" | "assignment";
   className?: string;
 }) {
