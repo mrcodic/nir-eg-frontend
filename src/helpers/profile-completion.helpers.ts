@@ -311,6 +311,7 @@ export const buildProfileCompletionSchema = (fields: DynamicProfileField[]) => {
 };
 
 type ProfileFieldStep = DynamicProfileField[];
+type ProfileFieldUnit = DynamicProfileField[];
 
 const ensureStateCityPaired = (
   fields: DynamicProfileField[],
@@ -345,14 +346,39 @@ const ensureStateCityPaired = (
   return ordered;
 };
 
+const buildProfileFieldUnits = (
+  fields: DynamicProfileField[],
+): ProfileFieldUnit[] => {
+  const normalized = ensureStateCityPaired(fields);
+  const units: ProfileFieldUnit[] = [];
+
+  for (let index = 0; index < normalized.length; index += 1) {
+    const currentField = normalized[index];
+    const nextField = normalized[index + 1];
+
+    if (
+      currentField?.key === "state_id" &&
+      nextField?.key === "city_id"
+    ) {
+      units.push([currentField, nextField]);
+      index += 1;
+      continue;
+    }
+
+    units.push([currentField]);
+  }
+
+  return units;
+};
+
 export const buildProfileCompletionSteps = (
   fields: DynamicProfileField[],
 ): ProfileFieldStep[] => {
-  const normalized = ensureStateCityPaired(fields);
-  const total = normalized.length;
+  const units = buildProfileFieldUnits(fields);
+  const total = units.length;
 
   if (total === 0) return [];
-  if (total < 8) return [normalized];
+  if (total < 8) return [units.flat()];
 
   const minFieldsPerStep = 3;
   const maxSteps = 4;
@@ -367,7 +393,7 @@ export const buildProfileCompletionSteps = (
     maxAllowedStepsByMinFields,
   );
 
-  const steps: ProfileFieldStep[] = [];
+  const steps: ProfileFieldUnit[][] = [];
   let start = 0;
   let remainingFields = total;
 
@@ -377,17 +403,19 @@ export const buildProfileCompletionSteps = (
     const maxEnd = total - (remainingSteps - 1) * minFieldsPerStep;
     const end = i === stepCount - 1 ? total : Math.min(start + target, maxEnd);
 
-    steps.push(normalized.slice(start, end));
+    steps.push(units.slice(start, end));
     remainingFields -= end - start;
     start = end;
   }
 
   for (let i = steps.length - 1; i > 0; i--) {
-    if (steps[i].length <= 2) {
+    const currentStepFieldsCount = steps[i].flat().length;
+
+    if (currentStepFieldsCount <= 2) {
       steps[i - 1] = [...steps[i - 1], ...steps[i]];
       steps.splice(i, 1);
     }
   }
 
-  return steps;
+  return steps.map((step) => step.flat());
 };
