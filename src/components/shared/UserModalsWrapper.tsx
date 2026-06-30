@@ -24,8 +24,7 @@ function UserModalsWrapper() {
   const isOpened = useRef(false);
 
   useEffect(() => {
-    if (isOpened.current) return;
-    if (isTaskPage) return;
+    if (isOpened.current || isTaskPage) return;
     if (
       profile &&
       profile?.profile_completed === true &&

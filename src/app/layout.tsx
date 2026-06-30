@@ -13,6 +13,7 @@ import { TenantProvider } from "@/context/TenantProvider";
 import { getServerData } from "@/helpers/fetchers/server-fetch";
 import { hexToHsl } from "@/helpers/tenant.helpers";
 import CustomError from "@/lib/customError";
+import { DraftTasksPurgeManager } from "@/modules/exam/components/DraftTasksPurgeManager";
 import { getTenantSettingsServer } from "@/services/tenant.service";
 import { ApiResponse, IUser } from "@/types";
 import { isProd } from "@/utils/isProd";
@@ -189,6 +190,8 @@ export default async function Layout({ children }) {
               <UserModalsWrapper />
 
               <PhoneNotVerifiedGuard />
+
+              <DraftTasksPurgeManager />
 
               <Suspense fallback={null}>
                 {profile && <Announcement profile={profile.body} />}
