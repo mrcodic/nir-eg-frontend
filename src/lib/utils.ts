@@ -152,22 +152,52 @@ export const getPhoneInfoFromCode = (code: string | number) => {
   };
 };
 
-export const presistUserPhone = (
+export const presistUserPhone = async (
   phone: string,
   countryCallingCode?: string,
 ) => {
+  const phoneCode = countryCallingCode || "+20";
+
+  if (typeof window === "undefined") return;
+
+  // Electron desktop
+  if (window.electron?.saveUserPhone) {
+    await window.electron.saveUserPhone({
+      phone,
+      phone_code: phoneCode,
+    });
+    return;
+  }
+
+  // Browser fallback
   localStorage.setItem("phone", phone);
-  localStorage.setItem("phone_code", countryCallingCode || "+20");
+  localStorage.setItem("phone_code", phoneCode);
 };
 
-export const getUserPhoneFromStorage = () => {
-  if (typeof window == "undefined")
+export const getUserPhoneFromStorage = async () => {
+  if (typeof window === "undefined") {
     return { phone: "", phone_code: "+20", phone_iso: "EG" };
+  }
+
+  // Electron desktop
+  if (window.electron?.getUserPhone) {
+    const stored = await window.electron.getUserPhone();
+
+    const phoneCode = stored?.phone_code || "+20";
+
+    return {
+      phone: stored?.phone || "",
+      phone_code: phoneCode,
+      phone_iso: getPhoneInfoFromCode(phoneCode)?.isoCode || "EG",
+    };
+  }
+
+  // Browser fallback
+  const phoneCode = localStorage.getItem("phone_code") || "+20";
 
   return {
     phone: localStorage.getItem("phone") || "",
-    phone_code: localStorage.getItem("phone_code") || "+20",
-    phone_iso:
-      getPhoneInfoFromCode(localStorage.getItem("phone_code"))?.isoCode || "EG",
+    phone_code: phoneCode,
+    phone_iso: getPhoneInfoFromCode(phoneCode)?.isoCode || "EG",
   };
 };

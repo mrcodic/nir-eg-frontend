@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import {
   navigateToDesktopTenantLogin,
@@ -33,13 +33,27 @@ function mapUserTenantToDesktopRecord(tenant: UserTenant): DesktopTenantRecord {
     last_used_at: tenant.last_accessed_at || tenant.enrolled_at,
   };
 }
-
 export function useDesktopTenantHistory() {
   const [hiddenTenantKeys, setHiddenTenantKeys] = useState<string[]>([]);
-  const historyPhone = useMemo(
-    () => getUserPhoneFromStorage().phone.trim(),
-    [],
-  );
+  const [historyPhone, setHistoryPhone] = useState("");
+
+useEffect(() => {
+  let mounted = true;
+
+  async function loadPhone() {
+    const stored = await getUserPhoneFromStorage();
+
+    if (!mounted) return;
+
+    setHistoryPhone((stored.phone || "").trim());
+  }
+
+  loadPhone();
+
+  return () => {
+    mounted = false;
+  };
+}, []);
 
   const { tenants, isLoading } = useTenants(historyPhone || undefined, {
     enabled: !!historyPhone,
@@ -57,9 +71,8 @@ export function useDesktopTenantHistory() {
     );
   }, [hiddenTenantKeys, mappedTenants]);
 
-  const connectRecentTenant = (tenant: DesktopTenantRecord) => {
-    persistDesktopTenant(tenant);
-    navigateToDesktopTenantLogin(tenant);
+  const connectRecentTenant = async (tenant: DesktopTenantRecord) => {
+    await navigateToDesktopTenantLogin(tenant);
   };
 
   const deleteRecentTenant = (tenant: DesktopTenantRecord) => {

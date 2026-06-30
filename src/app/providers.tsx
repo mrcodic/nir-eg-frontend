@@ -7,6 +7,7 @@ import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { memo, ReactNode } from "react";
 import { AuthContextProvider } from "../context/auth-context";
 import ModalProvider from "../context/ModalProvider";
+import AppGlobalLoader from "@/components/AppGlobalLoader";
 
 const AppTree = memo(function AppTree({ children }: { children: ReactNode }) {
   return <>{children}</>;
@@ -25,6 +26,7 @@ function Providers({
         <AuthContextProvider profile={profile}>
           <ModalProvider>
             <BooksStoreProvider>
+              <AppGlobalLoader/>
               <AppTree>{children}</AppTree>
             </BooksStoreProvider>
           </ModalProvider>

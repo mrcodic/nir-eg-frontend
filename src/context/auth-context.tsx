@@ -7,14 +7,14 @@ import Cookies from "js-cookie";
 import { createContext, useContext, useMemo, useState } from "react";
 
 interface AuthContextType {
-  token: string;
+  token: string | null | undefined;
   isLoading: boolean;
-  setToken: (token: string) => void;
+  setToken: (token: string | null | undefined) => void;
   profile: IUser | null;
   grade: { id: number; name: string } | undefined;
 }
 
-const AuthContext = createContext<AuthContextType>(null);
+const AuthContext = createContext<AuthContextType | null>(null);
 
 export const useAuthContext = () => {
   const context = useContext(AuthContext);
