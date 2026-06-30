@@ -14,6 +14,7 @@ import TaskModalsWrapper from "@/modules/exam/components/TaskModalsWrapper";
 import { useTaskDraftClear } from "@/modules/exam/hooks/useTaskDraftClear";
 import { QuizStatus } from "@/types";
 import { TaskQuestionPayload, TaskShowAnswersData } from "@/types/quiz.types";
+import { useQueryClient } from "@tanstack/react-query";
 import { memo } from "react";
 import TaskForm from "./TaskForm";
 
@@ -29,6 +30,9 @@ const ExamForm = ({ start, setStartExam, examType = "exam" }: Props) => {
   const { examId } = useParams();
   const { profile } = useAuthContext();
   const router = useRouter();
+  const queryClient = useQueryClient();
+
+  const { roomId, classroomId } = useParams();
 
   const { clearDraft } = useTaskDraftClear({
     examType,
@@ -78,33 +82,31 @@ const ExamForm = ({ start, setStartExam, examType = "exam" }: Props) => {
         type: shouldStart ? (isMidSession ? "mid-session" : "fresh") : "no",
       };
     },
-    // shouldStartQuiz: (start) => {
-    //   const nowTime = Date.now();
-    //   const storedTime = localStorage.getItem(`timer-${examId}-${profile?.id}`);
-
-    //   const shouldStart =
-    //     !start.review_pending &&
-    //     (start.score === null || (storedTime && nowTime < Number(storedTime)));
-
-    //   return {
-    //     start: shouldStart,
-    //     type: shouldStart
-    //       ? storedTime && nowTime < Number(storedTime)
-    //         ? "mid-session"
-    //         : "fresh"
-    //       : "no",
-    //   };
-    // },
     onInitialize: (shouldStart) => {
       setStartExam(shouldStart);
       if (!shouldStart) {
         localStorage.removeItem(`timer-${examId}-${profile?.id}`);
+      }
+      if (examType === "exam" && roomId && classroomId) {
+        queryClient.invalidateQueries({
+          queryKey: [
+            `/students/get-lessons/${roomId}?classroom_id=${classroomId}`,
+          ],
+        });
       }
     },
     onRetakeSuccess: async () => {
       await clearDraft();
       localStorage.removeItem(`timer-${examId}-${profile?.id}`);
       setStartExam(true);
+
+      if (examType === "exam" && roomId && classroomId) {
+        queryClient.invalidateQueries({
+          queryKey: [
+            `/students/get-lessons/${roomId}?classroom_id=${classroomId}`,
+          ],
+        });
+      }
     },
   });
 
