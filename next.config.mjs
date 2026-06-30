@@ -1,5 +1,10 @@
+import path from "path";
+import { v4 as uuidv4 } from "uuid";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: "standalone",
+  outputFileTracingRoot: path.join(process.cwd(), ".."),
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -30,8 +35,8 @@ const nextConfig = {
       },
     ],
   },
-  logging: {
-    fetches: true,
+  generateBuildId: async () => {
+    return uuidv4();
   },
 };
 

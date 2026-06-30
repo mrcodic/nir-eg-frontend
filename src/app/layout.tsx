@@ -1,12 +1,9 @@
 import "./globals.css";
 
+import Announcement from "@/components/banners/Announcement";
 import NavTopbar from "@/components/custom/NavTopbar";
 import NavbarWrapper from "@/components/includes/NavbarWrapper";
-import Providers from "./providers";
-
-import PhoneNotVerifiedGuard from "@/components/shared/PhoneNotVerifiedGuard";
 import UserModalsWrapper from "@/components/shared/UserModalsWrapper";
-import { Toaster } from "@/components/ui/toaster";
 import { TENANT_ERROR_CODES } from "@/constants/error-codes";
 import { TenantProvider } from "@/context/TenantProvider";
 import { getServerData } from "@/helpers/fetchers/server-fetch";
@@ -15,25 +12,26 @@ import QueryProvider from "@/layouts/QueryProvider";
 import CustomError from "@/lib/customError";
 import { getTenantSettingsServer } from "@/services/tenant.service";
 import { ApiResponse, IUser } from "@/types";
-import { isProd } from "@/utils/isProd";
 import { Metadata } from "next";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
-import dynamic from "next/dynamic";
 import { Almarai } from "next/font/google";
 import { headers } from "next/headers";
 import Script from "next/script";
-import { Suspense } from "react";
 import CustomGlobalError from "./CustomGlobalError";
 import NotFoundTenant from "./NotFoundTenant";
+import Providers from "./providers";
 import SuspendedTenant from "./SuspendedTenant";
 
-const Announcement = dynamic(() => import("@/components/banners/Announcement"));
+import { Toaster as MainToaster } from "@/components/ui/toaster";
+import { Toaster as SonnerToaster } from "sonner";
+import DownloadListener from "@/components/DownloadListener";
 
 const almarai = Almarai({
   subsets: ["arabic"],
   weight: ["400", "700"],
 });
 
+const isProd = process.env.NODE_ENV === "production";
 const devDomain = process.env.NEXT_PUBLIC_DEV_DOMAIN ?? "localhost:3000";
 const DESKTOP_ROUTE_PREFIX = "/desktop";
 
@@ -72,11 +70,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     metadataBase,
-
-    title: {
-      default: title,
-      template: "%s | " + title,
-    },
+    title,
     description,
     icons: {
       icon: favicon,
@@ -130,7 +124,16 @@ export default async function Layout({
             <main className="flex min-h-screen grow flex-col">{children}</main>
           </QueryProvider>
 
-          <Toaster />
+          <DownloadListener />
+
+          <SonnerToaster
+            dir="rtl"
+            position="top-right"
+            richColors
+            closeButton
+          />
+
+          <MainToaster />
         </body>
       </html>
     );
@@ -187,8 +190,6 @@ export default async function Layout({
     features: tenantSettings?.features,
   };
 
-  console.log("profile : ", profile);
-
   return (
     <html lang="ar" style={cssVars} dir="rtl">
       <body
@@ -215,17 +216,21 @@ export default async function Layout({
               </main>
 
               <UserModalsWrapper />
-
-              <PhoneNotVerifiedGuard />
-
-              <Suspense fallback={null}>
-                {profile && <Announcement profile={profile.body} />}
-              </Suspense>
+              <Announcement />
             </Providers>
           </>
         </TenantProvider>
 
-        <Toaster />
+        <DownloadListener />
+
+        <SonnerToaster
+          dir="rtl"
+          position="top-right"
+          richColors
+          closeButton
+        />
+
+        <MainToaster />
 
         <Script
           src="https://player.vdocipher.com/v2/api.js"

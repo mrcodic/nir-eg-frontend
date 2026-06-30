@@ -70,6 +70,14 @@ const normalizeEntries = (value: unknown): ProfileAttachmentEntry[] => {
   return normalized;
 };
 
+const handleDownload = (url: string) => {
+  if (typeof window !== "undefined" && window.electron) {
+    window.electron.downloadFile(url);
+  } else {
+    window.open(url, "_blank");
+  }
+};
+
 export default function ProfileAttachmentsField<
   TValues extends Record<string, unknown>,
 >({ form, name, label, field }: Props<TValues>) {
@@ -207,7 +215,7 @@ export default function ProfileAttachmentsField<
   );
 
   return (
-    <FormItem className="col-span-2 my-2 min-h-[128px]">
+    <FormItem className="col-span-2 my-2">
       <div className="flex flex-col items-start gap-6 sm:flex-row">
         <input {...getInputProps()} />
 
@@ -254,7 +262,7 @@ export default function ProfileAttachmentsField<
           {existingEntries.length > 0 && (
             <p className="text-muted-foreground text-xs">ملفات مرفوعة مسبقًا</p>
           )}
-          <div className="flex flex-wrap gap-2 empty:hidden">
+          <div className="flex flex-wrap gap-2">
             {existingEntries.map((entry) => {
               const idx = entries.findIndex((item) => item === entry);
               const fileName =
@@ -267,14 +275,18 @@ export default function ProfileAttachmentsField<
                 >
                   <p className="max-w-40 truncate text-xs">{fileName}</p>
                   {entry.url && (
-                    <a
-                      href={entry.url}
-                      target="_blank"
-                      rel="noreferrer"
+                    <button
+                      type="button"
+                      onClick={(e)=> {
+                        e.preventDefault();
+                        e.stopPropagation()
+                        handleDownload(entry.url);
+                      }}
+                      
                       className="text-primary-800 text-xs underline"
                     >
                       تنزيل
-                    </a>
+                    </button>
                   )}
                   <button
                     type="button"
@@ -294,7 +306,7 @@ export default function ProfileAttachmentsField<
               ملفات مضافة في الجلسة الحالية
             </p>
           )}
-          <div className="flex flex-wrap gap-2 empty:hidden">
+          <div className="flex flex-wrap gap-2">
             {previews.map(({ entry, src }) => {
               const file = entry.file as File;
               const idx = entries.findIndex((item) => item === entry);
