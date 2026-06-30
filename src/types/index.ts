@@ -123,6 +123,9 @@ export interface QuizItem {
   score: number;
   show_answer: boolean;
   title: string;
+  start_timer: string | null;
+  answer_expired: boolean | null;
+  timer: number | null;
 }
 
 export interface IExamCard {
@@ -414,6 +417,9 @@ export interface IAssignment {
   result?: boolean;
   pending?: boolean;
   review_pending?: boolean;
+  start_timer?: null;
+  answer_expired?: null;
+  timer: null;
 }
 
 export interface ILesson {
@@ -464,7 +470,8 @@ export interface IRoomData {
   assignments: IAssignment[];
   attachments: Attachment[];
   lessons: ILesson[];
-  quizzes: (QuizItem | QuizObject)[];
+  quizzes: QuizItem[];
+  // quizzes: (QuizItem | QuizObject)[];
 
   grade?: Grade;
 
