@@ -86,7 +86,7 @@ function RoomTaskCard({
             badgeClassName="border"
             className="min-w-0"
           />
-        ) : !!task?.start_timer ? (
+        ) : !!task?.start_timer && type !== "assignment" ? (
           <div className="flex items-center gap-2">
             <ScoreBadge
               text={
