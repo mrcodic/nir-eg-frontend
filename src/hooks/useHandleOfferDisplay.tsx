@@ -33,7 +33,7 @@ function useHandleOfferDisplay() {
 
     modal.setDialogContent(<OfferModel />);
     modal.setDialogContentProps({
-      className: "max-w-[343px]",
+      className: "max-w-[450px] rounded-lg",
     });
     modal.addSideElement(
       <DotLottieReact
