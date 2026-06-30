@@ -20,12 +20,14 @@ interface UseTaskDraftOptions {
   onRestored?: () => void;
 }
 
+const TASK_DRAFT_EXPIRY_OFFSET_MS = 10_000;
+
 function computeExpiresAt(start: QuizStatus | undefined): number {
   // timer is in minutes
   const ms = start?.timer
     ? Number(start.timer) * 60 * 1000
     : 8 * 60 * 60 * 1000;
-  return Date.now() + ms;
+  return Date.now() + ms + TASK_DRAFT_EXPIRY_OFFSET_MS;
 }
 
 export function useTaskDraft({

@@ -10,6 +10,7 @@ import { getServerData } from "@/helpers/fetchers/server-fetch";
 import { hexToHsl } from "@/helpers/tenant.helpers";
 import QueryProvider from "@/layouts/QueryProvider";
 import CustomError from "@/lib/customError";
+import { DraftTasksPurgeManager } from "@/modules/exam/components/DraftTasksPurgeManager";
 import { getTenantSettingsServer } from "@/services/tenant.service";
 import { ApiResponse, IUser } from "@/types";
 import { Metadata } from "next";
@@ -22,9 +23,11 @@ import NotFoundTenant from "./NotFoundTenant";
 import Providers from "./providers";
 import SuspendedTenant from "./SuspendedTenant";
 
-import { Toaster as MainToaster } from "@/components/ui/toaster";
-import { Toaster as SonnerToaster } from "sonner";
 import DownloadListener from "@/components/DownloadListener";
+import PhoneNotVerifiedGuard from "@/components/shared/PhoneNotVerifiedGuard";
+import { Toaster as MainToaster } from "@/components/ui/toaster";
+import { Suspense } from "react";
+import { Toaster as SonnerToaster } from "sonner";
 
 const almarai = Almarai({
   subsets: ["arabic"],
@@ -216,19 +219,21 @@ export default async function Layout({
               </main>
 
               <UserModalsWrapper />
-              <Announcement />
+
+              <PhoneNotVerifiedGuard />
+
+              <DraftTasksPurgeManager />
+
+              <Suspense fallback={null}>
+                {profile && <Announcement profile={profile.body} />}
+              </Suspense>
             </Providers>
           </>
         </TenantProvider>
 
         <DownloadListener />
 
-        <SonnerToaster
-          dir="rtl"
-          position="top-right"
-          richColors
-          closeButton
-        />
+        <SonnerToaster dir="rtl" position="top-right" richColors closeButton />
 
         <MainToaster />
 

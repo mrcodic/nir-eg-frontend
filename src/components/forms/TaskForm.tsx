@@ -174,7 +174,7 @@ function TaskForm({
         quiz_id: taskId,
         questions: {},
       });
-      trigger();
+      // trigger();
 
       if (res?.body?.result || res?.body?.review_pending) {
         setSuccess(true);
@@ -222,7 +222,6 @@ function TaskForm({
     examType,
     roomId,
     reset,
-    trigger,
     onTaskSubmit,
     classroomId,
     setSuccess,
