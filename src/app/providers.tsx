@@ -23,11 +23,11 @@ function Providers({
     <QueryProvider>
       <NuqsAdapter>
         <AuthContextProvider profile={profile}>
-          <ModalProvider>
-            <BooksStoreProvider>
+          <BooksStoreProvider>
+            <ModalProvider>
               <AppTree>{children}</AppTree>
-            </BooksStoreProvider>
-          </ModalProvider>
+            </ModalProvider>
+          </BooksStoreProvider>
         </AuthContextProvider>
       </NuqsAdapter>
     </QueryProvider>
