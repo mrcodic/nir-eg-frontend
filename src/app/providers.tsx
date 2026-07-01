@@ -1,5 +1,6 @@
 "use client";
 
+import AppGlobalLoader from "@/components/AppGlobalLoader";
 import { BooksStoreProvider } from "@/context/BooksStoreProvider";
 import QueryProvider from "@/layouts/QueryProvider";
 import { IUser } from "@/types";
@@ -7,7 +8,6 @@ import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { memo, ReactNode } from "react";
 import { AuthContextProvider } from "../context/auth-context";
 import ModalProvider from "../context/ModalProvider";
-import AppGlobalLoader from "@/components/AppGlobalLoader";
 
 const AppTree = memo(function AppTree({ children }: { children: ReactNode }) {
   return <>{children}</>;
@@ -24,12 +24,12 @@ function Providers({
     <QueryProvider>
       <NuqsAdapter>
         <AuthContextProvider profile={profile}>
-          <ModalProvider>
-            <BooksStoreProvider>
-              <AppGlobalLoader/>
+          <BooksStoreProvider>
+            <ModalProvider>
+              <AppGlobalLoader />
               <AppTree>{children}</AppTree>
-            </BooksStoreProvider>
-          </ModalProvider>
+            </ModalProvider>
+          </BooksStoreProvider>
         </AuthContextProvider>
       </NuqsAdapter>
     </QueryProvider>
