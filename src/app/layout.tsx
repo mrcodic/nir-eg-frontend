@@ -116,31 +116,31 @@ export default async function Layout({
   const pathname = (await headers()).get("x-pathname") ?? "/";
 
   if (isDesktopBootstrapPath(pathname)) {
-    return (
-      <html lang="ar" dir="rtl">
-        <body
-          className={`${almarai.className} flex min-h-screen flex-col antialiased`}
-          suppressHydrationWarning
+  return (
+    <html lang="ar" dir="rtl">
+      <body
+        className={`${almarai.className} flex min-h-screen flex-col antialiased`}
+        suppressHydrationWarning
+        dir="rtl"
+      >
+            <QueryProvider>
+          <main className="flex min-h-screen grow flex-col">{children}</main>
+            </QueryProvider>
+
+        <DownloadListener />
+
+        <SonnerToaster
           dir="rtl"
-        >
-          <QueryProvider>
-            <main className="flex min-h-screen grow flex-col">{children}</main>
-          </QueryProvider>
+          position="top-right"
+          richColors
+          closeButton
+        />
 
-          <DownloadListener />
-
-          <SonnerToaster
-            dir="rtl"
-            position="top-right"
-            richColors
-            closeButton
-          />
-
-          <MainToaster />
-        </body>
-      </html>
-    );
-  }
+        <MainToaster />
+      </body>
+    </html>
+  );
+}
 
   let tenantSettings: Awaited<ReturnType<typeof getTenantSettingsServer>>;
 
@@ -208,15 +208,14 @@ export default async function Layout({
         />
 
         <TenantProvider value={publicTenant}>
-          <>
+          <Providers profile={profile?.body ?? null}>
             <NavTopbar primary={tenantSettings.primary_color} />
 
-            <Providers profile={profile?.body}>
-              <NavbarWrapper profile={profile?.body} />
+            <NavbarWrapper profile={profile?.body ?? null} />
 
-              <main className="flex min-h-screen grow flex-col justify-between [&>section]:grow">
-                {children}
-              </main>
+            <main className="flex min-h-screen grow flex-col justify-between [&>section]:grow">
+              {children}
+            </main>
 
               <UserModalsWrapper />
 
@@ -228,7 +227,7 @@ export default async function Layout({
                 {profile && <Announcement profile={profile.body} />}
               </Suspense>
             </Providers>
-          </>
+          
         </TenantProvider>
 
         <DownloadListener />

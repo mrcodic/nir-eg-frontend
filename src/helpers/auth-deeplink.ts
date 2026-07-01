@@ -49,6 +49,7 @@ export function openDesktopAuthDeeplink(
   window.addEventListener("pagehide", markLeftPage, { once: true });
   document.addEventListener("visibilitychange", handleVisibilityChange);
 
+  window.dispatchEvent(new Event("app:navigation-start"));
   window.location.assign(deeplink);
 
   window.setTimeout(() => {

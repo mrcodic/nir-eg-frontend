@@ -21,9 +21,8 @@ export function useDesktopTenantEntry() {
       const value = mode === "code" ? platformCode : platformUrl;
       return resolveDesktopTenant(value, mode);
     },
-    onSuccess: (tenant) => {
-      persistDesktopTenant(tenant);
-      navigateToDesktopTenantLogin(tenant);
+    onSuccess: async (tenant) => {
+      await navigateToDesktopTenantLogin(tenant);
     },
     onError: (error: Error) => {
       toast({

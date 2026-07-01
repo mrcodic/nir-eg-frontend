@@ -170,18 +170,19 @@ export async function resolveDesktopTenant(
 }
 
 export function persistDesktopTenant(record: DesktopTenantRecord) {
-  Cookies.set(SELECTED_TENANT_SLUG_COOKIE, record.slug, {
-    sameSite: "lax",
+  const cookieOptions = {
+    sameSite: "lax" as const,
     path: "/",
-  });
-  Cookies.set(SELECTED_TENANT_HOST_COOKIE, record.host, {
-    sameSite: "lax",
-    path: "/",
-  });
-  Cookies.set(SELECTED_TENANT_DOMAIN_TYPE_COOKIE, record.domain_type, {
-    sameSite: "lax",
-    path: "/",
-  });
+    expires: 30,
+  };
+
+  Cookies.set(SELECTED_TENANT_SLUG_COOKIE, record.slug, cookieOptions);
+  Cookies.set(SELECTED_TENANT_HOST_COOKIE, record.host, cookieOptions);
+  Cookies.set(
+    SELECTED_TENANT_DOMAIN_TYPE_COOKIE,
+    record.domain_type,
+    cookieOptions,
+  );
 }
 
 export async function clearSelectedDesktopTenant() {
@@ -196,12 +197,79 @@ export async function clearSelectedDesktopTenant() {
   ]);
 }
 
-export function navigateToDesktopTenantLogin(record: DesktopTenantRecord) {
-  // In Electron, stay on 127.0.0.1:3000 — navigating to the real subdomain
-  // URL would trigger shell.openExternal() and open the system browser.
-  // Tenant context is carried by cookies set in persistDesktopTenant().
+export function showImmediateAppLoader(message = "جارٍ التحميل...") {
+  if (typeof window === "undefined") return;
+
+  if (document.getElementById("app-immediate-loader")) return;
+
+  const loader = document.createElement("div");
+  loader.id = "app-immediate-loader";
+
+  loader.innerHTML = `
+    <div style="
+      position: fixed;
+      inset: 0;
+      z-index: 999999999;
+      background: rgba(255,255,255,0.96);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      direction: rtl;
+      font-family: inherit;
+    ">
+      <div style="text-align:center; display:flex; flex-direction:column; align-items:center; gap:16px;">
+        <div style="
+          width:56px;
+          height:56px;
+          border-radius:9999px;
+          border:4px solid #e5e7eb;
+          border-top-color:#2563eb;
+          animation: appLoaderSpin 0.8s linear infinite;
+        "></div>
+
+        <div>
+          <div style="font-size:16px; font-weight:700; color:#1f2937;">
+            ${message}
+          </div>
+          <div style="font-size:14px; color:#6b7280; margin-top:6px;">
+            برجاء الانتظار لحظات
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  const style = document.createElement("style");
+  style.id = "app-immediate-loader-style";
+  style.innerHTML = `
+    @keyframes appLoaderSpin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+  `;
+
+  document.head.appendChild(style);
+  document.body.appendChild(loader);
+}
+
+export async function waitForLoaderPaint() {
+  await new Promise<void>((resolve) => {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => resolve());
+    });
+  });
+}
+
+
+export async function navigateToDesktopTenantLogin(record: DesktopTenantRecord) {
+  persistDesktopTenant(record);
+
+  showImmediateAppLoader("جارٍ فتح صفحة تسجيل الدخول...");
+
+  await waitForLoaderPaint();
+
   if (isDesktopApp()) {
-    window.location.assign("http://127.0.0.1:3000/login");
+    window.location.assign("/login?source=electron");
     return;
   }
 
@@ -225,5 +293,6 @@ export function navigateToDesktopTenantLogin(record: DesktopTenantRecord) {
 }
 
 export function navigateToDesktopEntry() {
+  window.dispatchEvent(new Event("app:navigation-start"));
   window.location.assign(buildDesktopEntryUrl());
 }
