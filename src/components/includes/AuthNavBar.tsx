@@ -22,7 +22,9 @@ const NavCartButton = dynamic(
 
 const AuthNavBar = ({ profile }: { profile: IUser }) => {
   const { logo, features } = useTenant();
-  const { shouldShowBooks, shouldShowCart } = useBooksSettings();
+  const { shouldShowBooks, shouldShowCart } = useBooksSettings({
+    enabled: features?.book_store,
+  });
   const pathname = usePathname();
 
   const hasGradesEnabled = features?.student_gradebook;
