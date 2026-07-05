@@ -1,8 +1,8 @@
+import { TenantPublic } from "@/context/TenantProvider";
 import { getClientData } from "@/helpers/fetchers/client-fetch";
 import { toast } from "@/hooks/use-toast";
 import cartServices from "@/services/cart.service";
 import { Book, BookLinksSettings } from "@/types/books.types";
-
 import Cookies from "js-cookie";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
@@ -28,7 +28,7 @@ export interface CartState {
   clearCart: () => Promise<void>;
 
   // Sync actions
-  initializeCart: () => Promise<void>;
+  initializeCart: (tenantFeatures: TenantPublic) => Promise<void>;
   resetCartState: () => void;
 
   // Getters
@@ -49,7 +49,7 @@ export const createCartStore = (initState?: Partial<CartState>) => {
         error: null,
 
         // Initialize cart: fetch from server, fallback to localStorage
-        initializeCart: async () => {
+        initializeCart: async (tenantFeatures) => {
           // Prevent multiple initializations
 
           if (typeof window === "undefined") {
@@ -60,6 +60,19 @@ export const createCartStore = (initState?: Partial<CartState>) => {
           if (get().isCartHydrated) return;
 
           console.log("🛒 ~ initializeCart");
+
+          if (!tenantFeatures?.features?.book_store) {
+            console.log("cart settings is disabled");
+            set((state) => {
+              state.items = [];
+              state.cartId = null;
+              state.isLoading = false;
+              state.isCartHydrated = true;
+              state.error = null;
+            });
+
+            return;
+          }
 
           const booksSettings = await getClientData<{
             data: BookLinksSettings;
@@ -89,11 +102,6 @@ export const createCartStore = (initState?: Partial<CartState>) => {
           try {
             // Try to fetch cart from server
             const serverCart = await cartServices.fetchCart();
-
-            // console.log(
-            //   "🛒 ~ initializeCart response ~ serverCart:",
-            //   serverCart,
-            // );
 
             set((state) => {
               // If server has items, use them
