@@ -19,13 +19,13 @@ function PaymentCoupon({
   coupon,
   setCoupon,
   courseId,
-  bookId,
+  itemId,
   className,
 }: {
   coupon: PricingResponse;
   setCoupon: (coupon: PricingResponse) => void;
   courseId?: string;
-  bookId?: string | number;
+  itemId?: string | number;
   className?: string;
 }) {
   const { toast } = useToast();
@@ -46,8 +46,8 @@ function PaymentCoupon({
         code: value,
       };
 
-      if (bookId) {
-        Object.assign(body, { book_id: bookId });
+      if (itemId) {
+        Object.assign(body, { book_id: itemId });
       } else if (courseId) {
         Object.assign(body, { classroom_id: courseId });
       }

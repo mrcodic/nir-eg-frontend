@@ -10,6 +10,10 @@ export interface Book {
   price: string;
   status: number;
   status_label: string;
+  can_buy_points: boolean;
+  category: string;
+  category_label: string;
+  points_price: number | null;
 }
 
 export type BookLinksSettings = {

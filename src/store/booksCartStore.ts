@@ -1,8 +1,7 @@
 import { TenantPublic } from "@/context/TenantProvider";
-import { getClientData } from "@/helpers/fetchers/client-fetch";
 import { toast } from "@/hooks/use-toast";
 import cartServices from "@/services/cart.service";
-import { Book, BookLinksSettings } from "@/types/books.types";
+import { Book } from "@/types/books.types";
 import Cookies from "js-cookie";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
@@ -74,25 +73,25 @@ export const createCartStore = (initState?: Partial<CartState>) => {
             return;
           }
 
-          const booksSettings = await getClientData<{
-            data: BookLinksSettings;
-          }>({
-            queryKey: ["settings/books"],
-            optionalAuth: true,
-          });
+          // const booksSettings = await getClientData<{
+          //   data: BookLinksSettings;
+          // }>({
+          //   queryKey: ["settings/books"],
+          //   optionalAuth: true,
+          // });
 
-          if (booksSettings?.data?.hide_books === 1) {
-            console.log("cart settings is disabled");
-            set((state) => {
-              state.items = [];
-              state.cartId = null;
-              state.isLoading = false;
-              state.isCartHydrated = true;
-              state.error = null;
-            });
+          // if (booksSettings?.data?.hide_books === 1) {
+          //   console.log("cart settings is disabled");
+          //   set((state) => {
+          //     state.items = [];
+          //     state.cartId = null;
+          //     state.isLoading = false;
+          //     state.isCartHydrated = true;
+          //     state.error = null;
+          //   });
 
-            return;
-          }
+          //   return;
+          // }
 
           set((state) => {
             state.isLoading = true;
@@ -186,7 +185,7 @@ export const createCartStore = (initState?: Partial<CartState>) => {
 
             toast({
               icon: "error",
-              description: "حدث خطأ اثناء اضافة الكتاب",
+              description: "حدث خطأ اثناء اضافة المنتج",
             });
           }
         },
@@ -215,7 +214,7 @@ export const createCartStore = (initState?: Partial<CartState>) => {
 
             toast({
               icon: "error",
-              description: "حدث خطأ اثناء حذف الكتاب",
+              description: "حدث خطأ اثناء حذف المنتج",
             });
           }
         },

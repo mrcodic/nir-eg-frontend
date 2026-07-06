@@ -30,7 +30,7 @@ function BookOrderCard({ bookOrder }: { bookOrder: BooksOrder }) {
         <div className={imgWrapperClassname}>{bookImage}</div>
       ) : (
         <Link
-          href={`/books/${bookOrder?.items?.[0]?.book_id}`}
+          href={`/store/${bookOrder?.items?.[0]?.book_id}`}
           className={cn(
             imgWrapperClassname,
             "hover:[&>img]:scale-110 hover:[&>img]:opacity-80",

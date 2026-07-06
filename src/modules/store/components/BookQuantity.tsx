@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useCartStore } from "@/context/BooksStoreProvider";
+import { useMounted } from "@/hooks/useMounted";
 import { cn } from "@/lib/utils";
 import { CartItem } from "@/store/booksCartStore";
 import { debounce } from "lodash";
@@ -19,10 +20,14 @@ function BookQuantity({
   buttonClassName?: string;
   textClassName?: string;
 }) {
+  const isMounted = useMounted();
+
   const { decrementQuantity, incrementQuantity, getItemQuantity } =
     useCartStore((state) => state);
 
   const quantity = getItemQuantity(book.id);
+
+  console.log("qqqqqqq : ", quantity);
 
   const debouncedIncrement = useMemo(
     () =>
@@ -47,7 +52,7 @@ function BookQuantity({
     };
   }, [debouncedIncrement, debouncedDecrement]);
 
-  if (!quantity) return null;
+  if (!isMounted || !quantity) return null;
 
   return (
     <div className={cn("flex w-fit items-center gap-8", className)}>

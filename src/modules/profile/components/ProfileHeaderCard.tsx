@@ -24,8 +24,8 @@ function ProfileHeaderCard({ profileData }: { profileData: IUser }) {
   const modal = useModal();
   const { features } = useTenant();
 
-  const hasPointsEnabled = features.points_system;
-  const hasPromoCode = features.promo_code;
+  const hasPointsEnabled = features?.points_system;
+  const hasPromoCode = features?.promo_code;
 
   // if (isLoadingProfile)
   //   return <Skeleton className="min-h-[325px] rounded-xl md:min-h-[290px]" />;

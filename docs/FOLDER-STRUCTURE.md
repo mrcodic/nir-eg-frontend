@@ -212,7 +212,7 @@ nier-front/
     │   │
     │   ├── 📂 modals/                # 🪟 MODAL DIALOGS
     │   │   ├── AssignmentModal.tsx
-    │   │   ├── BookPaymentModel.tsx
+    │   │   ├── StorePaymentModel.tsx
     │   │   ├── CommentDetails.tsx
     │   │   ├── Congrats.tsx
     │   │   ├── FailModal.tsx
@@ -314,7 +314,7 @@ nier-front/
     │       └── WhatsappFloating.tsx
     │
     ├── 📂 modules/                   # 🎯 FEATURE MODULES
-    │   ├── 📂 books-store/           # Books e-commerce
+    │   ├── 📂 store/           # Books e-commerce
     │   ├── 📂 community/             # Community features
     │   ├── 📂 exam/                  # Exam logic
     │   │   ├── 📂 hooks/

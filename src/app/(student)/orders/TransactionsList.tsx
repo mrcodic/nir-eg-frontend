@@ -12,7 +12,7 @@ import CourseOrderCard from "./CourseOrderCard";
 export default function TransactionsList({
   type = "course",
 }: {
-  type: "course" | "cart";
+  type: "course" | "store";
 }) {
   const [data, setData] = useState<{
     body: (BooksOrder | CourseOrder)[];

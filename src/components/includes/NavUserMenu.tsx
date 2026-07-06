@@ -18,13 +18,7 @@ import UserTenantCode from "../shared/UserTenantCode";
 import CustomImage from "../ui/CustomImage";
 import { ScrollArea } from "../ui/scroll-area";
 
-function NavUserMenu({
-  profile,
-  shouldShowBooks,
-}: {
-  profile: IUser;
-  shouldShowBooks: boolean;
-}) {
+function NavUserMenu({ profile }: { profile: IUser }) {
   const modal = useModal();
   const { features } = useTenant();
 
@@ -126,11 +120,11 @@ function NavUserMenu({
               />
             )}
 
-          {features?.book_store && shouldShowBooks && (
+          {features?.book_store && (
             <MenuItem
-              href="/books"
+              href="/store"
               icon="/assets/store-outline.svg"
-              text="متجر الكتب"
+              text="المتجر"
             />
           )}
 

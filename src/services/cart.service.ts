@@ -25,7 +25,6 @@ const cartServices = {
       const res = await instanceClient.get(`/cart`);
       return res.data || [];
     } catch (error) {
-      console.log("🚀 ~ fetchCart ~ error:", error);
       throw error;
     }
   },

@@ -41,12 +41,12 @@ export function formatDateToArabic(dateString) {
 export function redirectUrl({
   bundleId,
   courseId,
-  bookId,
+  itemId,
   booksPage,
 }: {
   bundleId?: string | number;
   courseId?: string | number;
-  bookId?: string | number;
+  itemId?: string | number;
   booksPage?: boolean;
 }) {
   const redirectUrl = extractTenantFromHost()?.host;
@@ -57,15 +57,15 @@ export function redirectUrl({
     url = `${redirectUrl}/bundles/bundle-details/${bundleId}`;
   } else if (courseId) {
     url = `${redirectUrl}/bundles/${courseId}`;
-  } else if (bookId) {
+  } else if (itemId) {
     return [
-      `${redirectUrl}/orders?orderType=books&payment=success`,
-      `${redirectUrl}/books/${bookId}` + "?payment=failed",
+      `${redirectUrl}/orders?orderType=store&payment=success`,
+      `${redirectUrl}/store/${itemId}` + "?payment=failed",
     ];
-    // url = `${redirectUrl}/books/${bookId}`;
   } else if (booksPage) {
-    url = `${redirectUrl}/books`;
+    url = `${redirectUrl}/store`;
   }
+
   return [url + "?payment=success", url + "?payment=failed"];
 }
 

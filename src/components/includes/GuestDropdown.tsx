@@ -43,7 +43,7 @@ function GuestDropdown() {
     ...(features?.book_store
       ? [
           {
-            href: "/books",
+            href: "/store",
             label: "الكتب",
             className: "md:hidden",
 

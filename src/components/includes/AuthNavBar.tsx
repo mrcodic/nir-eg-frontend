@@ -5,7 +5,6 @@ import { useMemo } from "react";
 
 import { useTenant } from "@/context/TenantProvider";
 import { cn } from "@/lib/utils";
-import { useBooksSettings } from "@/modules/books-store/hooks/useBooksSettings";
 import NavNotifications from "@/modules/norifications/components/NavNotifications";
 import UserTenantSwitch from "@/modules/tenant/components/UserTenantSwitch";
 import { IUser } from "@/types";
@@ -17,14 +16,12 @@ import MobileDropDown from "./MobileDropDown";
 import NavUserMenu from "./NavUserMenu";
 
 const NavCartButton = dynamic(
-  () => import("@/modules/books-store/components/NavCartButton"),
+  () => import("@/modules/store/components/NavCartButton"),
 );
 
 const AuthNavBar = ({ profile }: { profile: IUser }) => {
   const { logo, features } = useTenant();
-  const { shouldShowBooks, shouldShowCart } = useBooksSettings({
-    enabled: features?.book_store,
-  });
+
   const pathname = usePathname();
 
   const hasGradesEnabled = features?.student_gradebook;
@@ -59,7 +56,7 @@ const AuthNavBar = ({ profile }: { profile: IUser }) => {
       },
       // {
       //   title: "متجر الكتب",
-      //   href: "/books",
+      //   href: "/store",
       //   show: features?.book_store && shouldShowBooks,
       // },
     ];
@@ -119,7 +116,7 @@ const AuthNavBar = ({ profile }: { profile: IUser }) => {
 
               <NavUserMenu
                 profile={profile}
-                shouldShowBooks={!!shouldShowBooks}
+                // shouldShowBooks={!!shouldShowBooks}
               />
 
               <MobileDropDown studentLinks={studentLinks} />
@@ -128,9 +125,9 @@ const AuthNavBar = ({ profile }: { profile: IUser }) => {
         </div>
       </header>
 
-      {pathname.startsWith("/books") &&
-        !!features?.book_store &&
-        !!shouldShowCart && <NavCartButton />}
+      {pathname.startsWith("/store") && !!features?.book_store && (
+        <NavCartButton />
+      )}
     </>
   );
 };

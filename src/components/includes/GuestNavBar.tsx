@@ -20,10 +20,10 @@ const GuestNavBar = () => {
       show: true,
     },
     {
-      text: "الكتب",
-      href: "/books",
+      text: "المتجر",
+      href: "/store",
       icon: "/assets/icons/BookColor.svg",
-      show: features?.book_store,
+      show: !!features?.book_store,
     },
   ];
 

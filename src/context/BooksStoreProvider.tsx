@@ -36,7 +36,7 @@ export const BooksStoreProvider = ({ children }: CartStoreProviderProps) => {
     if (
       !isInitializedRef.current &&
       storeRef.current &&
-      tenantFeatures?.features?.book_store
+      !!tenantFeatures?.features?.book_store
     ) {
       isInitializedRef.current = true;
       const store = storeRef.current.getState();

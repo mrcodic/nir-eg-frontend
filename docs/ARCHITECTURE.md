@@ -265,7 +265,7 @@ src/modules/
 │   └── utils/        # Exam utilities
 ├── payment/          # Payment processing
 ├── video/            # Video player logic
-├── books-store/      # Books e-commerce
+├── store/      # Books e-commerce
 ├── profile/          # User profile
 └── parent-portal/    # Parent features
 ```

@@ -6,8 +6,8 @@ import ProfileRoomsWrapper from "@/modules/profile/components/ProfileRoomsWrappe
 import RoomHeader from "@/modules/rooms/components/RoomHeader";
 import { getTenantSettingsServer } from "@/services/tenant.service";
 import { ApiResponse, IUser } from "@/types";
-import dynamic from "next/dynamic";
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import { Suspense } from "react";
 import CenterSelectModalTrigger from "./CenterSelectModalTrigger";
 
@@ -46,21 +46,21 @@ export default async function ProfilePage() {
           <ProfileHeaderCard profileData={profile} />
         </Animate>
 
-        <Suspense fallback={<LoadingSpinner />}>
-          {hasQuizzesEnabled && (
+        {hasQuizzesEnabled && (
+          <Suspense fallback={<LoadingSpinner />}>
             <Animate preset="slideUp" delay={0.2}>
               <StudentTasksOverview />
             </Animate>
-          )}
-        </Suspense>
+          </Suspense>
+        )}
 
         <Animate preset="slideUp" delay={0.4} className="mt-24">
           <RoomHeader icon={"/assets/books-colored.svg"} title={"آخر الحصص"} />
           <ProfileRoomsWrapper />
         </Animate>
 
-        <Suspense fallback={<LoadingSpinner />}>
-          {hasPointsEnabled && (
+        {hasPointsEnabled && (
+          <Suspense fallback={<LoadingSpinner />}>
             <Animate
               preset="slideUp"
               delay={0.6}
@@ -70,8 +70,8 @@ export default async function ProfilePage() {
               <RoomHeader icon={"/assets/star-colored.svg"} title={"النقاط"} />
               <ProfilePointsTable />
             </Animate>
-          )}
-        </Suspense>
+          </Suspense>
+        )}
       </div>
     </div>
   );

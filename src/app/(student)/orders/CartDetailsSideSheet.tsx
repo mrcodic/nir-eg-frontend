@@ -84,7 +84,7 @@ function CartDetailsSideSheet({ bookOrder }: { bookOrder: BooksOrder }) {
                 className="border-gray-light flex flex-col gap-6 rounded-lg border p-2 md:flex-row"
               >
                 <Link
-                  href={`/books/${item.book_id}`}
+                  href={`/store/${item.book_id}`}
                   className="border-gray-light relative aspect-square size-24 shrink-0 overflow-hidden rounded-lg border"
                 >
                   <CustomImage
