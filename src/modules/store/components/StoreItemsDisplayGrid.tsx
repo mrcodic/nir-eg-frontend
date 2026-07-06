@@ -1,12 +1,12 @@
 import { cn } from "@/lib/utils";
-import { Book } from "@/types/books.types";
+import { StoreItem } from "@/types/store.types";
 import StoreItemCard from "./StoreItemCard";
 
 function StoreItemsDisplayGrid({
   items,
   className,
 }: {
-  items: Book[];
+  items: StoreItem[];
   className?: string;
 }) {
   return (

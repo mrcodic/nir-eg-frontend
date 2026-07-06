@@ -1,21 +1,21 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useCartStore } from "@/context/BooksStoreProvider";
+import { useCartStore } from "@/context/StoreProvider";
 import { useMounted } from "@/hooks/useMounted";
 import { cn } from "@/lib/utils";
-import { CartItem } from "@/store/booksCartStore";
+import { CartItem } from "@/store/storeCartStore";
 import { debounce } from "lodash";
 import { Minus, Plus } from "lucide-react";
 import { useCallback, useMemo } from "react";
 
-function BookQuantity({
-  book,
+function StoreItemQuantity({
+  item,
   className,
   buttonClassName,
   textClassName,
 }: {
-  book: CartItem;
+  item: CartItem;
   className?: string;
   buttonClassName?: string;
   textClassName?: string;
@@ -25,9 +25,7 @@ function BookQuantity({
   const { decrementQuantity, incrementQuantity, getItemQuantity } =
     useCartStore((state) => state);
 
-  const quantity = getItemQuantity(book.id);
-
-  console.log("qqqqqqq : ", quantity);
+  const quantity = getItemQuantity(item.id);
 
   const debouncedIncrement = useMemo(
     () =>
@@ -58,7 +56,7 @@ function BookQuantity({
     <div className={cn("flex w-fit items-center gap-8", className)}>
       <Button
         className={cn("border-primary-800 size-11 border", buttonClassName)}
-        onClick={() => debouncedDecrement(book.id)}
+        onClick={() => debouncedDecrement(item.id)}
       >
         <Minus className="size-5 stroke-white" />
       </Button>
@@ -67,7 +65,7 @@ function BookQuantity({
 
       <Button
         className={cn("border-primary-800 size-11 border", buttonClassName)}
-        onClick={() => debouncedIncrement(book.id)}
+        onClick={() => debouncedIncrement(item.id)}
       >
         <Plus className="size-5 stroke-white" />
       </Button>
@@ -75,4 +73,4 @@ function BookQuantity({
   );
 }
 
-export default BookQuantity;
+export default StoreItemQuantity;

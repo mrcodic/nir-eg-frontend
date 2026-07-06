@@ -2,10 +2,10 @@
 
 import Empty from "@/components/shared/Empty";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
-import { useCartStore } from "@/context/BooksStoreProvider";
+import { useCartStore } from "@/context/StoreProvider";
 import Link from "next/link";
-import BookCartCard from "./BookCartCard";
-import BooksCartPayment from "./BooksCartPayment";
+import StoreCartPayment from "./StoreCartPayment";
+import StoreItemCartCard from "./StoreItemCartCard";
 
 function CartContent() {
   const { items, isLoading, isCartHydrated } = useCartStore();
@@ -32,14 +32,18 @@ function CartContent() {
     <section>
       <h1 className="text-32 text-primary-800 font-bold">السلة</h1>
 
-      <div className="grid grid-cols-12 items-start gap-y-16 lg:gap-6">
-        <div className="col-span-12 divide-y-2 divide-gray-300 overflow-y-auto max-lg:max-h-[max(calc(100vh-300px),300px)] max-lg:pe-4 lg:col-span-6">
+      <div className="grid grid-cols-12 items-start gap-y-12 lg:gap-6">
+        <div className="col-span-12 space-y-4 divide-y-2 divide-gray-300 overflow-y-auto max-lg:max-h-[max(calc(100vh-300px),300px)] max-lg:pe-4 lg:col-span-6">
           {items.map((item) => (
-            <BookCartCard key={item.id} item={item} className="pt-4 pb-4" />
+            <StoreItemCartCard
+              key={item.id}
+              item={item}
+              className="pt-4 pb-4"
+            />
           ))}
         </div>
 
-        <BooksCartPayment />
+        <StoreCartPayment />
       </div>
     </section>
   );

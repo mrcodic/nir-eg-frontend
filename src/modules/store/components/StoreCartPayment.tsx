@@ -2,9 +2,9 @@
 
 import { Button } from "@/components/ui/button";
 import { useStorePayments } from "../hooks/useStorePayments";
-import { BooksPaymentUI } from "./BooksPaymentUI";
+import { StorePaymentUI } from "./StorePaymentUI";
 
-const BooksCartPayment = () => {
+const StoreCartPayment = () => {
   const {
     paymentMethodValue,
     setPaymentMethodValue,
@@ -13,11 +13,12 @@ const BooksCartPayment = () => {
     handleCheckout,
     coupon,
     setCoupon,
+    hasEnoughPoints,
   } = useStorePayments({ asModal: false });
 
   return (
     <div className="border-primary-800 relative col-span-12 flex flex-col rounded-lg border p-6 font-bold md:text-2xl lg:col-span-5 lg:col-start-8">
-      <BooksPaymentUI
+      <StorePaymentUI
         paymentMethodValue={paymentMethodValue}
         setPaymentMethodValue={setPaymentMethodValue}
         loading={loading}
@@ -27,7 +28,11 @@ const BooksCartPayment = () => {
       />
 
       {paymentTypes.length > 0 && (
-        <Button onClick={handleCheckout} className="mt-10 text-lg font-bold">
+        <Button
+          onClick={handleCheckout}
+          className="mt-10 text-lg font-bold"
+          disabled={loading || (paymentMethodValue === "POINTS" && !hasEnoughPoints)}
+        >
           دفع
         </Button>
       )}
@@ -35,4 +40,4 @@ const BooksCartPayment = () => {
   );
 };
 
-export default BooksCartPayment;
+export default StoreCartPayment;

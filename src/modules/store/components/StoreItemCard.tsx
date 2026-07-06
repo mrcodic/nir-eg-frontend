@@ -1,16 +1,16 @@
 import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
 import CustomImage from "@/components/ui/CustomImage";
-import { Book } from "@/types/books.types";
+import { StoreItem } from "@/types/store.types";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import BookCartAddRemove from "./BookCartAddRemove";
-import BuyBookTrigger from "./BuyBookTrigger";
+import StoreItemCartAddRemove from "./StoreItemCartAddRemove";
+import BuyStoreItemTrigger from "./BuyStoreItemTrigger";
 import StoreItemCardBadge, { ItemBadgeVariants } from "./StoreItemCardBadge";
 
 const MotionCard = motion.create(Card);
 const MotionLink = motion.create(Link);
 
-const StoreItemCard = ({ book }: { book: Book }) => {
+const StoreItemCard = ({ book }: { book: StoreItem }) => {
   const notAvailable = book?.status === 1;
 
   return (
@@ -72,8 +72,14 @@ const StoreItemCard = ({ book }: { book: Book }) => {
       >
         <div className="flex flex-col gap-y-4">
           <CardTitle className="text-xl">{book?.name}</CardTitle>
-          <CardContent className="p-0 text-[#454545]">
-            {Number(book?.price).toFixed(2)} جنية
+          <CardContent className="p-0 text-[#454545] flex flex-wrap items-center gap-x-2">
+            <span>{Number(book?.price).toFixed(2)} جنية</span>
+            {book?.can_buy_points && book?.points_price !== null && (
+              <>
+                <span className="text-gray-400">أو</span>
+                <span className="text-secondary font-bold">{book.points_price} نقطة</span>
+              </>
+            )}
           </CardContent>
         </div>
 
@@ -83,12 +89,10 @@ const StoreItemCard = ({ book }: { book: Book }) => {
           </CardFooter>
         ) : (
           <CardFooter className="mx-auto mt-4 flex-wrap justify-center gap-x-4 gap-y-2 p-0">
-            <BuyBookTrigger
-              id={book?.id}
-              price={Number(book?.price)}
-              name={book?.name}
+            <BuyStoreItemTrigger
+              item={book}
             />
-            <BookCartAddRemove book={book} />
+            <StoreItemCartAddRemove item={book} />
           </CardFooter>
         )}
       </div>

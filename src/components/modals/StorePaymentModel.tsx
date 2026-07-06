@@ -4,21 +4,18 @@ import {
   DialogFooter,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { BooksPaymentUI } from "@/modules/store/components/BooksPaymentUI";
+import { StorePaymentUI } from "@/modules/store/components/StorePaymentUI";
 import { useStorePayments } from "@/modules/store/hooks/useStorePayments";
+import { StoreItem } from "@/types/store.types";
 import { DialogClose } from "@radix-ui/react-dialog";
 import React from "react";
 
 interface PaymentModalProps {
-  name?: string;
-  itemId: string;
-  price?: number;
+  item: StoreItem;
 }
 
 export const StorePaymentModel: React.FC<PaymentModalProps> = ({
-  itemId,
-  name,
-  price,
+  item,
 }) => {
   const {
     paymentMethodValue,
@@ -28,28 +25,34 @@ export const StorePaymentModel: React.FC<PaymentModalProps> = ({
     handleCheckout,
     coupon,
     setCoupon,
+    hasEnoughPoints,
   } = useStorePayments({
-    itemId,
+    item,
     asModal: true,
     isSingleBook: true,
   });
 
   return (
     <div className="">
-      <BooksPaymentUI
+      <StorePaymentUI
         paymentMethodValue={paymentMethodValue}
         setPaymentMethodValue={setPaymentMethodValue}
         loading={loading}
         paymentTypes={paymentTypes}
-        price={price}
+        price={Number(item?.price)}
         coupon={coupon}
         setCoupon={setCoupon}
-        name={name}
+        name={item?.name}
+        item={item}
         isSingleBook
       />
 
       <DialogFooter className="mt-5 flex w-full flex-row! justify-center gap-5 max-sm:flex-wrap sm:justify-center sm:space-x-0">
-        <Button onClick={handleCheckout} className="w-full">
+        <Button
+          onClick={handleCheckout}
+          className="w-full"
+          disabled={loading || (paymentMethodValue === "POINTS" && !hasEnoughPoints)}
+        >
           دفع
         </Button>
 

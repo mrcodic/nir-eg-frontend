@@ -1,4 +1,4 @@
-export interface Book {
+export interface StoreItem {
   id: string;
   title: string;
   quantity: number;

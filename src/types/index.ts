@@ -174,9 +174,9 @@ export interface CourseOrder {
 
 export type BookPaymentStatus = "pending" | "paid" | "unpaid";
 
-export type BooksOrder = {
+export type StoreOrder = {
   type: "book" | "cart";
-  items: BookItem[];
+  items: StoreOrderItem[];
   order_number: string;
   created_at: string;
   status: paymentStatus;
@@ -185,7 +185,7 @@ export type BooksOrder = {
   total_price: number;
 };
 
-export type BookItem = {
+export type StoreOrderItem = {
   book_id: number;
   book_image: string;
   book_name: string;
@@ -193,6 +193,8 @@ export type BookItem = {
   id: number;
   quantity: number;
   unit_price: number;
+  points_price?: number | null;
+  can_buy_points?: boolean;
 };
 
 export enum paymentType {

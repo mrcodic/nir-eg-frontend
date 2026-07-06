@@ -9,7 +9,7 @@ import {
   useRef,
 } from "react";
 import { useStore } from "zustand";
-import { type CartState, createCartStore } from "../store/booksCartStore";
+import { type CartState, createCartStore } from "../store/storeCartStore";
 import { useTenant } from "./TenantProvider";
 
 export type CartStoreApi = ReturnType<typeof createCartStore>;
@@ -22,7 +22,7 @@ export interface CartStoreProviderProps {
   children: ReactNode;
 }
 
-export const BooksStoreProvider = ({ children }: CartStoreProviderProps) => {
+export const StoreCartProvider = ({ children }: CartStoreProviderProps) => {
   const storeRef = useRef<CartStoreApi | null>(null);
   const isInitializedRef = useRef(false);
   const tenantFeatures = useTenant();
@@ -57,7 +57,7 @@ export function useCartStore<T>(selector?: (store: CartState) => T) {
   const cartStoreContext = useContext(CartStoreContext);
 
   if (!cartStoreContext) {
-    throw new Error("useCartStore must be used within BooksStoreProvider");
+    throw new Error("useCartStore must be used within StoreCartProvider");
   }
 
   return useStore(cartStoreContext, selector || ((state) => state as T));

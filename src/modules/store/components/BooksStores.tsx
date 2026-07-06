@@ -1,6 +1,6 @@
 import Empty from "@/components/shared/Empty";
 import RoomHeader from "@/modules/rooms/components/RoomHeader";
-import { BookLinksSettings } from "@/types/books.types";
+import { BookLinksSettings } from "@/types/store.types";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -14,23 +14,15 @@ export default function BooksStores({
       <RoomHeader title="متاجر الكتب" icon="/assets/books-colored.svg" />
 
       {links.length ? (
-        <BooksList links={links} />
+        <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {links.map((item) => (
+            <BooksListItem key={String(item.id)} href={item.url} />
+          ))}
+        </ul>
       ) : (
         <Empty text="لا توجد متاجر متاحة." />
       )}
     </section>
-  );
-}
-
-type LinkItem = { id: number | string; url: string };
-
-function BooksList({ links }: { links: LinkItem[] }) {
-  return (
-    <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {links.map((item) => (
-        <BooksListItem key={String(item.id)} href={item.url} />
-      ))}
-    </ul>
   );
 }
 

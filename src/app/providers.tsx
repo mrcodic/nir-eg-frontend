@@ -1,6 +1,6 @@
 "use client";
 
-import { BooksStoreProvider } from "@/context/BooksStoreProvider";
+import { StoreCartProvider } from "@/context/StoreProvider";
 import QueryProvider from "@/layouts/QueryProvider";
 import { IUser } from "@/types";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
@@ -23,11 +23,11 @@ function Providers({
     <QueryProvider>
       <NuqsAdapter>
         <AuthContextProvider profile={profile}>
-          <BooksStoreProvider>
+          <StoreCartProvider>
             <ModalProvider>
               <AppTree>{children}</AppTree>
             </ModalProvider>
-          </BooksStoreProvider>
+          </StoreCartProvider>
         </AuthContextProvider>
       </NuqsAdapter>
     </QueryProvider>

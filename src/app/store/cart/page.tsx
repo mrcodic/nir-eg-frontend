@@ -13,7 +13,7 @@ async function page() {
   });
 
   if (!profile) {
-    redirect("/login?redirect=/books/cart");
+    redirect("/login?redirect=/store/cart");
   }
 
   return (

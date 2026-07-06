@@ -1,6 +1,6 @@
 // hooks/useBooksSettings.ts
 import { getClientData } from "@/helpers/fetchers/client-fetch";
-import { BookLinksSettings } from "@/types/books.types";
+import { BookLinksSettings } from "@/types/store.types";
 import { useQuery } from "@tanstack/react-query";
 
 export function useBooksSettings({ enabled }) {

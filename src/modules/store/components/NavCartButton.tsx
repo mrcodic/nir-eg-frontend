@@ -12,11 +12,15 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { useAuthContext } from "@/context/auth-context";
-import { useCartStore } from "@/context/BooksStoreProvider";
+import { useCartStore } from "@/context/StoreProvider";
+import { useTenant } from "@/context/TenantProvider";
 import { formatCurrency } from "@/lib/utils";
+import { Trash } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import BookCartCard from "./BookCartCard";
+import { useMemo } from "react";
+import { MixedItemsPointsWarning } from "./MixedItemsPointsWarning";
+import StoreItemCartCard from "./StoreItemCartCard";
 
 function NavCartButton() {
   const pathname = usePathname();
@@ -31,6 +35,29 @@ function NavCartButton() {
   } = useCartStore();
 
   const displayCount = isCartHydrated ? getTotalItems() : 0;
+
+  const { features } = useTenant();
+  const hasPointsEnabled = !!features?.points_system;
+
+  const hasMixedPointsItems = useMemo(() => {
+    if (!hasPointsEnabled || !items.length) return false;
+    const hasAnyPoints = items.some((i) => !!i.can_buy_points);
+    const hasAnyNonPoints = items.some((i) => !i.can_buy_points);
+    return hasAnyPoints && hasAnyNonPoints;
+  }, [hasPointsEnabled, items]);
+
+  const pointsAllowed = useMemo(() => {
+    if (!hasPointsEnabled || !items.length) return false;
+    return items.every((i) => !!i.can_buy_points && i.points_price !== null);
+  }, [hasPointsEnabled, items]);
+
+  const totalPointsPrice = useMemo(() => {
+    if (!hasPointsEnabled || !items.length) return 0;
+    return items.reduce(
+      (sum, i) => sum + (i.points_price || 0) * (i.quantity || 1),
+      0,
+    );
+  }, [hasPointsEnabled, items]);
 
   if (!pathname.startsWith("/store") || pathname.startsWith("/store/cart"))
     return null;
@@ -70,12 +97,14 @@ function NavCartButton() {
           dir="rtl"
           className="flex flex-row flex-wrap items-center justify-between gap-4 pt-2 text-start sm:text-start"
         >
-          <SheetTitle>منتجات في السلة</SheetTitle>
+          <SheetTitle className="sr-only">منتجات في السلة</SheetTitle>
+
           {displayCount > 0 && (
             <button
               onClick={() => clearCart()}
-              className="ms-auto flex cursor-pointer items-center gap-1 text-red-500 hover:underline"
+              className="flex cursor-pointer items-center gap-1 text-sm text-red-500 hover:underline"
             >
+              <Trash className="size-4" />
               حذف جميع المنتجات
             </button>
           )}
@@ -96,23 +125,39 @@ function NavCartButton() {
 
         {!isLoading && items.length > 0 && (
           <>
-            <div className="mt-6 max-h-[max(calc(100vh-240px),300px)] divide-y divide-gray-200 overflow-y-auto pe-4">
+            <div className="mt-6 max-h-[max(calc(100vh-240px),300px)] divide-y divide-gray-200 overflow-y-auto rounded-lg border pe-4">
               {items.map((item) => (
-                <BookCartCard key={item.id} item={item} />
+                <StoreItemCartCard key={item.id} item={item} />
               ))}
             </div>
 
-            <div className="border-secondary mt-6 space-y-6 border-t pt-2">
+            {hasMixedPointsItems && (
+              <div className="mt-4">
+                <MixedItemsPointsWarning />
+              </div>
+            )}
+
+            <div className="border-secondary mt-6 space-y-4 border-t pt-4">
               <DataWithLabel
                 label="اجمالي السعر"
                 data={formatCurrency(getTotalPrice())}
-                className="justify-between"
-                labelClassName="text-lg"
-                dataClassName="text-lg"
+                className="flex-wrap justify-between gap-y-2"
+                labelClassName="text-base sm:text-lg"
+                dataClassName="text-base sm:text-lg"
               />
 
+              {hasPointsEnabled && pointsAllowed && (
+                <DataWithLabel
+                  label="اجمالي النقاط المطلوبة"
+                  data={`${totalPointsPrice} نقطة`}
+                  className="text-secondary flex-wrap justify-between gap-y-2"
+                  labelClassName="text-base sm:text-lg"
+                  dataClassName="text-base sm:text-lg font-bold"
+                />
+              )}
+
               <Link
-                href={!!profile ? "/store/cart" : "/login?redirect=/books/cart"}
+                href={!!profile ? "/store/cart" : "/login?redirect=/store/cart"}
                 className="inline-block w-full"
               >
                 <SheetClose className="bg-secondary hover:bg-secondary/90 w-full cursor-pointer rounded-lg px-4 py-2 text-white transition-all">

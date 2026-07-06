@@ -3,7 +3,7 @@ import CustomImage from "@/components/ui/CustomImage";
 import { deliveryStatusArabic } from "@/constants";
 import { cn, formatCurrency } from "@/lib/utils";
 import PaymentStatusBadge from "@/modules/payment/components/PaymentStatusBadge";
-import { BooksOrder } from "@/types";
+import { StoreOrder } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 import CartDetailsSideSheet from "./CartDetailsSideSheet";
@@ -11,15 +11,15 @@ import CartDetailsSideSheet from "./CartDetailsSideSheet";
 const imgWrapperClassname =
   "border-gray-light bg-background relative aspect-square rounded-lg border max-md:mx-auto max-md:h-[200px] max-md:w-full max-md:max-w-full md:w-[200px] overflow-hidden";
 
-function BookOrderCard({ bookOrder }: { bookOrder: BooksOrder }) {
-  const isCart = bookOrder.type === "cart" || bookOrder?.items?.length > 1;
+function StoreOrderCard({ storeOrder }: { storeOrder: StoreOrder }) {
+  const isCart = storeOrder.type === "cart" || storeOrder?.items?.length > 1;
 
-  const bookImage = (
+  const itemImage = (
     <CustomImage
       className="absolute inset-4 rounded-lg object-cover object-center transition-all duration-300"
-      src={bookOrder?.items[0]?.book_image}
+      src={storeOrder?.items[0]?.book_image}
       fallback={"/assets/grade-placeholder.png"}
-      alt="book image"
+      alt="item image"
       fill
     />
   );
@@ -27,28 +27,28 @@ function BookOrderCard({ bookOrder }: { bookOrder: BooksOrder }) {
   return (
     <div className="flex flex-col gap-6 md:flex-row">
       {isCart ? (
-        <div className={imgWrapperClassname}>{bookImage}</div>
+        <div className={imgWrapperClassname}>{itemImage}</div>
       ) : (
         <Link
-          href={`/store/${bookOrder?.items?.[0]?.book_id}`}
+          href={`/store/${storeOrder?.items?.[0]?.book_id}`}
           className={cn(
             imgWrapperClassname,
             "hover:[&>img]:scale-110 hover:[&>img]:opacity-80",
           )}
         >
-          {bookImage}
+          {itemImage}
         </Link>
       )}
 
       <div className={`border-gray-light flex-1 rounded-lg border p-4`}>
         <div className="flex w-full flex-wrap items-center justify-between gap-6">
           <h2 className="text-sm font-bold text-black md:text-lg">
-            {isCart ? "عربة التسوق" : bookOrder.items[0]?.book_name}
-            <p className="text-sm text-gray-500">{bookOrder?.order_number}</p>
+            {isCart ? "عربة التسوق" : storeOrder.items[0]?.book_name}
+            <p className="text-sm text-gray-500">{storeOrder?.order_number}</p>
           </h2>
 
           <PaymentStatusBadge
-            status={bookOrder.payment_status}
+            status={storeOrder.payment_status}
             variant="book"
           />
         </div>
@@ -60,34 +60,34 @@ function BookOrderCard({ bookOrder }: { bookOrder: BooksOrder }) {
             <h3 className="text-sm">
               حالة التوصيل:{" "}
               <span className="ps-2 font-bold">
-                {deliveryStatusArabic[bookOrder?.delivery_status] ||
+                {deliveryStatusArabic[storeOrder?.delivery_status] ||
                   "قيد الانتظار"}
               </span>
             </h3>
 
             {/* show only for cart */}
-            {isCart && <CartDetailsSideSheet bookOrder={bookOrder} />}
+            {isCart && <CartDetailsSideSheet storeOrder={storeOrder} />}
           </div>
           <div className="mt-4 flex flex-wrap items-center gap-8">
             <DataLabel text="السعر">
-              {formatCurrency(bookOrder.total_price)}
+              {formatCurrency(storeOrder.total_price)}
             </DataLabel>
 
             {!isCart && (
               <DataLabel text="الكمية">
-                {bookOrder.items[0]?.quantity}
+                {storeOrder.items[0]?.quantity}
               </DataLabel>
             )}
 
             <DataLabel text="التاريخ">
               <div className="flex gap-10">
                 <span className="text-[#523412]">
-                  {new Date(bookOrder?.created_at).toISOString().split("T")[0]}
+                  {new Date(storeOrder?.created_at).toISOString().split("T")[0]}
                 </span>
               </div>
             </DataLabel>
 
-            <DataLabel text={"طريفة الدفع"}>
+            <DataLabel text={"طريقة الدفع"}>
               <Image
                 src={"/assets/Fawry.svg"}
                 alt=""
@@ -95,17 +95,6 @@ function BookOrderCard({ bookOrder }: { bookOrder: BooksOrder }) {
                 height={0}
                 className="size-auto object-contain"
               />
-              {/* {paymentTypesObj[item?.payment_method || ""]?.icons?.map(
-                    (icon) => (
-                      <Image
-                        src={icon}
-                        alt=""
-                        width={0}
-                        height={0}
-                        className=" object-contain size-auto"
-                      />
-                    )
-                  )} */}
             </DataLabel>
           </div>
         </div>
@@ -114,4 +103,4 @@ function BookOrderCard({ bookOrder }: { bookOrder: BooksOrder }) {
   );
 }
 
-export default BookOrderCard;
+export default StoreOrderCard;

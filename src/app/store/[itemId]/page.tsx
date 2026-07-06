@@ -1,7 +1,7 @@
 import { getServerData } from "@/helpers/fetchers/server-fetch";
 import StoreItemDetailsCard from "@/modules/store/components/StoreItemDetailsCard";
 import StoreItems from "@/modules/store/components/StoreItems";
-import { Book } from "@/types/books.types";
+import { StoreItem } from "@/types/store.types";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 async function page({ params }: { params: Promise<{ itemId: string }> }) {
   const itemId = (await params).itemId;
-  const book = await getServerData<{ data: Book }>({
+  const book = await getServerData<{ data: StoreItem }>({
     queryKey: ["books/" + itemId],
   });
 

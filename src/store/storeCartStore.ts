@@ -1,14 +1,14 @@
 import { TenantPublic } from "@/context/TenantProvider";
 import { toast } from "@/hooks/use-toast";
 import cartServices from "@/services/cart.service";
-import { Book } from "@/types/books.types";
+import { StoreItem } from "@/types/store.types";
 import Cookies from "js-cookie";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { createStore } from "zustand/vanilla";
 
 // Types
-export interface CartItem extends Book {
+export interface CartItem extends StoreItem {
   quantity: number;
 }
 
@@ -20,7 +20,7 @@ export interface CartState {
   error: string | null;
 
   // Actions
-  addToCart: (book: Book) => Promise<void>;
+  addToCart: (item: StoreItem) => Promise<void>;
   removeFromCart: (id: string) => Promise<void>;
   decrementQuantity: (id: string) => Promise<void>;
   incrementQuantity: (id: string) => Promise<void>;
@@ -102,6 +102,8 @@ export const createCartStore = (initState?: Partial<CartState>) => {
             // Try to fetch cart from server
             const serverCart = await cartServices.fetchCart();
 
+            console.log("serverCart  -----  ", serverCart);
+
             set((state) => {
               // If server has items, use them
               if (serverCart?.data?.items?.length > 0) {
@@ -144,37 +146,33 @@ export const createCartStore = (initState?: Partial<CartState>) => {
           }
         },
 
-        addToCart: async (book) => {
+        addToCart: async (item) => {
           // Optimistic update
           set((state) => {
             const existingItem = state.items.find(
-              (item) => String(item.id) === String(book.id),
+              (i) => String(i.id) === String(item.id),
             );
             if (existingItem) {
               existingItem.quantity += 1;
             } else {
-              state.items.push({ ...book, quantity: 1 });
+              state.items.push({ ...item, quantity: 1 });
             }
           });
 
           try {
-            const item = get().items.find((i) => i.id === book.id);
-            if (item) {
-              await cartServices.addItem(item);
+            const addedItem = get().items.find((i) => i.id === item.id);
+            if (addedItem) {
+              await cartServices.addItem(addedItem);
             }
           } catch (error) {
             // Rollback on error
             set((state) => {
-              const existingItem = state.items.find(
-                (item) => item.id === book.id,
-              );
+              const existingItem = state.items.find((i) => i.id === item.id);
               if (existingItem) {
                 if (existingItem.quantity > 1) {
                   existingItem.quantity -= 1;
                 } else {
-                  state.items = state.items.filter(
-                    (item) => item.id !== book.id,
-                  );
+                  state.items = state.items.filter((i) => i.id !== item.id);
                 }
               }
               state.error =

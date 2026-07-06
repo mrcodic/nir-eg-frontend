@@ -4,15 +4,15 @@ import { StorePaymentModel } from "@/components/modals/StorePaymentModel";
 import CustomImage from "@/components/ui/CustomImage";
 import { useModal } from "@/context/ModalProvider";
 import { formatCurrency } from "@/lib/utils";
-import BookCartAddRemove from "@/modules/store/components/BookCartAddRemove";
-import BookQuantity from "@/modules/store/components/BookQuantity";
-import BuyBookTrigger from "@/modules/store/components/BuyBookTrigger";
+import StoreItemCartAddRemove from "@/modules/store/components/StoreItemCartAddRemove";
+import StoreItemQuantity from "@/modules/store/components/StoreItemQuantity";
+import BuyStoreItemTrigger from "@/modules/store/components/BuyStoreItemTrigger";
 import OutOfStockBadge from "@/modules/store/components/OutOfStockBadge";
-import { Book } from "@/types/books.types";
+import { StoreItem } from "@/types/store.types";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect } from "react";
 
-function StoreItemDetailsCard({ book }: { book: Book }) {
+function StoreItemDetailsCard({ book }: { book: StoreItem }) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const modal = useModal();
@@ -23,15 +23,13 @@ function StoreItemDetailsCard({ book }: { book: Book }) {
     if (searchParams.get("open_modal") == "true") {
       modal.setDialogContent(
         <StorePaymentModel
-          itemId={book?.id}
-          price={Number(price)}
-          name={name}
+          item={book}
         />,
       );
       modal.openModal();
       router.replace("/store/" + book?.id);
     }
-  }, [book?.id, modal, name, price, router, searchParams]);
+  }, [book, modal, name, price, router, searchParams]);
 
   console.log(book);
 
@@ -57,29 +55,35 @@ function StoreItemDetailsCard({ book }: { book: Book }) {
           <hr className="border-gray-light mt-3 mb-6" />
 
           <div>
-            <p className="text-2xl font-bold">
-              <span className="me-4 text-xl">السعر:</span>
-              {formatCurrency(price)}
-            </p>
+            <div className="flex flex-col gap-y-2">
+              <p className="text-2xl font-bold">
+                <span className="me-4 text-xl">السعر:</span>
+                {formatCurrency(price)}
+              </p>
+              {book?.can_buy_points && book?.points_price !== null && (
+                <p className="text-2xl font-bold text-secondary flex items-center">
+                  <span className="me-4 text-xl text-black font-normal">أو بالنقاط:</span>
+                  {book.points_price} نقطة
+                </p>
+              )}
+            </div>
 
             <div className="mt-6 flex min-h-11 flex-wrap-reverse items-center justify-between gap-4">
               <div className="flex w-fit flex-wrap gap-x-4 gap-y-2 md:gap-x-6">
                 <Suspense>
-                  <BuyBookTrigger
-                    id={book?.id}
-                    price={Number(book?.price)}
-                    name={book?.name}
+                  <BuyStoreItemTrigger
+                    item={book}
                     buttonClassName="h-10 text-lg px-12 font-bold"
                   />
                 </Suspense>
 
-                <BookCartAddRemove
-                  book={book}
+                <StoreItemCartAddRemove
+                  item={book}
                   buttonClassName="h-10 text-lg px-12 font-bold"
                 />
               </div>
 
-              <BookQuantity book={book} className="ms-auto" />
+              <StoreItemQuantity item={book as any} className="ms-auto" />
             </div>
           </div>
         </div>

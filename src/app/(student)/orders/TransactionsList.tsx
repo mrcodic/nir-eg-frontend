@@ -4,9 +4,9 @@ import Empty from "@/components/shared/Empty";
 import InfiniteScroll from "@/components/shared/InfinteScroll";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import { getClientPrivateData } from "@/helpers/fetchers/client-fetch";
-import { BooksOrder, CourseOrder } from "@/types";
+import { StoreOrder, CourseOrder } from "@/types";
 import { useEffect, useState } from "react";
-import BookOrderCard from "./BookOrderCard";
+import StoreOrderCard from "./StoreOrderCard";
 import CourseOrderCard from "./CourseOrderCard";
 
 export default function TransactionsList({
@@ -15,7 +15,7 @@ export default function TransactionsList({
   type: "course" | "store";
 }) {
   const [data, setData] = useState<{
-    body: (BooksOrder | CourseOrder)[];
+    body: (StoreOrder | CourseOrder)[];
     pagination: {
       current_page: number;
       last_page: number;
@@ -61,7 +61,7 @@ export default function TransactionsList({
             isCourses ? (
               <CourseOrderCard key={order.id} courseOrder={order} />
             ) : (
-              <BookOrderCard key={order.id} bookOrder={order} />
+              <StoreOrderCard key={order.id} storeOrder={order as StoreOrder} />
             ),
           )}
         </div>

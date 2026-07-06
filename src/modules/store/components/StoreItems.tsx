@@ -2,13 +2,13 @@
 
 import Empty from "@/components/shared/Empty";
 import PaginationComponent from "@/components/shared/Pagination";
-import { useCartStore } from "@/context/BooksStoreProvider";
+import { useCartStore } from "@/context/StoreProvider";
 import { getClientData } from "@/helpers/fetchers/client-fetch";
 import { cn } from "@/lib/utils";
 import RoomHeader from "@/modules/rooms/components/RoomHeader";
 import StoreItemCardSkeleton from "@/modules/store/components/StoreItemCardSkeleton";
 import { IPagination } from "@/types";
-import { Book } from "@/types/books.types";
+import { StoreItem } from "@/types/store.types";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import StoreItemsDisplayGrid from "./StoreItemsDisplayGrid";
@@ -33,7 +33,7 @@ function StoreItems({
   const { data, error, isLoading, isPlaceholderData } = useQuery({
     queryKey: [`store-items`, page],
     queryFn: () =>
-      getClientData<IPagination<Book[]>>({
+      getClientData<IPagination<StoreItem[]>>({
         queryKey: [`books?per_page=${perPage}&page=` + page],
         optionalAuth: true,
       }),

@@ -1,9 +1,9 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useCartStore } from "@/context/BooksStoreProvider";
+import { useCartStore } from "@/context/StoreProvider";
 import { useToast } from "@/hooks/use-toast";
-import { Book } from "@/types/books.types";
+import { StoreItem } from "@/types/store.types";
 import { useRouter } from "next/navigation";
 import React, { startTransition, useCallback, useState } from "react";
 
@@ -11,14 +11,14 @@ type Props = {
   children: React.ReactNode;
   navigate?: boolean;
   className?: string;
-  book: Book;
+  item: StoreItem;
 };
 
 const AddToCart: React.FC<Props> = ({
   children,
   navigate,
   className,
-  book,
+  item,
 }) => {
   const { toast } = useToast();
   const router = useRouter();
@@ -31,7 +31,7 @@ const AddToCart: React.FC<Props> = ({
     setIsProcessing(true);
 
     try {
-      const result = addToCart(book);
+      const result = addToCart(item);
 
       // if addToCart returns a promise, await it
       if (result instanceof Promise) {
@@ -40,7 +40,7 @@ const AddToCart: React.FC<Props> = ({
 
       toast({
         icon: "success",
-        description: "تمت إضافة الكتاب إلى السلة.",
+        description: "تمت إضافة المنتج إلى السلة.",
       });
 
       if (navigate) {
@@ -52,12 +52,12 @@ const AddToCart: React.FC<Props> = ({
       console.error("ADD TO CART ERROR", error);
       toast({
         icon: "error",
-        description: "حدث خطأ أثناء إضافة الكتاب للسلة.",
+        description: "حدث خطأ أثناء إضافة المنتج للسلة.",
       });
     } finally {
       setIsProcessing(false);
     }
-  }, [addToCart, book, isProcessing, navigate, router, toast]);
+  }, [addToCart, item, isProcessing, navigate, router, toast]);
 
   return (
     <Button

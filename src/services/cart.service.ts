@@ -1,5 +1,5 @@
-import { CartItem } from "@/store/booksCartStore";
-import { Book } from "@/types/books.types";
+import { CartItem } from "@/store/storeCartStore";
+import { StoreItem } from "@/types/store.types";
 import { instanceClient } from "@/utils/instanceClient";
 
 interface ServerGetCartResponse {
@@ -9,7 +9,7 @@ interface ServerGetCartResponse {
       id: string;
       quantity: number;
       status: number;
-      book: Book;
+      book: StoreItem;
     }[];
     price: number;
     owner: {

@@ -14,12 +14,12 @@ import {
 import { deliveryStatusArabic } from "@/constants";
 import { formatCurrency } from "@/lib/utils";
 import PaymentStatusBadge from "@/modules/payment/components/PaymentStatusBadge";
-import { BooksOrder } from "@/types";
+import { StoreOrder } from "@/types";
 import { ChevronLeft } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-function CartDetailsSideSheet({ bookOrder }: { bookOrder: BooksOrder }) {
+function CartDetailsSideSheet({ storeOrder }: { storeOrder: StoreOrder }) {
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -43,25 +43,27 @@ function CartDetailsSideSheet({ bookOrder }: { bookOrder: BooksOrder }) {
           <h2 className="border-gray-light mt-8 flex w-full flex-wrap items-center justify-between gap-x-4 gap-y-2 border-b pb-2">
             <span className="text-sm font-bold text-black md:text-[18px]">
               عربة التسوق
-              <p className="text-sm text-gray-500">{bookOrder?.order_number}</p>
+              <p className="text-sm text-gray-500">
+                {storeOrder?.order_number}
+              </p>
             </span>
 
-            <PaymentStatusBadge status={bookOrder.status} variant="book" />
+            <PaymentStatusBadge status={storeOrder.status} variant="book" />
           </h2>
         </SheetHeader>
 
         <div className="flex h-full flex-col">
           <div className="border-gray-light mt-6 flex flex-wrap items-center gap-x-8 gap-y-4 border-b pb-4">
             <DataLabel text="السعر">
-              {formatCurrency(bookOrder.total_price)}
+              {formatCurrency(storeOrder.total_price)}
             </DataLabel>
 
             <DataLabel text="التاريخ">
-              {new Date(bookOrder?.created_at).toISOString().split("T")[0]}
+              {new Date(storeOrder?.created_at).toISOString().split("T")[0]}
             </DataLabel>
 
             <DataLabel text="حالة التوصيل">
-              {deliveryStatusArabic[bookOrder?.delivery_status] ||
+              {deliveryStatusArabic[storeOrder?.delivery_status] ||
                 "قيد الانتظار"}
             </DataLabel>
 
@@ -78,7 +80,7 @@ function CartDetailsSideSheet({ bookOrder }: { bookOrder: BooksOrder }) {
 
           {/* cart books (items) cards */}
           <div className="mt-8 flex h-full max-h-[calc(100vh-340px)] min-h-[150px] flex-col gap-6 overflow-y-auto">
-            {bookOrder.items?.map((item) => (
+            {storeOrder.items?.map((item) => (
               <div
                 key={item.id}
                 className="border-gray-light flex flex-col gap-6 rounded-lg border p-2 md:flex-row"
@@ -111,8 +113,8 @@ function CartDetailsSideSheet({ bookOrder }: { bookOrder: BooksOrder }) {
           </div>
 
           <PriceSummary
-            totalPrice={bookOrder.total_price}
-            finalPrice={bookOrder.total_price}
+            totalPrice={storeOrder.total_price}
+            finalPrice={storeOrder.total_price}
             className="mt-8"
           />
         </div>

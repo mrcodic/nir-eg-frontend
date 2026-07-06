@@ -5,18 +5,15 @@ import { Button } from "@/components/ui/button";
 import { useAuthContext } from "@/context/auth-context";
 import { useModal } from "@/context/ModalProvider";
 import { cn } from "@/lib/utils";
+import { StoreItem } from "@/types/store.types";
 import { useRouter } from "next/navigation";
 
-function BuyBookTrigger({
-  id,
-  price,
+function BuyStoreItemTrigger({
+  item,
   buttonClassName,
-  name,
 }: {
-  id: string;
-  price: number;
+  item: StoreItem;
   buttonClassName?: string;
-  name?: string;
 }) {
   const router = useRouter();
 
@@ -28,12 +25,12 @@ function BuyBookTrigger({
       onClick={() => {
         if (!profile) {
           const redirectUrl = encodeURIComponent(
-            `/store/${id}?open_modal=true`,
+            `/store/${item?.id}?open_modal=true`,
           );
           router.push(`/login?redirect=${redirectUrl}`);
         } else {
           modal.setDialogContent(
-            <StorePaymentModel itemId={id} price={price} name={name} />,
+            <StorePaymentModel item={item} />,
           );
           modal.openModal();
         }
@@ -45,4 +42,4 @@ function BuyBookTrigger({
   );
 }
 
-export default BuyBookTrigger;
+export default BuyStoreItemTrigger;

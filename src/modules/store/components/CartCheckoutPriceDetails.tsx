@@ -1,7 +1,7 @@
 "use client";
 
 import PriceSummary from "@/components/ui/price-summary";
-import { useCartStore } from "@/context/BooksStoreProvider";
+import { useCartStore } from "@/context/StoreProvider";
 import { PricingResponse } from "@/types";
 
 function CartCheckoutPriceDetails({ coupon }: { coupon?: PricingResponse }) {

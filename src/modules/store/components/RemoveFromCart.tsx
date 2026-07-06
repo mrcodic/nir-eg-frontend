@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useCartStore } from "@/context/BooksStoreProvider";
+import { useCartStore } from "@/context/StoreProvider";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import React, { startTransition, useCallback, useState } from "react";
@@ -38,7 +38,7 @@ const RemoveFromCart: React.FC<Props> = ({
 
       toast({
         icon: "success",
-        description: "تمت إزالة الكتاب من السلة.",
+        description: "تمت إزالة المنتج من السلة.",
       });
 
       if (navigate) {
@@ -51,7 +51,7 @@ const RemoveFromCart: React.FC<Props> = ({
       console.error("removeFromCart error:", error);
       toast({
         icon: "error",
-        description: "حدث خطأ أثناء إزالة الكتاب من السلة.",
+        description: "حدث خطأ أثناء إزالة المنتج من السلة.",
       });
     } finally {
       setIsProcessing(false);

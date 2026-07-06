@@ -4,8 +4,8 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
-  title: "الكتب",
-  description: "تصفح الكتب المتاحة وروابط المتاجر وخيارات الشراء المرتبطة بها.",
+  title: "متجر المنتجات",
+  description: "تصفح المنتجات المتاحة وخيارات الشراء المرتبطة بها.",
 };
 
 async function page() {
