@@ -10,7 +10,7 @@ import GuestDropdown from "./GuestDropdown";
 
 const GuestNavBar = () => {
   const pathname = usePathname();
-  const { logo, features } = useTenant();
+  const { logo } = useTenant();
 
   const guestLinks = [
     {
@@ -19,12 +19,12 @@ const GuestNavBar = () => {
       icon: "/assets/books-colored.svg",
       show: true,
     },
-    {
-      text: "المتجر",
-      href: "/store",
-      icon: "/assets/icons/BookColor.svg",
-      show: !!features?.book_store,
-    },
+    // {
+    //   text: "المتجر",
+    //   href: "/store",
+    //   icon: "/assets/icons/BookColor.svg",
+    //   show: !!features?.book_store,
+    // },
   ];
 
   return (
