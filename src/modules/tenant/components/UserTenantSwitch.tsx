@@ -29,6 +29,79 @@ import Image from "next/image";
 import useSwitchTenant from "../hooks/useSwitchTenant";
 import useTenants from "../hooks/useTenants";
 
+import {
+  clearSelectedDesktopTenant,
+  navigateToDesktopEntry,
+  persistDesktopTenant,
+} from "@/helpers/fetchers/desktop-tenant-session";
+import { buildCanonicalTenantHost } from "@/helpers/fetchers/tenant-resolution";
+
+// Switch Teacher
+function isElectronDesktop() {
+  return typeof window !== "undefined" && !!window.electron;
+}
+
+function showImmediateAppLoader(message = "جاري التحويل...") {
+  if (typeof window === "undefined") return;
+
+  if (document.getElementById("app-immediate-loader")) return;
+
+  const style = document.createElement("style");
+  style.id = "app-immediate-loader-style";
+  style.innerHTML = `
+    @keyframes appLoaderSpin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+  `;
+
+  const loader = document.createElement("div");
+  loader.id = "app-immediate-loader";
+  loader.innerHTML = `
+    <div style="
+      position: fixed;
+      inset: 0;
+      z-index: 999999999;
+      background: rgba(255,255,255,0.96);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      direction: rtl;
+      font-family: inherit;
+    ">
+      <div style="text-align:center; display:flex; flex-direction:column; align-items:center; gap:16px;">
+        <div style="
+          width:56px;
+          height:56px;
+          border-radius:9999px;
+          border:4px solid #e5e7eb;
+          border-top-color:#2563eb;
+          animation: appLoaderSpin 0.8s linear infinite;
+        "></div>
+
+        <div>
+          <div style="font-size:16px; font-weight:700; color:#1f2937;">
+            ${message}
+          </div>
+          <div style="font-size:14px; color:#6b7280; margin-top:6px;">
+            برجاء الانتظار لحظات
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.head.appendChild(style);
+  document.body.appendChild(loader);
+}
+
+function removeImmediateAppLoader() {
+  if (typeof window === "undefined") return;
+
+  document.getElementById("app-immediate-loader")?.remove();
+  document.getElementById("app-immediate-loader-style")?.remove();
+}
+
 export default function UserTenantSwitch() {
   const { toast } = useToast();
   const { tenants, isLoading, error } = useTenants();
@@ -49,41 +122,81 @@ export default function UserTenantSwitch() {
   }, [tenants]);
 
   async function handleSwitchTenant(tenantId: string) {
-    try {
-      const response = await switchTenant(tenantId);
+  try {
+    setIsSwitching(true);
+    showImmediateAppLoader("جاري التحويل...");
 
-      const targetTenant = tenants.find(
-        (tenant) => tenant.tenant_id === tenantId,
-      );
-      const token = Cookies.get("nir_token");
+    const response = await switchTenant(tenantId);
 
-      if (!targetTenant || !token) {
-        toast({ icon: "error", description: "حدث خطأ أثناء التحويل" });
-        return;
-      }
+    const targetTenant = tenants.find(
+      (tenant) => tenant.tenant_id === tenantId,
+    );
 
-      const normalizedTarget: UserTenant = {
-        ...targetTenant,
-        slug: response?.active_tenant?.slug || targetTenant.slug,
-        domain_type:
-          response?.active_tenant?.domain_type || targetTenant.domain_type,
-      };
+    const token = Cookies.get("nir_token");
 
-      const targetOrigin = buildTargetOrigin(normalizedTarget);
-      const switchUrl = `${targetOrigin}/api/auth/switch?token=${encodeURIComponent(token)}`;
+    if (!targetTenant || !token) {
+      removeImmediateAppLoader();
+      setIsSwitching(false);
 
-      setIsSwitching(true);
-
-      window.open(switchUrl, "_self", "noopener,noreferrer");
-
-      toast({ icon: "loading", description: "جاري التحويل..." });
-    } catch (switchError) {
-      toast({
-        icon: "error",
-        description: getSwitchTenantErrorMessage(switchError),
-      });
+      toast({ icon: "error", description: "حدث خطأ أثناء التحويل" });
+      return;
     }
+
+    const normalizedTarget: UserTenant = {
+      ...targetTenant,
+      slug: response?.active_tenant?.slug || targetTenant.slug,
+      domain_type:
+        response?.active_tenant?.domain_type || targetTenant.domain_type,
+    };
+
+    /**
+     * Electron:
+     * لا تفتح targetOrigin الحقيقي عشان مش يطلع برا التطبيق.
+     * خزّن tenant cookies وروح على نفس localhost.
+     */
+    if (isElectronDesktop()) {
+      persistDesktopTenant({
+        slug: normalizedTarget.slug,
+        host:
+          normalizedTarget.domain_type === "domain" && normalizedTarget.domain
+            ? normalizeDomain(normalizedTarget.domain)
+            : buildCanonicalTenantHost(normalizedTarget.slug),
+        domain_type:
+          normalizedTarget.domain_type === "domain" ? "domain" : "subdomain",
+        name: normalizedTarget.name,
+        brand_name: normalizedTarget.name,
+        site_name: normalizedTarget.name,
+        logo: normalizedTarget.logo || "",
+        primary_color: normalizedTarget.primary_color,
+        last_used_at: normalizedTarget.last_accessed_at || new Date().toISOString(),
+      });
+
+      window.location.assign(
+        `/api/auth/switch?token=${encodeURIComponent(token)}&source=electron`,
+      );
+
+      return;
+    }
+
+    /**
+     * Web normal flow
+     */
+    const targetOrigin = buildTargetOrigin(normalizedTarget);
+    const switchUrl = `${targetOrigin}/api/auth/switch?token=${encodeURIComponent(token)}`;
+
+    window.open(switchUrl, "_self", "noopener,noreferrer");
+
+    toast({ icon: "loading", description: "جاري التحويل..." });
+  } catch (switchError) {
+    removeImmediateAppLoader();
+    setIsSwitching(false);
+
+    toast({
+      icon: "error",
+      description: getSwitchTenantErrorMessage(switchError),
+    });
   }
+}
 
   if (tenants.length <= 1)
     return (

@@ -34,7 +34,7 @@ declare global {
         userId: number;
       }) => void;
 
-      desktopLogout: () => void;
+      desktopLogout: () => Promise<{ ok: boolean; error?: string }>;
 
       saveUserPhone: (data: {
         phone: string;

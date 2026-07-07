@@ -13,20 +13,20 @@ const GuestNavBar = () => {
   const pathname = usePathname();
   const { logo, features } = useTenant();
 
-  const guestLinks = [
-    {
-      text: "الصفوف الدراسية",
-      href: "/#grades",
-      icon: "/assets/books-colored.svg",
-      show: true,
-    },
-    {
-      text: "الكتب",
-      href: "/books",
-      icon: "/assets/icons/BookColor.svg",
-      show: features?.book_store,
-    },
-  ];
+  // const guestLinks = [
+  //   {
+  //     text: "الصفوف الدراسية",
+  //     href: "/#grades",
+  //     icon: "/assets/books-colored.svg",
+  //     show: true,
+  //   },
+  //   {
+  //     text: "الكتب",
+  //     href: "/books",
+  //     icon: "/assets/icons/BookColor.svg",
+  //     show: features?.book_store,
+  //   },
+  // ];
 
   return (
     <header
@@ -56,7 +56,7 @@ const GuestNavBar = () => {
               />
             </Link>
 
-            <nav className="hidden gap-2 md:flex">
+            {/* <nav className="hidden gap-2 md:flex">
               {guestLinks
                 .filter((link) => link.show)
                 .map((link) => (
@@ -81,7 +81,7 @@ const GuestNavBar = () => {
                     <h3>{link.text}</h3>
                   </Link>
                 ))}
-            </nav>
+            </nav> */}
           </div>
 
           <GuestDropdown />

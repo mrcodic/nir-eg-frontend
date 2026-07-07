@@ -34,27 +34,27 @@ function GuestDropdown() {
       href: "/register",
       label: "إنشاء حساب",
     },
-    {
-      href: "/#grades",
-      label: "الصفوف الدراسية",
-      className: "lg:hidden",
+    // {
+    //   href: "/#grades",
+    //   label: "الصفوف الدراسية",
+    //   className: "lg:hidden",
 
-      icon: { src: "/assets/books-colored.svg", alt: "books-colored icon" },
-    },
-    ...(features?.book_store
-      ? [
-          {
-            href: "/books",
-            label: "الكتب",
-            className: "lg:hidden",
+    //   icon: { src: "/assets/books-colored.svg", alt: "books-colored icon" },
+    // },
+    // ...(features?.book_store
+    //   ? [
+    //       {
+    //         href: "/books",
+    //         label: "الكتب",
+    //         className: "lg:hidden",
 
-            icon: {
-              src: "/assets/icons/BookColor.svg",
-              alt: "book colored icon",
-            },
-          } satisfies NavLink,
-        ]
-      : []),
+    //         icon: {
+    //           src: "/assets/icons/BookColor.svg",
+    //           alt: "book colored icon",
+    //         },
+    //       } satisfies NavLink,
+    //     ]
+    //   : []),
   ];
 
   return (
