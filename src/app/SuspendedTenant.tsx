@@ -69,9 +69,12 @@ export default function SuspendedTenant() {
 
             {/* Description */}
             <p className="mt-6 text-sm leading-relaxed font-bold text-neutral-900 md:text-lg">
+              عذرا المنصة موقوفة ، يرجى التواصل مع المعلم الخاص بك.
+            </p>
+            {/* <p className="mt-6 text-sm leading-relaxed font-bold text-neutral-900 md:text-lg">
               يمكنك التواصل معنا من هنا لمعرفة سبب إيقاف حسابك و لتتمكن من
               الوصول لحسابك مرة أخرى
-            </p>
+            </p> */}
 
             {/* Actions */}
             <div className="mt-10 flex flex-wrap justify-center gap-4">

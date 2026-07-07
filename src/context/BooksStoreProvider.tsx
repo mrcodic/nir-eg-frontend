@@ -10,6 +10,7 @@ import {
 } from "react";
 import { useStore } from "zustand";
 import { type CartState, createCartStore } from "../store/booksCartStore";
+import { useTenant } from "./TenantProvider";
 
 export type CartStoreApi = ReturnType<typeof createCartStore>;
 
@@ -24,19 +25,24 @@ export interface CartStoreProviderProps {
 export const BooksStoreProvider = ({ children }: CartStoreProviderProps) => {
   const storeRef = useRef<CartStoreApi | null>(null);
   const isInitializedRef = useRef(false);
+  const tenantFeatures = useTenant();
 
-  if (!storeRef.current) {
+  if (!storeRef.current && tenantFeatures?.features?.book_store) {
     storeRef.current = createCartStore();
   }
 
   // Initialize cart only on client-side, after mount
   useEffect(() => {
-    if (!isInitializedRef.current && storeRef.current) {
+    if (
+      !isInitializedRef.current &&
+      storeRef.current &&
+      tenantFeatures?.features?.book_store
+    ) {
       isInitializedRef.current = true;
       const store = storeRef.current.getState();
-      store.initializeCart();
+      store.initializeCart(tenantFeatures);
     }
-  }, []);
+  }, [tenantFeatures]);
 
   return (
     <CartStoreContext.Provider value={storeRef.current}>

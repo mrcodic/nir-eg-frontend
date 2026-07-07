@@ -3,10 +3,11 @@ import { getClientData } from "@/helpers/fetchers/client-fetch";
 import { BookLinksSettings } from "@/types/books.types";
 import { useQuery } from "@tanstack/react-query";
 
-export function useBooksSettings() {
+export function useBooksSettings({ enabled }) {
   const { data } = useQuery<{ data: BookLinksSettings }>({
     queryKey: ["settings/books"],
     queryFn: getClientData,
+    enabled,
   });
 
   const booksData = data?.data;
