@@ -66,7 +66,7 @@ function ExpiredOrInvalid({
         {token ? (
           <button
             onClick={handleSendNewLink}
-            className="bg-secondary flex h-10 w-full items-center justify-center gap-1 rounded-lg border border-[#D9B45C] py-0 text-lg font-bold text-white disabled:opacity-80 md:w-[189px]"
+            className="bg-secondary border-secondary flex h-10 w-full items-center justify-center gap-1 rounded-lg border py-0 text-lg font-bold text-white disabled:opacity-80 md:w-[189px]"
             disabled={isLoading}
           >
             {isLoading && <Loader2Icon className="size-4 animate-spin" />}
@@ -75,7 +75,7 @@ function ExpiredOrInvalid({
         ) : (
           <Link
             href="/"
-            className="bg-secondary flex h-10 w-full items-center justify-center rounded-lg border border-[#D9B45C] py-0 text-lg font-bold text-white md:w-[189px]"
+            className="bg-secondary border-secondary flex h-10 w-full items-center justify-center rounded-lg border py-0 text-lg font-bold text-white md:w-[189px]"
           >
             الرجوع للرئيسية
           </Link>
@@ -85,7 +85,7 @@ function ExpiredOrInvalid({
           href={`http://t.me/More_english_support?text=محتاج مساعدة لو سمحت`}
           target="_blank"
         >
-          <Button className="flex h-10 w-full items-center justify-center gap-1 rounded-lg border bg-[#D9B45C] py-0 text-lg font-bold text-white">
+          <Button className="flex h-10 w-full items-center justify-center gap-1 rounded-lg border bg-secondary py-0 text-lg font-bold text-white">
             تواصل مع الدعم الفني
           </Button>
         </Link> */}

@@ -22,7 +22,7 @@ const columns = [
         href={`#classroom-chart-${info.row.original?.classroom}`}
         className="flex max-w-[200px] cursor-pointer items-center gap-2 truncate p-2 text-base font-medium md:max-w-[300px]"
       >
-        <p className="truncate text-[#D9B45C] underline">{info.getValue()}</p>
+        <p className="text-secondary truncate underline">{info.getValue()}</p>
       </Link>
     ),
   }),
@@ -60,6 +60,7 @@ const columns = [
     ),
     cell: (info) => {
       const row = info.row.original;
+
       const isExam = row?.type !== "واجب";
 
       return (
@@ -113,7 +114,7 @@ const columns = [
             <ExamPDFGenerator
               taskId={row?.id}
               text="تنزيل نموذج الإجابة"
-              className="bg-secondary flex h-10 items-center justify-center rounded-[10px] p-1 text-xs font-bold text-white sm:text-sm"
+              className="bg-secondary flex h-10 items-center justify-center rounded-[10px] p-1 px-2 text-xs font-bold text-white sm:text-sm"
             />
           )}
         </div>

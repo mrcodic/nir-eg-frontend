@@ -1,3 +1,5 @@
+import { TaskType } from "@/types";
+
 export type IPortalQuiz = {
   id: number;
   title: string;
@@ -8,8 +10,8 @@ export type IPortalQuiz = {
   status: string | null;
   submitted_at: string | null;
   classroom?: string;
-  type: string;
-  type_label: string;
+  type: TaskType;
+  type_label: TaskType;
   passed: boolean;
 };
 

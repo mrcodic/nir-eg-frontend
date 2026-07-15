@@ -49,8 +49,8 @@ function GradesTableAction({
             <Link
               href={
                 row.type === "امتحان"
-                  ? `/bundles/${row.classroom_id}/general-exams/${row.quiz_id}`
-                  : `/bundles/${row.classroom_id}/${row.room_id}/${
+                  ? `/bundles/${row?.classroom_id}/general-exams/${row.quiz_id}`
+                  : `/bundles/${row?.classroom_id}/${row.room_id}/${
                       row.type === "كويز" ? "exams" : "assignment"
                     }/${row.quiz_id}`
               }

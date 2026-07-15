@@ -67,6 +67,8 @@ const AuthNavBar = ({ profile }: { profile: IUser }) => {
     );
   }, [profile, isOnlineStudent, hasGradesEnabled]);
 
+  if (pathname.startsWith("/parent-portal")) return null;
+
   return (
     <>
       <header

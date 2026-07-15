@@ -4,7 +4,8 @@ import RedirectToPortal from "./RedirectToPortal";
 
 export const metadata: Metadata = {
   title: "التحقق من الرابط",
-  description: "جاري التحقق من الرابط المختصر وتحويلك إلى الوجهة المناسبة داخل المنصة.",
+  description:
+    "جاري التحقق من الرابط المختصر وتحويلك إلى الوجهة المناسبة داخل المنصة.",
 };
 
 type IRedirectData = {
@@ -34,8 +35,8 @@ async function page({ params }: { params: Promise<{ shortToken: string }> }) {
       <RedirectToPortal token={redirectData?.data?.token} />
 
       <div className="text-center">
-        <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-4 border-[#D9B45C] border-t-transparent" />
-        <p className="font-bold text-[#D9B45C]">جاري اعادة توجيهك...</p>
+        <div className="border-secondary mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-4 border-t-transparent" />
+        <p className="text-secondary font-bold">جاري اعادة توجيهك...</p>
       </div>
     </div>
   );
