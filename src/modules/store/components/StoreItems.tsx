@@ -11,7 +11,7 @@ import { IPagination } from "@/types";
 import { StoreItem } from "@/types/store.types";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import StoreItemsDisplayGrid from "./StoreItemsDisplayGrid";
+import StoreItemCard from "./StoreItemCard";
 
 function StoreItems({
   perPage = 8,
@@ -56,15 +56,19 @@ function StoreItems({
           ))}
         </div>
       ) : !!data?.data?.length ? (
-        <StoreItemsDisplayGrid
-          items={data?.data}
+        <div
           className={cn(
+            "grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3",
             itemsClassName,
             isPlaceholderData
               ? "pointer-events-none animate-pulse opacity-80"
               : "",
           )}
-        />
+        >
+          {data?.data?.map((book) => (
+            <StoreItemCard key={book.id} book={book} />
+          ))}
+        </div>
       ) : error ? (
         <Empty isError text="حدث خطأ ما اثناء عرض المنتجات" />
       ) : (

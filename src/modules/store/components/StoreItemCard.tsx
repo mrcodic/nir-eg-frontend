@@ -3,9 +3,9 @@ import CustomImage from "@/components/ui/CustomImage";
 import { StoreItem } from "@/types/store.types";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import StoreItemCartAddRemove from "./StoreItemCartAddRemove";
 import BuyStoreItemTrigger from "./BuyStoreItemTrigger";
 import StoreItemCardBadge, { ItemBadgeVariants } from "./StoreItemCardBadge";
+import StoreItemCartAddRemove from "./StoreItemCartAddRemove";
 
 const MotionCard = motion.create(Card);
 const MotionLink = motion.create(Link);
@@ -59,7 +59,7 @@ const StoreItemCard = ({ book }: { book: StoreItem }) => {
         )}
 
         <CustomImage
-          src={book?.image || "/assets/book.svg"}
+          src={book?.image || "/assets/grade-placeholder.png"}
           alt="book"
           fallback="/assets/grade-placeholder.png"
           fill
@@ -72,12 +72,14 @@ const StoreItemCard = ({ book }: { book: StoreItem }) => {
       >
         <div className="flex flex-col gap-y-4">
           <CardTitle className="text-xl">{book?.name}</CardTitle>
-          <CardContent className="p-0 text-[#454545] flex flex-wrap items-center gap-x-2">
+          <CardContent className="flex flex-wrap items-center gap-x-2 p-0 text-[#454545]">
             <span>{Number(book?.price).toFixed(2)} جنية</span>
             {book?.can_buy_points && book?.points_price !== null && (
               <>
                 <span className="text-gray-400">أو</span>
-                <span className="text-secondary font-bold">{book.points_price} نقطة</span>
+                <span className="text-secondary font-bold">
+                  {book.points_price} نقطة
+                </span>
               </>
             )}
           </CardContent>
@@ -89,9 +91,7 @@ const StoreItemCard = ({ book }: { book: StoreItem }) => {
           </CardFooter>
         ) : (
           <CardFooter className="mx-auto mt-4 flex-wrap justify-center gap-x-4 gap-y-2 p-0">
-            <BuyStoreItemTrigger
-              item={book}
-            />
+            <BuyStoreItemTrigger item={book} />
             <StoreItemCartAddRemove item={book} />
           </CardFooter>
         )}

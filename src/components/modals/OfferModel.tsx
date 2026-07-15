@@ -85,7 +85,6 @@ const OfferModel = () => {
               type="button"
               onClick={async (e) => {
                 e.stopPropagation();
-                console.log(data?.code);
                 copyToClipboard(data?.code);
               }}
               className="bg-primary border-gray-light w-full rounded-lg border p-2 text-sm font-bold text-white"

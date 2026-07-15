@@ -153,7 +153,7 @@ export const useStorePayments = ({
           },
         });
 
-        console.log("🛒 ~ cart checkout response", response);
+        // console.log("🛒 ~ cart checkout response", response);
 
         if (response?.payment_url) {
           router.push(response?.payment_url);

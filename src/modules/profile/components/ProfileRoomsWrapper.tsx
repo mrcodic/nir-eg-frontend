@@ -43,7 +43,7 @@ function ProfileRoomsWrapper() {
     );
   }
 
-  console.log("latest rooms : ", rooms);
+  // console.log("latest rooms : ", rooms);
 
   return (
     <div className="mt-8">

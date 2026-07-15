@@ -14,9 +14,7 @@ interface PaymentModalProps {
   item: StoreItem;
 }
 
-export const StorePaymentModel: React.FC<PaymentModalProps> = ({
-  item,
-}) => {
+export const StorePaymentModel: React.FC<PaymentModalProps> = ({ item }) => {
   const {
     paymentMethodValue,
     setPaymentMethodValue,
@@ -51,7 +49,9 @@ export const StorePaymentModel: React.FC<PaymentModalProps> = ({
         <Button
           onClick={handleCheckout}
           className="w-full"
-          disabled={loading || (paymentMethodValue === "POINTS" && !hasEnoughPoints)}
+          disabled={
+            loading || (paymentMethodValue === "POINTS" && !hasEnoughPoints)
+          }
         >
           دفع
         </Button>

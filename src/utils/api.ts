@@ -21,7 +21,7 @@ export const postTamperAttempt = async ({
   lang,
 }) => {
   try {
-    console.log({ message, timestamp, userAgent, screen, tz, lang });
+    // console.log({ message, timestamp, userAgent, screen, tz, lang });
     const authToken = await getCookie();
 
     if (!authToken) {
@@ -53,7 +53,7 @@ export const postTamperAttempt = async ({
       auth: true,
     });
 
-    console.log("Tamper attempt logged:", res?.data);
+    // console.log("Tamper attempt logged:", res?.data);
     return res?.data;
   } catch (error) {
     console.error("Error logging tamper attempt:", error);

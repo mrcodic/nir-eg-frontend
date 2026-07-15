@@ -66,18 +66,18 @@ function PaymentCode({
         });
       }
 
-      console.log("modal code payment model");
+      // console.log("modal code payment model");
 
       if (res.status !== 200) {
         setCouponState({ message: "حدث خطأ", state: "error" });
         return;
       }
 
-      console.log("🚀 ~ res post coupon : ", res);
+      // console.log("🚀 ~ res post coupon : ", res);
 
       setCouponState({ message: "تم الدفع بنجاح", state: "success" });
     } catch (error) {
-      console.log("😂 Error in payment code", error);
+      // console.log("😂 Error in payment code", error);
 
       toast({
         description: error?.response?.data?.error.message || "حدث خطأ ما",

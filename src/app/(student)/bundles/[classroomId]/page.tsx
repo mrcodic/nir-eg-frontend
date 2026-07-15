@@ -29,7 +29,7 @@ const classroomId = async ({ params }) => {
     isAuth: !!profileData,
   });
 
-  console.log("bundleRooms -> ", bundleRooms);
+  // console.log("bundleRooms -> ", bundleRooms);
 
   if (!bundleRooms) {
     redirect("/ErrorPage?message=حدث خطأ اثناء البحث عن الكورس");

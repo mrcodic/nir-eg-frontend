@@ -26,8 +26,8 @@ function StoreItemCartCard({
     >
       <div className="bg-background relative aspect-square size-24 shrink-0 overflow-hidden rounded-lg max-[450px]:hidden">
         <CustomImage
-          src={item?.image}
-          fallback="/assets/book.svg"
+          src={item?.image || "/assets/grade-placeholder.png"}
+          fallback="/assets/grade-placeholder.png"
           alt="book"
           className="object-contain"
           fill
@@ -47,8 +47,8 @@ function StoreItemCartCard({
           <div className="space-y-2">
             <div className="bg-background relative hidden aspect-square size-24 shrink-0 overflow-hidden rounded-lg max-[450px]:block">
               <CustomImage
-                src={item?.image}
-                fallback="/assets/book.svg"
+                src={item?.image || "/assets/grade-placeholder.png"}
+                fallback="/assets/grade-placeholder.png"
                 alt="book"
                 className="object-contain"
                 fill

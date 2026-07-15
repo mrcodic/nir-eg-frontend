@@ -46,7 +46,7 @@ export function useLogin() {
 
       Cookies.remove("guest_token");
 
-      console.log("login user : ", response?.student);
+      // console.log("login user : ", response?.student);
 
       queryClient.setQueryData(["/students/profile"], response.student);
 

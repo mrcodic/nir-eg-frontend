@@ -31,7 +31,6 @@ export function openDesktopAuthDeeplink(
 
   const markLeftPage = () => {
     didLeavePage = true;
-    console.log("markLeftPage");
     cleanup();
   };
 

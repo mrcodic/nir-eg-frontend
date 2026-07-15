@@ -84,7 +84,7 @@ function CodePaymentForm({
         });
       }
 
-      console.log("response : ", response);
+      // console.log("response : ", response);
 
       toast({
         description: "تم الاشتراك بنجاح",

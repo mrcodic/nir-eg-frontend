@@ -15,10 +15,6 @@ export default async function PaymentDetailsRenderer({
 
   const isCenterCode = profile?.body?.type === 5;
 
-  // if (courseId && !isCenterCode) {
-  //   // doesnt trigger
-  //   return <CourseForm courseId={courseId} data={data} />;
-  // } else
   if ((roomId || courseId) && isCenterCode) {
     return (
       <PaymentCenterCode

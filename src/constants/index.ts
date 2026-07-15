@@ -7,19 +7,19 @@ export const paymentTypesBooks = [
     soon: true,
     filter: "hide_fawry",
   },
-  // {
-  //   value: paymentType.visa,
-  //   icons: ["/assets/visa.svg"],
-  //   soon: true,
-  //   filter: "hide_visa",
-  // },
-  // {
-  //   label: "محفظة إلكترونية",
-  //   value: paymentType.wallet,
-  //   icons: ["/assets/wallet.svg"],
-  //   soon: true,
-  //   filter: "hide_payment_code",
-  // },
+  {
+    value: paymentType.visa,
+    icons: ["/assets/visa.svg"],
+    soon: true,
+    filter: "hide_visa",
+  },
+  {
+    label: "محفظة إلكترونية",
+    value: paymentType.wallet,
+    icons: ["/assets/wallet.svg"],
+    soon: true,
+    filter: "hide_payment_code",
+  },
 ];
 
 export const paymentTypesOnline = [

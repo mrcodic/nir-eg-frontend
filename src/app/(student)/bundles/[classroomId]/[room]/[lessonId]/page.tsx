@@ -84,7 +84,7 @@ export default function LessonPlayerPage() {
     !(lockedToPass || !!lockedByViewLimit) &&
     !!selectedLesson?.access_comment;
 
-  console.log("lesson data", selectedLesson);
+  // console.log("lesson data", selectedLesson);
 
   return (
     <>

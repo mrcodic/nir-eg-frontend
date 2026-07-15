@@ -29,7 +29,7 @@ function MarkVideoCompleted({
     try {
       setIsLoading(true);
       // Logic to mark the video as completed
-      console.log("Marking video as completed...");
+      // console.log("Marking video as completed...");
 
       await mutateClient(`/students/lesson/store_completed`, {
         body: {

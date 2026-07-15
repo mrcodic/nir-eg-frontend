@@ -48,7 +48,7 @@ const RemoveFromCart: React.FC<Props> = ({
         });
       }
     } catch (error) {
-      console.error("removeFromCart error:", error);
+      // console.error("removeFromCart error:", error);
       toast({
         icon: "error",
         description: "حدث خطأ أثناء إزالة المنتج من السلة.",

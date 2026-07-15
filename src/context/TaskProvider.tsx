@@ -117,7 +117,7 @@ export const TaskProvider = ({ children, taskType = "exam" }) => {
         queryKey: [`/students/quiz/start/${taskId}`],
       });
 
-      console.log("start query : ", res.body);
+      // console.log("start query : ", res.body);
       return res.body;
     },
     enabled: !!taskId && features?.quizzes,

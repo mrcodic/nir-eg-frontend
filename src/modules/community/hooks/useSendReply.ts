@@ -59,7 +59,7 @@ function useSendReply() {
       });
     },
     onError: (e) => {
-      console.log(e);
+      // console.log(e);
       toast({
         description: "حدث خطأ أثناء إرسال الرد",
         icon: "error",

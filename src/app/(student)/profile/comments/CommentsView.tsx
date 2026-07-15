@@ -93,7 +93,6 @@ export default function CommentsView() {
     [comments?.data, selectedCommentLesson],
   );
 
-  console.log(comments);
   return (
     <div className="wrapper mt-[140px] mb-12">
       <div className="flex flex-col justify-between">

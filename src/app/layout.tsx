@@ -150,7 +150,7 @@ export default async function Layout({ children }) {
     features: tenantSettings?.features,
   };
 
-  console.log("profile : ", profile);
+  // console.log("profile : ", profile);
 
   return (
     <html lang="ar" style={cssVars} dir="rtl">

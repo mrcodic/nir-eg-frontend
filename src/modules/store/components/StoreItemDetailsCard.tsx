@@ -4,10 +4,10 @@ import { StorePaymentModel } from "@/components/modals/StorePaymentModel";
 import CustomImage from "@/components/ui/CustomImage";
 import { useModal } from "@/context/ModalProvider";
 import { formatCurrency } from "@/lib/utils";
-import StoreItemCartAddRemove from "@/modules/store/components/StoreItemCartAddRemove";
-import StoreItemQuantity from "@/modules/store/components/StoreItemQuantity";
 import BuyStoreItemTrigger from "@/modules/store/components/BuyStoreItemTrigger";
 import OutOfStockBadge from "@/modules/store/components/OutOfStockBadge";
+import StoreItemCartAddRemove from "@/modules/store/components/StoreItemCartAddRemove";
+import StoreItemQuantity from "@/modules/store/components/StoreItemQuantity";
 import { StoreItem } from "@/types/store.types";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect } from "react";
@@ -21,17 +21,13 @@ function StoreItemDetailsCard({ book }: { book: StoreItem }) {
 
   useEffect(() => {
     if (searchParams.get("open_modal") == "true") {
-      modal.setDialogContent(
-        <StorePaymentModel
-          item={book}
-        />,
-      );
+      modal.setDialogContent(<StorePaymentModel item={book} />);
       modal.openModal();
       router.replace("/store/" + book?.id);
     }
   }, [book, modal, name, price, router, searchParams]);
 
-  console.log(book);
+  // console.log(book);
 
   return (
     <section className="mt-8">
@@ -61,8 +57,10 @@ function StoreItemDetailsCard({ book }: { book: StoreItem }) {
                 {formatCurrency(price)}
               </p>
               {book?.can_buy_points && book?.points_price !== null && (
-                <p className="text-2xl font-bold text-secondary flex items-center">
-                  <span className="me-4 text-xl text-black font-normal">أو بالنقاط:</span>
+                <p className="text-secondary flex items-center text-2xl font-bold">
+                  <span className="me-4 text-xl font-normal text-black">
+                    أو بالنقاط:
+                  </span>
                   {book.points_price} نقطة
                 </p>
               )}

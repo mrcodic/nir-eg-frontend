@@ -49,7 +49,7 @@ const AddToCart: React.FC<Props> = ({
         });
       }
     } catch (error) {
-      console.error("ADD TO CART ERROR", error);
+      // console.error("ADD TO CART ERROR", error);
       toast({
         icon: "error",
         description: "حدث خطأ أثناء إضافة المنتج للسلة.",

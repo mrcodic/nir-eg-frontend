@@ -40,8 +40,6 @@ export default function useCopy() {
         description: "تم النسخ",
       });
     } catch (error) {
-      console.error("Copy failed:", error);
-
       toast({
         icon: "error",
         description: "فشل النسخ",

@@ -53,19 +53,19 @@ function PaymentCoupon({
       }
       const res = await mutateClient("/students/promo/price", { body });
 
-      console.log(res);
+      // console.log(res);
 
       if (!res.status) {
         setCouponState({ message: "حدث خطأ", state: "error" });
         return;
       }
 
-      console.log("🚀 ~ res post coupon : ", res);
+      // console.log("🚀 ~ res post coupon : ", res);
 
       setCoupon(res?.data);
       setCouponState({ message: "تم تطبيق الكوبون بنجاح", state: "success" });
     } catch (error) {
-      console.log("😂 Error in apply coupon", error);
+      // console.log("😂 Error in apply coupon", error);
 
       toast({
         description:

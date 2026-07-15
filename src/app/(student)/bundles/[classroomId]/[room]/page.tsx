@@ -42,7 +42,7 @@ export default function RoomDetailsPage() {
 
   const lockedToPass = roomDetails?.locked_to_pass;
 
-  console.log("roomDetails", roomDetails);
+  // console.log("roomDetails", roomDetails);
 
   return (
     <ProtectedRoute
@@ -199,7 +199,7 @@ export default function RoomDetailsPage() {
                             verify={
                               true || roomDetails.student_phone_verification
                             }
-                            locked={isRoomPurchasable}
+                            locked={isRoomPurchasable || lockedToPass}
                             index={index}
                           />
                         ))}

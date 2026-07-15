@@ -10,7 +10,8 @@ import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "الرئيسية",
-  description: "تصفح المنصة التعليمية واستكشف الباقات والدروس والخدمات المتاحة.",
+  description:
+    "تصفح المنصة التعليمية واستكشف الباقات والدروس والخدمات المتاحة.",
 };
 
 const mapTemplate = {
