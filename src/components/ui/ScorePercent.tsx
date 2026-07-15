@@ -15,7 +15,7 @@ const ScorePercent = ({
         passed ? "text-semantics-green" : "text-semantics-red",
       )}
     >
-      {score}%
+      {Math.floor(score)}%
     </h3>
   );
 };
