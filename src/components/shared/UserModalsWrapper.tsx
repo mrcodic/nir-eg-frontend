@@ -12,19 +12,25 @@ const ProfileCompletionModal = dynamic(
   { ssr: false },
 );
 
-const noModalPages = ["/exams", "/general-exams", "/assignment"];
+const noModalPages = [
+  "/exams",
+  "/general-exams",
+  "/assignment",
+  "/short",
+  "/parent-portal",
+];
 
 function UserModalsWrapper() {
   const { profile } = useAuthContext();
   const { handleFeaturesDisplay } = useHandleFeaturesDisplay();
   const { handleOfferDisplay } = useHandleOfferDisplay();
   const pathname = usePathname();
-  const isTaskPage = noModalPages.some((page) => pathname.includes(page));
+  const isNoModalPage = noModalPages.some((page) => pathname.includes(page));
 
   const isOpened = useRef(false);
 
   useEffect(() => {
-    if (isOpened.current || isTaskPage) return;
+    if (isOpened.current || isNoModalPage) return;
     if (
       profile &&
       profile?.profile_completed === true &&
@@ -44,14 +50,14 @@ function UserModalsWrapper() {
     handleOfferDisplay,
     profile,
     pathname,
-    isTaskPage,
+    isNoModalPage,
   ]);
 
   return (
     profile &&
     "profile_completed" in profile &&
     profile?.profile_completed === false &&
-    !isTaskPage && (
+    !isNoModalPage && (
       <Suspense fallback={null}>
         <ProfileCompletionModal />
       </Suspense>
