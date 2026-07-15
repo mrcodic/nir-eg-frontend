@@ -42,8 +42,6 @@ export default function RoomDetailsPage() {
 
   const lockedToPass = roomDetails?.locked_to_pass;
 
-  // console.log("roomDetails", roomDetails);
-
   return (
     <ProtectedRoute
       subscribed={roomDetails?.is_subscriped}
