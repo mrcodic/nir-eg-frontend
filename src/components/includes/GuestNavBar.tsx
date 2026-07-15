@@ -27,7 +27,8 @@ const GuestNavBar = () => {
     // },
   ];
 
-  if (pathname.startsWith("/parent-portal")) return null;
+  if (pathname.startsWith("/parent-portal") || pathname.startsWith("/short"))
+    return null;
 
   return (
     <header

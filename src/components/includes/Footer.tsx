@@ -1,5 +1,6 @@
 import { getServerData } from "@/helpers/fetchers/server-fetch";
 import { IFooterData } from "@/types/settings.types";
+import { headers } from "next/headers";
 import Link from "next/link";
 import SocialLinks from "../shared/SocialLinks";
 import CustomImage from "../ui/CustomImage";
@@ -15,7 +16,13 @@ const Footer = async () => {
     cache: "default",
   });
 
+  const headersList = await headers();
+  const pathname = headersList.get("x-pathname") ?? "";
+
   const footerSettings = footerResponse?.data;
+
+  if (pathname.startsWith("/parent-portal") || pathname.startsWith("/short"))
+    return null;
 
   return (
     <footer
