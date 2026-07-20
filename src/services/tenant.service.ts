@@ -51,17 +51,10 @@ export const getTenantSettingsServer = cache(async () => {
 });
 
 export const getTenantContentServer = cache(async () => {
-  try {
-    // const tenant = await extractTenantFromHostServer();
+  const response = await getServerData<TenantLandingResponse>({
+    queryKey: [`/landing`],
+    isAuth: false,
+  });
 
-    const response = await getServerData({
-      queryKey: [`/landing`],
-      isAuth: false,
-    });
-
-    return response as TenantLandingResponse;
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
+  return response;
 });
