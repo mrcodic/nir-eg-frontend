@@ -7,8 +7,8 @@ import type { LandingPageHeader } from "@/types/tenant.types";
 import { Rocket } from "lucide-react";
 import Link from "next/link";
 
-import CustomImage from "../ui/CustomImage";
 import SummaryMobileNavigation from "@/components/includes/SummaryMobileNavigation";
+import CustomImage from "../ui/CustomImage";
 
 function SummaryNavbar({ header }: { header: LandingPageHeader }) {
   const { logo } = useTenant();
@@ -39,7 +39,7 @@ function SummaryNavbar({ header }: { header: LandingPageHeader }) {
               <Link
                 key={link.href}
                 href={link.href}
-                className="hover:text-primary-800 focus-visible:text-primary-800 text-primary-800 text-sm font-bold transition-colors"
+                className="hover:text-primary-800 focus-visible:text-primary-800 text-sm font-bold transition-colors"
               >
                 {link.label}
               </Link>
