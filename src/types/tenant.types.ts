@@ -1,4 +1,9 @@
-export type Templates = "landing-v1" | "landing-v2" | "landing-v3";
+export enum Templates {
+  LANDING_V1 = "landing-v1",
+  LANDING_V2 = "landing-v2",
+  LANDING_V3 = "landing-v3",
+  SUMMARY_LANDING = "summry_landing",
+}
 
 export interface TenantFeatures {
   center_system: boolean;
@@ -140,3 +145,60 @@ export type SwitchTenantResponse = {
   active_tenant?: SwitchTenantActiveTenant;
   message?: string;
 };
+
+export interface LandingSummaryResponse {
+  status: boolean;
+  active: boolean;
+  data: LandingPageData;
+}
+
+export interface LandingPageData {
+  header: LandingPageHeader;
+  hero: LandingPageHero;
+  features: LandingPageSection;
+  course: LandingPageSection;
+  faq: LandingPageFaq;
+}
+
+export interface LandingPageHeader {
+  home_label: string;
+  features_label: string;
+  course_label: string;
+  faq_label: string;
+  registration_label: string;
+  button_text: string;
+}
+
+export interface LandingPageHero {
+  badge: string;
+  title: string;
+  description: string;
+  image: string | null;
+  primary_button_text: string;
+  secondary_button_text: string;
+  secondary_button_url: string;
+}
+
+export interface LandingPageSection {
+  eyebrow: string;
+  title: string;
+  description: string;
+  items: LandingPageSectionItem[];
+}
+
+export interface LandingPageSectionItem {
+  title: string;
+  description: string;
+  icon: string | null;
+}
+
+export interface LandingPageFaq {
+  eyebrow: string;
+  title: string;
+  items: LandingPageFaqItem[];
+}
+
+export interface LandingPageFaqItem {
+  question: string;
+  answer: string;
+}

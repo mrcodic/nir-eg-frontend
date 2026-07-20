@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useAuthContext } from "@/context/auth-context";
 import AuthHeader from "@/layouts/AuthHeader";
-import { loginSchema } from "@/lib/schemas";
+import { loginSchema } from "@/schemas/auth.schema";
 import { cn, getUserPhoneFromStorage } from "@/lib/utils";
 import { useLogin } from "@/modules/auth/hooks/useLogin";
 import { zodResolver } from "@hookform/resolvers/zod";

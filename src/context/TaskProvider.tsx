@@ -2,7 +2,7 @@
 
 import { getClientPrivateData } from "@/helpers/fetchers/client-fetch";
 import CustomError from "@/lib/customError";
-import { quizSchema } from "@/lib/schemas";
+import { quizSchema } from "@/schemas/auth.schema";
 import { QuizStatus } from "@/types";
 import { TaskQuestionPayload, TaskShowAnswersData } from "@/types/quiz.types";
 import { zodResolver } from "@hookform/resolvers/zod";

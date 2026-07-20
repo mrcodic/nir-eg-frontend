@@ -12,7 +12,7 @@ import { mapApiErrorsToForm } from "@/helpers/form-errors";
 import { buildProfileCompletionDefaults } from "@/helpers/profile-completion.helpers";
 import { sortDynamicProfileFields } from "@/helpers/profile-fields-order";
 import { useToast } from "@/hooks/use-toast";
-import { buildAccountSettingsSchema } from "@/lib/account-settings.schema";
+import { buildAccountSettingsSchema } from "@/schemas/profile.schema";
 import { getPhoneInfoFromCode } from "@/lib/utils";
 import { fetchStudentProfileSettingsFields } from "@/services/auth.service";
 import { ProfileAttachmentEntry } from "@/types/auth.types";

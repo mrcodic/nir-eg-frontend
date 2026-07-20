@@ -3,7 +3,11 @@ import { buildApiUrl } from "@/helpers/fetchers/fetch-utils";
 import { getServerData } from "@/helpers/fetchers/server-fetch";
 import { extractTenantFromHostServer } from "@/helpers/fetchers/server-utils";
 import CustomError from "@/lib/customError";
-import { TenantLandingResponse, TenantSettings } from "@/types/tenant.types";
+import {
+  LandingSummaryResponse,
+  TenantLandingResponse,
+  TenantSettings,
+} from "@/types/tenant.types";
 import { cache } from "react";
 
 export const getTenantSettingsServer = cache(async () => {
@@ -53,6 +57,14 @@ export const getTenantSettingsServer = cache(async () => {
 export const getTenantContentServer = cache(async () => {
   const response = await getServerData<TenantLandingResponse>({
     queryKey: [`/landing`],
+    isAuth: false,
+  });
+
+  return response;
+});
+export const getTenantSummaryServer = cache(async () => {
+  const response = await getServerData<LandingSummaryResponse>({
+    queryKey: [`/summer-landing`],
     isAuth: false,
   });
 

@@ -16,6 +16,7 @@ import CustomError from "@/lib/customError";
 import { DraftTasksPurgeManager } from "@/modules/exam/components/DraftTasksPurgeManager";
 import { getTenantSettingsServer } from "@/services/tenant.service";
 import { ApiResponse, IUser } from "@/types";
+import { Templates } from "@/types/tenant.types";
 import { isProd } from "@/utils/isProd";
 import { Metadata } from "next";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
@@ -150,14 +151,16 @@ export default async function Layout({ children }) {
     features: tenantSettings?.features,
   };
 
-  // console.log("profile : ", profile);
-
   return (
     <html lang="ar" style={cssVars} dir="rtl">
       <body
         className={`${almarai.className} group/template flex flex-col antialiased`}
         suppressHydrationWarning
-        data-template={tenantSettings.landing_template}
+        data-template={
+          tenantSettings.landing_template === Templates.SUMMARY_LANDING
+            ? Templates.LANDING_V3
+            : tenantSettings.landing_template
+        }
         dir="rtl"
       >
         <script
@@ -170,7 +173,10 @@ export default async function Layout({ children }) {
             <NavTopbar primary={tenantSettings.primary_color} />
 
             <Providers profile={profile?.body}>
-              <NavbarWrapper profile={profile?.body} />
+              <NavbarWrapper
+                profile={profile?.body}
+                template={tenantSettings?.landing_template}
+              />
 
               <main className="flex min-h-screen grow flex-col justify-between [&>section]:grow">
                 {children}

@@ -22,7 +22,7 @@ import { OTP_SEND_TIME_KEY } from "@/constants";
 import { useToast } from "@/hooks/use-toast";
 import { useMounted } from "@/hooks/useMounted";
 import { getOtpErrorMessage } from "@/lib/handle-otp-error";
-import { otpSchema } from "@/lib/schemas";
+import { otpSchema } from "@/schemas/auth.schema";
 import useOtp from "@/modules/auth/hooks/useOtp";
 import { verifyAuthOtpCode } from "@/services/auth.service";
 import { OtpSendResponse } from "@/types/auth.types";

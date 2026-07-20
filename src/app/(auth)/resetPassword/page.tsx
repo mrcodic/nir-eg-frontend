@@ -6,7 +6,7 @@ import { Form } from "@/components/ui/form";
 import { useAuthContext } from "@/context/auth-context";
 import { mutateClient } from "@/helpers/fetchers/post-client";
 import { useToast } from "@/hooks/use-toast";
-import { newPasswordSchema } from "@/lib/schemas";
+import { newPasswordSchema } from "@/schemas/auth.schema";
 import { getLocalStorage } from "@/utils/clientFun";
 import {
   clearResetPasswordOtpGate,

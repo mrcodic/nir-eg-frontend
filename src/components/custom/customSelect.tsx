@@ -43,19 +43,18 @@ const CustomSelect = ({
     <FormField
       control={control}
       name={name}
-      render={({ field, fieldState }) => (
+      render={({ field }) => (
         <FormItem className={`form-item w-full ${className}`}>
           <FormLabel className="form-label">{label}</FormLabel>
           <div className="mt-1 flex w-full flex-1 flex-col">
-            <FormControl>
-              <Select
-                dir="rtl"
-                onValueChange={field.onChange}
-                value={field.value !== undefined ? String(field.value) : ""}
-                disabled={disabled}
-              >
+            <Select
+              dir="rtl"
+              onValueChange={field.onChange}
+              value={field.value !== undefined ? String(field.value) : ""}
+              disabled={disabled}
+            >
+              <FormControl>
                 <SelectTrigger
-                  aria-invalid={!!fieldState.error}
                   disabled={disabled}
                   className="border-gray-light flex h-11 w-full cursor-pointer gap-2 text-sm shadow-xs transition-all hover:bg-neutral-100 disabled:hover:bg-white aria-invalid:border-red-500"
                 >
@@ -70,29 +69,27 @@ const CustomSelect = ({
                   )}
                   <SelectValue placeholder={placeholder || `اختر ${label}`} />
                 </SelectTrigger>
-                <SelectContent className="z-99999 bg-white text-black">
-                  {isLoading ? (
-                    <div className="flex min-h-16 items-center justify-center">
-                      <Loader2 className="size-4 animate-spin" />
-                    </div>
-                  ) : options?.length ? (
-                    options.map((option) => (
-                      <SelectItem
-                        key={option.value}
-                        value={option.value}
-                        className="text-black"
-                      >
-                        {option.label}
-                      </SelectItem>
-                    ))
-                  ) : (
-                    <div className="ps-2 text-sm text-black">
-                      لا يوجد خيارات
-                    </div>
-                  )}
-                </SelectContent>
-              </Select>
-            </FormControl>
+              </FormControl>
+              <SelectContent className="z-99999 bg-white text-black">
+                {isLoading ? (
+                  <div className="flex min-h-16 items-center justify-center">
+                    <Loader2 className="size-4 animate-spin" />
+                  </div>
+                ) : options?.length ? (
+                  options.map((option) => (
+                    <SelectItem
+                      key={option.value}
+                      value={option.value}
+                      className="text-black"
+                    >
+                      {option.label}
+                    </SelectItem>
+                  ))
+                ) : (
+                  <div className="ps-2 text-sm text-black">لا يوجد خيارات</div>
+                )}
+              </SelectContent>
+            </Select>
             <FormMessage />
           </div>
         </FormItem>

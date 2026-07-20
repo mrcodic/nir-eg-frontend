@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useAuthContext } from "@/context/auth-context";
 import { useToast } from "@/hooks/use-toast";
-import { registerSchema } from "@/lib/schemas";
+import { registerSchema } from "@/schemas/auth.schema";
 import { presistUserPhone } from "@/lib/utils";
 import OtpVerifyForm from "@/modules/auth/components/OtpVerifyForm";
 import RegisterStepOne from "@/modules/auth/components/register-stepper/RegisterStepOne";

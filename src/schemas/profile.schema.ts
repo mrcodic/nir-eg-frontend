@@ -1,5 +1,5 @@
 import { buildProfileCompletionSchema } from "@/helpers/profile-completion.helpers";
-import { phoneSchema } from "@/lib/schemas";
+import { phoneSchema } from "@/schemas/auth.schema";
 import { DynamicProfileField } from "@/types/auth.types";
 import { z } from "zod";
 

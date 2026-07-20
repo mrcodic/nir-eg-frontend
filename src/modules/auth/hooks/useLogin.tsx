@@ -4,7 +4,7 @@ import { OTPNotVerifIed } from "@/components/modals/OTPNotVerifIed";
 import { useAuthContext } from "@/context/auth-context";
 import { useModal } from "@/context/ModalProvider";
 import { useToast } from "@/hooks/use-toast";
-import { loginSchema } from "@/lib/schemas";
+import { loginSchema } from "@/schemas/auth.schema";
 import { presistUserPhone } from "@/lib/utils";
 import { loginWithPhonePassword } from "@/services/auth.service";
 import { saveCookie } from "@/utils/api";

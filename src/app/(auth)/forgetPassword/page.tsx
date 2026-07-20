@@ -10,7 +10,7 @@ import AuthHeader from "@/layouts/AuthHeader";
 import { handleOtpError } from "@/lib/handle-otp-error";
 import { getOtpSendSuccessMessage } from "@/lib/otp-success";
 import { resolveOtpExpiryTimestamp } from "@/lib/otp-timer";
-import { forgetPasswordSchema } from "@/lib/schemas";
+import { forgetPasswordSchema } from "@/schemas/auth.schema";
 import { getUserPhoneFromStorage, presistUserPhone } from "@/lib/utils";
 import { OtpSendResponse } from "@/types/auth.types";
 import { zodResolver } from "@hookform/resolvers/zod";

@@ -1,4 +1,4 @@
-import { optionalPhoneSchema, phoneSchema } from "@/lib/schemas";
+import { optionalPhoneSchema, phoneSchema } from "@/schemas/auth.schema";
 import { DynamicProfileField } from "@/types/auth.types";
 import { z } from "zod";
 

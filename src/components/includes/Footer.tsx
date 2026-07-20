@@ -1,28 +1,51 @@
 import { getServerData } from "@/helpers/fetchers/server-fetch";
+import {
+  getTenantSettingsServer,
+  getTenantSummaryServer,
+} from "@/services/tenant.service";
 import { IFooterData } from "@/types/settings.types";
+import { Templates } from "@/types/tenant.types";
 import { headers } from "next/headers";
 import Link from "next/link";
 import SocialLinks from "../shared/SocialLinks";
 import CustomImage from "../ui/CustomImage";
 import FooterContacts from "./FooterContacts";
+import SummaryFooter from "./SummaryFooter";
 
 const Footer = async () => {
-  const footerResponse = await getServerData<{ data: IFooterData }>({
-    queryKey: ["settings/footer"],
-    isAuth: false,
-    next: {
-      revalidate: 60 * 10,
-    },
-    cache: "default",
-  });
+  const [footerResponse, tenantSettings, headersList] = await Promise.all([
+    getServerData<{ data: IFooterData }>({
+      queryKey: ["settings/footer"],
+      isAuth: false,
+      next: {
+        revalidate: 60 * 10,
+      },
+      cache: "default",
+    }),
+    getTenantSettingsServer(),
+    headers(),
+  ]);
 
-  const headersList = await headers();
   const pathname = headersList.get("x-pathname") ?? "";
 
   const footerSettings = footerResponse?.data;
 
   if (pathname.startsWith("/parent-portal") || pathname.startsWith("/short"))
     return null;
+
+  const isSummaryLanding =
+    tenantSettings.landing_template === Templates.SUMMARY_LANDING;
+
+  if (isSummaryLanding) {
+    const summary = await getTenantSummaryServer();
+
+    return (
+      <SummaryFooter
+        footerSettings={footerSettings}
+        header={summary.data.header}
+      />
+    );
+  }
 
   return (
     <footer
