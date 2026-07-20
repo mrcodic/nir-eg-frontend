@@ -19,6 +19,8 @@ import { ApiResponse, IUser } from "@/types";
 import { Templates } from "@/types/tenant.types";
 import { isProd } from "@/utils/isProd";
 import { Metadata } from "next";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 import dynamic from "next/dynamic";
 import { Almarai } from "next/font/google";
@@ -124,6 +126,15 @@ export default async function Layout({ children }) {
       );
       return <CustomGlobalError error={error} />;
     }
+  }
+
+  const pathname = (await headers()).get("x-pathname") ?? "/";
+
+  if (
+    tenantSettings.landing_template === Templates.SUMMARY_LANDING &&
+    pathname !== "/"
+  ) {
+    redirect("/");
   }
 
   const profile = await getServerData<ApiResponse<IUser | null>>({

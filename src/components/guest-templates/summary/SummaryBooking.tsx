@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import type { SummaryTemplateContent } from "@/types/summary-template.types";
 
-import { useSummaryBookingForm } from "./hooks/useSummaryBookingForm";
+import { useSummaryBookingForm } from "@/hooks/useSummaryBookingForm";
 import SummarySectionHeading from "./SummarySectionHeading";
 
 type SummaryBookingProps = {
