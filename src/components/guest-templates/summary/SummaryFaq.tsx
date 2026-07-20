@@ -26,7 +26,7 @@ function SummaryFaq({ faq }: { faq: SummaryTemplateContent["faq"] }) {
             <AccordionItem
               key={question.question}
               value={question.question}
-              className="data-[state=open]:bg-primary-50 data-[state=closed]:bg-primary-50 px-4 transition-all"
+              className="data-[state=open]:bg-primary-50 data-[state=closed]:bg-primary-50 data-[state=open]:border-primary-800 border-transparent px-4 shadow-none transition-all"
             >
               <AccordionTrigger
                 className="text-right text-sm font-bold hover:no-underline"

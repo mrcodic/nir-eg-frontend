@@ -56,7 +56,7 @@ function CustomRadioGroup<TFieldValues extends FieldValues>({
                   <Label
                     key={option.value}
                     htmlFor={optionId}
-                    className="border-gray-light has-[[data-state=checked]]:border-primary-800 has-[[data-state=checked]]:bg-primary-50 has-[[data-state=checked]]:text-primary-800 flex cursor-pointer items-center justify-center gap-2 rounded-xl border px-4 py-3 font-bold"
+                    className="bg-primary-50/50 text-primary-800/50 has-[[data-state=checked]]:border-primary-800 has-[[data-state=checked]]:bg-primary-50 has-[[data-state=checked]]:text-primary-800 flex cursor-pointer items-center justify-center gap-2 rounded-xl border px-4 py-3 font-bold transition-all"
                   >
                     <RadioGroupItem
                       id={optionId}

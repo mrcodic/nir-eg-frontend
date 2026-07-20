@@ -37,7 +37,7 @@ function SummaryBooking({ booking }: SummaryBookingProps) {
           <Form {...form}>
             <form
               onSubmit={submit}
-              className="mx-auto mt-10 max-w-xl rounded-2xl bg-white p-5 text-right shadow-[0_24px_40px_-24px_rgba(0,0,0,0.65)] sm:p-7"
+              className="mx-auto mt-10 max-w-2xl rounded-2xl bg-white p-5 text-right shadow-[0_24px_40px_-24px_rgba(0,0,0,0.65)] sm:p-7"
               noValidate
             >
               <CustomRadioGroup
