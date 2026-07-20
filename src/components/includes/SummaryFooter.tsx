@@ -25,7 +25,7 @@ function SummaryFooter({
       id="summary-footer"
       className="bg-primary-800 pt-12 pb-4 text-white"
     >
-      <div className="wrapper grid gap-10 text-center sm:grid-cols-2 sm:text-right lg:grid-cols-3">
+      <div className="wrapper grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
         <div>
           <CustomImage
             src={footerSettings?.image || "/logo.svg"}
@@ -33,7 +33,7 @@ function SummaryFooter({
             width={126}
             height={52}
             alt="شعار المنصة"
-            className="mx-auto h-12 w-auto object-contain object-right sm:mx-0"
+            className="h-12 w-auto object-contain object-right"
           />
 
           {!!footerSettings?.description && (
@@ -43,7 +43,7 @@ function SummaryFooter({
           )}
 
           {!!footerSettings?.social?.length && (
-            <div className="mt-5 flex justify-center sm:justify-start">
+            <div className="mt-5 flex justify-start">
               <SocialLinks
                 links={footerSettings?.social ?? []}
                 className="gap-3"
@@ -77,8 +77,7 @@ function SummaryFooter({
               {contacts?.phone_1 && (
                 <a
                   href={`tel:${contacts.phone_1}`}
-                  className="flex items-center justify-center gap-2 sm:justify-start"
-                  dir="ltr"
+                  className="flex items-center justify-start gap-2"
                 >
                   <Phone aria-hidden className="text-secondary size-4" />
                   {contacts.phone_1}
@@ -87,14 +86,14 @@ function SummaryFooter({
               {contacts?.email && (
                 <a
                   href={`mailto:${contacts.email}`}
-                  className="flex items-center justify-center gap-2 sm:justify-start"
+                  className="flex items-center justify-start gap-2"
                 >
                   <Mail aria-hidden className="text-secondary size-4" />
                   {contacts.email}
                 </a>
               )}
               {contacts?.location && (
-                <p className="flex items-center justify-center gap-2 sm:justify-start">
+                <p className="flex items-center justify-start gap-2">
                   <MapPin aria-hidden className="text-secondary size-4" />
                   {contacts.location}
                 </p>
@@ -111,7 +110,7 @@ function SummaryFooter({
           <a
             target="_blank"
             href={"https://pixbyte.co/"}
-            className="text-primary ms-1 font-bold underline"
+            className="text-primary-50 ms-1 font-bold underline"
           >
             Pixbyte
           </a>

@@ -11,6 +11,8 @@ import { SummaryTemplateContent } from "@/types/summary-template.types";
 import { FaRegQuestionCircle } from "react-icons/fa";
 
 function SummaryFaq({ faq }: { faq: SummaryTemplateContent["faq"] }) {
+  if (!faq.questions?.length) return null;
+
   return (
     <section id="summary-faq" className="scroll-mt-24 py-16 sm:py-20">
       <div className="wrapper">

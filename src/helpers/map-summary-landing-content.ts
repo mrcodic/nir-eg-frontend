@@ -1,28 +1,10 @@
 import { SUMMARY_BOOKING_DEFAULTS } from "@/constants/summary-template";
-import type {
-  SummaryTemplateContent,
-  SummaryTemplateIcon,
-} from "@/types/summary-template.types";
+import type { SummaryTemplateContent } from "@/types/summary-template.types";
 import type {
   LandingPageData,
   LandingPageHeader,
   LandingPageSection,
 } from "@/types/tenant.types";
-
-const summaryIcons: SummaryTemplateIcon[] = [
-  "video",
-  "chart",
-  "book",
-  "file",
-  "users",
-  "message",
-];
-
-function isSummaryTemplateIcon(
-  icon: string | null,
-): icon is SummaryTemplateIcon {
-  return summaryIcons.includes(icon as SummaryTemplateIcon);
-}
 
 function mapSection(
   section: LandingPageSection,
@@ -31,12 +13,10 @@ function mapSection(
     eyebrow: section.eyebrow,
     title: section.title,
     description: section.description,
-    features: section.items.map((item, index) => ({
+    features: section.items.map((item) => ({
       title: item.title,
       description: item.description,
-      icon: isSummaryTemplateIcon(item.icon)
-        ? item.icon
-        : summaryIcons[index % summaryIcons.length],
+      icon: item.icon,
     })),
   };
 }

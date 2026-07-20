@@ -1,11 +1,3 @@
-export type SummaryTemplateIcon =
-  | "book"
-  | "chart"
-  | "file"
-  | "message"
-  | "users"
-  | "video";
-
 export type SummaryTemplateLink = {
   label: string;
   href: string;
@@ -34,7 +26,7 @@ export type SummaryBookingFormValues = {
 export type SummaryTemplateFeature = {
   title: string;
   description: string;
-  icon: SummaryTemplateIcon;
+  icon: string | null;
 };
 
 export type SummaryTemplateFaq = {

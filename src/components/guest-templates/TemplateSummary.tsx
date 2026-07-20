@@ -1,3 +1,4 @@
+import { Animate } from "@/components/shared/Animate";
 import { mapSummaryLandingContent } from "@/helpers/map-summary-landing-content";
 import type { LandingPageData } from "@/types/tenant.types";
 import SummaryBenefits from "./summary/SummaryBenefits";
@@ -11,11 +12,20 @@ function TemplateSummary({ data }: { data: LandingPageData }) {
 
   return (
     <div className="bg-white">
-      <SummaryHero hero={content.hero} />
-      <SummaryBenefits benefits={content.benefits} />
-      <SummaryCourse course={content.course} />
+      <Animate preset="slideUp">
+        <SummaryHero hero={content.hero} />
+      </Animate>
+      <Animate preset="fadeIn" delay={0.1}>
+        <SummaryBenefits benefits={content.benefits} />
+      </Animate>
+      <Animate preset="slideUp" delay={0.1}>
+        <SummaryCourse course={content.course} />
+      </Animate>
       <SummaryBooking booking={content.booking} />
-      <SummaryFaq faq={content.faq} />
+
+      <Animate preset="fadeIn" delay={0.1}>
+        <SummaryFaq faq={content.faq} />
+      </Animate>
     </div>
   );
 }

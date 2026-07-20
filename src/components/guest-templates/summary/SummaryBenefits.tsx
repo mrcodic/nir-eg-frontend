@@ -8,10 +8,11 @@ function SummaryBenefits({
 }: {
   benefits: SummaryTemplateContent["benefits"];
 }) {
+  if (!benefits.features?.length) return null;
   return (
     <section
       id="summary-benefits"
-      className="scroll-mt-24 bg-[#f6f8fd] py-16 sm:py-20"
+      className="bg-primary-50 scroll-mt-24 py-16 sm:py-20"
     >
       <div className="wrapper">
         <SummarySectionHeading {...benefits} />
