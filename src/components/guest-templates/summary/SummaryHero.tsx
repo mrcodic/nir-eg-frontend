@@ -17,7 +17,7 @@ function SummaryHero({ hero }: { hero: SummaryTemplateContent["hero"] }) {
             {hero.eyebrow}
           </span>
 
-          <h1 className="mt-5 text-4xl leading-[1.15] font-extrabold tracking-tight text-[#12304b] sm:text-5xl lg:text-6xl">
+          <h1 className="mt-5 text-4xl leading-[1.15] font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
             {hero.title}
           </h1>
 
@@ -37,7 +37,7 @@ function SummaryHero({ hero }: { hero: SummaryTemplateContent["hero"] }) {
               variant="outline"
               className="h-12 rounded-xl px-7 text-base"
             >
-              <Link href={hero.secondaryAction.href}>
+              <Link href={hero.secondaryAction.href} target="_blank">
                 <Headphones aria-hidden />
                 {hero.secondaryAction.label}
               </Link>
@@ -46,7 +46,7 @@ function SummaryHero({ hero }: { hero: SummaryTemplateContent["hero"] }) {
         </div>
 
         <div className="mx-auto w-full max-w-sm lg:max-w-md">
-          <div className="relative aspect-4/5 overflow-hidden rounded-2xl shadow-xl">
+          <div className="relative aspect-4/5 overflow-hidden rounded-2xl border border-gray-100 shadow-md">
             <Image
               src={hero.image}
               alt="طالبة تحمل جهازًا لوحيًا"

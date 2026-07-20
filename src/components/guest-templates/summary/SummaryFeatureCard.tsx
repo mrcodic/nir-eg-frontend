@@ -6,7 +6,6 @@ import { SummaryTemplateFeature } from "@/types/summary-template.types";
 function SummaryFeatureCard({
   feature,
   className,
-  floatingIcon,
 }: {
   feature: SummaryTemplateFeature;
   floatingIcon?: string;
