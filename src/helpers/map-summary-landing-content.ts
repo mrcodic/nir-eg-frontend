@@ -1,7 +1,4 @@
-import {
-  SUMMARY_BOOKING_DEFAULTS,
-  SUMMARY_HERO_IMAGE_FALLBACK,
-} from "@/constants/summary-template";
+import { SUMMARY_BOOKING_DEFAULTS } from "@/constants/summary-template";
 import type {
   SummaryTemplateContent,
   SummaryTemplateIcon,
@@ -65,7 +62,7 @@ export function mapSummaryLandingContent(
       eyebrow: data.hero.badge,
       title: data.hero.title,
       description: data.hero.description,
-      image: data.hero.image ?? SUMMARY_HERO_IMAGE_FALLBACK,
+      image: data.hero.image ?? "/assets/templates/summary/hero-student.jpg",
       primaryAction: {
         label: data.hero.primary_button_text,
         href: "#summary-booking",
@@ -79,7 +76,6 @@ export function mapSummaryLandingContent(
     course: mapSection(data.course),
     booking: {
       ...SUMMARY_BOOKING_DEFAULTS,
-      submitLabel: data.header.registration_label,
     },
     faq: {
       eyebrow: data.faq.eyebrow,

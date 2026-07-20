@@ -60,6 +60,8 @@ async function LandingPage() {
     throw new CustomError("Landing content not found", 404, "NOT_FOUND");
   }
 
+  console.log(content);
+
   if (tenantSettings.landing_template === Templates.SUMMARY_LANDING) {
     return <TemplateSummary data={(content as LandingSummaryResponse).data} />;
   }

@@ -2,17 +2,21 @@ import { z } from "zod";
 
 const arabicNamePattern = /^[\p{L}\s]+$/u;
 const egyptianMobileNumberPattern = /^01[0125]\d{8}$/;
+const requiredIdSchema = z.coerce
+  .number()
+  .int()
+  .positive("يرجى اختيار قيمة صحيحة");
 
 export const summaryBookingSchema = z.object({
-  applicantType: z.enum(["student", "guardian"], {
-    required_error: "يرجى تحديد مقدم الطلب",
-  }),
-  firstName: z
+  type: z.coerce
+    .number()
+    .refine((value) => value === 0 || value === 1, "يرجى تحديد مقدم الطلب"),
+  first_name: z
     .string()
     .trim()
     .min(2, "الاسم الأول مطلوب")
     .regex(arabicNamePattern, "الاسم الأول يجب أن يحتوي على حروف فقط"),
-  lastName: z
+  last_name: z
     .string()
     .trim()
     .min(2, "الاسم الأخير مطلوب")
@@ -25,7 +29,7 @@ export const summaryBookingSchema = z.object({
       egyptianMobileNumberPattern,
       "أدخل رقم هاتف مصري مكونًا من 11 رقمًا ويبدأ بـ 010 أو 011 أو 012 أو 015",
     ),
-  grade: z.enum(["first", "second", "third"], {
-    required_error: "يرجى اختيار السنة الدراسية",
-  }),
+  grade_id: requiredIdSchema,
+  state_id: requiredIdSchema,
+  city_id: requiredIdSchema,
 });

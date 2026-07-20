@@ -2,23 +2,23 @@
 
 import { Button } from "@/components/ui/button";
 import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { useTenant } from "@/context/TenantProvider";
 import { mapSummaryNavigation } from "@/helpers/map-summary-landing-content";
 import type { LandingPageHeader } from "@/types/tenant.types";
-import { BookOpen, Menu, Rocket } from "lucide-react";
+import { Menu, Rocket } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
 
 import CustomImage from "../ui/CustomImage";
 
 function SummaryNavbar({ header }: { header: LandingPageHeader }) {
   const { logo } = useTenant();
   const navigation = mapSummaryNavigation(header);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
     <header className="fixed inset-x-0 top-0 z-30 flex h-24 items-end backdrop-blur-xs lg:h-28">
@@ -61,36 +61,46 @@ function SummaryNavbar({ header }: { header: LandingPageHeader }) {
             </Button>
           </div>
 
-          <Sheet>
-            <SheetTrigger asChild>
+          <Popover open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+            <PopoverTrigger asChild>
               <Button
                 variant="outline-gray"
                 size="icon"
-                className="rounded-xl lg:hidden"
+                className="size-11 rounded-xl lg:hidden"
                 aria-label="فتح قائمة التنقل"
               >
                 <Menu aria-hidden />
               </Button>
-            </SheetTrigger>
-            <SheetContent side="top" className="rounded-b-2xl" dir="rtl">
-              <SheetTitle className="flex items-center gap-2 text-right text-[#12304b]">
-                <BookOpen aria-hidden className="text-secondary" />
-                التنقل في الصفحة
-              </SheetTitle>
-              <nav aria-label="التنقل في الصفحة" className="mt-6 grid gap-2">
+            </PopoverTrigger>
+            <PopoverContent
+              align="end"
+              sideOffset={12}
+              dir="rtl"
+              className="w-[min(22rem,calc(100vw-2rem))] origin-top-right rounded-2xl border-slate-100 bg-white/95 p-2 shadow-[0_20px_44px_-20px_rgba(18,48,75,0.45)] backdrop-blur-xl motion-reduce:animate-none lg:hidden"
+            >
+              <nav aria-label="التنقل في الصفحة" className="grid gap-1">
                 {navigation.map((link) => (
-                  <SheetClose asChild key={link.href}>
-                    <Link
-                      href={link.href}
-                      className="hover:bg-primary-50 hover:text-primary-800 rounded-xl px-3 py-3 font-bold text-[#12304b] transition-colors"
-                    >
-                      {link.label}
-                    </Link>
-                  </SheetClose>
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="hover:bg-primary-50 hover:text-primary-800 rounded-xl px-4 py-3 text-sm font-bold text-[#12304b] transition-colors"
+                  >
+                    {link.label}
+                  </Link>
                 ))}
               </nav>
-            </SheetContent>
-          </Sheet>
+              <Button asChild className="mt-2 h-11 w-full rounded-xl">
+                <Link
+                  href="#summary-booking"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {header.button_text}
+                  <Rocket aria-hidden />
+                </Link>
+              </Button>
+            </PopoverContent>
+          </Popover>
         </div>
       </div>
     </header>

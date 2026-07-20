@@ -1,18 +1,14 @@
 "use client";
 
+import CustomCityStateField from "@/components/custom/CustomCityStateField";
 import CustomInput from "@/components/custom/customInput";
 import CustomRadioGroup from "@/components/custom/CustomRadioGroup";
-import CustomSelect from "@/components/custom/customSelect";
+import DynamicSelect from "@/components/custom/DynamicSelect";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { summaryBookingSchema } from "@/schemas/templates.schema";
-import type {
-  SummaryBookingFormValues,
-  SummaryTemplateContent,
-} from "@/types/summary-template.types";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import type { SummaryTemplateContent } from "@/types/summary-template.types";
 
+import { useSummaryBookingForm } from "./hooks/useSummaryBookingForm";
 import SummarySectionHeading from "./SummarySectionHeading";
 
 type SummaryBookingProps = {
@@ -20,19 +16,7 @@ type SummaryBookingProps = {
 };
 
 function SummaryBooking({ booking }: SummaryBookingProps) {
-  const form = useForm<SummaryBookingFormValues>({
-    resolver: zodResolver(summaryBookingSchema),
-    defaultValues: {
-      applicantType: "student",
-      firstName: "",
-      lastName: "",
-      phone: "",
-      grade: "first",
-    },
-    mode: "onBlur",
-  });
-
-  const handleBookingSubmit = () => {};
+  const { form, submit } = useSummaryBookingForm();
 
   return (
     <section
@@ -50,13 +34,13 @@ function SummaryBooking({ booking }: SummaryBookingProps) {
 
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(handleBookingSubmit)}
+            onSubmit={submit}
             className="mx-auto mt-10 max-w-xl rounded-2xl bg-white p-5 text-right shadow-[0_24px_40px_-24px_rgba(0,0,0,0.65)] sm:p-7"
             noValidate
           >
             <CustomRadioGroup
               control={form.control}
-              name="applicantType"
+              name="type"
               label="أنت تسجل كـ"
               options={booking.applicantTypes}
             />
@@ -64,13 +48,13 @@ function SummaryBooking({ booking }: SummaryBookingProps) {
             <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
               <CustomInput
                 control={form.control}
-                name="firstName"
+                name="first_name"
                 label="الاسم الأول"
                 placeholder="أدخل الاسم الأول"
               />
               <CustomInput
                 control={form.control}
-                name="lastName"
+                name="last_name"
                 label="الاسم الأخير"
                 placeholder="أدخل الاسم الأخير"
               />
@@ -81,17 +65,19 @@ function SummaryBooking({ booking }: SummaryBookingProps) {
                 placeholder="01012345678"
                 type="tel"
               />
-              <CustomSelect
+              <DynamicSelect
                 control={form.control}
-                name="grade"
-                label="السنة الدراسية"
-                placeholder="اختر السنة الدراسية"
-                options={booking.grades}
+                name="grade_id"
+                label="الصف"
+                queryKey="/grades"
+                className=""
               />
+              <CustomCityStateField form={form} />
             </div>
 
             <Button
               type="submit"
+              disabled={form.formState.isSubmitting}
               className="mt-6 h-12 w-full rounded-xl text-base font-bold transition-transform duration-200 hover:shadow-lg motion-reduce:transition-none"
             >
               {booking.submitLabel}

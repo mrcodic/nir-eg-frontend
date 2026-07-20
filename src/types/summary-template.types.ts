@@ -22,11 +22,13 @@ export type SummaryTemplateAction = {
 };
 
 export type SummaryBookingFormValues = {
-  applicantType: "student" | "guardian";
-  firstName: string;
-  lastName: string;
+  type: number;
+  first_name: string;
+  last_name: string;
   phone: string;
-  grade: "first" | "second" | "third";
+  grade_id: number;
+  state_id: number;
+  city_id: number;
 };
 
 export type SummaryTemplateFeature = {
@@ -68,7 +70,6 @@ export type SummaryTemplateContent = {
     description: string;
     submitLabel: string;
     applicantTypes: SummaryTemplateOption[];
-    grades: SummaryTemplateOption[];
   };
   faq: {
     eyebrow: string;
