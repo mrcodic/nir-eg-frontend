@@ -59,21 +59,22 @@ const columns = [
     ),
     cell: (info) => (
       <div className="flex max-w-[200px] gap-1 truncate p-2 text-base font-medium md:max-w-[250px]">
-        <p>{info.getValue()}</p>
+        <span>{info.getValue()}</span>
 
-        {info?.row?.original?.is_classroom_expired ? (
-          <span className="truncate font-bold">
-            {info.row.original.item_title}
-          </span>
-        ) : (
-          <Link
-            title={info.row.original.item_title}
-            href={generatePointHref(info.row.original)}
-            className="text-primary-800 truncate font-bold underline"
-          >
-            {info.row.original.item_title}
-          </Link>
-        )}
+        {!!info?.row?.original?.classroom_id &&
+          (info?.row?.original?.is_classroom_expired ? (
+            <span className="truncate font-bold">
+              {info.row.original.item_title}
+            </span>
+          ) : (
+            <Link
+              title={info.row.original.item_title}
+              href={generatePointHref(info.row.original)}
+              className="text-primary-800 truncate font-bold underline"
+            >
+              {info.row.original.item_title}
+            </Link>
+          ))}
       </div>
     ),
   }),

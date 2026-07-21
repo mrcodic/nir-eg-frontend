@@ -19,11 +19,11 @@ import { ApiResponse, IUser } from "@/types";
 import { Templates } from "@/types/tenant.types";
 import { isProd } from "@/utils/isProd";
 import { Metadata } from "next";
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 import dynamic from "next/dynamic";
 import { Almarai } from "next/font/google";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 import Script from "next/script";
 import { Suspense } from "react";
 import CustomGlobalError from "./CustomGlobalError";
@@ -130,10 +130,10 @@ export default async function Layout({ children }) {
 
   const pathname = (await headers()).get("x-pathname") ?? "/";
 
-  if (
-    tenantSettings.landing_template === Templates.SUMMARY_LANDING &&
-    pathname !== "/"
-  ) {
+  const isSummaryTemplate =
+    tenantSettings.landing_template === Templates.SUMMARY_LANDING;
+
+  if (isSummaryTemplate && pathname !== "/") {
     redirect("/");
   }
 
@@ -204,15 +204,19 @@ export default async function Layout({ children }) {
                 <Footer />
               </Suspense>
 
-              <UserModalsWrapper />
+              {!isSummaryTemplate && (
+                <>
+                  <UserModalsWrapper />
 
-              <PhoneNotVerifiedGuard />
+                  <PhoneNotVerifiedGuard />
 
-              <DraftTasksPurgeManager />
+                  <DraftTasksPurgeManager />
 
-              <Suspense fallback={null}>
-                {profile && <Announcement profile={profile.body} />}
-              </Suspense>
+                  <Suspense fallback={null}>
+                    {profile && <Announcement profile={profile.body} />}
+                  </Suspense>
+                </>
+              )}
             </Providers>
           </>
         </TenantProvider>

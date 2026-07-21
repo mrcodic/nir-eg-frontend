@@ -1,14 +1,14 @@
 "use client";
 
 import { mapTemplateToNumber } from "@/helpers/tenant.helpers";
-import { TenantFeatures } from "@/types/tenant.types";
+import { Templates, TenantFeatures } from "@/types/tenant.types";
 import { createContext, useContext, useMemo } from "react";
 
 export interface TenantPublic {
   name: string;
   brand_name: string;
   primary_color: string;
-  landing_template: string;
+  landing_template: Templates;
   site_name: string;
   logo: string;
   features: TenantFeatures;

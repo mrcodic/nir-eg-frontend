@@ -17,8 +17,6 @@ async function page({ params }: { params: Promise<{ itemId: string }> }) {
 
   return (
     <div className="section--style">
-      <h1 className="text-28 font-bold">{book?.data?.name}</h1>
-
       <StoreItemDetailsCard book={book?.data} />
 
       <StoreItems

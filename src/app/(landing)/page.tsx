@@ -54,7 +54,7 @@ async function LandingPage() {
 
   const user = profile?.body as IUser | null;
 
-  if (!!user) {
+  if (!!user && tenantSettings.landing_template !== Templates.SUMMARY_LANDING) {
     if (user.type === 3) {
       if (user.has_center && user.center_id) {
         redirect(`/bundles/${user.center_id}`);

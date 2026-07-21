@@ -30,7 +30,7 @@ function StoreItemDetailsCard({ book }: { book: StoreItem }) {
   }, [book, modal, name, price, router, searchParams]);
 
   return (
-    <section className="mt-8">
+    <section>
       <div className="flex items-center gap-6 max-md:flex-col">
         <div className="bg-background border-gray-light relative aspect-square w-full max-w-[368px] shrink-0 overflow-hidden rounded-2xl border">
           <CustomImage
@@ -44,7 +44,7 @@ function StoreItemDetailsCard({ book }: { book: StoreItem }) {
         </div>
 
         <div className="grow">
-          <h2 className="text-28 font-bold max-md:hidden">{name}</h2>
+          <h1 className="text-28 font-bold">{name}</h1>
 
           <p className="mt-4 text-lg font-medium md:text-xl">{description}</p>
 
