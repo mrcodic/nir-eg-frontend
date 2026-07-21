@@ -2,10 +2,14 @@ import { z } from "zod";
 
 const arabicNamePattern = /^[\p{L}\s]+$/u;
 const egyptianMobileNumberPattern = /^01[0125]\d{8}$/;
+const requiredIdMessage = "يرجى اختيار قيمة صحيحة";
 const requiredIdSchema = z.coerce
-  .number()
+  .number({
+    required_error: requiredIdMessage,
+    invalid_type_error: requiredIdMessage,
+  })
   .int()
-  .positive("يرجى اختيار قيمة صحيحة");
+  .positive(requiredIdMessage);
 
 export const summaryBookingSchema = z.object({
   type: z.coerce

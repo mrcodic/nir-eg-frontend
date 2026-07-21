@@ -34,7 +34,7 @@ const Announcement = dynamic(() => import("@/components/banners/Announcement"));
 
 const almarai = Almarai({
   subsets: ["arabic"],
-  weight: ["400", "700"],
+  weight: ["400", "300", "700"],
 });
 
 const devDomain = process.env.NEXT_PUBLIC_DEV_DOMAIN ?? "localhost:3000";

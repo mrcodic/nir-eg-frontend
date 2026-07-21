@@ -3,6 +3,12 @@ import SummarySectionHeading from "./SummarySectionHeading";
 
 import { SummaryTemplateContent } from "@/types/summary-template.types";
 
+const floatingIcons = [
+  "/assets/icons/instructor.png",
+  "/assets/icons/talent.png",
+  "/assets/icons/course.png",
+];
+
 function SummaryBenefits({
   benefits,
 }: {
@@ -16,9 +22,13 @@ function SummaryBenefits({
     >
       <div className="wrapper">
         <SummarySectionHeading {...benefits} />
-        <div className="mt-10 grid gap-4 md:grid-cols-3">
-          {benefits.features.map((feature) => (
-            <SummaryFeatureCard key={feature.title} feature={feature} />
+        <div className="mt-10 grid gap-4 xl:grid-cols-3">
+          {benefits.features.map((feature, idx) => (
+            <SummaryFeatureCard
+              key={feature.title}
+              feature={feature}
+              floatingIcon={floatingIcons[idx % floatingIcons.length]}
+            />
           ))}
         </div>
       </div>

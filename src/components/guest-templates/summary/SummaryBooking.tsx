@@ -10,6 +10,7 @@ import type { SummaryTemplateContent } from "@/types/summary-template.types";
 
 import { Animate } from "@/components/shared/Animate";
 import { useSummaryBookingForm } from "@/hooks/useSummaryBookingForm";
+import { Loader2 } from "lucide-react";
 import SummarySectionHeading from "./SummarySectionHeading";
 
 type SummaryBookingProps = {
@@ -80,9 +81,17 @@ function SummaryBooking({ booking }: SummaryBookingProps) {
               <Button
                 type="submit"
                 disabled={form.formState.isSubmitting}
-                className="mt-6 h-12 w-full rounded-xl text-base font-bold transition-transform duration-200 hover:shadow-lg motion-reduce:transition-none"
+                aria-busy={form.formState.isSubmitting}
+                className="mt-6 h-15 w-full gap-2 rounded-xl text-base font-bold shadow-md transition-transform duration-200 hover:shadow-lg motion-reduce:transition-none"
               >
-                {booking.submitLabel}
+                {form.formState.isSubmitting ? (
+                  <>
+                    <Loader2 className="size-5 animate-spin" />
+                    جاري الإرسال...
+                  </>
+                ) : (
+                  booking.submitLabel
+                )}
               </Button>
             </form>
           </Form>

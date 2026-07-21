@@ -6,6 +6,7 @@ import { SummaryTemplateFeature } from "@/types/summary-template.types";
 function SummaryFeatureCard({
   feature,
   className,
+  floatingIcon,
 }: {
   feature: SummaryTemplateFeature;
   floatingIcon?: string;
@@ -14,7 +15,7 @@ function SummaryFeatureCard({
   return (
     <article
       className={cn(
-        "group flex items-center gap-4 rounded-2xl bg-white p-4 shadow-sm transition-transform duration-200 motion-safe:hover:-translate-y-1 motion-reduce:transition-none",
+        "group relative flex items-center gap-4 rounded-2xl bg-white p-6 transition-transform duration-200 motion-safe:hover:-translate-y-1 motion-reduce:transition-none",
         className,
       )}
     >
@@ -27,6 +28,18 @@ function SummaryFeatureCard({
           height={44}
           alt=""
           className="size-11 shrink-0 object-contain"
+        />
+      )}
+
+      {floatingIcon && (
+        <CustomImage
+          src={floatingIcon}
+          fallback="/assets/icons/BookColor.svg"
+          startWithFallback={false}
+          width={40}
+          height={40}
+          alt=""
+          className="absolute -top-5 left-4 size-10 shrink-0 object-contain"
         />
       )}
 

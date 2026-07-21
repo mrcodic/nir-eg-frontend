@@ -42,7 +42,7 @@ export function mapSummaryLandingContent(
       eyebrow: data.hero.badge,
       title: data.hero.title,
       description: data.hero.description,
-      image: data.hero.image ?? "/assets/templates/summary/hero-student.jpg",
+      image: data.hero.image ?? "/assets/bg/hero-student.jpg",
       primaryAction: {
         label: data.hero.primary_button_text,
         href: "#summary-booking",

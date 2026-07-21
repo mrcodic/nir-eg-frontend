@@ -4,18 +4,19 @@ import { summaryBookingSchema } from "@/schemas/templates.schema";
 import type { SummaryBookingFormValues } from "@/types/summary-template.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { isAxiosError } from "axios";
-import { useForm } from "react-hook-form";
+import { useEffect } from "react";
+import { type DefaultValues, useForm } from "react-hook-form";
 
 type SummaryBookingResponse = {
   message?: string;
 };
 
-const defaultValues: SummaryBookingFormValues = {
+const defaultValues: DefaultValues<SummaryBookingFormValues> = {
   type: 1,
   first_name: "",
   last_name: "",
   phone: "",
-  grade_id: 0,
+  grade_id: undefined,
   state_id: 0,
   city_id: 0,
 };
@@ -27,6 +28,18 @@ export function useSummaryBookingForm() {
     defaultValues,
     mode: "onBlur",
   });
+  const {
+    reset,
+    formState: { isSubmitSuccessful },
+  } = form;
+
+  useEffect(() => {
+    if (!isSubmitSuccessful) {
+      return;
+    }
+
+    reset(defaultValues);
+  }, [isSubmitSuccessful, reset]);
 
   const submit = form.handleSubmit(async (values) => {
     try {
@@ -39,7 +52,6 @@ export function useSummaryBookingForm() {
         description: response?.message ?? "تم تسجيل بياناتك بنجاح",
         icon: "success",
       });
-      form.reset(defaultValues);
     } catch (error: unknown) {
       const message = isAxiosError(error)
         ? (error.response?.data?.message ?? "تعذر إرسال بيانات التسجيل")

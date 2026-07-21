@@ -7,11 +7,19 @@ import SummaryCourse from "./summary/SummaryCourse";
 import SummaryFaq from "./summary/SummaryFaq";
 import SummaryHero from "./summary/SummaryHero";
 
+import { cn } from "@/lib/utils";
+import { Readex_Pro } from "next/font/google";
+
+const readexPro = Readex_Pro({
+  subsets: ["arabic"],
+  weight: ["400", "500", "600", "700"],
+});
+
 function TemplateSummary({ data }: { data: LandingPageData }) {
   const content = mapSummaryLandingContent(data);
 
   return (
-    <div className="bg-white">
+    <div className={cn("bg-white", readexPro.className)}>
       <Animate preset="slideUp">
         <SummaryHero hero={content.hero} />
       </Animate>
