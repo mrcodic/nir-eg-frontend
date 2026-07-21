@@ -11,6 +11,7 @@ import { useModal } from "@/context/ModalProvider";
 import { cn } from "@/lib/utils";
 import { Bundle } from "@/types";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function BundleCard({
@@ -57,7 +58,19 @@ export default function BundleCard({
           <h3 className="text-gray-dark text-sm">تحتوي الباقة على التالي:</h3>
 
           <span className="inline-block font-bold">
-            {bundle.classrooms.map((classroom) => classroom.title).join(" و ")}
+            {bundle?.courses.map(({ title, id }, index, arr) => (
+              <span key={id}>
+                <Link
+                  href={`/bundles/${id}`}
+                  className="text-sm underline underline-offset-2"
+                >
+                  {title}{" "}
+                </Link>
+                {index < arr.length - 1 && (
+                  <span className="text-gray-dark px-1 text-xs">و</span>
+                )}
+              </span>
+            ))}
           </span>
         </div>
 

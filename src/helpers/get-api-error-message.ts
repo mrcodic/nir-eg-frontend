@@ -8,7 +8,8 @@ export function getApiErrorMessage(
 ): string {
   if (!isAxiosError<ApiErrorPayload>(error)) return fallbackMessage;
 
-  const message = error.response?.data?.message;
+  const message =
+    error.response?.data?.message || error.response?.data?.errors?.message;
 
   return typeof message === "string" && message.trim()
     ? message

@@ -73,7 +73,7 @@ const BundleDetails = async ({
     return <Empty isPageError text="لم يتم العثور على هذه الباقة" />;
   }
 
-  const classroomsPrice = data?.body.classrooms.reduce((acc, classroom) => {
+  const classroomsPrice = data?.body.courses.reduce((acc, classroom) => {
     return acc + Number(classroom.price);
   }, 0);
 
@@ -147,7 +147,7 @@ const BundleDetails = async ({
           ))}
         </Animate>
 
-        {!isSubbed && !!savedAmount && !!Number(bundle?.price) && (
+        {!isSubbed && !!savedAmount && (
           <div className="bg-background border-primary-800 mx-auto mt-10 flex max-w-[780px] flex-col items-center gap-6 rounded-lg border p-4 text-center">
             <p className="text-xl font-bold">
               ستقوم بتوفير{" "}

@@ -386,6 +386,7 @@ export interface Bundle {
   price: string;
   is_subscribed?: boolean;
   classrooms: CourseType[];
+  courses: { id: number; title: string; price: number }[];
   grade: Grade;
   sale: Sale | null;
   created_at: string;

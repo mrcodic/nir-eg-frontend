@@ -5,6 +5,7 @@ import PriceBubbles from "@/components/ui/price-bubble";
 import { Bundle } from "@/types";
 import type { Variants } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 
 const containerVariants: Variants = {
   hidden: {},
@@ -95,7 +96,19 @@ function BundleDetailsCard({
           </h4>
 
           <p className="text-base font-bold">
-            {bundle.classrooms.map((classroom) => classroom.title).join(" و ")}
+            {bundle?.classrooms.map(({ title, id }, index, arr) => (
+              <span key={id}>
+                <Link
+                  href={`/bundles/${id}`}
+                  className="text-sm underline underline-offset-2"
+                >
+                  {title}{" "}
+                </Link>
+                {index < arr.length - 1 && (
+                  <span className="text-gray-dark px-1 text-xs">و</span>
+                )}
+              </span>
+            ))}
           </p>
         </div>
 

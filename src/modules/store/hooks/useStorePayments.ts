@@ -183,9 +183,8 @@ export const useStorePayments = ({
         }
       }
     } catch (e) {
-      console.log(e);
       toast({
-        description: "حصل مشكله اثناء الدفع",
+        description: getApiErrorMessage(e, "حصل مشكله اثناء الدفع"),
         icon: "error",
       });
     } finally {
