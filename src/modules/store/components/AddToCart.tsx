@@ -31,12 +31,7 @@ const AddToCart: React.FC<Props> = ({
     setIsProcessing(true);
 
     try {
-      const result = addToCart(item);
-
-      // if addToCart returns a promise, await it
-      if (result instanceof Promise) {
-        await result;
-      }
+      await addToCart(item);
 
       toast({
         icon: "success",

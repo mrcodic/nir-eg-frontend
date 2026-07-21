@@ -52,8 +52,18 @@ async function LandingPage() {
     }),
   ]);
 
-  if (profile?.body) {
-    redirect("/profile");
+  const user = profile?.body as IUser | null;
+
+  if (!!user) {
+    if (user.type === 3) {
+      if (user.has_center && user.center_id) {
+        redirect(`/bundles/${user.center_id}`);
+      } else {
+        redirect("/profile");
+      }
+    } else {
+      redirect("/bundles");
+    }
   }
 
   if (!content) {

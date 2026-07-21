@@ -159,11 +159,10 @@ export const createCartStore = (initState?: Partial<CartState>) => {
           });
 
           try {
-            const addedItem = get().items.find((i) => i.id === item.id);
-            if (addedItem) {
-              await cartServices.addItem(addedItem);
-            }
+            // const addedItem = get().items.find((i) => i.id === item.id);
+            await cartServices.addItem(item);
           } catch (error) {
+            console.log("aaaaaaaaaaaaaaaa ", error);
             // Rollback on error
             set((state) => {
               const existingItem = state.items.find((i) => i.id === item.id);

@@ -28,6 +28,7 @@ const ExamPage = () => {
       isLoading={isLoading}
       subscribed={start?.is_subscribed}
       text={isTaskClosed ? "تم إغلاق الكويز" : ""}
+      emptyMessage="لم يتم العثور على هذا الكويز"
     >
       <title>{start?.title}</title>
       <meta name="description" content={`حل كويز ${start?.title || ""}`} />

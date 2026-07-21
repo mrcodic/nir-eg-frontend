@@ -69,7 +69,7 @@ export async function fetchServer<T>({
           ? "UNAUTHORIZED"
           : res.status === 403
             ? "FORBIDDEN"
-            : res.status === 404
+            : res.status === 404 || res.status === 400
               ? "NOT_FOUND"
               : res.status === 429
                 ? "RATE_LIMITED"

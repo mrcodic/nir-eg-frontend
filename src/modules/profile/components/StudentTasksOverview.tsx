@@ -57,7 +57,7 @@ function StudentTasksOverview() {
           className="col-span-12 mt-8 flex flex-col gap-x-12 lg:col-span-4"
         />
 
-        <ExamsPointsChart exams={exams || []} />
+        <ExamsPointsChart exams={exams} />
       </div>
     </div>
   );

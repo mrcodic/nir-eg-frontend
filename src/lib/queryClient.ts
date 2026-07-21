@@ -2,6 +2,7 @@
 "use client";
 
 import { QueryClient, isServer } from "@tanstack/react-query";
+import { isAxiosError } from "axios";
 
 function makeQueryClient() {
   return new QueryClient({
@@ -11,7 +12,11 @@ function makeQueryClient() {
         refetchOnMount: true,
         staleTime: 5000,
         retry: (failureCount, error: any) => {
-          if (error?.status === 404) return false;
+          if (
+            error?.status === 404 ||
+            (isAxiosError(error) && error?.response?.status === 404)
+          )
+            return false;
           return failureCount < 3;
         },
       },

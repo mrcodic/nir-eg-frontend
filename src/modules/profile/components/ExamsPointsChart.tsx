@@ -31,7 +31,7 @@ const CustomTooltip = ({ active, payload }) => {
 };
 
 const ExamsPointsChart = ({
-  exams,
+  exams = [],
 }: {
   exams: { percent?: number; score?: number; passed: boolean; title: string }[];
 }) => {
@@ -89,7 +89,7 @@ const ExamsPointsChart = ({
             }}
             tick={{
               fill: "#374151",
-              dx: !isDesktop ? 15 : 30,
+              dx: 50,
               fontSize: !isDesktop ? 10 : 12,
             }}
             axisLine={false}

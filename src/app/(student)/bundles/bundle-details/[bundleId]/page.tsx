@@ -1,4 +1,5 @@
 import { Animate } from "@/components/shared/Animate";
+import Empty from "@/components/shared/Empty";
 import PriceBubbles from "@/components/ui/price-bubble";
 import RemainingDuration from "@/components/ui/RemainingDuration";
 import StyledText from "@/components/ui/StyledText";
@@ -12,7 +13,6 @@ import RoomHeader from "@/modules/rooms/components/RoomHeader";
 import { ApiResponse, Bundle, IUser } from "@/types";
 import { Variants } from "framer-motion";
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "تفاصيل الباقة",
@@ -61,7 +61,7 @@ const BundleDetails = async ({
   const profile = profileData?.body;
 
   if (!bundleId) {
-    return redirect("/ErrorPage?message=لم يتم العثور على هذه الباقة");
+    return <Empty isPageError text="لم يتم العثور على هذه الباقة" />;
   }
 
   const data = await getServerData<{ body: Bundle }>({
@@ -70,7 +70,7 @@ const BundleDetails = async ({
   });
 
   if (!data) {
-    return redirect("/ErrorPage?message=لم يتم العثور على هذه الباقة");
+    return <Empty isPageError text="لم يتم العثور على هذه الباقة" />;
   }
 
   const classroomsPrice = data?.body.classrooms.reduce((acc, classroom) => {

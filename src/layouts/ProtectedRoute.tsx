@@ -41,17 +41,15 @@ const ProtectedRoute = ({
 
   if (data && !subscribed)
     return (
-      <div className="h-screen">
-        <Empty isError text={text || " انت غير مشترك في هذا الكورس  "} />
-      </div>
+      <Empty
+        isPageError
+        isError
+        text={text || " انت غير مشترك في هذا الكورس  "}
+      />
     );
 
   if (!data) {
-    return (
-      <div className="h-screen">
-        <Empty text={emptyMessage || " لا يوجد بيانات "} />
-      </div>
-    );
+    return <Empty isPageError text={emptyMessage || " لا يوجد بيانات "} />;
   }
 
   if (verifyPhone && !phoneVerified)

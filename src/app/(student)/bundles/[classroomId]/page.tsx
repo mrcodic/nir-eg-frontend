@@ -1,4 +1,5 @@
 import { Animate } from "@/components/shared/Animate";
+import Empty from "@/components/shared/Empty";
 import { getServerData } from "@/helpers/fetchers/server-fetch";
 import ProtectedRoute from "@/layouts/ProtectedRoute";
 import CourseDetails from "@/modules/courses/components/CourseDetails";
@@ -32,7 +33,7 @@ const classroomId = async ({ params }) => {
   // console.log("bundleRooms -> ", bundleRooms);
 
   if (!bundleRooms) {
-    redirect("/ErrorPage?message=حدث خطأ اثناء البحث عن الكورس");
+    return <Empty isPageError text="لم يتم العثور على هذا الكورس" />;
   }
 
   return (

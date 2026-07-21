@@ -40,7 +40,7 @@ function StoreItems({
     placeholderData: keepPreviousData,
   });
 
-  if (hideOnEmptyCart && getTotalItems() === 0) return null;
+  if (hideOnEmptyCart && getTotalItems?.() === 0) return null;
 
   return (
     <section className={className}>
@@ -50,7 +50,7 @@ function StoreItems({
       />
 
       {isLoading ? (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {Array.from({ length: 4 }).map((_, i) => (
             <StoreItemCardSkeleton key={i} />
           ))}
@@ -58,7 +58,7 @@ function StoreItems({
       ) : !!data?.data?.length ? (
         <div
           className={cn(
-            "grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3",
+            "grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3",
             itemsClassName,
             isPlaceholderData
               ? "pointer-events-none animate-pulse opacity-80"
@@ -66,7 +66,11 @@ function StoreItems({
           )}
         >
           {data?.data?.map((book) => (
-            <StoreItemCard key={book.id} book={book} />
+            <StoreItemCard
+              key={book.id}
+              book={book}
+              className="w-full max-w-md max-sm:mx-auto"
+            />
           ))}
         </div>
       ) : error ? (

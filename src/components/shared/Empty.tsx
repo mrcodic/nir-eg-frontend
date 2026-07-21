@@ -9,6 +9,7 @@ type EmptyProps = {
   children?: ReactNode;
   icon?: string;
   iconClassName?: string;
+  isPageError?: boolean;
 };
 
 const Empty = ({
@@ -18,15 +19,17 @@ const Empty = ({
   isError,
   children,
   iconClassName,
+  isPageError,
 }: EmptyProps) => {
   return (
     <div
       className={cn(
-        "flex flex-col gap-2 justify-center items-center h-full py-8",
-        className
+        "flex h-full flex-col items-center justify-center gap-2 py-8",
+        { "mt-20 min-h-[min(calc(100vh-80px),768px)]": isPageError },
+        className,
       )}
     >
-      <div className={cn("w-[200px] h-[150px] relative", iconClassName)}>
+      <div className={cn("relative h-[150px] w-[200px]", iconClassName)}>
         <Image
           src={
             icon ||
@@ -36,7 +39,7 @@ const Empty = ({
           }
           alt=" "
           fill
-          className={cn("w-full h-full object-contain", iconClassName)}
+          className={cn("h-full w-full object-contain", iconClassName)}
         />
       </div>
       <h2 className="text-lg font-bold">

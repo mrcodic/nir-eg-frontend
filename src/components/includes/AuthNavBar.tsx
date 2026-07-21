@@ -86,9 +86,9 @@ const AuthNavBar = ({ profile }: { profile: IUser }) => {
           >
             <Link
               href={
-                profile?.has_center
+                !!profile?.has_center && !!profile?.center_id
                   ? `/bundles/${profile?.center_id}`
-                  : `/bundles?grade=${profile?.grade}`
+                  : `/bundles`
               }
               className="flex gap-2 self-end"
             >

@@ -27,6 +27,7 @@ const AssignmentPage = () => {
       text={
         isTaskClosed ? "تم إغلاق الواجب" : "لم يعد مسموح بالوصول الى هذه الصفحة"
       }
+      emptyMessage="لم يتم العثور على هذا الواجب"
     >
       <title>{start?.title}</title>
       <meta name="description" content={`حل  ${start?.title || ""}`} />

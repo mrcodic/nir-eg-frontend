@@ -25,6 +25,7 @@ const ExamPage = () => {
       isLoading={isLoading}
       subscribed={start?.is_subscribed}
       text={isTaskClosed ? "تم إغلاق الامتحان" : ""}
+      emptyMessage="لم يتم العثور على هذا الامتحان"
     >
       <title>{start?.title}</title>
       <meta

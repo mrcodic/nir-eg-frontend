@@ -1,5 +1,6 @@
 import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
 import CustomImage from "@/components/ui/CustomImage";
+import { cn } from "@/lib/utils";
 import { StoreItem } from "@/types/store.types";
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -10,7 +11,13 @@ import StoreItemCartAddRemove from "./StoreItemCartAddRemove";
 const MotionCard = motion.create(Card);
 const MotionLink = motion.create(Link);
 
-const StoreItemCard = ({ book }: { book: StoreItem }) => {
+const StoreItemCard = ({
+  book,
+  className,
+}: {
+  book: StoreItem;
+  className?: string;
+}) => {
   const notAvailable = book?.status === 1;
 
   return (
@@ -27,7 +34,10 @@ const StoreItemCard = ({ book }: { book: StoreItem }) => {
         opacity: 1,
         y: 0,
       }}
-      className="group flex h-full flex-col border-none bg-transparent shadow-none"
+      className={cn(
+        "group flex h-full flex-col border-none bg-transparent shadow-none",
+        className,
+      )}
     >
       <MotionLink
         href={"/store/" + book?.id}
