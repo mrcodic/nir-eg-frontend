@@ -14,6 +14,7 @@ export interface StoreItem {
   category: string;
   category_label: string;
   points_price: number | null;
+  in_stock: boolean;
 }
 
 export type BookLinksSettings = {

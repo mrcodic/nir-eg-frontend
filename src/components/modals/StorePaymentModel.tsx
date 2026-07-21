@@ -27,7 +27,6 @@ export const StorePaymentModel: React.FC<PaymentModalProps> = ({ item }) => {
   } = useStorePayments({
     item,
     asModal: true,
-    isSingleBook: true,
   });
 
   return (

@@ -4,10 +4,10 @@ import Empty from "@/components/shared/Empty";
 import InfiniteScroll from "@/components/shared/InfinteScroll";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import { getClientPrivateData } from "@/helpers/fetchers/client-fetch";
-import { StoreOrder, CourseOrder } from "@/types";
+import { CourseOrder, StoreOrder } from "@/types";
 import { useEffect, useState } from "react";
-import StoreOrderCard from "./StoreOrderCard";
 import CourseOrderCard from "./CourseOrderCard";
+import StoreOrderCard from "./StoreOrderCard";
 
 export default function TransactionsList({
   type = "course",

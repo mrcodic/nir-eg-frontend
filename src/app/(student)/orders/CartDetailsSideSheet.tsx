@@ -20,6 +20,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 function CartDetailsSideSheet({ storeOrder }: { storeOrder: StoreOrder }) {
+  const usedPoints = storeOrder.payment_method_key === "points";
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -55,7 +56,9 @@ function CartDetailsSideSheet({ storeOrder }: { storeOrder: StoreOrder }) {
         <div className="flex h-full flex-col">
           <div className="border-gray-light mt-6 flex flex-wrap items-center gap-x-8 gap-y-4 border-b pb-4">
             <DataLabel text="السعر">
-              {formatCurrency(storeOrder.total_price)}
+              {usedPoints
+                ? `${storeOrder.points_total} نقطة`
+                : formatCurrency(storeOrder.total_price)}
             </DataLabel>
 
             <DataLabel text="التاريخ">
@@ -68,13 +71,26 @@ function CartDetailsSideSheet({ storeOrder }: { storeOrder: StoreOrder }) {
             </DataLabel>
 
             <DataLabel text={"طريفة الدفع"}>
-              <Image
-                src={"/assets/Fawry.svg"}
-                alt=""
-                width={0}
-                height={0}
-                className="size-auto object-contain"
-              />
+              {usedPoints ? (
+                <span className="bg-secondary-50 text-secondary flex items-center gap-2 rounded-lg px-2 py-1 font-bold">
+                  <Image
+                    src="/assets/star-colored.svg"
+                    alt="star icon"
+                    width={16}
+                    height={16}
+                    className="size-4 object-contain"
+                  />
+                  نقاط
+                </span>
+              ) : (
+                <Image
+                  src={"/assets/Fawry.svg"}
+                  alt=""
+                  width={80}
+                  height={32}
+                  className="size-auto object-contain"
+                />
+              )}
             </DataLabel>
           </div>
 
@@ -103,8 +119,11 @@ function CartDetailsSideSheet({ storeOrder }: { storeOrder: StoreOrder }) {
                   <hr className="border-gray-light mt-2 mb-4" />
                   <div className="grid grid-cols-2 gap-4">
                     <DataLabel text="السعر">
-                      {formatCurrency(item.book_price)}
+                      {usedPoints
+                        ? `${item?.points_price || 0} نقطة`
+                        : formatCurrency(item.book_price)}
                     </DataLabel>
+
                     <DataLabel text="الكمية"> {item.quantity}</DataLabel>
                   </div>
                 </div>
@@ -112,11 +131,21 @@ function CartDetailsSideSheet({ storeOrder }: { storeOrder: StoreOrder }) {
             ))}
           </div>
 
-          <PriceSummary
-            totalPrice={storeOrder.total_price}
-            finalPrice={storeOrder.total_price}
-            className="mt-8"
-          />
+          {usedPoints ? (
+            <div className="mt-8 border-t border-gray-100 pt-2">
+              <DataLabel
+                text="إجمالي النقاط"
+                className="justify-between text-sm font-bold sm:text-lg"
+              >
+                {storeOrder.points_total} نقطة
+              </DataLabel>
+            </div>
+          ) : (
+            <PriceSummary
+              finalPrice={storeOrder.total_price}
+              className="mt-8 border-t border-gray-100 pt-2"
+            />
+          )}
         </div>
 
         <SheetDescription />

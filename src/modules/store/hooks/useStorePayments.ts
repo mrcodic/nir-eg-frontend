@@ -15,13 +15,11 @@ import { useEffect, useMemo, useRef, useState } from "react";
 
 interface UsePaymentProps {
   item?: StoreItem;
-  isSingleBook?: boolean;
   asModal?: boolean;
 }
 
 export const useStorePayments = ({
   item,
-  isSingleBook = false,
   asModal = false,
 }: UsePaymentProps) => {
   const router = useRouter();
@@ -48,22 +46,22 @@ export const useStorePayments = ({
 
   const pointsAllowed = useMemo(
     () =>
-      isSingleBook
+      asModal
         ? !!(item?.can_buy_points && item?.points_price !== null)
         : items.length > 0 &&
           items.every((i) => i.can_buy_points && i.points_price !== null),
-    [item, items, isSingleBook],
+    [item, items, asModal],
   );
 
   const totalPointsPrice = useMemo(
     () =>
-      isSingleBook
+      asModal
         ? item?.points_price || 0
         : items.reduce(
             (sum, i) => sum + (i.points_price || 0) * (i.quantity || 1),
             0,
           ),
-    [item, items, isSingleBook],
+    [item, items, asModal],
   );
 
   const hasEnoughPoints = (profile?.points || 0) >= totalPointsPrice;
@@ -113,7 +111,7 @@ export const useStorePayments = ({
         }
 
         const endpoint = "/store/purchase-points";
-        const body = isSingleBook
+        const body = asModal
           ? {
               book_id: Number(item?.id),
               quantity: getItemQuantity(String(item?.id)) || 1,
@@ -146,18 +144,22 @@ export const useStorePayments = ({
 
         if (asModal) {
           modal.closeModal();
+        } else {
+          const [success_url] = redirectUrl(
+            asModal ? { itemId: item?.id } : { booksPage: true },
+          );
+          router.push(success_url);
         }
-        router.push("/orders");
       } else {
         const endpoint = "/cart/pay";
 
         const [success_url, failure_url] = redirectUrl(
-          isSingleBook ? { itemId: item?.id } : { booksPage: true },
+          asModal ? { itemId: item?.id } : { booksPage: true },
         );
 
         response = await mutateClient(endpoint, {
           body: {
-            ...(isSingleBook ? { book_id: item?.id } : { cart_id: cartId }),
+            ...(asModal ? { book_id: item?.id } : { cart_id: cartId }),
             payment_method: paymentMethodValue,
             success_url,
             failure_url,

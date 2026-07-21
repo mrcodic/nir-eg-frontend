@@ -33,6 +33,7 @@ const bookStatusMap: Record<BookPaymentStatus, paymentStatus> = {
   pending: paymentStatus.pending,
   paid: paymentStatus.paid,
   unpaid: paymentStatus.unpaid,
+  failed: paymentStatus.failed,
 };
 
 function resolveStatus(

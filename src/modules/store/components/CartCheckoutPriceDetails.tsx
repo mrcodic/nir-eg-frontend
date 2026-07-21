@@ -18,11 +18,7 @@ function CartCheckoutPriceDetails({ coupon }: { coupon?: PricingResponse }) {
   const finalPrice = coupon?.final_price || totalPrice - couponDiscount;
   // mt-14
   return (
-    <PriceSummary
-      totalPrice={totalPrice}
-      finalPrice={finalPrice}
-      couponDiscount={couponDiscount}
-    />
+    <PriceSummary finalPrice={finalPrice} couponDiscount={couponDiscount} />
   );
 }
 

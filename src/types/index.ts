@@ -172,7 +172,7 @@ export interface CourseOrder {
   model_type?: string;
 }
 
-export type BookPaymentStatus = "pending" | "paid" | "unpaid";
+export type BookPaymentStatus = "pending" | "paid" | "unpaid" | "failed";
 
 export type StoreOrder = {
   type: "book" | "cart";
@@ -183,6 +183,9 @@ export type StoreOrder = {
   payment_status: BookPaymentStatus;
   delivery_status: number;
   total_price: number;
+  points_total: number;
+  payment_method: string;
+  payment_method_key: "fawry" | "points";
 };
 
 export type StoreOrderItem = {

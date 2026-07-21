@@ -3,12 +3,10 @@ import PriceBadge from "@/modules/payment/components/PriceBadge";
 import DataLabel from "../custom/DataLabel";
 
 function PriceSummary({
-  totalPrice,
   finalPrice,
   couponDiscount,
   className,
 }: {
-  totalPrice: number;
   finalPrice: number;
   couponDiscount?: number;
   className?: string;

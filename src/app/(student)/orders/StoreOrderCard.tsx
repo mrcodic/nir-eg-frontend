@@ -24,6 +24,8 @@ function StoreOrderCard({ storeOrder }: { storeOrder: StoreOrder }) {
     />
   );
 
+  const usedPoints = storeOrder.payment_method_key === "points";
+
   return (
     <div className="flex flex-col gap-6 md:flex-row">
       {isCart ? (
@@ -43,14 +45,11 @@ function StoreOrderCard({ storeOrder }: { storeOrder: StoreOrder }) {
       <div className={`border-gray-light flex-1 rounded-lg border p-4`}>
         <div className="flex w-full flex-wrap items-center justify-between gap-6">
           <h2 className="text-sm font-bold text-black md:text-lg">
-            {isCart ? "عربة التسوق" : storeOrder.items[0]?.book_name}
+            {isCart ? "تفاصيل الطلب" : storeOrder?.items?.[0]?.book_name}
             <p className="text-sm text-gray-500">{storeOrder?.order_number}</p>
           </h2>
 
-          <PaymentStatusBadge
-            status={storeOrder.payment_status}
-            variant="book"
-          />
+          <PaymentStatusBadge status={storeOrder.status} variant="book" />
         </div>
 
         <div className="bg-gray-light my-3 h-px w-full" />
@@ -68,9 +67,12 @@ function StoreOrderCard({ storeOrder }: { storeOrder: StoreOrder }) {
             {/* show only for cart */}
             {isCart && <CartDetailsSideSheet storeOrder={storeOrder} />}
           </div>
+
           <div className="mt-4 flex flex-wrap items-center gap-8">
             <DataLabel text="السعر">
-              {formatCurrency(storeOrder.total_price)}
+              {usedPoints
+                ? `${storeOrder?.points_total || 0} نقطة`
+                : formatCurrency(storeOrder.total_price)}
             </DataLabel>
 
             {!isCart && (
@@ -88,13 +90,26 @@ function StoreOrderCard({ storeOrder }: { storeOrder: StoreOrder }) {
             </DataLabel>
 
             <DataLabel text={"طريقة الدفع"}>
-              <Image
-                src={"/assets/Fawry.svg"}
-                alt=""
-                width={0}
-                height={0}
-                className="size-auto object-contain"
-              />
+              {usedPoints ? (
+                <span className="bg-secondary-50 text-secondary flex items-center gap-2 rounded-lg px-2 py-1 font-bold">
+                  <Image
+                    src="/assets/star-colored.svg"
+                    alt="star icon"
+                    width={16}
+                    height={16}
+                    className="size-4 object-contain"
+                  />
+                  نقاط
+                </span>
+              ) : (
+                <Image
+                  src={"/assets/Fawry.svg"}
+                  alt=""
+                  width={80}
+                  height={32}
+                  className="size-auto object-contain"
+                />
+              )}
             </DataLabel>
           </div>
         </div>
