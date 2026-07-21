@@ -14,17 +14,22 @@ export const getLocalStorage = (key) => {
   return null;
 };
 
-export function convertMinutes(seconds) {
-  let minutes = seconds / 60;
-  if (minutes < 60) return `${Math.floor(minutes)} دقيقة`;
+export function convertMinutes(seconds: number) {
+  const totalSeconds = Math.floor(seconds);
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const remainingSeconds = totalSeconds % 60;
+  const durationParts: string[] = [];
 
-  let hours = Math.floor(minutes / 60);
-  let remainingMinutes = Math.floor(minutes % 60);
+  if (hours) durationParts.push(`${hours} ساعة`);
+  if (minutes) durationParts.push(`${minutes} دقيقة`);
+  if (!hours && (remainingSeconds || !durationParts.length)) {
+    durationParts.push(`${remainingSeconds} ثانية`);
+  }
 
-  return remainingMinutes > 0
-    ? `${hours} ساعة و ${remainingMinutes} دقيقة`
-    : `${hours} ساعة`;
+  return durationParts.join(" و ");
 }
+
 export function formatDateToArabic(dateString) {
   if (window === undefined) return dateString;
   const date = new Date(dateString);
