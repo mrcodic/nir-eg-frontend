@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useCartStore } from "@/context/StoreProvider";
+import { getApiErrorMessage } from "@/helpers/get-api-error-message";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import React, { startTransition, useCallback, useState } from "react";
@@ -30,11 +31,7 @@ const RemoveFromCart: React.FC<Props> = ({
     setIsProcessing(true);
 
     try {
-      // If removeFromCart is sync it's fine; if it's async, await it.
-      const result = removeFromCart(id);
-      if (result instanceof Promise) {
-        await result;
-      }
+      await removeFromCart(id);
 
       toast({
         icon: "success",
@@ -48,10 +45,12 @@ const RemoveFromCart: React.FC<Props> = ({
         });
       }
     } catch (error) {
-      // console.error("removeFromCart error:", error);
       toast({
         icon: "error",
-        description: "حدث خطأ أثناء إزالة المنتج من السلة.",
+        description: getApiErrorMessage(
+          error,
+          "حدث خطأ أثناء إزالة المنتج من السلة.",
+        ),
       });
     } finally {
       setIsProcessing(false);

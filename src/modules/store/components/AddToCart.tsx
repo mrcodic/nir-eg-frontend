@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useCartStore } from "@/context/StoreProvider";
+import { getApiErrorMessage } from "@/helpers/get-api-error-message";
 import { useToast } from "@/hooks/use-toast";
 import { StoreItem } from "@/types/store.types";
 import { useRouter } from "next/navigation";
@@ -44,10 +45,12 @@ const AddToCart: React.FC<Props> = ({
         });
       }
     } catch (error) {
-      // console.error("ADD TO CART ERROR", error);
       toast({
         icon: "error",
-        description: "حدث خطأ أثناء إضافة المنتج للسلة.",
+        description: getApiErrorMessage(
+          error,
+          "حدث خطأ أثناء إضافة المنتج للسلة.",
+        ),
       });
     } finally {
       setIsProcessing(false);

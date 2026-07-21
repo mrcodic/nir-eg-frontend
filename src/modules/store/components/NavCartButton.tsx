@@ -14,16 +14,19 @@ import {
 import { useAuthContext } from "@/context/auth-context";
 import { useCartStore } from "@/context/StoreProvider";
 import { useTenant } from "@/context/TenantProvider";
+import { getApiErrorMessage } from "@/helpers/get-api-error-message";
+import { useToast } from "@/hooks/use-toast";
 import { formatCurrency } from "@/lib/utils";
 import { Trash } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { MixedItemsPointsWarning } from "./MixedItemsPointsWarning";
 import StoreItemCartCard from "./StoreItemCartCard";
 
 function NavCartButton() {
   const pathname = usePathname();
+  const { toast } = useToast();
   const { profile } = useAuthContext();
   const {
     getTotalItems,
@@ -58,6 +61,17 @@ function NavCartButton() {
       0,
     );
   }, [hasPointsEnabled, items]);
+
+  const handleClearCart = useCallback(async () => {
+    try {
+      await clearCart();
+    } catch (error) {
+      toast({
+        icon: "error",
+        description: getApiErrorMessage(error, "حدث خطأ أثناء حذف السلة."),
+      });
+    }
+  }, [clearCart, toast]);
 
   if (!pathname.startsWith("/store") || pathname.startsWith("/store/cart"))
     return null;
@@ -101,7 +115,7 @@ function NavCartButton() {
 
           {displayCount > 0 && (
             <button
-              onClick={() => clearCart()}
+              onClick={() => void handleClearCart()}
               className="flex cursor-pointer items-center gap-1 text-sm text-red-500 hover:underline"
             >
               <Trash className="size-4" />

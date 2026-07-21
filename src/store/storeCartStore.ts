@@ -1,8 +1,7 @@
 import { TenantPublic } from "@/context/TenantProvider";
-import { toast } from "@/hooks/use-toast";
+import { getApiErrorMessage } from "@/helpers/get-api-error-message";
 import cartServices from "@/services/cart.service";
 import { StoreItem } from "@/types/store.types";
-import { AxiosError } from "axios";
 import Cookies from "js-cookie";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
@@ -140,7 +139,9 @@ export const createCartStore = (initState?: Partial<CartState>) => {
               state.isLoading = false;
               state.isCartHydrated = true;
               state.error =
-                error instanceof Error ? error.message : "Failed to load cart";
+                error instanceof Error
+                  ? error.message
+                  : "حدث خطاء اثناء انشاء السلة";
             });
           }
         },
@@ -162,7 +163,6 @@ export const createCartStore = (initState?: Partial<CartState>) => {
             // const addedItem = get().items.find((i) => i.id === item.id);
             await cartServices.addItem(item);
           } catch (error) {
-            console.log("aaaaaaaaaaaaaaaa ", error);
             // Rollback on error
             set((state) => {
               const existingItem = state.items.find((i) => i.id === item.id);
@@ -173,19 +173,13 @@ export const createCartStore = (initState?: Partial<CartState>) => {
                   state.items = state.items.filter((i) => i.id !== item.id);
                 }
               }
-              state.error =
-                error instanceof AxiosError
-                  ? error.response?.data?.message
-                  : "Failed to add to cart";
+              state.error = getApiErrorMessage(
+                error,
+                "حدث خطاء اثناء اضافة منتج",
+              );
             });
 
-            toast({
-              icon: "error",
-              description:
-                error instanceof AxiosError
-                  ? error.response?.data?.message
-                  : "حدث خطأ اثناء اضافة المنتج",
-            });
+            throw error;
           }
         },
 
@@ -205,25 +199,20 @@ export const createCartStore = (initState?: Partial<CartState>) => {
             // Rollback on error
             set((state) => {
               state.items = previousItems;
-              state.error =
-                error instanceof AxiosError
-                  ? error.response?.data?.message
-                  : "Failed to remove from cart";
+              state.error = getApiErrorMessage(
+                error,
+                "حدث خطاء اثناء حذف المنتج",
+              );
             });
 
-            toast({
-              icon: "error",
-              description:
-                error instanceof AxiosError
-                  ? error.response?.data?.message
-                  : "حدث خطأ اثناء حذف المنتج",
-            });
+            throw error;
           }
         },
 
         decrementQuantity: async (id) => {
           const item = get().items.find((item) => item.id === id);
           const previousQuantity = item?.quantity || 0;
+          const previousItem = item ? { ...item } : undefined;
 
           // Optimistic update
           set((state) => {
@@ -247,24 +236,17 @@ export const createCartStore = (initState?: Partial<CartState>) => {
                 item.quantity = previousQuantity;
               } else if (previousQuantity === 1) {
                 // Item was removed, add it back
-                const originalItem = get().items.find((i) => i.id === id);
-                if (originalItem) {
-                  state.items.push({ ...originalItem, quantity: 1 });
+                if (previousItem) {
+                  state.items.push(previousItem);
                 }
               }
-              state.error =
-                error instanceof AxiosError
-                  ? error.response?.data?.message
-                  : "Failed to update quantity";
+              state.error = getApiErrorMessage(
+                error,
+                "حدث خطاء اثناء تحديث الكمية",
+              );
             });
 
-            toast({
-              icon: "error",
-              description:
-                error instanceof AxiosError
-                  ? error.response?.data?.message
-                  : "حدث خطأ اثناء تحديث الكمية",
-            });
+            throw error;
           }
         },
 
@@ -289,19 +271,13 @@ export const createCartStore = (initState?: Partial<CartState>) => {
               if (item) {
                 item.quantity = previousQuantity;
               }
-              state.error =
-                error instanceof AxiosError
-                  ? error.response?.data?.message
-                  : "Failed to increment quantity";
+              state.error = getApiErrorMessage(
+                error,
+                "حدث خطاء اثناء تحديث الكمية",
+              );
             });
 
-            toast({
-              icon: "error",
-              description:
-                error instanceof AxiosError
-                  ? error.response?.data?.message
-                  : "حدث خطأ اثناء تحديث الكمية",
-            });
+            throw error;
           }
         },
 
@@ -328,17 +304,10 @@ export const createCartStore = (initState?: Partial<CartState>) => {
             // Rollback on error
             set((state) => {
               state.items = previousItems;
-              state.error =
-                error instanceof Error ? error.message : "Failed to clear cart";
+              state.error = getApiErrorMessage(error, "Failed to clear cart");
             });
 
-            toast({
-              icon: "error",
-              description:
-                error instanceof AxiosError
-                  ? error.response?.data?.message
-                  : "حدث خطأ اثناء حذف السلة",
-            });
+            throw error;
           }
         },
 

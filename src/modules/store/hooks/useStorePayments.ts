@@ -3,6 +3,7 @@ import { useCartStore } from "@/context/StoreProvider";
 import { useTenant } from "@/context/TenantProvider";
 import { useAuthContext } from "@/context/auth-context";
 import { mutateClient } from "@/helpers/fetchers/post-client";
+import { getApiErrorMessage } from "@/helpers/get-api-error-message";
 import { useToast } from "@/hooks/use-toast";
 import usePaymentsTypesFiltered from "@/modules/payment/hooks/usePaymentsTypesFiltered";
 import { paymentType, PricingResponse } from "@/types";
@@ -130,7 +131,17 @@ export const useStorePayments = ({
           description: "تمت عملية الشراء بالنقاط بنجاح",
         });
 
-        await clearCart();
+        try {
+          await clearCart();
+        } catch (error) {
+          toast({
+            icon: "error",
+            description: getApiErrorMessage(
+              error,
+              "تمت عملية الشراء، لكن تعذر تحديث السلة.",
+            ),
+          });
+        }
         queryClient.invalidateQueries({ queryKey: ["/students/profile"] });
 
         if (asModal) {

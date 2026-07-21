@@ -2,12 +2,14 @@
 
 import { Button } from "@/components/ui/button";
 import { useCartStore } from "@/context/StoreProvider";
+import { getApiErrorMessage } from "@/helpers/get-api-error-message";
+import { useToast } from "@/hooks/use-toast";
 import { useMounted } from "@/hooks/useMounted";
 import { cn } from "@/lib/utils";
 import { CartItem } from "@/store/storeCartStore";
 import { debounce } from "lodash";
 import { Minus, Plus } from "lucide-react";
-import { useCallback, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 
 function StoreItemQuantity({
   item,
@@ -21,6 +23,7 @@ function StoreItemQuantity({
   textClassName?: string;
 }) {
   const isMounted = useMounted();
+  const { toast } = useToast();
 
   const { decrementQuantity, incrementQuantity, getItemQuantity } =
     useCartStore((state) => state);
@@ -30,20 +33,36 @@ function StoreItemQuantity({
   const debouncedIncrement = useMemo(
     () =>
       debounce((id: string) => {
-        incrementQuantity(id);
+        void incrementQuantity(id).catch((error: unknown) => {
+          toast({
+            icon: "error",
+            description: getApiErrorMessage(
+              error,
+              "حدث خطأ أثناء تحديث الكمية.",
+            ),
+          });
+        });
       }, 150),
-    [incrementQuantity],
+    [incrementQuantity, toast],
   );
 
   const debouncedDecrement = useMemo(
     () =>
       debounce((id: string) => {
-        decrementQuantity(id);
+        void decrementQuantity(id).catch((error: unknown) => {
+          toast({
+            icon: "error",
+            description: getApiErrorMessage(
+              error,
+              "حدث خطأ أثناء تحديث الكمية.",
+            ),
+          });
+        });
       }, 150),
-    [decrementQuantity],
+    [decrementQuantity, toast],
   );
 
-  useCallback(() => {
+  useEffect(() => {
     return () => {
       debouncedIncrement.cancel();
       debouncedDecrement.cancel();
