@@ -6,12 +6,12 @@ import Image from "next/image";
 function PartnersSection({ partners }: { partners: IPartner[] }) {
   const items = [...partners, ...partners];
   return (
-    <section className="w-full overflow-hidden relative [direction:rtl]">
+    <section className="w-full overflow-x-hidden relative [direction:rtl]">
       <div
         className="
           flex w-max gap-4
           animate-[marquee_25s_linear_infinite]
-          hover:paused
+          hover:[animation-play-state:paused]
         "
       >
         {items.map((partner, index) => (
@@ -45,6 +45,25 @@ function PartnersSection({ partners }: { partners: IPartner[] }) {
           </div>
         ))}
       </div>
+
+      {/* Left fade */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-y-0 -end-1 z-10 w-16 sm:w-32"
+        style={{
+          background:
+            "linear-gradient(to left, transparent 0%, rgba(255,255,255,0.4) 40%, rgba(255,255,255,0.85) 75%, #fff 100%)",
+        }}
+      />
+      {/* Right fade */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-y-0 -start-1 z-10 w-16 sm:w-32"
+        style={{
+          background:
+            "linear-gradient(to right, transparent 0%, rgba(255,255,255,0.4) 40%, rgba(255,255,255,0.85) 75%, #fff 100%)",
+        }}
+      />
     </section>
   );
 }
