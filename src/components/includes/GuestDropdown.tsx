@@ -6,7 +6,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useTenant } from "@/context/TenantProvider";
 import { cn } from "@/lib/utils";
 import { MenuIcon } from "lucide-react";
 import Image from "next/image";
@@ -20,9 +19,8 @@ type NavLink = {
   icon?: { src: string; alt: string };
 };
 
-function GuestDropdown() {
+function GuestDropdown({ isStoreVisible }: { isStoreVisible: boolean }) {
   const pathName = usePathname();
-  const { features } = useTenant();
 
   const navLinks: NavLink[] = [
     {
@@ -40,7 +38,7 @@ function GuestDropdown() {
 
       icon: { src: "/assets/books-colored.svg", alt: "books-colored icon" },
     },
-    ...(features?.book_store
+    ...(isStoreVisible
       ? [
           {
             href: "/store",

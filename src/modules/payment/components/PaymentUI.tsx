@@ -59,7 +59,7 @@ export const PaymentUI: React.FC<PaymentUIProps> = ({
       {!isFree && <h4 className="mb-4 text-lg font-bold">اختر طريقة الدفع</h4>}
 
       <div className="mb-6 space-y-2 empty:hidden">
-        {isModal && !!price && (
+        {!isFree && isModal && !!price && (
           <div className="bg-background flex items-center justify-between gap-3 rounded-lg p-2">
             <h5 className="font-bold text-black">السعر</h5>
             {hasCoupon && !!coupon?.promo?.value && isOnline ? (

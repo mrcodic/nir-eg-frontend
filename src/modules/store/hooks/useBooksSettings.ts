@@ -11,11 +11,12 @@ export function useBooksSettings({ enabled }) {
   });
 
   const booksData = data?.data;
-  const shouldShowBooks = !!booksData?.links?.length || !booksData?.hide_books;
+  const shouldShowBooks = !booksData?.hide_books;
+  // const shouldShowBooks = !!booksData?.links?.length || !booksData?.hide_books;
 
   return {
     booksData,
     shouldShowBooks,
-    shouldShowCart: !booksData?.hide_books,
+    shouldShowCart: shouldShowBooks,
   };
 }

@@ -2,6 +2,7 @@
 
 import { useTenant } from "@/context/TenantProvider";
 import { cn } from "@/lib/utils";
+import { useBooksSettings } from "@/modules/store/hooks/useBooksSettings";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -11,6 +12,11 @@ import GuestDropdown from "./GuestDropdown";
 const GuestNavBar = () => {
   const pathname = usePathname();
   const { logo, features } = useTenant();
+  const { shouldShowBooks } = useBooksSettings({
+    enabled: features?.book_store,
+  });
+
+  const isStoreVisible = features?.book_store && shouldShowBooks;
 
   const guestLinks = [
     {
@@ -24,7 +30,7 @@ const GuestNavBar = () => {
       href: "/store",
       text: "المتجر",
       icon: "/assets/icons/BookColor.svg",
-      show: features?.book_store,
+      show: isStoreVisible,
     },
 
     // {
@@ -95,7 +101,7 @@ const GuestNavBar = () => {
           </div>
 
           <div className="flex gap-3">
-            <GuestDropdown />
+            <GuestDropdown isStoreVisible={isStoreVisible} />
           </div>
 
           <div className="mobile:gap-6 mobile:flex hidden gap-4">

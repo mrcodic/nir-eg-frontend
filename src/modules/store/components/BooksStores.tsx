@@ -1,6 +1,11 @@
+"use client";
+
 import Empty from "@/components/shared/Empty";
+import { Button } from "@/components/ui/button";
+import useCopy from "@/hooks/useCopy";
 import RoomHeader from "@/modules/rooms/components/RoomHeader";
 import { BookLinksSettings } from "@/types/store.types";
+import { MoveUpLeft } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -27,34 +32,41 @@ export default function BooksStores({
 }
 
 function BooksListItem({ href }: { href: string }) {
+  const { copyToClipboard, copied } = useCopy();
   return (
     <li
-      className={`group bg-background border-primary flex flex-col justify-between gap-1 rounded-lg border p-4 transition-all group-hover:border-(--grade-color) hover:-translate-y-1`}
+      className={`bg-background border-primary flex w-full max-w-md flex-col justify-between gap-1 rounded-lg border p-4 transition-all max-sm:mx-auto`}
     >
       <Image
-        src={"/assets/BookColor.svg"}
+        src={"/assets/books-colored.svg"}
         width={48}
         height={48}
         alt="book icon"
       />
+
       <Link
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex cursor-pointer items-center gap-2"
+        className="w-full"
         prefetch={false}
       >
-        <span className="font-medium underline-offset-4 group-hover:underline">
-          الذهاب الى المتجر
-        </span>
-        <span aria-hidden className="transition group-hover:translate-x-0.5">
-          ↗
-        </span>
+        <Button className="group inline-flex w-full cursor-pointer items-center gap-2">
+          <span className="font-medium underline-offset-4 group-hover:underline">
+            الذهاب الى المتجر
+          </span>
+          <span
+            aria-hidden
+            className="transition group-hover:-translate-x-0.5 group-hover:-translate-y-0.5"
+          >
+            <MoveUpLeft className="size-4" />
+          </span>
+        </Button>
       </Link>
 
-      <p className="text-muted-foreground mt-2 line-clamp-3 text-sm break-all">
-        {href}
-      </p>
+      <Button variant="secondary" onClick={() => copyToClipboard(href)}>
+        {copied ? "تم النسخ" : "نسخ رابط المتجر"}
+      </Button>
     </li>
   );
 }

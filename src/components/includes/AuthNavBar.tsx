@@ -6,6 +6,7 @@ import { useMemo } from "react";
 import { useTenant } from "@/context/TenantProvider";
 import { cn } from "@/lib/utils";
 import NavNotifications from "@/modules/norifications/components/NavNotifications";
+import { useBooksSettings } from "@/modules/store/hooks/useBooksSettings";
 import UserTenantSwitch from "@/modules/tenant/components/UserTenantSwitch";
 import { IUser } from "@/types";
 import dynamic from "next/dynamic";
@@ -21,11 +22,14 @@ const NavCartButton = dynamic(
 
 const AuthNavBar = ({ profile }: { profile: IUser }) => {
   const { logo, features } = useTenant();
-
+  const { shouldShowBooks } = useBooksSettings({
+    enabled: features?.book_store,
+  });
   const pathname = usePathname();
 
   const hasGradesEnabled = features?.student_gradebook;
   const isOnlineStudent = profile?.type !== 3;
+  const isStoreVisible = features?.book_store && shouldShowBooks;
 
   const studentLinks = useMemo(() => {
     const links = [
@@ -119,18 +123,17 @@ const AuthNavBar = ({ profile }: { profile: IUser }) => {
 
               <NavUserMenu
                 profile={profile}
+                isStoreVisible={isStoreVisible}
                 // shouldShowBooks={!!shouldShowBooks}
               />
 
-              <MobileDropDown studentLinks={studentLinks} />
+              <MobileDropDown studentLinks={studentLinks}  />
             </div>
           </div>
         </div>
       </header>
 
-      {pathname.startsWith("/store") && !!features?.book_store && (
-        <NavCartButton />
-      )}
+      {pathname.startsWith("/store") && isStoreVisible && <NavCartButton />}
     </>
   );
 };

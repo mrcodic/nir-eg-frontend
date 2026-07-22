@@ -1,4 +1,6 @@
+import BooksStores from "@/modules/store/components/BooksStores";
 import StoreItems from "@/modules/store/components/StoreItems";
+import { getServerStoreSettings } from "@/services/store.service";
 import { getTenantSettingsServer } from "@/services/tenant.service";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
@@ -9,21 +11,22 @@ export const metadata: Metadata = {
 };
 
 async function page() {
-  const tenantSettings = await getTenantSettingsServer();
+  const [tenantSettings, storeSettings] = await Promise.all([
+    getTenantSettingsServer(),
+    getServerStoreSettings(),
+  ]);
 
-  if (!tenantSettings?.features?.book_store) {
+  if (
+    !tenantSettings?.features?.book_store ||
+    !storeSettings?.shouldShowStore
+  ) {
     return redirect("/bundles");
   }
-
-  // const booksSettings = await getServerData<{ data: BookLinksSettings }>({
-  //   queryKey: ["settings/books"],
-  // });
 
   return (
     <div className="section--style">
       <StoreItems />
-
-      {/* <BooksStores links={booksSettings?.data?.links ?? []} /> */}
+      <BooksStores links={storeSettings?.storeData?.links ?? []} />
     </div>
   );
 }

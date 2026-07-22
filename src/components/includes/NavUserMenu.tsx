@@ -18,7 +18,13 @@ import UserTenantCode from "../shared/UserTenantCode";
 import CustomImage from "../ui/CustomImage";
 import { ScrollArea } from "../ui/scroll-area";
 
-function NavUserMenu({ profile }: { profile: IUser }) {
+function NavUserMenu({
+  profile,
+  isStoreVisible,
+}: {
+  profile: IUser;
+  isStoreVisible: boolean;
+}) {
   const modal = useModal();
   const { features } = useTenant();
 
@@ -120,7 +126,7 @@ function NavUserMenu({ profile }: { profile: IUser }) {
               />
             )}
 
-          {!!features?.book_store && (
+          {isStoreVisible && (
             <MenuItem
               href="/store"
               icon="/assets/store-outline.svg"
