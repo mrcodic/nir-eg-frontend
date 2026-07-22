@@ -30,6 +30,7 @@ export default function PaymentCoupon({
 }: PaymentCouponProps) {
   const [couponCode, setCouponCode] = useState("");
   const [couponError, setCouponError] = useState("");
+  const [isCouponApplied, setIsCouponApplied] = useState(false);
 
   const displayCouponError = (message: string) => {
     setCouponError(message);
@@ -41,6 +42,7 @@ export default function PaymentCoupon({
     onSuccess: (couponPreview) => {
       form.setValue("coupon_code", couponCode.trim());
       setCouponError("");
+      setIsCouponApplied(true);
       onCouponApplied(couponPreview);
     },
     onError: (couponPreviewError) => {
@@ -57,6 +59,7 @@ export default function PaymentCoupon({
     const normalizedCouponCode = couponCode.trim();
     if (!normalizedCouponCode) return;
 
+    setIsCouponApplied(false);
     form.setValue("coupon_code", undefined);
     onCouponRemoved();
     couponPreviewMutation.mutate({
@@ -81,7 +84,18 @@ export default function PaymentCoupon({
           onChange={(event) => updateCouponCode(event.target.value)}
           placeholder="أدخل كود الخصم"
           disabled={couponPreviewMutation.isPending}
-          aria-describedby={couponError ? "coupon-code-error" : undefined}
+          aria-describedby={
+            couponError
+              ? "coupon-code-error"
+              : isCouponApplied
+                ? "coupon-code-success"
+                : undefined
+          }
+          className={
+            isCouponApplied
+              ? "border-green-500 focus-visible:border-green-500 focus-visible:ring-green-500"
+              : undefined
+          }
         />
         <Button
           type="button"
@@ -93,8 +107,20 @@ export default function PaymentCoupon({
         </Button>
       </div>
       {couponError ? (
-        <p id="coupon-code-error" role="alert" className="text-sm text-red-600">
+        <p
+          id="coupon-code-error"
+          role="alert"
+          className="text-xs text-red-600 font-medium"
+        >
           {couponError}
+        </p>
+      ) : isCouponApplied ? (
+        <p
+          id="coupon-code-success"
+          role="status"
+          className="text-xs text-green-600 font-medium"
+        >
+          تم تطبيق كود الخصم بنجاح.
         </p>
       ) : null}
     </div>

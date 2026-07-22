@@ -2,6 +2,7 @@ import type { CouponPreviewResponse } from "@/types/onboarding.types";
 import type { IPricingPlan } from "@/types/pricing-api.types";
 import type { PaymentPeriod } from "@/types/subscribe.types";
 import { priceFormatter } from "@/utils/formatters";
+import { getMonthlyProration } from "@/utils/get-monthly-proration";
 
 type PaymentSummaryProps = {
   plan: IPricingPlan;
@@ -14,6 +15,27 @@ export default function PaymentSummary({
   paymentPeriod,
   couponPreview,
 }: PaymentSummaryProps) {
+  const isMonthlyPayment = paymentPeriod === "monthly";
+  const fullPeriodPrice = isMonthlyPayment
+    ? plan.price_month
+    : plan.price_year;
+  const monthlyProration = getMonthlyProration(plan.price_month, new Date());
+  const priceBeforeCoupon = isMonthlyPayment
+    ? monthlyProration.amount
+    : fullPeriodPrice;
+
+  const couponDiscountValue = couponPreview?.discount_value ?? 0;
+  const hasAppliedCouponDiscount = couponDiscountValue > 0;
+  const priceAfterCoupon = couponPreview?.final_price ?? priceBeforeCoupon;
+  const couponDiscountAmount = priceBeforeCoupon - priceAfterCoupon;
+  const couponDiscountLabel = couponPreview
+    ? couponPreview.discount_type === "percent"
+      ? `${couponDiscountValue}% (${priceFormatter.format(couponDiscountAmount)} جنية)`
+      : `${priceFormatter.format(couponDiscountValue)} جنية`
+    : null;
+
+  const showsProratedMonthlyPrice =
+    isMonthlyPayment && monthlyProration.isProrated;
   const yearlyDiscount = Math.min(
     Number(
       (
@@ -24,37 +46,37 @@ export default function PaymentSummary({
     100,
   );
 
-  const planPrice =
-    paymentPeriod === "monthly" ? plan.price_month : plan.price_year;
-  const totalAmount = couponPreview?.final_price ?? planPrice;
-  const hasCouponDiscount = (couponPreview?.discount_value ?? 0) > 0;
-  const couponDiscount = couponPreview
-    ? couponPreview.discount_type === "percent"
-      ? `${couponPreview.discount_value}%`
-      : `${priceFormatter.format(couponPreview.discount_value)} جنية`
-    : null;
-
   return (
     <div className="p-4 bg-blue-gradient rounded-lg border border-primary-100 space-y-2">
-      {hasCouponDiscount && (
+      {showsProratedMonthlyPrice ? (
+        <div className="flex justify-between items-center flex-wrap">
+          <span className="text-white font-bold sm:text-sm text-xs">
+            سعر الاشتراك الشهري
+          </span>
+          <span className="sm:text-lg text-base font-bold text-white">
+            {priceFormatter.format(fullPeriodPrice)} جنية
+          </span>
+        </div>
+      ) : null}
+      {hasAppliedCouponDiscount && (
         <div className="flex justify-between items-center flex-wrap">
           <span className="text-white font-bold sm:text-sm text-xs">
             قبل الخصم
           </span>
 
-          <span className="sm:text-xl text-lg font-bold text-white">
-            {priceFormatter.format(planPrice)} جنية
+          <span className="sm:text-lg text-base font-bold text-white">
+            {priceFormatter.format(priceBeforeCoupon)} جنية
           </span>
         </div>
       )}
-      {hasCouponDiscount && (
+      {hasAppliedCouponDiscount && (
         <div className="flex justify-between items-center flex-wrap">
           <span className="text-white font-bold sm:text-sm text-xs">
             خصم الكوبون
           </span>
 
-          <span className="sm:text-xl text-lg font-bold text-white">
-            {couponDiscount}
+          <span className="sm:text-lg text-base font-bold text-white">
+            {couponDiscountLabel}
           </span>
         </div>
       )}
@@ -64,12 +86,19 @@ export default function PaymentSummary({
         </span>
 
         <span className="sm:text-2xl text-xl font-bold text-secondary">
-          {priceFormatter.format(totalAmount)} جنية
+          {priceFormatter.format(priceAfterCoupon)} جنية
           <span className="sm:text-base text-sm ms-1 text-white">
             / {paymentPeriod === "monthly" ? "شهر" : "سنة"}
           </span>
         </span>
       </div>
+
+      {showsProratedMonthlyPrice ? (
+        <p className="text-xs text-white/75">
+          اشتراكك الحالي يغطي {monthlyProration.chargeableDays} أيام متبقية من
+          الشهر الحالي.
+        </p>
+      ) : null}
 
       {paymentPeriod === "yearly" ? (
         <div className="flex justify-between items-center gap-2 flex-wrap">
