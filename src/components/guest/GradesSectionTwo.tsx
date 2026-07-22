@@ -16,20 +16,20 @@ const GradesSectionTwo = async () => {
     <section id="grades" className="scroll-m-32">
       <SectionTitle title="الكورسات" />
 
-      <div className="mt-8 grid grid-cols-1 justify-items-center gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-8 grid grid-cols-1 justify-items-center gap-6 md:grid-cols-2 xl:grid-cols-3">
         {grades?.data?.map((grade) => (
           <Link
             href={`/bundles?grade=${grade.id}`}
             key={grade.id}
-            className="group w-full max-w-[300px] cursor-pointer overflow-hidden md:max-w-[500px]"
+            className="group w-full max-w-[400px] cursor-pointer overflow-hidden md:max-w-[500px]"
           >
-            <div className="group/image relative h-64 w-full overflow-hidden rounded-xl transition-all">
+            <div className="group/image relative aspect-square w-full overflow-hidden rounded-xl border border-gray-200 transition-all">
               <CustomImage
                 src={grade?.image}
                 fill
                 fallback="/assets/grade-placeholder.png"
                 alt="grade type image"
-                className="transition-all group-hover/image:scale-110"
+                className="bg-gray-100 object-contain transition-all group-hover/image:scale-110"
                 fetchPriority="high"
                 loading="eager"
               />

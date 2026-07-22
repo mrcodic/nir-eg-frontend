@@ -42,11 +42,12 @@ async function LandingPage() {
   // 1) get tenant settings to know if they are using summary landing
   const tenantSettings = await getTenantSettingsServer();
 
+  const isSummaryTemplate =
+    tenantSettings.landing_template === Templates.SUMMARY_LANDING;
+
   // 2) get landing data with the profile
   const [content, profile] = await Promise.all([
-    tenantSettings.landing_template === Templates.SUMMARY_LANDING
-      ? getTenantSummaryServer()
-      : getTenantContentServer(),
+    isSummaryTemplate ? getTenantSummaryServer() : getTenantContentServer(),
     getServerData<ApiResponse<IUser | null>>({
       queryKey: ["/students/profile"],
     }),
@@ -54,7 +55,7 @@ async function LandingPage() {
 
   const user = profile?.body as IUser | null;
 
-  if (!!user && tenantSettings.landing_template !== Templates.SUMMARY_LANDING) {
+  if (!!user && !isSummaryTemplate) {
     if (user.type === 3) {
       if (user.has_center && user.center_id) {
         redirect(`/bundles/${user.center_id}`);
@@ -70,15 +71,11 @@ async function LandingPage() {
     throw new CustomError("Landing content not found", 404, "NOT_FOUND");
   }
 
-  if (tenantSettings.landing_template === Templates.SUMMARY_LANDING) {
+  if (isSummaryTemplate) {
     return <TemplateSummary data={(content as LandingSummaryResponse).data} />;
   }
 
   const landingContent = content as TenantLandingResponse;
-
-  if (landingContent.active_template === Templates.SUMMARY_LANDING) {
-    throw new CustomError("Landing template not found", 404, "NOT_FOUND");
-  }
 
   const Template = standardTemplates[landingContent.active_template];
 

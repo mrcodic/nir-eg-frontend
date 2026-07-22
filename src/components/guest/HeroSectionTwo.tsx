@@ -26,12 +26,12 @@ function HeroSectionTwo({
       <div>
         <h1 className="text-32 font-bold">{main?.section_title}</h1>
 
-        <div className="flex flex-wrap gap-4 empty:hidden">
+        <div className="mt-6 flex flex-wrap gap-4 empty:hidden">
           {features?.items
             ?.filter((f) => f?.text)
             .map((feature, i) => (
               <div
-                key={feature?.text || i}
+                key={feature?.text + i}
                 className="bg-background flex items-center gap-2 rounded-lg p-2 pe-3"
               >
                 <CustomImage
@@ -47,7 +47,7 @@ function HeroSectionTwo({
             ))}
         </div>
 
-        <div className="mt-14 flex flex-wrap items-center gap-6">
+        <div className="mt-14 flex w-full flex-wrap items-center gap-6">
           {hideJoinUs ? (
             <>
               <Link href="/bundles">
@@ -67,8 +67,8 @@ function HeroSectionTwo({
             </>
           ) : (
             <>
-              <Link href="/register">
-                <Button>
+              <Link href="/register" className="w-full max-w-[163px]">
+                <Button className="w-full rounded-xl">
                   <Image
                     src="/assets/launch-white.svg"
                     width={20}
@@ -78,8 +78,8 @@ function HeroSectionTwo({
                   اشترك معنا
                 </Button>
               </Link>
-              <Link href="/login">
-                <Button variant="outline">
+              <Link href="/login" className="w-full max-w-[163px]">
+                <Button variant="outline" className="w-full rounded-xl">
                   <Image
                     src="/assets/sign-out.svg"
                     width={20}
@@ -95,21 +95,23 @@ function HeroSectionTwo({
         </div>
       </div>
 
-      <div
-        className={cn(
-          "mobile:max-w-5/12 mobile:h-[600px] relative h-[400px] w-full overflow-hidden rounded-2xl",
-        )}
-      >
-        <CustomImage
-          src={main?.image}
-          fill
-          alt="hero image"
-          startWithFallback={false}
-          className="object-cover"
-          fetchPriority="high"
-          loading="eager"
-        />
-      </div>
+      {main?.image && (
+        <div
+          className={cn(
+            "mobile:max-w-5/12 mobile:h-[600px] relative h-[500px] w-full overflow-hidden",
+          )}
+        >
+          <CustomImage
+            src={main?.image}
+            fill
+            alt="hero image"
+            startWithFallback={false}
+            className="object-contain"
+            fetchPriority="high"
+            loading="eager"
+          />
+        </div>
+      )}
     </section>
   );
 }

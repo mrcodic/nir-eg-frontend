@@ -56,14 +56,14 @@ async function CoursesCarousel() {
             {coursesResponse?.data?.items?.map((course) => (
               <CarouselItem
                 key={course.id}
-                className="basis-full pl-4 max-md:max-w-96 md:basis-1/2 xl:basis-1/3"
+                className="max-w-[500px] basis-full pl-4 md:basis-1/2 xl:basis-1/3"
               >
                 <Link
                   href={!!profile?.body ? `/bundles/${course.id}` : `/bundles`}
-                  className="group cursor-pointer"
+                  className="group flex h-full cursor-pointer flex-col"
                 >
                   {/* Image Placeholder */}
-                  <div className="relative mb-4 h-56 w-full overflow-hidden rounded-xl">
+                  <div className="bg-background relative mb-4 flex h-[232px] w-full justify-center overflow-hidden rounded-xl">
                     <CustomImage
                       src={course?.image}
                       alt="course image"
@@ -74,17 +74,17 @@ async function CoursesCarousel() {
                   </div>
 
                   {/* Content Card */}
-                  <div className="border-primary-800 group-hover:bg-primary-800 rounded-xl border bg-white p-4 shadow-sm transition-all hover:shadow-md">
+                  <div className="border-primary-800 group-hover:bg-primary-800 flex grow flex-col rounded-xl border bg-white p-4 shadow-sm transition-all hover:shadow-md">
                     {/* Text Info */}
-                    <div className="relative mb-1 inline-block">
+                    <div className="relative mb-6 inline-block">
                       <h3 className="text-base font-bold text-black transition-all group-hover:text-white md:text-xl">
                         {course.title}
                       </h3>
                       <span className="bg-secondary absolute right-0 -bottom-1 h-[3px] w-8 rounded-full"></span>
                     </div>
 
-                    <div className="mt-6 flex flex-wrap items-center justify-between gap-6">
-                      <p className="text-base font-bold text-black transition-all group-hover:text-white md:text-xl">
+                    <div className="mt-auto flex flex-wrap items-center justify-between gap-x-6 gap-y-2">
+                      <p className="text-sm font-bold text-black transition-all group-hover:text-white md:text-lg">
                         {course.grade_name}
                       </p>
                       {/* Price Badge */}

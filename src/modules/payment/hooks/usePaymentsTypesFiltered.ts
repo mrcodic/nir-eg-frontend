@@ -36,8 +36,6 @@ function usePaymentsTypesFiltered({
     queryFn: getClientPrivateData,
   });
 
-  // helper: apply filter for userType === 4 (online user)
-
   // Determine payment types based on mode and user type
   const paymentTypes = useMemo(() => {
     if (isLoading || !profile || !data?.data) return [];

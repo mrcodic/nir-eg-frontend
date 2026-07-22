@@ -44,7 +44,7 @@ function GuestDropdown() {
       ? [
           {
             href: "/store",
-            label: "الكتب",
+            label: "المتجر",
             className: "md:hidden",
 
             icon: {
@@ -65,8 +65,9 @@ function GuestDropdown() {
       <DropdownMenuContent
         sideOffset={18}
         className={cn(
-          "mobile:hidden bg-primary-50 rounded-t-none border-transparent group-data-[template=landing-v3]/template:mt-2 group-data-[template=landing-v3]/template:bg-transparent group-data-[template=landing-v3]/template:px-4 sm:group-data-[template=landing-v3]/template:px-5",
-          "border-b-gray-light border-b",
+          "mobile:hidden bg-primary-50 border-b-gray-light rounded-t-none border-b group-data-[template=landing-v3]/template:mt-2 group-data-[template=landing-v3]/template:bg-transparent group-data-[template=landing-v3]/template:px-4 sm:group-data-[template=landing-v3]/template:px-5",
+          "group-data-[template=landing-v3]/template:border-transparent",
+          // "border-b-gray-light border-b",
         )}
       >
         <div className="wrapper group-data-[template=landing-v3]/template:bg-background flex flex-col gap-2 py-4 group-data-[template=landing-v3]/template:rounded-lg">
@@ -84,9 +85,9 @@ function GuestDropdown() {
               >
                 {icon && (
                   <Image
-                    width={32}
-                    height={32}
-                    className="h-8 w-8"
+                    width={20}
+                    height={20}
+                    className="size-5"
                     src={icon.src}
                     alt={icon.alt}
                   />

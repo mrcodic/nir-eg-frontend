@@ -120,7 +120,7 @@ function NavUserMenu({ profile }: { profile: IUser }) {
               />
             )}
 
-          {features?.book_store && (
+          {!!features?.book_store && (
             <MenuItem
               href="/store"
               icon="/assets/store-outline.svg"

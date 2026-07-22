@@ -19,25 +19,21 @@ function WhyChooseUs({
         </h3>
       </div>
 
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+      <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5">
         {content?.items?.map((card, i) => (
           <Card
             key={card?.title || i}
             className="hover:border-secondary hover:bg-background flex flex-col transition-all"
           >
             <CardHeader className="mb-6 items-center pb-0">
-              {card?.image ? (
-                <CustomImage
-                  src={card?.image}
-                  fallback="/assets/gifs/stars.gif"
-                  width={56}
-                  height={56}
-                  alt="icon"
-                  className="size-14 object-contain"
-                />
-              ) : (
-                <div className="size-14 rounded-xl bg-gray-100" />
-              )}
+              <CustomImage
+                src={card?.image}
+                fallback="/assets/gifs/stars.gif"
+                width={56}
+                height={56}
+                alt="icon"
+                className="size-14 object-contain"
+              />
             </CardHeader>
             <CardContent className="p-4 pt-0 text-center">
               <UnderlineStyle
@@ -49,7 +45,7 @@ function WhyChooseUs({
                 </h3>
               </UnderlineStyle>
 
-              <p className="mt-2 font-bold">{card?.description}</p>
+              <p className="mt-3 font-bold">{card?.description}</p>
             </CardContent>
           </Card>
         ))}

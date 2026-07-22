@@ -16,8 +16,9 @@ function StartWithUsNow({
           {/* ابدأ الآن مع <StyledText text="نير" />{" "} */}
           {content?.section_title}
         </h2>
-        <Image
+        <CustomImage
           src={content?.image1 || "/assets/lightbulb.png"}
+          fallback="/assets/lightbulb.png"
           width={48}
           height={48}
           alt="light bulbs"
@@ -73,7 +74,7 @@ function StartWithUsNow({
             src={content?.image2 || "/assets/bg/student-photo.png"}
             fallback="/assets/bg/student-photo.png"
             fill
-            className="h-full w-fit object-contain object-bottom-left max-sm:brightness-75"
+            className="h-full w-fit object-contain object-bottom-left max-sm:brightness-50"
             alt="student photo"
           />
         </div>

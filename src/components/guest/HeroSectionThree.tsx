@@ -40,23 +40,23 @@ function HeroSectionThree({
           </div>
         </div>
 
-        <div
-          className={cn(
-            "mobile:max-w-[466px] relative aspect-square w-full overflow-hidden rounded-2xl",
-          )}
-        >
-          {content?.image && (
+        {content?.image && (
+          <div
+            className={cn(
+              "mobile:max-w-[466px] relative aspect-square w-full overflow-hidden",
+            )}
+          >
             <CustomImage
               src={content?.image}
               fill
               alt="hero image"
               startWithFallback={false}
-              className="object-cover"
+              className="object-contain"
               fetchPriority="high"
               loading="eager"
             />
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </section>
   );
