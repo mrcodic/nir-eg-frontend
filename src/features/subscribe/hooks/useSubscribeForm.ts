@@ -11,10 +11,10 @@ import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import useStepsForms, {
+  accountDefaults,
   brandingDefaults,
   businessDefaults,
 } from "./useStepsForms";
-import { accountDefaults } from "./useStepsForms";
 
 // Step configuration
 export const getSteps = (variant: FormVariant): FormStep[] => {
@@ -208,7 +208,6 @@ export function useSubscribeForm({
       const form = forms[i];
       const isValid = await form.trigger();
       if (!isValid) {
-        console.log("Form has errors", i);
         setCurrentStepIndex(i > 0 ? i + 1 : i);
         await form.trigger();
         throw new Error("Form has errors");
@@ -239,6 +238,10 @@ export function useSubscribeForm({
     try {
       setIsSubmitting(true);
 
+      const paymentValues = paymentForm.getValues();
+      const { coupon_code: couponCode, ...paymentWithoutCoupon } =
+        paymentValues;
+
       // Collect all form data
       const formData = {
         // account: accountForm.getValues(),
@@ -248,7 +251,12 @@ export function useSubscribeForm({
           ...brandingForm.getValues(),
           domainType: "subdomain",
         },
-        ...(variant === "paid" && { payment: paymentForm.getValues() }),
+        ...(variant === "paid" && {
+          payment: {
+            ...paymentWithoutCoupon,
+            ...(couponCode ? { coupon_code: couponCode } : {}),
+          },
+        }),
       };
 
       // console.log("Submitting form data:", formData);

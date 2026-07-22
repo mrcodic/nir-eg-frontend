@@ -86,6 +86,7 @@ export interface PaymentData {
   paymentPeriod: PaymentPeriod;
   paymentMethod: PaymentMethod;
   paymentDetails: string;
+  coupon_code?: string;
 }
 
 // ==========================================

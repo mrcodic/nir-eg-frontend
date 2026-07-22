@@ -7,11 +7,15 @@ const Empty = ({
   className,
   isError,
   children,
+  iconClassName,
+  textClassName,
 }: {
   text?: string;
   className?: string;
   isError?: boolean;
   children?: ReactNode;
+  iconClassName?: string;
+  textClassName?: string;
 }) => {
   return (
     <div
@@ -25,12 +29,16 @@ const Empty = ({
         alt=" "
         width={200}
         height={100}
-        className="sm:w-[400px] w-[200px] aspect-2 object-contain"
+        className={cn(
+          "sm:w-[400px] w-[200px] aspect-2 object-contain",
+          iconClassName,
+        )}
       />
       <h2
         className={cn(
-          "text-2xl font-bold text-center ",
+          "text-lg md:text-2xl font-bold text-center ",
           isError && "text-red-500",
+          textClassName,
         )}
       >
         {text || (isError ? "حدث خطأ ما" : "لا يوجد محتوى بعد")}

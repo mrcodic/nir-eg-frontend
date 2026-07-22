@@ -198,6 +198,7 @@ export const brandingSchema = z
 // ==========================================
 export const paymentSchema = z.object({
   planId: z.string().min(1, "يجب اختيار نوع الخطة"),
+  coupon_code: z.string().min(1).optional(),
   paymentPeriod: z.enum(["monthly", "yearly"], {
     message: "طريقة الدفع مطلوبة",
   }),

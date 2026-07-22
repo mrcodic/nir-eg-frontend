@@ -44,8 +44,6 @@ function FormSidebar({ variant, planId, period }: FormSidebarProps) {
   //     />
   //   );
 
-  console.log("plan : ", plan);
-
   return (
     <PricingPlanCard
       plan={plan as IPricingPlan}
