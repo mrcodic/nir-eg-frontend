@@ -3,18 +3,14 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { axiosInstance } from "@/lib/axios-instance";
 import type { PaymentFormData } from "@/lib/schemas/subscribe.schema";
-import type {
-  CouponPreviewRequest,
-  CouponPreviewResponse,
-} from "@/types/onboarding.types";
+import type { CouponPreviewResponse } from "@/types/onboarding.types";
 import type { PaymentPeriod } from "@/types/subscribe.types";
-import { useMutation } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
 import { useState } from "react";
 import type { UseFormReturn } from "react-hook-form";
 import { toast } from "sonner";
+import { useCouponPreview } from "../../hooks";
 
 type PaymentCouponProps = {
   form: UseFormReturn<PaymentFormData>;
@@ -35,56 +31,46 @@ export default function PaymentCoupon({
   const [couponError, setCouponError] = useState("");
   const [isCouponApplied, setIsCouponApplied] = useState(false);
 
+  const couponPreviewMutation = useCouponPreview();
+
   const displayCouponError = (message: string) => {
     setCouponError(message);
     toast.error(message);
   };
-
-  const couponPreviewMutation = useMutation({
-    mutationFn: async ({
-      couponCode,
-      planId,
-      paymentPeriod,
-    }: CouponPreviewRequest): Promise<CouponPreviewResponse> => {
-      const response = await axiosInstance.post<CouponPreviewResponse>(
-        "/onboarding/coupon/preview",
-        {
-          coupon_code: couponCode,
-          plan_id: planId,
-          payment_period: paymentPeriod,
-        },
-      );
-
-      return response.data;
-    },
-    onSuccess: (couponPreview) => {
-      form.setValue("coupon_code", couponCode.trim());
-      setCouponError("");
-      setIsCouponApplied(true);
-      onCouponApplied(couponPreview);
-    },
-    onError: (couponPreviewError) => {
-      displayCouponError(
-        isAxiosError(couponPreviewError) &&
-          couponPreviewError?.response?.data?.message
-          ? couponPreviewError?.response?.data?.message
-          : "تعذر التحقق من كود الخصم. حاول مرة أخرى.",
-      );
-    },
-  });
 
   const checkCoupon = () => {
     const normalizedCouponCode = couponCode.trim();
     if (!normalizedCouponCode) return;
 
     setIsCouponApplied(false);
+
     form.setValue("coupon_code", undefined);
+
     onCouponRemoved();
-    couponPreviewMutation.mutate({
-      couponCode: normalizedCouponCode,
-      planId,
-      paymentPeriod,
-    });
+
+    couponPreviewMutation.mutate(
+      {
+        couponCode: normalizedCouponCode,
+        planId,
+        paymentPeriod,
+      },
+      {
+        onSuccess: (couponPreview) => {
+          form.setValue("coupon_code", couponCode.trim());
+          setCouponError("");
+          setIsCouponApplied(true);
+          onCouponApplied(couponPreview);
+        },
+        onError: (couponPreviewError) => {
+          displayCouponError(
+            isAxiosError(couponPreviewError) &&
+              couponPreviewError?.response?.data?.message
+              ? couponPreviewError?.response?.data?.message
+              : "تعذر التحقق من كود الخصم. حاول مرة أخرى.",
+          );
+        },
+      },
+    );
   };
 
   const updateCouponCode = (couponCode: string) => {

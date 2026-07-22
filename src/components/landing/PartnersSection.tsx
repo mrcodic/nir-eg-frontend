@@ -11,7 +11,7 @@ function PartnersSection({ partners }: { partners: IPartner[] }) {
         className="
           flex w-max gap-4
           animate-[marquee_25s_linear_infinite]
-          hover:[animation-play-state:paused]
+          hover:paused
         "
       >
         {items.map((partner, index) => (

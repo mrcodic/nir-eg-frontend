@@ -99,7 +99,7 @@ export default function PaymentStep({
         />
 
         <PaymentSummary
-          plan={plan}
+          planId={plan.id}
           paymentPeriod={paymentPeriod}
           couponPreview={couponPreview}
         />
