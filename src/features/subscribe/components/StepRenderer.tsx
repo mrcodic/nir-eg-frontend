@@ -35,17 +35,7 @@ export default function StepRenderer({
     resetEmailVerificationForm,
   } = handlers;
 
-  switch ("test" || currentStepId) {
-    case "test":
-      return (
-        <PaymentStep
-          form={paymentForm}
-          planId={planId}
-          onSubmit={handleFinalSubmit}
-          onPrevious={handlePrevious}
-          isSubmitting={isSubmitting}
-        />
-      );
+  switch (currentStepId) {
     case "account":
       return (
         <AccountInfoStep

@@ -3,9 +3,12 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { axiosInstance } from "@/lib/axios-instance";
 import type { PaymentFormData } from "@/lib/schemas/subscribe.schema";
-import { previewOnboardingCoupon } from "@/services/onboarding.service";
-import type { CouponPreviewResponse } from "@/types/onboarding.types";
+import type {
+  CouponPreviewRequest,
+  CouponPreviewResponse,
+} from "@/types/onboarding.types";
 import type { PaymentPeriod } from "@/types/subscribe.types";
 import { useMutation } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
@@ -38,7 +41,22 @@ export default function PaymentCoupon({
   };
 
   const couponPreviewMutation = useMutation({
-    mutationFn: previewOnboardingCoupon,
+    mutationFn: async ({
+      couponCode,
+      planId,
+      paymentPeriod,
+    }: CouponPreviewRequest): Promise<CouponPreviewResponse> => {
+      const response = await axiosInstance.post<CouponPreviewResponse>(
+        "/onboarding/coupon/preview",
+        {
+          coupon_code: couponCode,
+          plan_id: planId,
+          payment_period: paymentPeriod,
+        },
+      );
+
+      return response.data;
+    },
     onSuccess: (couponPreview) => {
       form.setValue("coupon_code", couponCode.trim());
       setCouponError("");
