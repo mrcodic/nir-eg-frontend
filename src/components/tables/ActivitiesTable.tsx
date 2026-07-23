@@ -27,9 +27,9 @@ const columns = [
     meta: {
       headerClassName: "w-10 ",
     },
-    header: () => <div className="w-[100px] text-lg font-bold">النوع</div>,
+    header: () => <div className="w-[70px] text-lg font-bold">النوع</div>,
     cell: (info) => (
-      <div className="w-[100px] text-start text-base font-medium">
+      <div className="w-[70px] text-start text-sm font-medium">
         {info.getValue()}
       </div>
     ),
@@ -45,9 +45,9 @@ const columns = [
       return (
         <div
           className={cn(
-            "max-w-[300px] truncate text-start text-base font-medium",
+            "max-w-[300px] truncate text-start text-sm font-medium",
             {
-              "text-sm text-red-600": courseExpired,
+              "text-red-600": courseExpired,
             },
           )}
         >
@@ -57,11 +57,9 @@ const columns = [
     },
   }),
   columnHelper.accessor("created_at", {
-    header: () => (
-      <div className="min-w-[110px] text-lg font-bold">التاريخ</div>
-    ),
+    header: () => <div className="min-w-[80px] text-lg font-bold">التاريخ</div>,
     cell: (info) => (
-      <div className="w-[110px] text-start text-base font-medium">
+      <div className="w-[80px] text-start text-sm font-medium">
         {info.getValue()}
       </div>
     ),

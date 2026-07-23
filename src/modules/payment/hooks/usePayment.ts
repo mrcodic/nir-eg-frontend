@@ -88,7 +88,10 @@ export const usePayment = ({
             revalidateTagAction("/students/classrooms"),
             revalidateTagAction("/students/bundles"),
           ]);
-          return;
+
+          if (asModal) {
+            modal.closeModal();
+          }
         }
 
         if (response?.payment_url) {
@@ -104,7 +107,7 @@ export const usePayment = ({
           throw new Error("حصل مشكله اثناء الدفع");
         }
 
-        if (asModal && (response?.payment_url || isFree)) {
+        if (asModal && response?.payment_url) {
           modal.closeModal();
         }
       } catch (e) {

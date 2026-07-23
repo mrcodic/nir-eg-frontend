@@ -20,24 +20,24 @@ const columns = [
     ),
     cell: (info) => {
       return (
-        <div className="flex w-full max-w-[200px] min-w-[200px] flex-wrap items-center gap-2 truncate p-2 ps-4 text-base font-medium md:max-w-[300px]">
+        <div className="flex w-full max-w-[200px] min-w-[200px] flex-wrap items-center gap-2 truncate p-2 ps-4 text-sm font-medium md:max-w-[300px]">
           <p className="truncate">{info.getValue()}</p>
         </div>
       );
     },
   }),
   columnHelper.accessor("type", {
-    header: () => <div className="w-34 px-2 text-lg font-bold">النوع</div>,
+    header: () => <div className="w-15 px-2 text-lg font-bold">النوع</div>,
     cell: (info) => (
-      <div className="w-34 p-2 text-start text-base font-medium">
+      <div className="w-15 p-2 text-start text-sm font-medium">
         {info.getValue()}
       </div>
     ),
   }),
   columnHelper.accessor("created_at", {
-    header: () => <div className="w-34 px-2 text-lg font-bold">التاريخ</div>,
+    header: () => <div className="w-22 px-2 text-lg font-bold">التاريخ</div>,
     cell: (info) => (
-      <div className="w-34 p-2 text-start text-base font-medium">
+      <div className="w-22 p-2 text-start text-sm font-medium">
         {info.getValue()}
       </div>
     ),
