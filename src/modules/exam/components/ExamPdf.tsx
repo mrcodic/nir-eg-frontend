@@ -361,6 +361,7 @@ const styles = StyleSheet.create({
   explanationBody: {
     padding: 10,
     backgroundColor: COLORS.white,
+    fontSize: 11,
   },
   // ── Answer Video ──
   answerVideoSection: {
@@ -509,9 +510,9 @@ const explanationHtmlStyles = {
   ...htmlStylesheet,
   p: {
     ...htmlStylesheet.p,
-    fontSize: 11,
     lineHeight: 1.5,
     color: COLORS.gray700,
+    fontSize: 11,
   },
 };
 
@@ -519,6 +520,7 @@ const explanationHtmlStyles = {
 const renderHtml = (
   html?: string | null,
   customStylesheet = htmlStylesheet,
+  fontSize?: number,
 ) => {
   if (!html) return null;
 
@@ -572,7 +574,12 @@ const renderHtml = (
   return (
     <>
       {cleanedHtml.trim() && (
-        <Html stylesheet={customStylesheet}>{cleanedHtml}</Html>
+        <Html
+          style={fontSize ? { fontSize } : undefined}
+          stylesheet={customStylesheet}
+        >
+          {cleanedHtml}
+        </Html>
       )}
       {imageComponents}
     </>
@@ -604,7 +611,7 @@ const RenderExplanation = ({
         <Text style={styles.explanationHeaderText}> شرح الإجابة</Text>
       </View>
       <View style={styles.explanationBody}>
-        {renderHtml(explanation, explanationHtmlStyles)}
+        {renderHtml(explanation, explanationHtmlStyles, 11)}
       </View>
     </View>
   );

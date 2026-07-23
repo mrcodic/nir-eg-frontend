@@ -30,6 +30,7 @@ const BundlesWrapper = async ({
     isAuth: !!profile,
     next: {
       revalidate: 60 * 5,
+      tags: [api],
     },
     cache: "default",
   });

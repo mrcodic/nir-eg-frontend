@@ -5,6 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import { paymentType, PricingResponse } from "@/types";
 import { revalidateTagAction } from "@/utils/api";
 import { redirectUrl } from "@/utils/clientFun";
+import { isAxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import usePaymentsTypesFiltered from "./usePaymentsTypesFiltered";
@@ -97,13 +98,15 @@ export const usePayment = ({
         if (response?.payment_url) {
           const normalizedUrl = response?.payment_url.startsWith("http")
             ? response?.payment_url
-            : `http://${response?.payment_url}`;
+            : `https://${response?.payment_url}`;
+
           router.push(normalizedUrl);
+
           toast({
             icon: "loading",
             description: "جاري التوجه لبوابة الدفع",
           });
-        } else {
+        } else if (!isFree) {
           throw new Error("حصل مشكله اثناء الدفع");
         }
 
@@ -111,11 +114,17 @@ export const usePayment = ({
           modal.closeModal();
         }
       } catch (e) {
-        console.log(e);
         toast({
-          description: "حصل مشكله اثناء الدفع",
+          description: isAxiosError(e)
+            ? e?.response?.data?.message ||
+              e?.response?.data?.error?.message ||
+              "حصل مشكله اثناء الدفع"
+            : "حصل مشكله اثناء الدفع",
           icon: "error",
         });
+        if (asModal) {
+          modal.closeModal();
+        }
       } finally {
         setLoading(false);
       }

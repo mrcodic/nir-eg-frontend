@@ -9,7 +9,11 @@ export async function mutateClient<T = any>(
     body,
     auth = false,
     headers,
-  }: { body?: unknown; auth?: boolean; headers?: Record<string, string> } = {},
+  }: {
+    body?: unknown;
+    auth?: boolean;
+    headers?: Record<string, string>;
+  } = {},
 ): Promise<T> {
   try {
     const token = Cookies.get("nir_token");

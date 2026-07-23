@@ -57,7 +57,7 @@ export async function fetchServer<T>({
       cache,
       next: {
         ...next,
-        tags: [...(next?.tags ?? []), endpoint],
+        tags: [endpoint, ...(next?.tags ?? [])],
       },
     });
 

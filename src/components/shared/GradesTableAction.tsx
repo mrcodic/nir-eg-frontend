@@ -12,9 +12,10 @@ function GradesTableAction({
   rowValue: number;
 }) {
   const isExam = row?.type !== "واجب";
-  const haveAnswer = !!(row?.score_ratio || row?.score !== null);
   const isExpired = row?.classroom_expired;
   const isReviewPending = row?.review_pending;
+  const haveAnswer = !!(row?.score_ratio || row?.score !== null);
+  const showAnswers = row?.show_answer;
 
   return (
     <div className="flex h-14 w-full items-center justify-start gap-4">
@@ -38,29 +39,29 @@ function GradesTableAction({
         )
       )}
 
-      {isExpired
-        ? haveAnswer && (
-            <ExamPDFGenerator
-              taskId={row?.quiz_id}
-              className="bg-secondary flex h-9 w-fit items-center justify-center rounded-[10px] p-1 px-2 text-sm font-bold text-white lg:h-10"
-            />
-          )
-        : !isReviewPending && (
-            <Link
-              href={
-                row.type === "امتحان"
-                  ? `/bundles/${row?.classroom_id}/general-exams/${row.quiz_id}`
-                  : `/bundles/${row?.classroom_id}/${row.room_id}/${
-                      row.type === "كويز" ? "exams" : "assignment"
-                    }/${row.quiz_id}`
-              }
-              className={cn(
-                "bg-primary-800 hover:bg-primary/80 flex h-9 w-[120px] items-center justify-center rounded-[10px] p-1 text-sm font-bold text-white transition-all lg:h-10 lg:w-[155px]",
-              )}
-            >
-              {` عرض ال${row?.type}`}
-            </Link>
+      {haveAnswer && showAnswers && (
+        <ExamPDFGenerator
+          taskId={row?.quiz_id}
+          className="bg-secondary flex h-9 w-fit items-center justify-center rounded-[10px] p-1 px-2 text-sm font-bold text-white lg:h-10"
+        />
+      )}
+
+      {!isExpired && !isReviewPending && (
+        <Link
+          href={
+            row.type === "امتحان"
+              ? `/bundles/${row?.classroom_id}/general-exams/${row.quiz_id}`
+              : `/bundles/${row?.classroom_id}/${row.room_id}/${
+                  row.type === "كويز" ? "exams" : "assignment"
+                }/${row.quiz_id}`
+          }
+          className={cn(
+            "bg-primary-800 hover:bg-primary/80 flex h-9 w-[120px] items-center justify-center rounded-[10px] p-1 text-sm font-bold text-white transition-all lg:h-10 lg:w-[155px]",
           )}
+        >
+          {` عرض ال${row?.type}`}
+        </Link>
+      )}
     </div>
   );
 }

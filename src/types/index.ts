@@ -350,6 +350,7 @@ export interface IActivity {
   type: TaskType;
   type_label?: string;
   review_pending: boolean;
+  show_answer?: boolean;
 }
 
 export interface StudentActivitiesData {
