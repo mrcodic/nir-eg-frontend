@@ -81,8 +81,6 @@ export function useSubscribeForm({
     if (initCurrentStepRef.current) return;
     initCurrentStepRef.current = true;
 
-    console.log("init");
-
     const storedCompletedSteps = localStorage.getItem("completedSteps");
     const accountFormStr = localStorage.getItem("accountForm");
 

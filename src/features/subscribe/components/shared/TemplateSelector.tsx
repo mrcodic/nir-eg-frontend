@@ -1,16 +1,16 @@
 "use client";
 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import type { TemplateOption } from "@/types/subscribe.types";
 import Image from "next/image";
 import { useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from "@/components/ui/dialog";
 
 interface TemplateSelectorProps {
   value: string;
@@ -49,6 +49,10 @@ export default function TemplateSelector({
         <label className="block text-sm font-medium text-right">
           اختر قالب الموقع
         </label>
+
+        <p className="text-xs text-gray-600">
+          يمكنك تغيير القالب لاحقاً من لوحة التحكم
+        </p>
 
         <div className="grid grid-cols-[minmax(100px,350px)] max-sm:justify-center sm:grid-cols-3 gap-4">
           {templates.map((template) => {
