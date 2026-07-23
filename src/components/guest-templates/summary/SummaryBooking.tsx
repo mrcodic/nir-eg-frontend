@@ -23,7 +23,7 @@ function SummaryBooking({ booking }: SummaryBookingProps) {
   return (
     <section
       id="summary-booking"
-      className="bg-primary-800 scroll-mt-24 py-16 sm:py-20"
+      className="bg-primary-800 scroll-mt-24 py-16 first:pt-40 last:first:min-h-screen sm:py-20 sm:first:pt-40"
       aria-labelledby="summary-booking-title"
     >
       <Animate preset="scaleIn" delay={0.1}>
@@ -44,7 +44,7 @@ function SummaryBooking({ booking }: SummaryBookingProps) {
               <CustomRadioGroup
                 control={form.control}
                 name="type"
-                label="أنت تسجل كـ"
+                label={booking.typeLabel}
                 options={booking.applicantTypes}
               />
 
@@ -52,26 +52,26 @@ function SummaryBooking({ booking }: SummaryBookingProps) {
                 <CustomInput
                   control={form.control}
                   name="first_name"
-                  label="الاسم الأول"
-                  placeholder="أدخل الاسم الأول"
+                  label={booking.firstNameLabel}
+                  placeholder={`أدخل ${booking.firstNameLabel}`}
                 />
                 <CustomInput
                   control={form.control}
                   name="last_name"
-                  label="الاسم الأخير"
-                  placeholder="أدخل الاسم الأخير"
+                  label={booking.lastNameLabel}
+                  placeholder={`أدخل ${booking.lastNameLabel}`}
                 />
                 <CustomInput
                   control={form.control}
                   name="phone"
-                  label="رقم هاتف الطالب"
+                  label={booking.phoneLabel}
                   placeholder="01012345678"
                   type="tel"
                 />
                 <DynamicSelect
                   control={form.control}
                   name="grade_id"
-                  label="الصف"
+                  label={booking.gradeLabel}
                   queryKey="/grades"
                   className=""
                 />

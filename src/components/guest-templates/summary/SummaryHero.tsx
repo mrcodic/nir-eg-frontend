@@ -9,7 +9,7 @@ function SummaryHero({ hero }: { hero: SummaryTemplateContent["hero"] }) {
   return (
     <section
       id="summary-home"
-      className="scroll-mt-28 pt-36 pb-16 sm:pt-40 lg:pb-24"
+      className="scroll-mt-28 pt-36 pb-16 sm:pt-45 lg:pb-24"
     >
       <div className="wrapper grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
         <div className="text-center lg:text-right">

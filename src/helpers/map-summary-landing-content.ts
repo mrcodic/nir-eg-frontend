@@ -13,6 +13,7 @@ function mapSection(
     eyebrow: section.eyebrow,
     title: section.title,
     description: section.description,
+    hidden: section.hidden,
     features: section.items.map((item) => ({
       title: item.title,
       description: item.description,
@@ -43,6 +44,7 @@ export function mapSummaryLandingContent(
       title: data.hero.title,
       description: data.hero.description,
       image: data.hero.image ?? "/assets/bg/hero-student.jpg",
+      hidden: data.hero.hidden,
       primaryAction: {
         label: data.hero.primary_button_text,
         href: "#summary-booking",
@@ -60,6 +62,7 @@ export function mapSummaryLandingContent(
     faq: {
       eyebrow: data.faq.eyebrow,
       title: data.faq.title,
+      hidden: data.faq.hidden,
       questions: data.faq.items.map((item) => ({
         question: item.question,
         answer: item.answer,

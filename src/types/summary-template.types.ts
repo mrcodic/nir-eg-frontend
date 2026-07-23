@@ -40,6 +40,7 @@ export type SummaryTemplateContent = {
     eyebrow: string;
     title: string;
     description: string;
+    hidden: boolean;
     image: string;
     primaryAction: SummaryTemplateAction;
     secondaryAction: SummaryTemplateAction;
@@ -48,12 +49,16 @@ export type SummaryTemplateContent = {
     eyebrow: string;
     title: string;
     description: string;
+    hidden: boolean;
+
     features: SummaryTemplateFeature[];
   };
   course: {
     eyebrow: string;
     title: string;
     description: string;
+    hidden: boolean;
+
     features: SummaryTemplateFeature[];
   };
   booking: {
@@ -61,11 +66,19 @@ export type SummaryTemplateContent = {
     title: string;
     description: string;
     submitLabel: string;
+    typeLabel: string;
+    firstNameLabel: string;
+    lastNameLabel: string;
+    phoneLabel: string;
+    gradeLabel: string;
+
     applicantTypes: SummaryTemplateOption[];
   };
   faq: {
     eyebrow: string;
     title: string;
+    hidden: boolean;
+
     questions: SummaryTemplateFaq[];
   };
 };

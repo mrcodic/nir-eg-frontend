@@ -7,7 +7,6 @@ import type { LandingPageHeader } from "@/types/tenant.types";
 import { Rocket } from "lucide-react";
 import Link from "next/link";
 
-import SummaryMobileNavigation from "@/components/includes/SummaryMobileNavigation";
 import CustomImage from "../ui/CustomImage";
 
 function SummaryNavbar({ header }: { header: LandingPageHeader }) {
@@ -31,20 +30,22 @@ function SummaryNavbar({ header }: { header: LandingPageHeader }) {
             />
           </Link>
 
-          <nav
-            aria-label="التنقل في الصفحة"
-            className="hidden items-center gap-6 lg:flex"
-          >
-            {navigation.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="hover:text-primary-800 focus-visible:text-primary-800 text-sm font-bold transition-colors"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
+          {!header?.hidden && (
+            <nav
+              aria-label="التنقل في الصفحة"
+              className="hidden items-center gap-6 lg:flex"
+            >
+              {navigation.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="hover:text-primary-800 focus-visible:text-primary-800 text-sm font-bold transition-colors"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+          )}
 
           <div className="flex items-center gap-2">
             <Button
@@ -58,10 +59,10 @@ function SummaryNavbar({ header }: { header: LandingPageHeader }) {
               </Link>
             </Button>
 
-            <SummaryMobileNavigation
+            {/* <SummaryMobileNavigation
               navigation={navigation}
               bookingLabel={header.button_text}
-            />
+            /> */}
           </div>
         </div>
       </div>

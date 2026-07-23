@@ -167,12 +167,14 @@ export interface LandingPageHeader {
   faq_label: string;
   registration_label: string;
   button_text: string;
+  hidden: boolean;
 }
 
 export interface LandingPageHero {
   badge: string;
   title: string;
   description: string;
+  hidden: boolean;
   image: string | null;
   primary_button_text: string;
   secondary_button_text: string;
@@ -182,6 +184,8 @@ export interface LandingPageHero {
 export interface LandingPageSection {
   eyebrow: string;
   title: string;
+  hidden: boolean;
+
   description: string;
   items: LandingPageSectionItem[];
 }
@@ -195,6 +199,8 @@ export interface LandingPageSectionItem {
 export interface LandingPageFaq {
   eyebrow: string;
   title: string;
+  hidden: boolean;
+
   items: LandingPageFaqItem[];
 }
 
