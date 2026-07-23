@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import CustomImage from "@/components/ui/CustomImage";
 import { cn } from "@/lib/utils";
 import { convertDate, secondsToHms } from "@/utils/clientFun";
-import { ChevronDown, ChevronUp, Eye, X } from "lucide-react";
+import { ChevronDown, ChevronUp, Eye, ImageOff, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -96,26 +96,7 @@ const UserMessage = ({
         {comment?.images?.length > 0 && (
           <div className="mr-12 flex flex-wrap gap-2">
             {comment?.images?.map((image, index) => {
-              return (
-                <Link
-                  target="_blank"
-                  key={index}
-                  href={image.url}
-                  className="border-gray-light relative block aspect-square w-full max-w-[200px] grow overflow-hidden rounded-lg border"
-                >
-                  <div className="absolute inset-0 z-1 flex h-full w-full items-center justify-center bg-black/50 text-white transition-all hover:opacity-100 md:opacity-0">
-                    <Eye className="size-8 opacity-80 sm:size-10" />
-                  </div>
-
-                  <Image
-                    unoptimized
-                    src={image.url}
-                    fill
-                    className="w-full object-cover"
-                    alt="image"
-                  />
-                </Link>
-              );
+              return <CommentImage image={image} key={index} />;
             })}
           </div>
         )}
@@ -231,3 +212,37 @@ const UserMessage = ({
 };
 
 export default UserMessage;
+
+const CommentImage = ({ image }: { image: any }) => {
+  const [isImageError, setImageError] = useState(false);
+  return (
+    <Link
+      target="_blank"
+      href={image.url}
+      className={cn(
+        "border-gray-light relative block aspect-square w-full max-w-[200px] grow overflow-hidden rounded-lg border",
+        {
+          "pointer-events-none": isImageError,
+        },
+      )}
+    >
+      {!isImageError ? (
+        <div className="absolute inset-0 z-1 flex h-full w-full items-center justify-center bg-black/50 text-white transition-all hover:opacity-100 md:opacity-0">
+          <Eye className="size-8 opacity-80 sm:size-10" />
+        </div>
+      ) : (
+        <div className="absolute inset-0 z-1 flex h-full w-full items-center justify-center bg-gray-200 text-white transition-all">
+          <ImageOff className="size-8 text-gray-500 opacity-80 sm:size-10" />
+        </div>
+      )}
+
+      <Image
+        src={image.url}
+        fill
+        className="w-full object-cover"
+        alt="image"
+        onError={() => setImageError(true)}
+      />
+    </Link>
+  );
+};
