@@ -19,8 +19,6 @@ async function Footer() {
     console.log("footer data error : ", error);
   }
 
-  console.log(footerData);
-
   return (
     // bg-[url('/assets/backgrounds/bg-vector.png')]
     <footer className="bg-background   wrapper py-10">
@@ -54,14 +52,14 @@ async function Footer() {
               links={footerData?.socials}
             />
 
-            <div className="flex flex-col gap-4 flex-wrap">
+            <div className="flex flex-col gap-4 flex-wrap text-sm">
               {footerData?.address_1 && (
                 <a
                   href={`https://maps.google.com/?q=${footerData?.address_1}`}
                   target="_blank"
                   className="flex items-center gap-4"
                 >
-                  <MapPin className="stroke-primary-800 size-5" />
+                  <MapPin className="stroke-primary-800 size-5 shrink-0" />
                   <span>{footerData?.address_1}</span>
                 </a>
               )}
@@ -71,7 +69,7 @@ async function Footer() {
                   target="_blank"
                   className="flex items-center gap-4"
                 >
-                  <MapPin className="stroke-primary-800 size-5" />
+                  <MapPin className="stroke-primary-800 size-5 shrink-0" />
                   <span>{footerData?.address_2}</span>
                 </a>
               )}
@@ -85,6 +83,7 @@ async function Footer() {
                     width={20}
                     height={20}
                     alt="email"
+                    className="shrink-0"
                   />
                   <span>{footerData?.email}</span>
                 </a>
@@ -99,6 +98,7 @@ async function Footer() {
                     width={20}
                     height={20}
                     alt="phone"
+                    className="shrink-0"
                   />
                   <span dir="ltr">+{footerData?.phone_sa}</span>
                 </a>
@@ -113,6 +113,7 @@ async function Footer() {
                     width={20}
                     height={20}
                     alt="email"
+                    className="shrink-0"
                   />
                   <span dir="ltr">+{footerData?.phone}</span>
                 </a>
@@ -128,7 +129,7 @@ async function Footer() {
                 key={link.name}
                 href={link.href}
                 name={link.name}
-                className="lg:text-sm md:text-sm"
+                className="text-sm lg:text-sm md:text-sm"
               />
             ))}
           </div>
