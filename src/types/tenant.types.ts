@@ -125,7 +125,7 @@ export interface UserTenant {
   source: string;
   status: string;
   tenant_id: string;
-  tenant_status: number;
+  tenant_status: "active" | null;
   tenant_user_id: number;
 }
 
