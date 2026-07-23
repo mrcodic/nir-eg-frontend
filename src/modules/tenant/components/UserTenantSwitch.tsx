@@ -161,7 +161,7 @@ export default function UserTenantSwitch() {
                       >
                         <CustomImage
                           src={tenant.logo}
-                          alt={tenant.name}
+                          alt={tenant?.name || "tenant icon"}
                           fallback="/logo.svg"
                           width={30}
                           height={31}

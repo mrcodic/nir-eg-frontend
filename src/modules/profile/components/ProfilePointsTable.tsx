@@ -3,7 +3,6 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { createColumnHelper } from "@tanstack/react-table";
 import Image from "next/image";
-import Link from "next/link";
 import { useState } from "react";
 
 import CustomTableUI from "@/components/tables/CustomTableUI";
@@ -29,52 +28,51 @@ type Row = {
   is_classroom_expired: boolean;
 };
 
-export const generatePointHref = (row: Row): string => {
-  const base = `/bundles/${row.classroom_id}`;
+// const generatePointHref = (row: Row): string => {
+//   const base = `/bundles/${row.classroom_id}`;
 
-  switch (row.type) {
-    case "درس":
-      return `${base}/${row.room_id}/${row.id}`;
-    case "كورس":
-      return base;
-    case "حصة":
-      return `${base}/${row.room_id}`;
-    case "واجب":
-      return `${base}/${row.room_id}/assignment/${row.quiz_id}`;
-    case "كويز":
-      return `${base}/${row.room_id}/exams/${row.quiz_id}`;
-    case "امتحان":
-      return `${base}/general-exams/${row.quiz_id}`;
-    default:
-      return base;
-  }
-};
+//   switch (row.type) {
+//     case "درس":
+//       return `${base}/${row.room_id}/${row.id}`;
+//     case "كورس":
+//       return base;
+//     case "حصة":
+//       return `${base}/${row.room_id}`;
+//     case "واجب":
+//       return `${base}/${row.room_id}/assignment/${row.quiz_id}`;
+//     case "كويز":
+//       return `${base}/${row.room_id}/exams/${row.quiz_id}`;
+//     case "امتحان":
+//       return `${base}/general-exams/${row.quiz_id}`;
+//     default:
+//       return base;
+//   }
+// };
 
 const columnHelper = createColumnHelper<Row>();
 
 const columns = [
   columnHelper.accessor("name", {
     header: () => (
-      <div className="w-full px-2 py-3 text-lg font-bold">الأنشطة</div>
+      <div className="min-w-[250px] px-2 py-3 text-lg font-bold">الأنشطة</div>
     ),
     cell: (info) => (
-      <div className="flex max-w-[200px] gap-1 truncate p-2 text-base font-medium md:max-w-[250px]">
-        <span>{info.getValue()}</span>
-
-        {!!info?.row?.original?.classroom_id &&
-          (info?.row?.original?.is_classroom_expired ? (
-            <span className="truncate font-bold">
-              {info.row.original.item_title}
-            </span>
-          ) : (
-            <Link
-              title={info.row.original.item_title}
-              href={generatePointHref(info.row.original)}
-              className="text-primary-800 truncate font-bold underline"
-            >
-              {info.row.original.item_title}
-            </Link>
-          ))}
+      <div className="min-w-[250px] p-2">
+        <p className="line-clamp-3 text-sm font-medium">
+          {info.getValue()}{" "}
+          {/* {!!info?.row?.original?.classroom_id &&
+            (info?.row?.original?.is_classroom_expired ? (
+              <span className="font-bold">{info.row.original?.item_title}</span>
+            ) : (
+              <Link
+                title={info.row.original?.item_title}
+                href={generatePointHref(info.row.original)}
+                className="text-primary-800 font-bold underline"
+              >
+                {info.row.original?.item_title}
+              </Link>
+            ))} */}
+        </p>
       </div>
     ),
   }),
@@ -86,19 +84,7 @@ const columns = [
       </div>
     ),
   }),
-  columnHelper.accessor("course", {
-    header: () => (
-      <div className="w-[156px] px-2 text-lg font-bold">الكورس</div>
-    ),
-    cell: (info) => (
-      <div
-        title={info.getValue()}
-        className="w-[156px] truncate p-2 text-center text-base font-medium"
-      >
-        {info.getValue()}
-      </div>
-    ),
-  }),
+
   columnHelper.accessor("date", {
     header: () => (
       <div className="min-w-[110px] px-2 text-lg font-bold">التاريخ</div>
@@ -122,7 +108,7 @@ const columns = [
             height={32}
             alt="Star"
           />
-          <span className="text-primary-800 text-2xl font-bold">
+          <span className="text-primary-800 text-2xl font-bold" dir="ltr">
             {info.getValue()}
           </span>
           <span className="text-base font-bold">نقطة</span>
@@ -148,6 +134,8 @@ function ProfilePointsTable() {
 
   const points = data?.data || [];
   const pageCount = data?.meta?.last_page ?? -1;
+
+  console.log(data);
 
   return (
     <CustomTableUI

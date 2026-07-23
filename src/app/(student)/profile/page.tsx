@@ -63,7 +63,7 @@ export default async function ProfilePage() {
           <Suspense fallback={<LoadingSpinner />}>
             <Animate
               preset="slideUp"
-              delay={0.6}
+              delay={0.3}
               id="points-table"
               className="mt-24 scroll-mt-24"
             >
