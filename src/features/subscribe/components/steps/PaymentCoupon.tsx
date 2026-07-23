@@ -75,6 +75,7 @@ export default function PaymentCoupon({
 
   const updateCouponCode = (couponCode: string) => {
     setCouponCode(couponCode);
+    setIsCouponApplied(false);
     setCouponError("");
   };
 

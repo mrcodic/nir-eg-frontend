@@ -11,7 +11,7 @@ import { IPricingPlan } from "@/types/pricing-api.types";
 import { ApiResponse } from "@/types/type";
 import { useQuery } from "@tanstack/react-query";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { UseFormReturn, useWatch } from "react-hook-form";
 import NavigationButtons from "../shared/NavigationButtons";
 import PaymentCoupon from "./PaymentCoupon";
@@ -55,6 +55,13 @@ export default function PaymentStep({
   });
   const [couponPreview, setCouponPreview] =
     useState<CouponPreviewResponse | null>(null);
+
+  useEffect(
+    () => () => {
+      form.setValue("coupon_code", undefined);
+    },
+    [form],
+  );
 
   const { data, isLoading } = useQuery({
     queryKey: [`/plans/${planId}`],
