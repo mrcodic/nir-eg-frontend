@@ -8,6 +8,7 @@ import { Rocket } from "lucide-react";
 import Link from "next/link";
 
 import CustomImage from "../ui/CustomImage";
+import SummaryMobileNavigation from "./SummaryMobileNavigation";
 
 function SummaryNavbar({ summaryData }: { summaryData: LandingPageData }) {
   const { logo } = useTenant();
@@ -61,10 +62,12 @@ function SummaryNavbar({ summaryData }: { summaryData: LandingPageData }) {
               </Link>
             </Button>
 
-            {/* <SummaryMobileNavigation
-              navigation={navigation}
-              bookingLabel={header.button_text}
-            /> */}
+            {!summaryData?.header?.hidden && (
+              <SummaryMobileNavigation
+                navigation={navigation}
+                bookingLabel={summaryData?.header.button_text}
+              />
+            )}
           </div>
         </div>
       </div>

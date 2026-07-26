@@ -1,14 +1,14 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import type { SummaryTemplateContent } from "@/types/summary-template.types";
+import type { SummaryTemplateLink } from "@/types/summary-template.types";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Menu, Rocket } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 type SummaryMobileNavigationProps = {
-  navigation: SummaryTemplateContent["navigation"];
+  navigation: SummaryTemplateLink[];
   bookingLabel: string;
 };
 
@@ -76,16 +76,18 @@ function SummaryMobileNavigation({
             }}
             className="absolute inset-x-0 top-[calc(100%+0.75rem)] grid gap-1 rounded-2xl border border-slate-100 bg-white p-2 shadow-[0_20px_44px_-20px_rgba(18,48,75,0.45)] lg:hidden"
           >
-            {navigation.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setIsMenuOpen(false)}
-                className="hover:bg-primary-50 hover:text-primary-800 rounded-xl px-4 py-3 text-center text-sm font-bold transition-colors"
-              >
-                {link.label}
-              </Link>
-            ))}
+            {navigation.map((link) =>
+              link.hidden ? null : (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setIsMenuOpen(false)}
+                  className="hover:bg-primary-50 hover:text-primary-800 rounded-xl px-4 py-3 text-center text-sm font-bold transition-colors"
+                >
+                  {link.label}
+                </Link>
+              ),
+            )}
             <Button asChild className="mt-1 h-11 rounded-xl">
               <Link
                 href="#summary-booking"

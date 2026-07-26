@@ -23,7 +23,6 @@ async function page() {
     return redirect("/bundles");
   }
 
-  console.log(storeSettings?.storeData);
   return (
     <div className="section--style">
       <StoreItems />
