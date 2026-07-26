@@ -34,3 +34,11 @@ export type PaymentPricingPreview = {
   yearly_saving_amount: number;
   yearly_saving_percent: number;
 };
+
+export type IPaymentOption = {
+  description: string;
+  enabled: boolean;
+  icons: string[];
+  label: string;
+  value: string;
+};

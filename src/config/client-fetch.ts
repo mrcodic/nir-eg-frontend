@@ -37,22 +37,9 @@ const fetcherClient = async <T>(
     });
 
     if (!res.ok) {
-      console.log("res : ", res);
-      try {
-        const data = await res.json();
-        console.error(`💥 response : `, data, data.message, res.status);
-        throw new CustomError(data.message, res.status || 500);
-      } catch (error) {
-        if (error instanceof CustomError) {
-          throw error;
-        }
-        console.error(`💥 response err : `, res);
-
-        throw new CustomError(
-          `Failed to fetch data from ${endpoint}`,
-          res.status || 500,
-        );
-      }
+      const data = await res.json();
+      console.error(`💥 response : `, data, data.message, res.status);
+      throw new CustomError(data.message, res.status || 500);
     }
 
     return res.json() as Promise<T>;

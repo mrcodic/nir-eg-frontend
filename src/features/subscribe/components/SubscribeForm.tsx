@@ -32,13 +32,12 @@ export default function SubscribeForm({
   return (
     <div className="flex flex-row-reverse wrapper my-16 md:my-22 gap-16 lg:gap-10 max-lg:flex-col-reverse max-w-7xl">
       {/* Sidebar - Fixed on desktop */}
-      <aside className="">
+      <aside>
         <FormSidebar variant={variant} planId={planId} period={period} />
       </aside>
 
       {/* Main Content - Scrollable */}
       <main className="flex-1 flex flex-col lg:min-h-0 shrink-0">
-        {/* Scrollable Content Area */}
         <div className="flex-1 ">
           {/* Header */}
           <div className="text-start mb-12">

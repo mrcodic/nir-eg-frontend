@@ -1,5 +1,5 @@
 import Empty from "@/components/Empty";
-import { Skeleton } from "@/components/ui/skeleton";
+import Spinner from "@/components/ui/Spinner";
 import type { CouponPreviewResponse } from "@/types/onboarding.types";
 import type { PaymentPeriod } from "@/types/subscribe.types";
 import { priceFormatter } from "@/utils/formatters";
@@ -22,7 +22,12 @@ export default function PaymentSummary({
     isLoading,
   } = usePaymentPricing({ planId, paymentPeriod });
 
-  if (isLoading) return <Skeleton className="h-32 w-full bg-blue-gradient" />;
+  if (isLoading)
+    return (
+      <div className="h-32 w-full bg-blue-gradient flex items-center justify-center rounded-lg border border-primary-100 animate-pulse">
+        <Spinner className="text-secondary" />
+      </div>
+    );
 
   if (isError || !paymentPricing)
     return (

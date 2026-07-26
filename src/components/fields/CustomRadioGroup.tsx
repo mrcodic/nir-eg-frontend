@@ -15,6 +15,7 @@ export interface RadioOption {
   value: string;
   label: string;
   icons?: string[];
+  description?: string;
 }
 
 interface CustomRadioGroupProps<T extends FieldValues> extends Omit<
@@ -58,29 +59,44 @@ function CustomRadioGroup<T extends FieldValues>({
               {options.map((option) => (
                 <div
                   key={option.value}
-                  className="flex flex-col w-full gap-6 cursor-pointer"
+                  className="flex  flex-col w-full gap-6 cursor-pointer"
                 >
                   <Label
                     htmlFor={option.value}
-                    className={`flex relative overflow-hidden cursor-pointer p-2.5  border-2 border-gray-light rounded-lg has-[button[data-state=checked]]:bg-primary-50 items-center space-x-2 has-[button[data-state=checked]]:border-primary-800 `}
+                    className={`flex min-h-14 w-full relative overflow-hidden cursor-pointer p-2.5  border-2 border-gray-light rounded-lg has-[button[data-state=checked]]:bg-primary-50 items-center gap-2 has-[button[data-state=checked]]:border-primary-800 `}
                   >
                     <RadioGroupItem value={option.value} id={option.value} />
 
-                    {option?.icons && (
-                      <div className="flex gap-2 ">
-                        {option?.icons?.map((icon) => (
-                          <div
-                            key={icon}
-                            className="h-8 sm:w-44 w-[126px] relative flex items-center justify-center"
-                          >
-                            <Image src={icon} fill alt="payment icon" />
+                    <div className="flex-col gap-2 flex">
+                      <div className="flex items-center gap-2 flex-wrap-reverse">
+                        {option?.icons && (
+                          <div className="flex gap-2  ">
+                            {option?.icons?.map((icon) => (
+                              <div
+                                key={icon}
+                                className="h-8  relative flex items-center justify-center"
+                              >
+                                <Image
+                                  src={icon}
+                                  height={32}
+                                  width={0}
+                                  className="h-8 w-auto"
+                                  alt="payment icon"
+                                />
+                              </div>
+                            ))}
                           </div>
-                        ))}
+                        )}
+                        <p className="flex gap-6 items-center sm:text-base text-xs">
+                          <span className="font-bold">{option.label}</span>
+                        </p>
                       </div>
-                    )}
-                    <p className="flex gap-6 items-center sm:text-base text-xs">
-                      <span className="font-bold">{option.label}</span>
-                    </p>
+                      {!!option?.description && (
+                        <p className="text-muted-foreground text-sm">
+                          {option.description}
+                        </p>
+                      )}
+                    </div>
                   </Label>
                 </div>
               ))}
