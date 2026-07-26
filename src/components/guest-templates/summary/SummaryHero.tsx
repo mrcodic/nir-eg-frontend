@@ -1,9 +1,8 @@
 import { Button } from "@/components/ui/button";
+import { SummaryTemplateContent } from "@/types/summary-template.types";
 import { Headphones, Rocket } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-
-import { SummaryTemplateContent } from "@/types/summary-template.types";
 
 function SummaryHero({ hero }: { hero: SummaryTemplateContent["hero"] }) {
   return (

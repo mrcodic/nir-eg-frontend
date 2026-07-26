@@ -42,10 +42,10 @@ export const AuthContextProvider = ({
         queryKey: ["/students/profile"],
       });
       // console.log("res profile", res);
-      return res.body as unknown as IUser;
+      return (res.body || null) as unknown as IUser | null;
     },
     staleTime: 1000 * 60 * 2, //2 minutes cache
-    initialData: profile,
+    initialData: profile || null,
   });
 
   const value = useMemo(

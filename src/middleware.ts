@@ -54,7 +54,7 @@ export async function middleware(request: NextRequest) {
   // Unauthenticated → protected route
   if (isRouteMatch(normalizedPath, PROTECTED_ROUTES) && !token) {
     const loginUrl = new URL("/login", getBaseUrl(request));
-    loginUrl.searchParams.set("next", normalizedPath);
+    loginUrl.searchParams.set("redirect", normalizedPath);
     return NextResponse.redirect(loginUrl, { status: 307 });
   }
 

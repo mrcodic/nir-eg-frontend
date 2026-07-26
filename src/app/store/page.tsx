@@ -6,7 +6,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
-  title: "متجر المنتجات",
+  title: "المتجر",
   description: "تصفح المنتجات المتاحة وخيارات الشراء المرتبطة بها.",
 };
 

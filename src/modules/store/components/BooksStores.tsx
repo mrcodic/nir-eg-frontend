@@ -14,6 +14,7 @@ export default function BooksStores({
 }: {
   links: BookLinksSettings["links"];
 }) {
+  if (!links.length) return null;
   return (
     <section className="mt-12 min-h-[300px] py-8">
       <RoomHeader title="متاجر الكتب" icon="/assets/books-colored.svg" />
