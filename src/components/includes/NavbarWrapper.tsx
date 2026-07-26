@@ -1,5 +1,5 @@
-import { IUser } from "@/types";
 import { getTenantSummaryServer } from "@/services/tenant.service";
+import { IUser } from "@/types";
 import { Templates } from "@/types/tenant.types";
 import dynamic from "next/dynamic";
 import { headers } from "next/headers";
@@ -24,7 +24,7 @@ const NavbarWrapper = async ({
   if (template === Templates.SUMMARY_LANDING) {
     const summary = await getTenantSummaryServer();
 
-    return <SummaryNavbar header={summary.data.header} />;
+    return <SummaryNavbar summaryData={summary?.data} />;
   }
 
   return !!profile ? (

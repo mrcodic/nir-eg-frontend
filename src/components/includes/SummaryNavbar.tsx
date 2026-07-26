@@ -3,15 +3,15 @@
 import { Button } from "@/components/ui/button";
 import { useTenant } from "@/context/TenantProvider";
 import { mapSummaryNavigation } from "@/helpers/map-summary-landing-content";
-import type { LandingPageHeader } from "@/types/tenant.types";
+import type { LandingPageData } from "@/types/tenant.types";
 import { Rocket } from "lucide-react";
 import Link from "next/link";
 
 import CustomImage from "../ui/CustomImage";
 
-function SummaryNavbar({ header }: { header: LandingPageHeader }) {
+function SummaryNavbar({ summaryData }: { summaryData: LandingPageData }) {
   const { logo } = useTenant();
-  const navigation = mapSummaryNavigation(header);
+  const navigation = mapSummaryNavigation(summaryData);
 
   return (
     <header className="fixed inset-x-0 top-0 z-30 flex h-24 items-end backdrop-blur-xs lg:h-28">
@@ -30,20 +30,22 @@ function SummaryNavbar({ header }: { header: LandingPageHeader }) {
             />
           </Link>
 
-          {!header?.hidden && (
+          {!summaryData?.header?.hidden && (
             <nav
               aria-label="التنقل في الصفحة"
               className="hidden items-center gap-6 lg:flex"
             >
-              {navigation.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="hover:text-primary-800 focus-visible:text-primary-800 text-sm font-bold transition-colors"
-                >
-                  {link.label}
-                </Link>
-              ))}
+              {navigation.map((link) =>
+                link.hidden ? null : (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className="hover:text-primary-800 focus-visible:text-primary-800 text-sm font-bold transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                ),
+              )}
             </nav>
           )}
 
@@ -54,7 +56,7 @@ function SummaryNavbar({ header }: { header: LandingPageHeader }) {
               className="h-10 rounded-xl px-4 text-xs sm:h-11 sm:px-5 sm:text-sm"
             >
               <Link href="#summary-booking">
-                {header.button_text}
+                {summaryData.header?.button_text}
                 <Rocket aria-hidden />
               </Link>
             </Button>

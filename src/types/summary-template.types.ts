@@ -1,6 +1,7 @@
 export type SummaryTemplateLink = {
   label: string;
   href: string;
+  hidden: boolean;
 };
 
 export type SummaryTemplateOption = {
@@ -35,7 +36,6 @@ export type SummaryTemplateFaq = {
 };
 
 export type SummaryTemplateContent = {
-  navigation: SummaryTemplateLink[];
   hero: {
     eyebrow: string;
     title: string;

@@ -1,10 +1,9 @@
 import { SUMMARY_BOOKING_DEFAULTS } from "@/constants/summary-template";
-import type { SummaryTemplateContent } from "@/types/summary-template.types";
 import type {
-  LandingPageData,
-  LandingPageHeader,
-  LandingPageSection,
-} from "@/types/tenant.types";
+  SummaryTemplateContent,
+  SummaryTemplateLink,
+} from "@/types/summary-template.types";
+import type { LandingPageData, LandingPageSection } from "@/types/tenant.types";
 
 function mapSection(
   section: LandingPageSection,
@@ -23,14 +22,35 @@ function mapSection(
 }
 
 export function mapSummaryNavigation(
-  header: LandingPageHeader,
-): SummaryTemplateContent["navigation"] {
+  summaryData: LandingPageData,
+): SummaryTemplateLink[] {
+  const header = summaryData.header;
   return [
-    { label: header.home_label || "الرئيسية", href: "#summary-home" },
-    { label: header.features_label || "المميزات", href: "#summary-benefits" },
-    { label: header.course_label || "نظام الكورس", href: "#summary-course" },
-    { label: header.registration_label || "التسجيل", href: "#summary-booking" },
-    { label: header.faq_label || "الأسئلة الشائعة", href: "#summary-faq" },
+    {
+      label: header.home_label || "الرئيسية",
+      href: "#summary-home",
+      hidden: summaryData?.hero?.hidden,
+    },
+    {
+      label: header.features_label || "المميزات",
+      href: "#summary-benefits",
+      hidden: summaryData?.features?.hidden,
+    },
+    {
+      label: header.course_label || "نظام الكورس",
+      href: "#summary-course",
+      hidden: summaryData?.course?.hidden,
+    },
+    {
+      label: header.registration_label || "التسجيل",
+      href: "#summary-booking",
+      hidden: false,
+    },
+    {
+      label: header.faq_label || "الأسئلة الشائعة",
+      href: "#summary-faq",
+      hidden: summaryData?.faq?.hidden,
+    },
   ];
 }
 
@@ -38,7 +58,6 @@ export function mapSummaryLandingContent(
   data: LandingPageData,
 ): SummaryTemplateContent {
   return {
-    navigation: mapSummaryNavigation(data.header),
     hero: {
       eyebrow: data.hero.badge,
       title: data.hero.title,
