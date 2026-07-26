@@ -22,7 +22,11 @@ export default function BooksStores({
       {links.length ? (
         <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {links.map((item) => (
-            <BooksListItem key={String(item.id)} href={item.url} />
+            <BooksListItem
+              key={String(item.id)}
+              href={item.url}
+              name={item?.name}
+            />
           ))}
         </ul>
       ) : (
@@ -32,18 +36,21 @@ export default function BooksStores({
   );
 }
 
-function BooksListItem({ href }: { href: string }) {
+function BooksListItem({ href, name }: { href: string; name: string }) {
   const { copyToClipboard, copied } = useCopy();
   return (
     <li
       className={`bg-background border-primary flex w-full max-w-md flex-col justify-between gap-1 rounded-lg border p-4 transition-all max-sm:mx-auto`}
     >
-      <Image
-        src={"/assets/books-colored.svg"}
-        width={48}
-        height={48}
-        alt="book icon"
-      />
+      <div className="flex items-center gap-2">
+        <Image
+          src={"/assets/books-colored.svg"}
+          width={44}
+          height={44}
+          alt="book icon"
+        />
+        <h3 className="text-lg font-bold">{name || "--"}</h3>
+      </div>
 
       <Link
         href={href}

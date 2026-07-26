@@ -21,6 +21,7 @@ export type BookLinksSettings = {
   hide_books: number;
   links: {
     id: number;
+    name: string;
     url: string;
   }[];
 };
