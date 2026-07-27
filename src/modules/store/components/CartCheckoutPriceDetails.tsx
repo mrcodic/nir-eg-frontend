@@ -9,19 +9,11 @@ function CartCheckoutPriceDetails({ coupon }: { coupon?: PricingResponse }) {
 
   const totalPrice = getTotalPrice();
 
-  const couponDiscount = coupon
-    ? coupon?.promo?.type_discount === 1
-      ? (coupon?.promo?.value / 100) * totalPrice
-      : Math.min(coupon?.promo?.value, totalPrice)
-    : 0;
-
-  const finalPrice = Math.max(0, totalPrice - couponDiscount);
-
   return (
     <PriceSummary
-      finalPrice={finalPrice}
-      couponDiscount={couponDiscount}
-      originalPrice={coupon ? totalPrice : undefined}
+      finalPrice={coupon?.final_price ?? totalPrice}
+      couponDiscount={coupon?.promo_discount}
+      originalPrice={coupon?.base_price}
     />
   );
 }

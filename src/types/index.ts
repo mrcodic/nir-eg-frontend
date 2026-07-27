@@ -596,8 +596,8 @@ export interface ApiResponse<T> {
 
 export interface PricingResponse {
   base_price: number;
-  sale_applied: boolean;
-  sale_discount: number;
+  sale_applied?: boolean;
+  sale_discount?: number;
   promo_discount: number;
   final_price: number;
   promo: {
@@ -606,7 +606,8 @@ export interface PricingResponse {
     type_discount: 0 | 1;
     value: number;
   } | null;
-  context: {
+  applied_books?: number[];
+  context?: {
     classroom_id: number;
     room_id: number | null;
   };

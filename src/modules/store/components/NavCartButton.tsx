@@ -17,11 +17,15 @@ import { useTenant } from "@/context/TenantProvider";
 import { getApiErrorMessage } from "@/helpers/get-api-error-message";
 import { useToast } from "@/hooks/use-toast";
 import { formatCurrency } from "@/lib/utils";
+import {
+  getCartPaymentCapabilities,
+  getCartPointsTotal,
+} from "@/utils/get-cart-payment-capabilities";
 import { Trash } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useMemo } from "react";
-import { MixedItemsPointsWarning } from "./MixedItemsPointsWarning";
+import CartPaymentAvailabilityNotice from "./CartPaymentAvailabilityNotice";
 import StoreItemCartCard from "./StoreItemCartCard";
 
 function NavCartButton() {
@@ -42,25 +46,15 @@ function NavCartButton() {
   const { features } = useTenant();
   const hasPointsEnabled = !!features?.points_system;
 
-  const hasMixedPointsItems = useMemo(() => {
-    if (!hasPointsEnabled || !items.length) return false;
-    const hasAnyPoints = items.some((i) => !!i.can_buy_points);
-    const hasAnyNonPoints = items.some((i) => !i.can_buy_points);
-    return hasAnyPoints && hasAnyNonPoints;
-  }, [hasPointsEnabled, items]);
-
-  const pointsAllowed = useMemo(() => {
-    if (!hasPointsEnabled || !items.length) return false;
-    return items.every((i) => !!i.can_buy_points && i.points_price !== null);
-  }, [hasPointsEnabled, items]);
+  const paymentCapabilities = useMemo(
+    () => getCartPaymentCapabilities(items, hasPointsEnabled),
+    [hasPointsEnabled, items],
+  );
 
   const totalPointsPrice = useMemo(() => {
-    if (!hasPointsEnabled || !items.length) return 0;
-    return items.reduce(
-      (sum, i) => sum + (i.points_price || 0) * (i.quantity || 1),
-      0,
-    );
-  }, [hasPointsEnabled, items]);
+    if (!paymentCapabilities.pointsSupported) return 0;
+    return getCartPointsTotal(items);
+  }, [items, paymentCapabilities.pointsSupported]);
 
   const handleClearCart = useCallback(async () => {
     try {
@@ -145,22 +139,26 @@ function NavCartButton() {
               ))}
             </div>
 
-            {hasMixedPointsItems && (
+            {paymentCapabilities.notice && (
               <div className="mt-4">
-                <MixedItemsPointsWarning />
+                <CartPaymentAvailabilityNotice
+                  notice={paymentCapabilities.notice}
+                />
               </div>
             )}
 
             <div className="border-secondary mt-6 space-y-4 border-t pt-4">
-              <DataWithLabel
-                label="اجمالي السعر"
-                data={formatCurrency(getTotalPrice())}
-                className="flex-wrap justify-between gap-y-2"
-                labelClassName="text-base sm:text-lg"
-                dataClassName="text-base sm:text-lg"
-              />
+              {paymentCapabilities.cashSupported && (
+                <DataWithLabel
+                  label="اجمالي السعر"
+                  data={formatCurrency(getTotalPrice())}
+                  className="flex-wrap justify-between gap-y-2"
+                  labelClassName="text-base sm:text-lg"
+                  dataClassName="text-base sm:text-lg"
+                />
+              )}
 
-              {hasPointsEnabled && pointsAllowed && (
+              {paymentCapabilities.pointsSupported && (
                 <DataWithLabel
                   label="اجمالي النقاط المطلوبة"
                   data={`${totalPointsPrice} نقطة`}

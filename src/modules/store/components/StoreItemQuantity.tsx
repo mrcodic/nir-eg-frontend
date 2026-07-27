@@ -6,7 +6,7 @@ import { getApiErrorMessage } from "@/helpers/get-api-error-message";
 import { useToast } from "@/hooks/use-toast";
 import { useMounted } from "@/hooks/useMounted";
 import { cn } from "@/lib/utils";
-import { CartItem } from "@/store/storeCartStore";
+import { StoreItem } from "@/types/store.types";
 import { debounce } from "lodash";
 import { Minus, Plus } from "lucide-react";
 import { useEffect, useMemo } from "react";
@@ -17,7 +17,7 @@ function StoreItemQuantity({
   buttonClassName,
   textClassName,
 }: {
-  item: CartItem;
+  item: Pick<StoreItem, "id">;
   className?: string;
   buttonClassName?: string;
   textClassName?: string;
@@ -28,7 +28,7 @@ function StoreItemQuantity({
   const { decrementQuantity, incrementQuantity, getItemQuantity } =
     useCartStore((state) => state);
 
-  const quantity = getItemQuantity(item.id);
+  const quantity = getItemQuantity(String(item.id));
 
   const debouncedIncrement = useMemo(
     () =>
@@ -75,7 +75,7 @@ function StoreItemQuantity({
     <div className={cn("flex w-fit items-center gap-8", className)}>
       <Button
         className={cn("border-primary-800 size-11 border", buttonClassName)}
-        onClick={() => debouncedDecrement(item.id)}
+        onClick={() => debouncedDecrement(String(item.id))}
       >
         <Minus className="size-5 stroke-white" />
       </Button>
@@ -84,7 +84,7 @@ function StoreItemQuantity({
 
       <Button
         className={cn("border-primary-800 size-11 border", buttonClassName)}
-        onClick={() => debouncedIncrement(item.id)}
+        onClick={() => debouncedIncrement(String(item.id))}
       >
         <Plus className="size-5 stroke-white" />
       </Button>

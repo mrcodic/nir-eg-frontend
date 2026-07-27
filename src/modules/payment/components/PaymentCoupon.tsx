@@ -22,16 +22,21 @@ function PaymentCoupon({
   itemId,
   className,
 }: {
-  coupon: PricingResponse;
-  setCoupon: (coupon: PricingResponse) => void;
+  coupon: PricingResponse | null;
+  setCoupon: (coupon: PricingResponse | null) => void;
   courseId?: string;
   itemId?: string | number;
   className?: string;
 }) {
   const { toast } = useToast();
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(coupon?.promo?.code || "");
   const [loading, setLoading] = useState(false);
   const [couponState, setCouponState] = useState(initialState);
+  const couponFeedback = couponState.state
+    ? couponState
+    : coupon
+      ? { message: "تم تطبيق الكوبون بنجاح", state: "success" }
+      : initialState;
 
   const handleCouponSubmit = async () => {
     if (!value) {
@@ -115,14 +120,16 @@ function PaymentCoupon({
         </Button>
       </div>
 
-      {coupon && couponState?.state && (
+      {coupon && couponFeedback.state && (
         <p
           className={`mt-1 text-xs ${
-            couponState.state === "success" ? "text-green-500" : "text-red-500"
+            couponFeedback.state === "success"
+              ? "text-green-500"
+              : "text-red-500"
           }`}
         >
-          {couponState.message}{" "}
-          {couponState.state === "success" &&
+          {couponFeedback.message}{" "}
+          {couponFeedback.state === "success" &&
             `حصلت على خصم  ${
               coupon?.promo?.type_discount === 1
                 ? `${coupon?.promo?.value}% `

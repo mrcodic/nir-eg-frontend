@@ -3,6 +3,7 @@ import DataWithLabel from "@/components/ui/DataWithLabel";
 import { useTenant } from "@/context/TenantProvider";
 import { cn, formatCurrency } from "@/lib/utils";
 import { CartItem } from "@/store/storeCartStore";
+import { StoreItemPaymentType } from "@/types/store.types";
 import { Trash } from "lucide-react";
 import RemoveFromCart from "./RemoveFromCart";
 import StoreItemQuantity from "./StoreItemQuantity";
@@ -10,17 +11,26 @@ import StoreItemQuantity from "./StoreItemQuantity";
 function StoreItemCartCard({
   item,
   className,
+  isCouponApplied = false,
 }: {
   item: CartItem;
   className?: string;
+  isCouponApplied?: boolean;
 }) {
   const { features } = useTenant();
   const hasPointsEnabled = !!features?.points_system;
+  const supportsCash = item.payment_type !== StoreItemPaymentType.Points;
+  const supportsPoints =
+    hasPointsEnabled &&
+    item.payment_type !== StoreItemPaymentType.Cash &&
+    item.points_price !== null;
 
   return (
     <div
       className={cn(
         "flex items-center gap-6 pt-6 pb-3 max-[450px]:flex-col",
+        isCouponApplied &&
+          "border-semantics-green bg-semantics-green/5 rounded-lg border px-3",
         className,
       )}
     >
@@ -37,7 +47,7 @@ function StoreItemCartCard({
       <div className="w-full space-y-4">
         <div className="flex flex-col gap-1">
           <RemoveFromCart
-            id={item.id}
+            id={String(item.id)}
             className="ms-auto h-auto w-fit bg-transparent p-0 text-red-500 hover:bg-transparent"
           >
             <Trash className="size-6" />{" "}
@@ -58,56 +68,61 @@ function StoreItemCartCard({
             <h3 className="border-gray-light border-b pb-2 text-lg font-bold">
               {item?.name}
             </h3>
+            {isCouponApplied && (
+              <p className="text-semantics-green text-xs font-bold">
+                تم تطبيق كود الخصم على هذا المنتج
+              </p>
+            )}
           </div>
         </div>
 
         <div className="flex flex-col gap-2">
           <div className="flex flex-col gap-2">
-            <DataWithLabel
-              className="flex-wrap gap-y-1"
-              label="سعر القطعة"
-              labelClassName="sm:text-base text-sm"
-              dataClassName="sm:text-base text-sm"
-              data={formatCurrency(item.price)}
-            />
+            {supportsCash && (
+              <DataWithLabel
+                className="flex-wrap gap-y-1"
+                label="سعر القطعة"
+                labelClassName="sm:text-base text-sm"
+                dataClassName="sm:text-base text-sm"
+                data={formatCurrency(item.price)}
+              />
+            )}
 
-            {hasPointsEnabled &&
-              item.can_buy_points &&
-              item.points_price !== null && (
-                <DataWithLabel
-                  className="flex-wrap gap-y-1"
-                  label="سعر القطعة بالنقاط"
-                  labelClassName="sm:text-base text-sm"
-                  dataClassName="sm:text-base text-sm"
-                  data={`${item.points_price} نقطة`}
-                />
-              )}
+            {supportsPoints && (
+              <DataWithLabel
+                className="flex-wrap gap-y-1"
+                label="سعر القطعة بالنقاط"
+                labelClassName="sm:text-base text-sm"
+                dataClassName="sm:text-base text-sm"
+                data={`${item.points_price} نقطة`}
+              />
+            )}
           </div>
 
           <div className="flex flex-wrap items-end justify-between gap-2 gap-y-6">
             {item.quantity > 1 && (
               <div className="flex flex-col gap-2">
-                <DataWithLabel
-                  className="flex-wrap gap-y-1"
-                  label="اجمالي السعر"
-                  labelClassName="sm:text-base text-sm"
-                  data={formatCurrency(
-                    (item.quantity || 1) * Number(item.price),
-                  )}
-                  dataClassName="text-white sm:text-base text-sm bg-[#1EAD7B] py-1 px-2 rounded-lg"
-                />
+                {supportsCash && (
+                  <DataWithLabel
+                    className="flex-wrap gap-y-1"
+                    label="اجمالي السعر"
+                    labelClassName="sm:text-base text-sm"
+                    data={formatCurrency(
+                      (item.quantity || 1) * Number(item.price),
+                    )}
+                    dataClassName="text-white sm:text-base text-sm bg-[#1EAD7B] py-1 px-2 rounded-lg"
+                  />
+                )}
 
-                {hasPointsEnabled &&
-                  item.can_buy_points &&
-                  item.points_price !== null && (
-                    <DataWithLabel
-                      className="flex-wrap gap-y-1"
-                      label="اجمالي النقاط"
-                      labelClassName="sm:text-base text-sm"
-                      data={`${(item.quantity || 1) * item.points_price} نقطة`}
-                      dataClassName="text-white sm:text-base text-sm bg-secondary py-1 px-2 rounded-lg font-bold"
-                    />
-                  )}
+                {supportsPoints && (
+                  <DataWithLabel
+                    className="flex-wrap gap-y-1"
+                    label="اجمالي النقاط"
+                    labelClassName="sm:text-base text-sm"
+                    data={`${(item.quantity || 1) * item.points_price} نقطة`}
+                    dataClassName="text-white sm:text-base text-sm bg-secondary py-1 px-2 rounded-lg font-bold"
+                  />
+                )}
               </div>
             )}
 

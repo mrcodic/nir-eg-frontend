@@ -45,8 +45,6 @@ function StoreItems({
     placeholderData: keepPreviousData,
   });
 
-  console.log(data);
-
   if (!isMounted || (hideOnEmptyCart && getTotalItems?.() === 0)) return null;
 
   return (

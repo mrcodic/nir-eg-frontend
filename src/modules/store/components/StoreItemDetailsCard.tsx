@@ -8,7 +8,7 @@ import BuyStoreItemTrigger from "@/modules/store/components/BuyStoreItemTrigger"
 import OutOfStockBadge from "@/modules/store/components/OutOfStockBadge";
 import StoreItemCartAddRemove from "@/modules/store/components/StoreItemCartAddRemove";
 import StoreItemQuantity from "@/modules/store/components/StoreItemQuantity";
-import { StoreItem } from "@/types/store.types";
+import { StoreItem, StoreItemPaymentType } from "@/types/store.types";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect } from "react";
 
@@ -17,9 +17,9 @@ function StoreItemDetailsCard({ book }: { book: StoreItem }) {
   const router = useRouter();
   const modal = useModal();
 
-  const { name, price, description, status, in_stock } = book || {};
+  const { name, price, description, status, stock } = book;
 
-  const outOfStock = status === 1 || !in_stock;
+  const outOfStock = status === 1 || stock <= 0;
 
   useEffect(() => {
     if (searchParams.get("open_modal") == "true") {
@@ -52,22 +52,25 @@ function StoreItemDetailsCard({ book }: { book: StoreItem }) {
 
           <div>
             <div className="flex flex-wrap items-end gap-2">
-              <p className="text-2xl font-bold">
-                <span className="me-4 text-xl">السعر:</span>
-                {formatCurrency(price)}
-              </p>
-              {book?.can_buy_points && book?.points_price !== null && (
-                <p className="flex items-center text-sm font-bold">
-                  ({" "}
-                  <span className="me-2 font-normal text-black">
-                    أو بالنقاط :
-                  </span>
-                  <span className="text-secondary">
-                    {book.points_price} نقطة
-                  </span>
-                  )
+              {book.payment_type !== StoreItemPaymentType.Points && (
+                <p className="text-2xl font-bold">
+                  <span className="me-4 text-xl">السعر:</span>
+                  {formatCurrency(price)}
                 </p>
               )}
+              {book.payment_type !== StoreItemPaymentType.Cash &&
+                book.points_price !== null && (
+                  <p className="flex items-center text-sm font-bold">
+                    <span className="me-2 font-normal text-black">
+                      {book.payment_type === StoreItemPaymentType.CashOrPoints
+                        ? "أو بالنقاط:"
+                        : "السعر بالنقاط:"}
+                    </span>
+                    <span className="text-secondary">
+                      {book.points_price} نقطة
+                    </span>
+                  </p>
+                )}
             </div>
 
             {outOfStock ? (
@@ -92,7 +95,7 @@ function StoreItemDetailsCard({ book }: { book: StoreItem }) {
                   />
                 </div>
 
-                <StoreItemQuantity item={book as any} className="ms-auto" />
+                <StoreItemQuantity item={book} className="ms-auto" />
               </div>
             )}
           </div>

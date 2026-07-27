@@ -1,7 +1,7 @@
 import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
 import CustomImage from "@/components/ui/CustomImage";
 import { cn } from "@/lib/utils";
-import { StoreItem } from "@/types/store.types";
+import { StoreItem, StoreItemPaymentType } from "@/types/store.types";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import BuyStoreItemTrigger from "./BuyStoreItemTrigger";
@@ -83,15 +83,20 @@ const StoreItemCard = ({
         <div className="flex flex-col gap-y-4">
           <CardTitle className="text-xl">{book?.name}</CardTitle>
           <CardContent className="flex flex-wrap items-center gap-x-2 p-0 text-[#454545]">
-            <span>{Number(book?.price).toFixed(2)} جنية</span>
-            {book?.payment_type !== 1 && book?.points_price !== null && (
-              <>
-                <span className="text-gray-400">أو</span>
-                <span className="text-secondary font-bold">
-                  {book.points_price} نقطة
-                </span>
-              </>
+            {book.payment_type !== StoreItemPaymentType.Points && (
+              <span>{Number(book.price).toFixed(2)} جنية</span>
             )}
+            {book.payment_type !== StoreItemPaymentType.Cash &&
+              book.points_price !== null && (
+                <>
+                  {book.payment_type === StoreItemPaymentType.CashOrPoints && (
+                    <span className="text-gray-400">أو</span>
+                  )}
+                  <span className="text-secondary font-bold">
+                    {book.points_price} نقطة
+                  </span>
+                </>
+              )}
           </CardContent>
         </div>
 

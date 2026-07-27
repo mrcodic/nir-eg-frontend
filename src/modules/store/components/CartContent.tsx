@@ -4,11 +4,14 @@ import Empty from "@/components/shared/Empty";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import { useCartStore } from "@/context/StoreProvider";
 import Link from "next/link";
+import { useStorePayments } from "../hooks/useStorePayments";
 import StoreCartPayment from "./StoreCartPayment";
 import StoreItemCartCard from "./StoreItemCartCard";
 
 function CartContent() {
   const { items, isLoading, isCartHydrated } = useCartStore();
+  const payment = useStorePayments({ asModal: false });
+  const appliedBookIds = new Set(payment.coupon?.applied_books ?? []);
 
   if (isLoading || !isCartHydrated)
     return <LoadingSpinner className="min-h-[min(calc(100vh-15rem),768px)]" />;
@@ -38,12 +41,13 @@ function CartContent() {
             <StoreItemCartCard
               key={item.id}
               item={item}
+              isCouponApplied={appliedBookIds.has(item.id)}
               className="pt-4 pb-4"
             />
           ))}
         </div>
 
-        <StoreCartPayment />
+        <StoreCartPayment payment={payment} />
       </div>
     </section>
   );

@@ -1,3 +1,9 @@
+export enum StoreItemPaymentType {
+  Cash = 1,
+  Points = 2,
+  CashOrPoints = 3,
+}
+
 export interface StoreItem {
   category: string;
   description: string;
@@ -7,8 +13,7 @@ export interface StoreItem {
   id: number;
   image: string | null;
   name: string;
-  //نقدي = 1، نقاط = 2، نقدي أو نقاط = 3.
-  payment_type: 1 | 2 | 3;
+  payment_type: StoreItemPaymentType;
   payment_type_label: string;
   points_price: number | null;
   price: string;

@@ -8,95 +8,71 @@ import { useTenant } from "@/context/TenantProvider";
 import { useAuthContext } from "@/context/auth-context";
 import PaymentCoupon from "@/modules/payment/components/PaymentCoupon";
 import PriceBadge from "@/modules/payment/components/PriceBadge";
-import { CourseType, paymentType, PricingResponse } from "@/types";
+import { paymentType } from "@/types";
 import { StoreItem } from "@/types/store.types";
+import { getCartPaymentCapabilities } from "@/utils/get-cart-payment-capabilities";
 import Image from "next/image";
-import React from "react";
+import { useMemo } from "react";
+import { StorePaymentsState } from "../hooks/useStorePayments";
 import CartCheckoutPriceDetails from "./CartCheckoutPriceDetails";
-import { MixedItemsPointsWarning } from "./MixedItemsPointsWarning";
+import CartPaymentAvailabilityNotice from "./CartPaymentAvailabilityNotice";
 
-interface PaymentUIProps {
-  paymentMethodValue: paymentType | "POINTS" | null;
-  setPaymentMethodValue: (value: paymentType | "POINTS" | null) => void;
-  loading: boolean;
-  paymentTypes: any[];
-  price?: number;
-  sale?: CourseType["sale"];
-  coupon?: PricingResponse;
-  setCoupon?: (coupon: PricingResponse) => void;
-  isSingleItem?: boolean;
+type StorePaymentUIProps = {
+  payment: StorePaymentsState;
   item?: StoreItem;
-  name?: string;
-}
+};
 
-export const StorePaymentUI: React.FC<PaymentUIProps> = ({
-  paymentMethodValue,
-  setPaymentMethodValue,
-  loading,
-  paymentTypes,
-  coupon,
-  setCoupon,
-  price,
-  isSingleItem,
-  item,
-  name,
-}) => {
+export function StorePaymentUI({ payment, item }: StorePaymentUIProps) {
   const { getTotalPrice, isLoading: isLoadingCart, items } = useCartStore();
   const { features } = useTenant();
   const { profile } = useAuthContext();
-
-  const totalPrice = isSingleItem ? price : getTotalPrice() || 0;
-
-  const hasPaymentMethods = paymentTypes.length > 0;
-
-  const hasPointsEnabled = !!features?.points_system;
-  const hasMixedPointsItems =
-    hasPointsEnabled &&
-    !isSingleItem &&
-    items.some((i) => i.payment_type !== 1) &&
-    items.some((i) => i.payment_type === 1);
-
-  const totalPointsPrice = isSingleItem
-    ? item?.points_price || 0
-    : items.reduce(
-        (sum, i) => sum + (i.points_price || 0) * (i.quantity || 1),
-        0,
-      );
-
-  const hasEnoughPoints = (profile?.points || 0) >= totalPointsPrice;
+  const isSingleItem = !!item;
+  const totalPrice = item ? Number(item.price) : getTotalPrice();
+  const paymentCapabilities = useMemo(
+    () =>
+      getCartPaymentCapabilities(
+        item ? [item] : items,
+        !!features?.points_system,
+      ),
+    [features?.points_system, item, items],
+  );
+  const couponSupported =
+    paymentCapabilities.cashSupported && paymentCapabilities.couponSupported;
+  const hasPaymentMethods = payment.paymentTypes.length > 0;
 
   return (
     <>
-      {loading && (
+      {payment.loading && (
         <div className="absolute top-0 left-0 z-30 h-full w-full bg-black/40">
           <LoadingSpinner className="min-h-0" />
         </div>
       )}
 
       <div className={isSingleItem ? "mb-4" : "mb-10"}>
-        {isSingleItem && (
+        {item && (
           <div className="space-y-4">
-            <h4 className="text-lg font-bold sm:text-xl">{name}</h4>
+            <h4 className="text-lg font-bold sm:text-xl">{item.name}</h4>
 
             <div className="bg-background flex items-center justify-between gap-3 rounded-lg p-2">
               <h5 className="font-bold text-black">
-                {paymentMethodValue === "POINTS" ? "السعر بالنقاط" : "السعر"}
+                {payment.paymentMethodValue === "POINTS"
+                  ? "السعر بالنقاط"
+                  : "السعر"}
               </h5>
-              {paymentMethodValue === "POINTS" ? (
+              {payment.paymentMethodValue === "POINTS" ? (
                 <div className="text-secondary text-lg font-bold">
-                  {totalPointsPrice} نقطة
+                  {payment.totalPointsPrice} نقطة
                 </div>
-              ) : !!coupon?.promo?.value ? (
+              ) : payment.coupon?.promo?.value ? (
                 <>
                   <PriceBadge
                     className="ms-auto"
-                    price={coupon?.base_price}
-                    variant={"crossed"}
+                    price={payment.coupon.base_price}
+                    variant="crossed"
                   />
-
                   <PriceBadge
-                    price={coupon?.final_price}
-                    variant={"discount"}
+                    price={payment.coupon.final_price}
+                    variant="discount"
                   />
                 </>
               ) : (
@@ -106,51 +82,58 @@ export const StorePaymentUI: React.FC<PaymentUIProps> = ({
           </div>
         )}
 
-        {hasPaymentMethods && paymentMethodValue !== "POINTS" && (
-          <PaymentCoupon
-            coupon={coupon}
-            setCoupon={setCoupon}
-            itemId={isSingleItem && item?.id}
-            className={isSingleItem ? "mt-2" : "mb-4"}
-          />
+        {hasPaymentMethods &&
+          couponSupported &&
+          payment.paymentMethodValue !== "POINTS" && (
+            <PaymentCoupon
+              coupon={payment.coupon}
+              setCoupon={payment.setCoupon}
+              itemId={item?.id}
+              className={isSingleItem ? "mt-2" : "mb-4"}
+            />
+          )}
+
+        {!isSingleItem && payment.paymentNotice && (
+          <CartPaymentAvailabilityNotice notice={payment.paymentNotice} />
         )}
 
         {!isSingleItem &&
-          (paymentMethodValue === "POINTS" ? (
+          !payment.checkoutBlocked &&
+          (payment.paymentMethodValue === "POINTS" ? (
             <div className="bg-background flex items-center justify-between gap-3 rounded-lg p-2">
               <h5 className="text-sm font-bold text-black">
                 إجمالي النقاط المطلوبة
               </h5>
               <div className="text-secondary text-lg font-bold">
-                {totalPointsPrice} نقطة
+                {payment.totalPointsPrice} نقطة
               </div>
             </div>
           ) : (
-            <CartCheckoutPriceDetails coupon={coupon} />
+            <CartCheckoutPriceDetails coupon={payment.coupon} />
           ))}
       </div>
 
-      {!isLoadingCart && paymentMethodValue === paymentType.fawerypay && (
-        <p className="mb-3 text-xs leading-6 font-bold text-red-600">
-          <Image
-            src={"/assets/icons/WarningColor.svg"}
-            width={16}
-            height={16}
-            alt="warinng"
-            className="ml-2 inline-block"
-          />
-          بعد ما تضغط &quot;التالي&quot;، هيتعرضلك كود الدفع. خده وادفعه في أقرب
-          فرع فورى أو تطبيق فورى احتفظ بالايصال وفي خلال 30 دقيقة الباقه هتتفتح,
-          مع العلم ان صلاحية الكود 7 ايام.
-        </p>
-      )}
+      {!isLoadingCart &&
+        payment.paymentMethodValue === paymentType.fawerypay && (
+          <p className="mb-3 text-xs leading-6 font-bold text-red-600">
+            <Image
+              src="/assets/icons/WarningColor.svg"
+              width={16}
+              height={16}
+              alt="تنبيه"
+              className="ml-2 inline-block"
+            />
+            بعد ما تضغط &quot;التالي&quot;، هيتعرضلك كود الدفع. خده وادفعه في
+            أقرب فرع فورى أو تطبيق فورى احتفظ بالايصال وفي خلال 30 دقيقة الباقه
+            هتتفتح, مع العلم ان صلاحية الكود 7 ايام.
+          </p>
+        )}
 
-      {hasMixedPointsItems && <MixedItemsPointsWarning />}
-
-      {paymentMethodValue === "POINTS" && !hasEnoughPoints && (
+      {payment.paymentMethodValue === "POINTS" && !payment.hasEnoughPoints && (
         <p className="mb-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm font-bold text-red-600">
           رصيد نقاطك غير كافٍ لإتمام عملية الشراء (رصيدك الحالي:{" "}
-          {profile?.points || 0} نقطة).
+          {profile?.points || 0}
+          نقطة).
         </p>
       )}
 
@@ -158,40 +141,47 @@ export const StorePaymentUI: React.FC<PaymentUIProps> = ({
         <div className="space-y-5">
           <Skeleton className="bg-background h-12.5 rounded-xl" />
           <Skeleton className="bg-background h-12.5 rounded-xl" />
-          {paymentMethodValue !== (paymentType.code as any) && (
-            <>
-              <Skeleton className="bg-background h-12.5 rounded-xl" />
-            </>
+          {payment.paymentMethodValue !== paymentType.code && (
+            <Skeleton className="bg-background h-12.5 rounded-xl" />
           )}
         </div>
       ) : hasPaymentMethods ? (
         <RadioGroup
-          value={paymentMethodValue as string}
-          onValueChange={(value) => {
-            setPaymentMethodValue(value as any);
-          }}
+          value={payment.paymentMethodValue ?? undefined}
+          disabled={payment.checkoutBlocked}
+          onValueChange={(value) =>
+            payment.setPaymentMethodValue(value as paymentType | "POINTS")
+          }
           dir="rtl"
           className="gap-5"
         >
-          {paymentTypes.map((payment) => (
+          {payment.paymentTypes.map((paymentOption) => (
             <div
-              key={payment.value}
-              className="flex cursor-pointer flex-col gap-6 text-right"
+              key={paymentOption.value}
+              className="flex flex-col gap-6 text-right"
             >
               <Label
-                htmlFor={payment.value}
-                className={`relative flex cursor-pointer overflow-hidden ${
-                  paymentMethodValue === payment.value
+                htmlFor={paymentOption.value}
+                className={`relative flex overflow-hidden ${
+                  payment.paymentMethodValue === paymentOption.value
                     ? "border-primary"
                     : "border-gray-light"
+                } ${
+                  payment.checkoutBlocked
+                    ? "cursor-not-allowed opacity-50"
+                    : "cursor-pointer"
                 } bg-background items-center gap-2.5 rounded-lg border-2 p-2`}
               >
-                <RadioGroupItem value={payment.value} id={payment.value} />
+                <RadioGroupItem
+                  value={paymentOption.value}
+                  id={paymentOption.value}
+                  disabled={payment.checkoutBlocked}
+                />
                 <Label
                   className="flex w-full items-center gap-6"
-                  htmlFor={payment.value}
+                  htmlFor={paymentOption.value}
                 >
-                  {payment.icons.map((icon) => (
+                  {paymentOption.icons.map((icon) => (
                     <Image
                       key={icon}
                       src={icon}
@@ -201,10 +191,9 @@ export const StorePaymentUI: React.FC<PaymentUIProps> = ({
                       alt="payment option icon"
                     />
                   ))}
-
-                  {payment.label && (
+                  {paymentOption.label && (
                     <span className="font-bold text-black">
-                      {payment.label}
+                      {paymentOption.label}
                     </span>
                   )}
                 </Label>
@@ -213,12 +202,10 @@ export const StorePaymentUI: React.FC<PaymentUIProps> = ({
           ))}
         </RadioGroup>
       ) : (
-        <div>
-          <span className="mb-2 text-sm font-bold text-red-600">
-            لا يوجد طرق دفع متاحة
-          </span>
-        </div>
+        <span className="mb-2 text-sm font-bold text-red-600">
+          لا يوجد طرق دفع متاحة
+        </span>
       )}
     </>
   );
-};
+}

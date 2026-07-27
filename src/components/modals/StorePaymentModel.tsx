@@ -15,42 +15,20 @@ interface PaymentModalProps {
 }
 
 export const StorePaymentModel: React.FC<PaymentModalProps> = ({ item }) => {
-  const {
-    paymentMethodValue,
-    setPaymentMethodValue,
-    loading,
-    paymentTypes,
-    handleCheckout,
-    coupon,
-    setCoupon,
-    hasEnoughPoints,
-  } = useStorePayments({
+  const payment = useStorePayments({
     item,
     asModal: true,
   });
 
   return (
     <div className="">
-      <StorePaymentUI
-        paymentMethodValue={paymentMethodValue}
-        setPaymentMethodValue={setPaymentMethodValue}
-        loading={loading}
-        paymentTypes={paymentTypes}
-        price={Number(item?.price)}
-        coupon={coupon}
-        setCoupon={setCoupon}
-        name={item?.name}
-        item={item}
-        isSingleItem
-      />
+      <StorePaymentUI payment={payment} item={item} />
 
       <DialogFooter className="mt-5 flex w-full flex-row! justify-center gap-5 max-sm:flex-wrap sm:justify-center sm:space-x-0">
         <Button
-          onClick={handleCheckout}
+          onClick={payment.checkout}
           className="w-full"
-          disabled={
-            loading || (paymentMethodValue === "POINTS" && !hasEnoughPoints)
-          }
+          disabled={payment.isCheckoutDisabled}
         >
           دفع
         </Button>

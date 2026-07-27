@@ -19,8 +19,8 @@ interface PaymentUIProps {
   paymentTypes: any[];
   price?: number | string;
   sale?: CourseType["sale"];
-  coupon?: PricingResponse;
-  setCoupon?: (coupon: PricingResponse) => void;
+  coupon: PricingResponse | null;
+  setCoupon: (coupon: PricingResponse | null) => void;
   courseId: string;
   hasCoupon?: boolean;
   isLoadingMethods?: boolean;
