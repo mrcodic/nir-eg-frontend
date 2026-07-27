@@ -24,7 +24,7 @@ interface PaymentUIProps {
   sale?: CourseType["sale"];
   coupon?: PricingResponse;
   setCoupon?: (coupon: PricingResponse) => void;
-  isSingleBook?: boolean;
+  isSingleItem?: boolean;
   item?: StoreItem;
   name?: string;
 }
@@ -37,7 +37,7 @@ export const StorePaymentUI: React.FC<PaymentUIProps> = ({
   coupon,
   setCoupon,
   price,
-  isSingleBook,
+  isSingleItem,
   item,
   name,
 }) => {
@@ -45,18 +45,18 @@ export const StorePaymentUI: React.FC<PaymentUIProps> = ({
   const { features } = useTenant();
   const { profile } = useAuthContext();
 
-  const totalPrice = isSingleBook ? price : getTotalPrice() || 0;
+  const totalPrice = isSingleItem ? price : getTotalPrice() || 0;
 
   const hasPaymentMethods = paymentTypes.length > 0;
 
   const hasPointsEnabled = !!features?.points_system;
   const hasMixedPointsItems =
     hasPointsEnabled &&
-    !isSingleBook &&
-    items.some((i) => i.can_buy_points) &&
-    items.some((i) => !i.can_buy_points);
+    !isSingleItem &&
+    items.some((i) => i.payment_type !== 1) &&
+    items.some((i) => i.payment_type === 1);
 
-  const totalPointsPrice = isSingleBook
+  const totalPointsPrice = isSingleItem
     ? item?.points_price || 0
     : items.reduce(
         (sum, i) => sum + (i.points_price || 0) * (i.quantity || 1),
@@ -73,8 +73,8 @@ export const StorePaymentUI: React.FC<PaymentUIProps> = ({
         </div>
       )}
 
-      <div className={isSingleBook ? "mb-4" : "mb-10"}>
-        {isSingleBook && (
+      <div className={isSingleItem ? "mb-4" : "mb-10"}>
+        {isSingleItem && (
           <div className="space-y-4">
             <h4 className="text-lg font-bold sm:text-xl">{name}</h4>
 
@@ -110,12 +110,12 @@ export const StorePaymentUI: React.FC<PaymentUIProps> = ({
           <PaymentCoupon
             coupon={coupon}
             setCoupon={setCoupon}
-            itemId={isSingleBook && item?.id}
-            className={isSingleBook ? "mt-2" : "mb-4"}
+            itemId={isSingleItem && item?.id}
+            className={isSingleItem ? "mt-2" : "mb-4"}
           />
         )}
 
-        {!isSingleBook &&
+        {!isSingleItem &&
           (paymentMethodValue === "POINTS" ? (
             <div className="bg-background flex items-center justify-between gap-3 rounded-lg p-2">
               <h5 className="text-sm font-bold text-black">
@@ -131,11 +131,11 @@ export const StorePaymentUI: React.FC<PaymentUIProps> = ({
       </div>
 
       {!isLoadingCart && paymentMethodValue === paymentType.fawerypay && (
-        <p className="mb-3 text-sm leading-6 font-bold text-red-600">
+        <p className="mb-3 text-xs leading-6 font-bold text-red-600">
           <Image
             src={"/assets/icons/WarningColor.svg"}
-            width={24}
-            height={24}
+            width={16}
+            height={16}
             alt="warinng"
             className="ml-2 inline-block"
           />

@@ -12,13 +12,17 @@ function CartCheckoutPriceDetails({ coupon }: { coupon?: PricingResponse }) {
   const couponDiscount = coupon
     ? coupon?.promo?.type_discount === 1
       ? (coupon?.promo?.value / 100) * totalPrice
-      : coupon?.promo?.value
+      : Math.min(coupon?.promo?.value, totalPrice)
     : 0;
 
-  const finalPrice = coupon?.final_price || totalPrice - couponDiscount;
-  // mt-14
+  const finalPrice = Math.max(0, totalPrice - couponDiscount);
+
   return (
-    <PriceSummary finalPrice={finalPrice} couponDiscount={couponDiscount} />
+    <PriceSummary
+      finalPrice={finalPrice}
+      couponDiscount={couponDiscount}
+      originalPrice={coupon ? totalPrice : undefined}
+    />
   );
 }
 

@@ -32,8 +32,8 @@ function CartContent() {
     <section>
       <h1 className="text-32 text-primary-800 font-bold">السلة</h1>
 
-      <div className="grid grid-cols-12 items-start gap-y-12 lg:gap-6">
-        <div className="col-span-12 space-y-4 divide-y-2 divide-gray-300 overflow-y-auto max-lg:max-h-[max(calc(100vh-300px),300px)] max-lg:pe-4 lg:col-span-6">
+      <div className="grid grid-cols-12 items-start gap-y-12">
+        <div className="col-span-12 max-h-screen space-y-4 divide-y-2 divide-gray-300 overflow-y-auto border-gray-200 max-lg:max-h-[max(calc(100vh-300px),300px)] max-lg:pe-4 lg:col-span-6 lg:rounded-xl lg:border lg:p-4">
           {items.map((item) => (
             <StoreItemCartCard
               key={item.id}

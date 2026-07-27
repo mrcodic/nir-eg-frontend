@@ -4,6 +4,7 @@ import Empty from "@/components/shared/Empty";
 import PaginationComponent from "@/components/shared/Pagination";
 import { useCartStore } from "@/context/StoreProvider";
 import { getClientData } from "@/helpers/fetchers/client-fetch";
+import { useMounted } from "@/hooks/useMounted";
 import { cn } from "@/lib/utils";
 import RoomHeader from "@/modules/rooms/components/RoomHeader";
 import StoreItemCardSkeleton from "@/modules/store/components/StoreItemCardSkeleton";
@@ -12,6 +13,9 @@ import { StoreItem } from "@/types/store.types";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import StoreItemCard from "./StoreItemCard";
+
+const gridClassname =
+  "grid sm:justify-items-center grid-cols-[repeat(auto-fill,minmax(240px,1fr))] justify-items-stretch gap-5 sm:grid-cols-[repeat(auto-fill,minmax(320px,1fr))]";
 
 function StoreItems({
   perPage = 8,
@@ -26,6 +30,7 @@ function StoreItems({
   itemsClassName?: string;
   hideOnEmptyCart?: boolean;
 }) {
+  const isMounted = useMounted();
   const { getTotalItems } = useCartStore();
 
   const [page, setPage] = useState(1);
@@ -40,7 +45,9 @@ function StoreItems({
     placeholderData: keepPreviousData,
   });
 
-  if (hideOnEmptyCart && getTotalItems?.() === 0) return null;
+  console.log(data);
+
+  if (!isMounted || (hideOnEmptyCart && getTotalItems?.() === 0)) return null;
 
   return (
     <section className={className}>
@@ -49,8 +56,9 @@ function StoreItems({
         title={title || "المنتجات المتاحة "}
       />
 
+      {/* // <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3"> */}
       {isLoading ? (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        <div className={gridClassname}>
           {Array.from({ length: 4 }).map((_, i) => (
             <StoreItemCardSkeleton key={i} />
           ))}
@@ -58,7 +66,7 @@ function StoreItems({
       ) : !!data?.data?.length ? (
         <div
           className={cn(
-            "grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3",
+            gridClassname,
             itemsClassName,
             isPlaceholderData
               ? "pointer-events-none animate-pulse opacity-80"

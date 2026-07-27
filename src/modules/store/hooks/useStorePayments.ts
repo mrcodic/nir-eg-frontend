@@ -11,7 +11,7 @@ import { StoreItem } from "@/types/store.types";
 import { redirectUrl } from "@/utils/clientFun";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 interface UsePaymentProps {
   item?: StoreItem;
@@ -28,7 +28,6 @@ export const useStorePayments = ({
   const queryClient = useQueryClient();
   const { features } = useTenant();
   const { profile } = useAuthContext();
-
   const initialSelect = useRef(false);
 
   const { cartId, items, getItemQuantity, clearCart } = useCartStore();
@@ -36,8 +35,27 @@ export const useStorePayments = ({
   const [paymentMethodValue, setPaymentMethodValue] = useState<
     paymentType | "POINTS" | null
   >(null);
-  const [coupon, setCoupon] = useState<PricingResponse | null>(null);
+  const [coupon, setCouponState] = useState<PricingResponse | null>(null);
+  const [couponCartSignature, setCouponCartSignature] = useState<string | null>(
+    null,
+  );
   const [loading, setLoading] = useState(false);
+
+  const cartSignature = useMemo(
+    () => items.map(({ id, quantity }) => `${id}:${quantity}`).join("|"),
+    [items],
+  );
+
+  const setCoupon = useCallback(
+    (nextCoupon: PricingResponse | null) => {
+      setCouponState(nextCoupon);
+      setCouponCartSignature(nextCoupon && !asModal ? cartSignature : null);
+    },
+    [asModal, cartSignature],
+  );
+
+  const activeCoupon =
+    asModal || couponCartSignature === cartSignature ? coupon : null;
 
   const { paymentTypes: rawPaymentTypes, isLoading: isLoadingFilter } =
     usePaymentsTypesFiltered({ isBookStore: true });
@@ -92,6 +110,12 @@ export const useStorePayments = ({
       initialSelect.current = true;
     }
   }, [paymentTypes]);
+
+  useEffect(() => {
+    if (!asModal && coupon && couponCartSignature !== cartSignature) {
+      setCoupon(null);
+    }
+  }, [asModal, cartSignature, coupon, couponCartSignature, setCoupon]);
 
   const handleCheckout = async () => {
     let response;
@@ -198,7 +222,7 @@ export const useStorePayments = ({
     loading: loading || isLoadingFilter,
     paymentTypes,
     handleCheckout,
-    coupon,
+    coupon: activeCoupon,
     setCoupon,
     totalPointsPrice,
     hasEnoughPoints,

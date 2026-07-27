@@ -1,20 +1,22 @@
 export interface StoreItem {
-  id: string;
-  title: string;
-  quantity: number;
-  name: string;
+  category: string;
   description: string;
-  image: string;
   grade_id: number;
   grade_name: string;
+  has_promo_code: boolean;
+  id: number;
+  image: string | null;
+  name: string;
+  //نقدي = 1، نقاط = 2، نقدي أو نقاط = 3.
+  payment_type: 1 | 2 | 3;
+  payment_type_label: string;
+  points_price: number | null;
   price: string;
+  //متاح = 0، غير متاح = 1.
   status: number;
   status_label: string;
-  can_buy_points: boolean;
-  category: string;
-  category_label: string;
-  points_price: number | null;
-  in_stock: boolean;
+  stock: number;
+  quantity?: number;
 }
 
 export type BookLinksSettings = {

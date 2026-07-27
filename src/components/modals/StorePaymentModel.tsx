@@ -41,7 +41,7 @@ export const StorePaymentModel: React.FC<PaymentModalProps> = ({ item }) => {
         setCoupon={setCoupon}
         name={item?.name}
         item={item}
-        isSingleBook
+        isSingleItem
       />
 
       <DialogFooter className="mt-5 flex w-full flex-row! justify-center gap-5 max-sm:flex-wrap sm:justify-center sm:space-x-0">

@@ -115,7 +115,7 @@ function PaymentCoupon({
         </Button>
       </div>
 
-      {couponState?.state && (
+      {coupon && couponState?.state && (
         <p
           className={`mt-1 text-xs ${
             couponState.state === "success" ? "text-green-500" : "text-red-500"

@@ -84,7 +84,7 @@ const StoreItemCard = ({
           <CardTitle className="text-xl">{book?.name}</CardTitle>
           <CardContent className="flex flex-wrap items-center gap-x-2 p-0 text-[#454545]">
             <span>{Number(book?.price).toFixed(2)} جنية</span>
-            {book?.can_buy_points && book?.points_price !== null && (
+            {book?.payment_type !== 1 && book?.points_price !== null && (
               <>
                 <span className="text-gray-400">أو</span>
                 <span className="text-secondary font-bold">

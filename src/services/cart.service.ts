@@ -1,4 +1,3 @@
-import { CartItem } from "@/store/storeCartStore";
 import { StoreItem } from "@/types/store.types";
 import { instanceClient } from "@/utils/instanceClient";
 
@@ -29,11 +28,10 @@ const cartServices = {
     }
   },
 
-  addItem: async (item: CartItem): Promise<void> => {
+  addItem: async (item: StoreItem): Promise<void> => {
     try {
       await instanceClient.post("/cart/items", {
         book_id: item.id,
-        quantity: item.quantity,
       });
     } catch (error) {
       console.log("🚀 ~ addItem ~ error:", error);

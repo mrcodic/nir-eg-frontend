@@ -49,8 +49,6 @@ export const createCartStore = (initState?: Partial<CartState>) => {
 
         // Initialize cart: fetch from server, fallback to localStorage
         initializeCart: async (tenantFeatures) => {
-          // Prevent multiple initializations
-
           if (typeof window === "undefined") {
             // console.warn("initializeCart called on server, skipping");
             return;
@@ -61,7 +59,6 @@ export const createCartStore = (initState?: Partial<CartState>) => {
           // console.log("🛒 ~ initializeCart");
 
           if (!tenantFeatures?.features?.book_store) {
-            // console.log("cart settings is disabled");
             set((state) => {
               state.items = [];
               state.cartId = null;
@@ -72,26 +69,6 @@ export const createCartStore = (initState?: Partial<CartState>) => {
 
             return;
           }
-
-          // const booksSettings = await getClientData<{
-          //   data: BookLinksSettings;
-          // }>({
-          //   queryKey: ["settings/books"],
-          //   optionalAuth: true,
-          // });
-
-          // if (booksSettings?.data?.hide_books === 1) {
-          //   console.log("cart settings is disabled");
-          //   set((state) => {
-          //     state.items = [];
-          //     state.cartId = null;
-          //     state.isLoading = false;
-          //     state.isCartHydrated = true;
-          //     state.error = null;
-          //   });
-
-          //   return;
-          // }
 
           set((state) => {
             state.isLoading = true;
@@ -189,7 +166,9 @@ export const createCartStore = (initState?: Partial<CartState>) => {
 
           // Optimistic update
           set((state) => {
-            state.items = state.items.filter((item) => item.id !== id);
+            state.items = state.items.filter(
+              (item) => String(item.id) !== String(id),
+            );
           });
 
           try {
@@ -210,18 +189,24 @@ export const createCartStore = (initState?: Partial<CartState>) => {
         },
 
         decrementQuantity: async (id) => {
-          const item = get().items.find((item) => item.id === id);
+          const item = get().items.find(
+            (item) => String(item.id) === String(id),
+          );
           const previousQuantity = item?.quantity || 0;
           const previousItem = item ? { ...item } : undefined;
 
           // Optimistic update
           set((state) => {
-            const item = state.items.find((item) => item.id === id);
+            const item = state.items.find(
+              (item) => String(item.id) === String(id),
+            );
             if (item) {
               if (item.quantity > 1) {
                 item.quantity -= 1;
               } else {
-                state.items = state.items.filter((item) => item.id !== id);
+                state.items = state.items.filter(
+                  (item) => String(item.id) !== String(id),
+                );
               }
             }
           });
@@ -231,7 +216,9 @@ export const createCartStore = (initState?: Partial<CartState>) => {
           } catch (error) {
             // Rollback on error
             set((state) => {
-              const item = state.items.find((item) => item.id === id);
+              const item = state.items.find(
+                (item) => String(item.id) === String(id),
+              );
               if (item) {
                 item.quantity = previousQuantity;
               } else if (previousQuantity === 1) {
@@ -251,12 +238,16 @@ export const createCartStore = (initState?: Partial<CartState>) => {
         },
 
         incrementQuantity: async (id) => {
-          const item = get().items.find((item) => item.id === id);
+          const item = get().items.find(
+            (item) => String(item.id) === String(id),
+          );
           const previousQuantity = item?.quantity || 0;
 
           // Optimistic update
           set((state) => {
-            const item = state.items.find((item) => item.id === id);
+            const item = state.items.find(
+              (item) => String(item.id) === String(id),
+            );
             if (item) {
               item.quantity += 1;
             }
@@ -267,7 +258,9 @@ export const createCartStore = (initState?: Partial<CartState>) => {
           } catch (error) {
             // Rollback on error
             set((state) => {
-              const item = state.items.find((item) => item.id === id);
+              const item = state.items.find(
+                (item) => String(item.id) === String(id),
+              );
               if (item) {
                 item.quantity = previousQuantity;
               }
@@ -323,7 +316,8 @@ export const createCartStore = (initState?: Partial<CartState>) => {
             0,
           ) || 0,
 
-        checkIfItemExists: (id) => get().items.find((item) => item.id === id),
+        checkIfItemExists: (id) =>
+          get().items.find((item) => String(item.id) === String(id)),
 
         getItemQuantity: (id) =>
           get()?.items.find((item) => String(item.id) === String(id))
