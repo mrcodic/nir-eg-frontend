@@ -1,4 +1,5 @@
 import { extractTenantFromHost } from "@/helpers/fetchers/fetch-utils";
+import { isProd } from "@/utils/isProd";
 
 export const getLocalStorage = (key) => {
   if (typeof window !== "undefined") {
@@ -6,7 +7,7 @@ export const getLocalStorage = (key) => {
     if (data) {
       try {
         return JSON.parse(data);
-      } catch (err) {
+      } catch {
         return data;
       }
     }
@@ -43,6 +44,15 @@ export function formatDateToArabic(dateString) {
   const seconds = String(date.getSeconds()).padStart(2, "0");
   return ` ${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
+
+function getRedirectOrigin(host: string) {
+  if (host.startsWith("http://") || host.startsWith("https://")) {
+    return host;
+  }
+
+  return `${isProd ? "https" : "http"}://${host}`;
+}
+
 export function redirectUrl({
   bundleId,
   courseId,
@@ -54,21 +64,21 @@ export function redirectUrl({
   itemId?: string | number;
   booksPage?: boolean;
 }) {
-  const redirectUrl = extractTenantFromHost()?.host;
+  const redirectOrigin = getRedirectOrigin(extractTenantFromHost().host);
 
   let url = "";
 
   if (bundleId) {
-    url = `${redirectUrl}/bundles/bundle-details/${bundleId}`;
+    url = `${redirectOrigin}/bundles/bundle-details/${bundleId}`;
   } else if (courseId) {
-    url = `${redirectUrl}/bundles/${courseId}`;
+    url = `${redirectOrigin}/bundles/${courseId}`;
   } else if (itemId) {
     return [
-      `${redirectUrl}/orders?orderType=store&payment=success`,
-      `${redirectUrl}/store/${itemId}` + "?payment=failed",
+      `${redirectOrigin}/orders?orderType=store&payment=success`,
+      `${redirectOrigin}/store/${itemId}` + "?payment=failed",
     ];
   } else if (booksPage) {
-    url = `${redirectUrl}/store`;
+    url = `${redirectOrigin}/store`;
   }
 
   return [url + "?payment=success", url + "?payment=failed"];

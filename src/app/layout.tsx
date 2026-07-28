@@ -206,7 +206,9 @@ export default async function Layout({ children }) {
 
               {!isSummaryTemplate && (
                 <>
-                  <UserModalsWrapper />
+                  <Suspense fallback={null}>
+                    <UserModalsWrapper />
+                  </Suspense>
 
                   <PhoneNotVerifiedGuard />
 

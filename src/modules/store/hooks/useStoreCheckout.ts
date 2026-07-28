@@ -96,6 +96,7 @@ export function useStoreCheckout({
       return;
     }
 
+    console.log(redirectUrl({ booksPage: true })[0]);
     router.push(redirectUrl({ booksPage: true })[0]);
   }, [asModal, clearCart, modal, queryClient, router, toast]);
 

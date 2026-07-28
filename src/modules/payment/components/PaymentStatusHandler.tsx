@@ -5,7 +5,7 @@ import { PaySuccess } from "@/components/modals/PaySuccess";
 import { useModal } from "@/context/ModalProvider";
 import { revalidateTagAction } from "@/utils/api";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
 type Props = {
   successTitle?: string;
@@ -25,13 +25,33 @@ function PaymentStatusHandler({
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const payment = searchParams.get("payment");
+  const shownPaymentStatus = useRef<string | null>(null);
+
+  const clearPaymentSearchParam = useCallback(() => {
+    const updatedSearchParams = new URLSearchParams(searchParams.toString());
+    updatedSearchParams.delete("payment");
+    const search = updatedSearchParams.toString();
+
+    router.replace(search ? `${pathname}?${search}` : pathname, {
+      scroll: false,
+    });
+  }, [pathname, router, searchParams]);
 
   useEffect(() => {
+    if (payment !== "success" && payment !== "failed") {
+      shownPaymentStatus.current = null;
+      return;
+    }
+
+    if (shownPaymentStatus.current === payment) return;
+
+    shownPaymentStatus.current = payment;
+
     if (payment == "success") {
       modal.setDialogContent(
         <PaySuccess title={successTitle} description={successDescription} />,
       );
-      modal.openModal();
+      modal.openModal({ onClose: clearPaymentSearchParam });
 
       Promise.all([
         revalidateTagAction("/students/classrooms"),
@@ -41,23 +61,14 @@ function PaymentStatusHandler({
       modal.setDialogContent(
         <PayFail title={failTitle} description={failDescription} />,
       );
-      modal.openModal();
-    }
-
-    if (payment == "failed" || payment == "success") {
-      const newParams = new URLSearchParams(searchParams.toString());
-      newParams.delete("payment");
-      const newUrl = `${pathname}?${newParams.toString()}`;
-      router.replace(newUrl, { scroll: false });
+      modal.openModal({ onClose: clearPaymentSearchParam });
     }
   }, [
+    clearPaymentSearchParam,
     failDescription,
     failTitle,
     modal,
-    pathname,
     payment,
-    router,
-    searchParams,
     successDescription,
     successTitle,
   ]);

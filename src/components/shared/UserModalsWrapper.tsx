@@ -4,7 +4,7 @@ import { useAuthContext } from "@/context/auth-context";
 import useHandleFeaturesDisplay from "@/hooks/useHandleFeaturesDisplay";
 import useHandleOfferDisplay from "@/hooks/useHandleOfferDisplay";
 import dynamic from "next/dynamic";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useRef } from "react";
 
 const ProfileCompletionModal = dynamic(
@@ -25,12 +25,16 @@ function UserModalsWrapper() {
   const { handleFeaturesDisplay } = useHandleFeaturesDisplay();
   const { handleOfferDisplay } = useHandleOfferDisplay();
   const pathname = usePathname();
+  const searchparams = useSearchParams();
   const isNoModalPage = noModalPages.some((page) => pathname.includes(page));
 
   const isOpened = useRef(false);
+  const showingPaymentStatusModal =
+    searchparams.get("payment") === "failed" ||
+    searchparams.get("payment") === "success";
 
   useEffect(() => {
-    if (isOpened.current || isNoModalPage) return;
+    if (isOpened.current || isNoModalPage || showingPaymentStatusModal) return;
     if (
       profile &&
       profile?.profile_completed === true &&
@@ -51,6 +55,7 @@ function UserModalsWrapper() {
     profile,
     pathname,
     isNoModalPage,
+    showingPaymentStatusModal,
   ]);
 
   return (

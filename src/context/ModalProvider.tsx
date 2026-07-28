@@ -37,6 +37,7 @@ type OpenModalOptions = {
    * Only closeModal() can close it.
    */
   preventClose?: boolean;
+  onClose?: () => void;
 };
 
 type ModalContextType = {
@@ -59,6 +60,7 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [preventClose, setPreventClose] = useState(false);
+  const [onModalClose, setOnModalClose] = useState<(() => void) | undefined>();
 
   const [modalContent, setModalContent] = useState<ReactNode | undefined>();
   const [dialogContentProps, setDialogContentProps] = useState<
@@ -69,7 +71,9 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
   const closeModal = useCallback(() => {
     setPreventClose(false);
     setIsOpen(false);
-  }, []);
+    onModalClose?.();
+    setOnModalClose(undefined);
+  }, [onModalClose]);
 
   const openModal = useCallback(
     (options?: OpenModalOptions) => {
@@ -82,6 +86,7 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
         return;
 
       setPreventClose(Boolean(options?.preventClose));
+      setOnModalClose(() => options?.onClose);
       setIsOpen(true);
     },
     [profile],
@@ -106,13 +111,14 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
        */
       if (!open && preventClose) return;
 
-      setIsOpen(open);
-
       if (!open) {
-        setPreventClose(false);
+        closeModal();
+        return;
       }
+
+      setIsOpen(true);
     },
-    [preventClose],
+    [closeModal, preventClose],
   );
 
   useEffect(() => {
