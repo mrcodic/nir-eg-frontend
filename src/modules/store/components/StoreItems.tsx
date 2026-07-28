@@ -4,7 +4,6 @@ import Empty from "@/components/shared/Empty";
 import PaginationComponent from "@/components/shared/Pagination";
 import { useCartStore } from "@/context/StoreProvider";
 import { getClientData } from "@/helpers/fetchers/client-fetch";
-import { useMounted } from "@/hooks/useMounted";
 import { cn } from "@/lib/utils";
 import RoomHeader from "@/modules/rooms/components/RoomHeader";
 import StoreItemCardSkeleton from "@/modules/store/components/StoreItemCardSkeleton";
@@ -30,7 +29,6 @@ function StoreItems({
   itemsClassName?: string;
   hideOnEmptyCart?: boolean;
 }) {
-  const isMounted = useMounted();
   const { getTotalItems } = useCartStore();
 
   const [page, setPage] = useState(1);
@@ -45,7 +43,7 @@ function StoreItems({
     placeholderData: keepPreviousData,
   });
 
-  if (!isMounted || (hideOnEmptyCart && getTotalItems?.() === 0)) return null;
+  if (hideOnEmptyCart && getTotalItems?.() === 0) return null;
 
   return (
     <section className={className}>
