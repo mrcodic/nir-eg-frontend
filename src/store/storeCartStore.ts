@@ -188,24 +188,41 @@ export const createCartStore = (initState?: Partial<CartState>) => {
           }
         },
 
-        decrementQuantity: async (id) => {
-          const item = get().items.find(
-            (item) => String(item.id) === String(id),
-          );
-          const previousQuantity = item?.quantity || 0;
-          const previousItem = item ? { ...item } : undefined;
-
-          // Optimistic update
+        incrementQuantity: async (id) => {
           set((state) => {
-            const item = state.items.find(
-              (item) => String(item.id) === String(id),
-            );
+            const item = state.items.find((i) => String(i.id) === String(id));
+            if (item) item.quantity += 1;
+          });
+
+          try {
+            await cartServices.updateItem(id, 1);
+          } catch (error) {
+            set((state) => {
+              const item = state.items.find((i) => String(i.id) === String(id));
+              if (item && item.quantity > 0) {
+                item.quantity -= 1; // undo only this call's +1
+              }
+              state.error = getApiErrorMessage(
+                error,
+                "حدث خطأ أثناء تحديث الكمية",
+              );
+            });
+            throw error;
+          }
+        },
+
+        decrementQuantity: async (id) => {
+          let removedSnapshot: CartItem | undefined;
+
+          set((state) => {
+            const item = state.items.find((i) => String(i.id) === String(id));
             if (item) {
               if (item.quantity > 1) {
                 item.quantity -= 1;
               } else {
+                removedSnapshot = { ...item };
                 state.items = state.items.filter(
-                  (item) => String(item.id) !== String(id),
+                  (i) => String(i.id) !== String(id),
                 );
               }
             }
@@ -214,62 +231,18 @@ export const createCartStore = (initState?: Partial<CartState>) => {
           try {
             await cartServices.updateItem(id, -1);
           } catch (error) {
-            // Rollback on error
             set((state) => {
-              const item = state.items.find(
-                (item) => String(item.id) === String(id),
-              );
+              const item = state.items.find((i) => String(i.id) === String(id));
               if (item) {
-                item.quantity = previousQuantity;
-              } else if (previousQuantity === 1) {
-                // Item was removed, add it back
-                if (previousItem) {
-                  state.items.push(previousItem);
-                }
+                item.quantity += 1; // undo only this call's -1
+              } else if (removedSnapshot) {
+                state.items.push(removedSnapshot); // re-add what this call removed
               }
               state.error = getApiErrorMessage(
                 error,
-                "حدث خطاء اثناء تحديث الكمية",
+                "حدث خطأ أثناء تحديث الكمية",
               );
             });
-
-            throw error;
-          }
-        },
-
-        incrementQuantity: async (id) => {
-          const item = get().items.find(
-            (item) => String(item.id) === String(id),
-          );
-          const previousQuantity = item?.quantity || 0;
-
-          // Optimistic update
-          set((state) => {
-            const item = state.items.find(
-              (item) => String(item.id) === String(id),
-            );
-            if (item) {
-              item.quantity += 1;
-            }
-          });
-
-          try {
-            await cartServices.updateItem(id, 1);
-          } catch (error) {
-            // Rollback on error
-            set((state) => {
-              const item = state.items.find(
-                (item) => String(item.id) === String(id),
-              );
-              if (item) {
-                item.quantity = previousQuantity;
-              }
-              state.error = getApiErrorMessage(
-                error,
-                "حدث خطاء اثناء تحديث الكمية",
-              );
-            });
-
             throw error;
           }
         },
