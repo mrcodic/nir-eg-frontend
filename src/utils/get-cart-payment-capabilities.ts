@@ -35,10 +35,7 @@ export function getCartPaymentCapabilities(
   const checkoutBlocked = hasCashOnlyItem && hasPointsOnlyItem;
   const cashSupported = items.length > 0 && !hasPointsOnlyItem;
   const pointsSupported =
-    hasPointsFeature &&
-    items.length > 0 &&
-    !hasCashOnlyItem &&
-    items.every((item) => item.points_price !== null);
+    hasPointsFeature && items.length > 0 && !hasCashOnlyItem;
 
   return {
     cashSupported,

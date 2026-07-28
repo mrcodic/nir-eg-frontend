@@ -8,6 +8,7 @@ interface DataWithLabelProps {
   dataClassName?: string;
   className?: string;
   icon?: ReactNode;
+  dataIcon?: ReactNode;
 }
 
 function DataWithLabel({
@@ -17,6 +18,7 @@ function DataWithLabel({
   dataClassName,
   className,
   icon,
+  dataIcon,
 }: DataWithLabelProps) {
   return (
     <div className={cn("flex items-center gap-4", className)}>
@@ -26,7 +28,9 @@ function DataWithLabel({
           {label}:
         </p>
       </div>
-      <p className={cn("font-bold text-black", dataClassName)}>{data}</p>
+      <p className={cn("font-bold text-black", dataClassName)}>
+        {data} {dataIcon}
+      </p>
     </div>
   );
 }

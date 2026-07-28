@@ -2,6 +2,7 @@
 
 import CountBubble from "@/components/ui/CountBubble";
 import DataWithLabel from "@/components/ui/DataWithLabel";
+import OrSeparator from "@/components/ui/or-separator";
 import {
   Sheet,
   SheetClose,
@@ -133,7 +134,7 @@ function NavCartButton() {
 
         {!isLoading && items.length > 0 && (
           <>
-            <div className="mt-6 max-h-[max(calc(100vh-240px),300px)] divide-y divide-gray-200 overflow-y-auto rounded-lg border pe-4">
+            <div className="mt-6 max-h-[max(calc(100vh-300px),300px)] space-y-4 overflow-y-auto pe-1">
               {items.map((item) => (
                 <StoreItemCartCard key={item.id} item={item} />
               ))}
@@ -147,30 +148,33 @@ function NavCartButton() {
               </div>
             )}
 
-            <div className="border-secondary mt-6 space-y-4 border-t pt-4">
+            <div className="border-gray-light mt-6 border-t pt-4">
               {paymentCapabilities.cashSupported && (
                 <DataWithLabel
                   label="اجمالي السعر"
                   data={formatCurrency(getTotalPrice())}
                   className="flex-wrap justify-between gap-y-2"
-                  labelClassName="text-base sm:text-lg"
-                  dataClassName="text-base sm:text-lg"
+                  labelClassName="text-sm sm:text-base"
+                  dataClassName="text-sm sm:text-base"
                 />
               )}
+
+              {paymentCapabilities.cashSupported &&
+                paymentCapabilities.pointsSupported && <OrSeparator />}
 
               {paymentCapabilities.pointsSupported && (
                 <DataWithLabel
                   label="اجمالي النقاط المطلوبة"
                   data={`${totalPointsPrice} نقطة`}
                   className="text-secondary flex-wrap justify-between gap-y-2"
-                  labelClassName="text-base sm:text-lg"
-                  dataClassName="text-base sm:text-lg font-bold"
+                  labelClassName="text-sm sm:text-base"
+                  dataClassName="text-sm sm:text-base font-bold"
                 />
               )}
 
               <Link
                 href={!!profile ? "/store/cart" : "/login?redirect=/store/cart"}
-                className="inline-block w-full"
+                className="mt-4 inline-block w-full"
               >
                 <SheetClose className="bg-secondary hover:bg-secondary/90 w-full cursor-pointer rounded-lg px-4 py-2 text-white transition-all">
                   الانتقال للسلة

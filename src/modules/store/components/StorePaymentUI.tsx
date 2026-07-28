@@ -130,7 +130,7 @@ export function StorePaymentUI({ payment, item }: StorePaymentUIProps) {
         )}
 
       {payment.paymentMethodValue === "POINTS" && !payment.hasEnoughPoints && (
-        <p className="mb-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm font-bold text-red-600">
+        <p className="mb-4 rounded-lg border border-red-200 bg-red-50 p-3 text-xs font-bold text-red-600">
           رصيد نقاطك غير كافٍ لإتمام عملية الشراء (رصيدك الحالي:{" "}
           {profile?.points || 0}
           نقطة).

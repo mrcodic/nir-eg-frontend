@@ -1,5 +1,6 @@
 import CustomImage from "@/components/ui/CustomImage";
 import DataWithLabel from "@/components/ui/DataWithLabel";
+import OrSeparator from "@/components/ui/or-separator";
 import { useTenant } from "@/context/TenantProvider";
 import { cn, formatCurrency } from "@/lib/utils";
 import { CartItem } from "@/store/storeCartStore";
@@ -28,9 +29,8 @@ function StoreItemCartCard({
   return (
     <div
       className={cn(
-        "flex items-center gap-6 pt-6 pb-3 max-[450px]:flex-col",
-        isCouponApplied &&
-          "border-semantics-green bg-semantics-green/5 rounded-lg border px-3",
+        "flex items-center gap-6 rounded-lg border px-3 pt-6 pb-3 max-[450px]:flex-col",
+        isCouponApplied && "border-semantics-green bg-semantics-green/5",
         className,
       )}
     >
@@ -50,8 +50,8 @@ function StoreItemCartCard({
             id={String(item.id)}
             className="ms-auto h-auto w-fit bg-transparent p-0 text-red-500 hover:bg-transparent"
           >
-            <Trash className="size-6" />{" "}
-            <span className="font-bold underline">ازالة من السلة</span>
+            <Trash className="size-3!" />{" "}
+            <span className="text-xs! font-bold underline">ازالة من السلة</span>
           </RemoveFromCart>
 
           <div className="space-y-2">
@@ -82,8 +82,8 @@ function StoreItemCartCard({
               <DataWithLabel
                 className="flex-wrap gap-y-1"
                 label="سعر القطعة"
-                labelClassName="sm:text-base text-sm"
-                dataClassName="sm:text-base text-sm"
+                labelClassName=" text-sm"
+                dataClassName=" text-sm"
                 data={formatCurrency(item.price)}
               />
             )}
@@ -92,35 +92,44 @@ function StoreItemCartCard({
               <DataWithLabel
                 className="flex-wrap gap-y-1"
                 label="سعر القطعة بالنقاط"
-                labelClassName="sm:text-base text-sm"
-                dataClassName="sm:text-base text-sm"
+                labelClassName=" text-sm"
+                dataClassName=" text-sm"
                 data={`${item.points_price} نقطة`}
               />
             )}
           </div>
 
-          <div className="flex flex-wrap items-end justify-between gap-2 gap-y-6">
+          <div
+            className={cn(
+              "flex flex-wrap items-end justify-between gap-2 gap-y-6",
+              {
+                "border-gray-light border-t pt-2": item?.quantity > 1,
+              },
+            )}
+          >
             {item.quantity > 1 && (
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col">
                 {supportsCash && (
                   <DataWithLabel
                     className="flex-wrap gap-y-1"
                     label="اجمالي السعر"
-                    labelClassName="sm:text-base text-sm"
+                    labelClassName=" text-sm"
                     data={formatCurrency(
                       (item.quantity || 1) * Number(item.price),
                     )}
-                    dataClassName="text-white sm:text-base text-sm bg-[#1EAD7B] py-1 px-2 rounded-lg"
+                    dataClassName=" text-sm"
                   />
                 )}
+
+                {supportsCash && supportsPoints && <OrSeparator />}
 
                 {supportsPoints && (
                   <DataWithLabel
                     className="flex-wrap gap-y-1"
                     label="اجمالي النقاط"
-                    labelClassName="sm:text-base text-sm"
+                    labelClassName=" text-sm"
                     data={`${(item.quantity || 1) * item.points_price} نقطة`}
-                    dataClassName="text-white sm:text-base text-sm bg-secondary py-1 px-2 rounded-lg font-bold"
+                    dataClassName=" text-sm"
                   />
                 )}
               </div>

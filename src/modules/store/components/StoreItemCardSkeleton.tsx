@@ -2,7 +2,7 @@ import { Skeleton } from "../../../components/ui/skeleton";
 
 export default function StoreItemCardSkeleton() {
   return (
-    <div className="flex flex-col">
+    <div className="flex w-full max-w-md flex-col max-sm:mx-auto">
       <Skeleton className="min-h-[200px] w-full rounded-xl" />
 
       <div className="border-secondary relative -top-2 z-2 mx-auto min-h-[150px] w-[95%] grow rounded-xl border bg-white p-4 shadow-sm">
