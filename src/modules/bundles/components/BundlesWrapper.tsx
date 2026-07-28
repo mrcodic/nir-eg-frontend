@@ -1,4 +1,5 @@
 import { Animate } from "@/components/shared/Animate";
+import Empty from "@/components/shared/Empty";
 import PaginationServer from "@/components/shared/PaginationServer";
 import { getServerData } from "@/helpers/fetchers/server-fetch";
 import { cn } from "@/lib/utils";
@@ -6,7 +7,7 @@ import RoomHeader from "@/modules/rooms/components/RoomHeader";
 import { Bundle, IUser } from "@/types";
 import BundleCard from "./BundleCard";
 
-const ITEMS_PER_PAGE = 1;
+const ITEMS_PER_PAGE = 4;
 
 const BundlesWrapper = async ({
   profile,
@@ -72,13 +73,20 @@ const BundlesWrapper = async ({
           visible: { transition: { staggerChildren: 0.1 } },
         }}
       >
-        {paginatedBundles?.map((bundle) => {
-          return (
-            <Animate key={bundle.id} isChild preset="slideUp">
-              <BundleCard bundle={bundle} isMultiGrid={isMultiGrid} />
-            </Animate>
-          );
-        })}
+        {paginatedBundles?.length ? (
+          paginatedBundles?.map((bundle) => {
+            return (
+              <Animate key={bundle.id} isChild preset="slideUp">
+                <BundleCard bundle={bundle} isMultiGrid={isMultiGrid} />
+              </Animate>
+            );
+          })
+        ) : (
+          <Empty
+            text="لم يتم العثور على باقات فى هذه الصفحة"
+            className="col-span-full"
+          />
+        )}
       </Animate>
 
       {bundles?.length > ITEMS_PER_PAGE && (
