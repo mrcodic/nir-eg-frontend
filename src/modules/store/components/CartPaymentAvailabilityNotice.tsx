@@ -1,5 +1,6 @@
 import Image from "next/image";
 
+import { cn } from "@/lib/utils";
 import { CartPaymentNotice } from "@/utils/get-cart-payment-capabilities";
 
 const NOTICE_CONTENT: Record<Exclude<CartPaymentNotice, null>, string> = {
@@ -11,18 +12,23 @@ const NOTICE_CONTENT: Record<Exclude<CartPaymentNotice, null>, string> = {
 
 function CartPaymentAvailabilityNotice({
   notice,
+  className,
 }: {
   notice: Exclude<CartPaymentNotice, null>;
+  className?: string;
 }) {
   const isIncompatible = notice === "incompatible";
 
   return (
     <p
-      className={`mb-4 rounded-lg border p-3 text-right text-xs font-bold ${
-        isIncompatible
-          ? "border-red-200 bg-red-50 text-red-600"
-          : "border-amber-200 bg-amber-50 text-amber-600"
-      }`}
+      className={cn(
+        `rounded-lg border p-3 text-right text-xs font-bold ${
+          isIncompatible
+            ? "border-red-200 bg-red-50 text-red-600"
+            : "border-amber-200 bg-amber-50 text-amber-600"
+        }`,
+        className,
+      )}
     >
       <Image
         src="/assets/icons/WarningColor.svg"

@@ -6,6 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useCartStore } from "@/context/StoreProvider";
 import { useTenant } from "@/context/TenantProvider";
 import { useAuthContext } from "@/context/auth-context";
+import { cn } from "@/lib/utils";
 import PaymentCoupon from "@/modules/payment/components/PaymentCoupon";
 import PriceBadge from "@/modules/payment/components/PriceBadge";
 import { paymentType } from "@/types";
@@ -48,7 +49,7 @@ export function StorePaymentUI({ payment, item }: StorePaymentUIProps) {
         </div>
       )}
 
-      <div className={isSingleItem ? "mb-4" : "mb-10"}>
+      <div className={cn("space-y-4", isSingleItem ? "mb-4" : "mb-6")}>
         {item && (
           <div className="space-y-4">
             <h4 className="text-lg font-bold sm:text-xl">{item.name}</h4>
@@ -89,7 +90,7 @@ export function StorePaymentUI({ payment, item }: StorePaymentUIProps) {
               coupon={payment.coupon}
               setCoupon={payment.setCoupon}
               itemId={item?.id}
-              className={isSingleItem ? "mt-2" : "mb-4"}
+              // className={isSingleItem ? "mt-2" : "mb-4"}
             />
           )}
 
@@ -101,12 +102,12 @@ export function StorePaymentUI({ payment, item }: StorePaymentUIProps) {
           !payment.checkoutBlocked &&
           (payment.paymentMethodValue === "POINTS" ? (
             <div className="bg-background flex items-center justify-between gap-3 rounded-lg p-2">
-              <h5 className="text-sm font-bold text-black">
+              <h5 className="text-xs font-bold text-black">
                 إجمالي النقاط المطلوبة
               </h5>
-              <div className="text-secondary text-lg font-bold">
+              <span className="text-secondary text-sm font-bold">
                 {payment.totalPointsPrice} نقطة
-              </div>
+              </span>
             </div>
           ) : (
             <CartCheckoutPriceDetails coupon={payment.coupon} />
@@ -177,7 +178,7 @@ export function StorePaymentUI({ payment, item }: StorePaymentUIProps) {
                   disabled={payment.checkoutBlocked}
                 />
                 <Label
-                  className="flex w-full items-center gap-6"
+                  className="flex w-full items-center gap-4 md:gap-6"
                   htmlFor={paymentOption.value}
                 >
                   {paymentOption.icons.map((icon) => (
@@ -191,7 +192,7 @@ export function StorePaymentUI({ payment, item }: StorePaymentUIProps) {
                     />
                   ))}
                   {paymentOption.label && (
-                    <span className="font-bold text-black">
+                    <span className="text-xs font-bold text-black md:text-sm">
                       {paymentOption.label}
                     </span>
                   )}

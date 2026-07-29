@@ -31,7 +31,14 @@ export default function BundleCard({
         "xl:flex-col 2xl:flex-row": isMultiGrid,
       })}
     >
-      <div className="mobile:w-[270px] bg-background max-mobile:mx-auto relative aspect-square max-h-[270px] w-full overflow-hidden rounded-lg">
+      <div
+        className={cn(
+          "mobile:w-[270px] bg-background max-mobile:mx-auto relative aspect-square max-h-[270px] w-full overflow-hidden rounded-lg",
+          {
+            "xl:w-full 2xl:w-[270px]": isMultiGrid,
+          },
+        )}
+      >
         <CustomImage
           className="object-contain"
           src={bundle?.cover}

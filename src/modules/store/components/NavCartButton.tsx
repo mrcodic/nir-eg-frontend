@@ -141,11 +141,10 @@ function NavCartButton() {
             </div>
 
             {paymentCapabilities.notice && (
-              <div className="mt-4">
-                <CartPaymentAvailabilityNotice
-                  notice={paymentCapabilities.notice}
-                />
-              </div>
+              <CartPaymentAvailabilityNotice
+                notice={paymentCapabilities.notice}
+                className="my-4"
+              />
             )}
 
             <div className="border-gray-light mt-6 border-t pt-4">

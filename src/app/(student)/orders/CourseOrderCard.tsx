@@ -45,8 +45,15 @@ function CourseOrderCard({ courseOrder }: { courseOrder: CourseOrder }) {
               تحتوي الباقة على الكورسات التالية:
             </span>
 
-            <span className="inline-block text-base font-bold">
-              {courseOrder.model?.courses?.join(" و ")}
+            <span className="inline-block font-bold">
+              {courseOrder.model?.courses.map((name, index, arr) => (
+                <span key={name}>
+                  <span className="text-sm">{name} </span>
+                  {index < arr.length - 1 && (
+                    <span className="text-gray-dark px-1 text-xs">و</span>
+                  )}
+                </span>
+              ))}
             </span>
           </div>
         )}
