@@ -19,11 +19,11 @@ function WhyChooseUs({
         </h3>
       </div>
 
-      <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5">
+      <div className="grid justify-items-center gap-6 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5">
         {content?.items?.map((card, i) => (
           <Card
             key={card?.title || i}
-            className="hover:border-secondary hover:bg-background flex flex-col transition-all"
+            className="hover:border-secondary hover:bg-background flex w-full flex-col transition-all max-sm:max-w-[450px]"
           >
             <CardHeader className="mb-6 items-center pb-0">
               <CustomImage

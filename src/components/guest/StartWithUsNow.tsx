@@ -25,8 +25,8 @@ function StartWithUsNow({
         />
       </div>
 
-      {/* <div className=" mt-8 rounded-lg bg-[url('/assets/bg/bg-vector.png'),radial-gradient(79.17%_79.17%_at_20.83%_69.6%,#20364e_0%,#0d2237_100%)] bg-no-repeat bg-bottom min-h-80 relative p-10 flex gap-6 lg:pe-72"> */}
-      <div className="bg-primary-radial relative mt-8 flex min-h-80 gap-6 rounded-lg bg-bottom bg-no-repeat p-10 max-[360px]:pb-20 lg:pe-72">
+      {/* max-[360px]:pb-20 */}
+      <div className="bg-primary-radial relative mt-8 flex min-h-80 gap-6 overflow-hidden rounded-lg bg-bottom bg-no-repeat p-10 lg:pe-80">
         <div
           className="bg-primary absolute bottom-0 left-0 h-1/2 w-4/5 bg-bottom bg-no-repeat"
           style={{
@@ -69,12 +69,13 @@ function StartWithUsNow({
           </Link>
         </div>
 
-        <div className="absolute inset-y-0 left-0 h-full w-[200px] lg:w-[400px]">
+        {/* content?.image2 || */}
+        <div className="absolute inset-y-0 left-0 h-full w-[200px] lg:block lg:w-[400px]">
           <CustomImage
-            src={content?.image2 || "/assets/bg/student-photo.png"}
+            src={"/assets/bg/student-photo.png"}
             fallback="/assets/bg/student-photo.png"
             fill
-            className="h-full w-fit object-contain object-bottom-left max-sm:brightness-75"
+            className="h-full w-fit object-contain object-bottom-left"
             alt="student photo"
           />
         </div>

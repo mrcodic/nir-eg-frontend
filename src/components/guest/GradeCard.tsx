@@ -14,7 +14,7 @@ const GradeCard = ({ grade }: { grade: Grade }) => {
     <MotionLink
       whileHover="isHovered"
       href={`/bundles?grade=${grade?.id}`}
-      className="group relative flex aspect-square w-full max-w-[500px] overflow-hidden rounded-lg border border-gray-200 max-md:mx-auto max-md:w-full md:max-w-[500px]"
+      className="group relative flex aspect-square w-full max-w-[400px] overflow-hidden rounded-lg border border-gray-200 max-md:mx-auto max-md:w-full sm:max-w-[500px] md:max-w-[500px]"
     >
       <CustomImage
         src={grade?.image || "/assets/grade-placeholder.png"}
