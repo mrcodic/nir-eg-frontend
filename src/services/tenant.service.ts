@@ -1,7 +1,10 @@
 import { TENANT_ERROR_CODES } from "@/constants/error-codes";
 import { buildApiUrl } from "@/helpers/fetchers/fetch-utils";
 import { getServerData } from "@/helpers/fetchers/server-fetch";
-import { extractTenantFromHostServer } from "@/helpers/fetchers/server-utils";
+import {
+  extractTenantFromHostServer,
+  getClientIpForwardingHeaders,
+} from "@/helpers/fetchers/server-utils";
 import CustomError from "@/lib/customError";
 import {
   LandingSummaryResponse,
@@ -11,7 +14,10 @@ import {
 import { cache } from "react";
 
 export const getTenantSettingsServer = cache(async () => {
-  const tenant = await extractTenantFromHostServer();
+  const [tenant, clientIpHeaders] = await Promise.all([
+    extractTenantFromHostServer(),
+    getClientIpForwardingHeaders(),
+  ]);
 
   if (!tenant.subdomain) {
     throw new CustomError(
@@ -30,6 +36,7 @@ export const getTenantSettingsServer = cache(async () => {
     headers: {
       Accept: "application/json",
       "X-Tenant-Domain": tenant.host,
+      ...clientIpHeaders,
     },
     cache: "default",
   });

@@ -1,6 +1,9 @@
 // app/api/register/route.ts
 import { buildApiUrl } from "@/helpers/fetchers/fetch-utils";
-import { extractTenantFromHostServer } from "@/helpers/fetchers/server-utils";
+import {
+  extractTenantFromHostServer,
+  getClientIpForwardingHeaders,
+} from "@/helpers/fetchers/server-utils";
 import { getCookie } from "@/utils/api";
 import axios from "axios";
 import { revalidatePath } from "next/cache";
@@ -16,10 +19,13 @@ export async function POST(req) {
   try {
     const body = type === "formData" ? await req.formData() : await req.json();
 
-    const { subdomain, host } = await extractTenantFromHostServer();
-
-    let token = await getCookie();
-    const headersList = await headers();
+    const [{ subdomain, host }, token, headersList, clientIpHeaders] =
+      await Promise.all([
+        extractTenantFromHostServer(),
+        getCookie(),
+        headers(),
+        getClientIpForwardingHeaders(),
+      ]);
 
     const url = buildApiUrl(subdomain, apiUrl);
 
@@ -29,6 +35,7 @@ export async function POST(req) {
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
         Cookie: headersList.get("cookie"),
         "X-Tenant-Domain": host,
+        ...clientIpHeaders,
       },
     });
 
@@ -76,10 +83,13 @@ export async function DELETE(req) {
   const queryURL = url.searchParams.get("url");
 
   try {
-    let token = await getCookie();
-    const headersList = await headers();
-
-    const { subdomain: tenant } = await extractTenantFromHostServer();
+    const [{ subdomain: tenant }, token, headersList, clientIpHeaders] =
+      await Promise.all([
+        extractTenantFromHostServer(),
+        getCookie(),
+        headers(),
+        getClientIpForwardingHeaders(),
+      ]);
 
     const apiUrl = buildApiUrl(tenant, queryURL);
 
@@ -88,6 +98,7 @@ export async function DELETE(req) {
       headers: {
         Authorization: token ? `Bearer ${token}` : "",
         Cookie: headersList.get("cookie"),
+        ...clientIpHeaders,
       },
     });
 

@@ -21,6 +21,19 @@ export const getClientIp = cache(async (): Promise<string | null> => {
   return ip;
 });
 
+export async function getClientIpForwardingHeaders(): Promise<
+  Record<string, string>
+> {
+  const clientIp = await getClientIp();
+
+  return clientIp
+    ? {
+        "X-Forwarded-For": clientIp,
+        "X-Real-IP": clientIp,
+      }
+    : {};
+}
+
 const NIR_ROOT_DOMAIN = isProd
   ? (process.env.NEXT_PUBLIC_ROOT_DOMAIN ?? "nir-edu.com")
   : (process.env.NEXT_PUBLIC_DEV_DOMAIN ?? "localhost").replace(/:\d+$/, "");
@@ -46,17 +59,12 @@ export async function extractTenantFromHostServer() {
   try {
     const url = `${RESOLVE_TENANT_API}?host=${encodeURIComponent(cleanHost)}`;
 
-    const clientIp = await getClientIp();
+    const clientIpHeaders = await getClientIpForwardingHeaders();
 
     const res = await fetch(url, {
       headers: {
         Accept: "application/json",
-        ...(clientIp
-          ? {
-              "X-Forwarded-For": clientIp,
-              "X-Real-IP": clientIp,
-            }
-          : {}),
+        ...clientIpHeaders,
       },
       cache: "no-store",
     });

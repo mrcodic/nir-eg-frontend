@@ -7,7 +7,10 @@ import { cookies } from "next/headers";
 import reactCache from "../reactCache";
 import { buildApiUrl } from "./fetch-utils";
 import { handleServerFetchError } from "./server-error-handler";
-import { extractTenantFromHostServer, getClientIp } from "./server-utils";
+import {
+  extractTenantFromHostServer,
+  getClientIpForwardingHeaders,
+} from "./server-utils";
 
 export async function fetchServer<T>({
   queryKey: [endpoint],
@@ -39,18 +42,13 @@ export async function fetchServer<T>({
       });
     }
 
-    const clientIp = await getClientIp();
+    const clientIpHeaders = await getClientIpForwardingHeaders();
 
     const res = await fetch(buildApiUrl(subdomain, endpoint), {
       headers: {
         Accept: "application/json",
         "X-Tenant-Domain": host,
-        ...(clientIp
-          ? {
-              "X-Forwarded-For": clientIp,
-              "X-Real-IP": clientIp,
-            }
-          : {}),
+        ...clientIpHeaders,
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
       credentials: "include",

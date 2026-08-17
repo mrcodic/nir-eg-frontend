@@ -1,6 +1,6 @@
 import {
   extractTenantFromHostServer,
-  getClientIp,
+  getClientIpForwardingHeaders,
 } from "@/helpers/fetchers/server-utils";
 import { getCookie } from "@/utils/api";
 import { NextResponse } from "next/server";
@@ -20,9 +20,9 @@ export async function GET(req) {
   }
 
   try {
-    const [{ host }, clientIp, token] = await Promise.all([
+    const [{ host }, clientIpHeaders, token] = await Promise.all([
       extractTenantFromHostServer(),
-      getClientIp(),
+      getClientIpForwardingHeaders(),
       getCookie(),
     ]);
 
@@ -31,12 +31,7 @@ export async function GET(req) {
       headers: {
         "Cache-Control": "no-cache",
         "X-Tenant-Domain": host,
-        ...(clientIp
-          ? {
-              "X-Forwarded-For": clientIp,
-              "X-Real-IP": clientIp,
-            }
-          : {}),
+        ...clientIpHeaders,
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
     });
