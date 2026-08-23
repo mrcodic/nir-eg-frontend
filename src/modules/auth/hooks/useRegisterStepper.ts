@@ -24,7 +24,6 @@ type StepperDeps = {
   form: UseFormReturn<RegisterFormValues>;
   setStep: (step: RegisterStep) => void;
   onErrorToast: (message: string) => void;
-  onRegistered: () => void;
   onAlreadyEnrolled?: () => void;
 };
 
@@ -55,7 +54,6 @@ export function useRegisterStepper({
   form,
   setStep,
   onErrorToast,
-  onRegistered,
   onAlreadyEnrolled,
 }: StepperDeps) {
   const validateBothSteps = async () => {
@@ -128,7 +126,6 @@ export function useRegisterStepper({
     try {
       const response = await registerStudentAccount(payload);
       if (response?.status) {
-        onRegistered();
         return true;
       }
       return false;
@@ -158,7 +155,6 @@ export function useRegisterStepper({
 
   return {
     validateStepOne,
-    validateBeforeOtpStep: validateBothSteps,
     submitRegister,
     buildPayload,
   };

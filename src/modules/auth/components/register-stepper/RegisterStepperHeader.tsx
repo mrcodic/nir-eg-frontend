@@ -33,7 +33,7 @@ export default function RegisterStepperHeader({
         }
       />
 
-      <StepperHeader className="my-12" currentStep={step - 1} totalSteps={3} />
+      <StepperHeader className="my-12" currentStep={step - 1} totalSteps={2} />
     </>
   );
 }

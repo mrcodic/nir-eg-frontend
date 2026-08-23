@@ -6,13 +6,13 @@ import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useAuthContext } from "@/context/auth-context";
 import { useToast } from "@/hooks/use-toast";
-import { registerSchema } from "@/schemas/auth.schema";
 import { presistUserPhone } from "@/lib/utils";
 import OtpVerifyForm from "@/modules/auth/components/OtpVerifyForm";
 import RegisterStepOne from "@/modules/auth/components/register-stepper/RegisterStepOne";
 import RegisterStepperHeader from "@/modules/auth/components/register-stepper/RegisterStepperHeader";
 import RegisterStepTwo from "@/modules/auth/components/register-stepper/RegisterStepTwo";
 import { useRegisterStepper } from "@/modules/auth/hooks/useRegisterStepper";
+import { registerSchema } from "@/schemas/auth.schema";
 import { RegisterFormValues, RegisterStep } from "@/types/register.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
@@ -45,17 +45,14 @@ const RegisterPage = () => {
     },
   });
 
-  const { validateStepOne, validateBeforeOtpStep, submitRegister } =
-    useRegisterStepper({
-      form,
-      setStep,
-      onErrorToast: (message) => toast({ description: message, icon: "error" }),
-      onRegistered: () =>
-        toast({ description: "تم إنشاء الحساب بنجاح", icon: "success" }),
-      onAlreadyEnrolled: () => {
-        router.push("/login");
-      },
-    });
+  const { validateStepOne, submitRegister } = useRegisterStepper({
+    form,
+    setStep,
+    onErrorToast: (message) => toast({ description: message, icon: "error" }),
+    onAlreadyEnrolled: () => {
+      router.push("/login");
+    },
+  });
 
   useEffect(() => {
     if (profile) {
@@ -92,7 +89,21 @@ const RegisterPage = () => {
         />
       ) : (
         <Form {...form}>
-          <form className="w-full space-y-8">
+          <form
+            className="w-full space-y-8"
+            onSubmit={form.handleSubmit(async () => {
+              const done = await submitRegister();
+              if (!done) return;
+
+              toast({
+                description: "تم إنشاء الحساب بنجاح، قم بتسجيل الدخول",
+                icon: "success",
+              });
+              router.push("/login");
+
+              // setStep(3);
+            })}
+          >
             {step === 1 && <RegisterStepOne form={form} />}
             {step === 2 && <RegisterStepTwo form={form} />}
 
@@ -107,6 +118,7 @@ const RegisterPage = () => {
             <div className="flex gap-2">
               {step === 1 ? (
                 <Button
+                  key="step-1"
                   type="button"
                   className="w-full"
                   onClick={async () => {
@@ -118,18 +130,10 @@ const RegisterPage = () => {
                 </Button>
               ) : (
                 <Button
-                  type="button"
+                  type="submit"
+                  key="step-2"
                   className="flex-1"
                   disabled={form.formState.isSubmitting}
-                  onClick={async () => {
-                    const valid = await validateBeforeOtpStep();
-                    if (!valid) return;
-
-                    const done = await submitRegister();
-                    if (!done) return;
-
-                    setStep(3);
-                  }}
                 >
                   {!form.formState.isSubmitting ? (
                     "تأكيد"
