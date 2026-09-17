@@ -16,6 +16,7 @@ import RoomFileDownloadLink from "@/modules/rooms/components/RoomFileDownloadLin
 import { IRoomData } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
+import { useMemo } from "react";
 import RoomTaskCard from "./RoomTaskCard";
 
 const RoomAccordion = ({
@@ -35,14 +36,44 @@ const RoomAccordion = ({
   classroomId: string;
   tasksEnabled?: boolean;
 }) => {
-  const lock_after = "lock_after" in room && room?.lock_after;
-  const isRoomPurchasable = lock_after !== null && Number(lock_after) === 0;
+  const lock_after = "lock_after" in room ? room.lock_after : null;
+  const isRoomPurchasable =
+    lock_after !== null && Number(lock_after) === 0 && Number(room?.price) > 0;
 
   const isEmptyRoom =
     !room?.quizzes?.length &&
     !room?.lessons?.length &&
     !room?.attachments?.length &&
     !room?.assignments?.length;
+
+  const roomQuizzes = useMemo(() => {
+    return (
+      tasksEnabled &&
+      room?.quizzes &&
+      (room?.quizzes).map((quiz) => {
+        return (
+          <RoomTaskCard
+            key={"quiz-" + quiz.id}
+            task={quiz}
+            room={room}
+            classroomId={classroomId}
+            subscribe={isSubscribed || room?.is_subscriped}
+            verify={verify}
+            locked={isRoomPurchasable}
+            linkText="فتح الكويز"
+            type="exam"
+          />
+        );
+      })
+    );
+  }, [
+    room,
+    tasksEnabled,
+    isSubscribed,
+    verify,
+    isRoomPurchasable,
+    classroomId,
+  ]);
 
   return (
     <Accordion className="relative" type="single" collapsible>
@@ -94,23 +125,23 @@ const RoomAccordion = ({
               </div>
             )}
 
-            {tasksEnabled &&
-              room?.quizzes &&
-              (room?.quizzes).map((quiz) => {
-                return (
-                  <RoomTaskCard
-                    key={"quiz-" + quiz.id}
-                    task={quiz}
-                    room={room}
-                    classroomId={classroomId}
-                    subscribe={isSubscribed || room?.is_subscriped}
-                    verify={verify}
-                    locked={lock_after == 0}
-                    linkText="فتح الكويز"
-                    type="exam"
-                  />
-                );
-              })}
+            {!!room?.locked_to_pass && roomQuizzes}
+
+            {room?.lessons?.map((lesson, index) => {
+              return (
+                <LessonRoomCard
+                  key={index}
+                  lesson={lesson}
+                  subscribe={isSubscribed || room?.is_subscriped}
+                  verify={verify || room?.student_phone_verification}
+                  roomId={room?.id}
+                  locked={room?.locked_to_pass || isRoomPurchasable}
+                  classroomId={classroomId}
+                />
+              );
+            })}
+
+            {!room?.locked_to_pass && roomQuizzes}
 
             {tasksEnabled &&
               room?.assignments &&
@@ -123,26 +154,12 @@ const RoomAccordion = ({
                     classroomId={classroomId}
                     subscribe={isSubscribed || room?.is_subscriped}
                     verify={verify || room?.student_phone_verification}
-                    locked={room?.locked_to_pass || lock_after == 0}
+                    locked={room?.locked_to_pass || isRoomPurchasable}
                     linkText="فتح الواجب"
                     type="assignment"
                   />
                 );
               })}
-
-            {room?.lessons?.map((lesson, index) => {
-              return (
-                <LessonRoomCard
-                  key={index}
-                  lesson={lesson}
-                  subscribe={isSubscribed || room?.is_subscriped}
-                  verify={verify || room?.student_phone_verification}
-                  roomId={room?.id}
-                  locked={room?.locked_to_pass || lock_after == 0}
-                  classroomId={classroomId}
-                />
-              );
-            })}
 
             {room?.attachments &&
               (room?.attachments).map((attachment, index) => {
@@ -153,7 +170,7 @@ const RoomAccordion = ({
                     room={room}
                     subscribe={isSubscribed || room?.is_subscriped}
                     verify={verify || room?.student_phone_verification}
-                    locked={isRoomPurchasable}
+                    locked={isRoomPurchasable || room?.locked_to_pass}
                     index={index}
                   />
                 );
@@ -185,7 +202,9 @@ const RoomAccordionTrigger = ({
   isRoomPurchasable: boolean;
 }) => {
   const modal = useModal();
-  const isRoomPurchased = lockAfter !== null && Number(lockAfter) !== 0;
+  const isRoomPurchased =
+    lockAfter !== null &&
+    (Number(lockAfter) !== 0 || Number(room?.price) === 0);
 
   return (
     <div className="me-2 flex w-full gap-2 sm:me-4 sm:gap-4 md:gap-6">

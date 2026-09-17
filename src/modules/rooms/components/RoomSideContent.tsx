@@ -121,7 +121,7 @@ const RoomSideContent = ({
   return (
     <div
       className={cn(
-        "border-gray-light sticky top-22 flex min-h-0 w-full flex-col overflow-hidden rounded-lg border p-4 group-data-[template=landing-v3]/template:top-29 lg:h-[calc(100vh-90px)] lg:min-h-96 group-data-[template=landing-v3]/template:lg:h-[calc(100vh-140px)]",
+        "border-gray-light sticky top-22 flex h-fit min-h-0 w-full flex-col overflow-hidden rounded-lg border p-4 group-data-[template=landing-v3]/template:top-29 lg:max-h-[calc(100vh-90px)] lg:min-h-96 group-data-[template=landing-v3]/template:lg:max-h-[calc(100vh-140px)]",
         {
           "lg:h-[calc(100vh-10px)] group-data-[template=landing-v3]/template:lg:h-[calc(100vh-10px)]":
             isTaskSideSheet,
