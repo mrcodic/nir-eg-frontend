@@ -8,21 +8,24 @@ type Props = {
 };
 
 function RoomFloatingCards({ data }: Props) {
+  const roomPrice = data?.room?.price;
   const cardsToRender = [
     {
       card: RoomProgressCard,
       shouldRender:
         data?.is_subscriped &&
-        (data?.lock_after == null || Number(data?.lock_after) !== 0),
+        (data?.lock_after == null ||
+          Number(data?.lock_after) !== 0 ||
+          (Number(roomPrice) === 0 && data?.lock_after !== null)),
       props: { progress: data?.room?.progress || 0 },
     },
     {
-      card: RoomExpireCard,
+      card: RoomDueDateCard,
       shouldRender:
         data?.is_subscriped &&
         data?.lock_after != null &&
-        Number(data?.lock_after) > 0,
-      props: { lock_after: data?.lock_after },
+        (Number(data?.lock_after) > 0 || Number(roomPrice) === 0),
+      props: { lock_after: data?.lock_after, roomPrice },
     },
     {
       card: LockedToPassCard,
@@ -59,8 +62,14 @@ const LockedToPassCard = () => {
   );
 };
 
-const RoomExpireCard = ({ lock_after }: { lock_after?: number }) => {
-  if (!lock_after) return null;
+const RoomDueDateCard = ({
+  lock_after,
+  roomPrice,
+}: {
+  lock_after?: number;
+  roomPrice?: string;
+}) => {
+  if (!lock_after && Number(roomPrice) !== 0) return null;
 
   return (
     <div className="border-primary-800 bg-background flex w-full flex-wrap items-center gap-x-4 gap-y-1 rounded-lg border px-6 py-3 text-sm font-bold whitespace-nowrap shadow-md max-md:justify-center md:gap-x-6">

@@ -37,8 +37,11 @@ export default function RoomDetailsPage() {
 
   const lockAfter =
     roomDetails && "lock_after" in roomDetails ? roomDetails.lock_after : null;
-  const isRoomPurchasable = lockAfter !== null && Number(lockAfter) === 0;
-  const isRoomPurchased = lockAfter !== null && Number(lockAfter) !== 0;
+  const isRoomPurchasable =
+    lockAfter !== null && Number(lockAfter) === 0 && Number(room?.price) > 0;
+  const isRoomPurchased =
+    lockAfter !== null &&
+    (Number(lockAfter) !== 0 || Number(room?.price) === 0);
 
   const lockedToPass = roomDetails?.locked_to_pass;
 
