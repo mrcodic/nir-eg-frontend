@@ -19,12 +19,21 @@ export const useTaskLogic = (
 ) => {
   const { toast } = useToast();
   const isInit = useRef(false);
+  const hasHandledExpiry = useRef(false);
 
   const { onInitialize, shouldStartQuiz, onRetakeSuccess } = options;
 
   // ✅ only stable values from context
-  const { taskId, start, data, setData, reset, isLoading, isFetching } =
-    useTaskContext();
+  const {
+    taskId,
+    start,
+    data,
+    setData,
+    reset,
+    isLoading,
+    isFetching,
+    setTimerStart,
+  } = useTaskContext();
 
   // ===== local UI state =====
   const [success, setSuccess] = useState(false);
@@ -41,6 +50,7 @@ export const useTaskLogic = (
       const q = await getTaskQuestions(taskId);
 
       setData(q?.body);
+      setTimerStart(q?.body?.start_timer ?? null);
       setSuccess(false);
       setFail(false);
 
@@ -62,7 +72,7 @@ export const useTaskLogic = (
         icon: "error",
       });
     }
-  }, [taskId, setData, reset, onRetakeSuccess, toast]);
+  }, [taskId, setData, setTimerStart, reset, onRetakeSuccess, toast]);
 
   // ================= CONFIRM START =================
   const proceedWithStart = useCallback(async () => {
@@ -73,10 +83,11 @@ export const useTaskLogic = (
     try {
       const q = await getTaskQuestions(taskId);
       setData(q?.body);
+      setTimerStart(q?.body?.start_timer ?? null);
     } catch (e) {
       console.log("get questions error:", e);
     }
-  }, [taskId, setData, onInitialize]);
+  }, [taskId, setData, setTimerStart, onInitialize]);
 
   const cancelStart = useCallback(() => {
     setAwaitingConfirm(false);
@@ -145,6 +156,22 @@ export const useTaskLogic = (
     }
   }, [success, start?.score_ratio, start?.result]);
 
+  useEffect(() => {
+    if (!start?.answer_expired) {
+      hasHandledExpiry.current = false;
+      return;
+    }
+
+    if (hasHandledExpiry.current) return;
+
+    hasHandledExpiry.current = true;
+    setData(undefined);
+    setTimerStart(null);
+    setSuccess(false);
+    setFail(true);
+    onInitialize?.(false);
+  }, [start?.answer_expired, setData, setTimerStart, onInitialize]);
+
   // ================= INITIALIZATION =================
   useEffect(() => {
     if (isInit.current) return;
@@ -169,6 +196,7 @@ export const useTaskLogic = (
         try {
           const q = await getTaskQuestions(taskId);
           setData(q?.body);
+          setTimerStart(q?.body?.start_timer ?? null);
         } catch (e) {
           console.log("get questions error:", e);
         }
@@ -208,6 +236,7 @@ export const useTaskLogic = (
     onInitialize,
     fail,
     setData,
+    setTimerStart,
     showAnswers,
     retakeExamLogic,
     isLoading,

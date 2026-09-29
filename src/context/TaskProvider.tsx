@@ -14,6 +14,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 import {
@@ -53,13 +54,13 @@ interface TaskContextType {
   setShowRoom: (v: boolean) => void;
   startExam: boolean;
   setStartExam: (v: boolean) => void;
-  isCompleted: boolean;
-  setCompleted: (v: boolean) => void;
+  timerStart: string | null;
+  setTimerStart: (value: string | null) => void;
   isSubmitting: boolean;
   setIsSubmitting: (v: boolean) => void;
 
   // callbacks
-  onComplete: (data: { completed: boolean }) => void;
+  onComplete: () => Promise<void>;
 
   // task info
   taskType: string;
@@ -102,7 +103,8 @@ export const TaskProvider = ({ children, taskType = "exam" }) => {
   const [data, setData] = useState<TaskQuestionPayload | TaskShowAnswersData>();
   const [showRoom, setShowRoom] = useState(false);
   const [startExam, setStartExam] = useState(false);
-  const [isCompleted, setCompleted] = useState(false);
+  const [timerStart, setTimerStart] = useState<string | null>(null);
+  const isReconcilingExpiry = useRef(false);
 
   // ===== fetch start =====
   const {
@@ -110,6 +112,7 @@ export const TaskProvider = ({ children, taskType = "exam" }) => {
     isLoading,
     isFetching,
     error,
+    refetch,
   } = useQuery<QuizStatus>({
     queryKey: [`/students/quiz/start`, taskId],
     queryFn: async () => {
@@ -125,9 +128,24 @@ export const TaskProvider = ({ children, taskType = "exam" }) => {
     // refetchOnMount: false,
   });
 
-  const onComplete = useCallback(({ completed } = { completed: false }) => {
-    if (completed) setCompleted(true);
-  }, []);
+  useEffect(() => {
+    setTimerStart(start?.start_timer ?? null);
+  }, [start?.start_timer, taskId]);
+
+  const onComplete = useCallback(async () => {
+    if (isReconcilingExpiry.current) return;
+
+    isReconcilingExpiry.current = true;
+    setStartExam(false);
+    setIsSubmitting(true);
+
+    try {
+      await refetch();
+    } finally {
+      isReconcilingExpiry.current = false;
+      setIsSubmitting(false);
+    }
+  }, [refetch]);
 
   useEffect(() => {
     document.documentElement.scroll({ top: 0 });
@@ -151,8 +169,8 @@ export const TaskProvider = ({ children, taskType = "exam" }) => {
       setShowRoom,
       startExam,
       setStartExam,
-      isCompleted,
-      setCompleted,
+      timerStart,
+      setTimerStart,
       isSubmitting,
       setIsSubmitting,
 
@@ -174,7 +192,7 @@ export const TaskProvider = ({ children, taskType = "exam" }) => {
       data,
       showRoom,
       startExam,
-      isCompleted,
+      timerStart,
       isSubmitting,
       onComplete,
       taskType,

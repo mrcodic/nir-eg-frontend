@@ -4,6 +4,8 @@ export type TaskQuestionPayload = {
   questions?: QuizQuestion[];
   score?: string;
   timer?: string;
+  start_timer?: string | null;
+  answer_expired?: boolean;
   is_subscribed: boolean;
   questionsCount: number;
 };

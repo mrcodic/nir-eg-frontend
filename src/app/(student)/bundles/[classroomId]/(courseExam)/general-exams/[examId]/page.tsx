@@ -15,6 +15,7 @@ const ExamPage = () => {
     isLoading,
     data,
     startExam,
+    timerStart,
     setStartExam,
     onComplete,
     isSubmitting,
@@ -22,8 +23,9 @@ const ExamPage = () => {
   } = useTaskContext();
   const [isMobile] = useMediaQuery("(max-width: 1023px)");
   const timer =
-    startExam && start?.timer ? (
+    startExam && start?.timer && timerStart ? (
       <ExamTaskTimer
+        startTime={timerStart}
         minutes={start.timer}
         onComplete={onComplete}
         className="lg:mt-4"
@@ -50,7 +52,7 @@ const ExamPage = () => {
         )}
       >
         {isMobile && timer && (
-          <div className="sticky top-22 z-20 w-full group-data-[template=landing-v3]/template:top-24 lg:hidden">
+          <div className="sticky top-22 z-20 w-full group-data-[template=landing-v3]/template:top-26 lg:hidden">
             {timer}
           </div>
         )}

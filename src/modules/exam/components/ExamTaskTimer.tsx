@@ -1,17 +1,24 @@
 import { CountdownTimer } from "@/components/shared/CountdownTimer";
 import { cn } from "@/lib/utils";
+import { getQuizDeadline } from "@/utils/get-quiz-deadline";
 
 type ExamTaskTimerProps = {
+  startTime: string;
   minutes: string;
-  onComplete: (data: { completed: boolean }) => void;
+  onComplete: () => void;
   className?: string;
 };
 
 export default function ExamTaskTimer({
+  startTime,
   minutes,
   onComplete,
   className,
 }: ExamTaskTimerProps) {
+  const deadline = getQuizDeadline(startTime, minutes);
+
+  if (!deadline) return null;
+
   return (
     <div
       className={cn(
@@ -21,8 +28,7 @@ export default function ExamTaskTimer({
     >
       <p className="text-sm">باقي من وقت الامتحان</p>
       <CountdownTimer
-        start
-        minutes={minutes}
+        deadline={deadline}
         onComplete={onComplete}
         className="max-lg:text-base"
       />

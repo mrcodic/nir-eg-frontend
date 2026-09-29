@@ -84,9 +84,6 @@ const ExamForm = ({ start, setStartExam, examType = "exam" }: Props) => {
     },
     onInitialize: (shouldStart) => {
       setStartExam(shouldStart);
-      if (!shouldStart) {
-        localStorage.removeItem(`timer-${examId}-${profile?.id}`);
-      }
       if (examType === "exam" && roomId && classroomId) {
         queryClient.invalidateQueries({
           queryKey: [
@@ -97,7 +94,6 @@ const ExamForm = ({ start, setStartExam, examType = "exam" }: Props) => {
     },
     onRetakeSuccess: async () => {
       await clearDraft();
-      localStorage.removeItem(`timer-${examId}-${profile?.id}`);
       setStartExam(true);
 
       if (examType === "exam" && roomId && classroomId) {
@@ -147,7 +143,6 @@ const ExamForm = ({ start, setStartExam, examType = "exam" }: Props) => {
         setResolver={setResolver}
         onTaskSubmit={() => {
           setStartExam(false);
-          localStorage.removeItem(`timer-${examId}-${profile?.id}`);
         }}
         examType={examType}
       />

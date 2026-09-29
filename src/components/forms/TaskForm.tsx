@@ -16,7 +16,7 @@ import { TaskShowAnswersData } from "@/types/quiz.types";
 import { useQueryClient } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
 import { useParams } from "next/navigation";
-import { memo, useCallback, useEffect, useMemo, useRef } from "react";
+import { memo, useCallback, useMemo, useRef } from "react";
 import { useFormContext } from "react-hook-form";
 import SmallSpinner from "../custom/SmallSpinner";
 import { Button } from "../ui/button";
@@ -46,8 +46,6 @@ function TaskForm({
   const { profile } = useAuthContext();
   const { toast } = useToast();
   const { classroomId: classroomId, room: roomId } = useParams();
-  const autoSubmitTriggered = useRef<boolean>(false);
-
   const queryClient = useQueryClient();
   const listRef = useRef<HTMLDivElement[]>([]);
 
@@ -55,15 +53,8 @@ function TaskForm({
 
   const { getValues, trigger, reset } = form;
 
-  const {
-    start,
-    data,
-    isLoading,
-    isSubmitting,
-    setIsSubmitting,
-    isCompleted,
-    setCompleted,
-  } = useTaskContext();
+  const { start, data, isLoading, isSubmitting, setIsSubmitting, timerStart } =
+    useTaskContext();
 
   const allQuestions = useMemo(
     () => (data?.questions ?? []) as { id: number; type: number }[],
@@ -75,6 +66,7 @@ function TaskForm({
     taskId,
     userId: profile?.id,
     start,
+    timerStart,
     questions: allQuestions,
   });
 
@@ -210,7 +202,6 @@ function TaskForm({
 
       toast({ description: meta.description, icon: "error" });
     } finally {
-      setCompleted(false);
       setIsSubmitting(false);
     }
   }, [
@@ -227,17 +218,8 @@ function TaskForm({
     setSuccess,
     setFail,
     toast,
-    setCompleted,
     clearDraft,
   ]);
-
-  // ================= AUTO SUBMIT =================
-  useEffect(() => {
-    if (isCompleted === true && !autoSubmitTriggered.current) {
-      autoSubmitTriggered.current = true;
-      onSubmit();
-    }
-  }, [isCompleted, onSubmit]);
 
   // ================= STATES =================
   if (isLoading || !data?.questions?.length) {
