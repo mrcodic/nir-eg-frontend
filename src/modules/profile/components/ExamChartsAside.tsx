@@ -62,17 +62,23 @@ export const ChartAsideItem = ({
   return (
     <div
       className={cn(
-        "flex flex-col gap-4 border-b py-4",
+        "flex flex-col gap-1 py-1 first-of-type:pt-0 lg:gap-4 lg:py-4 lg:first-of-type:pt-0",
         isLast ? "border-b-0" : "border-gray-light border-b",
       )}
     >
-      <div className="flex items-center gap-4">
-        <Image src={icon} width={32} height={32} alt="" />
-        <h4 className={cn("text-lg font-bold", color)}>{title}</h4>
+      <div className="flex items-center gap-2 lg:gap-4">
+        <Image
+          src={icon}
+          width={32}
+          height={32}
+          alt=""
+          className="size-5 lg:size-8"
+        />
+        <h4 className={cn("text-xs font-bold lg:text-lg", color)}>{title}</h4>
       </div>
-      <div className="flex items-center gap-2 ps-12 text-lg font-bold">
-        <span className={cn("text-28", color)}>{value}</span>
-        <span>{valueLabel}</span>
+      <div className="flex items-center gap-2 ps-8 text-xs font-bold lg:ps-12 lg:text-lg">
+        <span className={cn("lg:text-28 text-sm", color)}>{value}</span>
+        {valueLabel && <span>{valueLabel}</span>}
       </div>
     </div>
   );

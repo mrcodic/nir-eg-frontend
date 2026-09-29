@@ -1,10 +1,9 @@
-import { CountdownTimer } from "@/components/shared/CountdownTimer";
 import { Button } from "@/components/ui/button";
 import { useTaskContext } from "@/context/TaskProvider";
 import { cn } from "@/lib/utils";
 import { QuizStatus } from "@/types";
 import { TaskQuestionPayload, TaskShowAnswersData } from "@/types/quiz.types";
-import { memo } from "react";
+import { memo, ReactNode } from "react";
 import ExamPDFGenerator from "./ExamPDFGenerator";
 
 type Props = {
@@ -12,17 +11,15 @@ type Props = {
   data?: TaskQuestionPayload | TaskShowAnswersData;
   setShowRoom?: (value: boolean) => void;
   defaultTitle?: string;
-  startTimer?: boolean;
-  onComplete?: (data: { completed: boolean }) => void;
+  timer?: ReactNode;
 };
 
 function ExamSideInfo({
-  startTimer,
   start,
   data,
   setShowRoom,
   defaultTitle = "امتحان",
-  onComplete,
+  timer,
 }: Props) {
   const { taskId } = useTaskContext();
   const isAnswered =
@@ -98,16 +95,7 @@ function ExamSideInfo({
         <ExamPDFGenerator taskId={Number(taskId)} className="mt-4" />
       )}
 
-      {!isAnswered && startTimer && (
-        <div className="border-secondary text-40 relative mt-4 flex w-full flex-col gap-4 rounded-lg border bg-white p-4 text-center font-bold text-black">
-          <p className="text-sm">باقي من وقت الامتحان</p>
-          <CountdownTimer
-            start={startTimer}
-            minutes={start?.timer}
-            onComplete={onComplete}
-          />
-        </div>
-      )}
+      {timer}
     </div>
   );
 }

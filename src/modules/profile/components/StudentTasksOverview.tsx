@@ -51,10 +51,10 @@ function StudentTasksOverview() {
     <div className="mt-24">
       <RoomHeader icon={"/assets/assignment-colored.svg"} title={"الدرجات"} />
 
-      <div className="grid grid-cols-12 gap-x-4 gap-y-8">
+      <div className="grid grid-cols-12 gap-y-8">
         <ExamChartsAside
           counts={counts}
-          className="col-span-12 mt-8 flex flex-col gap-x-12 lg:col-span-4"
+          className="col-span-12 flex flex-col gap-x-12 lg:col-span-4"
         />
 
         <ExamsPointsChart exams={exams} />

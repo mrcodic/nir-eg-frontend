@@ -1,4 +1,5 @@
 import { useAuthContext } from "@/context/auth-context";
+import { cn } from "@/lib/utils";
 import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import Countdown from "react-countdown";
@@ -7,7 +8,7 @@ const Completionist = () => <span className="text-base">انتهى الوقت</s
 
 const SUBMIT_BUFFER_MS = 5_000; // 10s before real end
 
-export function CountdownTimer({ minutes, onComplete, start }) {
+export function CountdownTimer({ minutes, onComplete, start, className }) {
   const { examId } = useParams();
   const timerInit = useRef(false);
   const hasSubmitted = useRef(false);
@@ -60,7 +61,10 @@ export function CountdownTimer({ minutes, onComplete, start }) {
     const timerLessThan2Minutes = minutes < 2 && hours === 0;
     return (
       <span
-        className={`tracking-wider ${timerLessThan2Minutes && "animate-pulse"}`}
+        className={cn(
+          `tracking-wider ${timerLessThan2Minutes && "animate-pulse"}`,
+          className,
+        )}
       >
         {String(hours * 60 + minutes).padStart(2, "0")}:
         {String(seconds).padStart(2, "0")}

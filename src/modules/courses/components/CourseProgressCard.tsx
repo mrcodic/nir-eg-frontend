@@ -2,12 +2,12 @@ import Image from "next/image";
 
 function CourseProgressCard({ progress = 0 }: { progress: number }) {
   return (
-    <div className="border-primary-800 bg-background relative z-10 mx-auto -mt-8 flex w-full max-w-[min(85%,760px)] flex-wrap items-center gap-x-4 gap-y-1 rounded-lg border px-6 py-3 font-bold whitespace-nowrap shadow-md max-md:justify-center md:gap-x-6 md:py-8 md:text-2xl">
+    <div className="border-primary-800 bg-background relative z-10 mx-auto -mt-8 flex w-full max-w-[min(85%,760px)] flex-wrap items-center gap-x-2 gap-y-1 rounded-lg border px-2 py-3 text-sm font-bold whitespace-nowrap shadow-md max-md:justify-center sm:px-6 sm:text-base md:gap-x-6 md:py-8 md:text-2xl">
       <Image
         width={48}
         height={48}
         src="../assets/star-colored.svg"
-        className="size-12"
+        className="size-8 sm:size-12"
         alt="star icon"
       />
 
@@ -15,17 +15,17 @@ function CourseProgressCard({ progress = 0 }: { progress: number }) {
 
       <div className="relative">
         {" "}
-        <h3 className="textStroke text-32 absolute -top-0.5 -left-0.5 z-0 flex items-center">
+        <h3 className="textStroke sm:text-32 absolute -top-0.5 -left-0.5 z-0 flex items-center text-lg">
           {" "}
           <span>%</span>
           <span>{progress}</span>
         </h3>
-        <h3 className="text-primary text-32 relative z-10 flex items-center">
+        <h3 className="text-primary sm:text-32 relative z-10 flex items-center text-lg">
           <span>%</span>
           <span>{progress}</span>
         </h3>
       </div>
-      <p className="text-primary-800 inline-block">من محتوى الكورس</p>
+      <p className="text-primary-800 inline-block">من الكورس</p>
     </div>
   );
 }

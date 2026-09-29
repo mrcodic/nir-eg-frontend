@@ -1,6 +1,6 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
-import { ComponentProps } from "react";
+import { ComponentProps, ReactNode } from "react";
 import ExamSideInfo from "./ExamSideInfo";
 import ExamSideNav from "./ExamSideNav";
 
@@ -9,11 +9,13 @@ type ExamSideInfoProps = ComponentProps<typeof ExamSideInfo>;
 type TaskSideBarProps = ExamSideInfoProps & {
   className?: string;
   showNav?: boolean;
+  timer?: ReactNode;
 };
 
 export default function TaskSideBar({
   className,
   showNav = true,
+  timer,
   ...examSideInfoProps
 }: TaskSideBarProps) {
   return (
@@ -25,7 +27,7 @@ export default function TaskSideBar({
       dir="rtl"
     >
       <div className="flex flex-col gap-4 pe-2">
-        <ExamSideInfo {...examSideInfoProps} />
+        <ExamSideInfo {...examSideInfoProps} timer={timer} />
 
         {showNav && <ExamSideNav />}
       </div>

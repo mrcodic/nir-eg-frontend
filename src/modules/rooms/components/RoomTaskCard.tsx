@@ -1,23 +1,15 @@
-import ScoreBadge from "@/components/ui/ScoreBadge";
 import LinkLocked from "@/layouts/LinkLocked";
 import { cn } from "@/lib/utils";
 import StudentScoreResult from "@/modules/exam/components/StudentScoreResult";
 import { IAssignment, IRoomData, QuizItem } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
+import RoomTaskCountdown from "./RoomTaskCountdown";
 
 const mapTypeToIcon = {
   exam: "/assets/icons/exam-fill.svg",
   assignment: "/assets/icons/assignment-fill.svg",
   attach: "/assets/files-fill.svg",
-};
-
-const isPastDue = (date: string, timeInMinutes: number) => {
-  if (!date || !timeInMinutes) return false;
-  // add exam timer to the date
-  const timeToAdd = timeInMinutes * 60 * 1000;
-  const finalDate = new Date(date).getTime() + timeToAdd;
-  return new Date(finalDate) < new Date();
 };
 
 function RoomTaskCard({
@@ -41,9 +33,6 @@ function RoomTaskCard({
   type: "exam" | "assignment";
   className?: string;
 }) {
-  const quizTimerExpired =
-    task?.start_timer && isPastDue(task?.start_timer, task?.timer);
-
   return (
     <div
       className={cn(
@@ -86,24 +75,11 @@ function RoomTaskCard({
             badgeClassName="border"
             className="min-w-0"
           />
-        ) : !!task?.start_timer && type !== "assignment" ? (
+        ) : task.start_timer && task.timer !== null && type !== "assignment" ? (
           <div className="flex items-center gap-2">
-            <ScoreBadge
-              text={
-                quizTimerExpired
-                  ? "انتهى وقت الكويز"
-                  : `موعد التسليم  ${
-                      new Date(
-                        new Date(task?.start_timer).getTime() +
-                          task?.timer * 60 * 1000,
-                      )
-                        .toLocaleString("en-GB")
-                        .split(" ")[1]
-                    }`
-              }
-              type="exam"
-              passed={false}
-              pending={true}
+            <RoomTaskCountdown
+              startTime={task.start_timer}
+              durationInMinutes={task.timer}
             />
           </div>
         ) : null}
