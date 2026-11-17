@@ -127,7 +127,7 @@ const AuthNavBar = ({ profile }: { profile: IUser }) => {
                 // shouldShowBooks={!!shouldShowBooks}
               />
 
-              <MobileDropDown studentLinks={studentLinks}  />
+              <MobileDropDown studentLinks={studentLinks} />
             </div>
           </div>
         </div>

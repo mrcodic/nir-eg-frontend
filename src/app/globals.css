@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@source "../features";
 /* You already use the animate plugin, so no need for `@import "tw-animate-css"` */
 @plugin "tailwindcss-animate";
 

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const PROTECTED_ROUTES = new Set([
+  "/center-progress",
   "/activities",
   "/grades",
   "/profile",

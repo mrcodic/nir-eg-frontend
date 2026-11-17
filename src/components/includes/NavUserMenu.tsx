@@ -10,6 +10,7 @@ import { useModal } from "@/context/ModalProvider";
 import { useTenant } from "@/context/TenantProvider";
 import { cn } from "@/lib/utils";
 import { IUser } from "@/types";
+import { CENTER_STUDENT_TYPE } from "@/types/center-progress.types";
 import Image from "next/image";
 import Link from "next/link";
 import { QRCodeCanvas } from "qrcode.react";
@@ -116,6 +117,14 @@ function NavUserMenu({
           />
 
           <MenuItem href="/orders" icon="/assets/bundles.svg" text="الطلبات" />
+
+          {profile?.type === CENTER_STUDENT_TYPE && (
+            <MenuItem
+              href="/center-progress"
+              icon="/assets/assignment-colored.svg"
+              text="الحضور والتقييمات"
+            />
+          )}
 
           {hasCommunityEnabled &&
             (profile?.type === 4 || profile?.type === 5) && (
